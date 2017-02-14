@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-02-14 06:41+0200\n"
-"Last-Translator: Tommy T <tommythmn@gmail.com>\n"
+"PO-Revision-Date: 2017-02-14 06:44+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
 "Language: da\n"
@@ -2943,9 +2943,8 @@ msgid "No previous revision exists."
 msgstr "Ingen tidligere version eksisterer."
 
 #: core/data/System/PendingRegistrationsTemplate.txt:46
-#, fuzzy
 msgid "No registrations are pending."
-msgstr "%1 registrering afvist"
+msgstr "Ingen igangværende registreringer."
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
