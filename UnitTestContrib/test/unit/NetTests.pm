@@ -20,31 +20,7 @@ sub set_up {
     $this->{net} = new Foswiki::Net();
 }
 
-sub LWP {
-    $expectedHeader = qr#text/html; charset=(utf-?8|iso-?8859-?1)#;
-
-    # Force re-eval
-    undef $Foswiki::Net::LWPAvailable;
-}
-
-sub Sockets {
-    $expectedHeader             = qr#text/html#;
-    $Foswiki::Net::LWPAvailable = 0;
-}
-
-sub HTTPResponse {
-    $Foswiki::Net::noHTTPResponse = 0;
-}
-
-sub noHTTPResponse {
-    $Foswiki::Net::noHTTPResponse = 1;
-}
-
-sub fixture_groups {
-    return ( [ 'LWP', 'Sockets' ], [ 'HTTPResponse', 'noHTTPResponse' ] );
-}
-
-sub verify_getExternalResource {
+sub test_getExternalResource {
     my $this = shift;
 
     # need a known, simple, robust URL to get
