@@ -124,7 +124,6 @@ Item12345: Item12346: fixed foo, updated release notes
    with $WINDOW_DAYS days of the checkin.
 
 Getting rejected commits with perltidy? We are checking using
-version $Perl::Tidy::VERSION
 See http://foswiki.org/Development/PerlTidy#Versions
 ------------TRUNCATED COMMIT MESSAGE FOLLOWS------------------------
 EOF
