@@ -3331,7 +3331,7 @@ sub _processMacros {
     $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # Remove comments
-    $text =~ s/#{.*?}#//gs;
+    $text =~ s/#\{.*?\}#//gs;
 
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
@@ -3550,9 +3550,11 @@ sub _expandMacroOnTopicCreation {
     # correctly, but you need to think about this if you extend the set of
     # tags expanded here.
     return
-      unless $_[0] =~
-m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO|TMPL:P)$/
-      || $_[0] =~ s/^TMPL://;
+      unless ( !$Foswiki::cfg{DisableEOTC}
+        && $_[0] =~
+m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/
+      )
+      || $_[0] =~ s/^CREATE://;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }

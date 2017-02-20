@@ -2264,6 +2264,15 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # use Foswiki to manually rename the topic in all existing webs*
 $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
+# **BOOLEAN EXPERT LABEL="Disable automatic macros on template expand"**
+# Disable the automatic expansion of certain macros in topic templates, when
+# they are used to create a new topic.
+# This feature is disabled by default for new installations, but may be
+# required for existing installations.
+# The affected macros are DATE, GMTIME, SERVERTIME, USERNAME, URLPARAM,
+# WIKINAME, and WIKIUSERNAME.
+$Foswiki::cfg{DisableEOTC} = $TRUE;
+
 #############################################################################
 #---+ Extensions
 

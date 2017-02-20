@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1452527048" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1487618135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -48,12 +48,12 @@ Template directives look a lot like standard [[macros]].
    * =#<nop>{...}#= is a comment. Whitespace either side of the comment
      (newlines, spaces, tabs etc) is treated as part of the comment, and
      removed when the comment is removed. An alternate syntax =%<nop>{...}%=
-     is also supported.
+     is also supported - see #Comments below for why.
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
 <div class="foswikiHelp">
-%X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is =TMPL:P=, which is expanded in normal text (and also when a TopicTemplate is expanded).
+%X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
 </div>
 
 ---+++ Parameters to blocks
@@ -96,14 +96,10 @@ then
 </verbatim>
 will expand to =x1000z=.
 
-
 ---++++ Naming
 Any alphanumeric characters can be used in parameter names. =TMPL:P= parameters
 override any other possible definition of the name, so you should not use
 parameter names that might clash with [[Macros]].
-
-
-
 
 ---+++ Conditional expansion
 ---++++ Using context identifiers
@@ -170,6 +166,26 @@ An alternative comment type =#{...}#= will automatically absorb whitespace
 either side of the comment (newlines, spaces, tabs etc). This type of comment
 only works in templates.
 
+The alternative comment type becomes really useful when we have skin templates defined in topics, because we can now use it to delimit content that should be _displayed when the topic is viewed normally_, but _removed when the templates are instantiated_.
+
+or example, we might have templates in a topic like this:
+<verbatim class="tml">
+%TMPL:DEF{"example"}%
+#{ This comment will always be removed }%
+%{ This comment will be removed when the template is instantiated }%
+Example
+%TMPL:END%
+</verbatim>
+
+When we view the topic, we'll see:
+
+%<nop>TMPL:DEF{"example"}%
+#{ This comment will always be removed }%
+%{ This comment will be removed when the template is instantiated }%
+Example
+%<nop>TMPL:END%
+but all comments will be removed when the template is actually used.
+
 #FindingTemplates
 ---++ Finding Skin Templates
 
@@ -203,15 +219,15 @@ The rules defined by the out-of-the-box setting of ={TemplatePath}= are:
    7 =$web.$nameTemplate=
    8 =%SYSTEMWEB%.$nameTemplate=
 For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are searching for the template called =function=. The skin path is set to =custom,pattern=. The following locations will be considered in turn, until a template is found:
-   1 :skull: =templates/%SANDBOXWEB%/function.custom.tmpl= _(rule 1)_
-   1 :skull: =templates/%SANDBOXWEB%/function.pattern.tmpl= _(rule 1)_
+   1 =templates/%SANDBOXWEB%/function.custom.tmpl= _(rule 1)_ :skull:
+   1 =templates/%SANDBOXWEB%/function.pattern.tmpl= _(rule 1)_ :skull:
    2 =templates/function.custom.tmpl= _(rule 2)_
    2 =templates/function.pattern.tmpl= _(rule 2)_
    3 =%SANDBOXWEB%.CustomSkinFunctionTemplate= _(rule 3)_
    3 =%SANDBOXWEB%.PatternSkinFunctionTemplate= _(rule 3)_
    4 =%SYSTEMWEB%.CustomSkinFunctionTemplate= _(rule 4)_
    4 =%SYSTEMWEB%.PatternSkinFunctionTemplate= _(rule 4)_
-   5 :skull: =templates/%SANDBOXWEB%/function.tmpl= _(rule 5)_
+   5 =templates/%SANDBOXWEB%/function.tmpl= _(rule 5)_ :skull:
    6 =templates/function.tmpl= _(rule 6)_
    7 =%SANDBOXWEB%.FunctionTemplate= _(rule 7)_
    8 =%SYSTEMWEB%.FunctionTemplate= _(rule 8)_
@@ -338,12 +354,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1452527048" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1452527048" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1452527048" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1452527048" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1452527048" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1452527048" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1452527048" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1452527048" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1452527048" size="8209" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1487618135" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1487618135" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1487618135" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1487618135" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1487618135" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1487618135" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1487618135" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1487618135" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1487618135" size="8209" user="ProjectContributor" version="1"}%

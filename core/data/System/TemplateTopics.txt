@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452527048" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487617858" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 #TemplateTopics
 ---+ Template topics
@@ -23,27 +23,16 @@ When you create a new topic using the =edit= script, the system inserts default 
 #TemplateTopicsVars
 ---++ Macro expansion
 
-Any Foswiki macro can be automatically expanded during templated topic
-creation by prepending =TMPL:= to the macro name. For example,
-=%<nop>TMPL:DATE%= will be expanded to the date that the
-templated topic was created. SkinTemplates can also be expanded
-using =%<nop>TMPL:P{"templatename}%=.
-
-For compatibility with versions of Foswiki < 2.1, when the following macros are used in a template topic, they automatically get expanded when a new topic is created based on it:
+When the following macros are used in a template topic, they automatically get expanded when new topic is created based on it:
 
 | *Macro:* | *Description:* |
-| =%<nop>DATE%= | Signature format date. See VarDATE |
-| =%<nop>GMTIME%= | Date/time. See VarGMTIME |
-| =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME |
 | =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
 | =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All Foswiki macros enclosed in this section type are expanded when a new topic based on the template topic is created. Otherwise only the macros listed in this table are expanded. |
-| =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
-| =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
-| =%<nop>USERNAME%= | Login username of user who is instantiating the new topic, e.g. <nop>%USERNAME% (On some systems this will be the same as the !WikiName). |
-| =%<nop>URLPARAM{"name"}%= | Value of a named URL or HTTP POST parameter |
-| =%<nop>WIKINAME%= | WikiName of user who is creating the new topic, e.g. <nop>%WIKINAME% |
-| =%<nop>WIKIUSERNAME%= | User name of user who is creating the new topic, e.g. <nop>%WIKIUSERNAME% |
+
+All other macros - including macros defined by plugins - can be expanded when creating a new topic by prefixing =CREATE:= to the macro name. For example, =%<nop>CREATE:DATE{...}<nop>%=.
+
+*NOTE* For compatibility with earlier Foswiki versions, the site administrator can enable the automatic expansion of a subset of macros when a new topic is created from a template _even without CREATE_. The affected macros are =DATE, GMTIME, SERVERTIME, USERNAME, URLPARAM, WIKINAME, and WIKIUSERNAME=.
 
 ---+++ Macro notes:
 <pre class="tml">%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%</pre> markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
