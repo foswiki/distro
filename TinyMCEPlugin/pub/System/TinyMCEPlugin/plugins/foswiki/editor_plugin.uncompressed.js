@@ -37,12 +37,15 @@
                and our hack now causes a really obscure error in an apparently
                difficult-to-relate part of TinyMCE. We can delete this code. */
             // ed.plugins.foswiki._disableAutoSaveOnBadIEs(ed);
-            ed.onInit.add(function (ed) {
-                ed.plugins.foswiki._fixAdvancedTheme(ed);
-                if (ed.plugins.autosave &&
-                    !ed.settings.foswiki_no_autosave_fixup) {
-                    ed.plugins.foswiki._fixAutoSave(ed);
-                }
+
+            // SMELL: Check this is required for TMCE 4?
+            ed.on("init", function (evt) {
+                var ed = evt.target;
+//                ed.plugins.foswiki._fixAdvancedTheme(ed);
+//                if (ed.plugins.autosave &&
+//                    !ed.settings.foswiki_no_autosave_fixup) {
+//                    ed.plugins.foswiki._fixAutoSave(ed);
+//                }
             });
         },
 

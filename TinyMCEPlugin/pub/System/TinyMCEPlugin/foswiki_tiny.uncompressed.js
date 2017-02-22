@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2007 Crawford Currie http://wikiring.com and Arthur Clemens
-  Copyright (C) 2010-2015 Foswiki Contributors http://foswiki.org
+  Copyright (C) 2010-2017 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
   This program is free software; you can redistribute it and/or
@@ -417,15 +417,6 @@ var FoswikiTiny = {
         // find the TINYMCEPLUGIN_INIT preference
         if (init) {
             tinyMCE.init(init);
-	    // Load plugins
-	    tinyMCE.each(tinyMCE.explode(init.plugins), function(p) {
-		if (p.charAt(0) == '-') {
-		    p = p.substr(1, p.length);
-		    var url = init.foswiki_plugin_urls[p];
-		    if (url)
-			tinyMCE.PluginManager.load(p, url);
-		}
-	    });
         }
     },
 

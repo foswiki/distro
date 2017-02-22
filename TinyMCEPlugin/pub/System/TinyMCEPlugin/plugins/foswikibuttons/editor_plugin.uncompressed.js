@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2007-2009 Crawford Currie http://c-dot.co.uk
-  Copyright (C) 2010 Foswiki Contributors http://foswiki.org
+  Copyright (C) 2010-2017 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
   This program is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
     'use strict';
     tinymce.PluginManager.requireLangPack('foswikibuttons');
 
+    // Create the plugin it'll be added later
     tinymce.create('tinymce.plugins.FoswikiButtons', {
         /* Foswiki formats listbox */
         formats_listbox: null,
@@ -47,19 +48,20 @@
             });
             /* Register Foswiki formats with TinyMCE's formatter, which isn't
                available during plugin init */
-            ed.onInit.add(function (editor) {
-                this.plugins.foswikibuttons._registerFormats(editor, this.plugins.foswikibuttons.formats);
+            ed.on("init", function (evt) {
+                var editor = evt.target;
+                this.plugins.foswikibuttons._registerFormats(
+                    editor, this.plugins.foswikibuttons.formats);
 
                 this.plugins.foswikibuttons._contextMenuVerbatimClasses(editor);
             });
 
-            this._setupTTButton(ed, url);
-            this._setupColourButton(ed, url);
-            this._setupAttachButton(ed, url);
-            this._setupIndentButton(ed, url);
-            this._setupExdentButton(ed, url);
-            this._setupHideButton(ed, url);
-            this._setupFormatCommand(ed, this.formats);
+            this._addTTButton(ed, url);
+            this._addColourButton(ed, url);
+            this._addAttachButton(ed, url);
+            this._addIndentButton(ed, url);
+            this._addExdentButton(ed, url);
+            this._addHideButton(ed, url);
 
             return;
         },
@@ -74,26 +76,17 @@
             };
         },
 
-        createControl: function (name, controlManager) {
-            if (name === 'foswikiformat') {
-                return this._createFoswikiFormatControl(name,
-                    controlManager, this);
-            }
-
-            return null;
-        },
-
-        _setupTTButton: function (ed, url) {
-            // Register commands
+        _addTTButton: function (ed, url) {
             ed.addCommand('foswikibuttonsTT', function () {
                 ed.formatter.toggle('WYSIWYG_TT');
             });
-
-            // Register buttons
             ed.addButton('tt', {
                 title: 'foswikibuttons.tt_desc',
+                text: "TT",
                 cmd: 'foswikibuttonsTT',
-                image: url + '/img/tt.gif'
+                icon: false
+                //,
+//                image: url + '/img/tt.gif'
             });
 
             return;
@@ -126,218 +119,185 @@
             return;
         },
 
-        _createFoswikiFormatControl: function (name, controlManager, plugin) {
-            var ed = controlManager.editor;
-            plugin.formats_listbox = controlManager.createListBox(name, {
-                title: 'Format',
-                onselect: function (format) {
-                    ed.execCommand('foswikibuttonsFormat', false, format);
-                }
-            });
-            // Build format select
-            jQuery.each(plugin.formats, function (formatname, format) {
-                plugin.formats_listbox.add(formatname, formatname);
-
-                return;
-            });
-            plugin.formats_listbox.selectByIndex(0);
-
-            return plugin.formats_listbox;
-        },
-
-        _setupFormatCommand: function (ed, formats) {
-            ed.addCommand('foswikibuttonsFormat', function (ui, formatname) {
-                // First, remove all existing formats.
-                jQuery.each(formats, function (name, format) {
-                    ed.formatter.remove(name);
-                });
-                // Now apply the format.
-                ed.formatter.apply(formatname);
-                //ed.nodeChanged(); - done in formatter.apply() already
-            });
-
-            ed.onNodeChange.add(this._nodeChange, this);
-
-            return;
-        },
-
-        _setupColourButton: function (ed, url) {
-            ed.addCommand('foswikibuttonsColour', function () {
-                if (ed.selection.isCollapsed()) {
-                    return;
-                }
-                ed.windowManager.open({
-                    location: false,
-                    menubar: false,
-                    toolbar: false,
-                    status: false,
-                    url: url + '/colours.htm',
-                    width: 220,
-                    height: 280,
-                    movable: true,
-                    popup_css: false,
-                    // not required
-                    inline: true
-                },
-                {
-                    plugin_url: url
-                });
-            });
-            ed.addButton('colour', {
+        _addColourButton: function (editor, url) {
+            editor.addButton('colour', {
                 title: 'foswikibuttons.colour_desc',
-                cmd: 'foswikibuttonsColour',
-                image: url + '/img/colour.gif'
+                image: url + '/img/colour.gif',
+                onClick: function (evt) {
+                    var ed = evt.target;
+                    if (ed.selection.isCollapsed()) {
+                        return;
+                    }
+                    ed.windowManager.open(
+                        {
+                            location: false,
+                            menubar: false,
+                            toolbar: false,
+                            status: false,
+                            url: url + '/colours.htm',
+                            width: 220,
+                            height: 280,
+                            movable: true,
+                            popup_css: false,
+                            // not required
+                            inline: true
+                        },
+                        {
+                            plugin_url: url
+                        });
+                }
             });
 
             return;
         },
 
-        _setupAttachButton: function (ed, url) {
-            ed.addCommand('foswikibuttonsAttach', function () {
-                var htmpath = '/attach.htm',
-                htmheight = 300;
-
-                if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
-                    /(X{10}|AUTOINC[0-9]+)/)) {
-                    htmpath = '/attach_error_autoinc.htm';
-                    htmheight = 125;
-                }
-                ed.windowManager.open({
-                    location: false,
-                    menubar: false,
-                    toolbar: false,
-                    status: false,
-                    url: url + htmpath,
-                    width: 450,
-                    height: htmheight,
-                    movable: true,
-                    inline: true
-                },
-                {
-                    plugin_url: url
-                });
-            });
-
+        _addAttachButton: function (ed, url) {
             ed.addButton('attach', {
                 title: 'foswikibuttons.attach_desc',
-                cmd: 'foswikibuttonsAttach',
-                image: url + '/img/attach.gif'
+                image: url + '/img/attach.gif',
+                onClick: function () {
+                    var htmpath = '/attach.htm',
+                        htmheight = 300;
+                    
+                    if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
+                            /(X{10}|AUTOINC[0-9]+)/)) {
+                        htmpath = '/attach_error_autoinc.htm';
+                        htmheight = 125;
+                    }
+                    ed.windowManager.open(
+                        {
+                            location: false,
+                            menubar: false,
+                            toolbar: false,
+                            status: false,
+                            url: url + htmpath,
+                            width: 450,
+                            height: htmheight,
+                            movable: true,
+                            inline: true
+                        },
+                        {
+                            plugin_url: url
+                        });
+                }
             });
 
             return;
         },
 
-       _setupIndentButton: function (ed, url) {
-            ed.addCommand('fwindent', function () {
-                if (this.queryCommandState('InsertUnorderedList') ||
-                    this.queryCommandState('InsertOrderedList')) {
-                    // list type node - use the default behaviour
-                    this.execCommand("Indent");
-                }
-                else {
-                    // drive up to the nearest block node
-                    var dom = ed.dom, selection = ed.selection,
-                        node = dom.getParent(selection.getStart(), dom.isBlock) ||
-                               dom.getParent(selection.getEnd(), dom.isBlock),
-                        div;
-                    if (node) {
-                        // SMELL: what about indentation inside tables? Needs to be disabled.
-                        // insert div below the nearest block node
-                        div = dom.create('div', { 'class' : 'foswikiIndent'});
-                        while (node.firstChild) {
-                            dom.add(div, dom.remove(node.firstChild));
-                        }
-                        div = dom.add(node, div);
-                        ed.selection.select(div);
-                        ed.selection.collapse(); // This eats the cursor!
-                        ed.selection.setCursorLocation(div, 0);
-                    }
-                }
-            });
-
+       _addIndentButton: function (ed, url) {
             ed.addButton('fwindent', {
                 title: 'foswikibuttons.indent_desc',
-                cmd: 'fwindent',
-                image: url + '/img/indent.gif'
-            });
-
-            return;
-        },
-
-        _setupExdentButton: function (ed, url) {
-            ed.addCommand('fwexdent', function () {
-                var dom = ed.dom, selection = ed.selection,
-                    node = dom.getParent(selection.getStart(), dom.isBlock),
-                    p;
-                if (node && dom.hasClass(node, 'foswikiIndent')) {
-                    p = node.parentNode;
-                    while (node.firstChild) {
-                        p.insertBefore(dom.remove(node.firstChild), node);
-                    }
-                    dom.remove(node);
-                    ed.selection.select(p.firstChild);
-                    ed.selection.collapse();
-                } else {
-                    this.execCommand("Outdent");
-                }
-            });
-
-            ed.onNodeChange.add(function(ed, cm, n, co, ob) {
-                var dom = ed.dom, selection = ed.selection,
-                    node = dom.getParent(selection.getStart(), dom.isBlock),
-                    state = (node && dom.hasClass(node, 'foswikiIndent')) ||
-                            ed.queryCommandState('Outdent');
-
-                cm.setDisabled('fwexdent', !state);
-            });
-
-            ed.addButton('fwexdent', {
-                title: 'foswikibuttons.exdent_desc',
-                cmd: 'fwexdent',
-                image: url + '/img/exdent.gif'
-            });
-
-            return;
-        },
-
-        _setupHideButton: function (ed, url) {
-            ed.addCommand('foswikibuttonsHide', function () {
-                if (FoswikiTiny.saveEnabled) {
-                    if (ed.getParam('fullscreen_is_enabled')) {
-                        // The fullscreen plugin does its work asynchronously, 
-                        // and it does not provide explicit hooks. However, it
-                        // does a getContent prior to closing the editor which
-                        // fires an onGetContent event. Hook into that, and
-                        // fire off further asynchronous handling that will be
-                        // processed after the fullscreen editor is destroyed.
-                        ed.onGetContent.add(function () {
-                            tinymce.DOM.win.setTimeout(function () {
-                                // The fullscreen editor will have been
-                                // destroyed by the time this function executes,
-                                // so the active editor is the regular one.
-                                var e = tinyMCE.activeEditor;
-                                tinyMCE.execCommand('mceToggleEditor', 
-                                    true, e.id);
-                                FoswikiTiny.switchToRaw(e);
-                            },
-                            10);
-                        });
-
-                        // Call full-screen toggle to hide fullscreen editor
-                        ed.execCommand('mceFullScreen');
+                image: url + '/img/indent.gif',
+                onClick: function() {
+                    if (this.queryCommandState('InsertUnorderedList') ||
+                        this.queryCommandState('InsertOrderedList')) {
+                        // list type node - use the default behaviour
+                        this.execCommand("Indent");
                     }
                     else {
-                        // regular editor, not fullscreen
-                        tinyMCE.execCommand("mceToggleEditor", true, ed.id);
-                        FoswikiTiny.switchToRaw(ed);
+                        // drive up to the nearest block node
+                        var dom = ed.dom, selection = ed.selection,
+                            node = dom.getParent(selection.getStart(), dom.isBlock) ||
+                            dom.getParent(selection.getEnd(), dom.isBlock),
+                            div;
+                        if (node) {
+                            // SMELL: what about indentation inside tables? Needs to be disabled.
+                            // insert div below the nearest block node
+                            div = dom.create('div', { 'class' : 'foswikiIndent'});
+                            while (node.firstChild) {
+                                dom.add(div, dom.remove(node.firstChild));
+                            }
+                            div = dom.add(node, div);
+                            ed.selection.select(div);
+                            ed.selection.collapse(); // This eats the cursor!
+                            ed.selection.setCursorLocation(div, 0);
+                        }
                     }
                 }
             });
 
+            return;
+        },
+
+        _addExdentButton: function (ed, url) {
+            ed.addButton('fwexdent', {
+                title: 'foswikibuttons.exdent_desc',
+                image: url + '/img/exdent.gif',
+                onClick: function() {
+                    var dom = ed.dom, selection = ed.selection,
+                        node = dom.getParent(selection.getStart(), dom.isBlock),
+                        p;
+                    if (node && dom.hasClass(node, 'foswikiIndent')) {
+                        p = node.parentNode;
+                        while (node.firstChild) {
+                            p.insertBefore(dom.remove(node.firstChild), node);
+                        }
+                        dom.remove(node);
+                        ed.selection.select(p.firstChild);
+                        ed.selection.collapse();
+                    } else {
+                        ed.execCommand("Outdent");
+                    }
+                },
+                onPostRender: function() {
+                    // Can't attach the node watcher until the DOM is
+                    // rendered
+                    var ctrl = this;
+                    ed.on("NodeChange", function(evt) {
+                        var ed = evt.target;
+                        var dom = ed.dom;
+                        var selection = ed.selection;
+                        var node = dom.getParent(
+                            selection.getStart(), dom.isBlock);
+                        var state = (node
+                                     && dom.hasClass(node, 'foswikiIndent')) ||
+                            ed.queryCommandState('Outdent');
+                        
+                        ctrl.active(state);
+                    });
+                }
+            });
+
+            return;
+        },
+
+        _addHideButton: function (ed, url) {
             ed.addButton('hide', {
                 title: 'foswikibuttons.hide_desc',
-                cmd: 'foswikibuttonsHide',
-                image: url + '/img/hide.gif'
+                image: url + '/img/hide.gif',
+                onClick: function () {
+                    if (FoswikiTiny.saveEnabled) {
+                        if (ed.getParam('fullscreen_is_enabled')) {
+                            // The fullscreen plugin does its work asynchronously, 
+                            // and it does not provide explicit hooks. However, it
+                            // does a getContent prior to closing the editor which
+                            // fires an onGetContent event. Hook into that, and
+                            // fire off further asynchronous handling that will be
+                            // processed after the fullscreen editor is destroyed.
+                            ed.onGetContent.add(function () {
+                                tinymce.DOM.win.setTimeout(function () {
+                                    // The fullscreen editor will have been
+                                    // destroyed by the time this function executes,
+                                    // so the active editor is the regular one.
+                                    var e = tinyMCE.activeEditor;
+                                    tinyMCE.execCommand('mceToggleEditor', 
+                                                        true, e.id);
+                                    FoswikiTiny.switchToRaw(e);
+                                },
+                                                           10);
+                            });
+
+                            // Call full-screen toggle to hide fullscreen editor
+                            ed.execCommand('mceFullScreen');
+                        }
+                        else {
+                            // regular editor, not fullscreen
+                            tinyMCE.execCommand("mceToggleEditor", true, ed.id);
+                            FoswikiTiny.switchToRaw(ed);
+                        }
+                    }
+                }
             });
 
             return;
@@ -510,7 +470,7 @@
                 ed.plugins.foswikibuttons.recipe_names.push(key);
             });
             if (ed && ed.plugins.contextmenu) {
-                ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
+                ed.on("contextMenu", function() {
                     se = ed.selection;
                     el = se.getNode() || ed.getBody();
 

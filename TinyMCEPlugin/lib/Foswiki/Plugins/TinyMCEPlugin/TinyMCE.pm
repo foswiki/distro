@@ -61,7 +61,7 @@ sub new {
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin',
             javascript    => [
                 'foswiki_tiny.js', 'foswiki.js',
-                '/tinymce/jscripts/tiny_mce/tiny_mce.js'
+                '/tinymce_dev/js/tinymce/tinymce.dev.js'
             ],
             dependencies => ['foswiki']
         ),

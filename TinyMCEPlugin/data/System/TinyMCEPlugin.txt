@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485356419" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1487762226" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -6,7 +6,7 @@ One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 %JQREQUIRE{"chili"}%
 -->
-%FORMFIELD{"Description"}%
+%SHORTDESCRIPTION%
 
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
@@ -58,7 +58,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "table_default_cellpadding" : 0,
 "table_default_cellspacing" : 1,
 "table_default_border" : 1,
-"theme" : "advanced",
+"theme" : "modern",
 "convert_urls" : true,
 "relative_urls" : false,
 "remove_script_host" : false,
@@ -75,15 +75,16 @@ Below is the default configuration. If it is to be modified, it should be copied
 "plugins" : "%IF{
     "defined 'TINYMCEPLUGIN_MCEPLUGINS'"
     then="%TINYMCEPLUGIN_MCEPLUGINS%"
-    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu, table, searchreplace, autosave, paste, legacyoutput, inlinepopups, fullscreen, -foswiki, -foswikibuttons, -foswikiimage%ENDSECTION{"MCEPLUGINS"}%"
+    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu, table, searchreplace, autosave, paste, legacyoutput, fullscreen%ENDSECTION{"MCEPLUGINS"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
     then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
-"foswiki_plugin_urls" : {
-    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin.js",
-    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.js",
-    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.js" },
+"external_plugins" : {
+  "foswiki": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin.uncompressed.js",
+  "foswikibuttons": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.uncompressed.js",
+  "foswikiimage": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.uncompressed.js"
+ },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
     "PUBURLPATH" : "%PUBURLPATH%",
@@ -97,24 +98,30 @@ Below is the default configuration. If it is to be modified, it should be copied
     "SCRIPTURL" : "%SCRIPTURL%",
     "SYSTEMWEB" : "%SYSTEMWEB%"
 },
-"theme_advanced_toolbar_align" : "left",
-"foswikibuttons_formats" : {
-    /* Use 'attributes : { class : "foo" }' instead of 'classes: "foo"'
-     * because this is how it's done in the default advanced theme shipped
-     * with TinyMCE which seems to be a few ms faster on cursor movement
-     */
-    "Normal" : { "remove" : "all" },
-    "Heading 1" : { "block" : "h1",  "remove" : "all" },
-    "Heading 2" : { "block" : "h2",  "remove" : "all" },
-    "Heading 3" : { "block" : "h3",  "remove" : "all" },
-    "Heading 4" : { "block" : "h4",  "remove" : "all" },
-    "Heading 5" : { "block" : "h5",  "remove" : "all" },
-    "Heading 6" : { "block" : "h6",  "remove" : "all" },
-    "VERBATIM"  : { "block" : "pre", "remove" : "all", "attributes" : { "class" : "TMLverbatim" } }, 
-    "LITERAL"   : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_LITERAL" } },
-    "Protect on save" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_PROTECTED" } },
-    "Protect forever" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_STICKY" } }
-},
+  style_formats: [
+    { title: 'Normal', remove: "all" },
+    { title: "Heading 1", block: "h1" },
+    { title: "Heading 2", block: "h2" },
+    { title: "Heading 3", block: "h3" },
+    { title: "Heading 4", block: "h4" },
+    { title: "Heading 5", block: "h5" },
+    { title: "Heading 6", block: "h6" },
+    { title: "VERBATIM", block : "pre", "remove" : "all", "classes" : "TMLverbatim" },
+    { title: "LITERAL", block : "div", "remove" : "all", "classes" : "WYSIWYG_LITERAL" },
+    { title: "Protect on save", block : "div", "remove" : "all", "classes" : "WYSIWYG_PROTECTED" },
+    { title: "Protect forever", block : "div", "remove" : "all", "classes" : "WYSIWYG_STICKY" }
+  ],
+  formats: {
+    alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
+    aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
+    alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
+    alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
+    bold: { inline: 'span', 'classes': 'bold' },
+    italic: { inline: 'span', 'classes': 'italic' },
+    underline: { inline: 'span', 'classes': 'underline', exact: true },
+    strikethrough: { inline: 'del' },
+    customformat: { inline: 'span', styles: { color: '#00ff00', fontSize: '20px' }, attributes: { title: 'My custom format' }, classes: 'example1' },
+  },
 "foswikibuttons_cursoridletime" : 250,
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,
@@ -123,28 +130,29 @@ Below is the default configuration. If it is to be modified, it should be copied
 "paste_remove_spans" : true,
 "paste_remove_styles" : true,
 "paste_strip_class_attributes" : "all",
-"theme_advanced_buttons1" : "%IF{
+"menubar" : false,
+"toolbar" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS1'"
     then="%TINYMCEPLUGIN_BUTTONS1%"
-    else="%STARTSECTION{"BUTTONS1"}%foswikiformat, separator, bold, italic, tt, colour, removeformat, separator, bullist, numlist, %IF{"context SUPPORTS_PARA_INDENT" then="fwexdent, fwindent" else="outdent, indent"}%, blockquote, separator, link, unlink, anchor, separator, undo, redo, separator, search, replace%ENDSECTION{"BUTTONS1"}%"
+    else="%STARTSECTION{"BUTTONS1"}%styleselect | bold italic tt colour | removeformat | bullist numlist %IF{"context SUPPORTS_PARA_INDENT" then="fwexdent fwindent" else="outdent indent"}% blockquote | link unlink anchor | undo redo | search replace%ENDSECTION{"BUTTONS1"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
-    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
+    then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
 }%",
 "theme_advanced_buttons2" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS2'"
     then="%TINYMCEPLUGIN_BUTTONS2%"
-    else="%STARTSECTION{"BUTTONS2"}%tablecontrols, separator, attach, image, charmap, hr, separator, restoredraft, fullscreen, code, hide%ENDSECTION{"BUTTONS2"}%"
+    else="%STARTSECTION{"BUTTONS2"}%tablecontrols | attach image charmap hr | restoredraft fullscreen code hide%ENDSECTION{"BUTTONS2"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS2'"
-    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
+    then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
 }%",
 "theme_advanced_buttons3" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS3'"
     then="%TINYMCEPLUGIN_BUTTONS3%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS3'"
-    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
+    then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
 }%",
 "autosave_interval" : "%IF{
     "defined 'TINYMCEPLUGIN_AUTOSAVE_INTERVAL'"
@@ -161,21 +169,16 @@ Below is the default configuration. If it is to be modified, it should be copied
     then="%TINYMCEPLUGIN_ENTITY_ENCODING%"
     else="%STARTSECTION{"ENTITY_ENCODING"}%numeric%ENDSECTION{"ENTITY_ENCODING"}%"
 }%",
-"theme_advanced_toolbar_location" : "top",
-"theme_advanced_resize_horizontal" : false,
-"theme_advanced_resizing" : true,
-"theme_advanced_path" : false,
-"theme_advanced_statusbar_location" : "none",
 "skin" : "%IF{
     "defined 'TINYMCEPLUGIN_MCESKIN'"
     then="%TINYMCEPLUGIN_MCESKIN%"
-    else="%STARTSECTION{"MCESKIN"}%o2k7%ENDSECTION{"MCESKIN"}%"
+    else="%STARTSECTION{"MCESKIN"}%lightgray%ENDSECTION{"MCESKIN"}%"
 }%",
 %IF{
     "defined 'TINYMCEPLUGIN_MCESKIN_VARIANT' AND $'TINYMCEPLUGIN_MCESKIN_VARIANT'"
     then="\"skin_variant\" : \"%TINYMCEPLUGIN_MCESKIN_VARIANT%\",$n"
     else="%IF{
-      "NOT defined 'TINYMCEPLUGIN_MCESKIN' OR $'TINYMCEPLUGIN_MCESKIN'='o2k7'"
+      "NOT defined 'TINYMCEPLUGIN_MCESKIN' OR $'TINYMCEPLUGIN_MCESKIN'='lightgray'"
       then="\\"skin_variant\\" : \\"%STARTSECTION{"MCESKIN_VARIANT"}%silver%ENDSECTION{"MCESKIN_VARIANT"}%\\",$dollarn"
     }%"
 }%"keep_styles" : false,
@@ -207,8 +210,8 @@ Example:
 | =TINYMCEPLUGIN_BAD_BROWSERS= | =(?i-xsm:Konqueror)= | A regular expression that matches the user-agent string of any browser for which !TinyMCE should not be loaded. |
 | =TINYMCEPLUGIN_DEBUG= | 0 | If set to 1, the uncompressed version of !TinyMCE Javascript and CSS sources will be loaded by the browser. Useful for debugging. |
 | =TINYMCEPLUGIN_ENTITY_ENCODING= | %INCLUDE{"%TOPIC%" section="ENTITY_ENCODING"}% | Controls how entities/characters get processed by !TinyMCE. Allowed values: =named, numeric, raw= |
-| =TINYMCEPLUGIN_MCESKIN= | %INCLUDE{"%TOPIC%" section="MCESKIN"}% | The !TinyMCE skin to use. Possible values: =default, highcontrast, o2k7= |
-| =TINYMCEPLUGIN_MCESKIN_VARIANT= | %INCLUDE{"%TOPIC%" section="MCESKIN_VARIANT"}% | A !TinyMCE skin may have _variants_. =o2k7= skin has =silver= and =black= variants. |
+| =TINYMCEPLUGIN_MCESKIN= | %INCLUDE{"%TOPIC%" section="MCESKIN"}% | The !TinyMCE skin to use. Possible values: =lightgray= |
+| =TINYMCEPLUGIN_MCESKIN_VARIANT= | %INCLUDE{"%TOPIC%" section="MCESKIN_VARIANT"}% | A !TinyMCE skin may have _variants_. |
 
 ---+++ Browser Specific Settings
 Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO, UNKNOWN and SAFARI. For example,
@@ -299,19 +302,17 @@ For the full list, consult [[WysiwygPlugin#Known_issues][WysiwygPlugin documenta
 
 Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
----++ Copyright
-&copy; 2007-2010 Crawford Currie http://c-dot.co.uk,
-&copy; 2010-2017 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] 
+---++ Plugin Info
 
-This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. 
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
----++ Change History
-
-%TABLE{columnwidths="7em" tablewidth="100%"}%
-|  25 Jan 2017: | Foswikitask:Item14305: eliminate sporadic alert() by tinymce initializer |
-|  1.30 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.11 |
-|  21 Dec 2012 (TBD) | Foswikitask:Item12278: Changing a wikiword should not require visiting the !TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
-|  29 Oct 2012 (TBD) | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
+|  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
+                &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
+|             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
+|  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
+|  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
 |  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
 |  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
 |  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
@@ -382,7 +383,7 @@ This package also includes the complete sources for version 3.5.7 of the !TinyMC
 |  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling Foswikitask:Item8108: added safari,inlinepopups,fullscreen plugins, fixed some minor bugs on IE |
 |  03 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
 |  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
-|  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Foswiki:Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
+|  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
 |  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM - Eugen Mayer |
 |  03 Dec 2008 | Crawford Currie re-released for the Foswiki project |
 |  03 Aug 2008 | TWiki 4.2.1 release version |
@@ -395,7 +396,7 @@ This package also includes the complete sources for version 3.5.7 of the !TinyMC
 |  20 Dec 2007 | TWikibug:Item5047: disable save and preview during page load TWikibug:Item5111: make the entry in the format menu sensitive to where the cursor is TWikibug:Item5022: made TT font size same as verbatim. Had to add a new style to do it, as TMCE didn't want to play with TT or CODE tags. |
 |  19 Nov 2007 | TWikibug:Item4742: auto-disable if Wysiwyg is not enabled TWikibug:Item4820: validate mandatory fields on save TWikibug:Item4747: add &lt;sticky&gt; TWikibug:Item4811: noautolink *looks* like an HTML construct but in fact is not; the tag is infact an "on-off" switch and does not imply any HTML structure, so cannot be converted to a DIV or a span, so has to be removed. TWikibug:Item4817: added typewriter text button TWikibug:Item4850: added font colour controls TWikibug:Item4645: added attachment management features TWikibug:Item4945: added switch to raw and back |
 |  16 Sep 2007 | TWikibug:Item4630: polished up the way the secret string is done, to ensure synch between perl and JS. TWikibug:Item4622: added UTF-8 handling steps that fixup malformed UTF8 strings before presenting them to the editor (saves Moz) and stops the editor passing them back to TWiki (saves IE). TWikibug:Item4603: added the draft help, so we can at least build the beta without the nasty warning |
-|  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using !XMLHttpRequest. |
+|  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using XMLHttpRequest. |
 |  12 Sep 2007 | TWikibug:Item4604 Converted to REST call for content conversion, to provide safe callback if JS is disabled in the browser TWikibug:Item4583 relaxed regex to try and make it work for UTF-8 topic names |
 |  11 Sep 2007 | TWikibug:Item4535 refinements to link handling to improve topic name recognition |
 |  07 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save |
@@ -424,3 +425,23 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="wysiwyg.css.gz" attr="h" comment="" date="1487762226" size="390" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.uncompressed.js" attr="h" comment="" date="1487762226" size="18556" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden_verbatim.gif" attr="h" comment="" date="1487762226" size="1654" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermarks.psd" attr="h" comment="" date="1487762226" size="427691" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_literal.gif" attr="h" comment="" date="1487762226" size="1029" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_on_save.gif" attr="h" comment="" date="1487762226" size="1492" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.uncompressed.js" attr="h" comment="" date="1487762226" size="4233" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js.gz" attr="h" comment="" date="1487762226" size="2625" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg_src.css" attr="h" comment="" date="1487762226" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_verbatim.gif" attr="h" comment="" date="1487762226" size="1181" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg.css" attr="h" comment="" date="1487762226" size="827" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1487762226" size="30118" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden.gif" attr="h" comment="" date="1487762226" size="950" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" date="1487762226" size="1847" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" date="1487762226" size="869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_forever.gif" attr="h" comment="" date="1487762226" size="1494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot" date="1487762226" size="35155" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1487762226" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js" attr="h" comment="" date="1487762226" size="8435" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1487762226" size="147" user="ProjectContributor" version="1"}%

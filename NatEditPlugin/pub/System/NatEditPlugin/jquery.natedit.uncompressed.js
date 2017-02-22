@@ -844,7 +844,7 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
 
   if (typeof(tinyMCE) !== 'undefined') {
     $.each(tinyMCE.editors, function(index, editor) { 
-        editor.onSubmit.dispatch(); 
+        editor.execCommand("mceSave"); 
     }); 
   }
 
