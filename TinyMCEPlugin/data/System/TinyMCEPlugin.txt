@@ -65,40 +65,23 @@ Below is the default configuration. If it is to be modified, it should be copied
 "dialog_type" : "modal",
 "extended_valid_elements" : "li[type],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur|data*]",
 "setupcontent_callback" : "FoswikiTiny.setUpContent",
-"urlconverter_callback" : "FoswikiTiny.convertLink",
-"foswikipuburl_callback" : "FoswikiTiny.convertPubURL",
 "save_callback" : "FoswikiTiny.saveCallback",%IF{
     "$TINYMCEPLUGIN_DEBUG"
     then="
 \"debug\" : true,"
 }%
-"plugins" : "%IF{
-    "defined 'TINYMCEPLUGIN_MCEPLUGINS'"
+"plugins" : "%IF{"defined 'TINYMCEPLUGIN_MCEPLUGINS'"
     then="%TINYMCEPLUGIN_MCEPLUGINS%"
-    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu, table, searchreplace, autosave, paste, legacyoutput, fullscreen%ENDSECTION{"MCEPLUGINS"}%"
+    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image textcolor colorpicker %ENDSECTION{"MCEPLUGINS"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
-    then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
+    then=" %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
 "external_plugins" : {
-  "foswiki": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin.uncompressed.js",
-  "foswikibuttons": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.uncompressed.js",
-  "foswikiimage": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.uncompressed.js"
+  "foswikibuttons": "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.uncompressed.js"
  },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
-"foswiki_vars" : {
-    "PUBURLPATH" : "%PUBURLPATH%",
-    "PUBURL" : "%PUBURL%",
-    "WEB" : "%BASEWEB%",
-    "TOPIC" : "%BASETOPIC%",
-    "ATTACHURL" : "%PUBURL%/%BASEWEB%/%BASETOPIC%",
-    "ATTACHURLPATH" : "%PUBURLPATH%/%BASEWEB%/%BASETOPIC%",
-    "VIEWSCRIPTURL" : "%SCRIPTURL{view}%",
-    "SCRIPTSUFFIX" : "%SCRIPTSUFFIX%",
-    "SCRIPTURL" : "%SCRIPTURL%",
-    "SYSTEMWEB" : "%SYSTEMWEB%"
-},
-  style_formats: [
+style_formats: [
     { title: 'Normal', remove: "all" },
     { title: "Heading 1", block: "h1" },
     { title: "Heading 2", block: "h2" },
@@ -111,17 +94,6 @@ Below is the default configuration. If it is to be modified, it should be copied
     { title: "Protect on save", block : "div", "remove" : "all", "classes" : "WYSIWYG_PROTECTED" },
     { title: "Protect forever", block : "div", "remove" : "all", "classes" : "WYSIWYG_STICKY" }
   ],
-  formats: {
-    alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-    aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-    alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-    alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-    bold: { inline: 'span', 'classes': 'bold' },
-    italic: { inline: 'span', 'classes': 'italic' },
-    underline: { inline: 'span', 'classes': 'underline', exact: true },
-    strikethrough: { inline: 'del' },
-    customformat: { inline: 'span', styles: { color: '#00ff00', fontSize: '20px' }, attributes: { title: 'My custom format' }, classes: 'example1' },
-  },
 "foswikibuttons_cursoridletime" : 250,
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,
@@ -134,25 +106,10 @@ Below is the default configuration. If it is to be modified, it should be copied
 "toolbar" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS1'"
     then="%TINYMCEPLUGIN_BUTTONS1%"
-    else="%STARTSECTION{"BUTTONS1"}%styleselect | bold italic tt colour | removeformat | bullist numlist %IF{"context SUPPORTS_PARA_INDENT" then="fwexdent fwindent" else="outdent indent"}% blockquote | link unlink anchor | undo redo | search replace%ENDSECTION{"BUTTONS1"}%"
+    else="%STARTSECTION{"BUTTONS1"}%styleselect | bold italic tt forecolor | removeformat | bullist numlist %IF{"context SUPPORTS_PARA_INDENT" then="fwexdent fwindent" else="outdent indent"}% blockquote | link unlink anchor | undo redo | searchreplace table upload insertlink image charmap hr restoredraft fullscreen code hide%ENDSECTION{"BUTTONS1"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
     then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
-}%",
-"theme_advanced_buttons2" : "%IF{
-    "defined 'TINYMCEPLUGIN_BUTTONS2'"
-    then="%TINYMCEPLUGIN_BUTTONS2%"
-    else="%STARTSECTION{"BUTTONS2"}%tablecontrols | attach image charmap hr | restoredraft fullscreen code hide%ENDSECTION{"BUTTONS2"}%"
-}%%IF{
-    "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS2'"
-    then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
-}%",
-"theme_advanced_buttons3" : "%IF{
-    "defined 'TINYMCEPLUGIN_BUTTONS3'"
-    then="%TINYMCEPLUGIN_BUTTONS3%"
-}%%IF{
-    "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS3'"
-    then=" %TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
 }%",
 "autosave_interval" : "%IF{
     "defined 'TINYMCEPLUGIN_AUTOSAVE_INTERVAL'"

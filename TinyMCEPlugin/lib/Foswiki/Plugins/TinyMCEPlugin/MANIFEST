@@ -15,346 +15,105 @@ pub/System/TinyMCEPlugin/foswiki_tiny.uncompressed.js 0644
 pub/System/TinyMCEPlugin/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/FOSWIKI_SPECIFIC_TINYMCE_PLUGINS 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/editor_plugin.js 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/editor_plugin.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/editor_plugin.uncompressed.js 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/attach.htm 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/attach_error_autoinc.htm 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/colours.htm 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/css/popup.css 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/css/popup.css.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/css/popup.uncompressed.css 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/css/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.js 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.js.gz 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.uncompressed.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/attach.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/colour.gif 0644
+pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/upload.gif 0644
+pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/insertlink.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/exdent.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/hide.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/indent.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswikibuttons/img/tt.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/attach.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/attach.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/attach.uncompressed.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/colour.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/colour.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/colour.uncompressed.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/jscripts/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/langs/en.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/langs/en.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/langs/en_dlg.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikibuttons/langs/en_dlg.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/css/foswikiimage.css 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/css/foswikiimage.css.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/css/foswikiimage.uncompressed.css 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/css/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.uncompressed.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/image.htm 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/img/sample.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/js/image.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/js/image.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/js/image.uncompressed.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/js/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/langs/en.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/langs/en.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/langs/en_dlg.js 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/langs/en_dlg.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswikiimage/readme.txt 0644
 pub/System/TinyMCEPlugin/screenshot.png 0644
 pub/System/TinyMCEPlugin/tinymce.gif 0644
-pub/System/TinyMCEPlugin/tinymce/LICENSE.TXT
-pub/System/TinyMCEPlugin/tinymce/examples/lists/template_list.js.gz
-pub/System/TinyMCEPlugin/tinymce/examples/lists/link_list.js.gz
-pub/System/TinyMCEPlugin/tinymce/examples/lists/media_list.js.gz
-pub/System/TinyMCEPlugin/tinymce/examples/lists/image_list.js.gz
-pub/System/TinyMCEPlugin/tinymce/examples/css/word.css.gz
-pub/System/TinyMCEPlugin/tinymce/examples/css/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/tiny_mce_dev.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/langs/en.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/tiny_mce_jquery.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/tiny_mce.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/tiny_mce_prototype.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/tiny_mce_popup.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advhr/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advhr/js/rule.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advhr/css/advhr.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/inlinepopups/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/media/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/media/js/media.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/media/js/embed.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/media/css/media.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/media/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/searchreplace/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/searchreplace/js/searchreplace.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/searchreplace/css/searchreplace.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/searchreplace/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/element_common.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/ins.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/del.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/abbr.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/attributes.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/acronym.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/cite.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/css/attributes.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/css/popup.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/iespell/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/autosave/langs/en.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/autosave/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/save/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/directionality/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/spellchecker/css/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/spellchecker/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/js/table.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/js/row.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/js/cell.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/js/merge_cells.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/css/cell.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/css/row.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/css/table.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/table/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualchars/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/js/template.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/css/template.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/layer/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/autoresize/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/wordcount/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/fullpage/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/fullpage/js/fullpage.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/fullpage/css/fullpage.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/fullpage/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/pagebreak/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/legacyoutput/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/print/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/noneditable/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/langs/en.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/js/dialog.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example_dependency/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualblocks/css/visualblocks.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualblocks/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/nonbreaking/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/autolink/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advimage/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advimage/js/image.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advimage/css/advimage.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/fullscreen/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/tabfocus/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/emotions/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/emotions/js/emotions.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/emotions/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advlink/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advlink/js/advlink.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advlink/css/advlink.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/lists/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/style/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/style/js/props.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/style/css/props.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/style/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/insertdatetime/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/advlist/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/preview/jscripts/embed.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/preview/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/paste/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/paste/js/pastetext.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/paste/js/pasteword.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/jquery.tinymce.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/utils/editable_selects.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/utils/validate.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/utils/mctabs.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/utils/form_utils.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/langs/en.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/ui.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/skins/default/ui.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/skins/default/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/simple/editor_template.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/langs/en_dlg.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/langs/en.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/ui.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/dialog.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui_silver.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/dialog.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui_black.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/ui.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/dialog.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/content.css.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/editor_template.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/color_picker.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/about.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/link.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/anchor.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/image.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/charmap.js.gz
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/js/source_editor.js.gz
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/jquery.tinymce.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/license.txt
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/langs/readme.md
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Progress.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Content.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.woff
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.woff
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.svg
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.ttf
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Menu.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/SplitButton.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/StackLayout.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.min.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Iframe.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Container.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/CropRect.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.ie7.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Content.Objects.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ButtonGroup.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Panel.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Animations.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ColorButton.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Scrollable.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Throbber.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.inline.min.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Notification.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Label.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Slider.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/AbsoluteLayout.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ResizeHandle.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/TabPanel.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ToolTip.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Variables.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ImagePanel.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/InfoBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ColorBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Radio.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Path.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/MenuItem.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.ie7.dev.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Content.Inline.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/FlowLayout.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Window.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ColorPicker.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Button.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/SelectBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/TinyMCE.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/trans.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/object.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/loader.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/anchor.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Mixins.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.ie7.min.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Checkbox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ListBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Icons.Ie7.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Sidebar.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Spacer.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Reset.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/MenuBar.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Icons.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.dev.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/Arrows.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/MenuButton.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/FloatPanel.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/TextBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/ComboBox.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.min.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/FitLayout.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/FieldSet.less
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/tinymce.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/image/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/importcss/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/media/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/link/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/toc/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/searchreplace/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/code/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textpattern/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autosave/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/save/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/directionality/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/spellchecker/plugin.dev.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/spellchecker/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/table/plugin.dev.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/table/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualchars/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/hr/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/template/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/layer/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autoresize/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/wordcount/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullpage/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textcolor/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/pagebreak/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/legacyoutput/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/print/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/noneditable/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example/dialog.html
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example_dependency/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/css/visualblocks.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/nonbreaking/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autolink/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullscreen/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-yell.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-frown.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-undecided.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-wink.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-laughing.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-smile.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-embarassed.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-money-mouth.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-surprised.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-kiss.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-innocent.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cry.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-sealed.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cool.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-tongue-out.gif
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/tabfocus/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/contextmenu/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/anchor/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/plugin.dev.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/css/prism.css
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/lists/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/imagetools/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/insertdatetime/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/bbcode/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/advlist/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/colorpicker/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/preview/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/charmap/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/paste/plugin.dev.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/paste/plugin.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/modern/theme.min.js
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/inlite/theme.min.js
-pub/System/TinyMCEPlugin/tinymce/changelog.txt
+pub/System/TinyMCEPlugin/tinymce/LICENSE.TXT 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/jquery.tinymce.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/license.txt 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/langs/readme.md 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.woff 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.woff 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.svg 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.ttf 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.inline.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/trans.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/object.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/loader.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/anchor.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.ie7.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/tinymce.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/image/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/importcss/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/media/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/link/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/toc/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/searchreplace/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/code/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textpattern/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autosave/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/save/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/directionality/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/spellchecker/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/table/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualchars/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/hr/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/template/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autoresize/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/wordcount/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullpage/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textcolor/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/pagebreak/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/legacyoutput/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/print/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/noneditable/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example/dialog.html 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/example_dependency/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/css/visualblocks.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/nonbreaking/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autolink/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullscreen/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-yell.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-frown.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-undecided.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-wink.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-laughing.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-smile.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-embarassed.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-money-mouth.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-surprised.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-kiss.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-innocent.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cry.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-sealed.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cool.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-tongue-out.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/tabfocus/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/contextmenu/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/anchor/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/css/prism.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/lists/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/imagetools/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/insertdatetime/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/bbcode/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/advlist/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/colorpicker/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/preview/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/charmap/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/paste/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/modern/theme.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/inlite/theme.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/changelog.txt 0644
 pub/System/TinyMCEPlugin/watermark_hidden.gif 0644
 pub/System/TinyMCEPlugin/watermark_hidden_verbatim.gif 0644
 pub/System/TinyMCEPlugin/watermark_literal.gif 0644

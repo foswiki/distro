@@ -21,10 +21,10 @@ jQuery(document).ready(function($) {
         if (( $('#cancel:focus') ).length) {
             return true;
         }
-        if ( (typeof(tinyMCE) === 'object')
-          && (typeof(tinyMCE.activeEditor) === 'object')
-          && (tinyMCE.activeEditor !== null)
-          &&  tinyMCE.activeEditor.getParam('fullscreen_is_enabled') ) {
+        if ( (typeof(tinymce) === 'object')
+          && (typeof(tinymce.activeEditor) === 'object')
+          && (tinymce.activeEditor !== null)
+          &&  tinymce.activeEditor.getParam('fullscreen_is_enabled') ) {
             alert('Please toggle out of full screen mode before attempting to save');
             return false;
         }

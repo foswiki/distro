@@ -17,8 +17,146 @@
 */
 (function () {
     'use strict';
-    tinymce.PluginManager.requireLangPack('foswikibuttons');
 
+    function showAttachDialog() {
+        function handle_message(text) {
+            // Is it a recognised message? English only, sorry
+            var m = /OopsException\(attention\/(\w+)/.exec(text);
+            if (m && m[1].length) {
+                editor.notificationManager.open({
+                    text: m[1],
+                    type: 'error'
+                });
+            }
+        };
+        
+        function onSubmit() {
+            var attname = this.find('#attname');
+            // Dig out the DOM element to get the file
+            var file = attname[0].$el[0].files[0];
+            if (!file)
+                return;
+
+            var formData = new FormData();
+            formData.append("noredirect", 1);
+            formData.append("filepath", file, attname.value());
+
+            var comment = this.find('#comment').value();
+            if (comment)
+                formData.append("filecomment", comment);
+            if (this.find('#hide').value())
+                formData.append("hidefile", 1);
+            
+            var key_carrier = parent.document.EditForm.validation_key;
+            if (typeof(StrikeOne) !== 'undefined') {
+                // Get the validation key from the textarea
+                var nonce = key_carrier.value;
+                if (nonce)
+                    // Transfer to the upload form
+                    formData.append('validation_key',
+                                    StrikeOne.calculateNewKey(nonce));
+            }
+
+            var url = FoswikiTiny.getScriptURL('upload')
+                + "/" + foswiki.getPreference("WEB")
+                + "/" + foswiki.getPreference("TOPIC");
+            
+            jQuery.ajax({
+                url: url,
+                type: "POST",
+                data: formData,
+                mimeType:"multipart/form-data",
+                contentType: false, // to protect multipart
+                processData: false,
+                cache: false,
+                success: function(data, textStatus, jqXHR) {
+                    tinymce.activeEditor.notificationManager.open({
+                        text: jqXHR.responseText,
+                        type: 'info' });
+                },
+                error: function(jqXHR, textStatus, error) {
+                    tinymce.activeEditor.notificationManager.open({
+                        text: jqXHR.responseText,
+                        type: 'error' } );
+                },
+                complete: function(jqXHR, textStatus) {
+                    var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
+                    // patch in new nonce
+                    if (nonce)
+                        key_carrier.value = "?" + nonce;
+                }
+            });
+        }
+        
+        tinymce.activeEditor.windowManager.open(
+            {
+		title: 'Upload attachment',
+                onSubmit: onSubmit,
+                bodyType: 'form',
+		body: [
+                    {
+			label: 'Upload new attachment',
+			name: 'attname',
+			type: 'textbox',
+                        subtype: 'file'
+		    },
+		    {
+			label: 'Comment',
+			name: 'comment',
+			type: 'textbox'
+		    },
+                    {
+			label: 'Hide attachment',
+			name: 'hide',
+			type: 'checkbox'
+                    }
+                ]
+            });
+    }
+
+    function showInsertDialog(list) {
+        var itemList = [];
+        tinymce.each(list, function(item) {
+            itemList.push({ text: item.attachment, value: item.attachment });
+        });
+        
+        function onSubmit() {
+            var filename = this.find('#insert').value();
+            var inst = top.tinymce.activeEditor;
+            var url = foswiki.getPreference("PUBURL") + "/"
+                + foswiki.getPreference("WEB") + "/"
+                + foswiki.getPreference("TOPIC");
+            url += '/' + filename;
+            var tmp = filename.lastIndexOf(".");
+            if (tmp >= 0)
+                tmp = filename.substring(tmp + 1, filename.length).toLowerCase();
+            
+            var html;
+            if (tmp == "jpg" || tmp == "gif" || tmp == "jpeg" ||
+                tmp == "png" || tmp == "bmp") {
+                html = "<img src='" + url + "' alt='" + filename + "'>";
+            } else {
+                html = "<a href='" + url + "'>" + filename + "</a>";
+            }
+            inst.execCommand('mceInsertContent', false, html);
+        }
+        
+        tinymce.activeEditor.windowManager.open(
+ 	    {
+		title: 'Insert link to attachment',
+                onSubmit: onSubmit,
+		bodyType: 'form',
+		body: [
+                    {
+			label: 'Insert link',
+			name: 'insert',
+			type: 'listbox',
+                        values: itemList
+		    },
+                ]
+	    });
+    }
+    
     // Create the plugin it'll be added later
     tinymce.create('tinymce.plugins.FoswikiButtons', {
         /* Foswiki formats listbox */
@@ -59,6 +197,7 @@
             this._addTTButton(ed, url);
             this._addColourButton(ed, url);
             this._addAttachButton(ed, url);
+            this._addInsertButton(ed, url);
             this._addIndentButton(ed, url);
             this._addExdentButton(ed, url);
             this._addHideButton(ed, url);
@@ -77,16 +216,12 @@
         },
 
         _addTTButton: function (ed, url) {
-            ed.addCommand('foswikibuttonsTT', function () {
-                ed.formatter.toggle('WYSIWYG_TT');
-            });
             ed.addButton('tt', {
-                title: 'foswikibuttons.tt_desc',
-                text: "TT",
-                cmd: 'foswikibuttonsTT',
-                icon: false
-                //,
-//                image: url + '/img/tt.gif'
+                title: 'Typewriter text',
+                onclick: function(evt) {
+                    ed.formatter.toggle('WYSIWYG_TT');
+                },
+                image: url + '/img/tt.gif'
             });
 
             return;
@@ -121,7 +256,7 @@
 
         _addColourButton: function (editor, url) {
             editor.addButton('colour', {
-                title: 'foswikibuttons.colour_desc',
+                title: 'Font colour',
                 image: url + '/img/colour.gif',
                 onClick: function (evt) {
                     var ed = evt.target;
@@ -152,33 +287,30 @@
         },
 
         _addAttachButton: function (ed, url) {
-            ed.addButton('attach', {
-                title: 'foswikibuttons.attach_desc',
-                image: url + '/img/attach.gif',
-                onClick: function () {
-                    var htmpath = '/attach.htm',
-                        htmheight = 300;
-                    
-                    if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
+            if (typeof(FormData) === 'undefined')
+                return; // browser too old, need HTML5 FormData
+            ed.addButton('upload', {
+                title: 'Upload attachment',
+                image: url + '/img/upload.gif',
+                onclick: function () {
+                    if (null !== foswiki.getPreference("TOPIC").match(
                             /(X{10}|AUTOINC[0-9]+)/)) {
-                        htmpath = '/attach_error_autoinc.htm';
-                        htmheight = 125;
+// Do a notification
+                        return;
                     }
-                    ed.windowManager.open(
-                        {
-                            location: false,
-                            menubar: false,
-                            toolbar: false,
-                            status: false,
-                            url: url + htmpath,
-                            width: 450,
-                            height: htmheight,
-                            movable: true,
-                            inline: true
-                        },
-                        {
-                            plugin_url: url
-                        });
+                    FoswikiTiny.getListOfAttachments(showAttachDialog);
+                }
+            });
+
+            return;
+        },
+
+        _addInsertButton: function (ed, url) {
+            ed.addButton('insertlink', {
+                title: 'Insert link to attachment',
+                image: url + '/img/insertlink.gif',
+                onclick: function () {
+                    FoswikiTiny.getListOfAttachments(showInsertDialog);
                 }
             });
 
@@ -187,7 +319,7 @@
 
        _addIndentButton: function (ed, url) {
             ed.addButton('fwindent', {
-                title: 'foswikibuttons.indent_desc',
+                title: 'Indent more',
                 image: url + '/img/indent.gif',
                 onClick: function() {
                     if (this.queryCommandState('InsertUnorderedList') ||
@@ -222,7 +354,7 @@
 
         _addExdentButton: function (ed, url) {
             ed.addButton('fwexdent', {
-                title: 'foswikibuttons.exdent_desc',
+                title: 'Indent less',
                 image: url + '/img/exdent.gif',
                 onClick: function() {
                     var dom = ed.dom, selection = ed.selection,
@@ -264,7 +396,7 @@
 
         _addHideButton: function (ed, url) {
             ed.addButton('hide', {
-                title: 'foswikibuttons.hide_desc',
+                title: 'Edit Foswiki markup',
                 image: url + '/img/hide.gif',
                 onClick: function () {
                     if (FoswikiTiny.saveEnabled) {
@@ -281,7 +413,7 @@
                                     // destroyed by the time this function executes,
                                     // so the active editor is the regular one.
                                     var e = tinyMCE.activeEditor;
-                                    tinyMCE.execCommand('mceToggleEditor', 
+                                    tinymce.execCommand('mceToggleEditor', 
                                                         true, e.id);
                                     FoswikiTiny.switchToRaw(e);
                                 },
@@ -293,7 +425,7 @@
                         }
                         else {
                             // regular editor, not fullscreen
-                            tinyMCE.execCommand("mceToggleEditor", true, ed.id);
+                            tinymce.execCommand("mceToggleEditor", true, ed.id);
                             FoswikiTiny.switchToRaw(ed);
                         }
                     }
