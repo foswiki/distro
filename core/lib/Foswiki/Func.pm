@@ -303,10 +303,7 @@ the following subset of methods is available:
 | =is_error()= |
 | =is_redirect()= |
 
-Note that if LWP is *not* available, this function:
-   1 can only really be trusted for HTTP/1.0 urls. If HTTP/1.1 or another
-     protocol is required, you are *strongly* recommended to =require LWP=.
-   1 Will not parse multipart content
+Note that LWP is required for this function.
 
 In the event of the server returning an error, then =is_error()= will return
 true, =code()= will return a valid HTTP status code

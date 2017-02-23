@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1487815547" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
----+ <nop>%TOPIC%
+---+ %TOPIC%
 
 %SPLIT%
    * %KEY%: %VALUE%%SPLIT%
@@ -9,20 +9,19 @@
    * Set ALLOWTOPICCHANGE = %WIKIUSERNAME%
 -->
 
-
-%META:FORM{name="%25SYSTEMWEB%25.UserForm"}%
-%META:FIELD{name="FirstName" attributes="" title="<nop>FirstName" value=""}%
-%META:FIELD{name="LastName" attributes="" title="<nop>LastName" value=""}%
-%META:FIELD{name="OrganisationName" attributes="" title="<nop>OrganisationName" value=""}%
-%META:FIELD{name="OrganisationURL" attributes="" title="<nop>OrganisationURL" value=""}%
-%META:FIELD{name="Profession" attributes="" title="Profession" value=""}%
-%META:FIELD{name="Country" attributes="" title="Country" value=""}%
-%META:FIELD{name="State" attributes="" title="State" value=""}%
-%META:FIELD{name="Address" attributes="" title="Address" value=""}%
-%META:FIELD{name="Location" attributes="" title="Location" value=""}%
-%META:FIELD{name="Telephone" attributes="" title="Telephone" value=""}%
-%META:FIELD{name="VoIP" attributes="" title="<nop>VoIP" value=""}%
-%META:FIELD{name="InstantMessagingIM" attributes="" title="<nop>InstantMessaging (IM)" value=""}%
-%META:FIELD{name="Email" attributes="" title="Email" value=""}%
-%META:FIELD{name="HomePage" attributes="" title="<nop>HomePage" value=""}%
-%META:FIELD{name="Comment" attributes="" title="Comment" value=""}%
+%META:FORM{name="UserForm"}%
+%META:FIELD{name="FirstName" title="<nop>FirstName" value=""}%
+%META:FIELD{name="LastName" title="<nop>LastName" value=""}%
+%META:FIELD{name="OrganisationName" title="<nop>OrganisationName" value=""}%
+%META:FIELD{name="OrganisationURL" title="<nop>OrganisationURL" value=""}%
+%META:FIELD{name="Profession" title="Profession" value=""}%
+%META:FIELD{name="Country" title="[[System.CountryList][Country]]" value=""}%
+%META:FIELD{name="State" title="State" value=""}%
+%META:FIELD{name="Address" title="Address" value=""}%
+%META:FIELD{name="Location" title="Location" value=""}%
+%META:FIELD{name="Telephone" title="Telephone" value=""}%
+%META:FIELD{name="VoIP" title="<nop>VoIP" value=""}%
+%META:FIELD{name="InstantMessagingIM" title="<nop>InstantMessaging (IM)" value=""}%
+%META:FIELD{name="Email" title="Email" value=""}%
+%META:FIELD{name="HomePage" title="<nop>HomePage" value=""}%
+%META:FIELD{name="Comment" title="Comment" value=""}%

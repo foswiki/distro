@@ -1,8 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456871285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487815547" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
-%EDITTABLE{ headerrows="1" }%%STARTSECTION{type="expandvariables"}%
-| *WikiName* |%IF{"{Register}{AllowLoginName}" then=" *LoginName* |"}% *Email* | *Password* | *AddToGroups* |\
- *%CALCULATE{"$LISTJOIN(* | *, $LISTIF($NOT($EXACT($item,Email)),%QUERY{"'%URLPARAM{"usertemplate" default="%SYSTEMWEB%.NewUserTemplate"}%'/fields.name"}%))"}%* |
+
+%IF{
+  "context passwords_modifyable"
+  then=""
+  else='<div class="foswikiHelp">%X% <strong>%MAKETEXT{"Caution: The password system is currently read only. Users will not be added to the Password file."}%</strong>%BR%
+  %MAKETEXT{"If your wiki uses an external password manager, and the users you want to register are known to the password manager, then bulk registration may still be useful.  Please contact [_1] if you are unsure." args="%WIKIWEBMASTER%"}%</strong></div>'
+}%
+
+
+%EDITTABLE{ headerrows="1" format="text,20,%URLPARAM{"usertemplate" default="NewUserTemplate"}%" }%%STARTSECTION{type="expandvariables"}%
+| *TemplateTopic* | *WikiName* |%IF{"{Register}{AllowLoginName}" then=" *LoginName* |"}% *Password* | *AddToGroups* \
+%FORMAT{"%CALCULATE{$LISTUNIQUE(Email,LastName,FirstName,%URLPARAM{"fields" multiple="on" separator=","}%)}%" type="text" format=" | *$item* " separator="" type="string"}% |
+
 %ENDSECTION%
 
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="AdminGroup"}%
