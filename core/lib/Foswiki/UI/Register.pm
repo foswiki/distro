@@ -400,10 +400,20 @@ sub bulkRegister {
     #-- Read the topic containing the table of people to be registered
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
+    unless ( $meta->getLoadedRev() ) {
+        throw Foswiki::OopsException(
+            'register',
+            def    => 'bulk_reg_topic_missing',
+            web    => $web,
+            topic  => $topic,
+            params => ["!$web.$topic"]
+        );
+    }
+
     my @fields;
     my @data;
     my $gotHdr = 0;
-    foreach my $line ( split( /\r?\n/, $meta->text ) ) {
+    foreach my $line ( split( /\r?\n/, $meta->text() ) ) {
 
         # unchecked implicit untaint OK - this function is for admins only
         if ( $line =~ m/^\s*\|\s*(.*?)\s*\|\s*$/ ) {
@@ -441,6 +451,7 @@ sub bulkRegister {
         $row->{webName} = $userweb;
 
         unless ( $row->{WikiName} ) {
+            $row->{WikiName} |= '';
             $row->{errors} .= " Not registered: WikiName not entered.";
             $row->{FAIL} = 1;
             $log .= "---++ Failed to register user on row $n: no !WikiName\n";
@@ -461,8 +472,6 @@ sub bulkRegister {
                 $row->{Confirm} = $row->{Password};
             }
         }
-
-        #$row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
 
         $log .= _registerSingleBulkUser( $session, \@fields, $row, $settings );
         $genReset = 1 unless ( $row->{Password} || $row->{FAIL} );
@@ -608,12 +617,13 @@ sub _registerSingleBulkUser {
     }
     catch Error with {
         my $e = shift;
-        $row->{errors} = " Failed to create user topic! " . $e->{def};
-        $row->{FAIL}   = 1;
+        $row->{errors} =
+          " Failed to create user topic! " . ( $e->{def} || 'unknown error' );
+        $row->{FAIL} = 1;
         $log .= "$b1 Failed to add user: " . $e->stringify() . "\n";
     };
 
-    if ( $cUID && $row->{AddToGroups} ) {
+    if ( $cUID && $row->{AddToGroups} && !$row->{FAIL} ) {
         my @addedTo;
         foreach my $groupName ( split( /\s*,\s*/, $row->{AddToGroups} ) ) {
             try {
@@ -1541,7 +1551,10 @@ sub _populateUserTopicForm {
     }
     my $leftoverText = '';
     foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
-        unless ( $inform{ $fd->{name} } || $SKIPKEYS{ $fd->{name} } ) {
+        unless ( $inform{ $fd->{name} }
+            || $SKIPKEYS{ $fd->{name} }
+            || !defined $fd->{value} )
+        {
             $leftoverText .= "   * $fd->{name}: $fd->{value}\n";
         }
     }

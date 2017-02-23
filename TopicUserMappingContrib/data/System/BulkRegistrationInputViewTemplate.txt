@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456982088" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487815547" format="1.1" version="1"}%
 %META:TOPICPARENT{name="BulkRegister"}%
 %{<verbatim class="tml">
 ===================================================
@@ -23,6 +23,7 @@ _Be sure to remember to save any table changes!_
 <form name='bulkRegister' action='%SCRIPTURLPATH{"manage"}%/%TOPIC%' method='post'>
 <input type='hidden' name='action' value='bulkRegister' /><sticky>&nbsp;</sticky>
 <input type='submit' class='foswikiSubmit' value='Bulk Register these people' />
+<input type='hidden' name='topic' value='%USERSWEB%.%TOPIC%' />
 <input type='hidden' name='redirectto' value='%TOPIC%' />
 <input type='hidden' name='LogTopic' value='%TOPIC%Log' />
 <input type='hidden' name='templatetopic' value='%USER_TEMPLATE{default=""}%' />

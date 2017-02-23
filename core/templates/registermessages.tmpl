@@ -453,6 +453,13 @@
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"bulk_reg_topic_missing"}%
+---+++ %MAKETEXT{"Requested bulk registration topic not found."}%
+
+%MAKETEXT{"[_1] topic not found. No users registered." args="%PARAM1%"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%{==============================================================================}%
 %TMPL:DEF{"bulkreg_pwreset_form"}%
 <form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
 <input type="hidden" name="action" value="resetPassword" />
