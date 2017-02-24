@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1487815547" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1487907314" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %ADDTOZONE{"head" text="<style type='text/css'>
     #bulkReg .col1 {float:left; width:30%; margin:0 3% 0 0;}
@@ -95,13 +95,14 @@ Use the following form to create a new Unprocessed Registration topic.
         <div class="col1">
          <p>
       <select multiple='on' name='fields'>
-        %FORMAT{"%CALCULATE{$LISTUNIQUE(%QUERY{"'%URLPARAM{"usertemplate" default="System.NewUserTemplate"}%'/fields.name"}%)}%" type="string" format="<option value='$item'>$item</option>"}%
+        %FORMAT{"%CALCULATE{$LISTUNIQUE($FILTER(\b(((FirstName($comma?))|(LastName($comma)?)|(Email($comma)?))),$LISTSORT(%QUERY{"'%URLPARAM{"usertemplate" default="System.NewUserTemplate"}%'/fields.name"}%)))}%" type="string" format="<option value='$item'>$item</option>"}%
       </select>
          </p>
         </div><!--//col1-->
         <div class="col2">
-            Use Ctrl-click to select multiple fields.  (LastName and FirstName
-            will be included even if not selected. They are required for registration.)
+            Use Ctrl-click to select multiple fields.  (LastName, FirstName,
+            Email, and wikiName are always included in the table. They are
+            required for registration.)
         </div><!--//col2-->
         <div class="foswikiClear"></div>
       </div> <!-- foswikiFormStep -->
@@ -133,17 +134,6 @@ Use the following form to create a new Unprocessed Registration topic.
 You can write additional data to the new user topics. Do this by enhancing the user table with additional field names as table headers.
 
 Any fields you define in this table will end up in the User's topic. If a form (such as %SYSTEMWEB%.UserForm) is attached to NewUserTemplate then the data will go in as META:FIELDS, meaning that you can use SEARCH formfield constructs to search.
-
----++++ Mandatory fields
-   * =WikiName=
-
----++++ Optional fields
-   * =LoginName= - __Required if the system is configured to__ ==AllowLoginName== (Commonly referred to as the UserName).
-   * =Email= - If not provided, you must set a password, or password reset will not be possible.
-   * =Password= - If not provided, set passwords later using BulkResetPassword.
-   * =Confirm= - If provided, it must match the =Password= field. If missing, it will not be checked.
-   * =templatetopic= - Template used when creating the User topic. If not provided, defaults to [[%USERSWEB%.NewUserTemplate]], or [[%SYSTEMWEB%.NewUserTemplate]].
-   * =AddToGroups= - A comma-separated list of groups. When user is registered, they will be added to the listed groups. The groups must exist.
 
 ---
 

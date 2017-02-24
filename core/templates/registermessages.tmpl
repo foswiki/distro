@@ -459,31 +459,48 @@
 %MAKETEXT{"[_1] topic not found. No users registered." args="%PARAM1%"}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"bulkreg_pwreset_form"}%
-<form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
-<input type="hidden" name="action" value="resetPassword" />
-<input  type="submit" class="foswikiSubmit" value="Reset selected user passwords and send message" />
+%TMPL:DEF{"bulkreg_report"}%
+%STARTSECTION{type="include"}%
+#RegResults
+---+ %MAKETEXT{"Registration Results Summary"}%
+%MAKETEXT{"Bulk Registration run by [_1] at [_2]. See [[[_3]]] for more detailed information." args="%REVINFO{format="$wikiusername"}%, %REVINFO{format="$date-$time"}%, %TOPIC%"}%  
 
-*This text will be sent to users in their "reset" e-mail.* The login name and password will be filled in automatically.
-<textarea class="foswikiInputField" name="Introduction" rows="4" cols="70" style="width:99%;">
-Welcome! The site is ready for your use. Please use the login name and password listed below and contact me if you have any questions.
-</textarea>
+%TMPL:P{"bulkreg_reset_formtop"}%
+---++ %MAKETEXT{"Results"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_head"}%
 | *ok* | *WikiName* | *Reset Password* | *Results* |%TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"bulkreg_summary"}%
-%STARTSECTION{type="include"}%
----++ Summary of Registrations
-Registration run by %REVINFO{format="$wikiusername at =$date-$time="}%.  See [[%TOPIC%]] for more detailed information.
-
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_row"}%
 | $flag | $wikiname |  <input  type='checkbox' name='LoginName' $state value='$wikiname' />  | $errors |%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_foot"}%
+
+%MAKETEXT{"*This text will be sent to users in their "reset" e-mail.* The login name and password will be filled in automatically."}%
+%TMPL:P{"bulkreg_reset_formbot"}%
 %ENDSECTION{type="include"}%
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_reset_formtop"}%
+<div id="bulkreset" class="foswikiFormSteps">
+<form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_reset_formbot"}%
+<input type="hidden" name="action" value="resetPassword" />
+<div class="foswikiFormStep">
+<textarea class="foswikiInputField" name="Introduction" rows="4" cols="70" style="width:99%;">
+Welcome! The site is ready for your use. Please use the login name and password listed below and contact %WIKIWEBMASTER% if you have any questions.
+</textarea>
+</div> <!-- Formstep -->
+<div class="foswikiClear"></div>
+<div class="foswikiFormStep">
+<input  type="submit" class="foswikiSubmit" value="Reset selected user passwords and send message" />
+</div> <!-- Formstep -->
+<div class="foswikiClear"></div>
+</div> <!-- formsteps -->
+</form>
 %TMPL:END%

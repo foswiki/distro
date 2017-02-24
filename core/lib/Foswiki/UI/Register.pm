@@ -478,13 +478,7 @@ sub bulkRegister {
     }
 
     my $tmpl = $session->templates->readTemplate('registermessages');
-    $log .= $session->templates->expandTemplate('bulkreg_summary');
-
-    # If no passwords require reset, then don't generate the reset form.
-    if ($genReset) {
-        $log .= $session->templates->expandTemplate('bulkreg_pwreset_form');
-    }
-
+    $log .= $session->templates->expandTemplate('bulkreg_report');
     $log .= $session->templates->expandTemplate('bulkreg_summary_head');
 
     my $rowtmpl = $session->templates->expandTemplate('bulkreg_summary_row');
