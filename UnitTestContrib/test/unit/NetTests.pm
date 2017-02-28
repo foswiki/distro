@@ -7,8 +7,6 @@ use strict;
 
 use Foswiki::Net;
 
-our $expectedHeader;
-
 sub new {
     my $self = shift()->SUPER::new( "Net", @_ );
     return $self;
@@ -30,7 +28,8 @@ sub test_getExternalResource {
     $this->assert_equals( 200, $response->code() );
 
     # Note: HTTP::Response doesn't clean out \r correctly
-    my $mess = $response->message();
+    my $mess           = $response->message();
+    my $expectedHeader = qr#text/html; charset=(utf-?8|iso-?8859-?1)#;
     $mess =~ s/\r//g;
     $this->assert_str_equals( 'OK', $mess );
     $this->assert_matches( qr/$expectedHeader/is,
