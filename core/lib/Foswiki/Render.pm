@@ -685,10 +685,10 @@ sub TML2PlainText {
           || '';
         $text =~ s/%WIKITOOLNAME%/$wtn/g;
         if ( $opts =~ m/showvar/ ) {
-            $text =~ s/%(\w+({.*?}))%/$1/g;       # defuse
+            $text =~ s/%(\w+(\{.*?\}))%/$1/g;     # defuse
         }
         else {
-            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//g;    # remove
+            $text =~ s/%$Foswiki::regex{tagNameRegex}(\{.*?\})?%//g;    # remove
         }
     }
 
