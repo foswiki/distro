@@ -289,17 +289,17 @@ sub _processTags {
     while ( scalar(@queue) ) {
         my $token = shift(@queue);
         if ( $token =~ /^\n?%$/s ) {
-            if ( $token eq '%' && $stackTop =~ /}$/ ) {
+            if ( $token eq '%' && $stackTop =~ /\}$/ ) {
                 while ( scalar(@stack)
                     && $stackTop !~
-                    /^\n?%(?:~~ )?($Foswiki::regex{tagNameRegex}){.*}$/os )
+                    /^\n?%(?:~~ )?($Foswiki::regex{tagNameRegex})\{.*\}$/os )
                 {
                     $stackTop = pop(@stack) . $stackTop;
                 }
             }
             if (   $token eq '%'
                 && $stackTop =~
-                m/^(\n?)%(~~ )?($Foswiki::regex{tagNameRegex})({.*})?$/os )
+                m/^(\n?)%(~~ )?($Foswiki::regex{tagNameRegex})(\{.*\})?$/os )
             {
                 my $nl   = $1;
                 my $glue = $2 || '';
