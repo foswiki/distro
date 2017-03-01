@@ -598,6 +598,7 @@ sub generate {
 
     # make the names of the function versions
     $tag =~ s/!//;    # DOCTYPE
+
     my $tmlFn = '_handle' . uc($tag);
 
     $this->_moveClassToSpan('WYSIWYG_TT');

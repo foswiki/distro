@@ -133,7 +133,7 @@ p=align;
 param=name,type,value,valuetype;
 pre=width;
 q=cite;
-table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
+table=align,bgcolor,class,.*?background-color:.*,frame,rules,summary,width;
 tbody=align,char,charoff,valign;
 td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
 tfoot=align,char,charoff,valign;
@@ -203,6 +203,8 @@ DEFAULT
     $text =~ s/&#x200B;//g;    # TMCE pre 3.5
 
     HTML::Entities::_decode_entities( $text, WC::safeEntities() );
+
+    $text =~ s/\&apos;/\&\#39;/go;
 
     # get rid of nasties
     $text =~ s/\r//g;
