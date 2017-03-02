@@ -238,6 +238,31 @@ BLAH
         tml => '| =Code= |'
     },
     {
+        exec => TML2HTML | ROUNDTRIP,
+        name => 'explicitBInTable_Item9651',
+        tml  => <<'TML',
+<b>B</b> and *Stars*
+| *TH* |
+| <b>bold font</b> |
+| bold *in the* middle |
+TML
+        html => <<'HTML',
+<p><b>B</b> and <b>Stars</b></p>
+<table border='1' cellpadding='0' cellspacing='1'>
+<tr><th> TH </th></tr>
+<tr><td> <b>bold font</b> </td></tr>
+<tr><td> bold <b>in the</b> middle </td></tr>
+</table>
+HTML
+        finaltml => <<'TML',
+*B* and *Stars*
+| *TH* |
+| <b>bold font</b> |
+| bold *in the* middle |
+TML
+
+    },
+    {
         exec => TML2HTML | ROUNDTRIP | CHARSETS,
         name => 'Item11925_spuriousTT3',
         tml  => <<'HERE',
@@ -579,6 +604,35 @@ HERE
    1 Sushi
    A. Sushi
    i. Sushi
+HERE
+    },
+    {
+        exec => HTML2TML,
+        name => "nestedLists_Item13344",
+        tml  => <<'HERE',
+   1 An ol item
+      : two level of indent. counting list level
+         : three level indent, counting list level
+         text following the above indent
+         more text that is part of the above indent
+         1 Another ol item three levels in
+         1 Yet another ol item three levels in
+            : four level indent, counting list level
+      : two level indent
+   1 An ol item, continued numbering in sequence after the first
+HERE
+        html => <<"HERE"
+<ol>
+<li> An ol item<div class='foswikiIndent'> two level of indent. counting list level<div class='foswikiIndent'> three level indent, counting list level<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>text following the above indent<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>more text that is part of the above indent
+</div> <ol>
+<li> Another ol item three levels in
+</li> <li> Yet another ol item three levels in<div class='foswikiIndent'> four level indent, counting list level
+</div>
+</li></ol> 
+</div> <div class='foswikiIndent'> two level indent
+</div>
+</li> <li> An ol item, continued numbering in sequence after the first
+</li></ol>
 HERE
     },
     {

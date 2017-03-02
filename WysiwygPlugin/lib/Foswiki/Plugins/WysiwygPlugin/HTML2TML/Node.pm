@@ -1563,7 +1563,27 @@ sub _handleABBR    { return _flatten(@_); }
 sub _handleACRONYM { return _flatten(@_); }
 sub _handleADDRESS { return _flatten(@_); }
 
-sub _handleB { return _emphasis( @_, '*' ); }
+sub _handleB {
+    my ( $this, $options ) = @_;
+    if ( $options & WC::IN_TABLE ) {
+        if (
+            $this->{parent}
+            && (   $this->{parent}->{tag} eq 'td'
+                || $this->{parent}->{tag} eq 'th' )
+          )
+        {
+            my $left  = $this->{prev} ? $this->{prev}->stringify() : '';
+            my $right = $this->{next} ? $this->{next}->stringify() : '';
+            if ( "$left$right" =~ /^\s*$/ ) {
+
+                # Item9651: Don't convert bold in a table cell into stars
+                # if the TML would be interpreted as a heading
+                return ( 0, undef );
+            }
+        }
+    }
+    return _emphasis( @_, '*' );
+}
 sub _handleBASE     { return ( 0, '' ); }
 sub _handleBASEFONT { return ( 0, '' ); }
 
