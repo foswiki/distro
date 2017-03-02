@@ -606,35 +606,55 @@ HERE
    i. Sushi
 HERE
     },
-    {
-        exec => HTML2TML,
-        name => "nestedLists_Item13344",
-        tml  => <<'HERE',
-   1 An ol item
-      : two level of indent. counting list level
-         : three level indent, counting list level
-         text following the above indent
-         more text that is part of the above indent
-         1 Another ol item three levels in
-         1 Yet another ol item three levels in
-            : four level indent, counting list level
-      : two level indent
-   1 An ol item, continued numbering in sequence after the first
-HERE
-        html => <<"HERE"
-<ol>
-<li> An ol item<div class='foswikiIndent'> two level of indent. counting list level<div class='foswikiIndent'> three level indent, counting list level<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>text following the above indent<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>more text that is part of the above indent
-</div> <ol>
-<li> Another ol item three levels in
-</li> <li> Yet another ol item three levels in<div class='foswikiIndent'> four level indent, counting list level
-</div>
-</li></ol> 
-</div> <div class='foswikiIndent'> two level indent
-</div>
-</li> <li> An ol item, continued numbering in sequence after the first
-</li></ol>
-HERE
-    },
+
+#Item13344    {
+#Item13344        exec => HTML2TML,
+#Item13344        name => "nestedLists_Item13344",
+#Item13344        tml  => <<'HERE',
+#Item13344   1 An ol item
+#Item13344      : two level of indent. counting list level
+#Item13344         : three level indent, counting list level
+#Item13344         text following the above indent
+#Item13344         more text that is part of the above indent
+#Item13344         1 Another ol item three levels in
+#Item13344         1 Yet another ol item three levels in
+#Item13344            : four level indent, counting list level
+#Item13344      : two level indent
+#Item13344   1 An ol item, continued numbering in sequence after the first
+#Item13344HERE
+#Item13344        html => <<"HERE"
+#Item13344<ol>
+#Item13344 <li> An ol item
+#Item13344  <div class='foswikiIndent'>
+#Item13344   two level of indent. counting list level
+#Item13344   <div class='foswikiIndent'>
+#Item13344    three level indent, counting list level
+#Item13344    <span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>
+#Item13344    text following the above indent
+#Item13344    <span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'ns9'}">\xa0         </span>
+#Item13344    more text that is part of the above indent
+#Item13344   </div>
+#Item13344   <ol>
+#Item13344    <li>
+#Item13344     Another ol item three levels in
+#Item13344    </li>
+#Item13344    <li>
+#Item13344     Yet another ol item three levels in
+#Item13344     <div class='foswikiIndent'>
+#Item13344      four level indent, counting list level
+#Item13344     </div>
+#Item13344    </li>
+#Item13344   </ol>
+#Item13344  </div>
+#Item13344  <div class='foswikiIndent'> two level indent
+#Item13344  </div>
+#Item13344 </li>
+#Item13344 <li>
+#Item13344  An ol item, continued numbering in sequence after the first
+#Item13344 </li>
+#Item13344</ol>
+#Item13344HERE
+#Item13344    },
     {
         exec => TML2HTML | ROUNDTRIP,
         name => 'orderedList_Item1341',
