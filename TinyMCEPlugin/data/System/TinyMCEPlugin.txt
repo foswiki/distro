@@ -59,10 +59,9 @@ table_default_cellspacing : 1,
 table_default_border : 1,
 theme : "modern",
 skin : "lightgray",
-debug : true,
 plugins : "contextmenu table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image textcolor colorpicker wordcount",
 external_plugins : {
-  foswikibuttons: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.uncompressed.js"
+  foswiki: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/plugin.js"
   },
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 style_formats: [

@@ -50,7 +50,9 @@ sub new {
             documentation => "$Foswiki::cfg{SystemWebName}.TinyMCEPlugin",
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin',
             javascript    => [
-                'foswiki_tiny.js', 'foswiki.js',
+                'foswiki_tiny.js',
+
+                #                '/tinymce/js/tinymce/tinymce.min.js'
                 '/tinymce_dev/js/tinymce/tinymce.dev.js'
             ],
             dependencies => ['foswiki']
