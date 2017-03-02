@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007-2009 Crawford Currie http://c-dot.co.uk
+  Copyright (C) 2007-2017 Crawford Currie http://c-dot.co.uk
   Copyright (C) 2010-2017 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
@@ -15,10 +15,194 @@
 
   As per the GPL, removal of this notice is prohibited.
 */
+
+/**
+ * TinyMCE plugin that implements most Foswiki features
+ */
 (function () {
     'use strict';
 
-    function showAttachDialog() {
+    // Convert a simple attachment name into a URL
+    function makeAttachmentURL(url) {
+        // Expand %PREFERENCES% in a URL.
+        // This expansion is reversed by
+        // WysiwygPlugin::Handlers::postConvertURL()
+        url = url.replace(/%[A-Za-z0-9_]+%/g, function(i) {
+            // Don't expand macros that are not reversed during save
+            // Part of fix to Item13178
+            if ( i === 'WEB' || i === 'TOPIC' || i === 'SYSTEMWEB' )
+                return i;
+            var p = foswiki.getPreference(i);
+            if ( p === '' )
+                return i;   // Empty variables are not reversible
+            //console.log( 'expandVariables ' + i + ' expanded to ' + p );
+            return p;
+        });
+
+        if (url.indexOf('/') == -1) {
+            var base = foswiki.getPreference("PUBURL") + '/' + 
+                foswiki.getPreference("WEB") + '/' + 
+                foswiki.getPreference("TOPIC") + '/';
+            url = base + url;
+        }
+        return url;
+    };
+
+    // Get a list of attachments, in an array of META:FILEATTACHMENT fields
+    function getListOfAttachments(onSuccess) {
+        var url = foswiki.getScriptUrl('rest', "WysiwygPlugin", "attachments");
+        var path = foswiki.getPreference("WEB")
+            + '.' + foswiki.getPreference("TOPIC");
+        var params = "nocache=" + 
+            encodeURIComponent((new Date()).getTime()) + "&topic=" +
+            encodeURIComponent(path);
+
+        tinymce.util.XHR.send({
+            url: url + "?" + params,
+            type: "POST",
+            content_type: "application/x-www-form-urlencoded",
+            data: params,
+            success: function(atts) {
+                if (atts != null) {
+                    onSuccess(eval(atts));
+                }
+            }
+        });
+    };
+    
+    /**
+     * Used to convert URLs from linkable format back
+     * to Foswiki macros (as far as possible)
+     */
+    function convertURIForSave(url) {
+        var PUBURL = new RegExp("^" + foswiki.getPreference("PUBURL") + "/");
+        var WEB = new RegExp("/" + foswiki.getPreference('WEB') + "/");
+        var TOPIC = new RegExp("/" + foswiki.getPreference('TOPIC') + "/");
+        url = url.replace(PUBURL, "%PUBURL%/");
+        url = url.replace(WEB, "/%WEB%/");
+        url = url.replace(TOPIC, "/%TOPIC%/");
+        var VSURL = foswiki.getPreference("VIEWSCRIPTURL");
+        if (url.indexOf('/') == -1) {
+            // if it's a wikiword, make a suitable view link
+            var match = /^((?:\w+\.)*)(\w+)$/.exec(url);
+            if (match != null) {
+                var web = match[1];
+                var topic = match[2];
+                if (web == null || web.length == 0)
+                    web = WEB;
+                web = web.replace(/\.+/g, '/');
+                web = web.replace(/\/+$/, '');
+                url = VSURL + '/' + web + '/' + topic;
+            }
+        } else {
+            var SURL = foswiki.getPreference("SCRIPTURL");
+            url = url.replace(new RegExp("^" + VSURL + "/", "g"),
+                              "%VIEWSCRIPTURL%/");
+            url = url.replace(new RegExp("^" + SURL + "/", "g"),
+                              "%SCRIPTURL%/");
+        }
+        return url;
+    }
+
+    /**
+     * Convert URI from Foswiki %MACRO% format
+     * to a linkable format
+     */
+    function convertURIForLoad(url) {
+        return url.replace(/%[A-Za-z0-9_]+%/g, function(m) {
+            var r = foswiki.getPreference(m);
+            return (r && r !== '') ? r : m;
+        });
+    };
+   
+    /**
+     * Transform text to/from TML
+     */
+    function transform(editor, handler, text, onSuccess, onFail) {
+        // Work out the rest URL from the location
+        var url = foswiki.getPreference("SCRIPTURL");
+        var suffix = foswiki.getPreference("SCRIPTSUFFIX");
+        if (suffix == null) suffix = '';
+        url += "/rest" + suffix + "/WysiwygPlugin/" + handler;
+        var path = foswiki.getPreference("WEB") + '.' + 
+            foswiki.getPreference("TOPIC");
+
+        tinymce.util.XHR.send({
+            url: url,
+            content_type: "application/x-www-form-urlencoded",
+            type: "POST",
+            data: "nocache=" + encodeURIComponent((new Date()).getTime()) +
+                "&topic=" + encodeURIComponent(path) + "&text=" +
+                encodeURIComponent(text),
+            async: true,
+            scope: editor,
+            success: onSuccess,
+            error: onFail
+        })
+    };
+
+
+    // Convert HTML content to textarea. Called from the WYSIWYG->raw switch
+    function switchToRaw(self, editor) {
+        var text = editor.getContent();
+
+        editor.getElement().value = "Please wait... retrieving page from server.";
+        transform(
+            editor, "html2tml", text, function(text, req, o) {
+                var el = editor.getElement();
+                el.value = text;
+                $(el).trigger("fwSwitchToRaw", editor);
+                // Muddy-boots the initialized status of the editor to
+                // block the save event that would otherwise blow away
+                // the textarea content when a submit event is raised
+                // in a form that wraps the editor.
+                editor.initialized = false;
+                editor.hide();
+            },
+            function(type, req, o) {
+                editor.notificationManager.open({
+                    text: "There was a problem retrieving " + o.url + ": "
+                        + type + " " +
+                        req.status,
+                    type: 'error'
+                });
+            });
+    }
+    
+    // Convert textarea content to HTML. This is invoked from the content
+    // setup handler, and also from the raw->WYSIWYG switch
+    function switchToWYSIWYG(self, editor) {
+        // Get the textarea content
+        var text = editor.getElement().value;
+
+        var throbberPath = foswiki.getPreference('PUBURLPATH')
+            + '/' + foswiki.getPreference('SYSTEMWEB')
+            + '/' + 'DocumentGraphics/processing.gif';
+        
+        transform(
+            editor, "tml2html", text, function(text, req, o) { // Success
+                editor.setContent(text);
+                editor.show();
+                // We can do this safely because the only way this code can
+                // be reached is through an execCommand, and that's only
+                // available when the editor is initialised. Reverse the
+                // muddy-bootsing of the initialized status done in switchToRaw
+                // (see above for details of why)
+                editor.initialized = true;
+                editor.isNotDirty = true;
+            },
+            function(type, req, o) {
+                // Handle a failure by firing an event back at the
+                // textarea we are sitting on
+                $(edit.getElement()).trigger(
+                    "fwTxError",
+                    "There was a problem retrieving " + o.url
+                        + ": " + type + " " + req.status);
+            }); 
+    };
+    
+    // Dialog for the "fwupload" button
+    function showUploadDialog() {
         function handle_message(text) {
             // Is it a recognised message? English only, sorry
             var m = /OopsException\(attention\/(\w+)/.exec(text);
@@ -57,9 +241,10 @@
                                     StrikeOne.calculateNewKey(nonce));
             }
 
-            var url = FoswikiTiny.getScriptURL('upload')
-                + "/" + foswiki.getPreference("WEB")
-                + "/" + foswiki.getPreference("TOPIC");
+            var url = foswiki.getScriptUrl(
+                'upload',
+                foswiki.getPreference("WEB"),
+                foswiki.getPreference("TOPIC"));
             
             jQuery.ajax({
                 url: url,
@@ -114,7 +299,8 @@
             });
     }
 
-    function showInsertDialog(list) {
+    // Dialog for the "fwinsertlink" button
+    function showInsertLinkDialog(list) {
         var itemList = [];
         tinymce.each(list, function(item) {
             itemList.push({ text: item.attachment, value: item.attachment });
@@ -156,225 +342,131 @@
                 ]
 	    });
     }
+
+    // onclick for "fwindent"
+    function handleIndent(ed) {
+        if (ed.queryCommandState('InsertUnorderedList') ||
+            ed.queryCommandState('InsertOrderedList')) {
+            // list type node - use the default behaviour
+            ed.execCommand("Indent");
+        }
+        else {
+            // drive up to the nearest block node
+            var dom = ed.dom, selection = ed.selection,
+                node = dom.getParent(selection.getStart(), dom.isBlock) ||
+                dom.getParent(selection.getEnd(), dom.isBlock),
+                div;
+            if (node) {
+                // SMELL: what about indentation inside tables?
+                // Needs to be disabled.
+                // insert div below the nearest block node
+                div = dom.create('div', { 'class' : 'foswikiIndent'});
+                while (node.firstChild) {
+                    dom.add(div, dom.remove(node.firstChild));
+                }
+                div = dom.add(node, div);
+                ed.selection.select(div);
+                ed.selection.collapse(); // This eats the cursor!
+                ed.selection.setCursorLocation(div, 0);
+            }
+        }
+    }
+
+    // onclick for "fwexdent"
+    function handleExdent(ed) {
+        var dom = ed.dom, selection = ed.selection,
+            node = dom.getParent(selection.getStart(), dom.isBlock),
+            p;
+        if (node && dom.hasClass(node, 'foswikiIndent')) {
+            p = node.parentNode;
+            while (node.firstChild) {
+                p.insertBefore(dom.remove(node.firstChild), node);
+            }
+            dom.remove(node);
+            ed.selection.select(p.firstChild);
+            ed.selection.collapse();
+        } else {
+            ed.execCommand("Outdent");
+        }
+    }
     
+    // onclick for "fwhide"
+    function handleHide(ed) {
+        if (ed.plugins.fullscreen && ed.plugins.fullscreen.isFullscreen())
+            ed.execCommand('mceFullScreen');
+        ed.execCommand("fwSwitchToRaw");
+    }
+
     // Create the plugin it'll be added later
-    tinymce.create('tinymce.plugins.FoswikiButtons', {
-        /* Foswiki formats listbox */
-        formats_listbox: null,
-        /* Remembers which node was last calculated for button state */
-        _lastButtonUpdateNode: null,
-        /* Flag to indicate there's a setTimeout waiting to fire a
-        ** _tryNodeChangeEvent() */
-        _nodeChangeEventScheduled: null,
-        /* Flag to indicate that the pending setTimeout waiting to fire a
-        ** _tryNodeChangeEvent(), should be deferred */
-        _deferNodeChangeEvent: null,
-        /* setTimeout interval governing cursor idle time required to
-        ** fire a button state update. Zero means always update. Set with
-        ** foswikibuttons_cursoridletime param */
-        nodeChangeEventFrequency: null,
-
+    tinymce.create('tinymce.plugins.Foswiki', {
+        format_names: [],
+        
         init: function (ed, url) {
-            this.formats = ed.getParam('foswikibuttons_formats');
-            this.nodeChangeEventFrequency =
-                ed.getParam('foswikibuttons_cursoridletime');
-            this.format_names = [];
-            this.recipe_names = [];
-
-            jQuery.each(this.formats, function (key, value) {
-                ed.plugins.foswikibuttons.format_names.push(key);
+            var self = this;
+            
+            ed.addCommand('fwSwitchToWYSIWYG', function(ui, v) {
+                switchToWYSIWYG(self, this);
             });
-            /* Register Foswiki formats with TinyMCE's formatter, which isn't
-               available during plugin init */
-            ed.on("init", function (evt) {
-                var editor = evt.target;
-                this.plugins.foswikibuttons._registerFormats(
-                    editor, this.plugins.foswikibuttons.formats);
-
-                this.plugins.foswikibuttons._contextMenuVerbatimClasses(editor);
+            
+            ed.addCommand('fwSwitchToRaw', function(ui, v) {
+                switchToRaw(self, this);
             });
-
-            this._addTTButton(ed, url);
-            this._addColourButton(ed, url);
-            this._addAttachButton(ed, url);
-            this._addInsertButton(ed, url);
-            this._addIndentButton(ed, url);
-            this._addExdentButton(ed, url);
-            this._addHideButton(ed, url);
-
-            return;
-        },
-
-        getInfo: function () {
-            return {
-                longname: 'Foswiki Buttons Plugin',
-                author: 'Crawford Currie',
-                authorurl: 'http://c-dot.co.uk',
-                infourl: 'http://c-dot.co.uk',
-                version: 3
-            };
-        },
-
-        _addTTButton: function (ed, url) {
-            ed.addButton('tt', {
+            
+            ed.addCommand('fwsave', function(ui, v) {
+                // If the editor is hidden, don't
+                // mceSave, let the caller handle it. Otherwise we'll
+                // do an extra conversion which was already done when
+                // switching the editor to raw.
+                if (!ed.isHidden())
+                    this.execCommand("mceSave");
+            });
+            
+            ed.addButton('fwtt', {
                 title: 'Typewriter text',
-                onclick: function(evt) {
-                    ed.formatter.toggle('WYSIWYG_TT');
-                },
-                image: url + '/img/tt.gif'
-            });
-
-            return;
-        },
-
-        _registerFormats: function (ed, formats) {
-            ed.formatter.register('WYSIWYG_TT', {
-                inline: 'span',
-                classes: 'WYSIWYG_TT'
-            });
-            ed.formatter.register('WYSIWYG_COLOR', [{
-                inline: 'span',
-                classes: 'WYSIWYG_COLOR',
-                styles: {
-                    color: '%value'
+                onclick: function(evt) { ed.formatter.toggle('WYSIWYG_TT'); },
+                image: url + '/img/tt.gif',
+                onpostrender: function() {
+                    var btn = this;
+                    ed.on("NodeChange", function(e) {
+                        btn.disabled($(e.element).hasClass('WYSIWYG_TT'));
+                    });
                 }
-            },
-            /* This entry allows WYSIWYG_COLOR to match without
-                    a specific color attribute, used for button state */
+            });
+            
+            if (typeof(FormData) !== 'undefined'
+                && !foswiki.getPreference("TOPIC").match(
+                        /(X{10}|AUTOINC[0-9]+)/))
             {
-                inline: 'span',
-                classes: 'WYSIWYG_COLOR'
-            }]);
-            ed.formatter.register('IS_WYSIWYG_COLOR', {
-                inline: 'span',
-                classes: 'WYSIWYG_COLOR'
-            });
-            ed.formatter.register(formats);
-
-            return;
-        },
-
-        _addColourButton: function (editor, url) {
-            editor.addButton('colour', {
-                title: 'Font colour',
-                image: url + '/img/colour.gif',
-                onClick: function (evt) {
-                    var ed = evt.target;
-                    if (ed.selection.isCollapsed()) {
-                        return;
+                ed.addButton('fwupload', {
+                    title: 'Upload attachment',
+                    image: url + '/img/upload.gif',
+                    onclick: function () {
+                        getListOfAttachments(showUploadDialog);
                     }
-                    ed.windowManager.open(
-                        {
-                            location: false,
-                            menubar: false,
-                            toolbar: false,
-                            status: false,
-                            url: url + '/colours.htm',
-                            width: 220,
-                            height: 280,
-                            movable: true,
-                            popup_css: false,
-                            // not required
-                            inline: true
-                        },
-                        {
-                            plugin_url: url
-                        });
-                }
-            });
-
-            return;
-        },
-
-        _addAttachButton: function (ed, url) {
-            if (typeof(FormData) === 'undefined')
-                return; // browser too old, need HTML5 FormData
-            ed.addButton('upload', {
-                title: 'Upload attachment',
-                image: url + '/img/upload.gif',
-                onclick: function () {
-                    if (null !== foswiki.getPreference("TOPIC").match(
-                            /(X{10}|AUTOINC[0-9]+)/)) {
-// Do a notification
-                        return;
-                    }
-                    FoswikiTiny.getListOfAttachments(showAttachDialog);
-                }
-            });
-
-            return;
-        },
-
-        _addInsertButton: function (ed, url) {
-            ed.addButton('insertlink', {
+                });
+            };
+            // else browser too old (need HTML5 FormData), or the topic is
+            // AUTOINC
+            
+            ed.addButton('fwinsertlink', {
                 title: 'Insert link to attachment',
                 image: url + '/img/insertlink.gif',
                 onclick: function () {
-                    FoswikiTiny.getListOfAttachments(showInsertDialog);
+                    getListOfAttachments(showInsertLinkDialog);
                 }
             });
-
-            return;
-        },
-
-       _addIndentButton: function (ed, url) {
+            
             ed.addButton('fwindent', {
                 title: 'Indent more',
                 image: url + '/img/indent.gif',
-                onClick: function() {
-                    if (this.queryCommandState('InsertUnorderedList') ||
-                        this.queryCommandState('InsertOrderedList')) {
-                        // list type node - use the default behaviour
-                        this.execCommand("Indent");
-                    }
-                    else {
-                        // drive up to the nearest block node
-                        var dom = ed.dom, selection = ed.selection,
-                            node = dom.getParent(selection.getStart(), dom.isBlock) ||
-                            dom.getParent(selection.getEnd(), dom.isBlock),
-                            div;
-                        if (node) {
-                            // SMELL: what about indentation inside tables? Needs to be disabled.
-                            // insert div below the nearest block node
-                            div = dom.create('div', { 'class' : 'foswikiIndent'});
-                            while (node.firstChild) {
-                                dom.add(div, dom.remove(node.firstChild));
-                            }
-                            div = dom.add(node, div);
-                            ed.selection.select(div);
-                            ed.selection.collapse(); // This eats the cursor!
-                            ed.selection.setCursorLocation(div, 0);
-                        }
-                    }
-                }
+                onClick: function() { handleIndent(ed); }
             });
-
-            return;
-        },
-
-        _addExdentButton: function (ed, url) {
+            
             ed.addButton('fwexdent', {
                 title: 'Indent less',
                 image: url + '/img/exdent.gif',
-                onClick: function() {
-                    var dom = ed.dom, selection = ed.selection,
-                        node = dom.getParent(selection.getStart(), dom.isBlock),
-                        p;
-                    if (node && dom.hasClass(node, 'foswikiIndent')) {
-                        p = node.parentNode;
-                        while (node.firstChild) {
-                            p.insertBefore(dom.remove(node.firstChild), node);
-                        }
-                        dom.remove(node);
-                        ed.selection.select(p.firstChild);
-                        ed.selection.collapse();
-                    } else {
-                        ed.execCommand("Outdent");
-                    }
-                },
+                onClick: function() { handleExdent(ed); },
                 onPostRender: function() {
-                    // Can't attach the node watcher until the DOM is
-                    // rendered
                     var ctrl = this;
                     ed.on("NodeChange", function(evt) {
                         var ed = evt.target;
@@ -390,252 +482,49 @@
                     });
                 }
             });
-
-            return;
-        },
-
-        _addHideButton: function (ed, url) {
-            ed.addButton('hide', {
+            
+            ed.addButton('fwhide', {
                 title: 'Edit Foswiki markup',
                 image: url + '/img/hide.gif',
-                onClick: function () {
-                    if (FoswikiTiny.saveEnabled) {
-                        if (ed.getParam('fullscreen_is_enabled')) {
-                            // The fullscreen plugin does its work asynchronously, 
-                            // and it does not provide explicit hooks. However, it
-                            // does a getContent prior to closing the editor which
-                            // fires an onGetContent event. Hook into that, and
-                            // fire off further asynchronous handling that will be
-                            // processed after the fullscreen editor is destroyed.
-                            ed.onGetContent.add(function () {
-                                tinymce.DOM.win.setTimeout(function () {
-                                    // The fullscreen editor will have been
-                                    // destroyed by the time this function executes,
-                                    // so the active editor is the regular one.
-                                    var e = tinyMCE.activeEditor;
-                                    tinymce.execCommand('mceToggleEditor', 
-                                                        true, e.id);
-                                    FoswikiTiny.switchToRaw(e);
-                                },
-                                                           10);
-                            });
-
-                            // Call full-screen toggle to hide fullscreen editor
-                            ed.execCommand('mceFullScreen');
-                        }
-                        else {
-                            // regular editor, not fullscreen
-                            tinymce.execCommand("mceToggleEditor", true, ed.id);
-                            FoswikiTiny.switchToRaw(ed);
-                        }
-                    }
-                }
+                onClick: function () { handleHide(ed); }
             });
-
-            return;
         },
 
-        /*
-         * *IF YOU MAKE CHANGES HERE*, consider netbook/mobile users who need
-         * every spare CPU cycle.
-         * 
-         * _nodeChange() is fired *very* frequently, on every cursor movement
-         * for example. So expensive operations are deferred until the cursor
-         * has settled for some time period this.nodeChangeEventFrequency (500ms)
-         */
-        _nodeChange: function (ed, cm, node, collapsed) {
-            var selectedFormats, listbox;
-            
-            if (typeof(node) !== 'object') {
-                return;
-            }
-            /* Set cursoridletime param to zero to do reliable performance
-             * analysis of _updateButtonState(). See Item9427
-             */
-            if (this.nodeChangeEventFrequency) {
-                this._scheduleNodeChangeEvent(ed, cm, node, collapsed);
-            } else {
-                this._doUpdateButtonState(ed, cm, node, collapsed);
-            }
-
-            return true;
-
+        convertURI: function(url, onSave) {
+            return (onSave) ? convertURIForSave(url)
+                : convertURIForLoad(url);
         },
-
-        /* Schedule a _tryNodeChangeEvent() call, unless one is already
-         * scheduled. In that case, defer that next call, because this means
-         * the cursor hasn't settled for long enough. _tryNodeChangeEvent()
-         * will re-schedule itself instead of calling _doUpdateButtonState()
-         * when it does eventually fire.
-         */
-        _scheduleNodeChangeEvent: function (ed, cm, node, collapsed) {
-            var that = this;
-
-            if (this._nodeChangeEventScheduled) {
-                // defer the next update and keep blocking; cursor is still moving
-                this._deferNodeChangeEvent = true;
-            } else {
-                this._deferNodeChangeEvent = false;
-                this._nodeChangeEventScheduled = true;
-                setTimeout(function () {
-                    that._tryNodeChangeEvent(that, ed, cm, node, collapsed);
-
-                    return;
-                }, this.nodeChangeEventFrequency);
-            }
-
-            return;
-        },
-
-        /* If this event is to be deferred, "re-set the clock and wait
-        ** another 500ms" - otherwise, finally, just do it
-         */
-        _tryNodeChangeEvent: function (that, ed, cm, node, collapsed) {
-            if (that._deferNodeChangeEvent) {
-                that._deferNodeChangeEvent = false;
-                that._nodeChangeEventScheduled = false;
-                that._scheduleNodeChangeEvent(ed, cm, node, collapsed);
-            } else {
-                /* Call expensive nodeChange stuff from here
-                 * If we got to here, the cursor has been idle for > 500ms
-                 *
-                 * Additionally, the node and collapsed args are no longer
-                 * relevant since the setTimeout was set. Use
-                 * ed.selection.getNode() and ed.selection.isCollapsed() instead
-                 */
-                that._doUpdateButtonState(ed, cm);
-                that._nodeChangeEventScheduled = false;
-            }
-
-            return;
-        },
-
-        /* This is a wrapper to _updateButtonState(). It tries to avoid
-        ** updating the button state if the cursor has only moved within the
-        ** textNode of a given node; ie. if the cursor is still inside the same
-        ** node as the last time the button state was calculated, then there is
-        ** no need to update it yet again.
-         */
-        _doUpdateButtonState: function (ed, cm) {
-            var selectedFormats, listbox, node, collapsed;
-
-            /* Sometimes, from fullscreen, hitting wikitext button results in
-             * event firing when the editor has no valid selection. Without a
-             * valid selection, we can't know what the button state should be.
-             */
-            if (ed.selection) {
-                node = ed.selection.getNode();
-                collapsed = ed.selection.isCollapsed();
-                if (!collapsed) {
-                    // !collapsed means a selection; always update button state if
-                    // there is a selection. 
-                    this._updateButtonState(ed, cm);
-                } else if (node !== this._lastButtonUpdateNode) {
-                    // Only update button state if it wasn't already calculated for
-                    // this node already on a previous call.
-                    this._updateButtonState(ed, cm, node, collapsed);
-
-                    // Remember the node
-                    this._lastButtonUpdateNode = node;
-                }
-            }
-        },
-
-        /* Item9427: Slow cursor movement in IEs on large, >250KiB documents
-         *           Please read perf results and test method on that task
-         *           if you make changes here, to compare before/after. A fast
-         *           PC with a decent browser performs nothing like IE7 on a
-         *           netbook
-         *
-         * _updateButtonState() is only called when the cursor has not moved
-         * for 500ms or more.
-         */
-        _updateButtonState: function (ed, cm, node, collapsed) {
-            var selectedFormats = ed.formatter.matchAll(
-                    ed.plugins.foswikibuttons.format_names),
-                listbox = cm.get(ed.id + '_foswikiformat');
-
-            if (collapsed) { // Disable the buttons
-                cm.setDisabled('colour', true);
-                cm.setDisabled('tt', true);
-            } else { // A selection means the buttons should be active.
-                cm.setDisabled('colour', false);
-                cm.setDisabled('tt', false);
-            }
-
-            if (ed.formatter.match('WYSIWYG_TT')) {
-                cm.setActive('tt', true);
-            } else {
-                cm.setActive('tt', false);
-            }
-            if (ed.formatter.match('WYSIWYG_COLOR')) {
-                cm.setActive('colour', true);
-            } else {
-                cm.setActive('colour', false);
-            }
-            if (selectedFormats.length > 0) {
-                listbox.select(selectedFormats[0]);
-            } else {
-                listbox.select('Normal');
-            }
-
-            return true;
-        },
-
-        _contextMenuVerbatimClasses: function (ed) {
-            var recipes = {},
-                i,
-                key,
-                sm,
-                se,
-                el,
-                selectedFormats,
-                current = '';
-
-            ed.plugins.foswikibuttons.recipe_names = ['bash','cplusplus','csharp','css','delphi','html','java','js','lotusscript','php','sql','tml'];
-            for (i = 0; i < ed.plugins.foswikibuttons.recipe_names.length; i += 1) {
-                key = ed.plugins.foswikibuttons.recipe_names[i];
-                recipes[key] = { "block" : "pre", "remove" : "all", classes : 'TMLverbatim ' + key };
-            }
-            ed.formatter.register(recipes);
-            jQuery.each(recipes, function (key, value) {
-                ed.plugins.foswikibuttons.recipe_names.push(key);
+        
+        // Callback used by image plugin to get a list of images
+        getImageList: function(callback) {
+            getListOfAttachments(function(list) {
+                // The REST call gives us a list of Foswiki meta-data
+                // Convert to TMCE-speak
+                var ml = [];
+                for (var i in list)
+                    // Expand simple attachment name into a pub
+                    // reference
+                    var url = makeAttachmentURL(list[i].attachment);
+                ml.push({
+                    url: url,
+                    value: url,
+                    text: list[i].attachment
+                });               
+                callback(ml);
             });
-            if (ed && ed.plugins.contextmenu) {
-                ed.on("contextMenu", function() {
-                    se = ed.selection;
-                    el = se.getNode() || ed.getBody();
+        },
 
-                    if (el.nodeName === 'PRE' && el.className.indexOf('TMLverbatim') !== -1) {
-                        selectedFormats = ed.formatter.matchAll(ed.plugins.foswikibuttons.recipe_names);
-                        if (selectedFormats.length > 0) {
-                            current = '(' + selectedFormats[0] + ')';
-                        }
-                        sm = m.addMenu({title : 'Syntax highlighting' + current });
-                        
-                        jQuery.each(recipes, function (name, format) {
-                            sm.add({title :  name , cmd : 'foswikiVerbatimClass', value : name });
-                        });
-                        sm.add({title : 'none', cmd : 'foswikiVerbatimClass', value : ' ' });
-                    }
-                });
-            }
-
-            ed.addCommand('foswikiVerbatimClass', function(ui, val) {
-                // First, remove all existing formats.
-                jQuery.each(recipes, function (name, format) {
-                    ed.formatter.remove(name);
-                });
-                if (val) {
-                    // Now apply the format.
-                    ed.formatter.apply(val);
-                }
-            });
-            return;
+        getInfo: function () {
+            return {
+                longname: 'Foswiki Plugin',
+                author: 'Crawford Currie',
+                authorurl: 'http://c-dot.co.uk',
+                infourl: 'http://c-dot.co.uk',
+                version: 3
+            };
         }
-
     });
 
     // Register plugin
-    tinymce.PluginManager.add('foswikibuttons', tinymce.plugins.FoswikiButtons);
+    tinymce.PluginManager.add('foswiki', tinymce.plugins.Foswiki);
 })();

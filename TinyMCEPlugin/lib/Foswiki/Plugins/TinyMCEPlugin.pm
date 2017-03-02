@@ -133,8 +133,7 @@ sub installTinyMCE {
 
     my $scripts = <<"SCRIPT";
 <script type="text/javascript">
-jQuery(function(\$) { FoswikiTiny.install(); });
-FoswikiTiny.init = {$init};
+jQuery(function(\$) { FoswikiTiny.init({$init}); });
 </script>
 SCRIPT
 

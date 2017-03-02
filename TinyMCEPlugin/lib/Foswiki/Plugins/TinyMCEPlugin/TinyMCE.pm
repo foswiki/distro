@@ -41,20 +41,10 @@ sub new {
     my $class = shift;
     my $session = shift || $Foswiki::Plugins::SESSION;
 
-    # URL-encode the version number to include in the .js URLs, so that
-    # the browser re-fetches the .js when this plugin is upgraded.
-    my $encodedVersion = $Foswiki::Plugins::TinyMCEPlugin::VERSION;
-
-    # SMELL: This regex (and the one applied to $metainit, above)
-    # duplicates Foswiki::urlEncode(), but Foswiki::Func.pm does not
-    # expose that function, so plugins may not use it
-    #$encodedVersion =~
-    #  s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-
     my $this = bless(
         $class->SUPER::new(
             name          => 'TinyMCE',
-            version       => $encodedVersion,
+            version       => $Foswiki::Plugins::TinyMCEPlugin::VERSION,
             author        => 'Foswiki Contributors',
             homepage      => 'http://foswiki.org/Extensions/TinyMCEPlugin',
             documentation => "$Foswiki::cfg{SystemWebName}.TinyMCEPlugin",

@@ -16,8 +16,11 @@
 */
 
 // Item10288:  Prevent save while in Full Screen
+// SMELL: save buttons no longer visible in fullscreen mode, so is this
+// required?
 jQuery(document).ready(function($) {
     $("#save").closest('form').bind('submit', function(event) {
+        debugger;
         if (( $('#cancel:focus') ).length) {
             return true;
         }
@@ -35,21 +38,10 @@ jQuery(document).ready(function($) {
 var IFRAME_ID = 'mce_editor_0';
 
 /**
-   Overrides changeEditBox in foswiki_edit.js.
-*/
-function changeEditBox(inDirection) {
-    return false;
-}
-
-/**
-   Overrides setEditBoxHeight in foswiki_edit.js.
-*/
-function setEditBoxHeight(inRowCount) {}
-
-/**
    Give the iframe table holder auto-height.
 */
 function initTextAreaStyles() {
+    debugger;
     var iframe = document.getElementById(IFRAME_ID);
     if (iframe == null) return;
 
@@ -80,6 +72,7 @@ interpret this as cancel and will remove all changes. Copied from
 %SYSTEMWEB%.JavascriptFiles/foswiki_edit.js because it is used in pickaxe mode.
 */
 function handleKeyDown(e) {
+    debugger;
     if (!e) e = window.event;
     var code;
     if (e.keyCode) code = e.keyCode;
@@ -93,6 +86,7 @@ navigating away. Duplicated from JavascriptFiles/foswiki_edit.js to resolve
 Item5514
 */
 function validateMandatoryFields(event) {
+    debugger;
     if (foswiki.Pref.validateSuppressed) {
         return true;
     }
@@ -130,5 +124,6 @@ button is pressed (i.e. call this n 'Cancel').
 Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 */
 function suppressSaveValidation() {
+    debugger;
     foswiki.Pref.validateSuppressed = true;
 }
