@@ -781,6 +781,9 @@ pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
 pub/System/ProjectLogos/foswiki-logo-icon.png 0644
 pub/System/ProjectLogos/foswiki-poweredby.gif 0644
+pub/System/SiteChanges/sitechanges.js 0644
+pub/System/SiteChanges/sitechanges.js.gz 0644
+pub/System/SiteChanges/sitechanges.uncompressed.js 0644
 pub/System/Skins/js.js 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/base.css.gz 0644
