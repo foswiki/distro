@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1475851829" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -90,6 +90,7 @@ Attachment names are stored directly in the server native file system, so filena
          * Any standard [[FormatTokens][formatting tokens]]: =$n=, =$comma=, =$lt=, etc.
          * Any standard [[VarGMTIME][time format specifiers]]: =$year=, =$hours=, etc. 
          * =$name=: (deprecated, should no longer be used)
+         * [[Macros][Standard variables]]: =%<nop>WIKIUSER%=, etc.
 
 ---++ Downloading files
 
@@ -262,5 +263,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1457496285" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1457496285" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1475851829" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1475851829" size="94" user="ProjectContributor" version="1"}%
