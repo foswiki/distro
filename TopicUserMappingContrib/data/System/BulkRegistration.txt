@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1487907314" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1488333719" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %ADDTOZONE{"head" text="<style type='text/css'>
     #bulkReg .col1 {float:left; width:30%; margin:0 3% 0 0;}
@@ -58,7 +58,7 @@ Use the following form to create a new Unprocessed Registration topic.
         <div class="col1">
             <select name="usertemplate" onchange="picker.submit()">
             <option>%URLPARAM{"usertemplate" default="%SYSTEMWEB%.NewUserTemplate"}%</option>
-            %SEARCH{"%VALUE%%SPLIT%" scope="all" topic="*Template" web="%USERSWEB%" type="literal" nonoise="on" format="<option value=\"%USERSWEB%.$topic\">%USERSWEB%.$topic</option>"}%</select>
+            %SEARCH{"%VALUE%%SPLIT%" scope="all" topic="*Template" web="%USERSWEB%" type="literal" nonoise="on" format="<option value=\"%USERSWEB%.$topic\">%USERSWEB%.$topic</option>"}%
             </select>
         </div><!--//col1-->
         <div class="col2">
@@ -119,12 +119,11 @@ Use the following form to create a new Unprocessed Registration topic.
         <div class="foswikiClear"></div>
       </div> <!-- foswikkFormStep -->
   <input type="hidden" name="usertemplate" value="%URLPARAM{"usertemplate" default="NewUserTemplate"}%" />
-  <input type="hidden" name="action" value="save" />
   <input type="hidden" name="topicparent" value="BulkRegistration" />
   <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.BulkRegistrationInputTemplate" />
   <input type="submit" class="foswikiSubmit" value="Create the topic" />
-  </div><!-- foswikiFormSteps -->
 </form>
+</div><!-- foswikiFormSteps -->
 </noautolink>
 
 
