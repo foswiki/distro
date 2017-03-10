@@ -195,8 +195,7 @@ sub DEMOLISH {
         foreach my $key ( keys %{$this} ) {
             unless ( $validAttrs{$key} || $key =~ /^(?:__)+orig_/ ) {
                 say STDERR "Key $key on ", ref($this),
-                  " isn't an attribute declared with Moo::has.",
-                  ( join( ", ", sort keys %validAttrs ) );
+                  " isn't an attribute declared with Moo::has.";
                 if ( UNIVERSAL::isa( $this->{key}, 'Foswiki::Object' ) ) {
                     say STDERR "    $key is a Foswiki::Object created in ",
                       $this->{key}->__orig_file, ":", $this->{key}->__orig_line;
