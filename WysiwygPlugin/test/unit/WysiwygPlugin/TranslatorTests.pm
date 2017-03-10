@@ -589,19 +589,21 @@ HERE
         exec => ROUNDTRIP,
         name => 'orderedList',
         html => <<'HERE',
-<ol><li>Sushi</li></ol><p /><ol>
-<li type="A">Sushi</li></ol><p />
-<ol><li type="i">Sushi</li></ol><p />
-<ol><li>Sushi</li><li type="A">Sushi</li><li type="i">Sushi</li></ol>
+<ol class="foswikiListStyle1"><li>Sushi</li></ol><p />
+<ol class="foswikiListStyleA"><li>Sushi</li></ol><p />
+<ol class="foswikiListStylei"><li>Sushi</li></ol><p />
+<ol class="foswikiListStyle1"><li>Sushi</li></ol>
+<ol class="foswikiListStyleA"><li>Sushi</li></ol>
+<ol class="foswikiListStylei"><li>Sushi</li></ol>
 HERE
         tml => <<'HERE',
-   1 Sushi
+   1. Sushi
 
    A. Sushi
 
    i. Sushi
 
-   1 Sushi
+   1. Sushi
    A. Sushi
    i. Sushi
 HERE
@@ -659,15 +661,21 @@ HERE
         exec => TML2HTML | ROUNDTRIP,
         name => 'orderedList_Item1341',
         html => <<'HERE',
-<ol><li>Sushi</li><li>Banana</li></ol><p class="WYSIWYG_NBNL"/>
-<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p class="WYSIWYG_NBNL"/>
-<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p class="WYSIWYG_NBNL"/>
-<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p class="WYSIWYG_NBNL"/>
-<ol><li>Sushi</li><li type="A">Sushi</li><li type="i">Sushi</li></ol>
+<ol class="foswikiListStyle1"><li>Sushi</li><li>Banana</li></ol>
+<p class="WYSIWYG_NBNL"/>
+<ol class="foswikiListStyleA"><li>Sushi</li><li>Banana</li></ol>
+<p class="WYSIWYG_NBNL"/>
+<ol class="foswikiListStylei"><li>Sushi</li><li>Banana</li></ol>
+<p class="WYSIWYG_NBNL"/>
+<ol class="foswikiListStyleI"><li>Sushi</li><li>Banana</li></ol>
+<p class="WYSIWYG_NBNL"/>
+<ol class="foswikiListStyle1"><li>Sushi</li></ol>
+<ol class="foswikiListStyleA"><li>Sushi</li></ol>
+<ol class="foswikiListStylei"><li>Sushi</li></ol>
 HERE
         tml => <<'HERE',
    1 Sushi
-   1 Banana
+   1. Banana
 
    A. Sushi
    A. Banana
@@ -682,18 +690,35 @@ HERE
    A. Sushi
    i. Sushi
 HERE
+        finaltml => <<'HERE',
+   1. Sushi
+   1. Banana
+
+   A. Sushi
+   A. Banana
+
+   i. Sushi
+   i. Banana
+
+   I. Sushi
+   I. Banana
+
+   1. Sushi
+   A. Sushi
+   i. Sushi
+HERE
     },
     {
         name => 'emptyListItems_Item2605',
         exec => TML2HTML | ROUNDTRIP,
         tml  => <<'TML',
-   *
+   * 
    * alpha
-   *
+   * 
    * beta
-   *
+   * 
 
-   1
+   1 
    2 charlie
    3 
 
@@ -702,11 +727,11 @@ HERE
 blah
 TML
         html => <<'HTML',
-<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul>
+<ul><li></li><li>alpha</li><li></li><li>beta</li><li></li></ul>
 <p class="WYSIWYG_NBNL"/>
-<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol>
+<ol class="foswikiListStyle1"><li></li><li>charlie</li><li></li></ol>
 <p class="WYSIWYG_NBNL"/>
-<ol><li type="i">angel</li><li type="i">&nbsp;</li></ol>
+<ol class="foswikiListStylei"><li>angel</li><li></li></ol>
 <p>blah</p>
 HTML
         finaltml => <<"TML",
@@ -716,9 +741,9 @@ HTML
    * beta
    *$trailingSpace
 
-   1$trailingSpace
-   1 charlie
-   1$trailingSpace
+   1.$trailingSpace
+   1. charlie
+   1.$trailingSpace
 
    i. angel
    i.$trailingSpace
@@ -729,7 +754,7 @@ TML
         exec => ROUNDTRIP,
         name => 'mixedList',
         html => <<"HERE",
-<ol><li>Things</li><li>Stuff
+<ol class="foswikiListStyle1"><li>Things</li><li>Stuff
 <ul><li>Banana Stuff</li><li>Other</li><li></li></ul></li><li>Something</li><li>kello$PROTECTON&lt;br&nbsp;/&gt;${PROTECTOFF}hitty</li></ol>
 HERE
         tml => <<'HERE',
@@ -740,6 +765,15 @@ HERE
       * 
    1 Something
    1 kello<br />hitty
+HERE
+        finaltml => <<'HERE',
+   1. Things
+   1. Stuff
+      * Banana Stuff
+      * Other
+      * 
+   1. Something
+   1. kello<br />hitty
 HERE
     },
     {
@@ -781,21 +815,23 @@ HERE
         html => <<'HERE',
 <p>Grim
 </p>
-<div class='foswikiIndent'>
- Snowy
- <div class='foswikiIndent'>
-  Slushy
-  <div class='foswikiIndent'>
-   Rainy
-  </div>
- </div>
- <div class='foswikiIndent'>
-  Dry
- </div>
-</div>
-<div class='foswikiIndent'>
- Sunny
-</div>
+<ul class='foswikiListStyleNone'>
+ <li>Snowy
+  <ul class='foswikiListStyleNone'>
+   <li>Slushy
+    <ul class='foswikiListStyleNone'>
+     <li>Rainy</li>
+    </ul>
+   </li>
+   <li>
+    Dry
+   </li>
+  </ul>
+ </li>
+ <li>
+  Sunny
+ </li>
+</ul>
 <p>
 Pleasant
 </p>
@@ -807,20 +843,6 @@ Grim
          : Rainy
       : Dry
    : Sunny
-Pleasant
-HERE
-
-# SMELL: The closing of the div results in a new paragraph which grows the tml
-# by a blank line.  It only happens once, and does not grow further after repeated
-# edits.
-        finaltml => <<'HERE',
-Grim
-   : Snowy
-      : Slushy
-         : Rainy
-      : Dry
-   : Sunny
-
 Pleasant
 HERE
     },
@@ -835,16 +857,16 @@ HERE
    : last indent
 HERE
         html => <<'HERE',
-<p class="foswikiDeleteMe">&nbsp;</p>
-<div class='foswikiIndent'> Indente line 1
-</div>
-<div class='foswikiIndent'> Indented line 2 next line is blank
-</div>
+<ul class='foswikiListStyleNone'>
+<li> Indente line 1
+</li>
+<li> Indented line 2 next line is blank
+</li></ul>
 <p class='WYSIWYG_NBNL'></p>
-<div class='foswikiIndent'> New indent after blank line
-</div>
-<div class='foswikiIndent'> last indent
-</div>
+<ul class='foswikiListStyleNone'>
+<li> New indent after blank line</li>
+<li> last indent
+</li></ul>
 HERE
     },
     {
@@ -2242,7 +2264,7 @@ HERE
         name => 'Item4426',
         tml  => <<'HERE',
    * x
-   *
+   * 
    * y
 HERE
         html => '<ul>
@@ -2513,7 +2535,7 @@ HERE
 <ol><li>w$PROTECTON&lt;br&nbsp;/&gt;${PROTECTOFF}g</li></ol>
 HERE
         tml => <<'HERE',
-   1 w<br />g
+   1. w<br />g
 HERE
     },
     {
@@ -3094,18 +3116,32 @@ BLAH
         tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
     },
     {
-        exec => ROUNDTRIP,
+        exec => TML2HTML,
         name => 'verbatimInsideLiteralItem1980',
         tml  => <<'GLUED',
 <literal><font color="blue"> *|B|*<verbatim>%H%</verbatim> </font></literal>
 GLUED
+        html => <<'ARGH'
+<div class="WYSIWYG_WARNING foswikiBroadcastMessage">
+*Conversion to HTML for WYSIWYG editing is disabled because of the topic
+content.*<p></p>This is why the conversion is disabled:
+&lt;verbatim&gt; inside &lt;literal&gt;<p></p>
+(This message will be removed automatically)<nop></div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&#60;verbatim&#62;%H%&#60;/verbatim&#62;&nbsp;&#60;/font&#62;&#60;/literal&#62;<br /></div>
+ARGH
     },
     {
-        exec => ROUNDTRIP,
+        exec => TML2HTML,
         name => 'stickyInsideLiteral',
         tml  => <<'GLUED',
 <literal><sticky><font color="blue"> *|B|* </font></sticky/></literal>
 GLUED
+        html => <<'ARGH'
+<div class="WYSIWYG_WARNING foswikiBroadcastMessage">
+*Conversion to HTML for WYSIWYG editing is disabled because of the topic
+content.*<p></p>This is why the conversion is disabled:
+&lt;sticky&gt; inside &lt;literal&gt;<p></p>
+(This message will be removed automatically)<nop></div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;sticky&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&#60;/sticky/&#62;&#60;/literal&#62;<br /></div>
+ARGH
     },
     {
         exec => TML2HTML | HTML2TML | ROUNDTRIP,
@@ -3193,7 +3229,7 @@ DECAPS
  with one space
 No more
 SPACED
-        html => '<ol>
+        html => '<ol class="foswikiListStyle1">
 <li> One item'
           . encodedWhitespace('ns5') . 'spanning several lines
 
@@ -4022,7 +4058,11 @@ sub compareTML_HTML {
     }
 
     my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($tml);
-    $this->assert( !$notEditable, $notEditable );
+    if ($notEditable) {
+        print STDERR "** Cannot pass TML2HTML due to $notEditable\n";
+
+        #$this->assert( !$notEditable, $notEditable );
+    }
 
     my $tx =
       Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML( $tml,
