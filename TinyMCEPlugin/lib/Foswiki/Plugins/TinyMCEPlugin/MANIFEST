@@ -16,11 +16,10 @@ pub/System/TinyMCEPlugin/plugins/foswiki/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js.gz 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.uncompressed.js 0644
+pub/System/TinyMCEPlugin/plugins/foswiki/img/changeliststyle.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/img/upload.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/img/insertlink.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/exdent.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/img/hide.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/indent.gif 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/img/tt.gif 0644
 pub/System/TinyMCEPlugin/screenshot.png 0644
 pub/System/TinyMCEPlugin/tinymce.gif 0644
