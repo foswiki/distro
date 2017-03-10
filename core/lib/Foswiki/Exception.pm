@@ -177,7 +177,7 @@ sub stringifyPostfix {
     return (
         DEBUG
         ? "\n" . $this->stacktrace
-        : ' at ' . $this->file . ' line ' . $this->line
+        : ' at ' . $this->file . ', line ' . $this->line
     );
 }
 
@@ -368,8 +368,8 @@ sub transmute {
 
 ---++ StaticMethod errorStr($error)
 
-Gets a error in $error and converts it into a text message by trying to
-determine error type and properly stringify it.
+Converts $error into a text message by trying to determine error type and
+properly stringify it.
 
 =cut
 
