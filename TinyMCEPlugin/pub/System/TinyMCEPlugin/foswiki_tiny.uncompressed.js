@@ -70,14 +70,14 @@ FoswikiTiny.init = function(init) {
     init.convert_urls = true;
     init.urlconverter_callback = function(url, node, onSave) {
         var editor = tinymce.activeEditor;
-        return editor.plugins.foswikibuttons.convertURI(
+        return editor.plugins.foswiki.convertURI(
             url, editor.serialising);
     };
 
     // Supply an image_list for the image plugin that calls
     // back to the server for content - Item14323
     init.image_list = function(callback) {
-        return tinymce.activeEditor.plugins.foswikibuttons.image_list(callback);
+        return tinymce.activeEditor.plugins.foswiki.image_list(callback);
     };
     
     tinymce.init(init);
