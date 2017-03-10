@@ -343,50 +343,36 @@
 	    });
     }
 
-    // onclick for "fwindent"
-    function handleIndent(ed) {
-        if (ed.queryCommandState('InsertUnorderedList') ||
-            ed.queryCommandState('InsertOrderedList')) {
-            // list type node - use the default behaviour
-            ed.execCommand("Indent");
-        }
-        else {
-            // drive up to the nearest block node
-            var dom = ed.dom, selection = ed.selection,
-                node = dom.getParent(selection.getStart(), dom.isBlock) ||
-                dom.getParent(selection.getEnd(), dom.isBlock),
-                div;
-            if (node) {
-                // SMELL: what about indentation inside tables?
-                // Needs to be disabled.
-                // insert div below the nearest block node
-                div = dom.create('div', { 'class' : 'foswikiIndent'});
-                while (node.firstChild) {
-                    dom.add(div, dom.remove(node.firstChild));
-                }
-                div = dom.add(node, div);
-                ed.selection.select(div);
-                ed.selection.collapse(); // This eats the cursor!
-                ed.selection.setCursorLocation(div, 0);
-            }
-        }
-    }
+    var next_style = {
+        "foswikiListStyle1": "foswikiListStyleA",
+        "foswikiListStyleA": "foswikiListStylea",
+        "foswikiListStylea": "foswikiListStyleI",
+        "foswikiListStyleI": "foswikiListStylei",
+        "foswikiListStylei": "foswikiListStyle1"
+    };
 
-    // onclick for "fwexdent"
-    function handleExdent(ed) {
-        var dom = ed.dom, selection = ed.selection,
-            node = dom.getParent(selection.getStart(), dom.isBlock),
-            p;
-        if (node && dom.hasClass(node, 'foswikiIndent')) {
-            p = node.parentNode;
-            while (node.firstChild) {
-                p.insertBefore(dom.remove(node.firstChild), node);
+    
+    // onclick for "fwchangelisttype"
+    function handleChangeListType(ed) {
+        var node = ed.dom.getParent(
+            ed.selection.getStart(), function(f) {
+                return ed.dom.is(f, 'ol, ul');
+            });
+
+        if (node.tagName === "OL") {
+            for (var i in next_style) {
+                if (ed.dom.hasClass(node, i)) {
+                    ed.dom.removeClass(node, i);
+                    ed.dom.addClass(node, next_style[i]);
+                    return;
+                }
             }
-            dom.remove(node);
-            ed.selection.select(p.firstChild);
-            ed.selection.collapse();
+            ed.dom.addClass(node, 'foswikiListStylea');
         } else {
-            ed.execCommand("Outdent");
+            if (ed.dom.hasClass(node, 'foswikiListStyleNone'))
+                ed.dom.removeClass(node, 'foswikiListStyleNone')
+            else
+                ed.dom.addClass(node, 'foswikiListStyleNone');
         }
     }
     
@@ -456,31 +442,19 @@
                 }
             });
             
-            ed.addButton('fwindent', {
-                title: 'Indent more',
-                image: url + '/img/indent.gif',
-                onClick: function() { handleIndent(ed); }
-            });
-            
-            ed.addButton('fwexdent', {
-                title: 'Indent less',
-                image: url + '/img/exdent.gif',
-                onClick: function() { handleExdent(ed); },
-                onPostRender: function() {
-                    var ctrl = this;
-                    ed.on("NodeChange", function(evt) {
-                        var ed = evt.target;
-                        var dom = ed.dom;
-                        var selection = ed.selection;
-                        var node = dom.getParent(
-                            selection.getStart(), dom.isBlock);
-                        var state = (node
-                                     && dom.hasClass(node, 'foswikiIndent')) ||
-                            ed.queryCommandState('Outdent');
-                        
-                        ctrl.active(state);
+            ed.addButton('fwchangelisttype', {
+                title: 'Change bullet/number style',
+                image: url + '/img/plainlist.gif',
+                onClick: function() { handleChangeListType(ed); },
+                onpostrender: function() {
+                    var btn = this;
+                    ed.on("NodeChange", function(e) {
+                        btn.disabled(
+                            !ed.queryCommandState("InsertUnorderedList")
+                                && !ed.queryCommandState("InsertOrderedList"));
                     });
                 }
+
             });
             
             ed.addButton('fwhide', {
