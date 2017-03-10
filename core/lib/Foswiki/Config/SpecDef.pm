@@ -95,6 +95,17 @@ An instance of =Foswiki::Config::DataHash= class.
 
 has data => ( is => 'rw', );
 
+=begin TML
+
+---+++ ObjectAttribute localData
+
+Boolean, true if the =data= attribute of the object is local; i.e. it's not the
+same as application config data.
+
+=cut
+
+has localData => ( is => 'rw', default => 0, );
+
 # Last fetched spec element.
 has _lastFetch => ( is => 'rw', );
 
@@ -202,10 +213,14 @@ sub subSpecs {
           specDef => [ ref($lastElem) eq 'HASH' ? %$lastElem : @$lastElem ];
     }
 
-    push @subProfile, section => $this->section
+    push @subProfile,
+      section => $this->section,
       unless ( $profile{section} );
 
-    push @subProfile, data => $this->data if $this->data;
+    push @subProfile,
+      data      => $this->data,
+      localData => $this->localData,
+      if $this->data;
 
     my $subSpecs = ref($this)->new(
         source => $this->source,

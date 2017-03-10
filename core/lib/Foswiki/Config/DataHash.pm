@@ -84,8 +84,7 @@ has parent => (
 ---+++ ObjectAttribute name
 
 This container name – same as the key name on the parent's =nodes= hash.
-Undefined for the root node - the one stored directly on
-=$app-&gt;cfg-&gt;data=.
+Undefined for the root node.
 
 =cut
 
@@ -393,6 +392,7 @@ sub makeNode {
     my ( $key, $type, $profile ) = @params{qw(key nodeType nodeProfile)};
 
     $profile = [%$profile] if ref($profile) eq 'HASH';
+    $profile //= [];
 
     #my %profile = @_;
 
@@ -401,13 +401,10 @@ sub makeNode {
     my $section;
 
     if ($node) {
-
-        $node = $nodes->{$key};
-
         my $i = 0;
 
         while ( $i < @$profile ) {
-            my ( $key, $val ) = ( $_[ $i++ ], $_[ $i++ ] );
+            my ( $key, $val ) = ( $profile->[ $i++ ], $profile->[ $i++ ] );
             $node->$key($val);
         }
     }
@@ -485,7 +482,15 @@ sub createNode {
 
     if ( defined $type ) {
         $nodeClass = $nodeClass->type2class($type);
+        Foswiki::Exception::Fatal->throw(
+            text => "Cannot get node class for type " . $type, )
+          unless $nodeClass;
     }
+
+    # Set this node type to branch because this is what it is.
+    $this->parent->nodes->{ $this->name }
+      ->setLeafState(&Foswiki::Config::Node::BRANCH)
+      if $this->level > 0;
 
     return $this->create( $nodeClass, parent => $this, @_ );
 }

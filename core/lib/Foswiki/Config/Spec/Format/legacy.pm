@@ -124,7 +124,10 @@ sub data2spec {
         foreach my $i ( 0 .. ( @$data / 2 - 1 ) ) {
             my $idx = $i * 2;
             my ( $opt, $val ) = @{$data}[ $idx, $idx + 1 ];
-            if ( defined $arities->{$opt} && $arities->{$opt} == 0 ) {
+            $opt =~ /^-(?<optName>.+)$/;
+            if ( defined $arities->{ $+{optName} }
+                && $arities->{ $+{optName} } == 0 )
+            {
                 $opt =~ s/^-/-no/ unless $val;
                 push @sData, $opt;
             }
@@ -184,8 +187,8 @@ sub parseOptions {
         Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
             text => "Unknown option '$key' in definition of '"
               . $this->name . "'",
-            file => $file,
-            line => $line,
+            srcFile => $file,
+            srcLine => $line,
         ) unless defined $optSpecs->{$key};
 
         my $optSpec = $optSpecs->{$key};
@@ -211,8 +214,8 @@ sub parseOptions {
                 Foswiki::Exception::Config::Spec::Format::legacy::BadOption
                   ->throw(
                     text => "Parse error of option '" . $key . "': bad value",
-                    file => $file,
-                    line => $line,
+                    srcFile => $file,
+                    srcLine => $line,
                   );
             }
         }
@@ -402,9 +405,9 @@ sub _CHECK {
 
         $name = $rename_options{$name} if exists $rename_options{$name};
         Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
-            text => "Parse of '$key' failed: unrecognized option '$name'",
-            file => $file,
-            line => $line,
+            text    => "Parse of '$key' failed: unrecognized option '$name'",
+            srcFile => $file,
+            srcLine => $line,
         ) unless defined $CHECK_options{$name};
 
         my @opts;
@@ -430,8 +433,8 @@ sub _CHECK {
                       ->throw(
                         text =>
                           "'$key' parse failed: not a list at $opts in $val",
-                        file => $file,
-                        line => $line,
+                        srcFile => $file,
+                        srcLine => $line,
                       );
                 }
             } while ( $opts =~ s/^\s*,\s*// );
@@ -445,15 +448,15 @@ sub _CHECK {
                   . $name
                   . "' (expected $CHECK_options{$name}, saw "
                   . scalar @opts . ")",
-                file => $file,
-                line => $line,
+                srcFile => $file,
+                srcLine => $line,
             );
         }
         if ( !$set && scalar(@opts) != 0 ) {
             Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
-                text => "'$key' parse failed: 'no$name' is not allowed",
-                file => $file,
-                line => $line,
+                text    => "'$key' parse failed: 'no$name' is not allowed",
+                srcFile => $file,
+                srcLine => $line,
             );
         }
 
@@ -465,9 +468,9 @@ sub _CHECK {
         }
     }
     Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
-        text => "'$key' parse failed, expected name at '$opts' in $val",
-        file => $file,
-        line => $line,
+        text    => "'$key' parse failed, expected name at '$opts' in $val",
+        srcFile => $file,
+        srcLine => $line,
     ) if $opts !~ /^\s*$/;
 
     return \%checkOpts;
@@ -501,9 +504,11 @@ sub _FEEDBACK {
         last unless $opts =~ s/^\s*;//;
     }
 
+    my $srcOpt = $this->opt('-source');
     Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
-        text => "'$key' parse failed, at '$opts' in $val",
-        %{ $this->opt('-source') },
+        text    => "'$key' parse failed, at '$opts' in $val",
+        srcFile => $srcOpt->{file},
+        srcLine => $srcOpt->{line},
     ) unless $opts =~ m/^\s*$/;
 
     return \%fb;
@@ -773,9 +778,9 @@ sub _addItem2Specs {
         # would break UI if I get it correctly.
         if ( ( $nextLevel - 1 ) > $curLevel ) {
             Foswiki::Exception::Config::BadSpecSrc->throw(
-                file => $this->_specFile,
-                line => $this->nextLine,
-                text => "Missing section level "
+                srcFile => $this->_specFile,
+                srcLine => $this->nextLine,
+                text    => "Missing section level "
                   . ( $nextLevel - 1 )
                   . " before level "
                   . $nextLevel
@@ -806,9 +811,9 @@ sub _checkItemComplete {
             # broken spec must not break the app. Though we might consider
             # ignoring the spec as well.
             Foswiki::Exception::Config::BadSpecSrc->throw(
-                file => $this->_specFile,
-                line => $this->nextLine,
-                text => "Incomplete definition",
+                srcFile => $this->_specFile,
+                srcLine => $this->nextLine,
+                text    => "Incomplete definition",
             );
         }
     }
@@ -891,9 +896,12 @@ sub _sectionParse {
                     $status->{specItem} = $this->_makeItem(
                         'Value',
                         name => $opts,
-                        data => [ -type => $type ],
+                        data => [ -type => 'VOID', -enhance => 1, ],
                     );
                     $status->{isEnhancing} = $TRUE;
+
+# As ENHANCE receives the only option which is a key name, $opts must be voided.
+                    $opts = '';
                 }
                 else {
                     unless (
@@ -901,9 +909,9 @@ sub _sectionParse {
                       )
                     {
                         Foswiki::Exception::Config::BadSpecSrc->throw(
-                            file => $this->_specFile,
-                            line => $this->nextLine,
-                            text => "Unknown spec type '" . $type . "'",
+                            srcFile => $this->_specFile,
+                            secLine => $this->nextLine,
+                            text    => "Unknown spec type '" . $type . "'",
                         );
                     }
 
@@ -958,9 +966,9 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                     my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
                     Foswiki::Exception::Config::BadSpecSrc->throw(
-                        text => $e->stringifyText,
-                        file => $this->_specFile,
-                        line => $this->nextLine,
+                        text    => $e->stringifyText,
+                        srcFile => $this->_specFile,
+                        srcLine => $this->nextLine,
                     );
                 };
 
@@ -1086,6 +1094,12 @@ sub parse {
 
     $this->_specFile($specFile);
     $this->specSrc( $specFile->content );
+
+    # Set global %Foswiki::cfg to the data hash we're currently working with.
+    # This should avoid use of undefined values by some specs referring the
+    # global hash directly.
+    local %Foswiki::cfg;
+    $specFile->cfg->assignGLOB( $specFile->data );
 
     # Untaint the code.
     $specFile->content =~ /^(.*)$/s;

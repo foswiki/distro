@@ -13,7 +13,7 @@ has entries => (
     predicate => 1,
     builder   => 'prepareEntries',
     trigger   => 1,
-    isa       => Foswiki::Object::isaARRAY( 'nodes', noUndef => 1, ),
+    isa       => Foswiki::Object::isaARRAY( 'entries', noUndef => 1, ),
 );
 
 sub store {

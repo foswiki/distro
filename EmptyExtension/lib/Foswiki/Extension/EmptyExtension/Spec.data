@@ -1,13 +1,13 @@
 #
     -section => "Test section" => [
-        "Test.Key" => {
-            -type => "TEXT",
+        "Test.Key" => [
+            -type => "STRING",
             -default => "Empty plugin Test.Key",
-        },
-        "Test.Number" => {
+        ],
+        "Test.Number" => [
             -type => "NUMBER",
             -default => 3.1415926,
-        },
+        ],
     ],
 
 # vim: ft=perl

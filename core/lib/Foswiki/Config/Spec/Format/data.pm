@@ -24,8 +24,8 @@ SPECCODE
 
     if ($@) {
         Foswiki::Exception::Config::BadSpecSrc->throw(
-            file => $specFile->path,
-            text => $@,
+            srcFile => $specFile->path,
+            text    => $@,
         );
     }
 

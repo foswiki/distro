@@ -8,6 +8,28 @@ package Foswiki::Exception::Config::NoNextDef;
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Harmless);
 
+# Role to prefix exception text with source file info.
+package Foswiki::Exception::Config::SrcFile;
+
+use Moo::Role;
+
+has srcFile => ( is => 'ro', );
+has srcLine => ( is => 'ro', );
+
+sub sourceInfo {
+    my $this = shift;
+
+    my $file = $this->srcFile;
+    if ( UNIVERSAL::isa( $file, 'Foswiki::File' ) ) {
+        $file = $file->path;
+    }
+    if ( $file && defined $this->srcLine ) {
+        $file .= ":" . $this->srcLine;
+    }
+
+    return $file // '';
+}
+
 package Foswiki::Exception::Config::BadSpec;
 
 use Foswiki::Class;
@@ -66,7 +88,10 @@ around stringify => sub {
       . $sourceInfo . ")"
       : '';
 
-    return $this->text . $sectionInfo . $this->stringifyPostfix;
+    return
+        $this->stringifyText( $this->text )
+      . $sectionInfo
+      . $this->stringifyPostfix;
 };
 
 sub prepareSection {
@@ -114,22 +139,37 @@ package Foswiki::Exception::Config::BadSpecData;
 
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Config::BadSpec);
+with qw(Foswiki::Exception::Config::SrcFile);
+
+around stringifyPostfix => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $errMsg = $orig->( $this, @_ );
+
+    if ( defined $this->srcFile ) {
+        $errMsg = " from " . $this->sourceInfo . " " . $errMsg;
+    }
+
+    return $errMsg;
+};
 
 package Foswiki::Exception::Config::BadSpecValue;
 
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Config::BadSpec);
+with qw(Foswiki::Exception::Config::SrcFile);
 
 package Foswiki::Exception::Config::BadSpecSrc;
 
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Fatal);
+with qw(Foswiki::Exception::Config::SrcFile);
 
-has file => (
+has '+srcFile' => (
     is       => 'ro',
     required => 1,
 );
-has line => ( is => 'ro', );
 
 around stringifyText => sub {
     my $orig = shift;
@@ -137,15 +177,7 @@ around stringifyText => sub {
 
     my $errMsg = $orig->( $this, @_ );
 
-    my $file = $this->file;
-    if ( UNIVERSAL::isa( $file, 'Foswiki::File' ) ) {
-        $file = $file->path;
-    }
-    if ( defined $this->line ) {
-        $file .= ":" . $this->line;
-    }
-
-    return "Failed to parse specs file " . $file . ": " . $errMsg;
+    return "Failed to parse specs file " . $this->sourceInfo . ": " . $errMsg;
 };
 
 =begin TML

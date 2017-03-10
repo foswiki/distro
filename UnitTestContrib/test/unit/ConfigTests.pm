@@ -14,8 +14,6 @@ around set_up => sub {
     say STDERR "My attrs: ",
       join( ", ", Foswiki::Class::getClassAttributes( ref($this) ) );
 
-    $this->{_this_keys_isnt_valid_attr} = 1;
-
     $orig->( $this, @_ );
 
     # You can now safely modify $Foswiki::cfg
@@ -104,48 +102,46 @@ sub test_specRegister {
             -section => Extensions => [
                 -text    => "Just extensions",
                 -section => TestExt => [
-                    -text               => "Test extension",
-                    -modprefix          => 'Foswiki::Extension::TestExt',
-                    -expert             => 1,
+                    -text      => "Test extension",
+                    -modprefix => 'Foswiki::Extension::TestExt',
+                    -expert,
                     'ANewKey.NewSubKey' => [
-                        Valid => { -type => 'BOOL', },
-                        Text  => { -type => 'TEXT', },
+                        Valid => [ -type => 'BOOLEAN', ],
+                        Text  => [ -type => 'STRING', ],
                     ],
-                    'Extensions.TestExt' => {
-                        Sample => { -type => 'INTEGER', },
-                        StrKey => { -type => 'TEXT(32)', }
-                    },
+                    'Extensions.TestExt' => [
+                        Sample => [ -type => 'NUMBER', ],
+                        StrKey => [ -type => 'STRING(32)', ],
+                    ],
                 ],
                 -section => SampleExt => [
                     -text                  => "Sample extension",
                     -modprefix             => 'Foswiki::Extension::SampleExt',
                     'Extensions.SampleExt' => [
-                        Option => {
-                            -type    => 'BOOL',
+                        Option => [
+                            -type    => 'BOOLEAN',
                             -default => 0,
-                        },
-                        Setting => {
+                        ],
+                        Setting => [
                             -type => 'SELECT',
 
                             #-variants => [qw(one two three)],
-                        },
+                        ],
                         'Sub.Setting.Deep' => [
-                            'Opt.K1' => { -type => 'TEXT', },
-                            'Opt.K2' => { -type => 'NUMBER', },
+                            'Opt.K1' => [ -type => 'STRING', ],
+                            'Opt.K2' => [ -type => 'NUMBER', ],
                         ],
                     ],
                     -modprefix             => 'Foswiki::Extension::OtherExt',
                     'Extensions.SampleExt' => [
-                        Param => {
+                        Param => [
                             -type    => 'NUMBER',
                             -default => 3.14,
-                        },
-                        OneOf => {
+                        ],
+                        OneOf => [
                             -type    => 'PERL',
                             -default => { a => 1, b => 2, c => 3, },
-
-                            #-expert  => 1,
-                        },
+                        ],
                     ],
                 ],
             ],
@@ -181,12 +177,19 @@ sub test_specRegister {
         "Config structure mismatch with specs definition" );
 
     my $sec = $cfg->rootSection->sections->[0];
-    $this->assert_equals( "Extensions",       $sec->name );
-    $this->assert_equals( "Just extensions",  $sec->text );
-    $this->assert_equals( "TestExt",          $sec->sections->[0]->name );
-    $this->assert_equals( "Test extension",   $sec->sections->[0]->text );
-    $this->assert_equals( "SampleExt",        $sec->sections->[1]->name );
-    $this->assert_equals( "Sample extension", $sec->sections->[1]->text );
+    $this->assert_equals( "Extensions",      $sec->name );
+    $this->assert_equals( "Just extensions", $sec->getOpt('text') );
+    $this->assert_equals( "TestExt",         $sec->sections->[0]->name );
+    $this->assert_equals( "Test extension",
+        $sec->sections->[0]->getOpt('text') );
+    $this->assert_equals( "SampleExt", $sec->sections->[1]->name );
+    $this->assert_equals( "Sample extension",
+        $sec->sections->[1]->getOpt('text') );
+
+    my $strKey = $cfg->getKeyNode('Extensions.TestExt.StrKey');
+
+    $this->assert_equals( "STRING", $strKey->getOpt('type') );
+    $this->assert_equals( 32,       $strKey->getOpt('size') );
 
     return;
 }
@@ -211,7 +214,7 @@ sub test_specOnLocalData {
         specs   => [
             -section => Section => [
                 'Test1.Key1' => [
-                    -type    => 'TEXT',
+                    -type    => 'STRING',
                     -default => 'Default Key1',
                 ],
                 'Test2.Key2' => [
@@ -255,7 +258,7 @@ sub test_unknownKeyOption {
 
         if ( $e->isa('Foswiki::Exception::Config::BadSpecData') ) {
             $this->assert_matches(
-"Unknown key option 'badOption' \\(key 'Test.Key' is part of section 'Section'\\)",
+"Don't know how to handle key option 'badOption' of key Test.Key \\(defined in section 'Section'\\)",
                 $e
             );
         }
@@ -278,10 +281,11 @@ sub test_defaultValue {
             -section => Section => [
                 TestKey => [
                     Key1 => [
-                        -type    => 'TEXT',
+                        -type    => 'STRING',
                         -default => $defStr,
                     ],
-                    Key2 => [
+                    Key1a => STRING => [ -default => $defStr, ],
+                    Key2  => [
                         -type    => 'NUMBER',
                         -default => 3.1415926,
                     ],
@@ -360,7 +364,7 @@ my %emptyVariants = (
 my %badKeyArgs = (
     InvalidChars => {
         data   => ['A.B.C.$name.(name).na}me'],
-        badKey => '$name',
+        badKey => 'na}me',
     },
     HasRef => {
         data   => [ 'A.B.C', \%emptyVariants ],

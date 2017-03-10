@@ -16,7 +16,7 @@ with qw(Foswiki::Config::CfgObject);
 
 # Spec file format:
 # - 'legacy' for classical pre-3.0 format
-# - 'perl' for plain Perl code (including call to method spec())
+# - 'perl' for plain Perl code (including call to the spec() method)
 # - 'data' for the new keyed format (i.e. raw spec() arguments)
 # Other values could be supported by extensions.
 has fmt => (
@@ -56,6 +56,10 @@ has data => (
     lazy    => 1,
     builder => 'prepareData',
 );
+
+# localData is TRUE if the data attribute has been generated locally by the
+# object.
+has localData => ( is => 'rw', );
 
 pluggable guessFormat => sub {
     my $this = shift;
@@ -98,30 +102,39 @@ sub validCache {
       && ( $cf->stat->mtime >= $this->stat->mtime );
 }
 
-sub refreshCache {
+pluggable parse => sub {
     my $this = shift;
-
-    return if $this->validCache;
-
-    say STDERR "Invalided cache for ", $this->path if DEBUG;
 
     my $cfg = $this->cfg;
 
     my $parser = $cfg->getSpecParser( $this->fmt );
 
-    return unless $parser;
+    return 0 unless $parser;
 
     my @specs = $parser->parse($this);
 
     my $dataObj = tied %{ $this->data };
     $cfg->spec(
-        source  => $this,
-        data    => $dataObj,
-        section => $this->section,
-        specs   => \@specs,
+        source    => $this,
+        data      => $dataObj,
+        localData => $this->localData,
+        section   => $this->section,
+        specs     => \@specs,
     );
 
-    $this->cacheFile->store( $dataObj->getLeafNodes );
+    return $dataObj;
+};
+
+sub refreshCache {
+    my $this = shift;
+
+    return if $this->validCache;
+
+    say STDERR "Invalid cache for ", $this->path if DEBUG;
+
+    if ( my $dataObj = $this->parse ) {
+        $this->cacheFile->store( $dataObj->getLeafNodes );
+    }
 
     return;
 }
@@ -169,6 +182,8 @@ sub prepareSection {
 # file.
 sub prepareData {
     my $this = shift;
+
+    $this->localData(1);
 
     return $this->cfg->makeSpecsHash;
 }

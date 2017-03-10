@@ -70,7 +70,7 @@ sub _scanDir {
     return @specFiles;
 }
 
-sub collectSpecs {
+sub collectSpecFiles {
     my $this = shift;
 
     my @specFileList;
@@ -97,7 +97,7 @@ sub collectSpecs {
 sub prepareList {
     my $this = shift;
 
-    return [ $this->collectSpecs ];
+    return [ $this->collectSpecFiles ];
 }
 
 sub prepareBaseDir {

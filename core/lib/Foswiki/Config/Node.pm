@@ -39,6 +39,11 @@ with qw(Foswiki::Config::ItemRole);
 use constant DATAHASH_CLASS => 'Foswiki::Config::DataHash';
 use constant ROLE_NAMESPACE => 'Foswiki::Config::Role::Node::';
 
+# Leaf states
+use constant LEAF    => 1;
+use constant BRANCH  => 0;
+use constant NOSTATE => undef;
+
 =begin TML
 
 ---+++ ObjectAttribute value
@@ -76,8 +81,8 @@ has section => (
 
 ---+++ ObjectAttribute leafState => bool
 
-Defines if this is a leaf node, or branch, or type of this node is undefined yet
-(if attribute's value is undef). 
+Defines if this node is a leaf, or a branch, or type of this node is undefined
+yet (if attribute's value is undef). 
 
 =cut
 
@@ -144,6 +149,7 @@ my %types = (
     COMMAND      => { roles => ['Size'], },
     PASSWORD     => { roles => ['Size'], },
     PATH         => { roles => ['Size'], },
+    PERL         => { roles => ['Size'], },
     EMAILADDRESS => { roles => ['Size'], },
 
     SELECT      => { roles => ['Select'], },
@@ -153,9 +159,9 @@ my %types = (
     BOOLEAN  => {},
     LANGUAGE => {},
     OCTAL    => {},
-    PERL     => {},
     DATE     => {},
     URILIST  => {},
+    VOID     => {},
 );
 
 # Resets only if leafState is undef. This will enforce re-check for the
@@ -164,6 +170,26 @@ sub _reset_leafState {
     my $this = shift;
     $this->clear_leafState
       unless $this->has_leafState && defined $this->leafState;
+}
+
+# Set leafState manually.
+sub setLeafState {
+    my $this = shift;
+    my ($state) = @_;
+
+    Foswiki::Exception::Fatal->throw( text => "Node "
+          . $this->fullName
+          . " leaf state is already defined and cannot be changed" )
+      if $this->has_leafState
+      && defined $this->leafState
+      && $this->leafState != $state;
+
+    if ( defined $state ) {
+        $this->leafState( $state ? LEAF : BRANCH );
+    }
+    else {
+        $this->_reset_leafState;
+    }
 }
 
 =begin TML
@@ -177,7 +203,7 @@ Returns true if node is a leaf.
 sub isLeaf {
     my $this = shift;
     $this->_reset_leafState;
-    return defined $this->leafState && $this->leafState;
+    return defined $this->leafState && $this->leafState == LEAF;
 }
 
 =begin TML
@@ -191,7 +217,7 @@ Returns true if node is a branch.
 sub isBranch {
     my $this = shift;
     $this->_reset_leafState;
-    return defined $this->leafState && !$this->leafState;
+    return defined $this->leafState && $this->leafState == BRANCH;
 }
 
 =begin TML
@@ -436,7 +462,7 @@ sub prepareLeafState {
         return 1 if $this->_leafOnlyOpts->{$opt};
     }
 
-    return undef;
+    return NOSTATE;
 }
 
 =begin TML
@@ -527,6 +553,7 @@ around optionDefinitions => sub {
         check_on_change => { arity => 1, leaf => 1, },
         default         => { arity => 1, leaf => 1, },
         display_if      => { arity => 1, leaf => 1, },
+        enhance         => { arity => 0, leaf => 1, },
         feedback        => { arity => 1, leaf => 1, },
         hidden          => { arity => 0, leaf => 1, },
         label           => { arity => 1, dual => 1, },
