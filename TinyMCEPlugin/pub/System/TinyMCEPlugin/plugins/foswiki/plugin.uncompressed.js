@@ -444,7 +444,7 @@
             
             ed.addButton('fwchangelisttype', {
                 title: 'Change bullet/number style',
-                image: url + '/img/plainlist.gif',
+                image: url + '/img/changeliststyle.gif',
                 onClick: function() { handleChangeListType(ed); },
                 onpostrender: function() {
                     var btn = this;
