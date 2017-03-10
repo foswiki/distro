@@ -293,6 +293,11 @@ sub _getAllAttrs {
         if ( defined $_WITH{$class} ) {
             push @classAttrs, _getAllAttrs( @{ $_WITH{$class} } );
         }
+        my @base = eval "\@$class\::ISA";
+        push @classAttrs, _getAllAttrs(@base) if @base;
+
+        # Leave uniq only attrs.
+        @classAttrs = keys %{ { map { $_ => 1 } @classAttrs } };
         $_registeredAttrs{$class}{cached} = \@classAttrs;
     }
     return map { @{ $_registeredAttrs{$_}{cached} } } @_;
