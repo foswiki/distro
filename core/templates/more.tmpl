@@ -11,7 +11,7 @@
 
 
 %TMPL:DEF{"settings"}%<h2>%MAKETEXT{"Edit topic preference settings"}%</h2>
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<form action='%SCRIPTURLPATH{"manage" topic="%WEB%.%TOPIC%"}%' method='post'>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep foswikiLast">
 <p><input type="submit" value="%MAKETEXT{"Edit settings for this topic..."}%" class='foswikiButton'/></p>
@@ -25,7 +25,7 @@
 
 %TMPL:DEF{"copy"}%<h2>%MAKETEXT{"Copy topic"}%</h2>
 <p>%MAKETEXT{"Copy this topic (and all attachments) to a new topic."}%</p>
-<form action="%SCRIPTURL{manage}%/%WEB%/" method="post">
+<form action='%SCRIPTURLPATH{"manage" topic="%WEB%.%TOPIC%"}%' method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Name of copy"}%</h3>
@@ -48,7 +48,7 @@
 
 
 %TMPL:DEF{"delete"}%<h2>%MAKETEXT{"Delete topic"}%</h2>
-<form name="delete" action="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%" method="post">
+<form name="delete" action='%SCRIPTURLPATH{"rename" topic="%WEB%.%TOPIC%"}%' method="post">
 <input type="hidden" name="newweb" value="%TRASHWEB%" />
 <input type="hidden" name="onlywikiname" value="on" />
 <div class="foswikiFormSteps">
@@ -67,7 +67,7 @@
 
 
 %TMPL:DEF{"rename"}%<h2>%MAKETEXT{"Rename or move topic"}%</h2>%META{"moved" prefix="<div class='foswikiMessage'>" suffix="</div>"}%
-<form name="rename" action="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%" method="post">
+<form name="rename" action='%SCRIPTURLPATH{"rename" topic="%WEB%.%TOPIC%"}%' method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p><input type="checkbox" class="foswikiCheckbox" id="currentwebonly" name="currentwebonly" /><label for="currentwebonly">%MAKETEXT{"Only update linked topics in [_1] web" args="%WEB%"}%</label></p>
@@ -84,9 +84,9 @@
 
 
 %TMPL:DEF{"backlinks"}%<h2>%MAKETEXT{"Backlinks"}%</h2>
-   * <b><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinksallwebs" title="%MAKETEXT{"Search all webs for topics that link to here"}%" accesskey="l">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a></b>,
+   * <b><a href='%SCRIPTURLPATH{"view" topic="%WEB%/%TOPIC%" template="backlinksallwebs"}%' title="%MAKETEXT{"Search all webs for topics that link to here"}%" accesskey="l">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a></b>,
      %MAKETEXT{"<em>in all public webs</em>"}%
-   * <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinksweb" title="%MAKETEXT{"Search the [_1] Web for topics that link to here" args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a>,
+   * <a href='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="backlinksweb"}%' title="%MAKETEXT{"Search the [_1] Web for topics that link to here" args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a>,
      %MAKETEXT{"<em>in [_1] web</em> only" args="<nop>%WEB%"}%
 %TMPL:END%
 
@@ -94,7 +94,7 @@
 
 %TMPL:DEF{"setparent"}%#SetParent
 <h2>%MAKETEXT{"Set new topic parent"}%</h2>
-<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%?action_save=1" method="post">
+<form name='main' action='%SCRIPTURLPATH{"save" topic="%WEB%.%TOPIC%" action_save="1"}%' method='post'>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Select topic parent"}%</h3>
@@ -135,7 +135,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 
 %TMPL:DEF{"revision"}%<h2>%MAKETEXT{"Revisions"}%</h2>
 %IF{"$ maxrev='0'" then="<!--" else="<h3>%MAKETEXT{"View previous topic revision"}% (1 ... <nop>%URLPARAM{"maxrev" type="html"}%)" }%</h3>
-<form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" method="post">
+<form name='main' action='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%"}%' method='post'>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p>%MAKETEXT{"View revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /> &nbsp;<input type="checkbox" class="foswikiCheckbox" id="raw" name="raw" /><label for="raw">%MAKETEXT{"in raw text format"}%</label></p>
@@ -149,7 +149,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 
 <h3>%MAKETEXT{"Compare revisions"}%</h3>
 %TMPL:P{"cssFoswikiDiffOptions"}%
-<form name="main" action="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%" method="post">
+<form name='main' action='%SCRIPTURLPATH{"rdiff" topic="%WEB%.%TOPIC%"}%' method='post'>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p>
@@ -166,7 +166,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 
 
 <h3>%MAKETEXT{"Restore topic"}%</h3>
-<form name='main' action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
+<form name='main' action='%SCRIPTURLPATH{"manage" topic="%WEB%.%TOPIC%"}%' method='post'>
 <div class='foswikiFormSteps'>
 <div class='foswikiFormStep'>
 <p>
@@ -203,7 +203,7 @@ then="-->"
 
 
 %TMPL:DEF{"childtopics"}%<h2>%MAKETEXT{"Child topics in [_1] web" args="<nop>%WEB%"}%</h2>
-   * <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinkchildren" title="%MAKETEXT{"Search the [_1] Web for all children of this topic." args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that are children of [_1] ..." args="<nop>%TOPIC%"}%</a>,
+   * <a href='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="backlinkchildren"}%' title='%MAKETEXT{"Search the [_1] Web for all children of this topic." args="<nop>%WEB%"}%' accesskey="w">%MAKETEXT{"Find topics that are children of [_1] ..." args="<nop>%TOPIC%"}%</a>,
 %TMPL:END%
 
 

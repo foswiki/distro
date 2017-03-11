@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419208502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 | *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
 | <nop>TopicTitle  | text | 80 | | | H |
 | TopicClassification | select | 1 | | Classify a topic | |
 | Topic Summary | text | 80 | | Short summary of feature/bug/idea | |
 | Interested Parties | text | 80 | | Use for tracking and show key interested people | |
-| Related Topics | textboxlist | 40 | %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?contenttype=text/plain;skin=text;section=topics | Please add links to related topics | |
+| Related Topics | textboxlist | 40 | %SCRIPTURL{"view" topic="%WEB%.%TOPIC%" contenttype="text/plain" skin="text" section="topics" }% | Please add links to related topics | |
 <verbatim class="tml">
 %STARTSECTION{"topics"}%<literal><noautolink>%SEARCH{
   t="lc(name)~lc('*%URLPARAM{"term" default="somethingTAHTNevErExists"}%*')"

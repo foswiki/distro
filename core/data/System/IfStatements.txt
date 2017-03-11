@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426913092" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -116,9 +116,9 @@ Be careful when you test for an empty value: if the URL parameter is not defined
 | *param=text* |
 | \
 | \
-| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;noparam=1#ParamTest][test: no param]] %IF{"$paramtest=1 and $noparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
-| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;emptyparam=1;scope=#ParamTest][test: empty param]] %IF{"$paramtest=1 and $emptyparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
-| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;paramvalue=1;scope=text#ParamTest][test: param=text]] %IF{"$paramtest=1 and $paramvalue=1" then="<code>URLPARAM</code> value=<code>%URLPARAM{"scope"}%</code>."}% |
+| [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" paramtest="1" noparam="1" }%#ParamTest][test: no param]] %IF{"$paramtest=1 and $noparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
+| [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" paramtest="1" emptyparam="1" scope=""}%#ParamTest][test: empty param]] %IF{"$paramtest=1 and $emptyparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
+| [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" paramtest="1" paramvalue="1" scope="text"}%#ParamTest][test: param=text]] %IF{"$paramtest=1 and $paramvalue=1" then="<code>URLPARAM</code> value=<code>%URLPARAM{"scope"}%</code>."}% |
 | is defined \
 | =defined scope= \
 | %IF{"$paramtest=1 and $noparam=1" then='%IF{"defined scope" else='false'}%'}% \
@@ -140,7 +140,7 @@ Be careful when you test for an empty value: if the URL parameter is not defined
 | %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope='text'" else='false'}%'}% \
 | %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope='text'" then='true'}%'}% |
 
-[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%#ParamTest][Reset test]]
+[[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%"}%#ParamTest][Reset test]]
 
 
 ---+++ INCLUDE parameters
