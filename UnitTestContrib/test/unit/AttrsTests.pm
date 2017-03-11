@@ -60,6 +60,36 @@ sub test_default {
     $this->assert( $attrs->isEmpty() );
 }
 
+sub test_anchor_friendly {
+    my $this = shift;
+
+    my $attrs =
+      Foswiki::Attrs->new(
+        "var1=val1 var2= val2, var3 = 3 var4 =val4 #=blah a#a=1#1", 1 );
+    $this->assert_str_equals( "val1", $attrs->remove("var1") );
+    $this->assert_str_equals( "val2", $attrs->remove("var2") );
+    $this->assert_str_equals( "3",    $attrs->remove("var3") );
+    $this->assert_str_equals( "val4", $attrs->remove("var4") );
+    $this->assert_str_equals( "blah", $attrs->remove("#") );
+    $this->assert_str_equals( "1#1",  $attrs->remove("a#a") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_anchor_unfriendly {
+    my $this = shift;
+
+    my $attrs =
+      Foswiki::Attrs->new(
+        'var1="val1" var2=" val2" var3="3" var4="val4" #="blah" a#a="1#1"', 0 );
+    $this->assert_str_equals( "val1",  $attrs->remove("var1") );
+    $this->assert_str_equals( " val2", $attrs->remove("var2") );
+    $this->assert_str_equals( "3",     $attrs->remove("var3") );
+    $this->assert_str_equals( "val4",  $attrs->remove("var4") );
+    $this->assert_str_equals( "blah",  $attrs->remove("#") );
+    $this->assert_str_equals( "1#1",   $attrs->remove("a#a") );
+    $this->assert( $attrs->isEmpty() );
+}
+
 sub test_unquoted {
     my $this = shift;
 
@@ -116,6 +146,22 @@ sub test_mixedQuotes {
     my $attrs = Foswiki::Attrs->new( "a ='\"', b=\"'\" \"'\"", 1 );
     $this->assert_str_equals( "\"", $attrs->remove("a") );
     $this->assert_str_equals( "'",  $attrs->remove("b") );
+    $this->assert_str_equals( "'",  $attrs->remove("_DEFAULT") );
+    $this->assert( $attrs->isEmpty() );
+    $attrs = Foswiki::Attrs->new( "'\"'", 1 );
+    $this->assert_str_equals( "\"", $attrs->remove("_DEFAULT") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_mixedAlpha {
+    my $this = shift;
+
+    my $attrs =
+      Foswiki::Attrs->new( "aa = AA AA = aa Aa ='\"', bB=\"'\" \"'\"", 1 );
+    $this->assert_str_equals( "\"", $attrs->remove("Aa") );
+    $this->assert_str_equals( "'",  $attrs->remove("bB") );
+    $this->assert_str_equals( "aa", $attrs->remove("AA") );
+    $this->assert_str_equals( "AA", $attrs->remove("aa") );
     $this->assert_str_equals( "'",  $attrs->remove("_DEFAULT") );
     $this->assert( $attrs->isEmpty() );
     $attrs = Foswiki::Attrs->new( "'\"'", 1 );

@@ -148,7 +148,7 @@ sub _unfriendly {
     my $first = 1;
 
     if ( $string =~
-s/^\s*\"(.*?)\"\s*(?=([a-z0-9_]+\s*(?:$nameOp)|[a-z0-9_]*\s*(?:$nonmOp))\s*\"|$)//is
+s/^\s*\"(.*?)\"\s*(?=([#a-z0-9_]+\s*(?:$nameOp)|[#a-z0-9_]*\s*(?:$nonmOp))\s*\"|$)//is
       )
     {
         $this->{_DEFAULT} = $1;
@@ -157,7 +157,7 @@ s/^\s*\"(.*?)\"\s*(?=([a-z0-9_]+\s*(?:$nameOp)|[a-z0-9_]*\s*(?:$nonmOp))\s*\"|$)
     while ( $string =~ m/\S/s ) {
 
         # name $op "value" pairs
-        if ( $string =~ s/^\s*([a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
+        if ( $string =~ s/^\s*([#a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
             $first = 0;
@@ -195,7 +195,7 @@ sub _friendly {
     while ( $string =~ m/\S/s ) {
 
         # name $op "value" pairs
-        if ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
+        if ( $string =~ s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
         }
@@ -209,14 +209,14 @@ sub _friendly {
         }
 
         # name $op 'value' pairs
-        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*'(.*?)'//is ) {
+        elsif ( $string =~ s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*'(.*?)'//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
         }
 
         # name $op value pairs
-        elsif (
-            $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*([^\s,\}\'\"]*)//is )
+        elsif ( $string =~
+            s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*([^\s,\}\'\"]*)//is )
         {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );

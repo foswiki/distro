@@ -71,6 +71,24 @@ sub test_SCRIPTURL {
 
     $result = $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{snarf}%");
     $this->assert_str_equals( "sausages", $result );
+
+    # anchor parameter # is added as a fragment.
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        "%SCRIPTURLPATH{\"view\" topic=\"Main.WebHome\" #=\"frag\"}%");
+    $this->assert_str_equals(
+        $Foswiki::cfg{ScriptUrlPath} . '/view.dot/Main/WebHome#frag', $result );
+
+    # Use of # anywhere but the anchor tag is encoded.
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"view\" topic=\"Main.WebHome\" #=\"frag\" A#A=\"another\"}%"
+      );
+    $this->assert_str_equals(
+        $Foswiki::cfg{ScriptUrlPath}
+          . '/view.dot/Main/WebHome?A%23A=another#frag',
+        $result
+    );
 }
 
 1;
