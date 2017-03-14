@@ -111,7 +111,9 @@ sub test_SCRIPTURL_rest {
 "%SCRIPTURLPATH{\"rest\" subject=\"Weeble\" verb=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
       );
     $this->assert_str_equals(
-        "/bin/rest.dot/Weeble/wobble?topic=Main.WebHome;web=System", $result );
+"$Foswiki::cfg{ScriptUrlPath}/rest.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
 }
 
 sub test_SCRIPTURL_jsonrpc {
@@ -134,22 +136,26 @@ sub test_SCRIPTURL_jsonrpc {
 "%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" topic=\"Main.WebHome\" web=\"System\"}%"
       );
     $this->assert_str_equals(
-        "/bin/jsonrpc.dot/Weeble?topic=Main.WebHome;web=System", $result );
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble?topic=Main.WebHome;web=System",
+        $result
+    );
 
     $result =
       $this->{test_topicObject}->expandMacros(
 "%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" method=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
       );
     $this->assert_str_equals(
-        "/bin/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
-        $result );
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
 
     $result =
       $this->{test_topicObject}->expandMacros(
 "%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" method=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
       );
     $this->assert_str_equals(
-        "/bin/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
-        $result );
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
 }
 1;
