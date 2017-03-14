@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1482953205" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ %MAKETEXT{"Remove User"}%
 
@@ -24,7 +24,7 @@ The existence of the <nop>UserName topic should also prevent that username from 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"removeUser"}%
 <!-- %JQREQUIRE{"ui, ui::autocomplete"}% -->
-<form name="admin" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/%BASETOPIC%" method="post">
+<form name="admin" action="%SCRIPTURLPATH{"manage" topic="%BASEWEB%.%BASETOPIC%"}%" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---++++!! Enter user to be removed

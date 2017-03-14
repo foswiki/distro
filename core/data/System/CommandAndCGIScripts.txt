@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -464,10 +464,10 @@ The =rest= script assumes that it will be called with URL in the form:
 where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function. If you need to
 pass a topic name, then this is passed in the =topic= URL parameter.
 
-As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
+As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. (The EmptyPlugin is not enabled by default.)
 
 The URL to call this function from a browser would be:
-   * =%SCRIPTURL{rest}%/EmptyPlugin/example?topic=My.TopicName=
+   * =%SCRIPTURL{"rest" subject="EmptyPlugin" verb="example" topic="My.TopicName"}%=
 alternatively, to run it from the commandline:
    * =cd foswiki/bin ; ./rest /EmptyPlugin/example -topic=My.TopicName=
 
