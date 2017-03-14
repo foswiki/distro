@@ -1,13 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1458616800" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457305" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SCRIPTURLPATH -- URL path of script(s)
 Expands to the base URL of scripts, without protocol or host
----++ Parameters
-     | *Parameter* | *Description* | *Default* |
-     | ="$script"= | Name of script | |
-     | =web= | Web name to add to URL | |
-     | =topic= | Topic (or Web.Topic) to add to URL | |
-     | Any other parameters to the macro will be added as parameters to the URL |||
+%INCLUDE{"VarSCRIPTURL" section="params"}%
 ---++ Examples
    * =%<nop>SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%= expands to =%SCRIPTURLPATH{"view" topic="Cartoons.EvilMonkey"}%=
    * =%<nop>SCRIPTURLPATH{"view" web="Cartoons"}%= expands to =%SCRIPTURLPATH{"view" web="Cartoons"}%=
@@ -15,14 +10,15 @@ Expands to the base URL of scripts, without protocol or host
    * =%<nop>SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURLPATH{"edit" web="Cartoons" topic="EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
    * =%<nop>SCRIPTURLPATH%= expands to =%SCRIPTURLPATH%=
    * =%<nop>SCRIPTURLPATH{script}%= expands to =%SCRIPTURLPATH{script}%=
+   * =%<nop>SCRIPTURLPATH{"rest" subject="CommentPlugin" verb="comment" topic="Web.Topic"}%= expands to =%SCRIPTURLPATH{"rest" subject="CommentPlugin" verb="comment" topic="Web.Topic"}%=
+   * =%<nop>SCRIPTURLPATH{"jsonrpc" namespace="Configure" }%= expands to =%SCRIPTURLPATH{"jsonrpc" namespace="Configure" }%=
 <div class="foswikiHelp">
 %H% The =edit= script should always be used in conjunction with a =t="%<nop>GMTIME{"$epoch"}%"= parameter to ensure pages about to be edited are not cached in the browser
 
 %H% See =[[VarSCRIPTURL][SCRIPTURL]]= if you expect to need the protocol and host e.g. if you are saving the HTML of the page and using it on a different host.
 
 %X% The 'old' way of building URLs using =SCRIPTURLPATH= involved concatenating the web and topic names to the =SCRIPTURLPATH= e.g. =%<nop>SCRIPTURLPATH{"script"}%/Cartoons/EvilMonkey=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace such URLs with the equivalent %<nop>SCRIPTURLPATH%{"script" topic="Cartoons.EvilMonkey"}%, which will handle URL encoding for you.
-
-%X% The SCRIPTURL macro does NOT support building =jsonrpc= or =rest= requests with parameters. They should still use the "contatenation" method.  This is expected to be fixed in Foswiki 2.2.</div>
+</div>
 %STOPINCLUDE%
 ---++ Related
  [[VarPUBURLPATH][PUBURLPATH]], [[VarSCRIPTNAME][SCRIPTNAME]], [[VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[VarSCRIPTURL][SCRIPTURL]]

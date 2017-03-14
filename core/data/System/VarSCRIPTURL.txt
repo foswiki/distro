@@ -1,13 +1,22 @@
-%META:TOPICINFO{author="ProjectContributor" date="1458616800" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457305" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SCRIPTURL -- URL of script(s)
 Expands to the URL of a script, or the base URL of all scripts
+%STARTSECTION{"params"}%
 ---++ Parameters
      | *Parameter* | *Description* | *Default* |
      | ="$script"= | Name of script | |
      | =web= | Web name to add to URL | |
      | =topic= | Topic (or Web.Topic) to add to URL | |
+     | =#= | Anchor (URL Fragment) appended to the URL | |
+     | ==rest== script parameters |||
+     | =subject= | The plugin name registering the handler |
+     | =verb= | The rest handler name |
+     | ==jsonrpc== script parameters |||
+     | =namespace= | The namespace for the jsonrpc rquest |
+     | =method= | The Json method |
      | Any other parameters to the macro will be added as parameters to the URL |||
+%ENDSECTION{"params"}%
 ---++ Examples
    * =%<nop>SCRIPTURL{"view" topic="Cartoons.EvilMonkey"}%= will expand to =%SCRIPTURL{"view" topic="Cartoons.EvilMonkey"}%=
    * =%<nop>SCRIPTURL{"view" web="Cartoons"}%= will expand to =%SCRIPTURL{"view" web="Cartoons"}%=
@@ -15,14 +24,14 @@ Expands to the URL of a script, or the base URL of all scripts
    * =%<nop>SCRIPTURL{"edit" web="Cartoons" topic="EvilMonkey" t="%<nop>GMTIME{"$epoch"}%"}%= expands to =%SCRIPTURL{"edit" web="Cartoons" topic="EvilMonkey" t="%GMTIME{"$epoch"}%"}%=
    * =%<nop>SCRIPTURL%= expands to =%SCRIPTURL%=
    * =%<nop>SCRIPTURL{script}%= expands to =%SCRIPTURL{script}%=
+   * =%<nop>SCRIPTURL{"rest" subject="CommentPlugin" verb="comment" topic="Web.Topic"}%= expands to =%SCRIPTURL{"rest" subject="CommentPlugin" verb="comment" topic="Web.Topic"}%=
+   * =%<nop>SCRIPTURL{"jsonrpc" namespace="Configure" }%= expands to =%SCRIPTURL{"jsonrpc" namespace="Configure" }%=
 <div class="foswikiHelp">
 %H% In most cases you should use [[VarSCRIPTURLPATH][SCRIPTURLPATH]] instead, as it works much better with URL rewriting
 
 %H% The =edit= script should always be used in conjunction a =t="%<nop>GMTIME{"$epoch"}%"= parameter to ensure pages about to be edited are not cached in the browser
 
 %X% The 'old' way of building URLs using =SCRIPTURL= involved concatenating the web and topic names to the =SCRIPTURL= e.g. =%<nop>SCRIPTURL{"script"}%/Cartoons/EvilMonkey=. This practice is *strongly* discouraged, as it does not correctly handle encoding of the parts of the URL. At the first opportunity you should replace all such URLs with the equivalent =%<nop>SCRIPTURL%{"script" topic="Cartoons.EvilMonkey"}%=, which will handle URL encoding for you.
-
-%X% The SCRIPTURL macro does NOT support building =jsonrpc= or =rest= requests with parameters. They should still use the "contatenation" method.  This is expected to be fixed in Foswiki 2.2.
 </div>
 %STOPINCLUDE%
 ---++ Related
