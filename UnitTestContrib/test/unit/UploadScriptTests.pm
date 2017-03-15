@@ -554,11 +554,14 @@ sub test_propschanges {
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
+    my $attachurl = Foswiki::Func::expandCommonVariables(
+"%PUBURL{\"Flappadoodle.txt\" topic=\"$this->{test_web}.$this->{test_topic}\"}%"
+    );
+
     # Check the link was created
     $this->assert_matches(
-qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedgehog/,
-        $text
-    );
+        qr/\[\[$attachurl]\[Flappadoodle\.txt\]\]: Educate the hedgehog/,
+        $text );
 
     # Check the meta
     my $at = $meta->get( 'FILEATTACHMENT', 'Flappadoodle.txt' );
@@ -597,9 +600,14 @@ sub test_linkformat {
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
+    my $attachurl = Foswiki::Func::expandCommonVariables(
+"%PUBURL{\"Flappadoodle.txt\" topic=\"$this->{test_web}.$this->{test_topic}\"}%"
+    );
+    my $txticon = Foswiki::Func::expandCommonVariables("%ICON{txt}%");
+
     # This tests the original default link format
     $this->assert_matches(
-qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedgehog/ms,
+qr/^   \* \[\[$attachurl]\[Flappadoodle\.txt\]\]: Educate the hedgehog/ms,
         $text
     );
 
@@ -624,7 +632,7 @@ qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate t
 
     if ( $this->check_dependency('Foswiki,<,1.2') ) {
         $this->assert_matches(
-qr#^\$n\Q |$format|Effort \E\$\Qlt--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{\E\$\Qfileext}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
+qr#^\$n\Q |$format|Effort \E\$\Qlt--        |[[$attachurl][%ICON{\E\$\Qfileext}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
             $text
         );
     }
@@ -632,7 +640,7 @@ qr#^\$n\Q |$format|Effort \E\$\Qlt--        |[[%ATTACHURL%/Flappadoodle.txt][%IC
 
 # Item5935 added time and standard tokens to the attachment link text to version 1.2
         $this->assert_matches(
-qr#^\Q |$formatted|Effort <--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{txt}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
+qr#^\Q |$formatted|Effort <--        |[[$attachurl][$txticon Flappadoodle.txt]]| received from Wikiworld |\E#ms,
             $text
         );
     }
