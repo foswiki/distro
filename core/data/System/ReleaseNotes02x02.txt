@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1489544864" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.3
+---+!! Foswiki Release 2.2.0
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -68,7 +68,7 @@ Foswiki 2.1 is shipped with the following:
    * *Compatibility support* - TWikiCompatibilityPlugin
 
 <div class="foswikiHelp">%X% *Caution:* If you are upgrading from a release prior to Foswiki 2.1.3, you should review the release notes for 
-[[https://foswiki.org/System/ReleaseNotes02x01.txt][Foswiki 2.1]] and [[https://foswiki.org/System/ReleaseNotes02x00.txt][Foswiki 2.0]] for
+[[https://foswiki.org/System/ReleaseNotes02x01][Foswiki 2.1]] and [[https://foswiki.org/System/ReleaseNotes02x00][Foswiki 2.0]] for
 critical changes.</div>
 
 ---++ Known issues
@@ -165,7 +165,9 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 ---++ Foswiki Release 2.2 Details
 ---+++ New Features
 <noautolink>
-| [[%FO%/Development.AddConcatOptionToAttrs][AddConcatOptionToAttrs]] | Add +"more" and key+"more" options to Foswiki::Attrs |
+| [[%FO%/Development.MoveQueryPathParsingIntoFoswikiRequest][MoveQueryPathParsingIntoFoswikiRequest]] | Restructure code to enable more complete JSON support |
+| [[%FO%/Development.RemoveHomegrownFoswikiNetCode][RemoveHomegrownFoswikiNetCode]] | Cpan:LWP is now a required depencency |
+| [[%FO%/Development.SplitArgumentsinMAKETEXT][SplitArgumentsinMAKETEXT]] | Add named arguments to MAKETEXT macro. Permits more flexible substitutions. |
 
 ---+++ Fixes
 
