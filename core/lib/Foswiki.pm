@@ -211,8 +211,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.3');
-    $RELEASE = 'Foswiki-2.1.3';
+    use version 0.77; $VERSION = version->declare('v2.1.999_001');
+    $RELEASE = 'Foswiki-2.2.0 Alpha';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
@@ -1515,14 +1515,16 @@ sub getSkin {
 
 =begin TML
 
----++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
+---++ ObjectMethod getScriptUrl( $absolute, $script, $path1, $path2, ... ) -> $scriptURL
 
 Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
-"http://host/foswiki/bin/$script/$web/$topic".
-   * =...= - an arbitrary number of name,value parameter pairs that will
+   * ="http://host/foswiki/bin/$script/$path1/$path2".=
+
+=...= is an arbitrary number of name,value parameter pairs that will
 be url-encoded and added to the url. The special parameter name '#' is
 reserved for specifying an anchor. e.g.
+
 =getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)= will give
 =.../view/x/y?a=1&b=2#XXX=
 
@@ -1538,6 +1540,10 @@ are relative, then they will be converted to absolute when required (e.g.
 when running from the command line, or when generating rss). If
 $script is not given, absolute URLs will always be generated.
 
+$path1 and $path2 are interpreted based upon the script name:
+   * =rest=,  $path1 is the subject, and $path2 is the verb
+   * =jsonrpc=, $path1 is the Namespace and $path2 (optional) is the method.
+For all other scripts, $path1 is the Web, and Path2 is the Topic.
 If either the web or the topic is defined, will generate a full url (including web and topic). Otherwise will generate only up to the script name. An undefined web will default to the main web name.
 
 As required by RFC3986, the returned URL will only contain the
@@ -1546,7 +1552,7 @@ allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
 =cut
 
 sub getScriptUrl {
-    my ( $this, $absolute, $script, $web, $topic, @params ) = @_;
+    my ( $this, $absolute, $script, $path1, $path2, @params ) = @_;
 
     $absolute ||=
       ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
@@ -1579,14 +1585,23 @@ sub getScriptUrl {
         $url = $this->{urlHost} . $url;
     }
 
-    if ($topic) {
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-
-        $url .= urlEncode( '/' . $web . '/' . $topic );
-
+    if ( defined $script && ( $script eq 'rest' || $script eq 'jsonrpc' ) ) {
+        if ( defined $path1 ) {
+            $url .= urlEncode( '/' . $path1 );
+            $url .= urlEncode( '/' . $path2 ) if defined $path2;
+        }
     }
-    elsif ($web) {
-        $url .= urlEncode( '/' . $web );
+    else {
+        if ($path2) {
+            my ( $web, $topic ) =
+              $this->normalizeWebTopicName( $path1, $path2 );
+
+            $url .= urlEncode( '/' . $web . '/' . $topic );
+
+        }
+        elsif ($path1) {
+            $url .= urlEncode( '/' . $path1 );
+        }
     }
     $url .= make_params(@params);
 

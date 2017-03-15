@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1488593563" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %TOPIC%
 Recent changes
@@ -10,7 +10,7 @@ performance.</div>'}%
 %BUTTON{
   "%MAKETEXT{"Load content"}%"
   icon="book"
-  onclick="window.location.href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=content';"
+  onclick="window.location.href='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" section="content"}%';"
 }% %MAKETEXT{"Use this button to load the content.%BR% *Caution* the search on this topic can be very resource intensive. Only load the content if you really need it, otherwise review the WebChanges topic from each web."}%
 
 <verbatim class="foswikiHidden">
@@ -57,11 +57,11 @@ performance.</div>'}%
     excludetopic="%STATISTICSTOPIC%"
     reverse="on"
     order="modified"
-    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$topic]]$percentIF{
+    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view" topic="$web.$topic"}%#foo_$rev][$topic]]$percentIF{
 	$quot'$formfield(Summary, 20)' = ''$quot
 	NOthen=$quot$topic$quot
 	else=$quot%BR% $formfield(Summary)$quot
-    }$percent | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][%MAKETEXT{"diff"}%]], [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][%MAKETEXT{"last change"}%]] | "
+    }$percent | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff" topic="$web.$topic"}%#_foo=$rev][%MAKETEXT{"diff"}%]], [[%SCRIPTURLPATH{"rdiff" topic="$web.$topic" type="last" render="sequential" context="9000" _foo="$rev"}%#diff001][%MAKETEXT{"last change"}%]] | "
     header="| *%MAKETEXT{"Last modified"}%* | *%MAKETEXT{"Web"}%* | *%MAKETEXT{"Topic"}%* | *%MAKETEXT{"Last editor"}%* | *%MAKETEXT{"View"}%* |"
     nofooter="$n---$n $pager $n----$n"
     pager="on"

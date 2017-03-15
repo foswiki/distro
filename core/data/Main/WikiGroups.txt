@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300572565" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki groups dashboard
 Showing all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][access controls]] in <nop>%WIKITOOLNAME%.
@@ -20,7 +20,7 @@ With this enabled, adding and removing members and also topic upgrades for each 
 }%
 
 <sticky>
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<form action='%SCRIPTURLPATH{"manage" topic="%WEB%.%TOPIC%"}%' method='post'>
 <input type="hidden" name="action" value="addUserToGroup"/>
 <input type="hidden" name="create" value="1"/>
 <div class="foswikiFormSteps">

@@ -547,7 +547,8 @@ sub test_propschanges {
         hidefile    => 1,
         filecomment => 'Educate the hedgehog',
         createlink  => 1,
-        linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
+        linkformat =>
+          '\n   * [[$percentATTACHURL$percent/$fileurl][$filename]]: $comment',
         changeproperties => 1
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
@@ -590,7 +591,8 @@ sub test_linkformat {
         hidefile    => 1,
         filecomment => 'Educate the hedgehog',
         createlink  => 1,
-        linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
+        linkformat =>
+          '\n   * [[$percntATTACHURL$percnt/$fileurl][$filename]]: $comment',
         changeproperties => 1
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
@@ -612,7 +614,7 @@ qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate t
         filecomment => 'Wikiworld',
         createlink  => 1,
         linkformat =>
-'$n |$year-$mo $wday|Effort $lt--        |[[%ATTACHURL%/$name][%ICON{$fileext}% $name]]| received from $comment |',
+'$n |$year-$mo $wday|Effort $lt--        |[[$percntATTACHURL$percnt/$name][$percntICON{$fileext}$percnt $name]]| received from $comment |',
         changeproperties => 1
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );

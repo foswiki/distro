@@ -151,53 +151,79 @@ sub getUrlHost {
 
 =begin TML
 
----+++ getScriptUrl( $web, $topic, $script, ... ) -> $url
+---+++ getScriptUrl( $path1, $path2, $script, ... ) -> $url
 
-Compose fully qualified URL
-   * =$web=    - Web name, e.g. ='Main'=
-   * =$topic=  - Topic name, e.g. ='WebNotify'=
+Compose fully qualified URL consisting of =script/path1/path2=
+
+For most scripts, $path1 is the Web name and $path2 is the Topic name
+   * =$path1=  - Web name, e.g. ='Main'=
+   * =$path2=  - Topic name, e.g. ='WebNotify'=
    * =$script= - Script name, e.g. ='view'=
-   * =...= - an arbitrary number of name=>value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
+   * =...= - an arbitrary number of name=>value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor.
+      * e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
+
+   * For the =rest= script, $path1 is the Subject and $path2 is the verb.
+   * For the =jsonrpc= script, $path1 is the Namespace, and $path2 (optional) is the method.
 
 Return: =$url=       URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
 
 *Examples:*
 <verbatim class="perl">
 my $url;
+
 # $url eq 'http://wiki.example.org/url/to/bin'
 $url = Foswiki::Func::getScriptUrl();
+
 # $url eq 'http://wiki.example.org/url/to/bin/edit'
 $url = Foswiki::Func::getScriptUrl(undef, undef, 'edit');
-# $url eq 'http://wiki.example.org/url/to/bin/edit/Web/Topic'
-$url = Foswiki::Func::getScriptUrl('Web', 'Topic', 'edit');</verbatim>
 
+# $url eq 'http://wiki.example.org/url/to/bin/edit/Web/Topic'
+$url = Foswiki::Func::getScriptUrl('Web', 'Topic', 'edit');
+
+# $url eq 'http://wiki.example.org/url/to/bin/rest/CommentPlugn/comment?topic=Sandbox.SampleTopic
+$url = Foswiki::Func::getScriptUrl('CommentPlugin', 'comment', 'rest', 'topic'=>'Sandbox.SampleTopic');
+
+# $url eq 'http://wiki.example.org/url/to/bin/jsonrpc/Configure
+$url = Foswiki::Func::getScriptUrl('Configure', undef, 'jsonrpc');
+
+</verbatim>
 =cut
 
 sub getScriptUrl {
-    my $web    = shift;
-    my $topic  = shift;
+    my $path1  = shift;
+    my $path2  = shift;
     my $script = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 1, $script, $web, $topic,
-        @_ );
+    return $Foswiki::Plugins::SESSION->getScriptUrl( 1, $script, $path1,
+        $path2, @_ );
 }
 
 =begin TML
 
----+++ getScriptUrlPath( $web, $topic, $script, ... ) -> $path
+---+++ getScriptUrlPath( $path1, $path2, $script, ... ) -> $path
 
 Compose absolute URL path. See Foswiki::Func::getScriptUrl
 
 *Examples:*
 <verbatim class="perl">
 my $path;
+
 # $path eq '/path/to/bin'
 $path = Foswiki::Func::getScriptUrlPath();
+
 # $path eq '/path/to/bin/edit'
 $path = Foswiki::Func::getScriptUrlPath(undef, undef, 'edit');
+
 # $path eq '/path/to/bin/edit/Web/Topic'
-$path = Foswiki::Func::getScriptUrlPath('Web', 'Topic', 'edit');</verbatim>
+$path = Foswiki::Func::getScriptUrlPath('Web', 'Topic', 'edit');
+
+# $path eq '/path/to/bin/rest/CommentPlugn/comment?topic=Sandbox.SampleTopic
+$path = Foswiki::Func::getScriptUrlPath('CommentPlugin', 'comment', 'rest', 'topic'=>'Sandbox.SampleTopic');
+
+# $path eq '/path/to/bin/jsonrpc/Configure
+$path = Foswiki::Func::getScriptUrlPath('Configure', undef, 'jsonrpc');
+</verbatim>
 
 *Since:* 19 Jan 2012 (when called without parameters, this function is
 backwards-compatible with the old version which was deprecated 28 Nov 2008).
@@ -205,13 +231,13 @@ backwards-compatible with the old version which was deprecated 28 Nov 2008).
 =cut
 
 sub getScriptUrlPath {
-    my $web    = shift;
-    my $topic  = shift;
+    my $path1  = shift;
+    my $path2  = shift;
     my $script = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $web, $topic,
-        @_ );
+    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $path1,
+        $path2, @_ );
 }
 
 =begin TML
