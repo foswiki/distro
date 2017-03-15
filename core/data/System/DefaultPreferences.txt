@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489539478" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -113,16 +113,16 @@ been removed from Foswiki 2.0.
       * Set ATTACHLINKBOX =
 
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
-   <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</div>
+   <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets). See %SYSTEMWEB%.FileAttachment for details.</div>
    <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
    <verbatim class="tml">
-      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
+      * Set ATTACHEDFILELINKFORMAT = \n   * [[$percntATTACHURL$percnt/$fileurl][$filename]]%IF{"'$comment'=''" else=": $comment"}%
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
-      <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).</div>
+      <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets). See %SYSTEMWEB%.FileAttachment for details.</div>
       <verbatim class="tml">
-      * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
+      * Set ATTACHEDIMAGEFORMAT = \n%IF{"'$comment'=''" else="   * $comment: <br />\n"}%     <img src="$percntATTACHURLPATH$percnt/$fileurl" alt="$filename" $size />
 </verbatim>
 
 ---++ Platform Settings

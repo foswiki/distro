@@ -363,10 +363,9 @@ Build a link to the attachment, suitable for insertion in the topic.
 sub getAttachmentLink {
     my ( $this, $topicObject, $attName ) = @_;
 
-    my $att         = $topicObject->get( 'FILEATTACHMENT', $attName );
-    my $fileComment = $att->{comment};
-    my $fileTime    = $att->{date} || 0;
-    $fileComment = $attName unless ($fileComment);
+    my $att = $topicObject->get( 'FILEATTACHMENT', $attName );
+    my $fileComment = defined $att->{comment} ? $att->{comment} : '';
+    my $fileTime = $att->{date} || 0;
     my ($fileExt) = $attName =~ m/(?:.*\.)*([^.]*)/;
     $fileExt ||= '';
 
@@ -429,6 +428,7 @@ sub getAttachmentLink {
 
     require Foswiki::Time;
     $fileLink = Foswiki::Time::formatTime( $fileTime, $fileLink );
+    $fileLink = Foswiki::Func::expandCommonVariables($fileLink);
     $fileLink = Foswiki::expandStandardEscapes($fileLink);
 
     return $fileLink;
