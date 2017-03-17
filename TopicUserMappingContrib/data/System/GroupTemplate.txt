@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1489712653" format="1.1" version="1"}%
+%META:TOPICPARENT{name="WikiGroups"}%
+%STARTSECTION{type="templateonly"}%
+To modify this template, first copy it to %USERSWEB%.%TOPIC% web, and edit that
+copy. If %USERSWEB%.%TOPIC% exists, it will automatically be used when
+creating new groups.
+%ENDSECTION{type="templateonly"}%
+
+%MAKETEXT{"Edit this topic to add a description to the [_1]" args="!%URLPARAM{"topic"}%"}%
+
+%META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" value="GroupView"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="%URLPARAM{"topic"}%"}%

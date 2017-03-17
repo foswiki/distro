@@ -946,8 +946,17 @@ sub addUserToGroup {
             )
           );
 
-        $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
+        if ( Foswiki::Func::topicExists( $groupWeb, 'GroupTemplate' ) ) {
+            $groupTopicObject =
+              Foswiki::Meta->load( $this->{session}, $groupWeb,
+                'GroupTemplate' );
+        }
+        else {
+            $groupTopicObject =
+              Foswiki::Meta->load( $this->{session},
+                $Foswiki::cfg{SystemWebName},
+                'GroupTemplate' );
+        }
 
         # expand the GroupTemplate as best we can.
         $this->{session}->{request}
