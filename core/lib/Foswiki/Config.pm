@@ -469,7 +469,7 @@ sub readConfig {
 
     # BEGIN of new specs code
     # SMELL It's here for testing only.
-    #$this->specsMode;
+    $this->specsMode;
 
     # END of new specs code
 
@@ -2150,7 +2150,6 @@ sub specsMode {
     foreach my $specFile ( @{ $this->specFiles->list } ) {
         $specFile->data($newData);
         $specFile->localData(0);
-        my %h = %Foswiki::cfg;
         $specFile->parse;
     }
 
@@ -2276,8 +2275,9 @@ sub spec {
         # NOTE: This won't work if called from within specsMode() method because
         # it works on a freshly created data hash before making storing it into
         # the attribute.
+        my $globData = tied %{ $this->data };
         $localData = $params{localData}
-          // ( tied( %{ $this->data } ) == $data );
+          // ( defined($globData) && $globData == $data );
     }
     else {
         $this->specsMode;
@@ -2593,7 +2593,8 @@ sub _specCfgKey {
     # – i.e. defines a key storing value, not other keys.
     # The node is non-leaf if it hold a hash ref. For a newly created node
     # its value is undefined and thus
-    my ( $isLeafKey, $isEnhancing, $keyType, $keySize );
+    my ( $isLeafKey, $isEnhancing, $keyType, $keySize, $keyText );
+
     unless ( ref($value) ) {
         my @ktype = $this->_parseSpecKeyType($value);
         $keyType = $ktype[0];
@@ -2653,17 +2654,24 @@ sub _specCfgKey {
                 else {
                     $keyType = $ktype[0];
                     push @keyOptions, size => $ktype[1] if @ktype > 1;
+                    push @keyOptions, $option, $keyType;
                 }
             }
             elsif ( $arity->{$option} < 2 ) {
 
                 # For a boolean option there will be value too. _fetchOptVal()
                 # would take care of it.
-                unless ( $option eq 'enhance' ) {
-                    push @keyOptions, ( $option, $values[0] );
+                if ( $option eq 'enhance' ) {
+                    $isEnhancing = 1;
+                }
+                elsif ( $option eq 'text' ) {
+
+                    # If this spec is enhancing then special care of text is
+                    # needed.
+                    $keyText = ( $keyText // "" ) . $values[0];
                 }
                 else {
-                    $isEnhancing = $option eq 'enhance';
+                    push @keyOptions, ( $option, $values[0] );
                 }
             }
             else {
@@ -2720,12 +2728,20 @@ sub _specCfgKey {
     }
 
     push @keyProfile, leafState => $isLeafKey if defined $isLeafKey;
-    $keyNode = $keyObject->makeNode(
+    $keyNode //= $keyObject->makeNode(
         key         => $keyName,
         nodeType    => $keyType,
         nodeProfile => [ @keyProfile, section => $keySpecs->section, ],
     );
     $keyNode->setOpt(@keyOptions);
+    if ( defined $keyText ) {
+        if ($isEnhancing) {
+            $keyNode->addText($keyText);
+        }
+        else {
+            $keyNode->setOpt( text => $keyText );
+        }
+    }
     $keyNode->addSource( $keySpecs->source );
 
     if ( $keyNode->isBranch ) {

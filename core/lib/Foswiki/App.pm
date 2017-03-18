@@ -2714,7 +2714,7 @@ sub getAttachmentList {
         topic => $topic
     );
     my $it = $topicObject->eachAttachment();
-    return sort $it->all();
+    return ( sort $it->all() );
 }
 
 =begin TML
