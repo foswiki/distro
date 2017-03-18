@@ -3,6 +3,9 @@
 package Foswiki::Class;
 use v5.14;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+!! Module Foswiki::Class
@@ -329,7 +332,9 @@ sub getClassAttributes {
 sub _inject_code {
     my ( $target, $name, $code ) = @_;
 
+    no warnings qw(redefine);
     Foswiki::getNS($target)->{$name} = $code;
+    use warnings qw(redefine);
 }
 
 sub _apply_roles {
