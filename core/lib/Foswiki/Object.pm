@@ -139,8 +139,10 @@ around BUILDARGS => sub {
             }
         }
 
-# If $paramHash is undef at this point then either @params is a key/value pairs array or no @_newParameters array defined.
-# SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
+        # If $paramHash is undef at this point then either @params is a
+        # key/value pairs array or no @_newParameters array defined.
+        # SMELL XXX Number of elements in @params has to be checked and an
+        # exception thrown if it's inappropriate.
         unless ( defined $paramHash ) {
             Foswiki::Exception::Fatal->throw(
                 text => "Odd number of elements in $class parameters hash" )
@@ -160,14 +162,18 @@ sub BUILD {
     my ($args) = @_;
 
     if (DEBUG) {
-        my ( $pkg, $file, $line );
-        my $sFrame = 0;
-        do {
-            ( $pkg, $file, $line ) = caller( ++$sFrame );
-          } while (
-            $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
+
+        #my ( $pkg, $file, $line );
+        #my $sFrame = 0;
+        #do {
+        #    ( $pkg, $file, $line ) = caller( ++$sFrame );
+        #  } while (
+        #    $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
+
+        my $noStackTrace = $ENV{FOSWIKI_NOSTACKTRACE} // 1;
+
         $this->__orig;
-        $this->__orig_stack( Carp::longmess('') );
+        $this->__orig_stack( Carp::longmess('') ) unless $noStackTrace;
 
         # Copy non-attribute __orig_ keys from constructor's profile or they'd
         # be lost.
@@ -195,8 +201,7 @@ sub DEMOLISH {
         foreach my $key ( keys %{$this} ) {
             unless ( $validAttrs{$key} || $key =~ /^(?:__)+orig_/ ) {
                 say STDERR "Key $key on ", ref($this),
-                  " isn't an attribute declared with Moo::has.",
-                  ( join( ", ", sort keys %validAttrs ) );
+                  " isn't an attribute declared with Moo::has.";
                 if ( UNIVERSAL::isa( $this->{key}, 'Foswiki::Object' ) ) {
                     say STDERR "    $key is a Foswiki::Object created in ",
                       $this->{key}->__orig_file, ":", $this->{key}->__orig_line;
@@ -233,7 +238,16 @@ sub _cloneData {
             $heap->{cloning_ref}{$refAddr} = $attr;
             if ( my $class = blessed($val) ) {
                 if ( $val->can('clone') ) {
-                    $cloned = $val->clone;
+                    try {
+                        $val->__clone_heap($heap);
+                        $val->__clone_heap->{parent} = $this;
+                        $cloned = $val->clone;
+                    }
+                    finally {
+                      # No matter what happens inside clone – always clear the
+                      # heap.
+                        $val->_clear__clone_heap;
+                    };
                 }
                 elsif ( ref($val) eq 'Regexp' ) {
                     $cloned = $val;
@@ -392,7 +406,7 @@ by the following rules:
 sub clone {
     my $this = shift;
 
-    $this->_clear__clone_heap;
+    $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
     my @profile;
 
     #my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
@@ -425,7 +439,7 @@ sub clone {
     # bless a profile hash?
     my $newObj = ref($this)->new(@profile);
 
-    $this->_clear__clone_heap;
+    $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
 
     return $newObj;
 }
