@@ -7,6 +7,8 @@ use File::stat;
 use File::Spec;
 use Assert;
 use Digest::SHA qw(sha1_hex);
+use Storable qw(dclone);
+use Try::Tiny;
 
 use constant CACHE_SUBDIR => '.specCache';
 
@@ -57,6 +59,11 @@ has data => (
     builder => 'prepareData',
 );
 
+has parsed => (
+    is      => 'rw',
+    default => 0,
+);
+
 # localData is TRUE if the data attribute has been generated locally by the
 # object.
 has localData => ( is => 'rw', );
@@ -96,31 +103,59 @@ sub validCache {
 
     my $cf = $this->cacheFile;
 
+    my $fstat = $this->stat;
+
     return
          defined( $cf->stat )
       && defined( $cf->content )
-      && ( $cf->stat->mtime >= $this->stat->mtime );
+      && ( $cf->stat->mtime >= $fstat->mtime )
+      && ( !defined $cf->fileSize || ( $cf->fileSize == $fstat->size ) );
 }
 
 pluggable parse => sub {
     my $this = shift;
 
-    my $cfg = $this->cfg;
-
-    my $parser = $cfg->getSpecParser( $this->fmt );
-
-    return 0 unless $parser;
-
-    my @specs = $parser->parse($this);
-
     my $dataObj = tied %{ $this->data };
-    $cfg->spec(
-        source    => $this,
-        data      => $dataObj,
-        localData => $this->localData,
-        section   => $this->section,
-        specs     => \@specs,
-    );
+
+    # Don't run twice for the same file.
+    unless ( $this->parsed ) {
+        my $cfg        = $this->cfg;
+        my $cachedData = $this->cacheFile->specData;
+        my @specs;
+
+        if ($cachedData) {
+            @specs = @{$cachedData};
+        }
+        else {
+            my $parser = $cfg->getSpecParser( $this->fmt );
+
+            return 0 unless $parser;
+
+            @specs = $parser->parse($this);
+
+            try {
+                my $specData = dclone( \@specs );
+                $this->cacheFile->specData($specData);
+            }
+            catch {
+             # We'd rather ignore any dclone error. If some specs contain data
+             # which cannot be cached then go away with it and recall the parser
+             # for every invocation.
+             # SMELL Replace warn with bufferizing messaging when it's ready.
+                warn "Cannot clone specs for caching: " . $_;
+            };
+        }
+
+        $cfg->spec(
+            source    => $this,
+            data      => $dataObj,
+            localData => $this->localData,
+            section   => $this->section,
+            specs     => \@specs,
+        );
+
+        $this->parsed(1);
+    }
 
     return $dataObj;
 };
@@ -131,9 +166,14 @@ sub refreshCache {
     return if $this->validCache;
 
     say STDERR "Invalid cache for ", $this->path if DEBUG;
+    my $dataObj = $this->parse;
 
-    if ( my $dataObj = $this->parse ) {
-        $this->cacheFile->store( $dataObj->getLeafNodes );
+    # There is no point of writing cache on disk when working on global data
+    # hash as we would then cache all data from previously parsed specs which is
+    # probably not what we want.
+    if ( $this->localData ) {
+        $this->cacheFile->storeNodes( $dataObj->getLeafNodes );
+        $this->cacheFile->flush;
     }
 
     return;
@@ -159,7 +199,7 @@ sub prepareCacheFile {
 
     my @dirs = File::Spec->splitdir( File::Spec->canonpath($dir) );
 
-    my $fname = $dirs[-1] . "_" . sha1_hex( $this->path ) . ".defaults";
+    my $fname = $dirs[-1] . "_" . sha1_hex( $this->path ) . ".cached";
 
     # Don't let the cache object to raise exceptions because it's for support
     # purposes only. If it fails we simple shall follow the slower way of
