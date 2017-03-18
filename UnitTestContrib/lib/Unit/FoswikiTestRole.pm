@@ -619,6 +619,10 @@ sub createNewFoswikiApp {
 
     $params{env} //= $app->cloneEnv;
     unless ( exists $params{cfgParams} ) {
+
+        # Specs mode is a special case. It is better to avoid using it without
+        # specific user request.
+        $app->cfg->dataMode;
         my %cfgData = %{ $app->cfg->clone };
         delete $cfgData{app};
         $params{cfgParams} = \%cfgData;
