@@ -2,7 +2,7 @@
    Templates for the mails sent out by mailnotify for newsletters.
 }%
 
-%TMPL:DEF{"NEWS:header"}%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+%TMPL:DEF{"NEWS:header"}%From: %IF{ "defined WIKIAGENTNAME" then="$percntWIKIAGENTNAME$percnt" else="$percntWIKIWEBMASTERNAME$percnt" }% <%IF{ "defined WIKIAGENTEMAIL" then="$percntWIKIAGENTEMAIL$percnt" else="$percntWIKIWEBMASTER$percnt"}%>
 To: %EMAILTO%
 Subject: %WIKITOOLNAME% %WEB%.%TOPIC%
 Auto-Submitted: auto-generated

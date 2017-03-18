@@ -926,8 +926,15 @@ sub captureWithKey {
     }
     my ( $k, $v ) = ( $1, $2 );
     my $request = $fatwilly->{request};
-    $this->assert( $request->isa('Unit::Request'),
-        "Could not find the Unit::Request object" );
+    $this->assert(
+        (
+                 $request->isa('Unit::Request')
+              || $request->isa('Unit::Request::Attachment')
+              || $request->isa('Unit::Request::Rest')
+              || $request->isa('Unit::Request::JSON')
+        ),
+        "Could not find the Unit::Request object"
+    );
 
     # As we won't be clicking using javascript, we have to fake that part too
     if ($strikeone) {

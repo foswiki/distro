@@ -1,0 +1,32 @@
+%META:TOPICINFO{author="ProjectContributor" date="1480387012" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="System.PatternSkinCssCookbook"}%
+<!--
+   * Set NOWYSIWYG = 1
+-->
+---+!! System.PatternSkinCssCookbook Recipe: Left Sidebar Toggle
+
+The Sidebar is hidden for screens with width < 870px.  This makes the main page content more readable on small devices, but blocks access to some important links, such as the Login link.
+This cookbook shows how to add a button that will toggle the sidebar when it is hidden on  small screen.
+
+This button is configured in any of %LOCALSITEPREFS%, in %WEBPREFSTOPIC% (for a single web), in your %WIKIUSERNAME% topic, or on a single page.
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim class="tml">
+   * Set USERSTYLEURL = %PUBURLPATH{topic="%SYSTEMWEB%.PatternSkinCssCookbookSidebarToggle" "SidebarToggle.css"}%
+</verbatim>
+
+To activate the button in the sidebar, override the =viewsidebar.pattern.tmpl= using the supplied =viewsidebar.sidetoggle.tmpl= by adding it to the front of
+the SKIN setting. 
+
+Your current SKIN setting is =%SKIN%=
+Change it to
+<pre>
+    * Set SKIN=sidetoggle,%SKIN% 
+</pre>
+
+The formating and positioning is done in the css. When the sidebar is hidden, the button will appear in the lower left corner of the screen, appearing as the "hamburg" icon: ... %JQICON{fa-bars}%.
+</div>
+<!-- %JQREQUIRE{"chili"}% -->
+
+%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1480387012" size="784" user="ProjectContributor" version="1"}%

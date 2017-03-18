@@ -538,6 +538,7 @@ sub test_urlparsing {
         $this->{test_subweb}, 'WebIndex' );
     $this->urltest( '/' . $this->{test_subweb} . '///WebIndex',
         $this->{test_subweb}, 'WebIndex' );
+
     $this->urltest( '/' . $this->{test_subweb} . '/WebIndex/',
         $this->{test_subweb} . '/WebIndex', 'WebHome' );
     $this->urltest( '/' . $this->{test_subweb} . '/WebIndex//',
@@ -710,12 +711,13 @@ sub test_urlparsing {
 
     # - Invalid web name - Tasks.Item8713
     $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{UsersWebName},
-        'WebPreferences' );
+        'WebHome' );
     $this->urltest( '/A\'":B/WebPreferences', $Foswiki::cfg{UsersWebName},
-        'WebPreferences' );
+        'WebHome' );
 
     #invalid topic name
-    $this->urltest( '/System/WebPre@ferences', 'System', 'WebHome' );
+    $this->urltest( '/System/WebPre@ferences', $Foswiki::cfg{UsersWebName},
+        'WebHome' );
 
     return;
 }

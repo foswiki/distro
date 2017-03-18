@@ -30,7 +30,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Foswiki',
-            version    => '2.10',
+            version    => '2.11',
             author     => 'Michael Daum',
             homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript => ['jquery.foswiki.js'],
@@ -92,6 +92,18 @@ sub init {
     # add {ScriptUrlPaths}
     if ( defined $Foswiki::cfg{ScriptUrlPaths} ) {
         %{ $prefs{"SCRIPTURLPATHS"} } = %{ $Foswiki::cfg{ScriptUrlPaths} };
+    }
+
+    # add {Sessions}{CookieRealm}
+    if ( defined $Foswiki::cfg{Sessions}{CookieRealm} ) {
+        $prefs{"COOKIEREALM"} = $Foswiki::cfg{Sessions}{CookieRealm};
+    }
+    if ( defined $Foswiki::cfg{Sessions}{CookiePath} ) {
+        $prefs{"COOKIEPATH"} = $Foswiki::cfg{Sessions}{CookiePath} || '/';
+    }
+    if ( defined $Foswiki::cfg{Sessions}{CookieNamePrefix} ) {
+        $prefs{"COOKIENAMEPREFIX"} = $Foswiki::cfg{Sessions}{CookieNamePrefix}
+          || '';
     }
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
 

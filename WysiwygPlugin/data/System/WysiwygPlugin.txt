@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482155911" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -187,7 +187,9 @@ Many thanks to the following sponsors for supporting this work:
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
                &copy; 2008-2015 Foswiki Contributors |
 |  Change History: | |  
-|  1.33   (08 Apr 2016) | Released with Foswiki 2.1.1  Foswikitask:Item13960: Editor fails to preserve alignment of cells containing "0".<br/>\
+|  1.34   (26 Nov 2016) | Released with Foswiki 2.1.3 Foswikitask:Item14078: Wysiwyg merges horizontal rules (---) into a preceeding list and looses the TML markup.<br />\
+                          Foswikitask:Item14253: WysiwygPlugin inserts extra spaces in front of square bracket links. |
+|  1.33   (08 Apr 2016) | Released with Foswiki 2.1.1 Foswikitask:Item13960: Editor fails to preserve alignment of cells containing "0".<br/>\
                           Foswikitask:Item13957: Fix rendering of empty "indent" lines<br/>\
                           Foswikitask:Item13958: Don't remove empty lines between two indent blocks. |
 |  1.32   (10 Dec 2015) | Released with Foswiki 2.1  Foswikitask:Item13405: NFC normalize strings for better OSx compatibility. |
@@ -278,4 +280,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1460168492" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1482155911" size="1343" user="ProjectContributor" version="1"}%

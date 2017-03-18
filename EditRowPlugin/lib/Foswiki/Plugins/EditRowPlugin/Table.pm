@@ -490,6 +490,10 @@ sub getEditor {
             }
             $editors{ $colDef->{type} } = $editor;
         }
+        else {
+            # default to _default
+            $editor = $editors{_default};
+        }
     }
     return $editor;
 }

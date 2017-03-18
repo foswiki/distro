@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482207308" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -137,7 +137,7 @@ If you are using Expires tags, (you should be!) it is very important to take the
    * Complete the upgrade.
    * Once confident that further upgrades, or fallback are not required, restore the original far future expiration.
 
-If these steps are not done, users will have to clear their cache, or "shift-reload" the Foswiki pages to refresh cached information.
+If these steps are not done, users will have to clear their browser cache to get the most recent CSS and !JavaScript..
 
 ---+++ Prepare for all upgrade steps
 
@@ -159,6 +159,9 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 *Choose the character encoding to be used in your site.*
    * Previous versions of Foswiki defaulted to =iso-8859-1= encoding (The "Latin Alphabet 1, intended for US and Western European languages).
    * Foswiki 2.0 defaults to =UTF-8= encoding, which provides better support for international character sets.
+Note that the 1.x versions of Foswiki make no attempt to enforce the character encoding.  Topics contain whatever the user may have pasted into them.  If you have windows users, it is highly likely that your
+old installation is using =cp-1252= instead of =iso-8859-1=.  =cp-1252= contains windows specific high-ASCII characters including typographic "smart" quotes, alternative bullets and the emdash character.  For more information
+see Foswiki:Support.Utf8MigrationConsiderations.
 
 <div class="foswikiHelp">
 *WARNING* If you do not use the utf-8 ={Store}{Encoding}= and you intend to use, (or have existing) high-bit characters in attachment filenames
@@ -245,11 +248,19 @@ The working directory contains some critical information for some extensions, fo
 If not copied, the next =mailnotify= run will notify all recorded changes.
 This is the most common data that should be copied. Review other non-default extensions to determine if anything else should be copied.
 
-#CopyDataFromOldInstallation
----+++ Copy the data using =tools/bulk_copy.pl=
+---+++ Migrate =.htpasswd= file
 
-This is the recommended way to migrate your system. Note cautions below about
-hidden files! Assume that you have the following setup:
+If used, *the =.htpasswd= file may require conversion*.  If users have registered using "high ascii" characters in their !WikiNames (e.g.  Ä, ä, Ë, ë, Ï, ï, Ö, ö, Ü, ü) then conversion will be
+required.  Foswiki does not provide a tool to convert =.htpasswd=.  Consider command line tools such as =iconv= or =recode=.  See
+[[http://stackoverflow.com/questions/64860/best-way-to-convert-text-files-between-character-sets][this StackOverflow article]] for more details.
+
+If you are using an external authentication source, such as LDAP, this step does not apply.
+
+#CopyDataFromOldInstallation
+---+++ Alternative 1: Convert the data using =tools/bulk_copy.pl=
+
+This is the default way to migrate your system. Note cautions below about
+hidden files and performance.  Assume that you have the following setup:
    * Existing: =/var/www/f119=
    * New: =/var/www/f120=
 Use the =bulk_copy.pl= tool to migrate your data:
@@ -272,6 +283,16 @@ This will copy all webs, topics and attachments __except for the contents of the
       * Auto attached files in the RCS store will be converted to regular attachments in the !PlainFile store. The !PlainFile store does not support auto attachments..
    * Files in _subdirectories_ of topic attachments are not copied. (ex. image caches, javascript & css subdirectories, etc.) This is common in the System web.
    * All topic revisions must have the same encoding.  If ={Site}{CharSet}= was changed after history exists, the history will not convert correctly and the copy may fail.
+   * =bulk_copy.pl= can be very slow converting topics with extensive histories.  Each revision of a topic is separately converted.  Any errors in the history can cause the conversion to fail.
+
+%X% =bulk_copy.pl= executes the code and APIs of the older Foswiki release.  Older versions of Foswiki may fail on the latest versions of Perl due to language
+changes.  If you encounter this issue, you could try an upgrade of the 1.1.x system to Foswiki 1.1.10,  or use the !CharsetConverterContrib to complete the migration.
+
+%X% ==bulk_copy.pl== is *not compatible with Foswiki 1.0.x versions*.  If you
+are copying data from Foswiki 1.0.x, there are two options:
+   1 Use !CharsetConverterContrib to convert the data "in-place" on Foswiki 2.x -or-
+   1 Convert to Foswiki 1.1.10 first, and then convert to Foswiki 2.x.
+The first option is faster and less complex.
 </div>
 
 Before proceeding with conversion, verify that the above limitations are not
@@ -279,26 +300,30 @@ applicable to your installation.   If they are,  you will currently need to:
    * Stay on the RCS style store
    * Use !CharsetConverterContrib to change encoding if desired.
 
----+++ Manual copy steps (not recommended)
+---+++ Alternative 2: Convert data using !CharsetConverterContrib 
 These steps can be used to manually migrate data when not changing the Store
-type or encoding. This is currently the only way to deal with hidden files.
+type. This is currently the only way to deal with hidden files.
 
-%TWISTY{showlink="Show manual migration steps"}%
-<div class="foswikiHelp">%X% Content should be copied using the =tools/bulk_copy.pl= script. This will allow conversion to =utf-8= and the !PlainFile Store. Only proceed with this step if you will be remaining on the RCS store with your existing character encoding.</div>
+%TWISTY{showlink="Show !CharsetConverter alternative steps"}%
 
 <blockquote>
 #CopyNonDefaultWebs
----++++ Copy content from non-default webs in old installation to the new installation
+---++++!! Copy content from non-default webs in old installation to the new installation
 *Be sure to select an "RCS Store" =RcsWrap= or =RcsLite= on the new installation.* The !PlainFile store is not compatible with topic history written on previous versions of Foswiki. If you have created or updated topics using !PlainFileStore, you should either start over, or plan to to remove all =,pfv= directories from the system so that there is no history in the !PlainFileStore format.
 
 *Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; %SYSTEMWEB%, %USERSWEB%, Trash, %SANDBOXWEB%, _default, and _empty.
+   * It may be preferable to copy and convert one web at a time.
    * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or change them in the same chronological order as the old file timestamps.
+
+*If needed, convert the character encoding of each web before attempting to access it from the web.*  The following !CharsetConverterContrib command will "inspect" a single web and report any conversion issues.
+Remove the =-i= option to proceed with the actual conversion. %X% *Do not run the actual conversion more than once on a web!*
+   * =perl convert_charset.pl -i -web=&lt;Webname&gt; -encoding=cp-1252=
 
 *Verify that existing topics are operational* and (if you converted to =UTF-8=) that any international characters have been properly converted and are displayed correctly.
 
 #CopyUsersAndCustomizations
----++++ Copy users, user topics, and site customizations to =%USERSWEB%= web
+---++++!! Copy users, user topics, and site customizations to =%USERSWEB%= web
 
 *Copy all topics and attachments from &lt;old_users_web&gt;:* copy all files from =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/data/%USERSWEB%/=, and copy all files from =&lt;oldwiki&gt;/pub/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/pub/%USERSWEB%/= . *Do not overwrite any topics already present in the =&lt;newwiki&gt;/data/%USERSWEB%/= directory.*
    * In addition to all the user topics, if you have created =&lt;old_users_web&gt;.NewUserTemplate= in the old installation, this step will copy over your template for user topics to the new installation.
@@ -307,16 +332,7 @@ type or encoding. This is currently the only way to deal with hidden files.
       * Move the contents of the old admin group to the new admin group. To avoid having to change all references to the old admin group, you must still keep the old admin group defined: set it so its only member is the new admin group, and the new admin group is the only user who can change or rename the old admin group topic.
    * If your old installation did not customize ={LocalSitePreferences}= on the =configure= page, or if you did customize ={LocalSitePreferences}= but kept your site preferences within the &lt;old_users_web&gt; web, then this step will also copy over your site preferences to the new installation.
 
-*For upgrades from an older Foswiki installation:*
-   * Manually merge all users from the =&lt;old_users_web&gt;.%WIKIUSERSTOPIC%= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. If the new installation does not yet have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic, then copy =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/<nop>Wiki<nop>Users.txt= to =&lt;newwiki&gt;/data/%USERSWEB%/<nop>Wiki<nop>Users.txt=.
-   * Verify that the following default users are present in the =%USERSWEB%.%WIKIUSERSTOPIC%= topic:
-      * *ProjectContributor* - the Foswiki documentation is attributed to this user
-      * *RegistrationAgent* - special user used during the new user registration process
-      * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
-      * *WikiGuest* - guest user; used as a fallback if the user can't be identified
-   * If any of the default users are missing, then add them in manually to =%USERSWEB%.<nop>Wiki<nop>Users=, using the corresponding entries in Foswiki:System.UsersTemplate as an example.
-   * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
-   * If you have customized =&lt;old_system_web&gt;.UserRegistration=, then either copy over =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt= and =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt,v= to the =&lt;newwiki&gt;/data/%SYSTEMWEB%/= directory, or modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+*Use the !CharsetConverterContrib to convert the new %USERSWEB%* as described above.
 
 *Copy over any topics and attachments you want to preserve from the %SANDBOXWEB% web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/%SANDBOXWEB%/= to =&lt;newwiki&gt;/data/%SANDBOXWEB%= and from =&lt;oldwiki&gt;/pub/%SANDBOXWEB%/= to =&lt;newwiki&gt;/pub/%SANDBOXWEB%= . Some pages you may wish to preserve are the =%HOMETOPIC%= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The %SANDBOXWEB% web often contains work-in-progress topics that users will want to keep.
 
@@ -324,23 +340,56 @@ Make sure the data and pub directories, as well as the files within them, are re
 </blockquote>
 %ENDTWISTY{}%
 
+---+++ %USERSWEB% changes for older Foswiki installations
+*For upgrades from an older Foswiki installation:*
+   * Copy any topics shipped in the default Main web into your new %USERSWEB%, and check for any local customization of these default topics.
+   * Verify that the following default users are present in the =%USERSWEB%.%WIKIUSERSTOPIC%= topic:
+      * *ProjectContributor* - the Foswiki documentation is attributed to this user
+      * *RegistrationAgent* - special user used during the new user registration process
+      * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
+      * *WikiGuest* - guest user; used as a fallback if the user can't be identified
+   * If any of the default users are missing, then add them in manually to =%USERSWEB%.<nop>Wiki<nop>Users=, using the corresponding entries in Foswiki:System.UsersTemplate as an example.
+      * Be sure to preserve the alphabetical order of the !WikiUsers topic, and do not insert any blank lines.
+   * If you have customized =&lt;old_system_web&gt;.UserRegistration=, then either copy over =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt= and =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt,v= to the =&lt;newwiki&gt;/data/%SYSTEMWEB%/= directory, or modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+
 ---+++ Convert empty DENY ACLs to ALLOW * wildcards
 
 By default, empty =DENYTOPIC= rules will be ignored by Foswiki 2.0.  You must change them to the equivalent =ALLOWTOPIC *= rules.  The =tools/convertTopicSettings.pl= utility will scan the Webs & Topics, and will perform several optional conversions on the topics.
    $ Get help text for =convertTopicSettings=: =perl tools/convertTopicSettings.pl -help=
    $ Scan all webs / topics, report any topics with empty DENY rules: =perl tools/convertTopicSettings.pl=
    $ Replace all empty DENY rules with ALLOW * wildcards: =perl tools/convertTopicSettings.pl -fixdeny -update=
+
+The following two options are also available, but are not yet recommended.
    $ Same, but convert all ACLs into META settings from inline topic settings, for just the Sandbox web: =perl tools/convertTopicSettings.pl -fixdeny -convert -update Sandbox=
    $ Convert ALL settings into META settings, not just ACLs, for the Sandbox and Customer webs: =perl tools/convertTopicSettings.pl -fixdeny -convert -all -update Sandbox Customer=
 
 When =convertTopicSettings= saves the modified topics, they will be saved by user _UnknownUser_.
 
+---+++ DataForms Applications
+
+If your site uses DataForms that used non-Ascii field names, the form data will require manual migration, or you must enable ={LegacyFormfieldNames}= in
+the configuration.
+   * Releases prior to Foswiki 2.0 stripped characters other than A-Z, a-z, 0-9 and _.  So a field named =F&uuml;hler= would be stored as =Fhler=.
+   * The same DataForms definition on Foswiki 2.0 would be stored as =F&uuml;hler=.
+
+If you do not enable ={LegacyFormfieldNames}=, then you will need to find and update the =META:FIELD= definitions in the topics. This would need to be done external to Foswiki.
+<pre>
+  %<nop>META:FIELD{name="Fhler" title="F&uuml;hler" value="123"}%
+</pre>
+would need to be changed to
+<pre>
+  %<nop>META:FIELD{name="F&uuml;hler" title="F&uuml;hler" value="123"}%
+</pre>
+
 ---+++ Apply preferences from old installation
 
-If you have not already set your desired site-wide preferences, as described in the section " [[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
+If you have not already set your desired site-wide preferences, as described in the section " [[%SYSTEMWEB%.InstallationGuidePart2#Set_Foswiki_Site_Preferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
 (These should have been copied when your %USERSWEB% was migrated.)
 
-If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.%WIKIPREFSTOPIC%=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
+If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.%WIKIPREFSTOPIC%=, then transfer your customizations from this topic to the %LOCALSITEPREFS% topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
+
+If you have any old extensions that use settings from the "System.&lt;Extension&gt;" topic, these settings should also be copied to the
+%LOCALSITEPREFS%.  *Topics in the %SYSTEMWEB% should never be edited!*
 
 ---+++ Apply additional site customizations
 

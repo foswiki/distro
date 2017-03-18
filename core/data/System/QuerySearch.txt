@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446857887" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480472285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -37,10 +37,6 @@ All meta-data in a topic is referenced according to a simple plan.
       * =date=
       * =format=
       * =version= - topic version (integer)
-   * =META:CREATEINFO= - version info for the first version of the topic
-      * =author=
-      * =date=
-      * =version= - topic version (integer)
    * =META:TOPICMOVED=
       * =by=
       * =date=
@@ -74,7 +70,6 @@ Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= 
 It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to refer to the array of attachments in a topic, so there are some predefined aliases that make it a bit less typing:
    * =attachments= means the same as =META:FILEATTACHMENT=
    * =info= means the same as =META:TOPICINFO=
-   * =createinfo= means the same as =META:CREATEINFO=
    * =parent= means the same as =META:TOPICPARENT=. *Note:* =parent= is itself a map; use =parent.name= to access the name of the parent topic
    * =moved= means the same as =META:TOPICMOVED=
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
@@ -224,7 +219,7 @@ will return an array of the values of the Published field in all versions author
 
 ---++ Gotchas
    * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=
-   * Query operations are performed in the context of =%<nop>WEB% and =%<nop>TOPIC%. This can cause confusing when they are used in an  <code>%INCLUDE</code>ed topic, where you might expect them to operate in the context of the _including_ topic, rather than the _included_ topic.
+   * Query operations are performed in the context of =%<nop>WEB% and =%<nop>TOPIC%. This can cause confusion when they are used in an  <code>%INCLUDE</code>ed topic, where you might expect them to operate in the context of the _including_ topic, rather than the _included_ topic.
 
 ---++ Examples
 ---+++ Query examples

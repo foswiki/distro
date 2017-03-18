@@ -15,8 +15,8 @@ BEGIN {
     }
 }
 
-our $VERSION = 2.31;
-our $RELEASE = '08 Apr 2016';
+our $VERSION = 2.32;
+our $RELEASE = '06 Sep 2016';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;

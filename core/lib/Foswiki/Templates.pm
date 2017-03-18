@@ -66,6 +66,7 @@ sub new {
     $this->{VARS}                = {};
     $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
+    $this->{templateFiles}       = {};
     return $this;
 }
 
@@ -84,6 +85,7 @@ sub finish {
     undef $this->{VARS};
     undef $this->{session};
     undef $this->{expansionRecursions};
+    undef $this->{templateFiles};
 }
 
 =begin TML
@@ -251,7 +253,7 @@ sub readTemplate {
     $this->{files} = ();
 
     # recursively read template file(s)
-    my $text = _readTemplateFile( $this, $name, $skins, $web );
+    my $text = $this->_readTemplateFile( $name, $skins, $web );
 
     # Check file was found
     unless ( defined $text ) {
@@ -277,7 +279,7 @@ sub readTemplate {
     # SMELL: unchecked implicit untaint?
     while ( $text =~ m/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/s ) {
         $text =~ s/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/
-          _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
+          $this->_readTemplateFile( $1, $skins, $web ) || ''/ge;
     }
 
     if ( $text !~ /%TMPL\:/ ) {
@@ -365,7 +367,7 @@ sub readTemplate {
     }
 
     # handle %TMPL:P{"..."}% recursively
-    $result =~ s/(%TMPL\:P\{.*?\}%)/_expandTrivialTemplate( $this, $1)/ge;
+    $result =~ s/(%TMPL\:P\{.*?\}%)/$this->_expandTrivialTemplate($1)/ge;
 
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
@@ -386,12 +388,7 @@ sub _readTemplateFile {
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ m/\.tmpl$/ ) {
-        my $text =
-          _decomment(
-            _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
-        $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-          if (TRACE);
-        return $text;
+        return $this->_readFile("$Foswiki::cfg{TemplateDir}/$name");
     }
 
     my $userdirweb  = $web;
@@ -422,9 +419,7 @@ sub _readTemplateFile {
               . "<!--/$userdirweb/$userdirname-->\n"
               if (TRACE);
 
-            $text = _decomment($text);
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
+            _decomment($text);
             return $text;
         }
     }
@@ -557,10 +552,7 @@ sub _readTemplateFile {
                 $text = "<!--$web1.$name1-->\n$text<!--/$web1.$name1-->\n"
                   if (TRACE);
 
-                $text = _decomment($text);
-                $this->saveTemplateToCache( '_cache', $name, $skins, $web,
-                    $text )
-                  if (TRACE);
+                _decomment($text);
                 return $text;
             }
         }
@@ -570,10 +562,7 @@ sub _readTemplateFile {
             # recursion prevention.
             $this->{files}->{$file} = 1;
 
-            my $text = _decomment( _readFile( $session, $file ) );
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
-            return $text;
+            return $this->_readFile($file);
         }
     }
 
@@ -582,8 +571,12 @@ sub _readTemplateFile {
 }
 
 sub _readFile {
-    my ( $session, $fn ) = @_;
+    my ( $this, $fn ) = @_;
     my $F;
+
+    if ( defined $this->{templateFiles}{$fn} ) {
+        return $this->{templateFiles}{$fn};
+    }
 
     if ( open( $F, '<:encoding(utf-8)', $fn ) ) {
         local $/;
@@ -592,72 +585,28 @@ sub _readFile {
 
         $text = "<!--$fn-->\n$text<!--/$fn-->\n" if (TRACE);
 
+        _decomment($text);
+        $this->{templateFiles}{$fn} = $text;
         return $text;
     }
     else {
-        $session->logger->log( 'warning', "$fn: $!" );
+        $this->{session}->logger->log( 'warning', "$fn: $!" );
         return undef;
     }
 }
 
 sub _decomment {
-    my $text = shift;
-
-    return $text unless $text;
 
     # Kill comments, marked by %{ ... }%
     # (and remove whitespace either side of the comment)
-    $text =~ s/\s*%\{.*?\}%\s*//sg;
-    return $text;
-}
-
-#See http://wikiring.com/Blog/BlogEntry8?cat=WikiRing
-#used for debugging templates, and later maybe for speed.
-sub saveTemplateToCache {
-    my ( $this, $cacheName, $name, $skins, $web, $tmplText ) = @_;
-    $skins = '' unless ( defined($skins) );
-    $web   = '' unless ( defined($web) );
-
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . $cacheName;
-    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
-    my $filename = Foswiki::Sandbox::untaintUnchecked(
-        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
-
-    open( my $file, '>:encoding(utf-8)', $filename ) or do {
-        die "Can't create file $filename - $!\n" if DEBUG;
-        print STDERR "Can't create file $filename - $!\n";
-
-        return;
-    };
-    print $file $tmplText;
-    close($file);
-}
-
-#unused, but can be used for a speedup by caching the expanded Template
-sub getTemplateFromCache {
-    my ( $this, $name, $skins, $web ) = @_;
-    $skins = '' unless ( defined($skins) );
-    $web   = '' unless ( defined($web) );
-
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . '_cache';
-    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
-    my $filename = Foswiki::Sandbox::untaintUnchecked(
-        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
-
-    if ( -e $filename ) {
-        open( my $in_file, '<:encoding(utf-8)', $filename ) or return;
-        local $/ = undef;    # set to read to EOF
-        my $data = <$in_file>;
-        close($in_file);
-        return $data;
-    }
+    $_[0] =~ s/\s*%\{.*?\}%\s*//sg;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

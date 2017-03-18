@@ -25,7 +25,7 @@
 %TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Delete"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]"}%%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment [_1]" args="[[%ATTACHURL%/%FILENAME%][%FILENAME%]]"}%%TMPL:END%
 
 
 
@@ -40,7 +40,7 @@
 
 %TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"[_1] is the default topic for deleted attachments." args="[[%TRASHWEB%.TrashAttachment][TrashAttachment]]"}% %MAKETEXT{"If you enter a different name, make sure the topic exists."}%</p>%TMPL:END%
 
-%TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may have to be renamed if an attachment called '%FILENAME%' already exists in the target topic."}%</p>%TMPL:END%
+%TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may have to be renamed if an attachment called '[_1]' already exists in the target topic." args="%FILENAME%"}%</p>%TMPL:END%
 
 %TMPL:DEF{"toolbar"}%%TMPL:END%
 %TMPL:DEF{"pagehelp"}%%TMPL:END%
@@ -52,4 +52,4 @@
 
 
 
-%TMPL:DEF{"updatenote"}%%TMPL:END%
+%TMPL:DEF{"updatenote"}%%TMPL:END%%{ end }%

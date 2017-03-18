@@ -66,14 +66,14 @@ sub rename {
 
     Foswiki::UI::checkWebExists( $session, $oldWeb, 'rename' );
 
-    if ( $session->{invalidTopic} ) {
+    if ( my $badTopic = $session->{request}->invalidTopic() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $oldWeb,
             topic  => $oldTopic,
-            params => [ $session->{invalidTopic} ]
+            params => [$badTopic]
         );
     }
 
@@ -1088,6 +1088,9 @@ sub _newTopicOrAttachmentScreen {
 
     $attachment   = '' if not defined $attachment;
     $toattachment = '' if not defined $toattachment;
+
+    $attachment   = Foswiki::entityEncode($attachment);
+    $toattachment = Foswiki::entityEncode($toattachment);
 
     $tmpl =~ s/%FILENAME%/$attachment/g;
     $tmpl =~ s/%NEW_FILENAME%/$toattachment/g;

@@ -135,7 +135,7 @@ sub prepareHeaders {
 }
 
 sub preparePath {
-    my ( $this, $req ) = @_;
+    my ($this) = @_;
 
     # SMELL: "The Microsoft Internet Information Server is broken with
     # respect to additional path information. If you use the Perl DLL
@@ -200,10 +200,24 @@ sub preparePath {
     }
     $action ||= 'view';
     ASSERT( defined $pathInfo ) if DEBUG;
+
+    # Create the request.  The type of request object is determined by
+    # the switchboard.
+
+    my $dispatcher = $Foswiki::cfg{SwitchBoard}{$action};
+    my $reqobj =
+      ( defined $dispatcher )
+      ? $dispatcher->{request} || 'Foswiki::Request'
+      : 'Foswiki::Request';
+    eval qq(use $reqobj);
+    die Foswiki::encode_utf8($@) if $@;
+
+    my $req = $reqobj->new();
     $req->action($action);
     $req->pathInfo($pathInfo);
     $req->uri( $ENV{REQUEST_URI}
           || $req->url( -absolute => 1, -path => 1, -query => 1 ) );
+    return $req;
 }
 
 sub prepareBody {

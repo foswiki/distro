@@ -31,8 +31,8 @@ package Foswiki::Plugins::ConfigurePlugin;
 use strict;
 use warnings;
 
-our $VERSION           = '1.05';
-our $RELEASE           = '11 Apr 2016';
+our $VERSION           = '1.07';
+our $RELEASE           = '23 Jan 2017';
 our $SHORTDESCRIPTION  = '=configure= interface using json-rpc';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -217,7 +217,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

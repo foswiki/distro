@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1478916373" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ WIKIAGENTNAME -- From: Name used in emails sent by %WIKITOOLNAME% 
+---++ Examples
+   * =%<nop>WIKIAGENTNAME%= expands to =%WIKIAGENTNAME%=
+%STOPINCLUDE%
+---++ Related
+ [[VarWIKIAGENTEMAIL][WIKIAGENTEMAIL]], [[VarWIKIWEBMASTER][WIKIWEBMASTER]], [[VarWIKIWEBMASTERNAME][WIKIWEBMASTERNAME]]
+

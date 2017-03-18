@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 package Foswiki::Configure::Wizards::AutoConfigureEmail;
 
 =begin TML
@@ -13,6 +14,9 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Wizard ();
+use Foswiki::Aux::MuteOut      ();
+use File::Temp                 ();
+
 our @ISA = ('Foswiki::Configure::Wizard');
 
 use constant DEBUG_SSL => 1;
@@ -88,6 +92,63 @@ my %mtas = (
 use constant ACCEPTMSG =>
   "> Configuration accepted. Next step: Send a test email to {WebMasterEmail}.";
 
+# Execute a function capturing all output.
+
+sub _muteExec {
+    my $sub      = shift;
+    my $reporter = $_[0];
+
+    my $rc;
+    my ( $fh1, $outFile ) = File::Temp::tempfile(
+        "STDOUT.$$.XXXXXXXXXX",
+        DIR    => File::Spec->tmpdir(),
+        UNLINK => 0
+    );
+    close $fh1;
+    my ( $fh2, $errFile ) = File::Temp::tempfile(
+        "STDERR.$$.XXXXXXXXXX",
+        DIR    => File::Spec->tmpdir(),
+        UNLINK => 0
+    );
+    close $fh2;
+
+    {
+        # Don't try to capture STDERR on FastCGI systems. it won't work.
+        my $muter = Foswiki::Aux::MuteOut->new(
+            outFile  => $outFile,
+            errFile  => $errFile,
+            reporter => $reporter,
+        );
+
+        $rc = $muter->exec( $sub, @_ );
+    }
+
+    my $out = _slurpFile( $outFile, $reporter );
+    my $err = _slurpFile( $errFile, $reporter );
+
+    unlink $outFile;
+    unlink $errFile;
+
+    return wantarray ? ( $rc, $out, $err ) : $rc;
+}
+
+sub _slurpFile {
+    my ( $file, $reporter ) = @_;
+
+    my $fh;
+    unless ( open $fh, "<", $file ) {
+        $reporter->WARN( "Cannot open capture file '$file': " . $! );
+        return undef;
+    }
+
+    local $/;
+    my $data = <$fh>;
+    $reporter->WARN( "Read from capture file '$file' failed: " . $! )
+      unless defined $data;
+    close $fh;
+    return $data;
+}
+
 # WIZARD
 sub autoconfigure {
     my ( $this, $reporter ) = @_;
@@ -119,8 +180,22 @@ NOCERT
     }
 
     my $ok = 0;
+    my $out;
+    my $err;
+
     if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
-        $ok = _autoconfigSMTP($reporter);
+
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI$/ ) {
+            $reporter->WARN(
+'Debug log not captured in FCGI environments. Check web server error log for debugging information'
+            );
+            $ok = _autoconfigSMTP($reporter);
+        }
+        else {
+            ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        }
+        $err =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg if $err;
+
         unless ($ok) {
             $reporter->WARN(
 "SMTP configuration using $Foswiki::cfg{SMTP}{MAILHOST} failed. Falling back to mail program"
@@ -131,6 +206,22 @@ NOCERT
         $reporter->WARN(
 "{SMTP}{MAILHOST} is not defined, so cannot use SMTP. Falling back to mail program"
         );
+    }
+
+    $reporter->NOTE($out) if defined $out;
+
+    if ($err) {
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/CLI$/ ) {
+
+            # Double-space the debug output so that it doesn't wrap.
+            $err =~ s#\n#<br/>#sg;
+            $err =~ s/\n$//g;
+        }
+
+        $reporter->NOTE( <<OUT ) if ($err);
+=======  DEBUG MESSAGES ====
+$err
+OUT
     }
 
     if ( !$ok && _autoconfigProgram($reporter) ) {
@@ -329,12 +420,14 @@ our (
 );
 our $pad = ' ' x length('Net::SMTpXXX ');
 
+my @Net_SMTP_default_ISA;
+
 # Return 0 on failure
 sub _autoconfigSMTP {
     my ($reporter) = @_;
 
     $SIG{__DIE__} = sub {
-        Carp::confess($@);
+        Carp::confess(@_);
     };
 
     $host = $Foswiki::cfg{SMTP}{MAILHOST};
@@ -346,6 +439,9 @@ sub _autoconfigSMTP {
             return 0;
         }
     }
+
+    # Kinda simulate state variables.
+    @Net_SMTP_default_ISA = @Net::SMTP::ISA unless @Net_SMTP_default_ISA;
 
     my $trySSL = 1;
 
@@ -360,7 +456,19 @@ sub _autoconfigSMTP {
         }
     }
 
-    IO::Socket::SSL->import('debug2') if ( $trySSL && DEBUG_SSL );
+    if ( $trySSL
+        && !(  $Foswiki::cfg{Email}{SSLCaFile}
+            || $Foswiki::cfg{Email}{SSLCaPath} ) )
+    {
+        $reporter->NOTE(
+"No SSL CA certificate path set.  Running SSLCertificates wizard to guess ={SSLCaFile}= and ={SSLCaPath}=."
+        );
+        require Foswiki::Configure::Wizards::SSLCertificates;
+        my $certWiz = Foswiki::Configure::Wizards::SSLCertificates->new;
+        $certWiz->guess_locations($reporter);
+    }
+
+    IO::Socket::SSL->import('debug3') if ( $trySSL && DEBUG_SSL );
 
 # If Dependencies for IPv6 are available, This changes the ISA of Net::SMTP to IO::Socket::IP
 # which supports both IPv6 and IP V4
@@ -368,7 +476,7 @@ sub _autoconfigSMTP {
 
         # Enable IPv6 if it's available
         @Net::SMTP::ISA = (
-            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net_SMTP_default_ISA ),
             'IO::Socket::IP'
         );
     }
@@ -405,7 +513,11 @@ sub _autoconfigSMTP {
 
     my @options = (
         Debug => 1,
-        Host  => [@addrs],
+
+        # SMELL: Code used to pass [@addrs} here to be able to log IP addresses
+        # But that breaks certificate validation.  Always need to use hostname!
+        #Host  => [@addrs],
+        Host => $hInfo->{name},
 
         # Shorten timeout if > 2 Addresses to test
         Timeout => ( @addrs >= 2 ? 10 : 30 ),
@@ -449,7 +561,7 @@ sub _autoconfigSMTP {
     # Configuration data for each method.  Ports in priority order.
 
     my $sockSSLisa = [
-        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net_SMTP_default_ISA ),
         'IO::Socket::SSL'
     ];
 
@@ -457,7 +569,7 @@ sub _autoconfigSMTP {
         starttls => {
             ports    => [qw/submission(587) smtp(25)/],
             method   => 'Net::SMTP (STARTTLS)',
-            isa      => [@Net::SMTP::ISA],
+            isa      => [@Net_SMTP_default_ISA],
             ssl      => [ SSL_version => 'TLSv1' ],
             starttls => 1,
         },
@@ -476,7 +588,7 @@ sub _autoconfigSMTP {
         smtp => {
             ports  => [qw/submission(587) smtp(25)/],
             method => 'Net::SMTP',
-            isa    => [@Net::SMTP::ISA],
+            isa    => [@Net_SMTP_default_ISA],
         },
     );
     @Net::SMTP::ISA = 'Foswiki::Configure::Wizards::AutoConfigureEmail::SSL';
@@ -545,21 +657,7 @@ sub _autoconfigSMTP {
     my $password = $Foswiki::cfg{SMTP}{Password};
     $password = '' unless ( defined $password );
 
-    # SSL logging -- N.B. fd 2 is NOT STDERR from here down
-
-    open( my $stderr, ">&STDERR" ) or die "STDERR: $!\n";
-    close STDERR;
-    open( my $fd2, ">/dev/null" ) or die "fd2: $!\n";
     $tlog = '';
-
-#SMELL:  Does not work under FCGI
-# at ../foswiki/distro/core/lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm line 302.
-# Foswiki::Configure::Wizards::AutoConfigureEmail::__ANON__("Operation 'OPEN' not supported on FCGI::Stream handle
-
-    unless ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
-        open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
-        STDERR->autoflush(1);
-    }
 
     # Loop over methods - output %use if one succeeds
 
@@ -618,10 +716,12 @@ sub _autoconfigSMTP {
             $tlsSsl  = 0
               if ( $startTls = $cfg->{starttls} );
 
+            @Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::ISA = ();
             @Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::ISA =
               @{ $cfg->{isa} };
 
-            $tlog =
+            $tlog = '' unless (DEBUG_SSL); # Reset log so only report last test.
+            my $testmsg =
                 "${pad}Testing "
               . ( $cfg->{id} || uc($method) ) . " on "
               . (
@@ -629,6 +729,10 @@ sub _autoconfigSMTP {
                 : $port =~ m/^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
                 : "$port port\n"
               );
+
+            $tlog .= $testmsg;
+            print STDERR $testmsg;
+
             $verified = $cfg->{verify} || -1;
 
             my $smtp =
@@ -663,12 +767,6 @@ sub _autoconfigSMTP {
             $tlog .= $use{authMsg};
             %use = ();
         }
-    }
-    unless ( $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
-        close STDERR;
-        close $fd2;
-        open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
-        close $stderr;
     }
     $tlog =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg;
     $reporter->NOTE("<verbatim>$tlog</verbatim>");
@@ -710,8 +808,8 @@ sub _autoconfigSMTP {
     _setConfig( $reporter, '{SMTP}{Username}',    $username );
     _setConfig( $reporter, '{SMTP}{Password}',    $password );
     _setConfig( $reporter, '{SMTP}{MAILHOST}',    $host . ':' . $use{port} );
-    _setConfig( $reporter, '{Email}{SSLVerifyServer}', ( $cfg->{verify} || 0 ) )
-      if ( $cfg->{ssl} );
+    _setConfig( $reporter, '{Email}{SSLVerifyServer}',
+        ( $cfg->{verify} || 0 ) );
 
     return 1;
 }
@@ -837,55 +935,53 @@ sub _setupSSLoptions {
 
     my ( @sslVerify, @sslNoVerify );
     @sslNoVerify =
-      ( @sslCommon, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() );
+      ( @sslCommon, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(), );
 
-    if ( $Foswiki::cfg{Email}{SSLVerifyServer} ) {
-        my ( $file, $path ) =
-          ( $Foswiki::cfg{Email}{SSLCaFile}, $Foswiki::cfg{Email}{SSLCaPath} );
-        Foswiki::Configure::Load::expandValue($file);
-        Foswiki::Configure::Load::expandValue($path);
+    my ( $file, $path ) =
+      ( $Foswiki::cfg{Email}{SSLCaFile}, $Foswiki::cfg{Email}{SSLCaPath} );
+    Foswiki::Configure::Load::expandValue($file);
+    Foswiki::Configure::Load::expandValue($path);
 
-        if ( $file || $path ) {
-            push @sslVerify, (
-                @sslCommon,
-                SSL_verify_mode     => IO::Socket::SSL::SSL_VERIFY_PEER(),
-                SSL_verify_scheme   => undef,
-                SSL_verify_callback => sub {
-                    my ( $ok, $ctx, $names, $errs, $peerCert ) = @_;
+    if ( $file || $path ) {
+        push @sslVerify, (
+            @sslCommon,
+            SSL_verify_mode     => IO::Socket::SSL::SSL_VERIFY_PEER(),
+            SSL_verify_scheme   => undef,
+            SSL_verify_callback => sub {
+                my ( $ok, $ctx, $names, $errs, $peerCert ) = @_;
 
-                    return
-                      Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::sslVerifyCert(
-                        $log, $ok, $ctx, $peerCert );
-                },
-                SSL_ca_file => $file || undef,
-                SSL_ca_path => $path || undef,
+                return
+                  Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::sslVerifyCert(
+                    $log, $ok, $ctx, $peerCert );
+            },
+            SSL_ca_file => $file || undef,
+            SSL_ca_path => $path || undef,
+        );
+
+        if ( $Foswiki::cfg{Email}{SSLCheckCRL} ) {
+            ( $file, $path ) = (
+                $Foswiki::cfg{Email}{SSLCrlFile},
+                $Foswiki::cfg{Email}{SSLCaPath}
             );
+            Foswiki::Configure::Load::expandValue($file);
+            Foswiki::Configure::Load::expandValue($path);
 
-            if ( $Foswiki::cfg{Email}{SSLCheckCRL} ) {
-                ( $file, $path ) = (
-                    $Foswiki::cfg{Email}{SSLCrlFile},
-                    $Foswiki::cfg{Email}{SSLCaPath}
-                );
-                Foswiki::Configure::Load::expandValue($file);
-                Foswiki::Configure::Load::expandValue($path);
-
-                if ( $file || $path ) {
-                    push @sslVerify, SSL_check_crl => 1;
-                    push @sslVerify, SSL_crl_file  => $file
-                      if ($file);
-                }
-                else {
-                    $reporter->WARN(
+            if ( $file || $path ) {
+                push @sslVerify, SSL_check_crl => 1;
+                push @sslVerify, SSL_crl_file  => $file
+                  if ($file);
+            }
+            else {
+                $reporter->WARN(
 "{Email}{SSLCheckCRL} requires CRL verification but neither {Email}{SSLCrlFile} nor {Email}{SSLCaPath} is set."
-                    );
-                }
+                );
             }
         }
-        else {
-            $reporter->WARN(
+    }
+    else {
+        $reporter->WARN(
 "{Email}{SSLVerifyServer} requires host verification but neither {Email}{SSLCaFile} nor {Email}{SSLCaPath} is set."
-            );
-        }
+        );
     }
 
     return ( [@sslNoVerify], [@sslVerify] );
@@ -1341,8 +1437,9 @@ sub testServer {
     # authentication is not required.
     # The session is reset so no mail is actually sent.
 
-    my ( $fromTestAddr, $toTestAddr ) =
-      (qw/postmaster@example.net postmaster@example.com/);
+    my $fromTestAddr = $Foswiki::cfg{Email}{WikiAgentEmail}
+      || $Foswiki::cfg{WebMasterEmail};
+    my $toTestAddr = $Foswiki::cfg{WebMasterEmail};
     my ( @code, $requires );
 
     my $noAuthOk = $smtp->mail($fromTestAddr) && $smtp->to($toTestAddr);

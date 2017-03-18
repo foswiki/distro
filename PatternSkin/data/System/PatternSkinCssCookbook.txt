@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426813108" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480385562" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
@@ -59,6 +59,10 @@ The rest of this topic shows examples of small CSS changes.
 
 See example at: PatternSkinCssCookbookNoLeftBar
 
+---+++ Toggle the left bar on small screen
+
+See example at: PatternSkinCssCookbookSidebarToggle
+
 ---+++ Use different fonts
 
 See example at: PatternSkinCssCookbookFonts
@@ -70,9 +74,6 @@ This is the complete style definition to set the height of the top bar:
 
 <verbatim class='css'>
 #patternTopBar,
-#patternClearHeaderCenter,
-#patternClearHeaderLeft,
-#patternClearHeaderRight,
 #patternTopBarContents {
 	height:75px; /* top bar height; make room for header columns */
 	overflow:hidden;

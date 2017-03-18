@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 #MetaData
@@ -54,7 +54,7 @@ This macro caches some of the information that would normally be derived from th
 | version | Topic version; a plain integer. |
 | date    | epoch time |
 | format  | Format of this topic, will be used for automatic format conversion |
-| reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURL{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
+| reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURLPATH{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
 
 Note that the *version and date fields are advisory only* and cannot be trusted. This is because processes outside of Foswiki's control may write topic files without maintaining these fields.
 
@@ -140,7 +140,7 @@ The recommended sequence is:
 
 ---++ Viewing meta-data embedded in page source
 
-You can append the <code>raw=debug</code> parameter to the URL to view the topic text with embedded meta-data, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>. <code>raw=all</code> lets you view the topic source as plain text, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=all">plain text view for this topic</a>.
+You can append the <code>raw=debug</code> parameter to the URL to view the topic text with embedded meta-data, e.g: [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" raw="debug"}%][debug view for this topic]]. <code>raw=all</code> lets you view the topic source as plain text, e.g: [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" raw="all"}%][plain text view for this topic]].
 
 #MetaDataRendering
 ---++ Including meta data in viewed topics
@@ -156,7 +156,7 @@ The =%FORMFIELD= macro lets you inspect the values of form field meta-data in ot
 
 ---++ Extending meta-data in Extensions
 Extensions can extend meta-data with information of their own. See 
-[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
+[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
 
 ---
 *Related Topics:* DeveloperDocumentationCategory

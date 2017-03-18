@@ -1,5 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460853933" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1488333719" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
+%ADDTOZONE{"head" text="<style type='text/css'>
+    #bulkReg .col1 {float:left; width:30%; margin:0 3% 0 0;}
+    #bulkReg .col2 {float:left; width:66%;}
+    #bulkReg .col1 .foswikiInputField,
+    #bulkReg .col1 .foswikiSelect {width:90%;}
+    #bulkReg .required {font-size:80%; color:#aaa;}
+</style>"}%
 ---+ Bulk Registration
 
 Administrators can use this topic to register (i.e. create logins and user topics) for a group of people in one batch.
@@ -14,11 +21,9 @@ Note: this is an administrator job - only admistrators can run this.
 
 If you are administrator, you will take these actions:
    1 (First time use) Create new bulk registration topics (see [[#Settings][Settings]] below).
-   1 In the REGISTERTOPIC (%REGISTERTOPIC%) topic: create a table of new users. An example table is provided below to copy.
-   1 Return to this topic and press the [[#RegisterForm]["Bulk Register" button]] to create the new topics.
-   1 Read %LOGTOPIC% to verify if all has gone well.
-   1 Visit %USERSWEB%.WikiGroups if the new users need to be added to any groups.
-   1 When you are ready, use the [[BulkResetPassword]] page to assign passwords and notify the users of their new accounts.
+   1 In the REGISTERTOPIC (%REGISTERTOPIC%) topic: create a table of new users.  You can include a list of groups that the new user will automatically join.
+   1 After saving the table changes, press the button to register the users.
+   1 Read %LOGTOPIC% to verify if all has gone well. A form to reset the passwords of the new users is provided at the end of the log topic.
 
 Below are the details.
 
@@ -30,30 +35,97 @@ Below are the details.
 
 ---++ The user table
 
-This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below.
-If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
+The user table is a template for user data that will be written to the new user topics.  Each column should correspond to a field name captured in the UserForm.
+Any field not included in the form will be written to the user topic in bullet format.  Add new row for each user to be registered.
 
-If the =Password= field is not included, then use the BulkResetPassword topic to assign new passwords.
+If the =Password= field is not included, then use the BulkResetPassword topic to assign new passwords.   For convenience, the log of user registrations generated
+when bulk registration is run will include a password reset form.  Note that
+the form is not generated if all users have been provided with passwords.
+
 If a password is included, it must be a valid password (&gt; minimum length, etc.)
 
 %IF{"{Register}{AllowLoginName}" then="*Your system is configured to use Login Names.  Be sure to include the !LoginName column in your table*"}%
 
----+++ Example format
+Use the following form to create a new Unprocessed Registration topic.
+   * Enter a new topic name. You can use %REGISTERTOPIC% or any other new topic in the %USERSWEB%
+   * Select one or more optional fieldnames.
+   * Click "Create the topic" - you will be redirected to the new topic.
 
-The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
-
-<verbatim class='tml'>
+<div id="bulkReg" class="foswikiFormSteps">
+<form name="picker" action="%SCRIPTURL{view}%/%WEB%/%TOPIC%#BuildTopic">
+    <div class="foswikiFormStep">
+        <h3>Choose the user template</h3>
+        <div class="col1">
+            <select name="usertemplate" onchange="picker.submit()">
+            <option>%URLPARAM{"usertemplate" default="%SYSTEMWEB%.NewUserTemplate"}%</option>
+            %SEARCH{"%VALUE%%SPLIT%" scope="all" topic="*Template" web="%USERSWEB%" type="literal" nonoise="on" format="<option value=\"%USERSWEB%.$topic\">%USERSWEB%.$topic</option>"}%
+            </select>
+        </div><!--//col1-->
+        <div class="col2">
+        <p>
+        Select the template used when creating user topics.  On most sites,
+        this is the NewUserTemplate. Note that this selection will reload the
+        page to refresh the field names used by that template.
+        </p>
+        </div><!--//col2-->
+     </div>
+</form>
+#BuildTopic
 <noautolink>
-%EDITTABLE{}%
-| FirstName | LastName | Email | WikiName |
-| Test | User | you@your.domain | TestUser |
-</noautolink></verbatim>
+<form name="savebulk" action="%SCRIPTURLPATH{save}%/%USERSWEB%" method="post"> \
+  <input type="hidden" name="onlynewtopic" value="1" />
 
-*Usage:*
-   1 Copy this text to your clipboard
-   1 Click through and paste this on %REGISTERTOPIC%.
-   1 Add and customize entries, save table.
-   1 Return here
+      <div class="foswikiFormStep">
+        <h3>Name of the new bulk registration topic <span class="required">Required</span></h3>
+        <div class="col1">
+         <p>
+           <input type="text" name="topic" />
+         </p>
+        </div><!--//col1-->
+        <div class="col2">
+        <p>
+    Enter a new topic name. This topic must not exist in the %USERSWEB% web.
+        </p>
+        </div><!--//col2-->
+        <div class="foswikiClear"></div>
+      </div><!--//foswikiFormStep-->
+
+      <div class="foswikiFormStep">
+        <h3>Fields to include in the registration</h3>
+        <div class="col1">
+         <p>
+      <select multiple='on' name='fields'>
+        %FORMAT{"%CALCULATE{$LISTUNIQUE($FILTER(\b(((FirstName($comma?))|(LastName($comma)?)|(Email($comma)?))),$LISTSORT(%QUERY{"'%URLPARAM{"usertemplate" default="System.NewUserTemplate"}%'/fields.name"}%)))}%" type="string" format="<option value='$item'>$item</option>"}%
+      </select>
+         </p>
+        </div><!--//col1-->
+        <div class="col2">
+            Use Ctrl-click to select multiple fields.  (LastName, FirstName,
+            Email, and wikiName are always included in the table. They are
+            required for registration.)
+        </div><!--//col2-->
+        <div class="foswikiClear"></div>
+      </div> <!-- foswikiFormStep -->
+
+      <div class="foswikiFormStep">
+        <div class="col1">
+          <h3>Create the topic</h3>
+        </div><!--//col1-->
+        <div class="col2">
+        <p>
+          Create the topic in the %USERSWEB% Web
+        </p>
+        </div> <!-- col2 -->
+        <div class="foswikiClear"></div>
+      </div> <!-- foswikkFormStep -->
+  <input type="hidden" name="usertemplate" value="%URLPARAM{"usertemplate" default="NewUserTemplate"}%" />
+  <input type="hidden" name="topicparent" value="BulkRegistration" />
+  <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.BulkRegistrationInputTemplate" />
+  <input type="submit" class="foswikiSubmit" value="Create the topic" />
+</form>
+</div><!-- foswikiFormSteps -->
+</noautolink>
+
 
 #CustomizingUserData
 ---+++ Customizing user data
@@ -61,32 +133,6 @@ The following should be inserted into your %REGISTERTOPIC% as a table. This is t
 You can write additional data to the new user topics. Do this by enhancing the user table with additional field names as table headers.
 
 Any fields you define in this table will end up in the User's topic. If a form (such as %SYSTEMWEB%.UserForm) is attached to NewUserTemplate then the data will go in as META:FIELDS, meaning that you can use SEARCH formfield constructs to search.
-
-If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields you define here. Otherwise they will disappear when the user edits their home topic!
-
----++++ Mandatory fields
-   * =WikiName=
-   * =FirstName=
-   * =LastName=
-
----++++ Optional fields
-   * =LoginName= - __Required if the system is configured to__ ==AllowLoginName== (Commonly referred to as the UserName).
-   * =Email= - If not provided, you must set a password, or password reset will not be possible.
-   * =Password= - If not provided, set passwords later using BulkResetPassword.
-   * =Confirm= - If provided, it must match the =Password= field. If missing, it will not be checked.
-   * =templatetopic= - Template used when creating the User topic. If not provided, defaults to [[%USERSWEB%.NewUserTemplate]], or [[%SYSTEMWEB%.NewUserTemplate]].
-   * =AddToGroups= - A comma-separated list of groups. When user is registered, they will be added to the listed groups. The groups must exist.
-
----++++ Customized table example
-
-Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
-
-<verbatim class='tml'>
-<noautolink>
-%EDITTABLE{}%
-| FirstName | LastName | Email | WikiName | AddToGroups | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User | you@example.com | TestUser | MyGroup, DocGroup | A | B | C |
-</noautolink></verbatim>
 
 ---
 
@@ -99,21 +145,5 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 <!--
 %JQREQUIRE{"chili"}%
 -->
-#RegisterForm
-<form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
-<input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
-<input type="submit" class="foswikiSubmit" value="Bulk Register these people" />
-<input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
-</form>
-
----++ <nop>%REGISTERTOPIC%
-
-%INCLUDE{"%REGISTERTOPIC%" warn="Topic does not exist"}%
-
----++ <nop>%LOGTOPIC%
-
-%INCLUDE{"%LOGTOPIC%" warn="Topic will be created during registration run."}%
-
----
 
 *%MAKETEXT{"Related topics:"}%* AdminToolsCategory

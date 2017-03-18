@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1464681281" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
 Strings captured in the =MAKETEXT= macro are automatically mapped to the
@@ -8,6 +8,7 @@ current user's selected language via =locale/*.po= translation files.
      | *Parameter* | *Description* | *Default* |
      | ="text"= <br /> =string="text"= | The text to be displayed (the _translatable string_). | |
      | =args= | a comma-separated list of arguments to be interpolated in the string, replacing =[_N]= placeholders in it. | |
+     | =arg1, arg2, ...= | separate arguments that may contain commas, for use instead of =args= if necessary | |
 ---++ Examples
    * =%<nop>MAKETEXT{string="Edit"}%= expands to =%MAKETEXT{string="Edit"}%=
    * =%<nop>MAKETEXT{"If you have any questions, please contact [_1]." args="%<nop>WIKIWEBMASTER%"}%= expands to =%MAKETEXT{"If you have any questions, please contact [_1]."
@@ -17,9 +18,16 @@ current user's selected language via =locale/*.po= translation files.
       "Did you want to [[[_1]][reset [_2]'s password]]?"
       args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"
     }%=
+   * =%<nop>MAKETEXT{"Did you want to [<nop>[<nop>[_1]][reset the password of [_2]]]?" arg1="%<nop>SYSTEMWEB%.ResetPassword" arg2="%<nop>WIKIUSERNAME%, master of the universe"}%= expands to =%MAKETEXT{
+      "Did you want to [[[_1]][reset the password of [_2]]]?"
+      arg1="%SYSTEMWEB%.ResetPassword"
+      arg2="%WIKIUSERNAME%, master of the universe"
+    }%=
 ---+++ Notes
    * =[_n]= brackets are validated to a positive integer from 1 to 100.
    * Missing arguments are replaced with an empty string ''.
+   * If you use the =args= parameter, any =argN= parameters will be
+     ignored.
    * An ampersand (<code>&amp;</code>) followed by one ascii alphabetic
      character (a...z, A...Z) in the translatable string will be expanded
      to an access key string. For example, =&amp;X= will expand to

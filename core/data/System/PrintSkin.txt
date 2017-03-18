@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Print Skin
 
@@ -8,8 +8,8 @@ This skin is part of every distribution.
 
 |  Description: | Useful to print pages with a small header and footer |
 |  Screenshot: | <a href="%ATTACHURL%/fullscreen.gif"><img src="%ATTACHURL%/screenshot.gif" alt="Click for full screen image" width="600" height="130" /></a> |
-|  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=print][Preview with this topic]] |
+|  Preview: | [[%SCRIPTURL{"view" topic="%WEB%.%TOPIC%" skin="print"}%][Preview with this topic]] |
 |  Base Name: | print |
 
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1437500521" size="9835" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1437500521" size="28752" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1489206078" size="9835" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1489206078" size="28752" user="ProjectContributor" version="1"}%

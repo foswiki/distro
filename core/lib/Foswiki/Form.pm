@@ -215,8 +215,13 @@ sub fieldTitle2FieldName {
     my ($text) = @_;
     return '' unless defined($text);
     $text =~ s/!//g;
-    $text =~ s/<nop>//g;     # support <nop> character in title
-    $text =~ s/[^\w\.]//g;
+    $text =~ s/<nop>//g;    # support <nop> character in title
+    if ( $Foswiki::cfg{LegacyFormfieldNames} ) {
+        $text =~ s/[^A-Za-z0-9_\.]//g;
+    }
+    else {
+        $text =~ s/[^\w\.]//g;
+    }
     return $text;
 }
 
@@ -672,8 +677,11 @@ define the field.
 
 sub getField {
     my ( $this, $name ) = @_;
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
-        return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
+    if ( defined $this->{fields} ) {
+        foreach my $fieldDef ( @{ $this->{fields} } ) {
+            return $fieldDef
+              if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
+        }
     }
     return;
 }

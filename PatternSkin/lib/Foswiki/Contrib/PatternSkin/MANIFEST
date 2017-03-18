@@ -1,4 +1,5 @@
 !noci
+
 data/_default/WebLeftBar.txt 0644
 data/Main/PatternSkinUserViewTemplate.txt 0644
 data/Main/WebLeftBarExample.txt 0644
@@ -14,6 +15,7 @@ data/System/PatternSkinCssCookbookHideActions.txt 0644
 data/System/PatternSkinCssCookbookNoLeftBar.txt 0644
 data/System/PatternSkinCssCookbookNoTopBar.txt 0644
 data/System/PatternSkinCssCookbookSidebarBackground.txt 0644
+data/System/PatternSkinCssCookbookSidebarToggle.txt 0644
 data/System/PatternSkinCustomization.txt 0644
 data/System/PatternSkinElements.txt 0644
 data/System/PatternSkinGraphics.txt 0644
@@ -110,6 +112,7 @@ pub/System/PatternSkinCssCookbookHideActions/hideunauthaction.css 0644
 pub/System/PatternSkinCssCookbookNoLeftBar/hideleftbar.css 0644
 pub/System/PatternSkinCssCookbookNoTopBar/notopbar.css 0644
 pub/System/PatternSkinCssCookbookSidebarBackground/sidebar.css 0644
+pub/System/PatternSkinCssCookbookSidebarToggle/SidebarToggle.css 0644
 pub/System/PatternSkinTheme/bullet-lock.gif 0644
 pub/System/PatternSkinTheme/bullet-personal_sidebar.gif 0644
 pub/System/PatternSkinTheme/bullet-toc.gif 0644
@@ -293,6 +296,7 @@ templates/viewbottombar.pattern.tmpl 0444
 templates/viewplain.pattern.tmpl 0444
 templates/viewprint.pattern.tmpl 0444
 templates/viewsidebar.pattern.tmpl 0444
+templates/viewsidebar.sidetoggle.tmpl 0444
 templates/viewtopbar.pattern.tmpl 0444
 templates/formtables.pattern01x01.tmpl 0444
 templates/view.pattern01x01.tmpl 0444

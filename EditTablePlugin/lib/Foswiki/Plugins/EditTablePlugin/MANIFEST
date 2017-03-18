@@ -12,8 +12,12 @@ pub/System/EditTablePlugin/btn_move_disabled.gif 0644
 pub/System/EditTablePlugin/btn_move_over.gif 0644
 pub/System/EditTablePlugin/btn_move.gif 0644
 pub/System/EditTablePlugin/edittable.css 0644
+pub/System/EditTablePlugin/edittable.css.gz 0644
+pub/System/EditTablePlugin/edittable_src.css 0644
 pub/System/EditTablePlugin/edittable.gif 0644
 pub/System/EditTablePlugin/edittable.js 0644
+pub/System/EditTablePlugin/edittable.js.gz 0644
+pub/System/EditTablePlugin/edittable_src.js 0644
 pub/System/EditTablePlugin/EditTablePluginCalendarExample.gif 0644
 pub/System/EditTablePlugin/img.gif 0644
 pub/System/EditTablePlugin/move_done_bg_anim.gif 0644

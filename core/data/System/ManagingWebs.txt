@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -46,7 +46,7 @@ To use this form you must be administrator.
 Before you begin: consider that less webs are better than more webs. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
 
 <noautolink>
-<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
+<form name="admin" action="%SCRIPTURLPATH{"manage" topic="%WEB%.%TOPIC%"}%" method="post">
 	<div id="createWeb" class="foswikiFormSteps">
 		<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
 		<div class="foswikiFormStep">

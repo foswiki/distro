@@ -794,7 +794,7 @@ sub formatResults {
 
 # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
             if ( my $cache = $session->{cache} ) {
-                $cache->addDependency( $web, $topic );
+                $cache->addDependencyForLink( $web, $topic );
             }
 
             my $topicMeta = $this->metacache->getMeta( $web, $topic );

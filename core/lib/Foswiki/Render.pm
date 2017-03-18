@@ -669,11 +669,11 @@ sub TML2PlainText {
         $text =~ s/%META:/%<nop>META:/g;
     }
     else {
-        $text =~ s/%META:[A-Z].*?}%//g;
+        $text =~ s/%META:[A-Z].*?\}%//g;
     }
 
     if ( $opts =~ m/expandvar/ ) {
-        $text =~ s/(\%)(SEARCH){/$1<nop>$2/g;    # prevent recursion
+        $text =~ s/(\%)(SEARCH)\{/$1<nop>$2/g;    # prevent recursion
         $topicObject = Foswiki::Meta->new( $this->{session} )
           unless $topicObject;
         $text = $topicObject->expandMacros($text);
@@ -685,10 +685,10 @@ sub TML2PlainText {
           || '';
         $text =~ s/%WIKITOOLNAME%/$wtn/g;
         if ( $opts =~ m/showvar/ ) {
-            $text =~ s/%(\w+({.*?}))%/$1/g;      # defuse
+            $text =~ s/%(\w+(\{.*?\}))%/$1/g;     # defuse
         }
         else {
-            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//g;    # remove
+            $text =~ s/%$Foswiki::regex{tagNameRegex}(\{.*?\})?%//g;    # remove
         }
     }
 
@@ -1308,7 +1308,7 @@ sub _renderWikiWord {
 
         # add a dependency so that the page gets invalidated as soon as the
         # topic is deleted
-        $this->{session}->{cache}->addDependency( $web, $topic )
+        $this->{session}->{cache}->addDependencyForLink( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderExistingWikiWord( $this, $web, $topic, $linkText, $anchor,
@@ -1324,7 +1324,7 @@ sub _renderWikiWord {
         # add a dependency so that the page gets invalidated as soon as the
         # WikiWord comes into existance
         # Note we *ignore* the params if the target topic does not exist
-        $this->{session}->{cache}->addDependency( $web, $topic )
+        $this->{session}->{cache}->addDependencyForLink( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderNonExistingWikiWord( $this, $web, $topic, $linkText );
@@ -1380,10 +1380,10 @@ sub _renderExistingWikiWord {
             $this->{LINKTOOLTIPINFO} = '$username - $date - r$rev: $summary';
         }
         elsif ( $this->{LINKTOOLTIPINFO} =~ m/^([Oo][Ff][Ff])?$/ ) {
-            undef $this->{LINKTOOLTIPINFO};
+            $this->{LINKTOOLTIPINFO} = '';
         }
     }
-    if ( defined $this->{LINKTOOLTIPINFO}
+    if (   $this->{LINKTOOLTIPINFO} ne ''
         && $this->{session}->inContext('view') )
     {
         require Foswiki::Render::ToolTip;

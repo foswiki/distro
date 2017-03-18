@@ -27,14 +27,14 @@ sub preview {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
-    if ( $session->{invalidTopic} ) {
+    if ( my $badTopic = $session->{request}->invalidTopic() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $session->{invalidTopic} ]
+            params => [$badTopic]
         );
     }
 
@@ -106,10 +106,10 @@ sub preview {
     else {
         $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//g;
     }
-    my $saveCmd = $query->param('cmd') || '';
+    my $saveCmd = Foswiki::entityEncode( $query->param('cmd') || '' );
     $tmpl =~ s/%CMD%/$saveCmd/g;
 
-    my $redirectTo = $query->param('redirectto') || '';
+    my $redirectTo = Foswiki::entityEncode( $query->param('redirectto') || '' );
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     $formName ||= '';
@@ -141,6 +141,28 @@ sub preview {
     # note: preventing linkage in rendered form can only happen in templates
     # see formtables.tmpl
 
+    my $originalrev =
+      Foswiki::entityEncode( $query->param('originalrev') || '' )
+      ;    # rev edit started on
+
+    #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
+    $tmpl =~ s/%ORIGINALREV%/$originalrev/g;
+
+    my $templatetopic =
+      Foswiki::entityEncode( $query->param('templatetopic') || '' );
+
+    #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
+    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g;
+
+    #this one's worrying, its special, and not set much at all
+    #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
+    my $newtopic = Foswiki::entityEncode( $query->param('newtopic') || '' );
+
+    #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
+    $tmpl =~ s/%NEWTOPIC%/$newtopic/g;
+
+# CAUTION: Once expandMacros executes, any template tokens that are expanded
+# inside a %ENCODE will be corrupted.  So do token substitution before this point.
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/%TEXT%/$displayText/g;
@@ -155,23 +177,6 @@ sub preview {
 
     $tmpl =~ s/<\/?(nop|noautolink)\/?>//gis;
 
-    # I don't know _where_ these should be done,
-    # so I'll do them as late as possible
-    my $originalrev = $query->param('originalrev');    # rev edit started on
-         #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
-    $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
-
-    my $templatetopic = $query->param('templatetopic');
-
-    #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
-    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g if ( defined($templatetopic) );
-
-    #this one's worrying, its special, and not set much at all
-    #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
-    my $newtopic = $query->param('newtopic');
-
-    #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
-    $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );
 ###
     $session->writeCompletePage($tmpl);
 }

@@ -6,5 +6,6 @@ lib/Foswiki/Contrib/FastCGIEngineContrib/Config.spec 0644
 lib/Foswiki/Contrib/FastCGIEngineContrib.pm 0644
 lib/Foswiki/Engine/FastCGI.pm 0644
 lib/Foswiki/Engine/FastCGI/ProcManager.pm 0644
+tools/systemd/foswiki-fastcgi.service 0755
 tools/foswiki.defaults 0755
 tools/foswiki.init-script 0755

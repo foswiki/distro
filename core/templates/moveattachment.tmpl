@@ -6,7 +6,7 @@
 %TMPL:DEF{"webaction"}% *%MAKETEXT{"Move file attachment"}%* %TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]"}% %TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment [_1]" args="[[%ATTACHURL%/%FILENAME%][%FILENAME%]]"}% %TMPL:END%
 
 
 %TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
@@ -31,7 +31,7 @@
 %TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move to web:"}%%TMPL:END%
 
 
-%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="" size="36" /><input type="hidden" name="onlywikiname" value="off" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
+%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="%TOPIC%" size="36" /><input type="hidden" name="onlywikiname" value="off" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"Attachment name:"}% %TMPL:END%
@@ -60,4 +60,4 @@
 
 
 
-%TMPL:DEF{"updatenote"}%%TMPL:END%
+%TMPL:DEF{"updatenote"}%%TMPL:END%%{ end }%

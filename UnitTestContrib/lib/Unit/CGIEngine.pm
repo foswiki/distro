@@ -7,7 +7,13 @@ use warnings;
 
 BEGIN {
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-    $Foswiki::cfg{SwitchBoard}{test} = [ 'Foswiki::UI::Test', 'test', {} ];
+    $Foswiki::cfg{SwitchBoard}{test} = {
+        package => 'Foswiki::UI::Test',
+
+        #request  => 'Foswiki::Request',
+        function => 'test',
+        context  => { test => 1 },
+    };
 }
 
 use Foswiki;

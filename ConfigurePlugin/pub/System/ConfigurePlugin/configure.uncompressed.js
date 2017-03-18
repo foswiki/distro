@@ -379,7 +379,13 @@ function _id_ify(id) {
         $div.html(TML.render_reports(results.messages));
         if (results.changes) {
             $.each(results.changes, function(key, value) {
-                $div.append('<div class="changes">' + key + ' = ' + value + '</div>');
+                // Taken from render_tml.uncompressed.js - render verbatim blocks.
+                var str = value;
+                str = str.toString()
+                         .replace(/&/g, "&amp;")
+                         .replace(/</g, "&lt;")
+                         .replace(/>/g, "&gt;");
+                $div.append('<div class="changes">' + key + ' = ' + str + '</div>');
             });
         }
 
@@ -581,9 +587,7 @@ function _id_ify(id) {
                     call_wizard($node, fb, $node);
                 }
             }).button({
-              icons: {
-                  primary: icon
-              }
+              icon: icon
             });
             $node.find(".button_box").append($button);
         }
@@ -664,9 +668,7 @@ function _id_ify(id) {
             handler.restoreCurrentValue();
             check_current_value($node, true);
         }).button({
-            icons: {
-                primary: "ui-icon-cancel"
-            }
+            icon: "ui-icon-cancel"
         }).hide();
         $button.appendTo($buttons);
 
@@ -676,9 +678,7 @@ function _id_ify(id) {
             handler.restoreDefaultValue();
             check_current_value($node, true);
         }).button({
-            icons: {
-                primary: "ui-icon-arrowrefresh-1-w"
-            }
+            icon: "ui-icon-arrowrefresh-1-w"
         }).hide();
         $button.appendTo($buttons);
 
@@ -1076,9 +1076,7 @@ if (0) {
         });
 
         $('#searchButton').button({
-          icons: {
-            primary: "ui-icon-search"
-          },
+          icon: "ui-icon-search",
           text: false
         }).click(function() {
           search($("#searchInput").val());
@@ -1181,9 +1179,7 @@ if (0) {
         });
         $('.help_button').each(function() {
             $(this).button({
-                icons: {
-                    primary: $(this).attr("name")
-                },
+                icon: $(this).attr("name"),
                 text: false
             });
         });

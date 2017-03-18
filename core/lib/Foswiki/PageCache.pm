@@ -165,13 +165,21 @@ m/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|
 
     # get cache_ignore pattern
     my @ignoreParams = $request->multi_param("cache_ignore");
-    push @ignoreParams,
-      (
-        "cache_expire",           "cache_ignore",
-        "_.*",                    "refresh",
-        "foswiki_redirect_cache", "logout",
-        "topic"
-      );
+    if ( defined $Foswiki::cfg{Cache}{ParamFilterList} ) {
+        push @ignoreParams,
+          split( /\s*,\s*/, $Foswiki::cfg{Cache}{ParamFilterList} );
+    }
+    else {
+        # Defaults for older foswiki
+        push @ignoreParams,
+          (
+            "cache_expire",           "cache_ignore",
+            "_.*",                    "refresh",
+            "foswiki_redirect_cache", "logout",
+            "validation_key",         "topic",
+            "redirectedfrom"
+          );
+    }
     my $ignoreParams = join( "|", @ignoreParams );
 
     foreach my $key ( sort $request->multi_param() ) {
@@ -411,7 +419,9 @@ sub isCacheable {
     $isCacheable = 0 if $session->inContext('command_line');
 
     # check for errors parsing the url path
-    $isCacheable = 0 if $session->{invalidWeb} || $session->{invalidTopic};
+    $isCacheable = 0
+      if $session->{request}->invalidWeb()
+      || $session->{request}->invalidTopic();
 
     # POSTs and HEADs aren't cacheable
     if ($isCacheable) {
@@ -437,6 +447,41 @@ sub isCacheable {
     #Foswiki::Func::writeDebug("isCacheable=$isCacheable") if TRACE;
     $this->{isCacheable}{$webTopic} = $isCacheable;
     return $isCacheable;
+}
+
+=begin TML
+
+---++ ObjectMethod addDependencyForLink($web, $topic)
+
+Add a reference to a web.topic to the dependencies of the current page.
+
+Topic references, unlike hard dependencies, may cause internal links - WikiWords
+to render incorrectly unless the cache is cleared when the topic changes.
+(i.e, link to a missing topic, or render as a "new link" for a newly existing topic).
+
+This routine is configurable using {Cache}{TrackInternalLinks}.  By default, it treats
+all topic references as simple dependencies.  If disabled, link references are ignored,
+but if set to authenticated, links are tracked only for logged in users.
+
+=cut
+
+sub addDependencyForLink {
+    my ( $this, $webRef, $topicRef ) = @_;
+
+#Foswiki::Func::writeDebug( "addDependencyForLink $webRef.$topicRef\n" ) if TRACE;
+
+    my $session = $Foswiki::Plugins::SESSION;
+
+    return $this->addDependency( $webRef, $topicRef )
+      if ( !defined $Foswiki::cfg{Cache}{TrackInternalLinks}
+        || ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'on' )
+        || ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'authenticated' )
+        && $session->inContext('authenticated') );
+
+    # If we reach here, either:
+    #   - It is a guest session and TrackInternalLinks was set to authenticated
+    #   - TrackInternalLinks is set to off (or some unexpected value.
+    return;
 }
 
 =begin TML
@@ -468,7 +513,7 @@ sub addDependency {
     }
     else {
 
-        #Foswiki::Func::writeDebug("addDependency($depWeb.$depTopic)") if TRACE;
+#Foswiki::Func::writeDebug("addDependency($depWeb.$depTopic) by" . ( caller() )[1] ) if TRACE;
     }
 
     # collect them; defer writing them to the database til we cache this page
@@ -680,6 +725,14 @@ sub _handleDirtyArea {
     finally {
         $prefs->popTopicContext();
     };
+
+    my $request = $session->{request};
+    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $cgis    = $session->{users}->getCGISession();
+    my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+
+    $text =~
+s/<input type='hidden' name='validation_key' value='(\?.*?)' \/>/Foswiki::Validation::updateValidationKey($cgis, $context, $usingStrikeOne, $1)/gei;
 
     #Foswiki::Func::writeDebug("out text='$text'") if TRACE;
     return $text;

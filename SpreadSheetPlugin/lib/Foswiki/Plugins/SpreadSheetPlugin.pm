@@ -12,8 +12,8 @@ use vars qw(
   $web $topic $user $installWeb $debug $skipInclude $doneInit
 );
 
-our $VERSION           = '1.22';
-our $RELEASE           = '08 Apr 2016';
+our $VERSION           = '1.23';
+our $RELEASE           = '20 Jan 2017';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
@@ -103,7 +103,7 @@ sub commonTagsHandler {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

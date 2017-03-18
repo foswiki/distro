@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1481215427" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ The 216 Standard Colors
 
@@ -405,7 +405,6 @@ This table can be used to choose a color in %WEBPREFSTOPIC% of each web.
 
 *Related web sites:*
    * http://html-color-codes.info/ - map of hexadecimal color codes, with color picker
-   * http://www.triplecode.com/munsell/ - color picker based on how people _perceive_ colors
    * http://www.cloford.com/resources/colours/websafe2.htm - Web-safe colors
 
 #ShortCuts

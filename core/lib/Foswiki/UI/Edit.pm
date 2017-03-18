@@ -318,6 +318,11 @@ sub init_edit {
         }
     }
 
+    # Sanitizing to prevent escape from ENCODE
+    $templateTopic = Foswiki::entityEncode($templateTopic) if $templateTopic;
+    $redirectTo    = Foswiki::entityEncode($redirectTo)    if $redirectTo;
+    $parentTopic   = Foswiki::entityEncode($parentTopic)   if $parentTopic;
+
     # The template might contain embedded META data,  so serialize it
     # and deserialize it to pick up the embedded meta.
     Foswiki::Serialise::deserialise(

@@ -43,8 +43,7 @@
 
 %TMPL:DEF{"breadcrumb:currenttopic"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%" title='%MAKETEXT{"Topic revision:"}% %REVINFO{format="$rev ($date - $time)"}%'>%TMPL:P{"breadcrumb:topic"}%</a>%TMPL:P{"breadcrumb:annotation"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%{ DEPRECATED: beforetext and aftertext }%
-%{ compatibility transition older than 4.2: }%
+}%%{ contentheader and contentfooter are PatternSkin specific.  For better cross-skin compatibility, override the beforetext and aftertext templates.}%
 %TMPL:DEF{"contentheader"}%%TMPL:P{"beforetext"}%%TMPL:END%
 %TMPL:DEF{"contentfooter"}%%TMPL:P{"aftertext"}%%TMPL:END%%{
 ---------------------------------------------------

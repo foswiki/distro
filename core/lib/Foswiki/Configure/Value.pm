@@ -13,39 +13,34 @@ item. This object is the *model* only.
 
 ---++ Value Attributes
 Values may have attributes associated with them in the .spec file. These
-attributes are identified by UPPERCASE names and may be one of four types:
+attributes are identified by UPPERCASE names and may be either:
 
-   * boolean - a single name enables the option.
+   * boolean - a single name enables the option, for example EXPERT
    * string - a name followed by an equals sign, followed by a quoted string
-     (single or double quotes both supported)
-   * keyword - a name followed by a keyword
+     (single or double quotes both supported) for example LABEL="Wibble".
+    (see also &&& below)
 
 The special prefix 'NO' on any attribute name will clear the value of
 that attributes.
 
-In support of older .spec files, the following are also supported (though
+&&& In support of older .spec files, the following are also supported (though
 their usage is deprecated):
 
    * Single-character attribute H. This is synonymous with HIDDEN.
    * Single-character attribute M is ignored.
-   * Unquoted conditions - DISPLAY_IF and ENABLE_IF may be followed by a
+   * Unquoted attribute values - DISPLAY_IF and ENABLE_IF may be followed by a
      a space, and terminated by /DISPLAY_IF (or /ENABLE_IF) or the end of
      the string.
 
-Formally,
+Certain attributes define a 'delegate' that allows further parsing of the
+value of an attribute. A delegate is a ref to a function that performs
+this parsing. Delegates are responsible for directly modifying the item
+on which they are run.
 
-attrs ::= attr attrs ;
-attr ::= name '=' values | name ;
-values ::= value | values ';' fattr ;
-value ::= quoted-string | name ;
-name is made up of [-A-Z0-9]
-
-Certain attributes define a 'process' that allows further parsing of the
-value of an attribute. A process is a ref to a function that performs
-this parsing. Execution of processes may be supressed by setting
+Execution of delegates may be supressed by setting
 $Foswiki::Configure::LoadSpec::RAW_VALS to 1.
 
-Processes are used to parse 'FEEDBACK' and 'CHECK' values.
+Delegates are used to parse 'FEEDBACK' and 'CHECK' values.
 
 =cut
 

@@ -45,14 +45,19 @@ sub send {
         $noredirect = 1;    # FCGI doesn't allow redirection of STDERR
     }
 
-    eval { _sendTestEmail( $Foswiki::cfg{WebMasterEmail}, $reporter ); };
+    eval { _sendTestEmail($reporter); };
     die $@ if $@;
     return undef;           # return the report
 }
 
 # Send a test email to the address in the value
 sub _sendTestEmail {
-    my ( $addrs, $reporter ) = @_;
+    my $reporter = shift;
+
+    my $fromName = $Foswiki::cfg{Email}{WikiAgentName}
+      || $Foswiki::cfg{WebMasterName};
+    my $fromAddr = $Foswiki::cfg{Email}{WikiAgentEmail}
+      || $Foswiki::cfg{WebMasterEmail};
 
     require Foswiki::Net;
 
@@ -100,9 +105,9 @@ SMIME
         $smimePlainText =~ s/<[^>]*>//g;
 
         my $msg = << "MAILTEST";
-From: "$Foswiki::cfg{WebMasterName}" <$Foswiki::cfg{WebMasterEmail}>
-To: $addrs
-Subject: Test of Foswiki e-mail to $addrs
+From: "$fromName" <$fromAddr>
+To: "$Foswiki::cfg{WebMasterName}" <$Foswiki::cfg{WebMasterEmail}>
+Subject: Test of Foswiki e-mail to $Foswiki::cfg{WebMasterName} 
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="=_=0i0k0i0w0s0o0fXuOi0E0A"
@@ -416,7 +421,8 @@ MAILTEST
     }
 
     $reporter->NOTE(<<ACCEPTED);
-Mail was accepted for delivery to $addrs from $Foswiki::cfg{WebMasterEmail}. Be sure to check any SPAM and Bulk-email folders before assuming that delivery has failed.
+Mail was accepted for delivery to  $Foswiki::cfg{WebMasterName} &lt;$Foswiki::cfg{WebMasterEmail}&gt; from  "$fromName" &lt;$fromAddr&gt;.
+Be sure to check any SPAM and Bulk-email folders before assuming that delivery has failed.
 ACCEPTED
 }
 

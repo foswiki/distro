@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1485768381" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -47,8 +47,8 @@ Dialogs can be created inline or loaded on demand. The basic skeleton of a dialo
 
   ...
 
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a>
 </div>
 </verbatim>
 
@@ -71,14 +71,6 @@ To load a dialog asynchronously use a fully quallified hyperref as in
 </verbatim>
 
 This will fetch the content of the dialog from the given url and add it to the page before opening it.
-Once the dialog has been loaded it will be cached as part of the current page unless the =cache= option
-to the =jqUIDialogLink= has been disabled:
-
-<verbatim class="tml">
-<a href="http://...." class="jqUIDialogLink {cache:false}">Open Dialog</a>
-</verbatim>
-
-In this case the dialog will alwas be fetched again from the backend using the given url.
 
 ---++ Button Click Actions
 When the button is clicked:
@@ -89,15 +81,15 @@ When the button is clicked:
 
 ---++ Parameters 
 
-Parameters can be set using JQueryMetadata.
+Parameters can be set using HTML5 data (=data-&lt;name>=)
 
 | *Name* | *Description* | *Default* |
 | width | width of the dialog | 300 |
 | height | height of the dialog | auto |
-| autoOpen | boolean flag to either open the dialog when loaded (true) or delay opening it until the user says so (false) | false |
+| auto-open | boolean flag to either open the dialog when loaded (true) or delay opening it until the user says so (false) | false |
 | draggable | boolean flag to make the dialog draggable | false |
 | resizable | boolean flag to make the dialog resizable | false |
-| closeOnEscape | boolean flag to let the user close the dialog using the ESC key | false |
+| close-on-escape | boolean flag to let the user close the dialog using the ESC key | false |
 | show | animation to be used to display the dialog | fade |
 | hide | animation to be used to hide the dialog |  |
 | modal | If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. | false |
@@ -145,7 +137,7 @@ $("#mydialog").bind("dialogclose", function() {
 ---+++ Drop-down login dialog
 <a href="#dialog" class="jqUIDialogLink">Login</a>
 
-<div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog {modal:true, position:'center top', width:'auto', show: {effect: 'drop', direction: 'up', duration:'fast'}, hide:{ effect: 'drop', direction: 'up', duration:'fast' }}">
+<div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog" data-modal="true" data-position='{"at":"top"}' data-width="auto" data-show='{"effect":"drop", "direction":"up", "duration":"fast"}' data-hide='{"effect":"drop", "direction":"up", "duration":"fast"}'>
   <table class='foswikiLayoutTable'>
     <tr>
       <th>%MAKETEXT{"Name:"}%</th>
@@ -156,24 +148,22 @@ $("#mydialog").bind("dialogclose", function() {
       <td><input type="password" size="50" name="password" class="foswikiInputField" /></td>
     </tr>
   </table>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Come on in"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Never mind"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Come on in"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Never mind"}%</a>
 </div>
 
 ---+++ Dialog fetched asynchronously
 
 <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=text&section=dialog" class="jqUIDialogLink">Open Dialog</a>
 
-<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=text&section=dialog" class="jqUIDialogLink {cache:false}">Open Dialog (no cache)</a>
-
-<verbatim class="foswikiHidden">
+<verbatim class="tml">
 %STARTSECTION{"dialog"}%
-<div title="From Ajax call" class="jqUIDialog { modal:true, resizable:true, draggable:true, height:300, width:600}">
+<div title="From Ajax call" class="jqUIDialog" data-modal="true" data-resizable="true" data-draggable="true" data-height="300" data-width="600">
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
   ex ea commodo consequat.
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a>
 </div>
 %ENDSECTION{"dialog"}%
 </verbatim>

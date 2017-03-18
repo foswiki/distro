@@ -259,13 +259,17 @@ foswiki.Pref = {
 	_writePrefValues:function(inValues) {
 		var cookieString = (inValues != null)
         ? inValues.join(foswiki.Pref.COOKIE_PREF_SEPARATOR) : '';
+        var cookieName = foswiki.getPreference('COOKIENAMEPREFIX') + foswiki.Pref.FOSWIKI_PREF_COOKIE_NAME;
 		var expiryDate = new Date ();
+        var cookiePath   = foswiki.getPreference('COOKIEPATH');
+        var cookieDomain = foswiki.getPreference('COOKIEREALM');
+        var cookieSecure = foswiki.getPreference('URLHOST').startsWith("https://");
         // Correct for Mac date bug - call only once for given Date object!
 		foswiki.Pref._fixCookieDate (expiryDate);
 		expiryDate.setTime (expiryDate.getTime()
                             + foswiki.Pref.COOKIE_EXPIRY_TIME);
-		foswiki.Pref.setCookie(foswiki.Pref.FOSWIKI_PREF_COOKIE_NAME,
-                               cookieString, expiryDate, '/');
+		foswiki.Pref.setCookie(cookieName,
+                               cookieString, expiryDate, cookiePath, cookieDomain, cookieSecure);
 	},
 	
 	/**

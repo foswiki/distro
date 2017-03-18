@@ -132,6 +132,8 @@ data/System/ObjectMethod.txt 0644
 data/System/PackageForm.txt 0644
 data/System/PageCaching.txt 0644
 data/System/ParentList.txt 0644
+data/System/PendingRegistrations.txt 0644
+data/System/PendingRegistrationsTemplate.txt 0644
 data/System/PerlDependencyReport.txt 0644
 data/System/PerlDoc.txt 0644
 data/System/PlainSkin.txt 0644
@@ -151,6 +153,7 @@ data/System/ReleaseNotes01x00.txt 0644
 data/System/ReleaseNotes01x01.txt 0644
 data/System/ReleaseNotes02x00.txt 0644
 data/System/ReleaseNotes02x01.txt 0644
+data/System/ReleaseNotes02x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
@@ -280,6 +283,8 @@ data/System/VarVAR.txt 0644
 data/System/VarWEB.txt 0644
 data/System/VarWEBLIST.txt 0644
 data/System/VarWEBPREFSTOPIC.txt 0644
+data/System/VarWIKIAGENTEMAIL.txt 0644
+data/System/VarWIKIAGENTNAME.txt 0644
 data/System/VarWIKIHOMEURL.txt 0644
 data/System/VarWIKINAME.txt 0644
 data/System/VarWIKIPREFSTOPIC.txt 0644
@@ -354,8 +359,10 @@ lib/Foswiki/AccessControlException.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
+lib/Foswiki/Aux/MuteOut.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Auth.pm 0444
+lib/Foswiki/Configure/Bootstrap.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AccessibleCFG.pm 0444
 lib/Foswiki/Configure/Checkers/AccessControlACL/EnableDeprecatedEmptyDeny.pm 0444
@@ -386,6 +393,7 @@ lib/Foswiki/Configure/Checkers/Email/SSLClientKeyFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
 lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
+lib/Foswiki/Configure/Checkers/ForceDefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/FormTypes.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/CharacterEncoding.pm 0444
@@ -558,6 +566,7 @@ lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
+lib/Foswiki/Macros/PENDINGREGISTRATIONS.pm 0444
 lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/PUBURLPATH.pm 0444
@@ -590,7 +599,6 @@ lib/Foswiki/Merge.pm 0444
 lib/Foswiki/Meta.pm 0444
 lib/Foswiki/MetaCache.pm 0444
 lib/Foswiki/Net.pm 0444
-lib/Foswiki/Net/HTTPResponse.pm 0444
 lib/Foswiki/Net/UserCredAgent.pm 0444
 lib/Foswiki/OopsException.pm 0444
 lib/Foswiki/PageCache.pm 0444
@@ -653,7 +661,9 @@ lib/Foswiki/Render/Parent.pm 0444
 lib/Foswiki/Render/ToolTip.pm 0444
 lib/Foswiki/Render/Zones.pm 0444
 lib/Foswiki/Request.pm 0444
+lib/Foswiki/Request/Attachment.pm 0444
 lib/Foswiki/Request/Cache.pm 0444
+lib/Foswiki/Request/Rest.pm 0444
 lib/Foswiki/Request/Upload.pm 0444
 lib/Foswiki/Response.pm 0444
 lib/Foswiki/Sandbox.pm 0444
@@ -772,6 +782,9 @@ pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
 pub/System/ProjectLogos/foswiki-logo-icon.png 0644
 pub/System/ProjectLogos/foswiki-poweredby.gif 0644
+pub/System/SiteChanges/sitechanges.js 0644
+pub/System/SiteChanges/sitechanges.js.gz 0644
+pub/System/SiteChanges/sitechanges.uncompressed.js 0644
 pub/System/Skins/js.js 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/base.css.gz 0644

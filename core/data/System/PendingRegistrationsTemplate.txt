@@ -1,0 +1,47 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482950646" format="1.1"  version="1"}%
+---+!! Pending Registrations Template
+%TOC%
+---++ Tailoring instructions:
+The contents of the Pending Registrations report can be modified to report any fields collected on a customized UserRegistration form.  Each formfield name
+is substituted with the similarly named token in the row definition:  For example,  if your User Registration form includes the =Organization= field, it can
+be included by adding =$Organization= to the below !ApprovalRow and !VerificationRow templates.
+
+Both this topic, and the PendingRegistrations topic must be in the same web for the override to work:
+   1 Copy this template topic to %IF{"istopic '%USERSWEB%.PendingRegistrationsTemplate'" else="!$percntUSERSWEB$percnt.PendingRegistrationsTemplate" then="[[$percntUSERSWEB$percnt.PendingRegistrationsTemplate]] ...done"}%
+   1 Edit %IF{"istopic '%USERSWEB%.PendingRegistrationsTemplate'" else="!$percntUSERSWEB$percnt.PendingRegistrationsTemplate" then="[[$percntUSERSWEB$percnt.PendingRegistrationsTemplate]]"}% and make the desired changes.
+   1 Copy %SYSTEMWEB%.PendingRegistrations to %IF{"istopic '%USERSWEB%.PendingRegistrations'" else="!$percntUSERSWEB$percnt.PendingRegistrations" then="[[$percntUSERSWEB$percnt.PendingRegistrations]] ...done"}%.
+   1 %USERSWEB%.PendingRegistrations will now generate a report using your tailored layout.
+
+---++ Templates for "Pending Approval" registrations
+<verbatim>
+%TMPL:DEF{"ApprovalHeader"}%<noautolink>
+| *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | *Action* |
+%TMPL:END%
+
+%TMPL:DEF{"approvalNotEnabled"}%<div class="foswikiAlert">%MAKETEXT{"Registration approval is not enabled."}%</div>%TMPL:END%
+%TMPL:DEF{"approveAction"}%
+%MAKETEXT{"You can use the \"approve\" or \"reject\" links to approve or reject these registrations"}%
+%TMPL:END%
+
+%TMPL:DEF{"ApprovalRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $ApprovalCode |\
+[[%SCRIPTURLPATH{"register" action="approve" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Approve"}%]] / \
+[[%SCRIPTURLPATH{"register" action="disapprove" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Reject"}%]] |
+%TMPL:END%
+</verbatim>
+
+---++ Templates for "Pending Verification" registrations
+<verbatim>
+%TMPL:DEF{"VerificationHeader"}%<noautolink>
+| *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | 
+%TMPL:END%
+
+%TMPL:DEF{"verifyNotEnabled"}%<div class="foswikiAlert">%MAKETEXT{"Email verification is not enabled."}%</div>%TMPL:END%
+
+%TMPL:DEF{"VerificationRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $VerificationCode |%TMPL:END%
+</verbatim>
+
+---++ Common templates
+<verbatim>
+%TMPL:DEF{"accessdenied"}%<div class="foswikiAlert">%MAKETEXT{"Access to pending registrations is restricted to administrators."}%</div>%TMPL:END%
+%TMPL:DEF{"nothingPending"}%<div class="foswikiAlert">%MAKETEXT{"No registrations are pending."}%</div>%TMPL:END%
+</verbatim>

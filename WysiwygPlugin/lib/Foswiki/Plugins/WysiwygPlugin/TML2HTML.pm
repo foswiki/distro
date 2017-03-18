@@ -289,17 +289,17 @@ sub _processTags {
     while ( scalar(@queue) ) {
         my $token = shift(@queue);
         if ( $token =~ /^\n?%$/s ) {
-            if ( $token eq '%' && $stackTop =~ /}$/ ) {
+            if ( $token eq '%' && $stackTop =~ /\}$/ ) {
                 while ( scalar(@stack)
                     && $stackTop !~
-                    /^\n?%(?:~~ )?($Foswiki::regex{tagNameRegex}){.*}$/os )
+                    /^\n?%(?:~~ )?($Foswiki::regex{tagNameRegex})\{.*\}$/os )
                 {
                     $stackTop = pop(@stack) . $stackTop;
                 }
             }
             if (   $token eq '%'
                 && $stackTop =~
-                m/^(\n?)%(~~ )?($Foswiki::regex{tagNameRegex})({.*})?$/os )
+                m/^(\n?)%(~~ )?($Foswiki::regex{tagNameRegex})(\{.*\})?$/os )
             {
                 my $nl   = $1;
                 my $glue = $2 || '';
@@ -745,7 +745,6 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         elsif ($inList
             && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e )
         {
-
             # Extend text of previous list item by dropping through
             $result[-1] .= $line;
             $line = '';
@@ -753,7 +752,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         }
         elsif ( $line =~ /^<hr class="TMLhr"/ ) {
             push( @result, '</p>' ) if $inParagraph;
+            $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inParagraph = 0;
+            $inList      = 0;
         }
         elsif ( $line eq $tableAndMacrosDivStart ) {
             push( @result, '</p>' ) if $inParagraph;

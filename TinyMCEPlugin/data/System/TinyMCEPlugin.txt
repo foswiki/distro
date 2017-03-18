@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1485356419" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -6,7 +6,7 @@ One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 %JQREQUIRE{"chili"}%
 -->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
@@ -299,17 +299,19 @@ For the full list, consult [[WysiwygPlugin#Known_issues][WysiwygPlugin documenta
 
 Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
----++ Plugin Info
+---++ Copyright
+&copy; 2007-2010 Crawford Currie http://c-dot.co.uk,
+&copy; 2010-2017 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] 
 
-Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. 
 
-|  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
-                &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
-|             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
-|  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
-|  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  25 Jan 2017: | Foswikitask:Item14305: eliminate sporadic alert() by tinymce initializer |
+|  1.30 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.11 |
+|  21 Dec 2012 (TBD) | Foswikitask:Item12278: Changing a wikiword should not require visiting the !TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
+|  29 Oct 2012 (TBD) | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
 |  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
 |  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
 |  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
@@ -380,7 +382,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling Foswikitask:Item8108: added safari,inlinepopups,fullscreen plugins, fixed some minor bugs on IE |
 |  03 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
 |  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
-|  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
+|  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Foswiki:Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
 |  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM - Eugen Mayer |
 |  03 Dec 2008 | Crawford Currie re-released for the Foswiki project |
 |  03 Aug 2008 | TWiki 4.2.1 release version |
@@ -393,7 +395,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  20 Dec 2007 | TWikibug:Item5047: disable save and preview during page load TWikibug:Item5111: make the entry in the format menu sensitive to where the cursor is TWikibug:Item5022: made TT font size same as verbatim. Had to add a new style to do it, as TMCE didn't want to play with TT or CODE tags. |
 |  19 Nov 2007 | TWikibug:Item4742: auto-disable if Wysiwyg is not enabled TWikibug:Item4820: validate mandatory fields on save TWikibug:Item4747: add &lt;sticky&gt; TWikibug:Item4811: noautolink *looks* like an HTML construct but in fact is not; the tag is infact an "on-off" switch and does not imply any HTML structure, so cannot be converted to a DIV or a span, so has to be removed. TWikibug:Item4817: added typewriter text button TWikibug:Item4850: added font colour controls TWikibug:Item4645: added attachment management features TWikibug:Item4945: added switch to raw and back |
 |  16 Sep 2007 | TWikibug:Item4630: polished up the way the secret string is done, to ensure synch between perl and JS. TWikibug:Item4622: added UTF-8 handling steps that fixup malformed UTF8 strings before presenting them to the editor (saves Moz) and stops the editor passing them back to TWiki (saves IE). TWikibug:Item4603: added the draft help, so we can at least build the beta without the nasty warning |
-|  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using XMLHttpRequest. |
+|  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using !XMLHttpRequest. |
 |  12 Sep 2007 | TWikibug:Item4604 Converted to REST call for content conversion, to provide safe callback if JS is disabled in the browser TWikibug:Item4583 relaxed regex to try and make it work for UTF-8 topic names |
 |  11 Sep 2007 | TWikibug:Item4535 refinements to link handling to improve topic name recognition |
 |  07 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save |
@@ -422,23 +424,3 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="wysiwyg.css.gz" attr="h" comment="" date="1437500521" size="390" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.uncompressed.js" attr="h" comment="" date="1437500521" size="18556" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_hidden_verbatim.gif" attr="h" comment="" date="1437500521" size="1654" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermarks.psd" attr="h" comment="" date="1437500521" size="427691" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_literal.gif" attr="h" comment="" date="1437500521" size="1029" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_protect_on_save.gif" attr="h" comment="" date="1437500521" size="1492" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.uncompressed.js" attr="h" comment="" date="1437500521" size="4233" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.js.gz" attr="h" comment="" date="1437500521" size="2625" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wysiwyg_src.css" attr="h" comment="" date="1437500521" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_verbatim.gif" attr="h" comment="" date="1437500521" size="1181" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wysiwyg.css" attr="h" comment="" date="1437500521" size="827" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1437500521" size="30118" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_hidden.gif" attr="h" comment="" date="1437500521" size="950" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" date="1437500521" size="1847" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" date="1437500521" size="869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_protect_forever.gif" attr="h" comment="" date="1437500521" size="1494" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot" date="1437500521" size="35155" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.js" attr="h" comment="" date="1437500521" size="8435" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="147" user="ProjectContributor" version="1"}%

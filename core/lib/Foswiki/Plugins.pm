@@ -36,7 +36,11 @@ if you have a recent enough version.
 
 =cut
 
-use version 0.77; our $VERSION = version->parse("2.4");
+use version 0.77; our $VERSION = version->parse("2.5");
+
+# 2.5 - Foswiki::Request subtypes of Rest, JSON, Attachment, ...
+# 2.4 - Template names suport unicode characters
+# 2.3 - Added registrationValidationHandler
 
 our $inited = 0;
 
@@ -136,13 +140,9 @@ sub preload {
     unless ( $Foswiki::cfg{DisableAllPlugins} ) {
 
         # debugenableplugins only supported in DEBUG and unit test modes
-        if (
-            $query
-            && defined(
-                $query->param('debugenableplugins')
-                  && ( DEBUG || $query->isa('Unit::Request') )
-            )
-          )
+        if (   $query
+            && defined $query->param('debugenableplugins')
+            && ( DEBUG || $query->isa('Unit::Request') ) )
         {
             foreach
               my $pn ( split( /[,\s]+/, $query->param('debugenableplugins') ) )

@@ -36,6 +36,23 @@ sub check_current_value {
         );
     }
 
+    if ( $file && $path ) {
+        my @mods = (
+            {
+                name => 'IO::Socket::SSL',
+                usage =>
+'Required if both ={Email}{SSLCaFile}= and ={Email}{SSLCaPath}= are set. Clear one or the other.',
+                minimumVersion => 1.973
+            }
+        );
+        Foswiki::Configure::Dependency::checkPerlModules(@mods);
+        foreach my $mod (@mods) {
+            if ( !$mod->{ok} ) {
+                $reporter->ERROR( $mod->{check_result} );
+            }
+        }
+    }
+
     my $cfile = $Foswiki::cfg{Email}{SSLCrlFile};
     Foswiki::Configure::Load::expandValue($cfile);
     if ( $Foswiki::cfg{Email}{SSLCheckCRL}
@@ -52,7 +69,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

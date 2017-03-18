@@ -18,6 +18,6 @@
    * %MAKETEXT{"*Change comment:* If you use _Change Properties_ to change a comment, the comment shown in the topic will change, but the comment shown against the attachment history will be the comment when the file was uploaded."}%
    * %MAKETEXT{"*Attach new file:* If you select a different file in the browser, it is this that will be updated or added."}%
 %TMPL:END%
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Upload file"}%" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="changeproperties" value="%MAKETEXT{"Change properties only"}%" />%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?attachment=%ENCODE{%FILENAME%}%" rel='nofollow'>%MAKETEXT{"Move or delete attachment"}%</a>%TMPL:P{"sep"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Upload file"}%" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="changeproperties" value="%MAKETEXT{"Change properties only"}%" />%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?attachment=%FILENAME%" rel='nofollow'>%MAKETEXT{"Move or delete attachment"}%</a>%TMPL:P{"sep"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%
 %TMPL:DEF{"fileuser"}%(%FILEUSER%)%TMPL:END%
-%TMPL:P{"attach"}%
+%TMPL:P{"attach"}%%{ end }%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1486602810" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -29,12 +29,16 @@ Add and edit aliases in %SYSTEMWEB%.InterWikis.%STARTSECTION{"aliasformat"}%
       * any external links.
       * Hint: Escape =='WikiWords'== and =='$page'==.
       * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
+
+<div class="foswikiHelp">%H% Note that Interwiki links do not properly resolve
+when part of an INCLUDEd topic.</div>
+
 <div class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 </div>
 
 <div class="foswikiHelp">
-%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
+%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. 
 </div>
 %ENDSECTION{"aliasformat"}%
 
@@ -63,6 +67,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   8 Feb 2071: (1.24)  | Foswikitask:Item14321: Fix some stale default Interwiki links. |
 |   8 Apr 2016: (1.23)  | Foswikitask:Item14022: Change foswiki.org links to https. |
 |  14 Jun 2014: (1.22)  | Foswikitask:Item13287: Foswikitask:Item13387: Regular expression enhancements, better UTF-8 support. |
 |  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
@@ -103,7 +108,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2015 %SYSTEMWEB%.ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2017 %SYSTEMWEB%.ProjectContributor"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%

@@ -16,11 +16,11 @@ BEGIN {
     }
 }
 
-our $VERSION = '4.44';
+our $VERSION = '4.45';
 
 # Please note that the second is now two digit.
 # Someone increased 4.22 to 4.3 which is not correct.
-our $RELEASE = '4.44';
+our $RELEASE = '28 Nov 2016';
 
 our $pluginName        = 'EditTablePlugin';
 our $ENCODE_START      = '--EditTableEncodeStart--';
@@ -83,7 +83,7 @@ We cannot do table parsing in commonTagsHandler because by then the TML has been
 =cut
 
 sub beforeCommonTagsHandler {
-    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL)\{.*\}%/;
     Foswiki::Func::writeDebug(
         "EditTablePlugin::beforeCommonTagsHandler( $web.$topic )")
       if $debug;
@@ -108,7 +108,7 @@ Calls EditTablePlugin::Core::parseTables for INCLUDEd topics.
 =cut
 
 sub commonTagsHandler {
-    return unless $_[0] =~ /%EDIT(?:TABLE|CELL|TABLESTUB){.*}%/;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL|TABLESTUB)\{.*\}%/;
 
     Foswiki::Func::writeDebug(
         "EditTablePlugin::commonTagsHandler( $web.$topic )")

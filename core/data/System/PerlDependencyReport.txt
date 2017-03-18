@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460215225" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -17,17 +17,18 @@ needed, and should only be installed if you know that your particular
 installation will require them.</div>
 
 %IF{"$include='all'" 
-   else="$percntBUTTON{
-      \"Show all dependencies\"
-      icon=\"book\"
-      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';\"
-   }$percnt" 
-   then="$percntBUTTON{
-      \"Show only missing dependencies\"
-      icon=\"book\"
-      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';\"
-   }$percnt"
-}%
+   else="
+$percntBUTTON{
+  \"Show all dependencies\"
+  icon=\"book\"
+  onclick=\"window.location.href='$percntSCRIPTURLPATH{\"view\" topic=\"$percntWEB$percnt.$percntTOPIC$percnt\" include=\"all\"}$percnt';\"
+}$percnt" then=" 
+$percntBUTTON{
+  \"Show only missing dependencies\"
+  icon=\"book\"
+  onclick=\"window.location.href='$percntSCRIPTURLPATH{\"view\" topic=\"$percntWEB$percnt.$percntTOPIC$percnt\" include=\"missing\"}$percnt';\"
+}$percnt 
+"}%
 
 %TOC%
 

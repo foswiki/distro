@@ -62,7 +62,9 @@ use constant TRACE => 0;
 
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript
-sub _getSecretCookieName { 'FOSWIKISTRIKEONE' }
+sub _getSecretCookieName {
+    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . 'FOSWIKISTRIKEONE';
+}
 
 =begin TML
 
@@ -90,6 +92,15 @@ sub addValidationKey {
     # Don't use CGI::hidden; it will inherit the URL param value of
     # validation key and override our value :-(
     return "<input type='hidden' name='validation_key' value='?$nonce' />";
+}
+
+sub updateValidationKey {
+    my ( $cgis, $context, $strikeone, $oldKey ) = @_;
+
+    # expire old key
+    expireValidationKeys( $cgis, $oldKey );
+
+    return addValidationKey( $cgis, $context, $strikeone );
 }
 
 =begin TML
@@ -192,8 +203,10 @@ sub getCookie {
     my $cookie = CGI::Cookie->new(
         -name  => _getSecretCookieName(),
         -value => $secret,
-        -path  => '/',
+        -path  => $Foswiki::cfg{Sessions}{CookiePath} || '/',
         -httponly => 0,    # we *want* JS to be able to read it!
+        -domain => $Foswiki::cfg{Sessions}{CookieRealm} || '',
+        -secure => $Foswiki::Plugins::SESSION->{request}->secure,
     );
 
     return $cookie;

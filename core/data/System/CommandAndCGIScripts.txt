@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456765822" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -24,7 +24,7 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line.
 
-<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, ==www-data= or =www=*. %BR%
+<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, =www-data= or =www=.* %BR%
 If running scripts under the control of cron, install the crontab under the
 web server user.</div>
 
@@ -41,6 +41,15 @@ $ cd /usr/local/foswiki/bin
 $ save topic=MyWeb.MyTopic user=admin action=save text="New text of the topic"
 </verbatim>
 All parameters require a value, even if that is the empty string. Note that parameters passed on the command-line should *not* be URL-encoded.
+
+*Note:* If any of the arguments will contain utf-8 strings, (ie. when entering a Unicode topic name), you must run the command
+using the perlrun argument =-CA=.  For example:
+<pre class="bash">
+$ cd /usr/local/foswiki/bin
+$ perl -CA ./save -topic MyWeb.My&Uuml;tf8T&ouml;pic -user admin -action save -text "Text with &raquo;&Auml;&euml;&iuml;&ouml;&uuml;&laquo; utf8 characters."
+</pre>
+
+For more details on the perl command line arguments, see [[http://perldoc.perl.org/perlrun.html]].
 
 ---+++++ "Authentication" in the command line environment
 
@@ -153,7 +162,7 @@ __New topic creation %ICON{"wip"}%:__
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web. However this doesn't happen until the topic is saved.
 
 When a new topic is created using edit, the topic isn't actually created until the edit is saved. The content of the new topic is initialised according to the parameters you pass.
-   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TopicTemplates)
+   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TemplateTopics)
    * =text= - use this as the text of the topic. Macros are *not* expanded in this text. Overrides any text set in the =templatetopic=.
    * =formtemplate= - Overrides any form set in the =templatetopic=.
    * =notemplateexpansion= - given by =templatetopic=. Use this when you want a verbatim copy of a topic.
@@ -455,10 +464,10 @@ The =rest= script assumes that it will be called with URL in the form:
 where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function. If you need to
 pass a topic name, then this is passed in the =topic= URL parameter.
 
-As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
+As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. (The EmptyPlugin is not enabled by default.)
 
 The URL to call this function from a browser would be:
-   * =%SCRIPTURL{rest}%/EmptyPlugin/example?topic=My.TopicName=
+   * =%SCRIPTURL{"rest" subject="EmptyPlugin" verb="example" topic="My.TopicName"}%=
 alternatively, to run it from the commandline:
    * =cd foswiki/bin ; ./rest /EmptyPlugin/example -topic=My.TopicName=
 
@@ -535,7 +544,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
 
 <verbatim class="html">
-<form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
+<form name='new' action='%SCRIPTURLPATH{"save" topic="%SANDBOXWEB%.SomeTopic"}%' method='post'>
     ...
 </form>
 </verbatim>
@@ -595,8 +604,8 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
    * You can directly invoke upload from the CLI script.__New with Foswiki 2.1__
-      * You must use the Perl CLI options  '-CA' if the filename contains non-ASCII characters.
-      * ex. Run from the bin directory: =perl -CA ./upload filepath="/path/and/filename.dat" filename="attachname.dat" topic=Sandbox.ExistingTopic=
+      * You must use the Perl CLI options  '-CA' if the filename or any other arguments contains utf-8 (non-ASCII) characters.
+      * ex. Run from the bin directory: =perl -CA ./upload filepath="/path/and/filename.dat" filename="&Atilde;ttachname.dat" topic=Sandbox.Existing&Uuml;tf8Topic=
 
 <div class="foswikiHelp"> 
 *%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.
@@ -615,7 +624,7 @@ Used for viewing topics.
 | =rev= | Revision to view (e.g. =rev=45=) | _latest_ |
 | =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through | |
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
-| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
+| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%][%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | _&lt;any name&gt;_ | It can be expanded in the topic text during rendering and referenced in IF statements  - See the %SYSTEMWEB%.VarURLPARAM macro and %SYSTEMWEB%.IfStatements | |
 
 <div class="foswikiHelp"> 
@@ -627,10 +636,12 @@ Used for viewing attachments. Normally, a site will publish the attachments (=pu
 
 | *Parameter* | *Description* | *Default* |
 | =filename= | name of attachment | _required_ |
+| =topic= | Name of the Web.Topc | _optional_ |
 | =rev= | Revision to view | _latest_ |
 
 Instead of using the =filename= parameter, you can append the attachment name
-to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=
+to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=. However, when writing a link to an attachment
+it's recommended to use the fully canonical form: =%<nop>SCRIPTURLPATH{"viewfile" topic="Webname.Topicname" filename="Attachment.gif"}%.  
 
 ---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.
@@ -640,10 +651,11 @@ This is a fully functional command line interface to the Foswiki configuration. 
 
 =tools/configure [-search] [-getspec] [-getcfg] [-check] [-wizard] [-method] [-save] [-json] [-trace] [-help] [-noprompt] [-expert]=
 
-Note: if you need to pass in international characters, it needs to be run with the =perl -CA= command argument.
+Note: if you need to pass in international characters, it needs to be run with the =perl -CA= command argument. (=perl -CAS= when running a new configuration bootstrap)
 
 | *Function* | *Usage* |
 | Bootstrap a new install without helptext | =tools/configure -save -expert= |
+| Bootstrap an installation containing international characters | =perl -CAS tools/configure -save= |
 | Set multiple variables | =tools/configure -save -set {Password}='newadminpassword' -set {WebMasterEmail}='newadmin@yourco.com'= |
 | Check a setting or section of settings. | =tools/configure -check Internationalisation= |
 | Run a wizard | =tools/configure -wizard Email -method send_test_email= |

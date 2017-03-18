@@ -490,6 +490,22 @@ HERE
 
     {
         exec => ROUNDTRIP,
+        name => 'HRFollowinglist',
+        tml  => <<'HERE',
+   * List entry
+---
+New para
+HERE
+        finaltml => <<'HERE',
+   * List entry
+---
+
+New para
+HERE
+    },
+
+    {
+        exec => ROUNDTRIP,
         name => 'centering',
         html => <<'HERE',
 <center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div> 
@@ -1253,6 +1269,16 @@ WebHome
 </noautolink>
 LinkingTopic
 EVERYWHERE
+    },
+    {
+        # Item14253 Extra spaces before links
+        exec => ROUNDTRIP,
+        name => 'Item14253LinkSpaces',
+        tml  => <<"HERE",
+Text "[[WebHome][This is a link]]" Follows
+
+More "[[WebHome]]" Follows
+HERE
     },
     {
 

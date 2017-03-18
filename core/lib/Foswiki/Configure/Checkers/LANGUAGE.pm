@@ -40,12 +40,14 @@ sub check_current_value {
       unless ( -r "$dir/$lang.po" );
 
     # Code taken from Foswki::I18N
-    my $h = Foswiki::I18N->get_handle($lang);
-    my $name = eval { $h->maketext("_language_name") };
-    unless ($name) {
-        $reporter->ERROR(
+    if ( Foswiki::I18N->can('get_handle') ) {
+        my $h = Foswiki::I18N->get_handle($lang);
+        my $name = eval { $h->maketext("_language_name") };
+        unless ($name) {
+            $reporter->ERROR(
 "Internal error: $lang is missing the '_language_name' from it's translation.  Language will not be usable."
-        );
+            );
+        }
     }
 }
 

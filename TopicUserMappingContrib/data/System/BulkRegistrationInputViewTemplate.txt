@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456982088" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487907314" format="1.1" version="1"}%
 %META:TOPICPARENT{name="BulkRegister"}%
 %{<verbatim class="tml">
 ===================================================
@@ -18,21 +18,22 @@
 ---+ %SPACEOUT{"%TOPIC%"}% 
 %TEXT%
 ---
-_Be sure to remember to save any table changes!_
+%MAKETEXT{"_Be sure to remember to save any table changes!_"}%
 %IF{"context isadmin" then="
 <form name='bulkRegister' action='%SCRIPTURLPATH{"manage"}%/%TOPIC%' method='post'>
 <input type='hidden' name='action' value='bulkRegister' /><sticky>&nbsp;</sticky>
-<input type='submit' class='foswikiSubmit' value='Bulk Register these people' />
-<input type='hidden' name='redirectto' value='%TOPIC%' />
+<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Bulk Register these users"}%' />
+<input type='hidden' name='topic' value='%USERSWEB%.%TOPIC%' />
+<input type='hidden' name='redirectto' value='%TOPIC%#RegResults' />
 <input type='hidden' name='LogTopic' value='%TOPIC%Log' />
 <input type='hidden' name='templatetopic' value='%USER_TEMPLATE{default=""}%' />
 </form> "
-else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%
+else="<div class='foswikiAlert'> %MAKETEXT{"*Bulk registration is restricted to Administrators.*"}% </div>"}%
 
 %IF{"'%WEB%.%TOPIC%'/info.date < '%WEB%.%TOPIC%Log'/info.date" then="$percntINCLUDE{\"%TOPIC%Log\" warn=\"off\"}$percnt"}%
 
-*Back to:* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
+*%MAKETEXT{"Back to:"}%* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
 ----
-*Related Topics:* %FORMFIELD{"RelatedTopics"}%%TMPL:END%%{
+*%MAKETEXT{"Related Topics:"}%* [[System.BulkResetPassword]], [[System.ManagingUsers]]%TMPL:END%%{
 ===================================================
 </verbatim>}%

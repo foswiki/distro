@@ -24,8 +24,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '7.04';
-our $RELEASE           = '10 Apr 2016';
+our $VERSION           = '7.22';
+our $RELEASE           = '8 Feb 2017';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -495,7 +495,7 @@ sub _inlineError {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

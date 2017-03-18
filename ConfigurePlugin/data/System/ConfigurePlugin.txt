@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460393558" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1485233581" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,6 +42,8 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  23 Jan 2017: | (1.07) Foswikitask:Item14287: Configure needs to encode reported configuration values. |
+|  28 Nov 2016: | (1.06) Foswikitask:Item13206: Upgrade to latest jquery-ui |
 |  11 Apr 2016: | (1.05) Foswikitask:Item14049: fixed jsonrpc endpoint |
 |  03 Feb 2016: | (1.04) Foswikitask:Item13917: Regex type doesn't correctly compare default value |
 |  14 Oct 2015: | (1.03) fixed base use of =console= not supported by all browsers |
@@ -50,11 +52,11 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2013-2016, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2013-2017, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL ([[https://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

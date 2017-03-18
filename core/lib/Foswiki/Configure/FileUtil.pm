@@ -416,7 +416,7 @@ sub checkTreePerms {
     if (   $perms =~ m/p/
         && $path =~ m/\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
         && -d $path
-        && ( substr( $path, -4 ) ne ',pfv' ) )
+        && $path !~ m#,pfv# )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
             unless ( $report{missingFile}++ > $options{maxMissingFile} ) {
@@ -459,7 +459,7 @@ sub checkTreePerms {
     opendir( my $Dfh, $path )
       or return "Directory $path is not readable.";
 
-    foreach my $e ( grep { !/^\./ } _readdir($Dfh) ) {
+    foreach my $e ( grep { !/^\.\.?$/ } _readdir($Dfh) ) {
         my $p = $path . '/' . $e;
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
@@ -698,6 +698,40 @@ sub listDir {
     return @names;
 }
 
+sub _getTarFamily {
+    my ($tarCmd) = @_;
+    `$tarCmd --version` =~ /(bsd|gnu)/i;
+    return lc $1;
+}
+
+sub _getTar {
+    my $tarCmd    = 'tar';
+    my $tarFamily = _getTarFamily($tarCmd);
+
+    if ( $tarFamily eq 'bsd' ) {
+
+        # Trying to find gnutar in order to keep as much compatibility with
+        # linux as we can.
+        my $gnutar;
+      TAR_UTIL:
+        foreach my $utilname (qw(gtar gnutar)) {
+            $gnutar = `which $utilname`;
+            if ( $? == 0 && $gnutar ) {
+                chomp $gnutar;
+                if ( _getTarFamily($gnutar) eq 'gnu' ) {
+                    $tarCmd    = $gnutar;
+                    $tarFamily = 'gnu';
+                    last TAR_UTIL;
+                }
+
+            }
+        }
+
+    }
+
+    return ( $tarCmd, $tarFamily );
+}
+
 =begin TML
 
 ---++ StaticMethod createArchive($name, $dir, $delete )
@@ -727,9 +761,20 @@ sub createArchive {
     chdir("$dir/$name");
 
     if ( !defined $test || ( defined $test && $test eq 'tar' ) ) {
-        $results .= `tar -czvf "../$name.tgz" .`;
+        my ( $tarCmd, $tarFamily ) = _getTar();
+        my $redirect = '';
+        if ( $tarFamily eq 'bsd' ) {
 
-        if ( $results && !$@ ) {
+            # BSD tar sends listing to STDERR while create an archive.
+            $redirect = '2>&1';
+        }
+
+        $results = `$tarCmd -czvf "../$name.tgz" . $redirect`;
+
+        if ( $? != 0 ) {
+            $results = '';
+        }
+        else {
             $file = "$dir/$name.tgz";
         }
     }
@@ -740,7 +785,7 @@ sub createArchive {
         if ( !defined $test || ( defined $test && $test eq 'zip' ) ) {
             $results .= `zip -r "../$name.zip" .`;
 
-            if ( $results && !$@ ) {
+            if ( $results && !$? ) {
                 $file = "$dir/$name.zip";
             }
         }
