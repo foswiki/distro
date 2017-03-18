@@ -8,15 +8,45 @@ use Foswiki::Class;
 extends qw(Foswiki::File);
 
 has entries => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    builder   => 'prepareEntries',
-    trigger   => 1,
-    isa       => Foswiki::Object::isaARRAY( 'entries', noUndef => 1, ),
+    is      => 'rw',
+    lazy    => 1,
+    trigger => 1,
+    clearer => 1,
+    builder => 'prepareEntries',
+    isa     => Foswiki::Object::isaARRAY( 'entries', noUndef => 1, ),
 );
 
-sub store {
+has specData => (
+    is      => 'rw',
+    lazy    => 1,
+    trigger => 1,
+    clearer => 1,
+    builder => 'prepareSpecData',
+    isa     => Foswiki::Object::isaARRAY('specData'),
+);
+
+has fileSize => (
+    is      => 'rw',
+    lazy    => 1,
+    trigger => 1,
+    clearer => 1,
+    builder => 'prepareFileSize',
+);
+
+has _cached => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => '_prepareCached',
+    isa     => Foswiki::Object::isaHASH( '_cached', noUndef => 1, ),
+);
+
+# inSync is true if cache is in sync with file content.
+has inSync => (
+    is      => 'rw',
+    default => 0,
+);
+
+sub storeNodes {
     my $this = shift;
 
     my @entries;
@@ -27,21 +57,82 @@ sub store {
     $this->entries( \@entries );
 }
 
-sub prepareEntries {
+sub invalidate {
+    my $this = shift;
+
+    $this->inSync(0);
+}
+
+around flush => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return if $this->inSync;
+
+    $this->content( freeze( $this->_cached ) );
+
+    $orig->( $this, @_ );
+
+    $this->inSync(1);
+};
+
+sub _prepareCached {
     my $this = shift;
 
     my $content = $this->content;
 
-    return [] unless $content;
+    return {} unless $content;
 
-    return thaw( $this->content );
+    my $data = thaw($content);
+
+    $this->inSync(1);
+    $this->clear_entries;
+    $this->clear_specData;
+
+    return $data;
+}
+
+sub prepareEntries {
+    my $this = shift;
+
+    return thaw( $this->_cached->{entries} );
+}
+
+sub prepareSpecData {
+    my $this = shift;
+
+    my $cachedData = $this->_cached->{specData};
+    return undef unless defined $cachedData;
+
+    return thaw($cachedData);
+}
+
+sub prepareFileSize {
+    return $_[0]->_cached->{fileSize};
 }
 
 sub _trigger_entries {
     my $this    = shift;
     my $entries = shift;
 
-    $this->content( freeze($entries) );
+    $this->_cached->{entries} = freeze($entries);
+    $this->invalidate;
+}
+
+sub _trigger_specData {
+    my $this     = shift;
+    my $specData = shift;
+
+    $this->_cached->{specData} = freeze($specData);
+    $this->invalidate;
+}
+
+sub _trigger_fileSize {
+    my $this = shift;
+    my $size = shift;
+
+    $this->_cached->{fileSize} = $size;
+    $this->invalidate;
 }
 
 around prepareUnicode => sub {
@@ -51,6 +142,15 @@ around prepareUnicode => sub {
 around prepareBinary => sub {
     return 1;
 };
+
+around prepareAutoWrite => sub {
+    return 0;
+};
+
+sub DEMOLISH {
+    my $this = shift;
+    $this->flush;
+}
 
 1;
 __END__
