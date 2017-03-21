@@ -23,27 +23,6 @@ Some !FastCGI features:
 <div class="foswikiHelp">%T% We recommend that you use the thoroughly tested Foswiki:Support.ApacheConfigGenerator for creating your apache configuration.  It can generate a comprehensive Apache configuration for your installation.
 </div>
 
-<!--
-   * Set URL = %URLPARAM{"foswikiUrl" default="/foswiki/bin"}%
-   * Set ROOT = %URLPARAM{"foswikiRoot" default="/var/www/foswiki"}%
--->
-
-<form action="%SCRIPTURL{view}%/%WEB%/%TOPIC%">
-<div class="foswikiFormSteps">
-  <h2>Configure</h2>
-  <div class="foswikiFormStep">
-    <h3> Foswiki script URL path </h3>
-    <input type="text" name="foswikiUrl" value="%URL%" size="100" /> 
-  </div>
-  <div class="foswikiFormStep">
-    <h3> Foswiki root </h3>
-    <input type="text" name="foswikiRoot" value="%ROOT%" size="100" />
-  </div>
-  <div class="foswikiFormStep">
-    <input type="submit" value="Rewrite instructions!" />
-  </div>
-</div>
-</form>
 
 This section is about how to configure FastCGIEngineContrib, considering many possible environments:
 
@@ -95,168 +74,29 @@ mod_fastcgi resources
 <div class="foswikiHelp"> 
 %X% It is strongly recommended that users work from
 Foswiki:Support.ApacheConfigGenerator to create initial Apache configurations.
-This config generator is comprehensive and well tested; the examples below may
-be inadequate for your needs.
+This config generator is comprehensive and well tested.
+
+Foswiki also ships  with an example apache configuration, and example
+=.htaccess= files which include Fcgi example configurations.
 </div>
-
----++++ Using only =.htaccess=
-
-Using only =.htaccess= file it's not possible to control the number of !FastCGI processes, nor the user it'll be run with. We assume the webserver is configured to recognize files with =.fcgi= extension to be !FastCGI scripts. We also need [[http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html][mod_rewrite]] or [[http://httpd.apache.org/docs/2.2/mod/mod_actions.html][mod_actions]] enabled.
-
----+++++ Examples
-
-<div class="foswikiHelp"> 
-%I% Directory paths are relative to Foswiki root.
-
-%I% Usage of [[http://httpd.apache.org/mod_fcgid/][mod_fcgid]] is assumed. If you're using [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]], replace =fcgid-script= with =fastcgi-script=.
-
-%X% [[http://httpd.apache.org/mod_fcgid/][mod_fcgid]] is preffered over [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]]. The latter project receives very few updates and has some known issues, such as Foswiki:Support.Faq18, whereas =mod_fcgid= is a default module that is shipped with Apache httpd.
-</div>
-
-
----++++++ Using mod_rewrite:
-<!--%JQREQUIRE{"chili"}%-->
-
-<pre class="bash">
-# bin/.htaccess file
-
-Options +ExecCGI
-
-RewriteEngine On
-
-# avoid loops:s
-RewriteCond %{REQUEST_URI} !/foswiki.fcgi
-
-RewriteRule ^(.*) %URL%/foswiki.fcgi/$1
-
-</pre>
-
----++++++ Using mod_actions:
-
-<pre class="bash">
-# bin/.htaccess file
-
-Options +ExecCGI
-
-Action foswiki-fcgid %URL%/foswiki.fcgi
-SetHandler foswiki-fcgid
-
-&lt;Files foswiki.fcgi&gt;
-   SetHandler fcgid-script
-&lt;/Files&gt;
-</pre>
-
----++++ Using apache .conf
-
-Direct access to Apache configuration files open more possibilities than with =.htaccess=, such as:
-   * Configurable number of !FastCGI processes
-   * With =mod_fastcgi=:
-      * Use remote !FastCGI processes to service requests
-         * This might be possible under =mod_fcgid= using a custom wrapper script with the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html#fcgidwrapper][FcgidWrapper]] directive and the =virtual= flag
-      * Control the user the !FastCGI processes run under
-
----+++++ Using mod_fastcgi
-
-<div class="foswikiHelp"> 
-%X% Consider using the newer and better-maintained =mod_fcgid= which is shipped standard with Apache httpd.
-</div>
-
-We can use _static_ or _dynamic_ servers: static servers are initialized with Apache itself and exists as long Apache is running. Dynamic servers are loaded on demand and killed if the aren't needed anymore.
-
-<pre class="bash">
-# Simple and traditional example.
-Alias %URL%   %ROOT%/bin/foswiki.fcgi
-
-# Commenting the next line makes foswiki to be a dynamic server, loaded on demand
-FastCgiServer %ROOT%/bin/foswiki.fcgi -processes 3
-
-&lt;Directory %ROOT%/bin&gt;
-   Options +ExecCGI
-    &lt;Files foswiki.fcgi&gt;
-        SetHandler fastcgi-script
-    &lt;/Files&gt;
-&lt;/Directory&gt;
-</pre>
-
-Refer to [[%TOPIC%#Tuning][tuning]] section below for a little discussion about the number of !FastCGI processes.
-
-<pre class="bash">
-# External server: could be running at another machine and/or a different user from the webserver
-
-Alias %URL%   %ROOT%/bin/foswiki.fcgi
-
-# Running an external server on the same machine:
-FastCgiExternalServer %ROOT%/bin/foswiki.fcgi -socket /path/to/foswiki.sock
-
-# Or at another machine:
-FastCgiExternalServer %ROOT%/bin/foswiki.fcgi -host example.com:8080
-
-&lt;Directory %ROOT%/bin&gt;
-    Options +ExecCGI
-    &lt;Files foswiki.fcgi&gt;
-        SetHandler fastcgi-script
-    &lt;/Files&gt;
-&lt;/Directory&gt;
-</pre>
-
-When you're using external servers you must run the !FastCGI processes manually:
-
-<pre class="bash">
-$ cd %ROOT%/bin
-# To start a pool of processes, listening to a local UNIX socket:
-$ ./foswiki.fcgi --listen /path/to/foswiki.sock --nproc 3 --pidfile /path/to/pidfile.pid --daemon
-# Or listening to a local :port address:
-$ ./foswiki.fcgi --listen :port --nproc 3 --pidfile /path/to/pidfile.pid --daemon
-</pre>
-
-Run ==./foswiki.fcgi --help== for details on the options.
-
----+++++ Using mod_fcgid
-Comparison to =mod_fastcgi=:
-   * Compatible API from Foswiki's point of view, drop-in replacement
-   * Maintained as a part of the standard Apache httpd distribution
-   * Does not itself provide a mechanism to run the !FastCGI processes as a different user (possible through other means)
-   * [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html][mod_fcgid documentation]] suggests that only _dynamic_ servers are supported
-   * No (easy) way to use !FastCGI processes running on another machine; but it might be possible with a custom wrapper script and the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html#fcgidwrapper][FcgidWrapper]] directive with the =virtual= flag
-
-<pre class="bash">
-# Simple and traditional example.
-Alias %URL%   %ROOT%/bin/foswiki.fcgi
-
-&lt;Directory %ROOT%/bin&gt;
-   Options +ExecCGI
-    &lt;Files foswiki.fcgi&gt;
-        SetHandler fcgid-script
-    &lt;/Files&gt;
-&lt;/Directory&gt;
-</pre>
-
----+++++ !ApacheLogin
-
-If you use =ApacheLogin= instead of =TemplateLogin= you'll need to add something like the following directives:
-
-<pre class="bash">
-&lt;LocationMatch "^%CALC{"$SUBSTITUTE(%URL%, /, /+)"}%/+(attach|edit|manage|rename|save|upload|.*auth|rest|login|logon)"&gt;
-   AuthType Basic
-   AuthName "Foswiki login realm"
-   AuthUserFile "%ROOT%/data/.htpasswd"
-   Require valid-user
-&lt;/LocationMatch&gt;
-</pre>
 
 ---+++ Lighttpd
+<div class="foswikiHelp">
+Edit the url (=/foswiki/bin=) and file system paths (=/var/www/foswiki=) below
+as appropriate for your system.
+</div>
 
 You need to load [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI][mod_fastcgi]].
 
 <pre class="bash">
 # Example with FastCGI processes launched by the webserver
 
-$HTTP["url"] =~ "^%URL%/" {
-    alias.url += ( "%URL%" => "%ROOT%/bin/foswiki.fcgi" )
+$HTTP["url"] =~ "^/foswiki/bin/" {
+    alias.url += ( "/foswiki/bin" => "/var/www/foswiki/bin/foswiki.fcgi" )
     fastcgi.server = ( ".fcgi" => (
             (
-                "socket"    => "%ROOT%/working/tmp/foswiki.sock",
-                "bin-path"  => "%ROOT%/bin/foswiki.fcgi",
+                "socket"    => "/var/www/foswiki/working/tmp/foswiki.sock",
+                "bin-path"  => "/var/www/foswiki/bin/foswiki.fcgi",
                 "max-procs" => 3
             ),
         )
@@ -267,8 +107,8 @@ $HTTP["url"] =~ "^%URL%/" {
 <pre class="bash">
 # Example with external FastCGI processes (running on the same host, with another user or at a remote machine)
 
-$HTTP["url"] =~ "^%URL%/" {
-    alias.url += ( "%URL%" => "%ROOT%/bin/foswiki.fcgi" )
+$HTTP["url"] =~ "^/foswiki/bin/" {
+    alias.url += ( "/foswiki/bin" => "/var/www/foswiki/bin/foswiki.fcgi" )
     fastcgi.server = ( ".fcgi" => (
             (
                 "host"    => "example.com",
@@ -287,12 +127,17 @@ enough child processes as required.
 
 First, let's configure nginx to contact a =foswiki.fcgi= process on some socket on the localhost:
 
+<div class="foswikiHelp">
+Edit the file system paths (=/var/www/foswiki=, =/var/log/nginx=) below as appropriate for your system.  This configuration
+uses "short URLs".
+</div>
+
 <pre class="bash">
 server {
     listen       80;
     server_name  nginx.domain.com;
 
-    set $foswiki_root "/home/www-data/foswiki";
+    set $foswiki_root "/var/www/foswiki";
     root $foswiki_root;
 
     access_log  /var/log/nginx/foswiki-access.log;
