@@ -122,11 +122,8 @@ sub test_specRegister {
                             -type    => 'BOOLEAN',
                             -default => 0,
                         ],
-                        Setting => [
-                            -type => 'SELECT',
-
-                            #-variants => [qw(one two three)],
-                        ],
+                        Setting => SELECT =>
+                          [ -expert, -select_from => [qw(one two three)], ],
                         'Sub.Setting.Deep' => [
                             'Opt.K1' => [ -type => 'STRING', ],
                             'Opt.K2' => [ -type => 'NUMBER', ],
@@ -191,17 +188,23 @@ sub test_specRegister {
     $this->assert_equals( "STRING", $strKey->getOpt('type') );
     $this->assert_equals( 32,       $strKey->getOpt('size') );
 
+    my $expertKey = $cfg->getKeyNode('Extensions.SampleExt.Setting');
+
+    $this->assert( $expertKey->getOpt('expert'),
+        "Extensions.SampleExt.Setting must have 'expert' option set" );
+    $this->assert_equals( "SELECT", $expertKey->getOpt('type') );
+    $this->assert_deep_equals( [qw(one two three)],
+        $expertKey->getOpt('select_from') );
+
     return;
 }
 
 sub test_specOnLocalData {
     my $this = shift;
 
-    Foswiki::load_class('Foswiki::Config::DataHash');
+    my $data = $this->app->cfg->makeSpecsHash;
 
-    my %data;
-
-    my $dataObj = tie %data, 'Foswiki::Config::DataHash', app => $this->app;
+    my $dataObj = tied %$data;
 
     my $cfg = $this->app->cfg;
 
@@ -230,7 +233,7 @@ sub test_specOnLocalData {
             Test1 => { Key1 => 'Default Key1', },
             Test2 => { Key2 => 3.1415926, },
         },
-        \%data
+        $data
     );
 }
 
@@ -464,6 +467,125 @@ sub test_legacyParse {
     my @specs = $parser->parse($specFile);
 
     return;
+}
+
+sub test_enhancing {
+    my $this = shift;
+
+    my $cfg = $this->app->cfg;
+
+    my $defText   = "This is base text.";
+    my $addedText = "And some more text\nto be added.";
+
+    $cfg->spec(
+        source => __FILE__,
+        specs  => [
+            -section => "ConfigTests test section" => [
+                Test => [
+                    KeyForEnhance => STRING =>
+                      [ -text => $defText, -default => "default value", ],
+                ],
+            ],
+        ],
+    );
+
+    $cfg->spec(
+        source => __FILE__,
+        specs  => [
+            -section => "ConfigTests test section 2" => [
+                Test =>
+                  [ KeyForEnhance => [ -enhance, -text => $addedText, ], ],
+            ],
+        ],
+    );
+
+    my $keyNode = $cfg->getKeyNode("Test.KeyForEnhance");
+
+    $this->assert_equals( "$defText\n\n$addedText", $keyNode->getOpt('text') );
+
+    try {
+        $cfg->spec(
+            source => __FILE__,
+            specs  => [
+                -section => "Completely different section" => [
+                    Test => [
+                        KeyForEnhance => NUMBER => [
+                            -enhance,
+                            -text => "And changing the type to NUMBER",
+                        ],
+                    ],
+                ],
+            ],
+        );
+        $this->assert( 0, "Change of a key type must have failed." );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        if ( $e->isa('Foswiki::Exception::Config::BadSpecData') ) {
+            $this->assert_matches(
+"Key type 'NUMBER' is different from the previously declared 'STRING'",
+                $e->text
+            );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+}
+
+sub test_enhanceNonExisting {
+    my $this = shift;
+
+    my $cfg = $this->app->cfg;
+
+    try {
+        Foswiki::Exception::Fatal->throw(
+            text => "Unexpectedly found a key ThisKey.DoesNot.Exists." )
+          if exists $cfg->data->{ThisKey}{DoesNot}{Exists};
+
+        $cfg->spec(
+            source => __FILE__,
+            specs  => [
+                -section => "Test enhancing" => [
+                    "ThisKey.DoesNot.Exists" =>
+                      [ -enhance, -text => "Irrelevant", ],
+                ],
+            ],
+        );
+
+        $this->assert( 0,
+            "Must have failed while enhancing a key which doesn't exists" );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        if ( $e->isa('Foswiki::Exception::Config::BadSpecData') ) {
+            $this->assert_matches( "Cannot enhance key, no original found",
+                $e->text );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    my $data    = $cfg->makeSpecsHash;
+    my $dataObj = tied %$data;
+    my $section = $this->create( 'Foswiki::Config::Section', name => 'Root', );
+
+    # This call must just pass.
+    $cfg->spec(
+        source  => __FILE__,
+        data    => $dataObj,
+        section => $section,
+        specs   => [
+            -section => "Test enhancing" => [
+                "ThisKey.DoesNot.Exists" =>
+                  [ -enhance, -text => "Irrelevant", ],
+            ],
+        ],
+    );
 }
 
 1;

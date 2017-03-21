@@ -554,6 +554,7 @@ around optionDefinitions => sub {
         default         => { arity => 1, leaf => 1, },
         display_if      => { arity => 1, leaf => 1, },
         enhance         => { arity => 0, leaf => 1, },
+        expert          => { arity => 0, leaf => 1, },
         feedback        => { arity => 1, leaf => 1, },
         hidden          => { arity => 0, leaf => 1, },
         label           => { arity => 1, dual => 1, },
@@ -564,10 +565,6 @@ around optionDefinitions => sub {
         spellcheck      => { arity => 0, dual => 1, },
         type            => { arity => 1, leaf => 1, },
         wizard          => { arity => 1, leaf => 1, },
-
-        # Even though expert is a boolean option we cannot make it's arity 0
-        # because of legacy format partser limitation.
-        expert => { arity => 1, leaf => 1, },
     );
 };
 

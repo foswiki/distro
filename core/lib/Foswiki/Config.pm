@@ -2277,7 +2277,7 @@ sub spec {
         # the attribute.
         my $globData = tied %{ $this->data };
         $localData = $params{localData}
-          // ( defined($globData) && $globData == $data );
+          // ( !defined($globData) || $globData != $data );
     }
     else {
         $this->specsMode;
@@ -2593,12 +2593,13 @@ sub _specCfgKey {
     # – i.e. defines a key storing value, not other keys.
     # The node is non-leaf if it hold a hash ref. For a newly created node
     # its value is undefined and thus
-    my ( $isLeafKey, $isEnhancing, $keyType, $keySize, $keyText );
+    my ( $isLeafKey, $isEnhancing, $keyType, $prevKeyType, $keySize, $keyText );
+    my $noSourceFromSpec = 0;
 
     unless ( ref($value) ) {
         my @ktype = $this->_parseSpecKeyType($value);
         $keyType = $ktype[0];
-        push @keyOptions, size => $ktype[1] if @ktype > 1;
+        $keySize = $ktype[1] if @ktype > 1;
         $isLeafKey = 1;    # Type could be assigned to a leaf node only.
         $this->_isCompleteKeyDef( $specs, $section, $keyFullName );
         $value = $specs->fetch;
@@ -2619,7 +2620,7 @@ sub _specCfgKey {
         $isLeafKey //= $keyNode->isVague ? undef : $keyNode->isLeaf;
 
         # Type could only be valid for a leaf node.
-        $keyType //= $keyNode->getOpt('type') if $isLeafKey;
+        $prevKeyType = $keyNode->getOpt('type') if $isLeafKey;
     }
 
     while ( $keySpecs->hasNext ) {
@@ -2637,24 +2638,27 @@ sub _specCfgKey {
               $this->_fetchOptVal( $+{option}, $keySpecs, $arity,
                 "of key $keyFullName" );
 
+            if ( $option eq 'source' ) {
+                $noSourceFromSpec = 1;
+            }
+
             if ( $option eq 'type' ) {
                 my @ktype = $this->_parseSpecKeyType( $values[0] );
-                if ( defined $keyType ) {
-                    Foswiki::Exception::Config::BadSpecData->throw(
-                        text =>
-"Another key type found which differs from the earlier one: '"
-                          . $values[0]
-                          . "' vs '"
-                          . $keyType
-                          . "' respectively",
-                        section => $section,
-                        key     => $keyFullName,
-                    ) if $ktype[0] ne $keyType;
-                }
-                else {
+                unless ( defined $keyType ) {
                     $keyType = $ktype[0];
                     push @keyOptions, size => $ktype[1] if @ktype > 1;
                     push @keyOptions, $option, $keyType;
+                }
+                elsif ( $keyType ne $ktype[0] ) {
+                    Foswiki::Exception::Config::BadSpecData->throw(
+                        text => "Conflicting types in key definition: '"
+                          . $keyType
+                          . "' vs. '"
+                          . $ktype[0] . "'",
+                        section => $section,
+                        key     => $keyFullName,
+                        srcFile => $specs->source,
+                    );
                 }
             }
             elsif ( $arity->{$option} < 2 ) {
@@ -2727,6 +2731,27 @@ sub _specCfgKey {
         ) unless defined $keyNode || $specs->localData;
     }
 
+    if ( defined $keyNode ) {
+        if ( $keyNode->isLeaf && defined $keyType ) {
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text => "Key type '"
+                  . $keyType
+                  . "' is different from the previously declared '"
+                  . $prevKeyType . "'",
+                section => $section,
+                key     => $keyFullName,
+              )
+              if ( $prevKeyType ne $keyType )
+              && !( $isEnhancing && $keyType eq 'VOID' );
+        }
+    }
+    else {
+        if ( defined $keyType ) {
+            push @keyOptions, type => $keyType;
+            push @keyOptions, size => $keySize if defined $keySize;
+        }
+    }
+
     push @keyProfile, leafState => $isLeafKey if defined $isLeafKey;
     $keyNode //= $keyObject->makeNode(
         key         => $keyName,
@@ -2742,7 +2767,7 @@ sub _specCfgKey {
             $keyNode->setOpt( text => $keyText );
         }
     }
-    $keyNode->addSource( $keySpecs->source );
+    $keyNode->addSource( $keySpecs->source ) unless $noSourceFromSpec;
 
     if ( $keyNode->isBranch ) {
         foreach my $subKeySpec (@subKeySpecs) {
