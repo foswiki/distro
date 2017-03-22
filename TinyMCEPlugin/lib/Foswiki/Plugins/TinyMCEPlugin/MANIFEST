@@ -9,10 +9,7 @@ lib/Foswiki/Plugins/TinyMCEPlugin/TinyMCE.pm 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js.gz 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.uncompressed.js 0644
-pub/System/TinyMCEPlugin/Makefile 0644
-pub/System/TinyMCEPlugin/plugins/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/FOSWIKI_SPECIFIC_TINYMCE_PLUGINS 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/Makefile 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js.gz 0644
 pub/System/TinyMCEPlugin/plugins/foswiki/plugin.uncompressed.js 0644
@@ -118,9 +115,9 @@ pub/System/TinyMCEPlugin/watermark_protect_on_save.gif 0644
 pub/System/TinyMCEPlugin/watermark_verbatim.gif 0644
 #pub/System/TinyMCEPlugin/watermarks.psd 0644
 pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0644
-pub/System/TinyMCEPlugin/wysiwyg.uncompressed.css 0644
 pub/System/TinyMCEPlugin/wysiwyg.css 0644
 pub/System/TinyMCEPlugin/wysiwyg.css.gz 0644
+pub/System/TinyMCEPlugin/wysiwyg.uncompressed.css 0644
 pub/System/TinyMCEQuickHelp/Format_Drop_Down.png 0644
 pub/System/TinyMCEQuickHelp/anchor.png 0644
 pub/System/TinyMCEQuickHelp/autosave.png 0644
