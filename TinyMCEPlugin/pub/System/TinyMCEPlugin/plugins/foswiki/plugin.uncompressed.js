@@ -155,7 +155,7 @@
                 // Muddy-boots the initialized status of the editor to
                 // block the save event that would otherwise blow away
                 // the textarea content when a submit event is raised
-                // in a form that wraps the editor.
+                // for a form that wraps around the editor.
                 editor.initialized = false;
                 editor.hide();
             },
@@ -175,14 +175,26 @@
         // Get the textarea content
         var text = editor.getElement().value;
 
-        var throbberPath = foswiki.getPreference('PUBURLPATH')
-            + '/' + foswiki.getPreference('SYSTEMWEB')
-            + '/' + 'DocumentGraphics/processing.gif';
+        // When switching back from a raw edit, a show side-effects
+        // and will re-load the content from the textarea, which contains
+        // the raw TML. So we hide the editable area until the transform
+        // is finished. Not pretty, but it works.
+        $(editor.getBody()).hide();
+        // This is supposed to start a throbber, but I've yet to see one.
+        editor.setProgressState(true);
+        // Now do the show. This will load the (hidden) editable area from
+        // the textarea.
+        editor.show();
         
         transform(
             editor, "tml2html", text, function(text, req, o) { // Success
+                // Set the HTML content in the editable area (doesn't affect
+                // the textarea, which still has the raw TML)
                 editor.setContent(text);
-                editor.show();
+                // Undo the hide above
+                $(editor.getBody()).show();
+                // Kill the progress state
+                editor.setProgressState(false);
                 // We can do this safely because the only way this code can
                 // be reached is through an execCommand, and that's only
                 // available when the editor is initialised. Reverse the
@@ -192,9 +204,12 @@
                 editor.isNotDirty = true;
             },
             function(type, req, o) {
+                // Kill the progress state
+                editor.setProgressState(false);
+                editor.hide();
                 // Handle a failure by firing an event back at the
                 // textarea we are sitting on
-                $(edit.getElement()).trigger(
+                $(editor.getElement()).trigger(
                     "fwTxError",
                     "There was a problem retrieving " + o.url
                         + ": " + type + " " + req.status);

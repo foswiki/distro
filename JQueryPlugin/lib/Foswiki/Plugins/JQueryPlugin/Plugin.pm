@@ -178,9 +178,8 @@ sub renderCSS {
 
 sub renderJS {
     my ( $this, $text ) = @_;
-
     $text =~ s/\.js$/.uncompressed.js/
-      if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
+      if $this->{debug} && $text !~ /(\.uncompressed|_src|\.dev)\./;
     $text .= '?version=' . $this->{version};
     $text =
       "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
