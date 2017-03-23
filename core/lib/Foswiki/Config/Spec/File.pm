@@ -14,7 +14,7 @@ use constant CACHE_SUBDIR => '.specCache';
 
 use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::File);
-with qw(Foswiki::Config::CfgObject);
+with qw(Foswiki::Config::CfgObject Foswiki::Aux::Localize);
 
 # Spec file format:
 # - 'legacy' for classical pre-3.0 format
@@ -56,17 +56,24 @@ has section => (
 has data => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
+    trigger => 1,
     builder => 'prepareData',
 );
 
 has parsed => (
     is      => 'rw',
+    clearer => 1,
     default => 0,
 );
 
 # localData is TRUE if the data attribute has been generated locally by the
 # object.
-has localData => ( is => 'rw', );
+has localData => ( is => 'rw', clearer => 1, );
+
+sub setLocalizableAttributes {
+    return qw( data parsed localData );
+}
 
 pluggable guessFormat => sub {
     my $this = shift;
@@ -123,26 +130,39 @@ pluggable parse => sub {
         my $cachedData = $this->cacheFile->specData;
         my @specs;
 
-        if ($cachedData) {
+        if ( $cachedData && $this->validCache ) {
             @specs = @{$cachedData};
         }
         else {
             my $parser = $cfg->getSpecParser( $this->fmt );
 
-            return 0 unless $parser;
+            return undef unless $parser;
 
             @specs = $parser->parse($this);
 
             try {
                 my $specData = dclone( \@specs );
                 $this->cacheFile->specData($specData);
+                my $data         = $this->cfg->makeSpecsHash;
+                my $localDataObj = tied %$data;
+                $cfg->spec(
+                    source    => $this,
+                    data      => $localDataObj,
+                    localData => 1,
+                    section   => $this->section,
+                    specs     => \@specs,
+                );
+                $this->cacheFile->storeNodes( $localDataObj->getLeafNodes );
+                $this->cacheFile->flush;
             }
             catch {
-             # We'd rather ignore any dclone error. If some specs contain data
-             # which cannot be cached then go away with it and recall the parser
-             # for every invocation.
-             # SMELL Replace warn with bufferizing messaging when it's ready.
-                warn "Cannot clone specs for caching: " . $_;
+                my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+                # We'd rather ignore any caching error. If specs cannot be
+                # cached then go away with it and recall the parser for every
+                # invocation.
+                # SMELL Replace warn with bufferizing messaging when it's ready.
+                warn "Cannot clone specs for caching: " . $e;
             };
         }
 
@@ -166,15 +186,12 @@ sub refreshCache {
     return if $this->validCache;
 
     say STDERR "Invalid cache for ", $this->path if DEBUG;
-    my $dataObj = $this->parse;
 
-    # There is no point of writing cache on disk when working on global data
-    # hash as we would then cache all data from previously parsed specs which is
-    # probably not what we want.
-    if ( $this->localData ) {
-        $this->cacheFile->storeNodes( $dataObj->getLeafNodes );
-        $this->cacheFile->flush;
-    }
+    # To have the cache refreshed we must move away any data object supplied by
+    # the caller and use a local one. The parsed attribute must be reset too.
+    my $holder = $this->localize;
+
+    my $dataObj = $this->parse;
 
     return;
 }
@@ -226,6 +243,12 @@ sub prepareData {
     $this->localData(1);
 
     return $this->cfg->makeSpecsHash;
+}
+
+sub _trigger_data {
+    my $this = shift;
+
+    $this->clear_parsed;
 }
 
 1;

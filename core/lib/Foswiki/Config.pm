@@ -405,6 +405,7 @@ sub getSpecParser {
     return unless $parser;
 }
 
+# Fetch keys defaults values from specs cache. Recache if necessary.
 sub fetchDefaults {
     my $this = shift;
 
