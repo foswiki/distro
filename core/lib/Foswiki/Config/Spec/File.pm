@@ -126,11 +126,13 @@ pluggable parse => sub {
 
     # Don't run twice for the same file.
     unless ( $this->parsed ) {
-        my $cfg        = $this->cfg;
-        my $cachedData = $this->cacheFile->specData;
+        my $cfg = $this->cfg;
+        my $cachedData;
         my @specs;
 
-        if ( $cachedData && $this->validCache ) {
+        $cachedData = $this->cacheFile->specData if $this->validCache;
+
+        if ($cachedData) {
             @specs = @{$cachedData};
         }
         else {
