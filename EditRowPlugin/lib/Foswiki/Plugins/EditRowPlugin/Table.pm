@@ -396,7 +396,7 @@ sub render {
 
             push(
                 @out,
-                Foswiki::Render::html( 'a', { name => "erp_$this->{id}" } )
+                Foswiki::Render::html( 'a', { name => "erp_${id}" } )
                   . Foswiki::Render::html( 'a',
                     { href => $url, title => $title }, $button )
                   . '<br />'
@@ -429,7 +429,7 @@ sub render {
                 erp_active_row => -2,
                 erp_unchanged  => 1,
                 erp_action     => 'addRow',
-                '#'            => 'erp_' . $this->{id}
+                '#'            => "erp_${id}"
             );
 
             # Full table disabled, but not row
