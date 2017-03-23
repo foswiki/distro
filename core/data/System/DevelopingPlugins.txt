@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
-The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][EmptyPlugin]] ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
+The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in [[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Plugins::EmptyPlugin"}%][EmptyPlugin]] ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
 
 ---++ The 3048m view of how Foswiki works
 
@@ -27,17 +27,17 @@ There are several ways plugins can interact with this process.
 
 ---++ APIs available to Extensions
 To be robust, extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - this is the package you will use most. This package exposes a lot of core functionality in a way that is friendly to extension writers. If you find that there are two ways of doing something - a =Foswiki::Func= way, and another call to one of the packages below, then the =Foswiki::Func= way is almost always the right way.
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic and web meta-data. Certain =Foswiki::Func= methods, and some plugin handlers, are passed (or return) objects of this type. Almost all of the methods of =Foswiki::Meta= have analagous methods in =Foswiki::Func= - in general you should call the =Foswiki::Func= methods in preference to calling =Foswiki::Meta= methods directly.
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]]= - access control exception
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Time][Foswiki::Time]]= - time parsing and formatting
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Sandbox][Foswiki::Sandbox]]= - safe server-side program execution, used for calling external programs.
-   * Iterators - these are classes that implement the =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]]= specification
-      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]]= - utility class for iterator objects that iterate over list contents
-      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]]= - utility class for iterator objects that iterate over lines in a block of text
-      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AggregateIterator][Foswiki::AggregateIterator]]= - utility class for iterator objects that aggregate other iterators into a single iteration
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%][Foswiki::Func]]= - this is the package you will use most. This package exposes a lot of core functionality in a way that is friendly to extension writers. If you find that there are two ways of doing something - a =Foswiki::Func= way, and another call to one of the packages below, then the =Foswiki::Func= way is almost always the right way.
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Meta"}%][Foswiki::Meta]]= - topic and web meta-data. Certain =Foswiki::Func= methods, and some plugin handlers, are passed (or return) objects of this type. Almost all of the methods of =Foswiki::Meta= have analagous methods in =Foswiki::Func= - in general you should call the =Foswiki::Func= methods in preference to calling =Foswiki::Meta= methods directly.
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::OopsException"}%][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::AccessControlException"}%][Foswiki::AccessControlException]]= - access control exception
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Attrs"}%][Foswiki::Attrs]]= - parser and storage object for macro parameters
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Time"}%][Foswiki::Time]]= - time parsing and formatting
+   * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Sandbox"}%][Foswiki::Sandbox]]= - safe server-side program execution, used for calling external programs.
+   * Iterators - these are classes that implement the =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Iterator"}%][Foswiki::Iterator]]= specification
+      * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::ListIterator"}%][Foswiki::ListIterator]]= - utility class for iterator objects that iterate over list contents
+      * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::LineIterator"}%][Foswiki::LineIterator]]= - utility class for iterator objects that iterate over lines in a block of text
+      * =[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::AggregateIterator"}%][Foswiki::AggregateIterator]]= - utility class for iterator objects that aggregate other iterators into a single iteration
 In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::VERSION= - plugin handler API version number
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
@@ -194,7 +194,7 @@ Thank you very much for sharing your plugin with the Foswiki community :-)
 #RecommendedStorageOfPluginData
 ---++ Recommended Storage of Plugin Specific Data
 
-Plugins sometimes need to store data. This can be plugin internal data such as cache data, or data generated for browser consumption such as images. Plugins should store data using [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]] functions that support saving and loading of topics and attachments.
+Plugins sometimes need to store data. This can be plugin internal data such as cache data, or data generated for browser consumption such as images. Plugins should store data using [[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%][Foswiki::Func]] functions that support saving and loading of topics and attachments.
 
 ---+++ Plugin Internal Data
 
@@ -383,7 +383,7 @@ Usually published plugins have a support hub in the Support web on Foswiki.org.S
 
 ---+++ Maintaining Compatibility with Earlier Foswiki Versions
 
-The plugin interface ([[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]] functions and plugin handlers) evolve over time. Foswiki introduces new API functions to address the needs of plugin authors. Plugins using unofficial Foswiki internal functions may no longer work on a Foswiki upgrade.
+The plugin interface ([[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%][Foswiki::Func]] functions and plugin handlers) evolve over time. Foswiki introduces new API functions to address the needs of plugin authors. Plugins using unofficial Foswiki internal functions may no longer work on a Foswiki upgrade.
 
 Organizations typically do not upgrade to the latest Foswiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older Foswiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
 
@@ -400,7 +400,7 @@ Here is an example; the Foswiki:Support.PluginsSupplement has more details.</div
 
 ---+++ Handling deprecated functions
 
-From time-to-time, the Foswiki developers will add new functions to the interface (either to [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]], or new handlers). Sometimes these improvements mean that old functions have to be deprecated to keep the code manageable. When this happens, the deprecated functions will be supported in the interface for at least one more Foswiki release, and probably longer, though this cannot be guaranteed.
+From time-to-time, the Foswiki developers will add new functions to the interface (either to [[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%][Foswiki::Func]], or new handlers). Sometimes these improvements mean that old functions have to be deprecated to keep the code manageable. When this happens, the deprecated functions will be supported in the interface for at least one more Foswiki release, and probably longer, though this cannot be guaranteed.
 
 When a plugin defines deprecated handlers, a warning will be shown in the list generated by %<nop>FAILEDPLUGINS%. Admins who see these warnings should check Foswiki.org and if necessary, contact the plugin author, for an updated version of the plugin.
 

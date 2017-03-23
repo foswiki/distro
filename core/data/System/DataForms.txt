@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1478801122" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -357,7 +357,7 @@ Initial values can then be provided in the URLs or as form values.
 
 For example:
 <verbatim>
-%SCRIPTURL{edit}%/%WEB%/KnowledgeTopicAUTOINC00001?formtemplate=MyForm;Subject=FAQWhatIsWikiWiki;Category=One;Category=Two;action=form
+%SCRIPTURL{"edit" topic="%WEB%.KnowledgeTopicAUTOINC00001" formtemplate="MyForm" Subject="FAQWhatIsWikiWiki" Category="One" Category="Two" action="form"}%
 </verbatim>
 
    * =XxxYyyAUTOINC00001=: creates a new auto-numbered topic name with base "XxxYyy" - see [[%SYSTEMWEB%.TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topic names]]
@@ -371,25 +371,28 @@ If you want to create+save a topic instead of bringing up the edit screen, you m
 
 The same parameters as above can be set in HTML (hidden) form fields:
 <verbatim class='tml'>
-<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
-<input type="hidden" name="formtemplate" value="SimpleForm" />
-<input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
-<input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />
-<input type="hidden" name="Category" value="One" />
-<input type="hidden" name="Category" value="Two" />
-<input type="submit" class="foswikiSubmit" value="Create topic" />
+<form name='newtopic' action='%SCRIPTURLPATH{"save" web="%SANDBOXWEB%"}%' method='post'>
+<input type='hidden' name='formtemplate' value='SimpleForm' />
+<input type='hidden' name='topic' value='KnowledgeTopicAUTOINC00001' />
+<input type='hidden' name='Subject' value='FAQWhatIsWikiWiki' />
+<input type='hidden' name='Category' value='One' />
+<input type='hidden' name='Category' value='Two' />
+<input type='submit' class='foswikiSubmit' value='Create topic' />
 </form>
 </verbatim>
 
-Creates:
-<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
-<input type="hidden" name="formtemplate" value="SimpleForm" />
-<input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
-<input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />
-<input type="hidden" name="Category" value="One" />
-<input type="hidden" name="Category" value="Two" />
-<input type="submit" class="foswikiSubmit" value="Create topic" />
-</form>
+%IF{"istopic '%SANDBOXWEB%.SimpleForm'" then="
+    <form name='newtopic' action='%SCRIPTURLPATH{"save" web="%SANDBOXWEB%"}%' method='post'>
+    <input type='hidden' name='formtemplate' value='SimpleForm' />
+    <input type='hidden' name='topic' value='KnowledgeTopicAUTOINC00001' />
+    <input type='hidden' name='Subject' value='FAQWhatIsWikiWiki' />
+    <input type='hidden' name='Category' value='One' />
+    <input type='hidden' name='Category' value='Two' />
+    <input type='submit' class='foswikiSubmit' value='Create topic' />
+    </form>
+" else="This demo is not functional because %SANDBOXWEB%.SimpleForm does not exist.  Create a simple data form
+with the fields Subject and Category. Return here, and a Create button will be shown."}%
+
 For an overview of web form parameters, see [[%SYSTEMWEB%.CommandAndCGIScripts][CGI and Command Line Scripts]].
    
 

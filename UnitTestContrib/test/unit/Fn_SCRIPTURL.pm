@@ -15,7 +15,7 @@ sub new {
     return $self;
 }
 
-sub test_SCRIPTURL {
+sub test_SCRIPTURL_view {
     my $this = shift;
 
     $Foswiki::cfg{ScriptUrlPaths}{snarf} = "sausages";
@@ -45,20 +45,11 @@ sub test_SCRIPTURL {
         "$Foswiki::cfg{ScriptUrlPath}/view.dot/Main/WebHome?web=System",
         $result );
 
-# SMELL: rest and jsonrpc cannot built the path automatically. Ignore all params.
-    $result =
-      $this->{test_topicObject}->expandMacros(
-        "%SCRIPTURLPATH{\"rest\" topic=\"Main.WebHome\" web=\"System\"}%");
-    $this->assert_str_equals(
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
-        $result
-    );
-
     $result =
       $this->{test_topicObject}->expandMacros(
         "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
     $this->assert_str_equals(
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
+"<div class='foswikiAlert'>jsonrpc requires the 'namespace' parameter if other parameters are supplied.</div>",
         $result
     );
 
@@ -71,6 +62,100 @@ sub test_SCRIPTURL {
 
     $result = $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{snarf}%");
     $this->assert_str_equals( "sausages", $result );
+
+    # anchor parameter # is added as a fragment.
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        "%SCRIPTURLPATH{\"view\" topic=\"Main.WebHome\" #=\"frag\"}%");
+    $this->assert_str_equals(
+        $Foswiki::cfg{ScriptUrlPath} . '/view.dot/Main/WebHome#frag', $result );
+
+    # Use of # anywhere but the anchor tag is encoded.
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"view\" topic=\"Main.WebHome\" #=\"frag\" A#A=\"another\"}%"
+      );
+    $this->assert_str_equals(
+        $Foswiki::cfg{ScriptUrlPath}
+          . '/view.dot/Main/WebHome?A%23A=another#frag',
+        $result
+    );
 }
 
+sub test_SCRIPTURL_rest {
+    my $this = shift;
+
+    $Foswiki::cfg{ScriptUrlPaths}{snarf} = "sausages";
+    undef $Foswiki::cfg{ScriptUrlPaths}{view};
+    $Foswiki::cfg{ScriptSuffix} = ".dot";
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        "%SCRIPTURLPATH{\"rest\" topic=\"Main.WebHome\" web=\"System\"}%");
+    $this->assert_str_equals(
+"<div class='foswikiAlert'>rest requires both 'subject' and 'verb' parameters if other parameters are supplied.</div>",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"rest\" subject=\"Weeble\" topic=\"Main.WebHome\" web=\"System\"}%"
+      );
+    $this->assert_str_equals(
+"<div class='foswikiAlert'>rest requires both 'subject' and 'verb' parameters if other parameters are supplied.</div>",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"rest\" subject=\"Weeble\" verb=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
+      );
+    $this->assert_str_equals(
+"$Foswiki::cfg{ScriptUrlPath}/rest.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
+}
+
+sub test_SCRIPTURL_jsonrpc {
+    my $this = shift;
+
+    $Foswiki::cfg{ScriptUrlPaths}{snarf} = "sausages";
+    undef $Foswiki::cfg{ScriptUrlPaths}{view};
+    $Foswiki::cfg{ScriptSuffix} = ".dot";
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
+    $this->assert_str_equals(
+"<div class='foswikiAlert'>jsonrpc requires the 'namespace' parameter if other parameters are supplied.</div>",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" topic=\"Main.WebHome\" web=\"System\"}%"
+      );
+    $this->assert_str_equals(
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble?topic=Main.WebHome;web=System",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" method=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
+      );
+    $this->assert_str_equals(
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+"%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" method=\"wobble\" topic=\"Main.WebHome\" web=\"System\"}%"
+      );
+    $this->assert_str_equals(
+"$Foswiki::cfg{ScriptUrlPath}/jsonrpc.dot/Weeble/wobble?topic=Main.WebHome;web=System",
+        $result
+    );
+}
 1;

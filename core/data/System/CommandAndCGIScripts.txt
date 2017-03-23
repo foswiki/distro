@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1484612966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -162,7 +162,7 @@ __New topic creation %ICON{"wip"}%:__
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web. However this doesn't happen until the topic is saved.
 
 When a new topic is created using edit, the topic isn't actually created until the edit is saved. The content of the new topic is initialised according to the parameters you pass.
-   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TopicTemplates)
+   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TemplateTopics)
    * =text= - use this as the text of the topic. Macros are *not* expanded in this text. Overrides any text set in the =templatetopic=.
    * =formtemplate= - Overrides any form set in the =templatetopic=.
    * =notemplateexpansion= - given by =templatetopic=. Use this when you want a verbatim copy of a topic.
@@ -464,10 +464,10 @@ The =rest= script assumes that it will be called with URL in the form:
 where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function. If you need to
 pass a topic name, then this is passed in the =topic= URL parameter.
 
-As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
+As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. (The EmptyPlugin is not enabled by default.)
 
 The URL to call this function from a browser would be:
-   * =%SCRIPTURL{rest}%/EmptyPlugin/example?topic=My.TopicName=
+   * =%SCRIPTURL{"rest" subject="EmptyPlugin" verb="example" topic="My.TopicName"}%=
 alternatively, to run it from the commandline:
    * =cd foswiki/bin ; ./rest /EmptyPlugin/example -topic=My.TopicName=
 
@@ -544,7 +544,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
 
 <verbatim class="html">
-<form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
+<form name='new' action='%SCRIPTURLPATH{"save" topic="%SANDBOXWEB%.SomeTopic"}%' method='post'>
     ...
 </form>
 </verbatim>
@@ -624,7 +624,7 @@ Used for viewing topics.
 | =rev= | Revision to view (e.g. =rev=45=) | _latest_ |
 | =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through | |
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
-| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
+| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%][%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | _&lt;any name&gt;_ | It can be expanded in the topic text during rendering and referenced in IF statements  - See the %SYSTEMWEB%.VarURLPARAM macro and %SYSTEMWEB%.IfStatements | |
 
 <div class="foswikiHelp"> 
@@ -636,10 +636,12 @@ Used for viewing attachments. Normally, a site will publish the attachments (=pu
 
 | *Parameter* | *Description* | *Default* |
 | =filename= | name of attachment | _required_ |
+| =topic= | Name of the Web.Topc | _optional_ |
 | =rev= | Revision to view | _latest_ |
 
 Instead of using the =filename= parameter, you can append the attachment name
-to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=
+to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=. However, when writing a link to an attachment
+it's recommended to use the fully canonical form: =%<nop>SCRIPTURLPATH{"viewfile" topic="Webname.Topicname" filename="Attachment.gif"}%.  
 
 ---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.

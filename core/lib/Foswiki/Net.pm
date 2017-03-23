@@ -526,7 +526,7 @@ sub _fixMimePart {
     # Skip if it's a multipart.
     return if $part->subparts;
 
-    if ( $part->content_type =~ /^text\//i ) {
+    if ( $part->content_type && $part->content_type =~ /^text\//i ) {
 
         # XXX It looks like Email::MIME has a bug with processing body
         # texts when they heave utf8 flag on. The bug is preventing it from
