@@ -13,7 +13,9 @@ The =Foswiki::UI::run= function, which is in the call stack for almost
 all cases where an =OopsException= will be thrown, traps the exception
 and outputs an =oops= page to the browser. This requires
 the name of a template file from the =templates= directory, which it
-expands. Parameter values passed to the exception are instantiated in
+expands.  (The passed template name is prefixed with "oops", as shown below.)
+
+Parameter values passed to the exception are instantiated in
 the expanded template. The =oops= page is output with an HTTP status
 appropriate to the event that caused the exception (default 500).
 
@@ -30,12 +32,12 @@ throw Foswiki::OopsException( 'bathplugin',
                             topic => $topic,
                             params => [ 'big toe', 'stuck in', 'hot tap' ] );
 </verbatim>
-This will raise an exception that uses the =bathplugin.tmpl= template. If
+This will raise an exception that uses the =oopsbathplugin.tmpl= template. If
 =UI::run= handles the exception it will generate a redirect to:
 <verbatim>
-oops?template=bathplugin;param1=bigtoe;param2=hot%20tap
+oops?template=oopsbathplugin;param1=bigtoe;param2=hot%20tap
 </verbatim>
-The =bathplugin.tmpl= might contain: 
+The =oopsbathplugin.tmpl= might contain:
 (&lt;nop> inserted to prevent translation interface from extracting these examples)
 <verbatim>
 %TMPL:INCLUDE{"oops"}%
@@ -55,7 +57,7 @@ A more practical example for plugins authors that does not require them to
 provide their own template file involves use of the generic message template
 available from =oopsattention.tmpl=:
 <verbatim>
-throw Foswiki::OopsException( 'oopsattention', def => 'generic',
+throw Foswiki::OopsException( 'attention', def => 'generic',
    params => [ Operation is not allowed  ] );
 </verbatim>
 
