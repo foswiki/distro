@@ -9,9 +9,10 @@
  *
  */
 
-/*global FoswikiTiny:false, StrikeOne:false, plupload:false */
-(function($) {
+/*global StrikeOne:false */
+
 "use strict";
+(function($) {
 
 /*****************************************************************************
  * class NatEditor
@@ -165,7 +166,7 @@ $.NatEditor.prototype.createEngine = function(id) {
  * get a script from the backend 
  */
 $.NatEditor.prototype.getScript = function(url) {
-  var self = this,
+  var /*self = this,*/
       dfd = $.Deferred(),
 
   script = document.createElement('script');
@@ -180,7 +181,7 @@ $.NatEditor.prototype.getScript = function(url) {
     dfd.reject('Error loading script '+url);
   });
   script.addEventListener('abort', function() { 
-    dfd.reject('Script loading aborted.')
+    dfd.reject('Script loading aborted.');
   });
 
   document.head.appendChild(script);
@@ -255,13 +256,13 @@ $.NatEditor.prototype.initGui = function() {
     setPermissionSet($(this).data());
   });
 
-  // Catch events emitted by TinyMCE foswiki plugin
+  // Catch events emitted by TinyMCE foswiki plugin ... SMELL: move it into the engine
   $txtarea
-    .on("fwSwitchToRaw", function(ev, editor) {
+    .on("fwSwitchToRaw", function(/*ev, */ editor) {
       self.tinyMCEEditor = editor;
       self.showToolbar();
     })
-    .on("fwTxError", function(ev, message) {
+    .on("fwTxError", function(/*ev, message*/) {
       // Problem converting back to WYSIWYG; editor has not been
       // switched. Deal with the (string) report and plough on.
     });
@@ -272,7 +273,6 @@ $.NatEditor.prototype.initGui = function() {
  */
 $.NatEditor.prototype.initToolbar = function() {
   var self = this, 
-      $txtarea = $(self.txtarea),
       url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load="+self.opts.toolbar;
 
   // load toolbar
@@ -306,7 +306,7 @@ $.NatEditor.prototype.initToolbar = function() {
         icon: 'ui-icon-triangle-1-s',
         iconPosition: 'end'
       })
-      .on("mousedown", function(ev) {
+      .on("mousedown", function() {
         var $this = $(this),
           $menu = (typeof($this.data("menu")) === 'undefined') ? $this.next() : $(self.container.find($this.data("menu"))),
           state = $menu.data("state") || false;
@@ -473,7 +473,7 @@ $.NatEditor.prototype.showPermDetails = function(type) {
   self.form.find(".ui-natedit-"+type+"-perms .ui-natedit-details-container").slideDown(300);
   self.form.find("input[name='Local+PERMSET_" + type.toUpperCase() + "_DETAILS']").each(function() {
     val = $(this).val();
-    if (val && val != '') {
+    if (val && val !== '') {
       names.push(val);
     }
   });
@@ -501,8 +501,6 @@ $.NatEditor.prototype.hidePermDetails = function(type) {
   * calls a notification systems, defaults to pnotify
   */
 $.NatEditor.prototype.showMessage = function(type, msg, title) {
-  var self =
-
   $.pnotify({
     title: title,
     text:msg,
@@ -518,8 +516,6 @@ $.NatEditor.prototype.showMessage = function(type, msg, title) {
   * hide all open error messages in the notification system
   */
 $.NatEditor.prototype.hideMessages = function() {
-  var self = this;
-
   $.pnotify_remove_all();
 };
 
@@ -527,8 +523,6 @@ $.NatEditor.prototype.hideMessages = function() {
   * hack to extract an error message from a foswiki non-json aware response :(
   */
 $.NatEditor.prototype.extractErrorMessage = function(text) {
-  var self = this;
-
   if (text && text.match(/^<!DOCTYPE/)) {
     text = $(text).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || '';
   }
@@ -659,11 +653,11 @@ $.NatEditor.prototype.initForm = function() {
                   message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
                 });
               },
-              error: function(xhr, textStatus, errorThrown) {
+              error: function(xhr, textStatus) {
                 var message = self.extractErrorMessage(xhr.responseText || textStatus);
                 self.showMessage("error", message);
               },
-              complete: function(xhr, textStatus) {
+              complete: function(xhr) {
                 var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
                 if (nonce) {
                   // patch in new nonce
@@ -709,12 +703,12 @@ $.NatEditor.prototype.initForm = function() {
             message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
           });
         },
-        error: function(xhr, textStatus, errorThrown) {
+        error: function(xhr, textStatus) {
           var message = self.extractErrorMessage(xhr.responseText || textStatus);
           $.unblockUI();
           self.showMessage("error", message);
         },
-        success: function(data, textStatus) {
+        success: function(data) {
           var $window = $(window),
             height = Math.round(parseInt($window.height() * 0.6, 10)),
             width = Math.round(parseInt($window.width() * 0.6, 10));
@@ -945,11 +939,11 @@ $.NatEditor.prototype.insertLink = function(opts) {
 
   if (typeof(opts.url) !== 'undefined') {
     // external link
-    if (typeof(opts.url) === 'undefined' || opts.url == '') {
+    if (typeof(opts.url) === 'undefined' || opts.url === '') {
       return; // nop
     }
 
-    if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
       markup = "[["+opts.url+"]["+opts.text+"]]";
     } else {
       markup = "[["+opts.url+"]]";
@@ -957,34 +951,34 @@ $.NatEditor.prototype.insertLink = function(opts) {
   } else if (typeof(opts.file) !== 'undefined') {
     // attachment link
 
-    if (typeof(opts.web) === 'undefined' || opts.web == '' || 
-        typeof(opts.topic) === 'undefined' || opts.topic == '') {
+    if (typeof(opts.web) === 'undefined' || opts.web === '' || 
+        typeof(opts.topic) === 'undefined' || opts.topic === '') {
       return; // nop
     }
 
     if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
       markup = '%IMAGE{"'+opts.file+'"';
-      if (opts.web != self.opts.web || opts.topic != self.opts.topic) {
+      if (opts.web !== self.opts.web || opts.topic !== self.opts.topic) {
         markup += ' topic="';
-        if (opts.web != self.opts.web) {
+        if (opts.web !== self.opts.web) {
           markup += opts.web+'.';
         }
         markup += opts.topic+'"';
       }
-      if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
         markup += ' caption="'+opts.text+'"';
       }
       markup += ' size="320"}%';
     } else {
       // linking to an ordinary attachment
 
-      if (opts.web == self.opts.web && opts.topic == self.opts.topic) {
+      if (opts.web === self.opts.web && opts.topic === self.opts.topic) {
         markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
       } else {
         markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
       }
 
-      if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
         markup += "["+opts.text+"]";
       } else {
         markup += "["+opts.file+"]";
@@ -995,17 +989,17 @@ $.NatEditor.prototype.insertLink = function(opts) {
   } else {
     // wiki link
     
-    if (typeof(opts.topic) === 'undefined' || opts.topic == '') {
+    if (typeof(opts.topic) === 'undefined' || opts.topic === '') {
       return; // nop
     }
 
-    if (opts.web == self.opts.web) {
+    if (opts.web === self.opts.web) {
       markup = "[["+opts.topic+"]";
     } else {
       markup = "[["+opts.web+"."+opts.topic+"]";
     }
 
-    if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
       markup += "["+opts.text+"]";
     } 
     markup += "]";
@@ -1026,7 +1020,7 @@ $.NatEditor.prototype.setValue = function(val) {
 /*****************************************************************************
  * handler for escape tml 
  */
-$.NatEditor.prototype.handleEscapeTML = function(ev, elem) {
+$.NatEditor.prototype.handleEscapeTML = function(/*ev, elem*/) {
   var self = this, 
       selection = self.engine.getSelection() || '';
 
@@ -1039,7 +1033,7 @@ $.NatEditor.prototype.handleEscapeTML = function(ev, elem) {
 /*****************************************************************************
  * handler for unescape tml 
  */
-$.NatEditor.prototype.handleUnescapeTML = function(ev, elem) {
+$.NatEditor.prototype.handleUnescapeTML = function(/*ev, elem*/) {
   var self = this, 
       selection = self.engine.getSelection() || '';
 
@@ -1173,7 +1167,7 @@ $.NatEditor.prototype.autoResize = function() {
     var oldHeight = Math.round($txtarea.height());
     text = $txtarea.val() + " ";
 
-    if (text == self._lastText) {
+    if (text === self._lastText) {
       //$.log("NATEDIT: suppressing events");
       return;
     }
@@ -1325,7 +1319,7 @@ $.NatEditor.prototype.dialog = function(opts) {
             return false;
           }
         }],
-        open: function(ev) {
+        open: function() {
           var $this = $(this), 
               title = $this.data("title");
 
@@ -1336,7 +1330,7 @@ $.NatEditor.prototype.dialog = function(opts) {
           $this.find("input").on("keydown", function(ev) {
             var $input = $(this);
             if (!$input.is(".ui-autocomplete-input") || !$input.data("ui-autocomplete").menu.element.is(":visible")) {
-              if (ev.keyCode == 13) {
+              if (ev.keyCode === 13) {
                 ev.preventDefault();
                 $this.dialog("close");
               }
@@ -1345,7 +1339,7 @@ $.NatEditor.prototype.dialog = function(opts) {
 
           opts.open.call(self, this, opts.data);
         },
-        close: function(event, ui) {
+        close: function() {
           dfd.resolve(this);
           $(this).remove();
         },
@@ -1452,10 +1446,10 @@ $.NatEditor.prototype.handleInsertAttachment = function(elem) {
 /*****************************************************************************
  * init the color dialog
  */
-$.NatEditor.prototype.initColorDialog = function(elem, data) {
+$.NatEditor.prototype.initColorDialog = function(elem/*, data*/) {
   var self = this,
       $dialog = $(elem),
-      color = self.engine.getSelection(),
+      /*color = self.engine.getSelection(),*/
       inputField = $dialog.find("input[name='color']")[0];
 
   self.fb = $.farbtastic($dialog.find(".ui-natedit-colorpicker")).setColor("#fafafa").linkTo(inputField);
@@ -1480,7 +1474,7 @@ $.NatEditor.prototype.parseColorSelection = function() {
 /*****************************************************************************
  * init the date dialog
  */
-$.NatEditor.prototype.openDatePicker = function(ev, ui) {
+$.NatEditor.prototype.openDatePicker = function(/*ev, ui*/) {
   var self = this,
       elem,
       date,
@@ -1490,10 +1484,10 @@ $.NatEditor.prototype.openDatePicker = function(ev, ui) {
     date = new Date();
   } else {
     try {
-      date = new Date(selection)
+      date = new Date(selection);
     } catch (e) {
       self.showMessage("error", $.i18n("invalid date '%date%'", {date:selection}));
-    };
+    }
   }
 
   if (typeof(self.datePicker) === 'undefined') {
@@ -1532,7 +1526,7 @@ $.NatEditor.prototype.openDatePicker = function(ev, ui) {
  * format a date the foswiki way
  */
 $.NatEditor.prototype.formatDate = function(date) {
-  var self = this,
+  /*var self = this;*/
 
   // TODO: make it smarter
   date = date.toDateString().split(/ /);
@@ -1542,7 +1536,7 @@ $.NatEditor.prototype.formatDate = function(date) {
 /*****************************************************************************
  * inserts the color code
  */
-$.NatEditor.prototype.handleInsertColor = function(elem) {
+$.NatEditor.prototype.handleInsertColor = function(/*elem*/) {
   var self = this, 
       color = self.fb.color;
 
@@ -1551,14 +1545,14 @@ $.NatEditor.prototype.handleInsertColor = function(elem) {
 };
 
 /*************************************************************************/
-$.NatEditor.prototype.handleUndo = function(elem) {
+$.NatEditor.prototype.handleUndo = function(/*elem*/) {
   var self = this;
 
   self.engine.undo();
 };
 
 /*************************************************************************/
-$.NatEditor.prototype.handleRedo = function(elem) {
+$.NatEditor.prototype.handleRedo = function(/*elem*/) {
   var self = this;
 
   self.engine.redo();
@@ -1567,12 +1561,12 @@ $.NatEditor.prototype.handleRedo = function(elem) {
 /*****************************************************************************
  * sort selection 
  */
-$.NatEditor.prototype.handleSortAscending = function(ev, elem) {
+$.NatEditor.prototype.handleSortAscending = function(/*ev, elem*/) {
   var self = this;
   self.sortSelection("asc");
 };
 
-$.NatEditor.prototype.handleSortDescending = function(ev, elem) {
+$.NatEditor.prototype.handleSortDescending = function(/*ev, elem*/) {
   var self = this;
   self.sortSelection("desc");
 };
@@ -1580,7 +1574,7 @@ $.NatEditor.prototype.handleSortDescending = function(ev, elem) {
 $.NatEditor.prototype.sortSelection = function(dir) {
   var self = this,
     selection, lines, ignored, isNumeric = true, value,
-    line, prefix, i, beforeSelection = "", afterSelection = "";
+    line, prefix, i;
 
   //$.log("NATEDIT: sortSelection ", dir);
 
@@ -1634,7 +1628,7 @@ $.NatEditor.prototype.sortSelection = function(dir) {
     }
   });
 
-  if (dir == "desc") {
+  if (dir === "desc") {
     lines = lines.reverse();
   }
 
@@ -1691,7 +1685,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           }),
           dataType: "json",
           autocompleteRequest: ++requestIndex,
-          success: function(data, status) {
+          success: function(data) {
             if (this.autocompleteRequest === requestIndex) {
               $.each(data, function(index, item) {
                 item.value = item.value.replace(baseWeb+".", "");
@@ -1699,7 +1693,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
               response(data);
             }
           },
-          error: function(xhr, status) {
+          error: function() {
             if (this.autocompleteRequest === requestIndex) {
               response([]);
             }
@@ -1724,12 +1718,12 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           }),
           dataType: "json",
           autocompleteRequest: ++requestIndex,
-          success: function(data, status) {
+          success: function(data) {
             if (this.autocompleteRequest === requestIndex) {
               response(data);
             }
           },
-          error: function(xhr, status) {
+          error: function() {
             if (this.autocompleteRequest === requestIndex) {
               response([]);
             }
@@ -1799,13 +1793,13 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       self.hideMessages();
     });
 
-    $uploadButton.bind("fileuploaddone", function(e, data) {
+    $uploadButton.bind("fileuploaddone", function(/*e, data*/) {
       //console.log("done upload");
       var file = data.files[0].name;
       $input.removeAttr("disabled").val(file).focus();
     });
 
-    $uploadButton.bind("fileuploadfail", function(e, data) {
+    $uploadButton.bind("fileuploadfail", function(/*e, data*/) {
       //console.log("processfaiul upload");
       self.showMessage("error", $.i18n("Error during upload"));
     });
@@ -1815,9 +1809,8 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
 /*****************************************************************************
   * cancel the attachments dialog; abords any upload in progress
   */
-$.NatEditor.prototype.cancelAttachmentsDialog = function(elem, data) {
-  var self = this,
-      $dialog = $(elem);
+$.NatEditor.prototype.cancelAttachmentsDialog = function(elem/*, data*/) {
+  var self = this;
 
   $.log("NATEDIT: cancelAttachmentsDialog on elem=",elem);
 

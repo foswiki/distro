@@ -8,8 +8,10 @@
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
 
+/*global BaseEngine:false CodeMirror:false ImageWidget:false */
+
+"use strict";
 (function($) {
 
 /* hepler class for searching */
@@ -37,7 +39,7 @@ function CodemirrorEngine(shell, opts) {
   self.shell = shell;
   self.searchState = undefined;
   self.opts = $.extend({}, CodemirrorEngine.defaults, self.shell.opts.codemirror, opts);
-};
+}
 
 /*************************************************************************
  * init this engine
@@ -177,15 +179,15 @@ CodemirrorEngine.prototype.on = function(eventName, func) {
  * insert stuff at the given cursor position
  */
 CodemirrorEngine.prototype.insert = function(newText) {
-  var self = this;
+  /*var self = this;*/
 
-  throw("not implemented: insert()");
+  throw("not implemented: insert()",newText);
 };
 
 /*************************************************************************
  * replace specific elements with widgets to display them 
  */
-CodemirrorEngine.prototype.insertWidgets = function(change) {
+CodemirrorEngine.prototype.insertWidgets = function(/*change*/) {
   var self = this,
       cursor = self.cm.getSearchCursor(/<img[^>]+\/>/, 0, 0);
 
@@ -198,7 +200,7 @@ CodemirrorEngine.prototype.insertWidgets = function(change) {
 /*************************************************************************
  * update all widgets in the range of the given change 
  */
-CodemirrorEngine.prototype.updateWidgets = function(change) {
+CodemirrorEngine.prototype.updateWidgets = function(/*change*/) {
   var self = this,
       marks = self.cm.getAllMarks(),
       images = [],
@@ -216,10 +218,10 @@ CodemirrorEngine.prototype.updateWidgets = function(change) {
   while (cursor.findNext()) {
     found = false;
     $.each(images, function(index, widget) {
-      if (cursor.pos.from.ch   == widget.from.ch && 
-          cursor.pos.from.line == widget.from.line &&
-          cursor.pos.to.ch == widget.to.ch &&
-          cursor.pos.to.line == widget.to.line) {
+      if (cursor.pos.from.ch === widget.from.ch && 
+          cursor.pos.from.line === widget.from.line &&
+          cursor.pos.to.ch === widget.to.ch &&
+          cursor.pos.to.line === widget.to.line) {
         found = true;
         return false;
       }
@@ -388,7 +390,7 @@ CodemirrorEngine.prototype.searchOverlay = function(term, ignoreCase) {
     token: function(stream) {
       query.lastIndex = stream.pos;
       var match = query.exec(stream.string);
-      if (match && match.index == stream.pos) {
+      if (match && match.index === stream.pos) {
         stream.pos += match[0].length || 1;
         return "searching";
       } else if (match) {
@@ -425,7 +427,7 @@ CodemirrorEngine.prototype.openSearchDialog = function() {
           ignoreCase = $dialog.find("input[name='ignorecase']:checked").length?true:false;
       self._searchDialogOpen = false;
       self.search(search, ignoreCase);
-    }, function(dialog) {
+    }, function(/*dialog*/) {
       self._searchDialogOpen = false;
       self.clearSearchState();
     }

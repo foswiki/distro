@@ -8,8 +8,10 @@
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
 
+/*global BaseEngine:false tinymce:false*/
+
+"use strict";
 (function($) {
 
 /*****************************************************************************
@@ -37,13 +39,12 @@ function TinyMCEEngine(shell, opts) {
   self.opts.natedit.signatureMarkup = ['-- ', '<a href="'+wikiUserNameUrl+'">'+foswiki.getPreference("WIKINAME")+'</a>', ' - '+foswiki.getPreference("SERVERTIME")];
 
   $.extend(self.shell.opts, self.opts.natedit);
-};
-
+}
 
 /*************************************************************************
  * init tinymce instance 
  */
-TinyMCEEngine.prototype.init = function(editor) {
+TinyMCEEngine.prototype.init = function() {
   var self = this,
       pubUrlPath = foswiki.getPreference("PUBURLPATH"),
       systemWeb = foswiki.getPreference('SYSTEMWEB'),
@@ -115,8 +116,8 @@ TinyMCEEngine.prototype.initGui = function() {
   });
 
   // highlight buttons on toolbar when the cursor moves into a format
-  self.editor.on("NodeChange", function(ev) {
-    var elem = ev.element,
+  self.editor.on("NodeChange", function(/*ev*/) {
+    var /*elem = ev.element,*/
         formatter = self.editor.formatter,
         activeFormats;
 
@@ -199,7 +200,7 @@ TinyMCEEngine.prototype.handleToolbarAction = function(ui) {
  * convert tml to html using WysiwygPlugin, returns a Deferred
  */
 TinyMCEEngine.prototype.tml2html = function(tml) {
-  var self = this,
+  var /*self = this,*/
       url = foswiki.getScriptUrl("rest", "WysiwygPlugin", "tml2html");
 
   //console.log("called tml2html", tml);
@@ -215,7 +216,7 @@ TinyMCEEngine.prototype.tml2html = function(tml) {
  * convert html back to tml using WysiwygPlugin, returns a Deferred
  */
 TinyMCEEngine.prototype.html2tml = function(html) {
-  var self = this,
+  var /*self = this,*/
       url = foswiki.getScriptUrl("rest", "WysiwygPlugin", "html2tml");
 
   //self.log("called html2tml", tml);
@@ -266,11 +267,11 @@ TinyMCEEngine.prototype.getSelectionLines = function() {
       text = $(node).text();
 
 
-  while (start > 0 && text.charCodeAt(start-1) != 13 && text.charCodeAt(start-1) != 10) {
+  while (start > 0 && text.charCodeAt(start-1) !== 13 && text.charCodeAt(start-1) !== 10) {
     start--;
   }
 
-  while (end < text.length && text.charCodeAt(end) != 13 && text.charCodeAt(end) != 10) {
+  while (end < text.length && text.charCodeAt(end) !== 13 && text.charCodeAt(end) !== 10) {
     end++;
   }
 
@@ -367,9 +368,9 @@ TinyMCEEngine.prototype.insertTag = function(markup) {
  * }
  */
 TinyMCEEngine.prototype.insertTable = function(opts) {
-  var self = this;
+  /*var self = this;*/
 
-  throw("not implemented: insertTable");
+  throw("not implemented: insertTable opts=",opts);
 };
 
 /*************************************************************************
@@ -386,9 +387,9 @@ TinyMCEEngine.prototype.setValue = function(val) {
  * search & replace a term in the textarea
  */
 TinyMCEEngine.prototype.searchReplace = function(search, replace, ignoreCase) {
-  var self = this;
+  /*var self = this;*/
 
-  throw("not implemented: searchReplace()");
+  throw("not implemented: searchReplace(",search,replace,ignoreCase,")");
 };
 
 /*************************************************************************
@@ -449,7 +450,7 @@ TinyMCEEngine.defaults = {
       rightMarkup: { block: "p", styles: { "text-align": "right" }, toolbar: ".ui-natedit-right" },
       centerMarkup: { block: "p", styles: { "text-align": "center" }, toolbar: ".ui-natedit-center" },
       justifyMarkup: { block: "p", styles: { "text-align": "justify" }, toolbar: ".ui-natedit-justify" },
-      verbatimMarkup: { block: "pre", toolbar: ".ui-natedit-h1" },
+      verbatimMarkup: { block: "pre", toolbar: ".ui-natedit-h1" }
     }
   }
 };
