@@ -574,10 +574,13 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     StrikeOne.submit(self.form[0]);
   }
 
+  // WARNING: handlers are not guaranteed to be called or have finished before the content has been submitted
   self.form.trigger("beforeSubmit.natedit", {
     editor: self, 
     action: editAction
   });
+
+  return self.engine.beforeSubmit(editAction);
 };
 
 /*************************************************************************
@@ -604,12 +607,13 @@ $.NatEditor.prototype.initForm = function() {
       buttons,
       doIt = function() {
         if (self.form.validate().form()) {
-          self.beforeSubmit("save");
-          document.title = $.i18n("Saving ...");
-          $.blockUI({
-            message: '<h1> '+ $.i18n("Saving ...") + '</h1>'
+          self.beforeSubmit("save").then(function() {
+            document.title = $.i18n("Saving ...");
+            $.blockUI({
+              message: '<h1> '+ $.i18n("Saving ...") + '</h1>'
+            });
+            self.form.submit();
           });
-          self.form.submit();
         }
       };
 
@@ -638,38 +642,38 @@ $.NatEditor.prototype.initForm = function() {
         var editAction = $(ev.currentTarget).attr("href").replace(/^#/, "");
 
         if (self.form.validate().form()) {
-          self.beforeSubmit(editAction);
-
-          if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
-            // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
-            self.form.submit();
-          } else {
-            self.form.ajaxSubmit({
-              url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
-              beforeSubmit: function() {
-                self.hideMessages();
-                document.title = $.i18n("Saving ...");
-                $.blockUI({
-                  message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
-                });
-              },
-              error: function(xhr, textStatus) {
-                var message = self.extractErrorMessage(xhr.responseText || textStatus);
-                self.showMessage("error", message);
-              },
-              complete: function(xhr) {
-                var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
-                if (nonce) {
-                  // patch in new nonce
-                  $("input[name='validation_key']").each(function() {
-                    $(this).val("?" + nonce);
+          self.beforeSubmit(editAction).then(function() {
+            if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
+              // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
+              self.form.submit();
+            } else {
+              self.form.ajaxSubmit({
+                url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+                beforeSubmit: function() {
+                  self.hideMessages();
+                  document.title = $.i18n("Saving ...");
+                  $.blockUI({
+                    message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
                   });
+                },
+                error: function(xhr, textStatus) {
+                  var message = self.extractErrorMessage(xhr.responseText || textStatus);
+                  self.showMessage("error", message);
+                },
+                complete: function(xhr) {
+                  var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
+                  if (nonce) {
+                    // patch in new nonce
+                    $("input[name='validation_key']").each(function() {
+                      $(this).val("?" + nonce);
+                    });
+                  }
+                  document.title = origTitle;
+                  $.unblockUI();
                 }
-                document.title = origTitle;
-                $.unblockUI();
-              }
-            });
-          }
+              });
+            }
+          });
         }
       };
 
@@ -693,35 +697,35 @@ $.NatEditor.prototype.initForm = function() {
   self.form.find(".ui-natedit-preview").on("click", function() {
 
     if (self.form.validate().form()) {
-      self.beforeSubmit("preview");
+      self.beforeSubmit("preview").then(function() {
+        self.form.ajaxSubmit({
+          url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+          beforeSubmit: function() {
+            self.hideMessages();
+            $.blockUI({
+              message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
+            });
+          },
+          error: function(xhr, textStatus) {
+            var message = self.extractErrorMessage(xhr.responseText || textStatus);
+            $.unblockUI();
+            self.showMessage("error", message);
+          },
+          success: function(data) {
+            var $window = $(window),
+              height = Math.round(parseInt($window.height() * 0.6, 10)),
+              width = Math.round(parseInt($window.width() * 0.6, 10));
 
-      self.form.ajaxSubmit({
-        url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
-        beforeSubmit: function() {
-          self.hideMessages();
-          $.blockUI({
-            message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
-          });
-        },
-        error: function(xhr, textStatus) {
-          var message = self.extractErrorMessage(xhr.responseText || textStatus);
-          $.unblockUI();
-          self.showMessage("error", message);
-        },
-        success: function(data) {
-          var $window = $(window),
-            height = Math.round(parseInt($window.height() * 0.6, 10)),
-            width = Math.round(parseInt($window.width() * 0.6, 10));
+            $.unblockUI();
 
-          $.unblockUI();
+            if (width < 640) {
+              width = 640;
+            }
 
-          if (width < 640) {
-            width = 640;
+            data = data.replace(/%width%/g, width).replace(/%height%/g, height);
+            $("body").append(data);
           }
-
-          data = data.replace(/%width%/g, width).replace(/%height%/g, height);
-          $("body").append(data);
-        }
+        });
       });
     }
     return false;
@@ -734,20 +738,23 @@ $.NatEditor.prototype.initForm = function() {
     $("label.error").hide();
     $("input.error").removeClass("error");
     $(".jqTabGroup a.error").removeClass("error");
-    self.beforeSubmit("cancel");
-    self.form.submit();
+    self.beforeSubmit("cancel").then(function() {
+      self.form.submit();
+    });
     return false;
   });
 
   self.form.find(".ui-natedit-replaceform").on("click", function() {
-    self.beforeSubmit("replaceform");
-    self.form.submit();
+    self.beforeSubmit("replaceform").then(function() {
+      self.form.submit();
+    });
     return false;
   });
 
   self.form.find(".ui-natedit-addform").on("click", function() {
-    self.beforeSubmit("addform");
-    self.form.submit();
+    self.beforeSubmit("addform").then(function() {
+      self.form.submit();
+    });
     return false;
   });
 

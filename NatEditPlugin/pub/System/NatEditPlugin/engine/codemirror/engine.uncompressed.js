@@ -157,12 +157,18 @@ CodemirrorEngine.prototype.init = function() {
     }
   });
 
-  // listen to beforeSubmit event
-  self.shell.form.on("beforeSubmit.natedit", function() {
-    self.cm.save(); // copy to textarea
-  });
-
   return dfd.promise();
+};
+
+/*************************************************************************
+ * intercept save process
+ */
+CodemirrorEngine.prototype.beforeSubmit = function(action) {
+  var self = this;
+
+  self.cm.save(); // copy to textarea
+
+  return $.Deferred().resolve().promise();
 };
 
 /*************************************************************************

@@ -29,12 +29,6 @@ function TinyMCEEngine(shell, opts) {
 
   self.shell = shell;
   self.opts = $.extend({}, TinyMCEEngine.defaults, self.shell.opts.tinymce, opts);
-
-  // prefix them with pubUrlPath
-  $.each(self.opts.tinymce.content_css, function(i, val) {
-    self.opts.tinymce.content_css[i] = pubUrlPath + val;
-  });
-
   self.opts.tinymce.selector = "#"+self.shell.id+" textarea";
   self.opts.natedit.signatureMarkup = ['-- ', '<a href="'+wikiUserNameUrl+'">'+foswiki.getPreference("WIKINAME")+'</a>', ' - '+foswiki.getPreference("SERVERTIME")];
 
@@ -78,15 +72,6 @@ TinyMCEEngine.prototype.init = function() {
         });
 
       self.shell.form.on("beforeSubmit.natedit", function(e, params) {
-        if (params.action !== 'cancel') {
-          self.html2tml(self.editor.getContent())
-            .done(function(data) {
-              $(self.shell.txtarea).val(data);
-            })
-            .fail(function() {
-              alert("Error calling html2tml"); // SMELL: better error handling
-            });
-        }
       });
 
     };
@@ -102,38 +87,45 @@ TinyMCEEngine.prototype.init = function() {
 };
 
 /*************************************************************************
+ * intercept save process
+ */
+TinyMCEEngine.prototype.beforeSubmit = function(action) {
+  var self = this, dfd;
+
+  if (action === 'cancel') {
+    return;
+  }
+
+  return self.html2tml(self.editor.getContent())
+    .done(function(data) {
+      $(self.shell.txtarea).val(data);
+    })
+    .fail(function() {
+      alert("Error calling html2tml"); // SMELL: better error handling
+    });
+};
+
+
+/*************************************************************************
  * init gui
  */
 TinyMCEEngine.prototype.initGui = function() {
-  var self = this,
-      formatNames = [];
+  var self = this;
 
   // flag to container ... smell: is this really needed?
   self.shell.container.addClass("ui-natedit-wysiwyg-enabled");
 
-  $.each(self.opts.tinymce.formats, function(key) {
-    formatNames.push(key);
-  });
-
   // highlight buttons on toolbar when the cursor moves into a format
-  self.editor.on("NodeChange", function(/*ev*/) {
-    var /*elem = ev.element,*/
-        formatter = self.editor.formatter,
-        activeFormats;
-
-    self.shell.toolbar.find(".ui-button, .ui-menu-item").removeClass("ui-natedit-active");
-
-    activeFormats = formatter.matchAll(formatNames);
-
-    $.each(activeFormats, function(index, name) {
-      $.each(formatter.get(name), function(index, format) {
-        var selector = format.toolbar;
-        if (selector) {
-          self.shell.toolbar.find(selector).addClass("ui-natedit-active");
+  $.each(self.opts.tinymce.formats, function(formatName) {
+    self.editor.formatter.formatChanged(formatName, function(state, args) {
+      $.each(self.editor.formatter.get(formatName), function(i, format) {
+        if (state) {
+          self.shell.toolbar.find(format.toolbar).addClass("ui-natedit-active");
+        } else {
+          self.shell.toolbar.find(format.toolbar).removeClass("ui-natedit-active");
         }
       });
     });
-
   });
 
   // listen to change events and update stuff
@@ -431,7 +423,7 @@ TinyMCEEngine.defaults = {
     statusbar: false,
     plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image', // save autosave fullscreen anchor charmap code textcolor colorpicker
     paste_data_images: true,
-    content_css: ["/System/TinyMCEPlugin/wysiwyg.css", "/System/SkinTemplates/base.css"], // todo custom onces: ,/pub/System/NatSkin/BaseStyle.css,/pub/System/CustomatoTheme/customato.css"
+    content_css: ["/pub/System/TinyMCEPlugin/wysiwyg.css", "/pub/System/SkinTemplates/base.css"],
     formats: {
       h1Markup: { block: "h1", toolbar: ".ui-natedit-h1" },
       h2Markup: { block: "h2", toolbar: ".ui-natedit-h2" },
@@ -439,7 +431,9 @@ TinyMCEEngine.defaults = {
       h4Markup: { block: "h4", toolbar: ".ui-natedit-h4" },
       h5Markup: { block: "h5", toolbar: ".ui-natedit-h5" },
       h6Markup: { block: "h6", toolbar: ".ui-natedit-h6" },
-      boldMarkup: { inline: "strong", toolbar: ".ui-natedit-bold" },
+      normalMarkup: { block: "p", toolbar: ".ui-natedit-normal"},
+      quoteMarkup: { block: "blockquote", toolbar: ".ui-natedit-quoted"},
+      boldMarkup: { inline: "b", toolbar: ".ui-natedit-bold" },
       italicMarkup: { inline: "em", toolbar: ".ui-natedit-italic" },
       monoMarkup: { inline: "code", toolbar: ".ui-natedit-mono" },
       underlineMarkup: { inline: "span", styles: { "text-decoration": "underline" }, toolbar: ".ui-natedit-underline"  },
@@ -450,7 +444,7 @@ TinyMCEEngine.defaults = {
       rightMarkup: { block: "p", styles: { "text-align": "right" }, toolbar: ".ui-natedit-right" },
       centerMarkup: { block: "p", styles: { "text-align": "center" }, toolbar: ".ui-natedit-center" },
       justifyMarkup: { block: "p", styles: { "text-align": "justify" }, toolbar: ".ui-natedit-justify" },
-      verbatimMarkup: { block: "pre", toolbar: ".ui-natedit-h1" }
+      verbatimMarkup: { block: "pre", classes: "TMLverbatim", toolbar: ".ui-natedit-verbatim" }
     }
   }
 };
