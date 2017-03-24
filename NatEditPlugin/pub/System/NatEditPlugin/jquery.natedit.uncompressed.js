@@ -9,7 +9,7 @@
  *
  */
 
-/*global FoswikiTiny:false, tinyMCE:false, StrikeOne:false, plupload:false */
+/*global FoswikiTiny:false, StrikeOne:false, plupload:false */
 (function($) {
 "use strict";
 
@@ -206,13 +206,9 @@ $.NatEditor.prototype.initGui = function() {
       $txtarea = $(self.txtarea);
 
   /* flag enabled plugins */
-  if (typeof(tinymce) !== 'undefined') {
-    self.container.addClass("ui-natedit-wysiwyg-enabled");
-  }
   if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
     self.container.addClass("ui-natedit-colorpicker-enabled");
   }
-
 
   if (self.opts.resizable) {
     self.engine.getWrapperElement().resizable();
@@ -269,17 +265,6 @@ $.NatEditor.prototype.initGui = function() {
       // Problem converting back to WYSIWYG; editor has not been
       // switched. Deal with the (string) report and plough on.
     });
-};
-/*************************************************************************
- * DEPRECATED tinymce integration
- */
-$.NatEditor.prototype.switchToWYSIWYG = function(ev) {
-  var self = this;
-
-  if (typeof(self.tinyMCEEditor) !== 'undefined') {
-    self.hideToolbar();
-    self.tinyMCEEditor.execCommand("fwSwitchToWYSIWYG");
-  }
 };
 
 /*************************************************************************
@@ -593,12 +578,6 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
 
   if (typeof(StrikeOne) !== 'undefined') {
     StrikeOne.submit(self.form[0]);
-  }
-
-  if (typeof(tinyMCE) !== 'undefined') {
-    $.each(tinyMCE.editors, function(index, editor) { 
-        editor.execCommand("fwsave"); 
-    }); 
   }
 
   self.form.trigger("beforeSubmit.natedit", {
@@ -1135,19 +1114,12 @@ $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem = self.engine.getWrapperElement(),
     windowHeight = $(window).height() || window.innerHeight,
-    tmceEdContainer = (typeof(tinyMCE) !== 'undefined' && tinyMCE.activeEditor)?$(tinyMCE.activeEditor.contentAreaContainer):null, // DEPRECATED tinymce integration
     newHeight,
     $debug = $("#DEBUG");
 
   if (typeof(self.bottomHeight) === 'undefined') {
     self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
   }
-
-  if (tmceEdContainer && !tinyMCE.activeEditor.getParam('fullscreen_is_enabled') && tmceEdContainer.is(":visible")) {
-    /* resize tinyMCE. */
-    tmceEdContainer.closest(".mceLayout").height('auto'); // remove local height properties
-    elem = tmceEdContainer.children('iframe');
-  } 
 
   if (!elem) {
     return;
@@ -1173,12 +1145,7 @@ $.NatEditor.prototype.fixHeight = function() {
 
   if (elem.is(":visible")) {
     //console.log("NATEDIT: fixHeight height=",newHeight);
-    // DEPRECATED tinymce integration
-    if (tmceEdContainer) {
-      elem.height(newHeight);
-    } else {
-      self.engine.setSize(undefined, newHeight);
-    }
+    self.engine.setSize(undefined, newHeight);
   } else {
     //console.log("NATEDIT: not fixHeight elem not yet visible");
   }
@@ -2011,11 +1978,6 @@ $.fn.natedit = function(opts) {
 
   // build main options before element iteration
   var thisOpts = $.extend({}, $.NatEditor.defaults, opts);
-
-  // DEPRECATED tinymce integration
-  if (this.is(".foswikiWysiwygEdit") && typeof(tinyMCE) !== 'undefined') {
-    thisOpts.showToolbar = false;
-  }
 
   return this.each(function() {
     if (!$.data(this, "natedit")) {

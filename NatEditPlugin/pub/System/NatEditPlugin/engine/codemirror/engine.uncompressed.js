@@ -46,35 +46,35 @@ CodemirrorEngine.prototype.init = function() {
   var self = this,
       pubUrlPath = foswiki.getPreference("PUBURLPATH"),
       systemWeb = foswiki.getPreference('SYSTEMWEB'),
-      codeMirrorPath = pubUrlPath+'/'+systemWeb+'/CodeMirrorContrib',
+      editorPath = pubUrlPath+'/'+systemWeb+'/CodeMirrorContrib',
       dfd = $.Deferred();
 
   $('<link>')
     .appendTo('head')
     .attr({type : 'text/css', rel : 'stylesheet'})
-    .attr('href', codeMirrorPath + '/lib/codemirror.css');
+    .attr('href', editorPath + '/lib/codemirror.css');
 
   $('<link>')
     .appendTo('head')
     .attr({type : 'text/css', rel : 'stylesheet'})
-    .attr('href', codeMirrorPath + '/theme/foswiki.css?t='+(new Date()).getTime());
+    .attr('href', editorPath + '/theme/foswiki.css?t='+(new Date()).getTime());
 
   $('<link>')
     .appendTo('head')
     .attr({type : 'text/css', rel : 'stylesheet'})
-    .attr('href', codeMirrorPath + '/addon/search/matchesonscrollbar.css');
+    .attr('href', editorPath + '/addon/search/matchesonscrollbar.css');
 
-  self.shell.getScript(codeMirrorPath+"/lib/codemirror.js").done(function() {
-    CodeMirror.modeURL = codeMirrorPath+'/'+'/mode/%N/%N.js';
+  self.shell.getScript(editorPath+"/lib/codemirror.js").done(function() {
+    CodeMirror.modeURL = editorPath+'/'+'/mode/%N/%N.js';
 
     $.when(
-      self.shell.getScript(codeMirrorPath+"/addon/mode/loadmode.js"),
-      self.shell.getScript(codeMirrorPath+"/addon/fold/foldcode.js"),
-      self.shell.getScript(codeMirrorPath+"/addon/fold/foldgutter.js"),
-      self.shell.getScript(codeMirrorPath+"/addon/search/searchcursor.js"),
-      self.shell.getScript(codeMirrorPath+"/addon/scroll/annotatescrollbar.js"),
-      self.shell.getScript(codeMirrorPath+"/addon/search/matchesonscrollbar.js"),
-      self.shell.getScript(codeMirrorPath+"/widgets/widgets.js"),
+      self.shell.getScript(editorPath+"/addon/mode/loadmode.js"),
+      self.shell.getScript(editorPath+"/addon/fold/foldcode.js"),
+      self.shell.getScript(editorPath+"/addon/fold/foldgutter.js"),
+      self.shell.getScript(editorPath+"/addon/search/searchcursor.js"),
+      self.shell.getScript(editorPath+"/addon/scroll/annotatescrollbar.js"),
+      self.shell.getScript(editorPath+"/addon/search/matchesonscrollbar.js"),
+      self.shell.getScript(editorPath+"/widgets/widgets.js"),
       self.shell.preloadDialog("searchdialog")
     ).done(function() {
 

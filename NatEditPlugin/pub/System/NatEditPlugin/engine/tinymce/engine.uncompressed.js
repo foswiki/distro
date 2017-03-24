@@ -22,10 +22,17 @@ TinyMCEEngine.prototype.parent = BaseEngine.prototype;
 
 function TinyMCEEngine(shell, opts) {
   var self = this,
-      wikiUserNameUrl = foswiki.getScriptUrlPath("view", foswiki.getPreference("USERSWEB"), foswiki.getPreference("WIKINAME"));
+      wikiUserNameUrl = foswiki.getScriptUrlPath("view", foswiki.getPreference("USERSWEB"), foswiki.getPreference("WIKINAME")),
+      pubUrlPath = foswiki.getPreference("PUBURLPATH");
 
   self.shell = shell;
   self.opts = $.extend({}, TinyMCEEngine.defaults, self.shell.opts.tinymce, opts);
+
+  // prefix them with pubUrlPath
+  $.each(self.opts.tinymce.content_css, function(i, val) {
+    self.opts.tinymce.content_css[i] = pubUrlPath + val;
+  });
+
   self.opts.tinymce.selector = "#"+self.shell.id+" textarea";
   self.opts.natedit.signatureMarkup = ['-- ', '<a href="'+wikiUserNameUrl+'">'+foswiki.getPreference("WIKINAME")+'</a>', ' - '+foswiki.getPreference("SERVERTIME")];
 
@@ -38,16 +45,24 @@ function TinyMCEEngine(shell, opts) {
  */
 TinyMCEEngine.prototype.init = function(editor) {
   var self = this,
+      pubUrlPath = foswiki.getPreference("PUBURLPATH"),
+      systemWeb = foswiki.getPreference('SYSTEMWEB'),
+      editorPath = pubUrlPath+'/'+systemWeb+'/TinyMCEPlugin',
       dfd = $.Deferred();
 
-  self.shell.getScript("//cdn.tinymce.com/4/tinymce.min.js").done(function() {
+  $('<link>')
+    .appendTo('head')
+    .attr({type : 'text/css', rel : 'stylesheet'})
+    .attr('href', editorPath + '/wysiwyg.css');
+
+  self.shell.getScript(editorPath+'/tinymce/js/tinymce/tinymce.min.js').done(function() {
 
     self.opts.tinymce.init_instance_callback = function(editor) {
 
       //self.log("tinymce instance", editor);
 
       self.editor = editor;
-//window.editor = editor; // playground
+      //window.editor = editor; // playground
 
       self.tml2html($(self.shell.txtarea).val())
         .done(function(data) {
@@ -91,6 +106,9 @@ TinyMCEEngine.prototype.init = function(editor) {
 TinyMCEEngine.prototype.initGui = function() {
   var self = this,
       formatNames = [];
+
+  // flag to container ... smell: is this really needed?
+  self.shell.container.addClass("ui-natedit-wysiwyg-enabled");
 
   $.each(self.opts.tinymce.formats, function(key) {
     formatNames.push(key);
@@ -382,6 +400,22 @@ TinyMCEEngine.prototype.getWrapperElement = function() {
   return self.editor?$(self.editor.contentAreaContainer).children("iframe"):null;
 };
 
+/*************************************************************************
+ * set the size of editor
+ */
+TinyMCEEngine.prototype.setSize = function(width, height) {
+  var self = this,
+      elem = self.getWrapperElement();
+
+  width = width || 'auto';
+  height = height || 'auto';
+
+  if (elem) {
+    elem.height(height);
+  }
+};
+
+
 /***************************************************************************
  * editor defaults
  */
@@ -394,8 +428,9 @@ TinyMCEEngine.defaults = {
     menubar: false,
     toolbar: false,
     statusbar: false,
-    plugins: 'table, searchreplace, paste, lists, advlist, link, image, hr', // contextmenu
+    plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image', // save autosave fullscreen anchor charmap code textcolor colorpicker
     paste_data_images: true,
+    content_css: ["/System/TinyMCEPlugin/wysiwyg.css", "/System/SkinTemplates/base.css"], // todo custom onces: ,/pub/System/NatSkin/BaseStyle.css,/pub/System/CustomatoTheme/customato.css"
     formats: {
       h1Markup: { block: "h1", toolbar: ".ui-natedit-h1" },
       h2Markup: { block: "h2", toolbar: ".ui-natedit-h2" },
