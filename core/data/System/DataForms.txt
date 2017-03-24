@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1478801122" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490388848" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -120,10 +120,14 @@ The name of the form field.
    * A very few field names are reserved. If you try to use one of these names, Foswiki will automatically append an underscore to the name when the form is used. But do *not* use the field name ==undefined== (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
-   * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use =[<nop>[...]]= double bracket links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field.
-   * If you want the Field name to include embedded spaces, use the format =[<nop>[FieldName][Descriptive human-friendly Field Name]]=.
-   * Leading and trailing spaces do not matter.
-   
+   * Field names can in theory include any text, but you should stick to alphanumeric characters.
+      * Leading and trailing spaces do not matter.
+      * The field name used for a =select=, =checkbox= or =radio= field, can also be a topic-name used to fetch values from that topic.
+      * You can use =[<nop>[...]]= double bracket links to link to a topic/field name that is not a wiki word.
+      * You can also use square bracket links in the form of =[<nop>[topicname][field name]]= to use a field name other than the topic name. ie. =[<nop>[ComputerManufacturers][Made by]]=
+      : (In this example, the topic =ComputerManufacturers= is used to fetch values for the =Madeby= field.)
+      * Spaces will be stripped from the field name. ie: =Made by= becomes =Madeby=.
+      * Releases prior to Foswiki 2.0 also stripped characters other than A-Z, a-z, 0-9 and _.  So a field named =F&uuml;hler= would be stored as =Fhler=. The same field name on Foswiki 2.0 is stored as =F&uuml;hler=. (See [[System.UpgradeGuide#DataForms_Applications]] for more information.}
 
 #TypeTable
 ---++++ Type
