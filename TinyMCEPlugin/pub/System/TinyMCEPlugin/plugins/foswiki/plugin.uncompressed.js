@@ -19,8 +19,8 @@
 /**
  * TinyMCE plugin that implements most Foswiki features
  */
-(function () {
-    'use strict';
+"use strict";
+(function ($) {
 
     // Convert a simple attachment name into a URL
     function makeAttachmentURL(url) {
@@ -516,4 +516,4 @@
 
     // Register plugin
     tinymce.PluginManager.add('foswiki', tinymce.plugins.Foswiki);
-})();
+})(jQuery);

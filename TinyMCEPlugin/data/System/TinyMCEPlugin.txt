@@ -59,7 +59,7 @@ table_default_cellspacing : 1,
 table_default_border : 1,
 theme : "modern",
 skin : "lightgray",
-plugins : "contextmenu table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image textcolor colorpicker wordcount",
+plugins : "contextmenu table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image textcolor colorpicker",
 external_plugins : {
   foswiki: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/plugin.js"
   },
@@ -84,6 +84,7 @@ removeformat: [
 contextmenu: "link image inserttable | cell row column deletetable | example",
 menubar : false,
 toolbar : "styleselect | bold italic fwtt forecolor | removeformat | fwchangelisttype bullist numlist outdent indent blockquote | link unlink anchor | undo redo | searchreplace table fwupload fwinsertlink image charmap hr restoredraft fullscreen code fwhide",
+statusbar : false,
 autosave_interval : "180s",
 autosave_retention : "4320m",
 content_css: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
