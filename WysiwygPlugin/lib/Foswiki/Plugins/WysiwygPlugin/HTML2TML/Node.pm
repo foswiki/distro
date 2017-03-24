@@ -598,6 +598,7 @@ sub generate {
 
     # make the names of the function versions
     $tag =~ s/!//;    # DOCTYPE
+
     my $tmlFn = '_handle' . uc($tag);
 
     $this->_moveClassToSpan('WYSIWYG_TT');
@@ -753,30 +754,6 @@ sub _isProtectedByAttrs {
     return 0;
 }
 
-sub _convertIndent {
-    my ( $this, $options ) = @_;
-    my $indent = $WC::TAB;
-
-    my ( $f, $t ) = $this->_handleP($options);
-    return $t unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
-
-    if ( $t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/ ) {
-        return "$WC::CHECKn$1:$2";
-    }
-
-    # Zoom up through the tree and see how many layers of indent we have
-    my $p = $this;
-    while ( $p = $p->{parent} ) {
-        if ( $p->{tag} eq 'div' && $p->hasClass('foswikiIndent') ) {
-            $indent .= $WC::TAB;
-        }
-    }
-    $t =~ s/^$WC::WS*//s;
-    $t =~ s/$WC::WS*$//s;
-    $t = "$WC::CHECKn$indent: " . $t;
-    return $t;
-}
-
 # perform conversion on a list type
 sub _convertList {
     my ( $this, $indent ) = @_;
@@ -787,10 +764,29 @@ sub _convertList {
         $basebullet = '';
     }
     elsif ( $this->{tag} eq 'ol' ) {
-        $basebullet = '1';
+        if ( $this->hasClass('foswikiListStyleA') ) {
+            $basebullet = 'A.';
+        }
+        elsif ( $this->hasClass('foswikiListStylea') ) {
+            $basebullet = 'a.';
+        }
+        elsif ( $this->hasClass('foswikiListStyleI') ) {
+            $basebullet = 'I.';
+        }
+        elsif ( $this->hasClass('foswikiListStylei') ) {
+            $basebullet = 'i.';
+        }
+        else {
+            $basebullet = '1.';
+        }
     }
-    else {
-        $basebullet = '*';
+    else {    # ul
+        if ( $this->hasClass('foswikiListStyleNone') ) {
+            $basebullet = ':';
+        }
+        else {
+            $basebullet = '*';
+        }
     }
 
     my $f;
@@ -823,10 +819,7 @@ sub _convertList {
             next;
         }
         my $bullet = $basebullet;
-        if ( $basebullet eq '1' && $kid->{attrs}->{type} ) {
-            $bullet = $kid->{attrs}->{type} . '.';
-        }
-        my $spawn = '';
+        my $spawn  = '';
         my $t;
         my $grandkid = $kid->{head};
         if ($grandkid) {
@@ -877,16 +870,6 @@ sub _convertList {
         $text .= $WC::CHECKn . $indent . $basebullet . $WC::CHECKn;
     }
     return $text;
-}
-
-sub _isConvertableIndent {
-    my ( $this, $options ) = @_;
-
-    return 0 unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
-
-    return 0 if ( $this->_isProtectedByAttrs() );
-
-    return $this->{tag} eq 'div' && $this->hasClass('foswikiIndent');
 }
 
 # probe down into a list type to determine if it
@@ -1562,7 +1545,36 @@ sub _handleABBR    { return _flatten(@_); }
 sub _handleACRONYM { return _flatten(@_); }
 sub _handleADDRESS { return _flatten(@_); }
 
-sub _handleB { return _emphasis( @_, '*' ); }
+sub _handleB {
+    my ( $this, $options ) = @_;
+    if ( $options & WC::IN_TABLE ) {
+        if (
+            $this->{parent}
+            && (   $this->{parent}->{tag} eq 'td'
+                || $this->{parent}->{tag} eq 'th' )
+          )
+        {
+            # Item9651: Don't convert bold in a table cell into stars
+            # if the TML would be interpreted as a heading
+            my $left  = $this->{prev} ? $this->{prev}->stringify() : '';
+            my $right = $this->{next} ? $this->{next}->stringify() : '';
+            if ( "$left$right" =~ /^\s*$/ ) {
+
+                # Have to exclude ==this case== and __that case__ as
+                # they look awfully similar but don't generate table
+                # headings
+                my ( $foo, $t ) = _emphasis( @_, '*' );
+                if ( $t !~ /.*?$WC::CHECK1(==|__).*\1$WC::CHECK2/ ) {
+                    return ( 0, undef );
+                }
+                else {
+                    return ( $foo, $t );
+                }
+            }
+        }
+    }
+    return _emphasis( @_, '*' );
+}
 sub _handleBASE     { return ( 0, '' ); }
 sub _handleBASEFONT { return ( 0, '' ); }
 
@@ -1619,13 +1631,7 @@ sub _handleDFN      { return _flatten(@_); }
 
 sub _handleDIV {
     my ( $this, $options ) = @_;
-
-    if ( ( $options & WC::NO_BLOCK_TML )
-        || !$this->_isConvertableIndent( $options | WC::NO_BLOCK_TML ) )
-    {
-        return $this->_handleP($options);
-    }
-    return ( WC::BLOCK_TML, $this->_convertIndent($options) );
+    return $this->_handleP($options);
 }
 
 sub _handleDL { return _LIST(@_); }

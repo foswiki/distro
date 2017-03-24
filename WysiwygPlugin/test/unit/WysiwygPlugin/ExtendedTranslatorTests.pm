@@ -581,7 +581,7 @@ HERE
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         html => <<'HERE',
-<table cellspacing="1" cellpadding="0" border="1" class="plain" _moz_resizing="true">
+<table cellspacing="1" cellpadding="0" border="1" _moz_resizing="true">
 <tbody>
 <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
 <tr>b0<td colspan="2">b1</td><td>b3</td></tr>

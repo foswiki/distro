@@ -206,7 +206,7 @@ $.NatEditor.prototype.initGui = function() {
       $txtarea = $(self.txtarea);
 
   /* flag enabled plugins */
-  if (typeof(tinyMCE) !== 'undefined') {
+  if (typeof(tinymce) !== 'undefined') {
     self.container.addClass("ui-natedit-wysiwyg-enabled");
   }
   if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
@@ -259,20 +259,16 @@ $.NatEditor.prototype.initGui = function() {
     setPermissionSet($(this).data());
   });
 
-  // DEPRECATED tinymce integration
-  // SMELL:monkey patch FoswikiTiny
-  if (typeof(FoswikiTiny) !== 'undefined') {
-    self.origSwitchToRaw = FoswikiTiny.switchToRaw;
-
-    FoswikiTiny.switchToRaw = function(inst) {
-      self.tinyMCEInstance = inst;
-      self.origSwitchToRaw(inst);
+  // Catch events emitted by TinyMCE foswiki plugin
+  $txtarea
+    .on("fwSwitchToRaw", function(ev, editor) {
+      self.tinyMCEEditor = editor;
       self.showToolbar();
-      $("#"+inst.id+"_2WYSIWYG").remove(); // SMELL: not required ... shouldn't create it in the first place
-    };
-  } else {
-    $txtarea.removeClass("foswikiWysiwygEdit");
-  }
+    })
+    .on("fwTxError", function(ev, message) {
+      // Problem converting back to WYSIWYG; editor has not been
+      // switched. Deal with the (string) report and plough on.
+    });
 };
 /*************************************************************************
  * DEPRECATED tinymce integration
@@ -280,10 +276,9 @@ $.NatEditor.prototype.initGui = function() {
 $.NatEditor.prototype.switchToWYSIWYG = function(ev) {
   var self = this;
 
-  if (typeof(self.tinyMCEInstance) !== 'undefined') {
+  if (typeof(self.tinyMCEEditor) !== 'undefined') {
     self.hideToolbar();
-    tinyMCE.execCommand("mceToggleEditor", null, self.tinyMCEInstance.id);
-    FoswikiTiny.switchToWYSIWYG(self.tinyMCEInstance);
+    self.tinyMCEEditor.execCommand("fwSwitchToWYSIWYG");
   }
 };
 
@@ -600,12 +595,9 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     StrikeOne.submit(self.form[0]);
   }
 
-  // DEPRECATED tinymce integration
   if (typeof(tinyMCE) !== 'undefined') {
     $.each(tinyMCE.editors, function(index, editor) { 
-        if (typeof(editor.onSubmit) !== 'undefined') {
-          editor.onSubmit.dispatch(); 
-        }
+        editor.execCommand("fwsave"); 
     }); 
   }
 
@@ -1147,7 +1139,10 @@ $.NatEditor.prototype.fixHeight = function() {
     newHeight,
     $debug = $("#DEBUG");
 
-  // DEPRECATED tinymce integration
+  if (typeof(self.bottomHeight) === 'undefined') {
+    self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
+  }
+
   if (tmceEdContainer && !tinyMCE.activeEditor.getParam('fullscreen_is_enabled') && tmceEdContainer.is(":visible")) {
     /* resize tinyMCE. */
     tmceEdContainer.closest(".mceLayout").height('auto'); // remove local height properties

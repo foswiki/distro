@@ -7,8 +7,8 @@ use warnings;
 
 use Assert;
 
-our $VERSION           = '1.31';
-our $RELEASE           = '1.31';
+our $VERSION           = '2.00';
+our $RELEASE           = '2.00';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -133,8 +133,7 @@ sub installTinyMCE {
 
     my $scripts = <<"SCRIPT";
 <script type="text/javascript">
-jQuery(function(\$) { FoswikiTiny.install(); });
-FoswikiTiny.init = {$init};
+jQuery(function(\$) { FoswikiTiny.init({$init}); });
 </script>
 SCRIPT
 
