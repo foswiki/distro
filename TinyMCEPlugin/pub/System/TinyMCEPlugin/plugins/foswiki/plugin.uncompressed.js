@@ -490,15 +490,16 @@
                 // The REST call gives us a list of Foswiki meta-data
                 // Convert to TMCE-speak
                 var ml = [];
-                for (var i in list)
+                for (var i in list) {
                     // Expand simple attachment name into a pub
                     // reference
                     var url = makeAttachmentURL(list[i].attachment);
-                ml.push({
-                    url: url,
-                    value: url,
-                    text: list[i].attachment
-                });               
+                    ml.push({
+                        url: url,
+                        value: url,
+                        text: list[i].attachment
+                    });
+                }
                 callback(ml);
             });
         },

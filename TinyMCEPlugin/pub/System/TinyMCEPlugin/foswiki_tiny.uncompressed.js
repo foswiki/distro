@@ -77,7 +77,7 @@ FoswikiTiny.init = function(init) {
     // Supply an image_list for the image plugin that calls
     // back to the server for content - Item14323
     init.image_list = function(callback) {
-        return tinymce.activeEditor.plugins.foswiki.image_list(callback);
+        return tinymce.activeEditor.plugins.foswiki.getImageList(callback);
     };
     
     tinymce.init(init);
