@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490435890" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -646,6 +646,12 @@ it's recommended to use the fully canonical form: =%<nop>SCRIPTURLPATH{"viewfile
 ---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.
 
+---+++ =bulk_copy.pl=
+Script for bulk copying of topics, complete with histories, between
+any two local Foswiki installations.
+
+Run the script without parameters to get detailed help.
+
 ---+++ =configure=
 This is a fully functional command line interface to the Foswiki configuration.  It is able to set and check configuration values, and to run wizards.
 
@@ -664,11 +670,44 @@ Note: if you need to pass in international characters, it needs to be run with t
 
 For full help, run =tools/configure -help=.
 
+---+++ =convertTopicSettings.pl=
+
+Convert inline topic settings into META settings.
+
+This tool should be run after a Foswiki site is upgraded from 1.x to
+Foswiki 2.0 or newer.  It can also be used on a Foswik 1.1.x
+installation if the PatchItem12849Contrib is installed.
+
+Run the script without parameters for detailed help.
+
 ---+++ =dependencies=
 Generates a report of missing or all dependencies.  This report is also available to administrators at [[%SYSTEMWEB%.PerlDependencyReport]]
 
    $ =tools/dependencies=: Generates a report on the missing dependencies
    $ =tools/dependencies -all=: Generates a report on all dependencies, installed or missing, along with information on the installation location.
+
+---+++ =extender.pl=
+
+Command-line extension installer, not designed to be run stand-alone, but as part of a *_installer shipped with an extension.
+
+---+++ =extension_installer=
+This script will download and install, or remove an extension.
+
+For more details, execute it from the Foswiki root directory with the =usage= parameter:
+<verbatim>
+./tools/extension_installer usage
+</verbatim>
+This script is a generic version of the =_installer= script shipped with each extension.
+
+There are a number of different ways to install an extension (e.g. _SomeExtension_). In decreasing order of complexity:
+   * Download the _SomeExtension_ package (.zip or .tgz), unpack it in the Foswiki root, manually correct permissions and run the =<i>SomeExtension</i>_installer= script (shipped with <i>SomeExtension</i>) from the Foswiki root directory
+   * Download the _SomeExtension_ package, unpack it in the Foswiki root, manually correct permissions and run the =configure= web interface to complete installation.
+   * Run =tools/extension_installer= _SomeExtension_ from the Foswiki root.
+   * Use the =configure= web interface to install _SomeExtension_ (recommended)
+
+---+++ =fix_file_permissions.sh=
+
+UNIX shell script to correct file permissions on a Foswiki install. It should be run from the root of the installation.
 
 ---+++ =geturl.pl=
 This is a very simple script to get the content of a web site, either using GET or POST. It is marked as _deprecated_ and might be removed in a future release. Its functions are covered by the standard =wget= and =curl= commands, which have the added advantage of performing authentication..
@@ -678,8 +717,32 @@ This is a very simple script to get the content of a web site, either using GET 
    * Example:  =geturl.pl POST some.domain /bin/statistics?webs=%SANDBOXWEB%=
    * Will post: =http://some.domain/bin/statistics?webs=%SANDBOXWEB%= triggering a statistics run
 
+---+++ =lighttpd.pl=
+
+Run Foswiki with the lighttpd web server.
+
+Options:
+   *        -f --fastcgi                 Use FastCGI instead of plain CGI
+   *         -h --help                    Displays this help and exits
+   *        -p PORT, --port PORT         Runs the server in the given port.
+                                     (default: 8080)
+   *        -s /path/to/lighttpd ,
+   *        --server /path/to/lighttpd   Location to lighttpd if not on path
+                                     (default: lighttpd)
+If lighttpd is not found on the default path, provide the complete path
+to the server eg.
+        =lighttpd.pl --fastcgi --server /usr/sbin/lighttpd=
+
 ---+++ =rewriteshebang.pl=
-Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
+
+Simple Perl script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter.
+
+Run it without parameters for usage information.
+
+---+++ =save-pending-checkins=
+
+On some sites, Foswiki may not be the only tool that writes files in the data
+directory. For example, external jobs may write =.txt= files without checking them in. This results in =.txt= files that have a more recent timestamp than the corresponding version control file - this is called a 'pending checkin'. Pending checkins are dangerous, as they confuse Foswiki's version control systems. This tool will traverse all webs in your install locating files with pending checkins, and checking them in.
 
 ---+++ =tick_foswiki.pl=
 This script executes a number of non-essential regular administration tasks that will help keep your site healthy and happy, such as removing expired sessions and lease files.
@@ -690,18 +753,6 @@ It is intended to be run as a cron job or a scheduled task once a week. Example 
 *Note:* The script has to be run by a user who can write files created by the webserver user.
 
 Extensions, such as the MailerContrib, also install tool scripts. Check the documentation of the extension for details.
-
----+++ =extension_installer=
-This script will download and install, or remove an extension.
-
-For more details, execute it from the Foswiki root directory with the =usage= parameter:
-<verbatim>
-./tools/extension_installer usage
-</verbatim>
-Note that this script is a generic version of the =_installer= script shipped with each extension.  There are 3 ways to install a script using these scripts:
-   * Download =SomePlugin_installer= and execute it from the Foswiki root directory
-   * run =./tools/extension_installer !SomePlugin= - the extension will be downloaded and installed
-   * Use the configure web interface to the Extensions Installer.
 
 ---
 *%MAKETEXT{"Related topics:"}%* AdminDocumentationCategory, DeveloperDocumentationCategory
