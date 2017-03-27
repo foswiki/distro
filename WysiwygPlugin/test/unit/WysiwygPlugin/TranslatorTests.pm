@@ -3123,10 +3123,10 @@ BLAH
 GLUED
         html => <<'ARGH'
 <div class="WYSIWYG_WARNING foswikiBroadcastMessage">
-*Conversion to HTML for WYSIWYG editing is disabled because of the topic
-content.*<p></p>This is why the conversion is disabled:
+<strong>Conversion to HTML for WYSIWYG editing is disabled because of the topic
+content.</strong><p></p>This is why the conversion is disabled:
 &lt;verbatim&gt; inside &lt;literal&gt;<p></p>
-(This message will be removed automatically)<nop></div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&#60;verbatim&#62;%H%&#60;/verbatim&#62;&nbsp;&#60;/font&#62;&#60;/literal&#62;<br /></div>
+(This message will be removed automatically)</div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&#60;verbatim&#62;%H%&#60;/verbatim&#62;&nbsp;&#60;/font&#62;&#60;/literal&#62;<br /></div>
 ARGH
     },
     {
@@ -3137,10 +3137,10 @@ ARGH
 GLUED
         html => <<'ARGH'
 <div class="WYSIWYG_WARNING foswikiBroadcastMessage">
-*Conversion to HTML for WYSIWYG editing is disabled because of the topic
-content.*<p></p>This is why the conversion is disabled:
+<strong>Conversion to HTML for WYSIWYG editing is disabled because of the topic
+content.</strong><p></p>This is why the conversion is disabled:
 &lt;sticky&gt; inside &lt;literal&gt;<p></p>
-(This message will be removed automatically)<nop></div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;sticky&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&#60;/sticky/&#62;&#60;/literal&#62;<br /></div>
+(This message will be removed automatically)</div><div class="WYSIWYG_PROTECTED">&#60;literal&#62;&#60;sticky&#62;&#60;font&nbsp;color=&#34;blue&#34;&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&#60;/sticky/&#62;&#60;/literal&#62;<br /></div>
 ARGH
     },
     {

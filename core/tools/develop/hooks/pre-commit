@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# PRE-COMMIT HOOK
-# See pre-commit.tmpl for help
-
-cd /home/svn/supportscripts
-[ -f pre-commit.pl ] && perl pre-commit.pl $* MAIN

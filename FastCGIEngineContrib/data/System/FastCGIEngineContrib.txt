@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1490124221" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1490401384" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -144,6 +144,8 @@ server {
     error_log   /var/log/nginx/foswiki-error.log;
     #error_log   /var/log/nginx/foswiki-error.log debug;
 
+    client_max_body_size 10M;   # Set to maximum attachment size, See also ATTACHFILESIZELIMIT
+
     location = / {
         root $foswiki_root;
     rewrite .* /Main/WebHome;
@@ -153,7 +155,7 @@ server {
         allow all;
     }
 
-    location /bin/ {
+    location ~ ^/bin/ {
            gzip off;
            #fastcgi_pass             unix:/var/run/nginx/foswiki.sock;
            fastcgi_pass             127.0.0.1:9000;
