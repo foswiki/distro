@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485108858" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490657423" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin Navigation
 
@@ -72,7 +72,7 @@ Include main navigation with:
 %STARTSECTION{"topbarbutton"}%<li%IF{
     "'$ID' and '%ID%'!=''"
     then=" id=\"%ID%\""
-}%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
+}%><a href="%SCRIPTURLPATH{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
     "'%DESTWEB%'='%BASEWEB%'"
     then="active"
     else="inactive"
