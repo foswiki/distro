@@ -29,10 +29,11 @@ window.BaseEngine = function BaseEngine() {
  * init this engine
  */
 BaseEngine.prototype.init = function() {
-  //var self = this;
+  var self = this;
 
   //self.log("BaseEngine::init");
-  // return dfd.promise();
+
+  return $.Deferred().resolve(self).promise();
 };
 
 /*************************************************************************
@@ -40,6 +41,15 @@ BaseEngine.prototype.init = function() {
  */
 BaseEngine.prototype.initGui = function() {
   // nop
+};
+
+/*************************************************************************
+ * get the DOM element that holds the editor engine
+ */
+BaseEngine.prototype.getWrapperElement = function() {
+  var self = this;
+
+  return $(self.shell.txtarea);
 };
 
 /*************************************************************************
@@ -66,6 +76,15 @@ BaseEngine.prototype.setSize = function(width, height) {
   if (height) {
     elem.height(height);
   }
+};
+
+/*************************************************************************
+ * called during save process
+ */
+BaseEngine.prototype.beforeSubmit = function(action) {
+  var self = this;
+
+  return $.Deferred().resolve().promise();
 };
 
 /*************************************************************************

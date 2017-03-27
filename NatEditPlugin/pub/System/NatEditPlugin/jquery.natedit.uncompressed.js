@@ -37,39 +37,18 @@ $.NatEditor = function(txtarea, opts) {
   if (self.opts.hidden || $txtarea.is(".foswikiHidden")) {
     // just init the shell, not any engine
     self.initGui();
-    self.initForm();
   } else {
     // init shell and engine
     $txtarea.addClass("ui-widget");
 
-    // disable autoMaxExpand and resizable if we are auto-resizing
-    if (self.opts.autoResize) {
-      self.opts.autoMaxExpand = false;
-      self.opts.resizable = false;
-    }
-
     self.createEngine().done(function() {
-      self.initGui();
 
       if (self.opts.showToolbar) {
-        self.initToolbar();
-      }
-
-      self.initForm();
-
-      /* establish auto max expand */
-      if (self.opts.autoMaxExpand) {
-        $txtarea.addClass("ui-natedit-autoexpand");
-        self.autoMaxExpand();
-
-        // disabled height property in parent container
-        $txtarea.parents(".jqTabContents:first").addClass("jqTabDisableMaxExpand").height("auto");
-      }
-
-      /* establish auto expand */
-      if (self.opts.autoResize) {
-        self.initAutoExpand();
-        self.autoResize();
+        self.initToolbar().then(function() {
+          self.initGui();
+        });
+      } else {
+        self.initGui();
       }
     });
   }
@@ -144,18 +123,26 @@ $.NatEditor.prototype.createEngine = function(id) {
 
   // TODO: check for self.engine already defined and destroy it first
   
-  if (typeof ($.NatEditor.engines[id]) === 'undefined') {
+  if (typeof($.NatEditor.engines[id]) === 'undefined') {
     url = self.opts.pubUrl+"/"+self.opts.systemWeb+"/NatEditPlugin/engine/"+id+"/engine.js";
     self.getScript(url).done(function() {
-      $.NatEditor.engines[id].createEngine(self).then(function(engine) {
-        self.engine = engine;
-        dfd.resolve();
-      });
+      if (typeof($.NatEditor.engines[id]) === 'undefined') {
+          console.error("failed to create edit engine '"+id+"'");
+      } else {
+        $.NatEditor.engines[id].createEngine(self).done(function(engine) {
+          self.engine = engine;
+          dfd.resolve();
+        }).fail(function(xhr,foo,bar) {
+          console.error("failed to create edit engine '"+id+"'",xhr,"foo=",foo,"bar=",bar);
+        });
+      }
     });
   } else {
-    $.NatEditor.engines[id].createEngine(self).then(function(engine) {
+    $.NatEditor.engines[id].createEngine(self).done(function(engine) {
       self.engine = engine;
       dfd.resolve();
+    }).fail(function(xhr, foo, bar) {
+        console.error("failed to initialize edit engine '"+id+"'",xhr,"foo=",foo,"bar=",bar);
     });
   }
 
@@ -203,16 +190,12 @@ $.NatEditor.prototype.getScript = function(url) {
  * init the gui
  */
 $.NatEditor.prototype.initGui = function() {
-  var self = this, 
+  var self = this,
       $txtarea = $(self.txtarea);
 
   /* flag enabled plugins */
   if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
     self.container.addClass("ui-natedit-colorpicker-enabled");
-  }
-
-  if (self.opts.resizable) {
-    self.engine.getWrapperElement().resizable();
   }
 
   /* init the perms tab */
@@ -234,7 +217,11 @@ $.NatEditor.prototype.initGui = function() {
     onDeselect: updateDetails,
     onClear: updateDetails,
     onReset: updateDetails,
-    autocomplete: self.opts.scriptUrl + "/view/" + self.opts.systemWeb + "/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json"
+    autocomplete: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper", {
+      section: "user",
+      skin: "text",
+      contenttype: "application/json"
+    })
   });
 
   function setPermissionSet(data) {
@@ -256,16 +243,33 @@ $.NatEditor.prototype.initGui = function() {
     setPermissionSet($(this).data());
   });
 
-  // Catch events emitted by TinyMCE foswiki plugin ... SMELL: move it into the engine
-  $txtarea
-    .on("fwSwitchToRaw", function(/*ev, */ editor) {
-      self.tinyMCEEditor = editor;
-      self.showToolbar();
-    })
-    .on("fwTxError", function(/*ev, message*/) {
-      // Problem converting back to WYSIWYG; editor has not been
-      // switched. Deal with the (string) report and plough on.
-    });
+  self.initForm();
+  self.engine.initGui();
+
+  /* disable autoMaxExpand and resizable if we are auto-resizing */
+  if (self.opts.autoResize) {
+    self.opts.autoMaxExpand = false;
+    self.opts.resizable = false;
+  }
+
+  if (self.opts.resizable) {
+    self.engine.getWrapperElement().resizable();
+  }
+
+  /* establish auto max expand */
+  if (self.opts.autoMaxExpand) {
+    $txtarea.addClass("ui-natedit-autoexpand");
+    self.autoMaxExpand();
+
+    // disabled height property in parent container
+    $txtarea.parents(".jqTabContents:first").addClass("jqTabDisableMaxExpand").height("auto");
+  }
+
+  /* establish auto expand */
+  if (self.opts.autoResize) {
+    self.initAutoExpand();
+    self.autoResize();
+  }
 };
 
 /*************************************************************************
@@ -273,12 +277,15 @@ $.NatEditor.prototype.initGui = function() {
  */
 $.NatEditor.prototype.initToolbar = function() {
   var self = this, 
-      url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load="+self.opts.toolbar;
+      url = foswiki.getScriptUrl("rest", "JQueryPlugin", "tmpl", {
+        topic: self.opts.web+"."+self.opts.topic,
+        load: self.opts.toolbar
+      });
 
   // load toolbar
-  $.loadTemplate({
+  return $.loadTemplate({
     url:url
-  }).done(function(tmpl) {
+  }).then(function(tmpl) {
 
     // init it
     self.toolbar = $(tmpl.render({
@@ -392,9 +399,6 @@ $.NatEditor.prototype.initToolbar = function() {
       );
     }
 
-    // init gui of engine
-    self.engine.initGui();
-
     // set trigger resize again as the toolbar changed its height
     $(window).trigger("resize");
   });
@@ -404,23 +408,26 @@ $.NatEditor.prototype.initToolbar = function() {
   * show the toolbar, constructs it if it hasn't been initialized yet
   */
 $.NatEditor.prototype.showToolbar = function() {
-  var self = this, tmp;
+  var self = this;
 
-  if (typeof(self.toolbar) === 'undefined') {
-    self.initToolbar();
+  function _continue() {
+    var tmp = self.txtarea.value; 
+
+    self.toolbar.show();
+    self.txtarea.value = tmp;
+
+    if (self.opts.autoMaxExpand) {
+      $(window).trigger("resize");
+    }
   }
 
   if (typeof(self.toolbar) === 'undefined') {
-    return;
+    return self.initToolbar().then(_continue);
+  } else {
+    _continue();
   }
 
-  tmp = self.txtarea.value; 
-  self.toolbar.show();
-  self.txtarea.value = tmp;
-
-  if (self.opts.autoMaxExpand) {
-    $(window).trigger("resize");
-  }
+  return $.Deferred().resolve().promise();
 };
 
 /*************************************************************************
@@ -541,7 +548,7 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   var self = this, topicParentField, actionValue;
 
   if (typeof(self.form) === 'undefined' || self.form.length === 0) {
-    return;
+    return $.Deferred().resolve().promise();
   }
 
   topicParentField = self.form.find("input[name=topicparent]");
@@ -580,7 +587,7 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     action: editAction
   });
 
-  return self.engine.beforeSubmit(editAction);
+  return self.engine.beforeSubmit(editAction) || $.Deferred().resolve().promise();
 };
 
 /*************************************************************************
@@ -648,7 +655,7 @@ $.NatEditor.prototype.initForm = function() {
               self.form.submit();
             } else {
               self.form.ajaxSubmit({
-                url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+                url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"), 
                 beforeSubmit: function() {
                   self.hideMessages();
                   document.title = $.i18n("Saving ...");
@@ -699,7 +706,7 @@ $.NatEditor.prototype.initForm = function() {
     if (self.form.validate().form()) {
       self.beforeSubmit("preview").then(function() {
         self.form.ajaxSubmit({
-          url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+          url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
           beforeSubmit: function() {
             self.hideMessages();
             $.blockUI({
@@ -730,7 +737,6 @@ $.NatEditor.prototype.initForm = function() {
     }
     return false;
   });
-
 
   // TODO: only use this for foswiki engines < 1.20
   self.form.find(".ui-natedit-cancel").on("click", function() {
@@ -836,7 +842,7 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
     return;
   }
 
-  //$.log("handleToolbarAction data=",itemData)
+  //console.log("handleToolbarAction data=",itemData)
 
   // insert markup mode
   if (typeof(itemData.markup) !== 'undefined') {
@@ -892,13 +898,21 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
   }
 
   // method mode 
-  if (typeof(itemData.handler) !== 'undefined' && typeof(self[itemData.handler]) === 'function') {
-    //$.log("found handler in toolbar action",itemData.handler);
-    self[itemData.handler].call(self, ev, ui);
-    return;
+  if (typeof(itemData.handler) !== 'undefined') {
+    if (typeof(self.engine[itemData.handler]) === 'function') {
+      //console.log("found handler in engine for toolbar action",itemData.handler);
+      self.engine[itemData.handler].call(self.engine, ev, ui);
+      return;
+    }
+
+    if (typeof(self[itemData.handler]) === 'function') {
+      //console.log("found handler in shell for toolbar action",itemData.handler);
+      self[itemData.handler].call(self, ev, ui);
+      return;
+    }
   }
 
-  //$.log("NATEDIT: no action for ",ui);
+  //console.log("NATEDIT: no action for ",ui);
 };
 
 /*************************************************************************
@@ -1122,7 +1136,7 @@ $.NatEditor.prototype.fixHeight = function() {
     self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
   }
 
-  if (!elem) {
+  if (!elem || !elem.length) {
     return;
   }
 
@@ -1160,7 +1174,7 @@ $.NatEditor.prototype.autoResize = function() {
       $txtarea = $(self.txtarea),
       now, text, height;
 
-  //$.log("NATEDIT: called autoResize()");
+  //console.log("NATEDIT: called autoResize()");
   now = new Date();
   
   // don't do it too often
@@ -1671,7 +1685,11 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
 
   $dialog.find("input[name='web']").each(function() {
     $(this).autocomplete({
-      source: self.opts.scriptUrl+"/view/"+self.opts.systemWeb+"/JQueryAjaxHelper?section=web&skin=text&contenttype=application/json"
+      source: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper", {
+        section: web,
+        skin: text,
+        contenttype: "application/json"
+      })
     });
   });
 
@@ -1683,7 +1701,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           xhr.abort();
         }
         xhr = $.ajax({
-          url: self.opts.scriptUrl+"/view/"+self.opts.systemWeb+"/JQueryAjaxHelper",
+          url: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper"),
           data: $.extend(request, {
             section: 'topic',
             skin: 'text',
@@ -1719,7 +1737,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           xhr.abort();
         }
         xhr = $.ajax({
-          url: self.opts.scriptUrl+"/rest/NatEditPlugin/attachments",
+          url: foswiki.getScriptUrl("rest", "NatEditPlugin", "attachments"),
           data: $.extend(request, {
             topic: $container.find("input[name='web']").val()+'.'+$container.find("input[name='topic']").val()
           }),
@@ -1935,10 +1953,10 @@ $.NatEditor.defaults = {
   strikeMarkup: ['<del>', 'Strike through text', '</del>'],
   superscriptMarkup: ['<sup>', 'superscript text', '</sup>'],
   subscriptMarkup: ['<sub>', 'subscript text', '</sub>'],
-  leftMarkup: ['<p style="text-align:left">\n','Align left','\n</p>'],
-  centerMarkup: ['<p style="text-align:center">\n','Center text','\n</p>'],
-  rightMarkup: ['<p style="text-align:right">\n','Align right','\n</p>'],
-  justifyMarkup: ['<p style="text-align:justify">\n','Justify text','\n</p>'],
+  leftMarkup: ['<p align="left">\n','Align left','\n</p>'],
+  centerMarkup: ['<p align="center">\n','Center text','\n</p>'],
+  rightMarkup: ['<p align="right">\n','Align right','\n</p>'],
+  justifyMarkup: ['<p align="justify">\n','Justify text','\n</p>'],
   numberedListMarkup: ['   1 ','enumerated item',''],
   bulletListMarkup: ['   * ','bullet item',''],
   indentMarkup: ['   ','',''],
@@ -1994,7 +2012,6 @@ $(function() {
   $.NatEditor.defaults.web = foswiki.getPreference("WEB");
   $.NatEditor.defaults.topic = foswiki.getPreference("TOPIC");
   $.NatEditor.defaults.systemWeb = foswiki.getPreference("SYSTEMWEB");
-  $.NatEditor.defaults.scriptUrl = foswiki.getPreference("SCRIPTURL");
   $.NatEditor.defaults.pubUrl = foswiki.getPreference("PUBURL");
   $.NatEditor.defaults.signatureMarkup = ['-- ', '[['+foswiki.getPreference("WIKIUSERNAME")+']]', ' - '+foswiki.getPreference("SERVERTIME")];
   $.NatEditor.defaults.engine = foswiki.getPreference("NatEditPlugin").Engine;

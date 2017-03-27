@@ -1,11 +1,4 @@
 FOSWIKI_ROOT?=~/foswiki/core
-SUBDIRS=\
-  base \
-  raw \
-  codemirror \
-  prosemirror \
-  tinymce \
-  tinymce_native
+TARGET= engine.js
 
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include
-

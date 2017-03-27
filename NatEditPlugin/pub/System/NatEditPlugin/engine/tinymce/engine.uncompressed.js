@@ -31,6 +31,7 @@ function TinyMCEEngine(shell, opts) {
   self.opts = $.extend({}, TinyMCEEngine.defaults, self.shell.opts.tinymce, opts);
   self.opts.tinymce.selector = "#"+self.shell.id+" textarea";
   self.opts.natedit.signatureMarkup = ['-- ', '<a href="'+wikiUserNameUrl+'">'+foswiki.getPreference("WIKINAME")+'</a>', ' - '+foswiki.getPreference("SERVERTIME")];
+  self.opts.tinymce.content_css = foswiki.getPreference("NatEditPlugin").ContentCSS;
 
   $.extend(self.shell.opts, self.opts.natedit);
 }
@@ -57,7 +58,10 @@ TinyMCEEngine.prototype.init = function() {
       //self.log("tinymce instance", editor);
 
       self.editor = editor;
-      //window.editor = editor; // playground
+
+      if (self.opts.debug) {
+        window.editor = editor; // playground
+      }
 
       self.tml2html($(self.shell.txtarea).val())
         .done(function(data) {
@@ -118,6 +122,7 @@ TinyMCEEngine.prototype.initGui = function() {
   // highlight buttons on toolbar when the cursor moves into a format
   $.each(self.opts.tinymce.formats, function(formatName) {
     self.editor.formatter.formatChanged(formatName, function(state, args) {
+
       $.each(self.editor.formatter.get(formatName), function(i, format) {
         if (state) {
           self.shell.toolbar.find(format.toolbar).addClass("ui-natedit-active");
@@ -125,6 +130,23 @@ TinyMCEEngine.prototype.initGui = function() {
           self.shell.toolbar.find(format.toolbar).removeClass("ui-natedit-active");
         }
       });
+
+      // lists
+      self.shell.toolbar.find(".ui-natedit-numbered").removeClass("ui-natedit-active");
+      self.shell.toolbar.find(".ui-natedit-bullet").removeClass("ui-natedit-active");
+
+      $.each(args.parents, function(i, prt) {
+        var node = $(prt), parentNode = $(args.parents[i+1]);
+
+        if (node.is('li')) {
+          if (parentNode.is("ol")) {
+            self.shell.toolbar.find(".ui-natedit-numbered").addClass("ui-natedit-active");
+          } else {
+            self.shell.toolbar.find(".ui-natedit-bullet").addClass("ui-natedit-active");
+          }
+        }
+      });
+
     });
   });
 
@@ -174,13 +196,27 @@ TinyMCEEngine.prototype.on = function(eventName, func) {
 TinyMCEEngine.prototype.handleToolbarAction = function(ui) {
   var self = this,
       data = $.extend({}, ui.data()),
-      format = data.markup;
+      markup = data.markup;
 
-  // TODO: for now only handle markup buttons
-  if (typeof(format) !== 'undefined') {
-    if (self.editor.formatter.get(format)) {
+
+  if (typeof(markup) !== 'undefined') {
+    if (markup === 'numberedListMarkup') {
+      self.shell.toolbar.find(".ui-natedit-numbered").addClass("ui-natedit-active");
+      self.shell.toolbar.find(".ui-natedit-bullet").removeClass("ui-natedit-active");
+      self.editor.execCommand("InsertOrderedList");
+      return;
+    } 
+
+    if (markup === 'bulletListMarkup') {
+      self.shell.toolbar.find(".ui-natedit-numbered").removeClass("ui-natedit-active");
+      self.shell.toolbar.find(".ui-natedit-bullet").addClass("ui-natedit-active");
+      self.editor.execCommand("InsertUnorderedList");
+      return;
+    } 
+
+    if (self.editor.formatter.get(markup)) {
       delete data.markup;
-      self.editor.formatter.toggle(format);
+      self.editor.formatter.toggle(markup);
     }
   }
 
@@ -413,8 +449,9 @@ TinyMCEEngine.prototype.setSize = function(width, height) {
  * editor defaults
  */
 TinyMCEEngine.defaults = {
-  debug: false,
+  debug: true,
   natedit: {
+      numberedListMarkup: ['   foo ','enumerated item',''],
   },
   tinymce: {
     selector: 'textarea#topic',
@@ -423,7 +460,7 @@ TinyMCEEngine.defaults = {
     statusbar: false,
     plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image', // save autosave fullscreen anchor charmap code textcolor colorpicker
     paste_data_images: true,
-    content_css: ["/pub/System/TinyMCEPlugin/wysiwyg.css", "/pub/System/SkinTemplates/base.css"],
+    content_css: [],
     formats: {
       h1Markup: { block: "h1", toolbar: ".ui-natedit-h1" },
       h2Markup: { block: "h2", toolbar: ".ui-natedit-h2" },
@@ -434,16 +471,16 @@ TinyMCEEngine.defaults = {
       normalMarkup: { block: "p", toolbar: ".ui-natedit-normal"},
       quoteMarkup: { block: "blockquote", toolbar: ".ui-natedit-quoted"},
       boldMarkup: { inline: "b", toolbar: ".ui-natedit-bold" },
-      italicMarkup: { inline: "em", toolbar: ".ui-natedit-italic" },
+      italicMarkup: { inline: "i", toolbar: ".ui-natedit-italic" },
       monoMarkup: { inline: "code", toolbar: ".ui-natedit-mono" },
       underlineMarkup: { inline: "span", styles: { "text-decoration": "underline" }, toolbar: ".ui-natedit-underline"  },
       strikeMarkup: { inline: "span", styles: { "text-decoration": "line-through" }, toolbar: ".ui-natedit-strike"  },
       superscriptMarkup: { inline: "sup", toolbar: ".ui-natedit-super" },
       subscriptMarkup: { inline: "sub", toolbar: ".ui-natedit-sub" },
-      leftMarkup: { block: "p", styles: { "text-align": "left" }, toolbar: ".ui-natedit-left" },
-      rightMarkup: { block: "p", styles: { "text-align": "right" }, toolbar: ".ui-natedit-right" },
-      centerMarkup: { block: "p", styles: { "text-align": "center" }, toolbar: ".ui-natedit-center" },
-      justifyMarkup: { block: "p", styles: { "text-align": "justify" }, toolbar: ".ui-natedit-justify" },
+      leftMarkup: { block: "p", attributes: { "align": "left" }, toolbar: ".ui-natedit-left" },
+      rightMarkup: { block: "p", attributes: { "align": "right" }, toolbar: ".ui-natedit-right" },
+      centerMarkup: { block: "p", attributes: { "align": "center" }, toolbar: ".ui-natedit-center" },
+      justifyMarkup: { block: "p", attributes: { "align": "justify" }, toolbar: ".ui-natedit-justify" },
       verbatimMarkup: { block: "pre", classes: "TMLverbatim", toolbar: ".ui-natedit-verbatim" }
     }
   }

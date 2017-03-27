@@ -26,7 +26,7 @@
 }
 .TMLverbatim {
 	background-image:url("watermark_verbatim.gif");
-	white-space:pre nowrap;
+	white-space:pre;
 }
 .WYSIWYG_TT {}
 

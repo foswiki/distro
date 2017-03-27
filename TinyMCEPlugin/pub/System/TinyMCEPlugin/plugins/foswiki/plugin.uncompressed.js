@@ -173,7 +173,8 @@
     // setup handler, and also from the raw->WYSIWYG switch
     function switchToWYSIWYG(self, editor) {
         // Get the textarea content
-        var text = editor.getElement().value;
+        var el = editor.getElement(),
+            text = el.value;
 
         // When switching back from a raw edit, a show side-effects
         // and will re-load the content from the textarea, which contains
@@ -202,6 +203,7 @@
                 // (see above for details of why)
                 editor.initialized = true;
                 editor.isNotDirty = true;
+                $(el).trigger("fwSwitchToWYSIWYG", editor);
             },
             function(type, req, o) {
                 // Kill the progress state

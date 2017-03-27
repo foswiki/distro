@@ -89,12 +89,16 @@ sub init {
       || $Foswiki::cfg{NatEditPlugin}{DefaultEngine}
       || 'raw';
 
+# force into raw as it is the only engine compatible with TinyMCEPlugin loading TinyMCE on its own
+    $engine = 'tinymce_native' if _isTinyMCEEnabled();
+
     Foswiki::Func::addToZone(
         "script", "NATEDIT::PREFERENCES",
         <<"HERE", "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
 <script class='\$zone \$id foswikiPreferences' type='text/json'>{ 
   "NatEditPlugin": {
     "Engine": "$engine",
+    "ContentCSS": ["%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg.css","%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css","%FOSWIKI_STYLE_URL%","%FOSWIKI_COLORS_URL%"],
     "MathEnabled": %IF{"context MathModePluginEnabled or context MathJaxPluginEnabled" then="true" else="false"}%,
     "ImagePluginEnabled": %IF{"context ImagePluginEnabled" then="true" else="false"}%,
     "TopicInteractionPluginEnabled": %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
@@ -102,6 +106,22 @@ sub init {
   }
 }</script>
 HERE
+}
+
+# SMELL: see for Foswiki::Plugins::TinyMCEPLugin::_notAvailable
+sub _isTinyMCEEnabled {
+    for my $c (qw(TINYMCEPLUGIN_DISABLE NOWYSIWYG)) {
+        return 0 if Foswiki::Func::getPreferencesFlag($c);
+    }
+
+    my $skin = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_WYSIWYGSKIN');
+    return 0 if $skin && Foswiki::Func::getSkin() =~ m/\b$skin\b/;
+
+    my $query = Foswiki::Func::getCgiQuery();
+    return 0 unless $query;
+    return 0 if $query->param('nowysiwyg');
+
+    return 1;
 }
 
 1;

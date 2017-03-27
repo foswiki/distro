@@ -15,3 +15,4 @@ pub/System/NatEditPlugin/engine/codemirror/engine.js
 pub/System/NatEditPlugin/engine/prosemirror/engine.js
 pub/System/NatEditPlugin/engine/raw/engine.js
 pub/System/NatEditPlugin/engine/tinymce/engine.js
+pub/System/NatEditPlugin/engine/tinymce_native/engine.js
