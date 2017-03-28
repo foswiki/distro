@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433037425" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490664179" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 %MAKETEXT{"This is the Trash. Here you can undelete topics; deleted attachments are in TrashAttachment." args="<b><nop>%WEB%</b>"}% 
 
@@ -12,7 +12,7 @@ Last 15 changes in this web:
 [[WebChanges][%MAKETEXT{"more..."}%]]
 
 ---++ <nop>%WEB% Web Utilities
-<form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
+<form action='%SCRIPTURLPATH{"search" web="%WEB%"}%'>
    * <input type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
    * WebTopicList - all topics in alphabetical order
    * WebChanges - recent topic changes in this web
