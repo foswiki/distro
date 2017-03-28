@@ -174,7 +174,9 @@ sub _renderZoneById {
     my $zone        = $params->{_DEFAULT} || $params->{zone};
 
 #return "\n<!--ZONE $id-->\n" . _renderZone( $this, $zone, $params, $topicObject ) . "\n<!--ENDZONE $id-->\n" ;
-    return _renderZone( $this, $zone, $params, $topicObject );
+    my $result = _renderZone( $this, $zone, $params, $topicObject );
+    $this->{_renderZonePlaceholder}{$id} = undef;
+    return $result;
 }
 
 # This private function is used in ZoneTests

@@ -85,7 +85,7 @@
 
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" 
   id="help"
-  url="%SCRIPTURL{"view"}%/%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%?skin=text;section=default"
+  url="%SCRIPTURLPATH{"view"}%/%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%?skin=text;section=default"
   container=".natEditHelp"
 }%%TMPL:P{"edithelp"}%%ENDTAB%%TMPL:END%
 

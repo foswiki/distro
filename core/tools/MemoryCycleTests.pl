@@ -52,6 +52,8 @@ use Foswiki::UI::View;
 
     Foswiki::UI::run( \&Foswiki::UI::View::view );
 
+    #$Foswiki::engine->run();
+
     print_circular_ref( \$Foswiki::Plugins::SESSION );
 }
 

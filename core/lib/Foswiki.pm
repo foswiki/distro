@@ -2375,6 +2375,8 @@ sub finish {
     undef $this->{requestedWebName};    # Web name before renaming
     undef $this->{scriptUrlPath};
     undef $this->{user};
+    $this->{users}->finish() if $this->{users};
+    undef $this->{users};
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
@@ -2382,6 +2384,10 @@ sub finish {
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
     undef $this->{_ffCache};
+    $this->{zones}->finish() if $this->{zones};
+    undef $this->{zones};
+    $this->{renderer}->finish() if $this->{renderer};
+    undef $this->{renderer};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {
