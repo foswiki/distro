@@ -105,6 +105,7 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+    undef $this->{_anchorNames};
     undef $this->{NEWLINKFORMAT};
     undef $this->{LINKTOOLTIPINFO};
     undef $this->{LIST};
