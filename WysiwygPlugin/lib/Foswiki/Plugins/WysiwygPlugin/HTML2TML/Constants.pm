@@ -1,39 +1,27 @@
 # See bottom of file for license and copyright information
-package Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
+package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants;
 
 # VERY IMPORTANT: ALL STRINGS STORED IN NODES ARE UNICODE
 # (perl character strings)
-#
-#
-# Note on constants: most string constants are not declared 'use constant'
-# because they are widely used in string interpolations. There is no value
-# in 'use constant' for non-scalar values as perl does not inline them.
 
 use strict;
 use warnings;
 
-use Foswiki::Plugins::WysiwygPlugin::Constants ();
 use HTML::Entities;
-
-sub test_reset {
-    Foswiki::Plugins::WysiwygPlugin::Constants::test_reset;
-    $WC::representable_entities = undef;
-    $WC::encoded_nbsp           = undef;
-    $WC::safe_entities          = undef;
-}
 
 =pod
 
----+ package Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC a.k.a WC
+---+ package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants
 
 Extend Foswiki::Plugins::WysiwygPlugin::Constants with
 constants specific to HTML2TML
 
 =cut
 
-package WC;
-
 use Assert;
+
+require Exporter;
+our @ISA = qw(Exporter);
 
 =pod
 
@@ -125,7 +113,7 @@ our $WS       = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
 # HTML elements that are strictly block type, as defined by
 # http://www.htmlhelp.com/reference/html40/block.html.
 # Block type elements do not require
-# <br /> to be generated for newlines on the boundary - see WC::isInline.
+# <br /> to be generated for newlines on the boundary - see SUPER::isInline.
 our %ALWAYS_BLOCK = (
     address    => 1,
     blockquote => 1,
@@ -151,14 +139,6 @@ our %ALWAYS_BLOCK = (
     pre        => 1,
     table      => 1,
     ul         => 1
-);
-
-# Colours with colour settings in DefaultPreferences.
-our @TML_COLOURS = (
-    'BLACK',  'MAROON', 'PURPLE', 'PINK',       'RED',   'ORANGE',
-    'YELLOW', 'LIME',   'AQUA',   'AQUAMARINE', 'GREEN', 'OLIVE',
-    'BROWN',  'NAVY',   'TEAL',   'BLUE',       'GRAY',  'SILVER',
-    'WHITE',
 );
 
 # Map of possible colours back to TML %COLOUR%...%ENDCOLOR%
@@ -399,8 +379,8 @@ sub decodeRepresentableEntities {
         ASSERT( $encoded_nbsp ne '&nbsp;' ) if DEBUG;
     }
 
-    # Replace expansion of &nbsp; with $WC::NBSP
-    $_[0] =~ s/$encoded_nbsp/$WC::NBSP/g;
+    # Replace expansion of &nbsp; with $NBSP
+    $_[0] =~ s/$encoded_nbsp/$NBSP/g;
 }
 
 # DEBUG
@@ -434,11 +414,29 @@ sub encode_specials {
     return encode_oddchars($string);
 }
 
+# Used by test code only
+sub test_reset {
+    Foswiki::Plugins::WysiwygPlugin::Constants::test_reset();
+
+    $Foswiki::Plugins::WysiwygPlugin::Constants::representable_entities = undef;
+    $encoded_nbsp                                                       = undef;
+    $safe_entities                                                      = undef;
+}
+
+our @EXPORT = qw(
+  NO_HTML NO_TML NO_BLOCK_TML NOP_ALL VERY_CLEAN BR2NL KEEP_WS PROTECTED
+  KEEP_ENTITIES IN_TABLE BLOCK_TML
+  $NBSP $NBBR $CHECKn $CHECKs $CHECKw $CHECK1 $CHECK2 $TAB $PON $POFF
+  $WS_NOTAB $WS
+  %ALWAYS_BLOCK %HTML2TML_COLOURMAP %SELF_CLOSING %EMPH_TAG
+  @SAFE_ENTITIES
+  safeEntities decodeRepresentableEntities encode_oddchars);
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

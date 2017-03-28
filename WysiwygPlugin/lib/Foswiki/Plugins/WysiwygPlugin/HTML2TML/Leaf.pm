@@ -22,6 +22,9 @@ our @ISA = qw( Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base );
 use strict;
 use warnings;
 
+use Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants;
+
 sub new {
     my ( $class, $text ) = @_;
 
@@ -46,25 +49,25 @@ sub generate {
     my ( $this, $options ) = @_;
     my $t = $this->{text};
 
-    if ( !( $options & WC::KEEP_WS ) ) {
+    if ( !( $options & KEEP_WS ) ) {
         $t =~ s/\t/   /g;
-        $t =~ s/\n/$WC::CHECKw/g;
+        $t =~ s/\n/$CHECKw/g;
         $t =~ s/  +/ /g;
-        $t =~ s/ $/$WC::CHECKw/g;
+        $t =~ s/ $/$CHECKw/g;
     }
-    if ( $options & WC::NOP_ALL ) {
+    if ( $options & NOP_ALL ) {
 
         # escape all embedded wikiwords
-        $t =~ s/$WC::STARTWW($Foswiki::regex{wikiWordRegex})/<nop>$1/go;
-        $t =~ s/$WC::STARTWW($Foswiki::regex{abbrevRegex})/<nop>$1/go;
+        $t =~ s/$STARTWW($Foswiki::regex{wikiWordRegex})/<nop>$1/go;
+        $t =~ s/$STARTWW($Foswiki::regex{abbrevRegex})/<nop>$1/go;
         $t =~ s/\[/<nop>[/g;
     }
-    unless ( $options & WC::KEEP_ENTITIES ) {
+    unless ( $options & KEEP_ENTITIES ) {
         $t =~ s/&($text_entities_re);/chr($text_entities{$1})/ego;
-        $t =~ s/&nbsp;/$WC::NBSP/g;
+        $t =~ s/&nbsp;/$NBSP/g;
 
         # unicode code point 160 is $nbsp;
-        $t =~ s/&#160;/$WC::NBSP/g;
+        $t =~ s/&#160;/$NBSP/g;
     }
     return ( 0, $t );
 }

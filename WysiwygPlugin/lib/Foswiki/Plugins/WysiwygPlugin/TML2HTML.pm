@@ -432,7 +432,7 @@ s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
 s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 . '>'/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       $this->_getNamedColour($1, $2)#ge;
 
@@ -929,7 +929,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
         # Need to also include protected content marker as part of
         # start wikiword delim
-        my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+        my $startww = qr/$STARTWW|(?<=$TT2)/;
         $text =~
 s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
         Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
@@ -991,12 +991,12 @@ sub _liftOutSquab {
     }
 
     # Handle colour tags specially (hack, hack, hackity-HACK!
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       $this->_getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
-    my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+    my $startww = qr/$STARTWW|(?<=$TT2)/;
     if ( $url =~
 m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/
         && $url eq $text )
@@ -1042,16 +1042,16 @@ sub _protectMacrosInSquab {
 
 sub _handleMarkup {
 
-    $_[0] =~ s(${WC::STARTWW}==([^\s]+?|[^\s].*?[^\s])==$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}==([^\s]+?|[^\s].*?[^\s])==$ENDWW)
       (<b><span class='WYSIWYG_TT'>$1</span></b>)gm;
-    $_[0] =~ s(${WC::STARTWW}__([^\s]+?|[^\s].*?[^\s])__$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}__([^\s]+?|[^\s].*?[^\s])__$ENDWW)
       (<b><i>$1</i></b>)gm;
-    $_[0] =~ s(${WC::STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$ENDWW)
       (<b>$1</b>)gm;
 
-    $_[0] =~ s(${WC::STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$ENDWW)
       (<i>$1</i>)gm;
-    $_[0] =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$ENDWW)
       (<span class='WYSIWYG_TT'>$1</span>)gm;
 
 }

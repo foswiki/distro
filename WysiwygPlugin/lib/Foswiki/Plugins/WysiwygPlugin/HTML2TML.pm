@@ -34,6 +34,8 @@ use Encode;
 use HTML::Parser;
 use HTML::Entities;
 
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants;
+
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node;
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
 
@@ -108,7 +110,7 @@ sub convert {
     $this->{opts} = $options;
 
     my $opts = 0;
-    $opts = WC::VERY_CLEAN
+    $opts = VERY_CLEAN
       if ( $options->{very_clean} );
 
     # See the WysiwygPluginSettings for information on stickybits
@@ -169,7 +171,7 @@ DEFAULT
         }
     }
 
-    #print STDERR "input     [". WC::encode_specials($text). "]\n\n";
+    #print STDERR "input     [". encode_specials($text). "]\n\n";
 
     # Convert (safe) named entities back to the
     # site charset. Numeric entities are mapped straight to the
@@ -202,7 +204,7 @@ DEFAULT
     $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
     $text =~ s/&#x200B;//g;    # TMCE pre 3.5
 
-    HTML::Entities::_decode_entities( $text, WC::safeEntities() );
+    HTML::Entities::_decode_entities( $text, safeEntities() );
 
     $text =~ s/\&apos;/\&\#39;/go;
 
