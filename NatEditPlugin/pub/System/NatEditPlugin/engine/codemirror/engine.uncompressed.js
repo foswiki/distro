@@ -182,15 +182,6 @@ CodemirrorEngine.prototype.on = function(eventName, func) {
 };
 
 /*************************************************************************
- * insert stuff at the given cursor position
- */
-CodemirrorEngine.prototype.insert = function(newText) {
-  /*var self = this;*/
-
-  throw("not implemented: insert()",newText);
-};
-
-/*************************************************************************
  * replace specific elements with widgets to display them 
  */
 CodemirrorEngine.prototype.insertWidgets = function(/*change*/) {
@@ -306,6 +297,18 @@ CodemirrorEngine.prototype.redo = function() {
 
   return self.cm.redo();
 };
+
+/*************************************************************************
+ * insert stuff at the given cursor position
+ */
+CodemirrorEngine.prototype.insert = function(text) {
+  var self = this,
+      doc = self.cm.getDoc(),
+      start = doc.getCursor();
+
+  doc.replaceRange(text, start);
+};
+
 
 /*************************************************************************
  * used for line oriented tags - like bulleted lists

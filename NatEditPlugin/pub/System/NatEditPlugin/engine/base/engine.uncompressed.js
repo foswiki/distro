@@ -1,21 +1,24 @@
 /*
  * jQuery NatEdit: base engine
  *
- * Copyright (c) 2015-2016 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2015-2017 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
+"use strict";
+
+/* export */
+var BaseEngine;
 
 (function($) {
 
 /*****************************************************************************
  * constructor
  */
-window.BaseEngine = function BaseEngine() {
+BaseEngine = function() {
   var self = this;
 
   if (typeof(self.opts) === 'undefined') {
@@ -81,9 +84,7 @@ BaseEngine.prototype.setSize = function(width, height) {
 /*************************************************************************
  * called during save process
  */
-BaseEngine.prototype.beforeSubmit = function(action) {
-  var self = this;
-
+BaseEngine.prototype.beforeSubmit = function() {
   return $.Deferred().resolve().promise();
 };
 
@@ -104,15 +105,15 @@ BaseEngine.prototype.log = function() {
   var self = this;
 
   if (console && self.opts.debug) {
-    console.log.apply(console, arguments);
+    console && console.log.apply(console, arguments); // eslint-disable-line no-console
   }
 };
 
 /*************************************************************************
  * insert stuff at the given cursor position
  */
-BaseEngine.prototype.insert = function(newText) {
-  var self = this;
+BaseEngine.prototype.insert = function(/* text */) {
+  /*var self = this;*/
 
   throw("not implemented: insert()");
 };
@@ -121,7 +122,7 @@ BaseEngine.prototype.insert = function(newText) {
  * remove the selected substring
  */
 BaseEngine.prototype.remove = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: remove()");
 };
@@ -130,7 +131,7 @@ BaseEngine.prototype.remove = function() {
  * returns the current selection
  */
 BaseEngine.prototype.getSelection = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: getSelection()");
 };
@@ -139,7 +140,7 @@ BaseEngine.prototype.getSelection = function() {
   * returns the currently selected lines
   */
 BaseEngine.prototype.getSelectionLines = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: getSelectionLines()");
 };
@@ -147,8 +148,8 @@ BaseEngine.prototype.getSelectionLines = function() {
 /*************************************************************************
  * set the selection
  */
-BaseEngine.prototype.setSelectionRange = function(start, end) {
-  var self = this;
+BaseEngine.prototype.setSelectionRange = function(/*start, end*/) {
+  /*var self = this;*/
 
   throw("not implemented: setSelectionRange()");
 };
@@ -157,8 +158,8 @@ BaseEngine.prototype.setSelectionRange = function(start, end) {
  * set the caret position to a specific position. thats done by setting
  * the selection range to a single char at the given position
  */
-BaseEngine.prototype.setCaretPosition = function(caretPos) {
-  var self = this;
+BaseEngine.prototype.setCaretPosition = function(/*caretPos*/) {
+  /*var self = this;*/
 
   throw("not implemented: setCaretPosition()");
 };
@@ -167,7 +168,7 @@ BaseEngine.prototype.setCaretPosition = function(caretPos) {
  * get the caret position 
  */
 BaseEngine.prototype.getCaretPosition = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: getCaretPosition()");
 };
@@ -176,7 +177,7 @@ BaseEngine.prototype.getCaretPosition = function() {
  * undo recent change
  */
 BaseEngine.prototype.undo = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: undo()");
 };
@@ -185,7 +186,7 @@ BaseEngine.prototype.undo = function() {
  * redo recent change
  */
 BaseEngine.prototype.redo = function() {
-  var self = this;
+  /*var self = this;*/
 
   throw("not implemented: redo()");
 };
@@ -204,8 +205,8 @@ BaseEngine.prototype.handleToolbarAction = function(ui) {
  * if there is no selection, select the entire current line
  * if there is a selection, select the entire line for each line selected
  */
-BaseEngine.prototype.insertLineTag = function(markup) {
-  var self = this;
+BaseEngine.prototype.insertLineTag = function(/*markup*/) {
+  /*var self = this;*/
 
   throw("not implemented: insertLineTag()");
 };
@@ -213,8 +214,8 @@ BaseEngine.prototype.insertLineTag = function(markup) {
 /*************************************************************************
  * insert a topic markup tag 
  */
-BaseEngine.prototype.insertTag = function(markup) {
-  var self = this;
+BaseEngine.prototype.insertTag = function(/*markup*/) {
+  /*var self = this;*/
 
   throw("not implemented: insertTag()");
 };
@@ -226,11 +227,10 @@ BaseEngine.prototype.insertTag = function(markup) {
  *   heads: integer, // number of header rows
  *   rows: integer, // number of rows
  *   cols: integer, // number of columns
- *   editable: boolean, // add %EDITTABLE markup
  * }
  */
 BaseEngine.prototype.insertTable = function(opts) {
-  var self = this, output = [], editTableLine, i, j, line;
+  var self = this, table;
 
   if (typeof(opts.heads) === 'undefined') {
     opts.heads = 0;
@@ -242,40 +242,109 @@ BaseEngine.prototype.insertTable = function(opts) {
     opts.cols = 0;
   }
 
-  if (opts.editable) {
-    editTableLine = '%EDITTABLE{format="';
+  opts.init = self.getTableSelection();
+  table = self.generateTMLTable(opts);
 
-    for (i = 0; i < opts.cols; i++) {
-      editTableLine += '| text,20';
-    }
+  self.remove();
+  self.insert(table);
+};
 
-    editTableLine += '|"}%';
-    output.push(editTableLine);
+/*****************************************************************************
+ * parse the current selection into a two-dimensional array
+ * to be used initializing a table. rows are separated by \n, columns by whitespace
+ */
+BaseEngine.prototype.getTableSelection = function() {
+  var self = this,
+      selection = self.getSelection().replace(/^\s+|\s+$/g, ""),
+      result = [],
+      rows = selection.split(/\n/),
+      i;
+
+  for (i = 0; i < rows.length; i++) {
+    result.push(rows[i].split(/\s+/));
   }
+
+  return result;
+};
+
+/*****************************************************************************
+ * generate a tml table
+ * opts: 
+ * {
+ *   heads: integer, // number of header rows
+ *   rows: integer, // number of rows
+ *   cols: integer, // number of columns
+ *   init: two-dim array of initial content 
+ * }
+ */
+BaseEngine.prototype.generateTMLTable = function(opts) {
+  var result = "", i, j, cell;
 
   for (i = 0; i < opts.heads; i++) {
-    line = '|';
+    result += '|';
     for (j = 0; j < opts.cols; j++) {
-      line += ' *head* |';
+      result += ' *head* |';
     }
-    output.push(line);
+    result += "\n";
   }
   for (i = 0; i < opts.rows; i++) {
-    line = '|';
+    result += '|';
     for (j = 0; j < opts.cols; j++) {
-      line += ' data |';
+      if (typeof(opts.init) !== 'undefined' && typeof(opts.init[i]) !== 'undefined') {
+        cell = opts.init[i][j];
+      }
+      cell = cell || 'data';
+      result += ' '+cell+' |';
     }
-    output.push(line);
+    result += "\n";
   }
-  self.remove();
-  self.insertTag(['', output.join("\n")+"\n", '']);
+
+  return result;
+};
+
+/*****************************************************************************
+ * generate an html table, see generateTMLTable 
+ */
+BaseEngine.prototype.generateHTMLTable = function(opts) {
+  var result = "", i, j, cell;
+
+  result += "<table>";
+
+  if (opts.heads) {
+    result += "<thead>";
+    for (i = 0; i < opts.heads; i++) {
+      result += "<tr>";
+      for (j = 0; j < opts.cols; j++) {
+        result += "<th>head</th>";
+      }
+      result += "</tr>";
+    }
+    result += "</thead>";
+  }
+
+  result += "<tbody>";
+  for (i = 0; i < opts.rows; i++) {
+    result += "<tr>";
+    for (j = 0; j < opts.cols; j++) {
+      if (typeof(opts.init) !== 'undefined' && typeof(opts.init[i]) !== 'undefined') {
+        cell = opts.init[i][j];
+      }
+      cell = cell || 'data';
+      result += '<td>'+cell+'</td>';
+    }
+    result += "</tr>";
+  }
+
+  result += "</table>";
+
+  return result;
 };
 
 /*****************************************************************************
  * search & replace a term in the textarea
  */
-BaseEngine.prototype.searchReplace = function(term, text, ignoreCase) {
-  var self = this;
+BaseEngine.prototype.searchReplace = function(/*term, text, ignoreCase*/) {
+  /*var self = this;*/
 
   throw("not implemented: searchReplace()");
 };

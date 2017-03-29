@@ -1,14 +1,14 @@
 /*
  * class TextareaState
  *
- * Copyright (c) 2008-2016 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2017 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
+"use strict";
 
 /* export */
 var TextareaState;
@@ -23,7 +23,7 @@ TextareaState = function(engine) {
 
   self.engine = engine;
   self.init();
-}
+};
 
 TextareaState.prototype.init = function() {
   var self = this,
@@ -53,10 +53,10 @@ TextareaState.prototype.isUnchanged = function() {
 
   self.engine.getSelectionRange();
 
-  return txtarea.selectionStart == self.selectionStart &&
-      txtarea.selectionEnd == self.selectionEnd &&
-      txtarea.scrollTop == self.scrollTop &&
-      txtarea.value == self.value;
+  return txtarea.selectionStart === self.selectionStart &&
+      txtarea.selectionEnd === self.selectionEnd &&
+      txtarea.scrollTop === self.scrollTop &&
+      txtarea.value === self.value;
 };
 
 })(jQuery);

@@ -62,13 +62,6 @@
       <th>%MAKETEXT{"Columns"}%</th>
       <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
     </tr>
-    <tr>
-      <th>%MAKETEXT{"Editable"}%</th>
-      <td>
-        <label><input type="radio" name="editable" class="foswikiRadioButton" value="true" />%MAKETEXT{"Yes"}%</label>&nbsp;
-        <label><input type="radio" name="editable" class="foswikiRadioButton" value="false" checked="checked" />%MAKETEXT{"No"}%</label>
-      </td>
-    </tr>
   </table>
 </form>
 </div>%TMPL:END%
@@ -140,7 +133,7 @@
     <tr>
       <th>%MAKETEXT{"File"}%</th>
       <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="{{:file}}" />
-        %IF{"context 'TopicInteractionPluginEnabled'"
+        %IF{"context 'TEMPORARILY_DISABLED_TopicInteractionPluginEnabled'"
           then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true' title='%MAKETEXT{"Upload a file"}%'>
                   <span class='ui-natedit-uploader-button' style='vertical-align:middle' >%JQICON{"add"}%<input type='file' name='files[]' /></span>
                   <span class='ui-natedit-uploader-cancel' style='vertical-align:middle;display:none'>%JQICON{"delete"}%</span>

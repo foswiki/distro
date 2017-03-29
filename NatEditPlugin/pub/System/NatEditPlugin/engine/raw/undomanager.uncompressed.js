@@ -1,19 +1,22 @@
 /*
  * class UndoManager
  *
- * Copyright (c) 2008-2016 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2017 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
+
+/* global TextareaState */
+"use strict";
 
 /* export */
 var UndoManager;
 
 (function($) {
+
 /*****************************************************************************
  * constructor
  */
@@ -35,41 +38,41 @@ UndoManager = function(engine) {
         case 17:
           return false;
         case 89: // ctbrl+y 
-          if (ev.type == "keydown") {
+          if (ev.type === "keydown") {
             self.redo();
           }
           ev.preventDefault();
           return false;
         case 90: // ctrl+z 
-          if (ev.type == "keydown") {
+          if (ev.type === "keydown") {
             self.undo();
           }
           ev.preventDefault();
           return false;
       }
     } else {
-      if (ev.type == "keyup") {
+      if (ev.type === "keyup") {
         if ((code >= 33 && code <= 40) || (code >= 63232 && code <= 63235)) {
           mode = "moving";
-        } else if (code == 8 || code == 46 || code == 127) {
+        } else if (code === 8 || code === 46 || code === 127) {
           mode = "deleting";
-        } else if (code == 13 || code == 32) {
+        } else if (code === 13 || code === 32) {
           mode = "whitespace";
-        } else if (code == 27) {
+        } else if (code === 27) {
           mode = "escape";
-        } else if ((code < 16 || code > 20) && code != 91 && code != 32) {
+        } else if ((code < 16 || code > 20) && code !== 91 && code !== 32) {
           mode = "typing";
         }
       }
     }
 
-    if (ev.type == "keyup") {
+    if (ev.type === "keyup") {
       self.saveState(mode);
     }
   }).on("click drop paste", function(ev) {
     var mode = "paste";
 
-    if (ev.type == "click") {
+    if (ev.type === "click") {
       mode = "moving";
     }
 
@@ -78,7 +81,7 @@ UndoManager = function(engine) {
 
   // initial state
   self.saveState("none");
-}
+};
 
 UndoManager.prototype.updateGui = function() {
   var self = this,
@@ -126,8 +129,8 @@ UndoManager.prototype.saveState = function(mode) {
       return;
     }
 
-    if (currentState.value == self.shell.txtarea.value 
-        || (mode != "none" && mode == self.mode)
+    if (currentState.value === self.shell.txtarea.value 
+        || (mode !== "none" && mode === self.mode)
         || (mode === "whitespace" && self.mode === "typing")) {
       // reuse the current state if it is just a move operation
       $.log("UNDOMANAGER: reuse current state in mode=",mode);

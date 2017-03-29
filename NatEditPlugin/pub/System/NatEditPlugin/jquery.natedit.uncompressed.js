@@ -127,13 +127,13 @@ $.NatEditor.prototype.createEngine = function(id) {
     url = self.opts.pubUrl+"/"+self.opts.systemWeb+"/NatEditPlugin/engine/"+id+"/engine.js";
     self.getScript(url).done(function() {
       if (typeof($.NatEditor.engines[id]) === 'undefined') {
-          console.error("failed to create edit engine '"+id+"'");
+          console && console.error("failed to create edit engine '"+id+"'"); // eslint-disable-line no-console  
       } else {
         $.NatEditor.engines[id].createEngine(self).done(function(engine) {
           self.engine = engine;
           dfd.resolve();
-        }).fail(function(xhr,foo,bar) {
-          console.error("failed to create edit engine '"+id+"'",xhr,"foo=",foo,"bar=",bar);
+        }).fail(function(xhr) {
+          console && console.error("failed to create edit engine '"+id+"'",xhr); // eslint-disable-line no-console 
         });
       }
     });
@@ -141,8 +141,8 @@ $.NatEditor.prototype.createEngine = function(id) {
     $.NatEditor.engines[id].createEngine(self).done(function(engine) {
       self.engine = engine;
       dfd.resolve();
-    }).fail(function(xhr, foo, bar) {
-        console.error("failed to initialize edit engine '"+id+"'",xhr,"foo=",foo,"bar=",bar);
+    }).fail(function(xhr) {
+        console && console.error("failed to initialize edit engine '"+id+"'",xhr); // eslint-disable-line no-console 
     });
   }
 
@@ -1361,7 +1361,6 @@ $.NatEditor.prototype.dialog = function(opts) {
           opts.open.call(self, this, opts.data);
         },
         close: function() {
-          dfd.resolve(this);
           $(this).remove();
         },
         show: 'fade',
@@ -1686,8 +1685,8 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
   $dialog.find("input[name='web']").each(function() {
     $(this).autocomplete({
       source: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper", {
-        section: web,
-        skin: text,
+        section: "web",
+        skin: "text",
         contenttype: "application/json"
       })
     });
@@ -1810,24 +1809,26 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
     var $input = $dialog.find("input[name='file']"),
         $uploadButton = $dialog.find(".ui-natedit-uploader-button");
 
-    $uploadButton.fileUploadButton();
+    if (typeof($uploadButton.fileUploadButton) !== 'undefined') {
+      $uploadButton.fileUploadButton();
 
-    $uploadButton.bind("fileuploadstart", function() {
-      //console.log("started upload");
-      $input.attr("disabled", "disabled").val($.i18n("uploading ..."));
-      self.hideMessages();
-    });
+      $uploadButton.bind("fileuploadstart", function() {
+        //console.log("started upload");
+        $input.attr("disabled", "disabled").val($.i18n("uploading ..."));
+        self.hideMessages();
+      });
 
-    $uploadButton.bind("fileuploaddone", function(/*e, data*/) {
-      //console.log("done upload");
-      var file = data.files[0].name;
-      $input.removeAttr("disabled").val(file).focus();
-    });
+      $uploadButton.bind("fileuploaddone", function(/*e, data*/) {
+        //console.log("done upload");
+        var file = data.files[0].name;
+        $input.removeAttr("disabled").val(file).focus();
+      });
 
-    $uploadButton.bind("fileuploadfail", function(/*e, data*/) {
-      //console.log("processfaiul upload");
-      self.showMessage("error", $.i18n("Error during upload"));
-    });
+      $uploadButton.bind("fileuploadfail", function(/*e, data*/) {
+        //console.log("processfaiul upload");
+        self.showMessage("error", $.i18n("Error during upload"));
+      });
+    }
   });
 };
 

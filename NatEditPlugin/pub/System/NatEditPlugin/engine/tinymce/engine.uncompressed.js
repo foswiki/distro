@@ -75,9 +75,34 @@ TinyMCEEngine.prototype.init = function() {
           alert("Error calling tml2html"); // SMELL: better error handling
         });
 
-      self.shell.form.on("beforeSubmit.natedit", function(e, params) {
+      self.on("BeforeSetContent", function(ev) {  
+        if (foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
+          var paramsRegex = /(?:(\w+?)=)?&#34;(.*?)&#34;/g;
+          ev.content = ev.content.replace(/%IMAGE{(.*?)}%/, function(string, params) {
+            var args = [], match;
+            while ((match = paramsRegex.exec(params)) !== null) {
+              var key = match[1], val = match[2];
+              if (key) {
+                if (key === 'size') {
+                  args.push('height="'+val+'"');
+                } else {
+                  args.push(key+'="'+val+'"');
+                }
+              } else {
+                val = foswiki.getPubUrl(foswiki.getPreference("WEB"), foswiki.getPreference("TOPIC"), val);
+                args.push('src="'+val+'"');
+                args.push('data-mce-src="'+val+'"');
+              }
+            }
+            if (args.length) {
+              return "<img "+args.join(" ")+"/>";
+            } else {
+              return string;
+            }
+          });
+        }
       });
-
+      self.on("GetContent", function() { console.log("got GetContent event"); });
     };
 
     tinymce.init(self.opts.tinymce);
@@ -392,13 +417,15 @@ TinyMCEEngine.prototype.insertTag = function(markup) {
  *   heads: integer, // number of header rows
  *   rows: integer, // number of rows
  *   cols: integer, // number of columns
- *   editable: boolean, // add %EDITTABLE markup
  * }
  */
 TinyMCEEngine.prototype.insertTable = function(opts) {
-  /*var self = this;*/
+  var self = this, table;
 
-  throw("not implemented: insertTable opts=",opts);
+  opts.selection = self.getTableSelection();
+  table = self.generateHTMLTable(opts);
+
+  self.insert(table);
 };
 
 /*************************************************************************
@@ -451,14 +478,19 @@ TinyMCEEngine.prototype.setSize = function(width, height) {
 TinyMCEEngine.defaults = {
   debug: true,
   natedit: {
-      numberedListMarkup: ['   foo ','enumerated item',''],
   },
   tinymce: {
     selector: 'textarea#topic',
     menubar: false,
     toolbar: false,
     statusbar: false,
-    plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image', // save autosave fullscreen anchor charmap code textcolor colorpicker
+    plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image textpattern', // save autosave fullscreen anchor charmap code textcolor colorpicker
+    table_toolbar : "tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+    table_appearance_options: false,
+    table_advtab: false,
+    table_cell_advtab: false,
+    table_row_advtab: false,
+    object_resizing: "img",
     paste_data_images: true,
     content_css: [],
     formats: {
@@ -482,7 +514,22 @@ TinyMCEEngine.defaults = {
       centerMarkup: { block: "p", attributes: { "align": "center" }, toolbar: ".ui-natedit-center" },
       justifyMarkup: { block: "p", attributes: { "align": "justify" }, toolbar: ".ui-natedit-justify" },
       verbatimMarkup: { block: "pre", classes: "TMLverbatim", toolbar: ".ui-natedit-verbatim" }
-    }
+    },
+    textpattern_patterns: [
+      /*{start: '__', end: '__', format: ['italicMarkup', 'boldMarkup'] },*/ // SMELL: does not allow multiple formats
+      /*{start: '==', end: '==', format: 'boldMarkup,monoMarkup'},*/
+      {start: '_', end: '_', format: 'italicMarkup'},
+      {start: '=', end: '=', format: 'monoMarkup'},
+      {start: '*', end: '*', format: 'boldMarkup'},
+      {start: '---+ ', format: 'h1Markup'},
+      {start: '---++ ', format: 'h2Markup'},
+      {start: '---+++ ', format: 'h3Markup'},
+      {start: '---++++ ', format: 'h4Markup'},
+      {start: '---+++++ ', format: 'h5Markup'},
+      {start: '---++++++ ', format: 'h6Markup'},
+      {start: '1 ', cmd: 'InsertOrderedList'}, // SMELL: does not work with leading whitespaces
+      {start: '* ', cmd: 'InsertUnorderedList'} 
+    ]
   }
 };
 

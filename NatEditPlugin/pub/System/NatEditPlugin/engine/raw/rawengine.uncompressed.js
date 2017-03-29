@@ -1,14 +1,16 @@
 /*
  * jQuery NatEdit: raw engine
  *
- * Copyright (c) 2008-2016 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2017 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-'use strict';
+
+/* global BaseEngine UndoManager */
+"use strict";
 
 (function($) {
 
@@ -27,6 +29,8 @@ function RawEngine(shell, opts) {
   self.opts = $.extend({}, RawEngine.defaults, self.shell.opts.raw, opts);
 }
 
+/* export */
+window.RawEngine = RawEngine;
 
 /*************************************************************************
  * init this engine
@@ -41,9 +45,9 @@ RawEngine.prototype.init = function() {
 
   /* listen to keystrokes */
   $(self.shell.txtarea).on("keydown", function(ev) {
-    if (ev.keyCode == 13) {
+    if (ev.keyCode === 13) {
       self.handleLineFeed(ev);
-    } else if (ev.keyCode == 9) {
+    } else if (ev.keyCode === 9) {
       self.handleTab(ev);
     }
   }); 
@@ -132,7 +136,7 @@ RawEngine.prototype.getSelectionRange = function() {
 
     txtarea.selectionStart = pos;
    
-    if (selection == "") {
+    if (selection === "") {
       txtarea.selectionEnd = pos;
     } else {
       txtarea.selectionEnd = pos + selection.length;
@@ -168,11 +172,11 @@ RawEngine.prototype.getSelectionLines = function() {
   end = txtarea.selectionEnd;
   text = txtarea.value;
 
-  while (start > 0 && text.charCodeAt(start-1) != 13 && text.charCodeAt(start-1) != 10) {
+  while (start > 0 && text.charCodeAt(start-1) !== 13 && text.charCodeAt(start-1) !== 10) {
     start--;
   }
 
-  while (end < text.length && text.charCodeAt(end) != 13 && text.charCodeAt(end) != 10) {
+  while (end < text.length && text.charCodeAt(end) !== 13 && text.charCodeAt(end) !== 10) {
     end++;
   }
 
@@ -251,7 +255,7 @@ RawEngine.prototype.redo = function() {
  * inserts spaces on tab, removes spaces on shift-tab
  */
 RawEngine.prototype.handleTab = function(ev) {
-  var self = this, text, startPos, endPos, len,
+  var self = this, text, startPos, endPos,
       txtarea = self.shell.txtarea;
 
   self.getSelectionRange();
@@ -261,10 +265,9 @@ RawEngine.prototype.handleTab = function(ev) {
   if (ev.shiftKey) {
 
     text = txtarea.value;
-    len = text.length;
 
     if (startPos > 2 &&
-      text.substring(startPos-3, startPos) == '   ') {
+      text.substring(startPos-3, startPos) === '   ') {
       self.setSelectionRange(startPos-3, endPos);
       self.remove();
     }
@@ -293,8 +296,8 @@ RawEngine.prototype.handleLineFeed = function(ev) {
   endPos = txtarea.selectionEnd;
 
   while (startPos > 0 && 
-    text.charCodeAt(startPos-1) != 13 &&
-    text.charCodeAt(startPos-1) != 10) {
+    text.charCodeAt(startPos-1) !== 13 &&
+    text.charCodeAt(startPos-1) !== 10) {
     startPos--;
   }
 
@@ -319,7 +322,7 @@ RawEngine.prototype.handleLineFeed = function(ev) {
     return;
   }
 
-  if (list == '') {
+  if (list === '') {
     prefix = text.substr(0, startPos);
     postfix = text.substr(endPos);
     endPos = startPos;
@@ -388,12 +391,12 @@ RawEngine.prototype.insertLineTag = function(markup) {
       subst = line;
     } else {
       // special case - undent (remove 3 spaces, and bullet or numbered list if outdenting away)
-      if ((tagOpen == '' && sampleText == '' && tagClose == '')) {
+      if ((tagOpen === '' && sampleText === '' && tagClose === '')) {
         subst = line.replace(/^ {3}(\* |\d+ |\d+\. )?/, '');
       }
 
       // special case - list transform
-      else if (listRegExp.test(line) && ( tagOpen == '   1 ' || tagOpen == '   * ')) {
+      else if (listRegExp.test(line) && ( tagOpen === '   1 ' || tagOpen === '   * ')) {
         nrSpaces = RegExp.$1.length; 
         subst = line.replace(listRegExp, '$1' + tagOpen) + tagClose;
       } else {
@@ -409,7 +412,7 @@ RawEngine.prototype.insertLineTag = function(markup) {
 
   txtarea.value = pre + modifiedSelection + post;
 
-  if (lines.length == 1) {
+  if (lines.length === 1) {
     startPos += nrSpaces + tagOpen.length;
     endPos = startPos + modifiedSelection.length - tagOpen.length - tagClose.length - nrSpaces;
   } else {
@@ -485,7 +488,7 @@ RawEngine.prototype.searchReplace = function(search, replace, ignoreCase) {
   }
 
   pos = copy.indexOf(search);
-  while (pos != -1) {
+  while (pos !== -1) {
     count++;
     text = text.substr(0, pos) + replace + text.substr(pos + search.length);
     copy = copy.substr(0, pos) + replace + copy.substr(pos + search.length);

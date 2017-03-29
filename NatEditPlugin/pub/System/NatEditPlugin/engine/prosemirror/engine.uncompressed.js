@@ -211,7 +211,6 @@ ProsemirrorEngine.prototype.insertTag = function(markup) {
  *   heads: integer, // number of header rows
  *   rows: integer, // number of rows
  *   cols: integer, // number of columns
- *   editable: boolean, // add %EDITTABLE markup
  * }
  */
 ProsemirrorEngine.prototype.insertTable = function(opts) {
