@@ -210,8 +210,12 @@ sub skip {
                 'FormattingTests::test_shortAcronyms' =>
                   'Missing Class::Unload',
             }
-        }
-
+        },
+        {
+            condition => { without_dep => 'Regexp::IPv6' },
+            tests =>
+              { 'FormattingTests::test_IPv6_squab' => 'Missing Regexp::IPv6', }
+        },
     );
 }
 
@@ -419,6 +423,85 @@ EXPECTED
 ACTUAL
     $this->do_test( $expected, $actual );
     $Foswiki::cfg{NameFilter} = $saveNameFilter;
+}
+
+sub test_IPv6_Inline {
+    my $this = shift;
+
+    # Test examples taken from http://www.faqs.org/rfcs/rfc2732.html
+
+    my $expected = <<EXPECTED;
+<a href="http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html">http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</a>
+<a href="http://[1080:0:0:0:8:800:200C:417A]/index.html">http://[1080:0:0:0:8:800:200C:417A]/index.html</a>
+<a href="http://[3ffe:2a00:100:7031::1]">http://[3ffe:2a00:100:7031::1]</a>
+<a href="http://[1080::8:800:200C:417A]/foo">http://[1080::8:800:200C:417A]/foo</a>
+<a href="http://[::192.9.5.5]/ipng">http://[::192.9.5.5]/ipng</a>
+<a href="http://[::FFFF:129.144.52.38]:80/index.html">http://[::FFFF:129.144.52.38]:80/index.html</a>
+<a href="http://[2010:836B:4179::836B:4179]">http://[2010:836B:4179::836B:4179]</a>
+<a href="https://metacpan.org/requires/distribution/Moo?sort=%5B[2,1]]&size=500">https://metacpan.org/requires/distribution/Moo?sort=%5B[2,1]]&size=500</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html
+http://[1080:0:0:0:8:800:200C:417A]/index.html
+http://[3ffe:2a00:100:7031::1]
+http://[1080::8:800:200C:417A]/foo
+http://[::192.9.5.5]/ipng
+http://[::FFFF:129.144.52.38]:80/index.html
+http://[2010:836B:4179::836B:4179]
+https://metacpan.org/requires/distribution/Moo?sort=%5B[2,1]]&size=500
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_IPv6_squab {
+    my $this = shift;
+
+    # Test examples taken from http://www.faqs.org/rfcs/rfc2732.html
+    #
+    my $expected = <<EXPECTED;
+<a href="http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html">http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</a>
+<a href="http://[1080:0:0:0:8:800:200C:417A]/index.html">http://[1080:0:0:0:8:800:200C:417A]/index.html</a>
+<a href="http://[3ffe:2a00:100:7031::1]">http://[3ffe:2a00:100:7031::1]</a>
+<a href="http://[1080::8:800:200C:417A]/foo">http://[1080::8:800:200C:417A]/foo</a>
+<a href="http://[::192.9.5.5]/ipng">http://[::192.9.5.5]/ipng</a>
+<a href="http://[::FFFF:129.144.52.38]:80/index.html">http://[::FFFF:129.144.52.38]:80/index.html</a>
+<a href="http://[2010:836B:4179::836B:4179]">http://[2010:836B:4179::836B:4179]</a>
+<a href="http://metacpan.org/requires/distribution/Moo?sort=%5b%5b2,1%5d%5d&size=500">http://metacpan.org/requires/distribution/Moo?sort=%5b%5b2,1%5d%5d&size=500</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html]]
+[[http://[1080:0:0:0:8:800:200C:417A]/index.html]]
+[[http://[3ffe:2a00:100:7031::1]]]
+[[http://[1080::8:800:200C:417A]/foo]]
+[[http://[::192.9.5.5]/ipng]]
+[[http://[::FFFF:129.144.52.38]:80/index.html]]
+[[http://[2010:836B:4179::836B:4179]]]
+[[http://metacpan.org/requires/distribution/Moo?sort=%5b%5b2,1%5d%5d&size=500]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    $expected = <<EXPECTED;
+<a href="http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html">Site 1</a>
+<a href="http://[1080:0:0:0:8:800:200C:417A]/index.html">Site 2</a>
+<a href="http://[3ffe:2a00:100:7031::1]">Site 3</a>
+<a href="http://[1080::8:800:200C:417A]/foo">Site 4</a>
+<a href="http://[::192.9.5.5]/ipng">Site 5</a>
+<a href="http://[::FFFF:129.144.52.38]:80/index.html">Site 6</a>
+<a href="http://[2010:836B:4179::836B:4179]">Site 7</a>
+EXPECTED
+
+    $actual = <<ACTUAL;
+[[http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html][Site 1]]
+[[http://[1080:0:0:0:8:800:200C:417A]/index.html][Site 2]]
+[[http://[3ffe:2a00:100:7031::1]][Site 3]]
+[[http://[1080::8:800:200C:417A]/foo][Site 4]]
+[[http://[::192.9.5.5]/ipng][Site 5]]
+[[http://[::FFFF:129.144.52.38]:80/index.html][Site 6]]
+[[http://[2010:836B:4179::836B:4179]][Site 7]]
+ACTUAL
+    $this->do_test( $expected, $actual );
 }
 
 # [[WikiWord]]
