@@ -534,6 +534,13 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_session};
+    undef $this->{_loadedRev};
+    undef $this->{_latestIsLoaded};
+    undef $this->{_text};
+    undef $this->{_preferences};
+    undef $this->{_indices};
+    undef $this->{FILEATTACHMENT};
+
     if (DEBUG) {
 
     #someone keeps adding random references to Meta so to shake them out..

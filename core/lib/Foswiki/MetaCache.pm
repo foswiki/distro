@@ -76,12 +76,12 @@ Break circular references.
 
 sub finish {
     my $this = shift;
-    undef $this->{session};
 
     #must clear cache every request until the cache is hooked up to Store's save
     foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
         foreach my $web ( keys( %{ $this->{cache}->{$cuid} } ) ) {
             foreach my $topic ( keys( %{ $this->{cache}->{$cuid}->{$web} } ) ) {
+                $this->{cache}->{$cuid}{$web}{$topic}{tom}->finish();
                 undef $this->{cache}->{$cuid}{$web}{$topic};
                 $this->{undef_count}++;
             }
@@ -89,7 +89,10 @@ sub finish {
         }
         undef $this->{cache}->{$cuid};
     }
+
+    undef $this->{session};
     undef $this->{cache};
+    undef $this->{meta_cache_session_user};
 
     if (TRACE) {
         print STDERR

@@ -3,24 +3,31 @@ package Foswiki::Plugins::WysiwygPlugin::Constants;
 
 =pod
 
----+ package Foswiki::Plugins::WysiwygPlugin::Constants a.k.a WC
+---+ package Foswiki::Plugins::WysiwygPlugin::Constants
 
 Constants used throughout WysiwygPlugin
+
+Note that constants are used 'aliased'. This is similar to Exporter,
+but doesn't have Exporter's problem of importing symbols into a namespace,
+which makes it very hard to track down where a symbol comes from.
 
 =cut
 
 sub test_reset {
-    $WC::encoding                 = undef;
-    $WC::siteCharsetRepresentable = undef;
+    $encoding                 = undef;
+    $siteCharsetRepresentable = undef;
 }
 
-package WC;    # Short name
+package Foswiki::Plugins::WysiwygPlugin::Constants;    # Short name
 
 use strict;
 use warnings;
 
 use Encode;
 use HTML::Entities;
+
+require Exporter;
+our @ISA = qw(Exporter);
 
 =pod
 
@@ -38,6 +45,16 @@ our $STARTWW =
   qr/^|(?<=[ \t\n\(])|(?<=<p>)|(?<=nbsp;<\/span>)|(?<=160;<\/span>)/om;
 our $ENDWW    = qr/$|(?=[ \t\n\,\.\;\:\!\?\)])|(?=<\/p>)|(?=<span\b[^>]*> )/om;
 our $PROTOCOL = qr/^(file|ftp|gopher|https?|irc|news|nntp|telnet|mailto):/;
+
+# Colours with colour settings in DefaultPreferences.
+our @TML_COLOURS = (
+    'BLACK',  'MAROON', 'PURPLE', 'PINK',       'RED',   'ORANGE',
+    'YELLOW', 'LIME',   'AQUA',   'AQUAMARINE', 'GREEN', 'OLIVE',
+    'BROWN',  'NAVY',   'TEAL',   'BLUE',       'GRAY',  'SILVER',
+    'WHITE',
+);
+
+our @EXPORT = qw( $STARTWW $ENDWW $PROTOCOL @TML_COLOURS );
 
 1;
 __END__

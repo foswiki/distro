@@ -347,7 +347,7 @@ sub test_render_formfield_with_form {
     my $text   = $meta->text;
     my $res    = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURLPATH{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
@@ -486,7 +486,7 @@ TOPIC
 Form definition 'NonExistantPluginTestForm' not found
 </span>
 <div class="foswikiForm foswikiFormStep">
-<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>
+<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURLPATH{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>
 <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>
  <tr style='vertical-align:top'>
   <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> ExtensionName </td>
