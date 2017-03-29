@@ -688,6 +688,7 @@ sub writeCompletePage {
     # rendered from the cache
     my $binary_body = 0;
 
+    $contentType ||= $this->{response}->getHeader("Content-Type");
     $contentType ||= 'text/html';
 
     my $cgis = $this->{users}->getCGISession();
