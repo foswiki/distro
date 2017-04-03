@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1473352704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490749805" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -395,7 +395,9 @@ ACRONYM
 %BR% 
 Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[wiki word]]= links to topic WikiWord.  You can also refer to a different web and use anchors.
 %BR%
-%T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
+%T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point. 
+%BR%
+%T% To use a square bracket inside another URL, they need to be URL encoded.  Replace [ with =%5B= and ] with =%5D=.
 </td><td>
 <pre class="tml">
 [[wiki syntax]]

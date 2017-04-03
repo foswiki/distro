@@ -1,0 +1,39 @@
+%META:TOPICINFO{author="ProjectContributor" date="1491249557" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ PARENTTOPIC -- displays meta-data
+This macro displays the parent information of a topic.  By default it will
+only display the name of the immediate parent to the current topic. Parameters
+can be used to cause the entire topic parent hierarchy to be traversed.
+
+If the requested topic does not have a parent, no output is generated.
+
+This macro is a shorthand for the =%<nop>META{"parent" ... }%= macro with
+some changes:
+
+---++ Parameters
+
+     | *Parameter* | *Description* | *Default* |
+   | =recurse= | Recursing up the tree incurs some cost. | =off= |
+   | =topic= | Name of the topic to be displayed. | =current topic= |
+   | =depth= | Return only the specified ancestor. (Requires =recurse="on"=) | |
+   | =nowebhome= | Suppress <nop>%HOMETOPIC% | |
+   | =format= | Format string used to display each parent topic \
+        where =$web= expands to the web name, and =$topic= expands to the \
+        topic name | =[<nop>[$web.$topic][$topic]]= |
+   | =separator= | Separator between parents | =&gt;= |
+   | =prefix= | Prefix that goes before parents, but only if there \
+        are parents | |
+   | =suffix= | Suffix, only appears if there are parents | |
+
+---++ Examples
+
+| *Write:* | *To display:* |
+| =%<nop>PARENTTOPIC%= | %PARENTTOPIC% |
+| =%<nop>PARENTTOPIC{recurse="on"}%= | %PARENTTOPIC{recurse="on"}% |
+| =%<nop>PARENTTOPIC{depth="3" recurse="on"}%= | %PARENTTOPIC{depth="3" recurse="on"}% |
+| =%<nop>PARENTTOPIC{recurse="on" topic="%SYSTEMWEB%.InterWikis"}%= | %PARENTTOPIC{recurse="on" topic="%SYSTEMWEB%.InterWikis"}% |
+| =%<nop>PARENTTOPIC{recurse="on" prefix="$n   * " separator="$n   * "}%= | _bullet list, see below:_ |
+%PARENTTOPIC{recurse="on" prefix="$n   * " separator="$n   * "}%
+
+---++ Related
+[[VarQUERY][QUERY]], [[VarMETA][META]]

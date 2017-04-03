@@ -524,10 +524,36 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
     # Change ' ![[...' to ' [<nop>[...' to protect from further rendering
     $text =~ s/(^|\s)\!\[\[/$1\[<nop>\[/gm;
 
+    my $remove_v6 = {};
+    if ( eval 'require Regexp::IPv6' ) {
+
+        # Remove IPv6 addresses,  as they break square bracket links.
+        $text =
+          $this->_takeOutProtected( $text, qr/\[$Regexp::IPv6::IPv6_re\]/s,
+            'ipv6', $remove_v6 );
+    }
+
     # Spaced-out Wiki words with alternative link text
     # i.e. [[$1][$3]]
-    $text =~ s(\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\])
-        (_handleSquareBracketedLink( $this,$topicObject,$1,$3))ge;
+    $text =~ s(
+           \[\[
+             (
+               [^\]\[\n]+         # The link
+             )
+           \]
+           (?:
+             \[
+             (
+               [^\]\n]+           # Optional link text
+             )
+             \]
+           )?
+           \]
+            )
+        (_handleSquareBracketedLink( $this,$topicObject,$1,$2))gex;
+
+    $this->_putBackProtected( \$text, 'ipv6', $remove_v6 )
+      if ( scalar $remove_v6 );
 
     # URI - don't apply if the URI is surrounded by url() to avoid naffing
     # CSS
@@ -1798,7 +1824,8 @@ sub _putBackProtected {
         # Reset position for next pass
         $pos = 0;
 
-        delete( $map->{$placeholder} );
+        #SMELL: Can't do this, [[links]] might duplicate placeholders
+        #delete( $map->{$placeholder} );
     }
 
     $ntext .= $otext;    # Append any remaining text.

@@ -271,6 +271,7 @@ BEGIN {
         META                 => undef,                              # deprecated
         METASEARCH           => undef,                              # deprecated
         NONCE                => undef,
+        PARENTTOPIC          => undef,
         PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
         NOP =>
@@ -688,6 +689,7 @@ sub writeCompletePage {
     # rendered from the cache
     my $binary_body = 0;
 
+    $contentType ||= $this->{response}->getHeader("Content-Type");
     $contentType ||= 'text/html';
 
     my $cgis = $this->{users}->getCGISession();
