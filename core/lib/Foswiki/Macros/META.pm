@@ -25,7 +25,7 @@ sub META {
         my ( $nweb, $ntopic ) =
           Foswiki::Func::normalizeWebTopicName( $topicObject->web,
             $params->{topic} );
-        if ( $nweb ne $topicObject->web && $ntopic ne $topicObject->topic ) {
+        if ( $nweb ne $topicObject->web || $ntopic ne $topicObject->topic ) {
             my $meta = new Foswiki::Meta( $this, $nweb, $ntopic );
             $topicObject = $meta;
         }
