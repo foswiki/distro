@@ -235,6 +235,7 @@ data/System/VarMETASEARCH.txt 0644
 data/System/VarNONCE.txt 0644
 data/System/VarNOP.txt 0644
 data/System/VarNOTIFYTOPIC.txt 0644
+data/System/VarPARENTTOPIC.txt 0644
 data/System/VarPERLDEPENDENCYREPORT.txt 0644 System dependency report
 data/System/VarPLUGINDESCRIPTIONS.txt 0644
 data/System/VarPLUGINVERSION.txt 0644
@@ -566,8 +567,9 @@ lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
+lib/Foswiki/Macros/PARENTTOPIC.pm 0444
 lib/Foswiki/Macros/PENDINGREGISTRATIONS.pm 0444
-lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
+lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/PUBURLPATH.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
