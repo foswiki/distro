@@ -253,8 +253,8 @@ sub _ensureRead {
 
     $downToVersion ||= 0;    # just in case
 
-    # If we only need tha latest and we already have the head, that's our rev
-    $downToVersion = $this->{head} if !$downToVersion && $this->{head};
+    # If we only need the latest and we already have the head, that's our rev
+    $downToVersion = $this->{head} if ( !$downToVersion && $this->{head} );
 
     $downToVersion = 1 if $downToVersion < 0;    # read everything
 
@@ -286,9 +286,10 @@ sub _ensureRead {
 
 #print STDERR "Reading ".($historyOnly?'history':'everything')." to $downToVersion\n";
 
-# We *will* end up re-reading the history if we previously only read the history; there is
-# no way to restart the parse mid-stream (though an ftell and fseek would do it if we saved
-# the rest of the state)
+    # We *will* end up re-reading the history if we previously only
+    # read the history; there is no way to restart the parse mid-stream
+    # (though an ftell and fseek would do it if we saved the rest of the
+    # state)
     while (1) {
         ( $_, $string ) = _readTo( $fh, $term );
         last if ( !$_ );
@@ -296,12 +297,15 @@ sub _ensureRead {
         #print STDERR "expecting $state: seeing $_\n";
 
         if ( $state eq 'admin.head' ) {
-            if (/^head\s+([0-9]+)\.([0-9]+);$/o) {
+            if (/^head\s+([0-9]+)\.([0-9]+);$/) {
                 ASSERT( $1 eq 1 ) if DEBUG;
                 $headNum = $2;
 
-               # If $downToVersion is 0, we now know what version to ready up to
-                $downToVersion = $headNum unless $downToVersion;
+                # If $downToVersion is 0, we now know what version to read up to
+                $downToVersion = $headNum
+                  if $downToVersion <= 0
+                  || $downToVersion > $headNum;
+
                 $state = 'admin.access';    # Don't support branches
             }
             else {
@@ -533,8 +537,11 @@ sub ci {
     }
     my $head = $this->{head} || 0;
     if ($head) {
-        my $lNew  = _split($data);
-        my $lOld  = _split( $this->{revs}[$head]->{text} );
+        my $lNew = _split($data);
+
+        # The top of the revisions array contains the plain text of
+        # the topic in it's latest incarnation, with no differences.
+        my $lOld = _split( $this->{revs}[$head]->{text} );
         my $delta = _diff( $lNew, $lOld );
         $this->{revs}[$head]->{text} = $delta;
     }
@@ -678,6 +685,9 @@ sub _patch {
             my $length = $3;
             if ( $act eq 'd' ) {
                 my $start = $offset + $adj - 1;
+
+                # If the splice fails, it's almost certainly a problem in the
+                # later revision
                 my @removed = splice( @$text, $start, $length );
                 $adj -= $length;
                 $pos++;
@@ -685,15 +695,18 @@ sub _patch {
             elsif ( $act eq 'a' ) {
                 my @toAdd = @$delta[ $pos + 1 .. $pos + $length ];
 
-                # Fix for Item2957
-                # Check if the last element of what is to be added contains
-                # a valid marker. If it does, the chances are very high that
-                # this topic was saved using a broken version of RcsLite, and
-                # a line ending has been lost.
+                # Fixes for twikibug Item2957
+                # Check if the last element of what is to be
+                # added contains a valid marker. If it does, the chances
+                # are very high that this topic was saved using a broken
+                # version of RcsLite, and a line ending has been lost.
                 # As soon as a topic containing this problem is re-saved
                 # using this code, the need for this hack should go away,
                 # as the line endings will now be correct.
-                if (   scalar(@toAdd)
+                # If the first element contains a valid marker this is
+                # also indicative  of a problem, but it's unclear how to
+                # resolve that as the cause is unknown.
+                if (scalar(@toAdd)
                     && $toAdd[$#toAdd] =~ /^([ad])(\d+)\s(\d+)$/
                     && $2 > $pos )
                 {
@@ -726,6 +739,7 @@ sub getRevision {
         return $this->SUPER::getRevision($version);
     }
 
+    $version = 0 if $version < 0;
     $this->_ensureRead( $version, 0 );
 
     return $this->SUPER::getRevision($version)
@@ -734,12 +748,11 @@ sub getRevision {
     my $head = $this->{head};
     return $this->SUPER::getRevision($version) unless $head;
 
-    if ( $version == $head ) {
-        return ( $this->{revs}[$version]->{text}, 1 );
-    }
-    $version = $head if $version > $head;
     my $headText = $this->{revs}[$head]->{text};
-    my $text     = _split($headText);
+    if ( $version <= 0 || $version >= $head ) {
+        return ( $headText, 1 );
+    }
+    my $text = _split($headText);
     return ( _patchN( $this, $text, $head - 1, $version ), 0 );
 }
 

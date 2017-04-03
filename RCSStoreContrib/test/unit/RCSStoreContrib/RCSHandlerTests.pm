@@ -66,7 +66,8 @@ sub fixture_groups {
     my $groups = [];
 
     push( @$groups, 'RcsLite' );
-    return ($groups);
+
+    #    return ($groups);
 
     if ( FoswikiStoreTestCase::rcs_is_installed() ) {
         push( @$groups, 'RcsWrap' );
@@ -910,6 +911,7 @@ HERE
     $rcs->addRevisionFromText( $rev2, "more", "idiot", $time );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
     $rcs->addRevisionFromText( $rev3, "more", "idiot", $time );
+
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
     my ($text) = $rcs->getRevision(1);
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
@@ -917,12 +919,29 @@ HERE
     }
     $this->assert_equals( $rev1, $text );
 
+    my $isl;
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    ($text) = $rcs->getRevision(2);
+    ( $text, $isl ) = $rcs->getRevision(1);
+    $this->assert_equals( $rev1, $text );
+    $this->assert( !$isl );
+    $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
+    ( $text, $isl ) = $rcs->getRevision(2);
+    $this->assert( !$isl );
     $this->assert_equals( $rev2, $text );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    ($text) = $rcs->getRevision(3);
+    ( $text, $isl ) = $rcs->getRevision(3);
+    $this->assert($isl);
     $this->assert_equals( $rev3, $text );
+    $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
+    ( $text, $isl ) = $rcs->getRevision(4);
+    $this->assert($isl);
+    $this->assert_equals( $rev3, $text );
+    ( $text, $isl ) = $rcs->getRevision(0);
+    $this->assert($isl);
+    $this->assert_equals( $rev3, $text );
+    ( $text, $isl ) = $rcs->getRevision(-1);
+    $this->assert_equals( $rev3, $text );
+    $this->assert($isl);
 }
 
 sub verify_Item3122 {

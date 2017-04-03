@@ -129,6 +129,8 @@ sub ci {
 
     $comment = 'none' unless $comment;
 
+    undef $this->{numRevisions};
+
     my ( $cmd, $rcsOutput, $exit, $stderr );
     if ( defined($date) ) {
         require Foswiki::Time;
@@ -187,6 +189,7 @@ sub repRev {
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
     _lock($this);
+    undef $this->{numRevisions};
     my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{ciDateCmd},
         DATE     => $date,
@@ -213,17 +216,17 @@ sub _deleteRevision {
     my ( $this, $rev ) = @_;
 
     # delete latest revision (unlock (may not be needed), delete revision)
-    my ( $rcsOut, $exit ) =
+    my ( $rcsOut, $exit, $stderr ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
         FILENAME => _encode( $this->{file}, 1 ) );
     if ($exit) {
         throw Error::Simple(
-            $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
+            "$Foswiki::cfg{RCS}{unlockCmd} failed: $rcsOut $stderr");
     }
 
     chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file}, 1 ) );
 
-    ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+    ( $rcsOut, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
         REVISION => '1.' . $rev,
         FILENAME => _encode( $this->{file}, 1 )
@@ -232,13 +235,13 @@ sub _deleteRevision {
     if ($exit) {
         throw Error::Simple( $Foswiki::cfg{RCS}{delRevCmd} . ' of '
               . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOut );
+              . " failed: $rcsOut $stderr" );
     }
 
     # Update the checkout
+    undef $this->{numRevisions};
     $rev--;
-    ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+    ( $rcsOut, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{coCmd},
         REVISION => '1.' . $rev,
         FILENAME => _encode( $this->{file}, 1 )
@@ -247,8 +250,7 @@ sub _deleteRevision {
     if ($exit) {
         throw Error::Simple( $Foswiki::cfg{RCS}{coCmd} . ' of '
               . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOut );
+              . " failed: $rcsOut $stderr" );
     }
     $this->saveFile( $this->{file}, $rcsOut );
 }
@@ -265,17 +267,13 @@ sub getRevision {
     {
 
         # Get the latest rev from the cache
-        return ( $this->SUPER::getRevision($version) );
+        return ( $this->SUPER::getRevision($version), 1 );
     }
 
     # We've been asked for an explicit rev. The rev might be outside the
     # range of revs in RCS. RCS will return the latest, though it reports
-    # the rev retrieved to STDERR (no use to us, as we have no access
-    # to STDERR)
-
-    # SMELL: we need to determine if the rev we are returning is the latest.
-    # co prints the retrieved revision, but unfortunately it prints it
-    # to STDERR, which the Sandbox can't retrieve.
+    # the rev retrieved to STDERR
+    $version = 2 ^ 31 if $version <= 0;
 
     my $tmpfile;
     my $tmpRevFile;
@@ -313,7 +311,16 @@ sub getRevision {
     if ( defined $stderr
         && $stderr =~ /revision 1\.(\d+)/s )
     {
-        $isLatest = ( $version >= $1 );
+        if ( $version > $1 ) {
+            $this->{numRevisions} = $1;
+            $isLatest = 1;
+        }
+        elsif ( defined $this->{numRevisions} ) {
+            $isLatest = ( $1 == $this->{numRevisions} );
+        }
+        else {
+            $isLatest = ( $1 == $this->_numRevisions() );
+        }
     }
 
     # otherwise we will have to resort to numRevisions to tell if
@@ -376,11 +383,12 @@ sub getInfo {
 sub _numRevisions {
     my $this = shift;
 
+    return $this->{numRevisions} if defined $this->{numRevisions};
+
     unless ( $this->revisionHistoryExists() ) {
 
         # If there is no history, there can only be one.
-        return 1 if $this->storedDataExists();
-        return 0;
+        return $this->{numRevisions} = $this->storedDataExists() ? 1 : 0;
     }
 
     my ( $rcsOutput, $exit ) =
@@ -394,12 +402,12 @@ sub _numRevisions {
               . $rcsOutput );
     }
     if ( $rcsOutput =~ /head:\s+\d+\.(\d+)\n/ ) {
-        return $1;
+        return $this->{numRevisions} = $1;
     }
     if ( $rcsOutput =~ /total revisions: (\d+)\n/ ) {
-        return $1;
+        return $this->{numRevisions} = $1;
     }
-    return 1;
+    return $this->{numRevisions} = 1;
 }
 
 # implements Rcs::Handler
