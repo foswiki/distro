@@ -58,28 +58,36 @@ word       ::=  id | num | string | :
 Identifiers are case sensitive. Keywords are in lower case only. The
 sets of keywords and identifiers can overlap. In most environments RCS
 uses the ISO 8859/1 encoding: visible graphic characters are codes
-041-176 and 240-377, and white space characters are codes 010-015 and 040.
+041-176 and 240-377, and white space characters are codes 010-015 and
+040.
 
-Dates, which appear after the date keyword, are of the form Y.mm.dd.hh.mm.ss,
-where Y is the year, mm the month (01-12), dd the day (01-31), hh the hour
-(00-23), mm the minute (00-59), and ss the second (00-60). Y contains just
-the last two digits of the year for years from 1900 through 1999, and all
-the digits of years thereafter. Dates use the Gregorian calendar; times
-use UTC.
+Dates, which appear after the date keyword, are of the form
+Y.mm.dd.hh.mm.ss, where Y is the year, mm the month (01-12), dd the
+day (01-31), hh the hour (00-23), mm the minute (00-59), and ss the
+second (00-60). Y contains just the last two digits of the year for
+years from 1900 through 1999, and all the digits of years
+thereafter. Dates use the Gregorian calendar; times use UTC.
 
-The newphrase productions in the grammar are reserved for future extensions
-to the format of RCS files. No newphrase will begin with any keyword already
-in use.
+The newphrase productions in the grammar are reserved for future
+extensions to the format of RCS files. No newphrase will begin with
+any keyword already in use.
 
-Revisions consist of a sequence of 'a' and 'd' edits that need to be
-applied to rev N+1 to get rev N. Each edit has an offset (number of lines
-from start) and length (number of lines). For 'a', the edit is followed by
-length lines (the lines to be inserted in the text). For example:
+The head of the revisions array contains the plain text of the file in
+it's most recent incarnation.
+
+Earlier revisions consist of a sequence of 'a' and 'd' edits that need
+to be applied to rev N+1 to get rev N. Each edit has an offset (number
+of lines from start) and length (number of lines). For 'a', the edit
+is followed by length lines (the lines to be inserted in the
+text). For example:
 
 d1 3     means "delete three lines starting with line 1
 a4 2     means "insert two lines at line 4'
 xxxxxx   is the new line 4
 yyyyyy   is the new line 5
+
+Edits are applied sequentially i.e. edits are relative to the text as
+it exists after the previous edit has been applied.
 
 =cut
 
@@ -97,16 +105,19 @@ use Error qw( :try );
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 
-# SMELL: This code uses the log field for the checkin comment. This field is alongside the actual text
-# of the revision, and is not recorded in the history. This is a PITA because it means the comment field
-# can't be retrieved without reading up to the text change for the version requested - even though foswiki
-# doesn't actually use that part of the info record for anything much. We could rework the store API to
-# separate the log info, but it would be a lot of work. Using this constant you can ignore the log info in
-# getInfo calls. The tests will fail, but the core will run a lot faster.
+# SMELL: This code uses the log field for the checkin comment. This
+# field is alongside the actual text of the revision, and is not
+# recorded in the history. This is a PITA because it means the comment
+# field can't be retrieved without reading up to the text change for the
+# version requested - even though foswiki doesn't actually use that part
+# of the info record for anything much. We could rework the store API to
+# separate the log info, but it would be a lot of work. Using this
+# constant you can ignore the log info in getInfo calls. The tests will
+# fail, but the code will run faster.
 use constant CAN_IGNORE_COMMENT => 0;    # 1
 
 #
-# As well as the field inherited from Rcs::Handler, the object for each file
+# As well as the fields inherited from Rcs::Handler, the object for each file
 # read consists of the following fields:
 # head    - version number of head
 # access  - the access field from the file
@@ -239,6 +250,7 @@ sub _readTo {
 #
 # Common signatures are:
 # (0, 1) read the history for the most recent version only
+# (0, 0) read everything for the most recent version
 # (-1, 1) read the entire history but no text
 # (-1, 0) read the entire history and text
 # ($N, 0) read everything down to version N
@@ -400,6 +412,19 @@ sub _ensureRead {
         elsif ( $state eq 'deltatext.text' ) {
             if (/text\s*$/) {
                 $state = 'deltatext.log';
+
+                # SMELL: This is an hack to repair corrupt history. It
+                # detects the situation where a diff has been fed as
+                # the text to _diff - it's unclear how this happens,
+                # or if indeed it still happens. The most recent
+                # instance we have of it is on 1.1.9, but there is
+                # insufficient information to reproduce it. Note this
+                # repair will stick after the next time the topic is
+                # saved.
+                if ( $string =~ s/^d\d+ \d+\na\d+ \d+\n([ad]\d+ \d+\n)/$1/s ) {
+                    print STDERR
+"WARNING: Potentially corrupt RCS history $this->{file} at revision $dnum appears to be a diff of diffs, and has been repaired\n";
+                }
                 $revs[$dnum]->{text} = $string;
                 if ( $dnum == 1 ) {
                     $state = 'parsed';
@@ -476,8 +501,7 @@ HERE
     print $file 'next', "\t";
     print $file ";\n";
 
-    print $file "\n\n", 'desc', "\n",
-      _formatString( $this->{desc} . "\n" ) . "\n\n";
+    print $file "\n\n", 'desc', "\n", _formatString( $this->{desc} ) . "\n\n";
 
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
@@ -539,13 +563,16 @@ sub ci {
     if ($head) {
         my $lNew = _split($data);
 
-        # The top of the revisions array contains the plain text of
-        # the topic in it's latest incarnation, with no differences.
+        # Head rev is always plain text
         my $lOld = _split( $this->{revs}[$head]->{text} );
         my $delta = _diff( $lNew, $lOld );
+
+        # No longer the head ref, it's now delta
         $this->{revs}[$head]->{text} = $delta;
     }
     $head++;
+
+    # New head rev is plain text
     $this->{revs}[$head]->{text}   = $data;
     $this->{head}                  = $head;
     $this->{revs}[$head]->{log}    = $log;
@@ -582,8 +609,21 @@ sub _writeMe {
 sub repRev {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->_ensureRead( -1, 0 );
-    _delLastRevision($this);
-    return $this->ci( 0, $text, $comment, $user, $date );
+
+    # If the head is rev 1, simply rewrite
+    if ( $this->{head} == 1 ) {
+        $this->{revs}[1]->{text}   = $text;
+        $this->{revs}[1]->{log}    = $comment;
+        $this->{revs}[1]->{author} = $user;
+        $this->{revs}[1]->{date}   = ( defined $date ? $date : time() );
+
+        _writeMe($this);
+    }
+    else {
+        # otherwise delete the latest rev and check in a new one
+        _delLastRevision($this);
+        return $this->ci( 0, $text, $comment, $user, $date );
+    }
 }
 
 # implements Rcs::Handler
@@ -602,7 +642,10 @@ sub _delLastRevision {
     my $numRevisions = $this->{head};
     return unless $numRevisions;
     $numRevisions--;
-    my ($lastText) = $this->getRevision($numRevisions);
+
+    # Recover plain text of prev rev
+    my ( $lastText, $isl ) = $this->getRevision($numRevisions);
+    ASSERT( !$isl, "NR $numRevisions HD $this->{head}" ) if DEBUG;
     $this->{revs}[$numRevisions]->{text} = $lastText;
     $this->{head} = $numRevisions;
     $this->saveFile( $this->{file}, $lastText );
@@ -668,17 +711,24 @@ sub getInfo {
     return $this->SUPER::getInfo($version);
 }
 
-# Apply delta (patch) to text.  Note that RCS stores reverse deltas,
-# so the text for revision x is patched to produce text for revision x-1.
+# Apply delta (patch) to text
+# \@text reference to array of text lines
+# \@delta reference to aray of edits
+# $rev the revision we're building (for debug only)
 sub _patch {
+    my ( $this, $text, $delta, $rev ) = @_;
+    local $SIG{__WARN__} = sub {
+        print STDERR
+"WARNING: Potentially corrupt RCS history $this->{file} at revision $rev: "
+          . shift . "\n";
+    };
 
-    # Both params are references to arrays
-    my ( $text, $delta ) = @_;
-    my $adj = 0;
-    my $pos = 0;
-    my $max = $#$delta;
-    while ( $pos <= $max ) {
-        my $d = $delta->[$pos];
+    my $adj       = 0;
+    my $delta_i   = 0;
+    my $delta_max = $#$delta;
+
+    while ( $delta_i <= $delta_max ) {
+        my $d = $delta->[$delta_i];
         if ( $d =~ /^([ad])(\d+)\s(\d+)$/ ) {
             my $act    = $1;
             my $offset = $2;
@@ -688,12 +738,20 @@ sub _patch {
 
                 # If the splice fails, it's almost certainly a problem in the
                 # later revision
+                if ( $start + $length > scalar(@$text) ) {
+
+                    # Skip it?
+                    warn "Underflow at $d, only "
+                      . scalar(@$text)
+                      . " available";
+                    $length = scalar(@$text) - $start;
+                }
                 my @removed = splice( @$text, $start, $length );
                 $adj -= $length;
-                $pos++;
+                $delta_i++;
             }
             elsif ( $act eq 'a' ) {
-                my @toAdd = @$delta[ $pos + 1 .. $pos + $length ];
+                my @toAdd = @$delta[ $delta_i + 1 .. $delta_i + $length ];
 
                 # Fixes for twikibug Item2957
                 # Check if the last element of what is to be
@@ -706,23 +764,27 @@ sub _patch {
                 # If the first element contains a valid marker this is
                 # also indicative  of a problem, but it's unclear how to
                 # resolve that as the cause is unknown.
-                if (scalar(@toAdd)
+                if (   scalar(@toAdd)
                     && $toAdd[$#toAdd] =~ /^([ad])(\d+)\s(\d+)$/
-                    && $2 > $pos )
+                    && $2 > $delta_i )
                 {
+                    ASSERT(0) if DEBUG;
                     pop(@toAdd);
                     push( @toAdd, <<'HERE');
 <div class="foswikiAlert">WARNING: THIS TEXT WAS ADDED BY THE SYSTEM TO CORRECT A PROBABLE ERROR IN THE HISTORY OF THIS TOPIC.</div>
 HERE
-                    $pos--;   # so when we add $length we get to the right place
+                    $delta_i
+                      --;    # so when we add $length we get to the right place
                 }
                 splice( @$text, $offset + $adj, 0, @toAdd );
 
                 $adj += $length;
-                $pos += $length + 1;
+                $delta_i += $length + 1;
             }
         }
         else {
+            # Potentially corrupt delta?
+            ASSERT( !$d, $d ) if DEBUG;
             last;
         }
     }
@@ -732,40 +794,56 @@ HERE
 sub getRevision {
     my ( $this, $version ) = @_;
 
-    return $this->SUPER::getRevision($version) unless $version;
-    if ( !$version && !$this->noCheckinPending() ) {
+    $version = 0 if !$version || $version < 0;
 
-        # $version was not given and there's a checkin pending
-        return $this->SUPER::getRevision($version);
+    # If !$version always get latest (which may not be checked in yet)
+    unless ($version) {
+        return ( $this->readFile( $this->{file} ), 1 )
+          if $this->storedDataExists();
+
+        # If there's no stored data, fall through to use the the
+        # head of the ,v
     }
 
-    $version = 0 if $version < 0;
+    # Make sure we're read up to the target version
     $this->_ensureRead( $version, 0 );
 
-    return $this->SUPER::getRevision($version)
-      if $this->{state} eq 'nocommav';
+    # If there's no history, return latest
+    if ( $this->{state} eq 'nocommav' || !$this->{head} ) {
+        return ( $this->readFile( $this->{file} ), 1 )
+          if $this->storedDataExists();
+        die "Cannot getRevision($version) of non-existant $this->{file}";
+    }
 
-    my $head = $this->{head};
-    return $this->SUPER::getRevision($version) unless $head;
-
+    my $head     = $this->{head};
     my $headText = $this->{revs}[$head]->{text};
-    if ( $version <= 0 || $version >= $head ) {
-        return ( $headText, 1 );
-    }
-    my $text = _split($headText);
-    return ( _patchN( $this, $text, $head - 1, $version ), 0 );
-}
 
-# Apply reverse diffs until we reach our target rev
-sub _patchN {
-    my ( $this, $text, $version, $target ) = @_;
+    # If we're undecided or above the history, return the (possibly
+    # unchecked-in) head
+    if ( $version <= 0 || $version > $head ) {
+        return ( $this->readFile( $this->{file} ), 1 )
+          if ( $this->storedDataExists() );
 
-    while ( $version >= $target ) {
-        my $deltaText = $this->{revs}[ $version-- ]->{text};
-        my $delta     = _split($deltaText);
-        _patch( $text, $delta );
+        # No file, so return the head
+        $version = $head;
     }
-    return join( "\n", @$text );
+
+    # Head version is the top plain text
+    return ( $headText, 1 ) if $version == $head;
+
+    # Otherwise we need to unwrap deltas
+    my $lines   = _split($headText);
+    my $cur_ver = $head;
+
+    #print STDERR "VER $version HD $head\n";
+    # Apply reverse diffs until we reach our target rev
+    while ( $cur_ver > $version ) {
+        my $deltaText = $this->{revs}[ --$cur_ver ]->{text};
+
+        #print STDERR "$cur_ver DELTAS:$deltaText:SATLED\n";
+        $this->_patch( $lines, _split($deltaText), $cur_ver );
+    }
+    return ( join( "\n", @$lines ), 0 );
 }
 
 # Split a string on \n making sure we have all newlines. If the string
