@@ -226,7 +226,6 @@ sub _readTo {
         }
     }
 
-    #print STDERR "TOK: '$buf' STRING: '$string'\n";
     return ( $buf, $string );
 }
 
@@ -296,8 +295,6 @@ sub _ensureRead {
     my @revs    = ();
     my $dnum    = '';
 
-#print STDERR "Reading ".($historyOnly?'history':'everything')." to $downToVersion\n";
-
     # We *will* end up re-reading the history if we previously only
     # read the history; there is no way to restart the parse mid-stream
     # (though an ftell and fseek would do it if we saved the rest of the
@@ -305,8 +302,6 @@ sub _ensureRead {
     while (1) {
         ( $_, $string ) = _readTo( $fh, $term );
         last if ( !$_ );
-
-        #print STDERR "expecting $state: seeing $_\n";
 
         if ( $state eq 'admin.head' ) {
             if (/^head\s+([0-9]+)\.([0-9]+);$/) {
@@ -562,7 +557,6 @@ sub ci {
     my $head = $this->{head} || 0;
     if ($head) {
         my $lNew = _split($data);
-
         # Head rev is always plain text
         my $lOld = _split( $this->{revs}[$head]->{text} );
         my $delta = _diff( $lNew, $lOld );
@@ -612,6 +606,7 @@ sub repRev {
 
     # If the head is rev 1, simply rewrite
     if ( $this->{head} == 1 ) {
+        $this->saveFile( $this->{file}, $text );
         $this->{revs}[1]->{text}   = $text;
         $this->{revs}[1]->{log}    = $comment;
         $this->{revs}[1]->{author} = $user;
@@ -835,12 +830,9 @@ sub getRevision {
     my $lines   = _split($headText);
     my $cur_ver = $head;
 
-    #print STDERR "VER $version HD $head\n";
     # Apply reverse diffs until we reach our target rev
     while ( $cur_ver > $version ) {
         my $deltaText = $this->{revs}[ --$cur_ver ]->{text};
-
-        #print STDERR "$cur_ver DELTAS:$deltaText:SATLED\n";
         $this->_patch( $lines, _split($deltaText), $cur_ver );
     }
     return ( join( "\n", @$lines ), 0 );
@@ -878,7 +870,6 @@ sub _diff {
     require Algorithm::Diff;
     my $diffs = Algorithm::Diff::diff( $new, $old );
 
-    #print STDERR "DIFF '",join('\n',@$new),"' and '",join('\n',@$old),"'\n";
     # Convert the differences to RCS format
     my $adj   = 0;
     my $out   = '';
@@ -890,7 +881,6 @@ sub _diff {
         foreach my $line (@$chunk) {
             my ( $sign, $pos, $what ) = @$line;
 
-            #print STDERR "....$sign $pos $what\n";
             if ( $chunkSign && $chunkSign ne $sign ) {
                 $adj += _addChunk( $chunkSign, \$out, \@lines, $start, $adj );
             }
@@ -904,7 +894,6 @@ sub _diff {
         $adj += _addChunk( $chunkSign, \$out, \@lines, $start, $adj );
     }
 
-    #print STDERR "CONVERTED\n",$out,"\n";
     return $out;
 }
 
