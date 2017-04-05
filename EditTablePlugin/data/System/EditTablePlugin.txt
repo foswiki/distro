@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490657423" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1491353723" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Edit Table Plugin
 
@@ -197,9 +197,8 @@ Test if the Plugin is correctly installed:
 
 |  Copyright: | &copy; 2008-2012, Arthur Clemens, 2008-2015, Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  04 Apr 2017: | 4.46: Item14324: Unescaped left brace - Perl 5.25.10 |
 |  28 Nov 2016: | 4.45: Released with Foswiki 2.1.3<br/>\
                   Foswikitask:Item14236: Include compressed and gziped versions of css and js. |
 |  19 Sep 2015: | 4.44: Foswikitask:Item13730: EditTablePlugin uses unescaped braces and calls CGI::param in list context. |
@@ -269,15 +268,15 @@ Test if the Plugin is correctly installed:
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1490657423" size="7823" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h"  date="1490657423" size="2017" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h"  date="1490657423" size="3199" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h"  date="1490657423" size="145" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h"  date="1490657423" size="68" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h"  date="1490657423" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1491353723" size="7823" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h"  date="1491353723" size="2017" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h"  date="1491353723" size="3199" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h"  date="1491353723" size="145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h"  date="1491353723" size="68" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
