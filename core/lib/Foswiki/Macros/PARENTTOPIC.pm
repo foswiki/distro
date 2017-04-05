@@ -6,6 +6,7 @@ use warnings;
 
 use Foswiki::Meta ();
 use Foswiki::Func ();
+use Foswiki::Render::Parent;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -14,19 +15,15 @@ BEGIN {
     }
 }
 
-# See System.VarMETA
-# Before calling, ensure the topicObject is loaded with the version of the
-# topic you intend to display!
-sub META {
+sub PARENTTOPIC {
     my ( $this, $params, $topicObject ) = @_;
 
-    my $option = $params->{_DEFAULT} || '';
     if ( defined( $params->{topic} ) ) {
         my ( $nweb, $ntopic ) =
           Foswiki::Func::normalizeWebTopicName( $topicObject->web,
             $params->{topic} );
         if ( $nweb ne $topicObject->web || $ntopic ne $topicObject->topic ) {
-            my $meta = new Foswiki::Meta( $this, $nweb, $ntopic );
+            my $meta = Foswiki::Meta->load( $this, $nweb, $ntopic );
             $topicObject = $meta;
         }
     }
@@ -35,48 +32,18 @@ sub META {
     my $loadedRev = $topicObject->getLoadedRev();
     $topicObject = $topicObject->load() unless defined $loadedRev;
 
-    if ( $option eq 'form' ) {
+    $params->{dontrecurse} = ( Foswiki::isTrue( $params->{recurse} ) ) ? 0 : 1;
 
-        # META:FORM and META:FIELD
-        return $topicObject->renderFormForDisplay();
-    }
-    elsif ( $option eq 'formfield' ) {
+    return expandStandardEscapes(
+        Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
 
-        # a formfield from within topic text
-        return $topicObject->renderFormFieldForDisplay(
-            $params->get('name'),
-            Foswiki::isTrue( $params->{display} )
-            ? '$value(display)'
-            : '$value',
-            $params
-        );
-    }
-    elsif ( $option eq 'attachments' ) {
-
-        # renders attachment tables
-        return $this->attach->renderMetaData( $topicObject, $params );
-    }
-    elsif ( $option eq 'moved' ) {
-        require Foswiki::Render::Moved;
-        return Foswiki::Render::Moved::render( $this, $topicObject, $params );
-    }
-    elsif ( $option eq 'parent' ) {
-
-        # Only parent parameter has the format option and should do std escapes
-        require Foswiki::Render::Parent;
-        return expandStandardEscapes(
-            Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
-    }
-
-    # return nothing if invalid parameter
-    return '';
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
