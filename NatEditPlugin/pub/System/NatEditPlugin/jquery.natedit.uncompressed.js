@@ -23,6 +23,7 @@ $.NatEditor = function(txtarea, opts) {
 
   // build element specific options. 
   self.opts = $.extend({}, opts, $txtarea.data());
+
   self.txtarea = txtarea;
   self.id = foswiki.getUniqueID();
   self.form = $(txtarea.form);
@@ -244,7 +245,9 @@ $.NatEditor.prototype.initGui = function() {
   });
 
   self.initForm();
-  self.engine.initGui();
+  if (self.engine) {
+    self.engine.initGui();
+  }
 
   /* disable autoMaxExpand and resizable if we are auto-resizing */
   if (self.opts.autoResize) {
@@ -252,7 +255,7 @@ $.NatEditor.prototype.initGui = function() {
     self.opts.resizable = false;
   }
 
-  if (self.opts.resizable) {
+  if (self.opts.resizable && self.engine) {
     self.engine.getWrapperElement().resizable();
   }
 
@@ -548,7 +551,7 @@ $.NatEditor.prototype.extractErrorMessage = function(text) {
 /*************************************************************************
   * things to be done before the submit goes out
   */
-$.NatEditor.prototype.beforeSubmit = function(editAction) {
+$.NatEditor.prototype.beforeSubmit = function(action) {
   var self = this, topicParentField, actionValue;
 
   if (typeof(self.form) === 'undefined' || self.form.length === 0) {
@@ -562,14 +565,14 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     topicParentField.val("none"); // trick in unsetting the topic parent
   }
 
-  if (editAction === 'addform') {
-    self.form.find("input[name='submitChangeForm']").val(editAction);
+  if (action === 'addform') {
+    self.form.find("input[name='submitChangeForm']").val(action);
   }
 
   // the action_... field must be set to a specific value in newer foswikis
-  if (editAction === 'save') {
+  if (action === 'save') {
     actionValue = 'Save';
-  } else if (editAction === 'cancel') {
+  } else if (action === 'cancel') {
     actionValue = 'Cancel';
   }
 
@@ -579,7 +582,7 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   self.form.find("input[name='action_addform']").val('');
   self.form.find("input[name='action_replaceform']").val('');
   self.form.find("input[name='action_cancel']").val('');
-  self.form.find("input[name='action_" + editAction + "']").val(actionValue);
+  self.form.find("input[name='action_" + action + "']").val(actionValue);
 
   if (typeof(StrikeOne) !== 'undefined') {
     StrikeOne.submit(self.form[0]);
@@ -588,10 +591,14 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   // WARNING: handlers are not guaranteed to be called or have finished before the content has been submitted
   self.form.trigger("beforeSubmit.natedit", {
     editor: self, 
-    action: editAction
+    action: action
   });
 
-  return self.engine.beforeSubmit(editAction) || $.Deferred().resolve().promise();
+  if (self.engine) {
+    return self.engine.beforeSubmit(action) || $.Deferred().resolve().promise();
+  }
+
+  return $.Deferred().resolve().promise();
 };
 
 /*************************************************************************
@@ -614,142 +621,25 @@ $.NatEditor.prototype.initForm = function() {
 
   /* save handler */
   self.form.find(".ui-natedit-save").on("click", function() {
-    var $editCaptcha = $("#editcaptcha"),
-      buttons,
-      doIt = function() {
-        self.hideMessages();
-        if (self.form.validate().form()) {
-          self.beforeSubmit("save").then(function() {
-            document.title = $.i18n("Saving ...");
-            $.blockUI({
-              message: '<h1> '+ $.i18n("Saving ...") + '</h1>'
-            });
-            self.form.submit();
-          });
-        }
-      };
-
-    if ($editCaptcha.length) {
-      buttons = $editCaptcha.dialog("option", "buttons");
-      buttons[0].click = function() {
-        if ($editCaptcha.find(".jqCaptcha").data("captcha").validate()) {
-          $editCaptcha.dialog("close");
-          doIt();
-        }
-      };
-      $editCaptcha.dialog("option", "buttons", buttons).dialog("open");
-    } else {
-      doIt();
-    }
+    self.exit();
     return false;
   });
 
   /* save & continue handler */
   self.form.find(".ui-natedit-checkpoint").on("click", function(ev) {
-    var topicName = self.opts.topic,
-      origTitle = document.title,
-      $editCaptcha = $("#editcaptcha"),
-      buttons,
-      doIt = function() {
-        var editAction = $(ev.currentTarget).attr("href").replace(/^#/, "");
-
-        self.hideMessages();
-        if (self.form.validate().form()) {
-          self.beforeSubmit(editAction).then(function() {
-            if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
-              // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
-              self.form.submit();
-            } else {
-              self.form.ajaxSubmit({
-                url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"), 
-                beforeSubmit: function() {
-                  self.hideMessages();
-                  document.title = $.i18n("Saving ...");
-                  $.blockUI({
-                    message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
-                  });
-                },
-                error: function(xhr, textStatus) {
-                  var message = self.extractErrorMessage(xhr.responseText || textStatus);
-                  self.showMessage("error", message);
-                },
-                complete: function(xhr) {
-                  var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
-                  if (nonce) {
-                    // patch in new nonce
-                    $("input[name='validation_key']").each(function() {
-                      $(this).val("?" + nonce);
-                    });
-                  }
-                  document.title = origTitle;
-                  $.unblockUI();
-                }
-              });
-            }
-          });
-        }
-      };
-
-    if ($editCaptcha.length) {
-      buttons = $editCaptcha.dialog("option", "buttons");
-      buttons[0].click = function() {
-        if ($editCaptcha.find(".jqCaptcha").data("captcha").validate()) {
-          $editCaptcha.dialog("close");
-          doIt();
-        }
-      };
-      $editCaptcha.dialog("option", "buttons", buttons).dialog("open");
-    } else {
-      doIt();
-    }
-
+    var action = $(ev.currentTarget).attr("href").replace(/^#/, "");
+    self.save(action);
     return false;
   });
 
   /* preview handler */
   self.form.find(".ui-natedit-preview").on("click", function() {
-
-    if (self.form.validate().form()) {
-      self.beforeSubmit("preview").then(function() {
-        self.form.ajaxSubmit({
-          url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
-          beforeSubmit: function() {
-            self.hideMessages();
-            $.blockUI({
-              message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
-            });
-          },
-          error: function(xhr, textStatus) {
-            var message = self.extractErrorMessage(xhr.responseText || textStatus);
-            $.unblockUI();
-            self.showMessage("error", message);
-          },
-          success: function(data) {
-            var $window = $(window),
-              height = Math.round(parseInt($window.height() * 0.6, 10)),
-              width = Math.round(parseInt($window.width() * 0.6, 10));
-
-            $.unblockUI();
-
-            if (width < 640) {
-              width = 640;
-            }
-
-            data = data.replace(/%width%/g, width).replace(/%height%/g, height);
-            $("body").append(data);
-          }
-        });
-      });
-    }
+    self.preview();
     return false;
   });
 
-  // TODO: only use this for foswiki engines < 1.20
   self.form.find(".ui-natedit-cancel").on("click", function() {
-    self.hideMessages();
-    self.beforeSubmit("cancel").then(function() {
-      self.form.submit();
-    });
+    self.cancel();
     return false;
   });
 
@@ -778,8 +668,7 @@ $.NatEditor.prototype.initForm = function() {
     ignore: ".foswikiIgnoreValidation",
     onsubmit: false,
     invalidHandler: function(e, validator) {
-      var errors = validator.numberOfInvalids(),
-        $form = $(validator.currentForm);
+      var errors = validator.numberOfInvalids();
 
       if (errors) {
         $.unblockUI();
@@ -815,6 +704,161 @@ $.NatEditor.prototype.initForm = function() {
     required: true
   });
 
+};
+
+/*************************************************************************
+ * submit the content to foswiki and leave the editor
+ */
+$.NatEditor.prototype.exit = function() {
+  var self = this;
+
+  self.checkCaptcha().then(function() {
+    self.hideMessages();
+    if (self.form.validate().form()) {
+      self.beforeSubmit("save").then(function() {
+        document.title = $.i18n("Saving ...");
+        $.blockUI({
+          message: '<h1> '+ $.i18n("Saving ...") + '</h1>'
+        });
+        self.form.submit();
+      });
+    }
+  });
+};
+
+/*************************************************************************
+ * display a preview of current changes in a modal dialog
+ */
+$.NatEditor.prototype.preview = function() {
+  var self = this;
+
+  if (!self.form.validate().form()) {
+    return;
+  }
+
+  self.beforeSubmit("preview").then(function() {
+    self.form.ajaxSubmit({
+      url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
+      beforeSubmit: function() {
+        self.hideMessages();
+        $.blockUI({
+          message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
+        });
+      },
+      error: function(xhr, textStatus) {
+        var message = self.extractErrorMessage(xhr.responseText || textStatus);
+        $.unblockUI();
+        self.showMessage("error", message);
+      },
+      success: function(data) {
+        var $window = $(window),
+          height = Math.round(parseInt($window.height() * 0.6, 10)),
+          width = Math.round(parseInt($window.width() * 0.6, 10));
+
+        $.unblockUI();
+
+        if (width < 640) {
+          width = 640;
+        }
+
+        data = data.replace(/%width%/g, width).replace(/%height%/g, height);
+        $("body").append(data);
+      }
+    });
+  });
+};
+
+/*************************************************************************
+ * leave the editor, discarding all changes
+ */
+$.NatEditor.prototype.cancel = function() {
+  var self = this;
+
+  self.hideMessages();
+  self.beforeSubmit("cancel").then(function() {
+    $.blockUI({
+      message: '<h1> '+ $.i18n("Quitting ...") + '</h1>'
+    });
+    self.form.submit();
+  });
+};
+
+/*************************************************************************
+ * checks a captcha, if enabled. 
+ * returns a deferred obj and resolves it as needed.
+ */
+$.NatEditor.prototype.checkCaptcha = function() {
+  var /*self = this,*/
+      dfd = $.Deferred(),
+      $editCaptcha = $("#editcaptcha"),
+      buttons;
+
+  if ($editCaptcha.length) {
+    buttons = $editCaptcha.dialog("option", "buttons");
+    buttons[0].click = function() {
+      if ($editCaptcha.find(".jqCaptcha").data("captcha").validate()) {
+        $editCaptcha.dialog("close");
+        dfd.resolve();
+      } else {
+        dfd.reject();
+      }
+    };
+    $editCaptcha.dialog("option", "buttons", buttons).dialog("open");
+  } else {
+    dfd.resolve();
+  }
+
+  return dfd.promise();
+};
+
+/*************************************************************************
+ * submit the content to foswiki 
+ */
+$.NatEditor.prototype.save = function(action) {
+  var self = this;
+
+  action = action || 'checkpoint';
+
+  self.checkCaptcha().then(function() {
+    var topicName = self.opts.topic,
+        origTitle = document.title;
+
+    self.hideMessages();
+    if (self.form.validate().form()) {
+      self.beforeSubmit(action).then(function() {
+        if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
+          // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
+          self.form.submit();
+        } else {
+          self.form.ajaxSubmit({
+            url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"), 
+            beforeSubmit: function() {
+              self.hideMessages();
+              document.title = $.i18n("Saving ...");
+              $.blockUI({
+                message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
+              });
+            },
+            error: function(xhr, textStatus) {
+              var message = self.extractErrorMessage(xhr.responseText || textStatus);
+              self.showMessage("error", message);
+            },
+            complete: function(xhr) {
+              var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
+              if (nonce) {
+                // patch in new nonce
+                $("input[name='validation_key']").each(function() {
+                  $(this).val("?" + nonce);
+                });
+              }
+              document.title = origTitle;
+              $.unblockUI();
+            }
+          });
+        }
+      });
+    }
+  });
 };
 
 /*************************************************************************
@@ -1069,6 +1113,26 @@ $.NatEditor.prototype.handleUnescapeTML = function(/*ev, elem*/) {
   self.engine.insertTag(['', selection, '']);
 };
 
+/*****************************************************************************
+ * handler to switch fullscreen mode
+ */
+$.NatEditor.prototype.handleFullscreen = function(/*ev, elem*/) {
+  var self = this;
+
+  self.container.toggleClass("ui-natedit-fullscreen");
+
+  if (self.opts.autoMaxExpand) {
+    $(window).trigger("resize");
+  } else {
+    if(self.container.is(".ui-natedit-fullscreen")) {
+      self.autoMaxExpand();
+    } else {
+      $(window).off("resize.natedit");
+      self.engine.setSize(undefined, undefined);
+    }
+  }
+};
+
 
 /*************************************************************************
  * Replaces all foswiki TML special characters with their escaped counterparts.
@@ -1122,8 +1186,8 @@ $.NatEditor.prototype.autoMaxExpand = function() {
   var self = this;
 
   self.fixHeight();
-  $(window).one("resize.natedit", function() {
-    self.autoMaxExpand();
+  $(window).on("resize.natedit", function() {
+    self.fixHeight();
   });
 };
 
@@ -1134,26 +1198,22 @@ $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem = self.engine.getWrapperElement(),
     windowHeight = $(window).height() || window.innerHeight,
-    newHeight,
-    $debug = $("#DEBUG");
-
-  if (typeof(self.bottomHeight) === 'undefined') {
-    self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
-  }
+    newHeight, bottomHeight;
 
   if (!elem || !elem.length) {
     return;
   }
 
-  if (typeof(self.bottomHeight) === 'undefined') {
-    self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
+  if (self.container.is(".ui-natedit-fullscreen")) {
+    bottomHeight = parseInt(self.container.css('padding-bottom'), 10) * 2;
+  } else {
+    if (typeof(self.bottomHeight) === 'undefined') {
+      self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
+    }
+    bottomHeight = self.bottomHeight; 
   }
 
-  newHeight = windowHeight - elem.offset().top - self.bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
-
-  if ($debug.length) {
-    newHeight -= $debug.height();
-  }
+  newHeight = windowHeight - elem.position().top - bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;

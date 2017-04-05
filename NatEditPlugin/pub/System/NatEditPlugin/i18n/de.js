@@ -1,5 +1,6 @@
 {
   "Saving ...": "Speichere ...",
+  "Quitting ...": "Beende ...",
   "Loading preview ...": "Lade Vorschau ...",
   "uploading ...": "lade hoch ...",
   "abording transfer ...": "breche Transfer ab ...",

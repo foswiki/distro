@@ -66,6 +66,11 @@ CodemirrorEngine.prototype.init = function() {
     .attr({type : 'text/css', rel : 'stylesheet'})
     .attr('href', editorPath + '/addon/search/matchesonscrollbar.css');
 
+  $('<link>')
+    .appendTo('head')
+    .attr({type : 'text/css', rel : 'stylesheet'})
+    .attr('href', editorPath + '/addon/dialog/dialog.css');
+
   self.shell.getScript(editorPath+"/lib/codemirror.js").done(function() {
     CodeMirror.modeURL = editorPath+'/'+'/mode/%N/%N.js';
 
@@ -76,9 +81,24 @@ CodemirrorEngine.prototype.init = function() {
       self.shell.getScript(editorPath+"/addon/search/searchcursor.js"),
       self.shell.getScript(editorPath+"/addon/scroll/annotatescrollbar.js"),
       self.shell.getScript(editorPath+"/addon/search/matchesonscrollbar.js"),
+      self.shell.getScript(editorPath+"/addon/dialog/dialog.js"),
       self.shell.getScript(editorPath+"/widgets/widgets.js"),
+      self.shell.getScript(editorPath+"/keymap/vim.js"),
       self.shell.preloadDialog("searchdialog")
     ).done(function() {
+
+        // extend vim mode to make :w and :x work
+        CodeMirror.commands.save = function() {
+          self.shell.save();
+        };
+
+        CodeMirror.Vim.defineEx("x", undefined, function() {
+          self.shell.exit();
+        });
+
+        CodeMirror.Vim.defineEx("q", undefined, function() {
+          self.shell.cancel();
+        });
 
         CodeMirror.requireMode(self.opts.mode || 'foswiki', function() {
           var $txtarea = $(self.shell.txtarea),
@@ -87,7 +107,7 @@ CodemirrorEngine.prototype.init = function() {
               lineHeight = parseInt($txtarea.css("line-height"), 10);
 
           self.cm = CodeMirror.fromTextArea(self.shell.txtarea, self.opts); 
-          window.cm = self.cm; //playground
+          //window.cm = self.cm; //playground
 
           if (typeof(cols) !== 'undefined' && cols > 0) {
             self.cm.setSize(cols+"ch");
@@ -115,14 +135,11 @@ CodemirrorEngine.prototype.init = function() {
               },
               "F3": function() {
                 self.search();
-              },
-              "Esc": function() {
-                self._searchDialogOpen = false;
-                self.clearSearchState();
-            }
+              }
           });
           self.cm.setOption("extraKeys", extraKeys);
 
+/*
           $(window).on("keydown", function(e) { // suppress global ctrl-f
             if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
               // when we have only a single natedit on a page, then global ctrl-f opens the search dialog
@@ -134,7 +151,7 @@ CodemirrorEngine.prototype.init = function() {
               return false;
             }
           });
-
+*/
 /*
           self.cm.on("change", function(cm, change) {
             self.updateWidgets(change);
@@ -550,7 +567,7 @@ CodemirrorEngine.defaults = {
   indentWithTabs: false, 
   //rtlMoveVisually
   electricChars: false,
-  keyMap: "default",
+  keyMap: "default", // or vim
   lineWrapping: true,
   lineNumbers: false, 
   firstLineNumber: 1,
