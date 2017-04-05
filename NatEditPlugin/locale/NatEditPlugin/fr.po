@@ -1,0 +1,5448 @@
+# Foswiki translation for French (français)
+# Translators:
+#   Foswiki:Main/BenVoui, 2005, 2006, 2007.
+#   Foswiki:Main/RaulFRodriguez, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: fr\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-01-20 09:20+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.4\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr "Abandonner les changements et quitter"
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Raccourcis clavier"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr "Ajouter un nouveau formulaire à <nop>%1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Ajouter formulaire"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr "Aligner à gauche"
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr "Aligner à droite"
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Fichier attaché"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr "Bloc de citation (blockquote)"
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr "Gras"
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr "Liste à puce"
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Annuler"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr "Aligner au centre"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+msgid "Change form"
+msgstr "Modifier le formulaire"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr "Modifier le formulaire actuel de <nop>%1"
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Fermer"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr "Couleur"
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr "Colonnes"
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr "Continuer à modifier"
+
+#: templates/editdialog.natedit.tmpl:50
+msgid "Create a new table"
+msgstr "Créer un nouveau tableau"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr "Crée une nouvelle version de page lors de l'enregistrement"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr "titre de tableau pour formulaire de données"
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr "Lignes de données"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Date"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+msgid "Default"
+msgstr "Défaut"
+
+#: data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr "Documentation"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Chaque paramètre a la syntaxe"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Modifier"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr "Aide à l'édition abrégée (EditingShorthand)"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr "Intégrer objet externe"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr "Émoticône"
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr "Echapper le code"
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr "Tout le monde"
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr "Externe"
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr "Fichier"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Forcer le passage à une nouvelle version"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr "Formulaire"
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr "Données fondées sur des formulaires"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr "Formater le texte sélectionné"
+
+#: data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr "Recherche formatée"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr "Formule"
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr "Aide sur le paramétrage des options de page"
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr "Conseils pour la rédaction collaborative (GoodStyle)"
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr "Lignes de titre"
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr "Titre 1"
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr "Titre 2"
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr "Titre 3"
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr "Titre 4"
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr "Titre 5"
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr "Titre 6"
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Aide"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr "Ligne horizontale"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr "Icône"
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr "Inclusion"
+
+#: templates/edittoolbar.natedit.tmpl:75
+msgid "Indent"
+msgstr "Augmenter retrait"
+
+#: templates/edittoolbar.natedit.tmpl:85
+#, fuzzy
+msgid "Insert Image"
+msgstr "Insertion de date"
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr "Insertion code de couleur"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr "Insérer un titre de tableau pour formulaire de données"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr "Insertion de date"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr "Insérer une ligne horizontale"
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr "Insérer un lien"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr "Insérer un lien vers une page ou une ressource externe"
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr "Insérer un lien vers le profil d'un utilisateur"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr "Insérer une macro"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr "Insérer une formule mathématique"
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr "Insérer un nouveau tableau"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr "Insérer un symbole"
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+msgid "Insert an attachment"
+msgstr "Insérer un fichier attaché"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr "Insérer une émoticône"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr "Insérer une icône"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr "Insérer votre signature"
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr "Italique"
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr "Seulement moi"
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr "Justifier le texte"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Lien"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr "Macro"
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr "Macros"
+
+#: templates/edittoolbar.natedit.tmpl:46
+msgid "More character formats"
+msgstr "Autres formatages de caractères"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr "Autres objets insérables"
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr "Autres outils"
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr "Personne"
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+msgid "Numbered list"
+msgstr "Liste numérotée"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr "OEmbed"
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr "Diminuer retrait"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr "Paragraphe"
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+msgid "Permissions"
+msgstr "Permissions"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr "Veuillez valider"
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr "Plugins"
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Options"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: templates/edittoolbar.natedit.tmpl:184
+msgid "Preview your changes"
+msgstr "Prévisualiser vos changements"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr "Refaire le changement précédent"
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+msgid "Registered users"
+msgstr "Utilisateurs inscrits"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+msgid "Replace"
+msgstr "Remplacer"
+
+#: templates/edittoolbar.natedit.tmpl:144
+msgid "Restore"
+msgstr "Restaurer"
+
+#: templates/edittoolbar.natedit.tmpl:160
+msgid "Restore and Continue"
+msgstr "Restaurer et continuer"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr "Restaurer et continuer de modifier"
+
+#: templates/edittoolbar.natedit.tmpl:145
+msgid "Restore and exit"
+msgstr "Restaurer et quitter"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+msgid "Save"
+msgstr "Enregistrer"
+
+#: templates/edittoolbar.natedit.tmpl:167
+msgid "Save and Continue"
+msgstr "Enregistrer et continuer"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr "Enregistrer et continuer de modifier"
+
+#: templates/edittoolbar.natedit.tmpl:153
+msgid "Save and exit"
+msgstr "Enregistrer et quitter"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Recherche"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+msgid "Search && Replace"
+msgstr "Rechercher et remplacer"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr "Signature"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr "Tri croissant"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr "Tri décroissant"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr "Tri croissant des lignes sélectionnées"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr "Tri décroissant des lignes sélectionnées"
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr "Utilisateurs/groupes spécifiques"
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+"Changement d'état de *%1* vers *%2* (voir [[%3][définition de workflow]])."
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr "Barré"
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr "Indice"
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr "Exposant"
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr "Basculer en WYSIWYG"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr "Symbole"
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr "Tableau"
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+msgid "Text"
+msgstr "Texte"
+
+#: templates/edit.natedit.tmpl:79
+msgid "Title:"
+msgstr "Titre :"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+msgid "Topic"
+msgstr "Page"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr "URL"
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr "Souligné"
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr "Annuler dernière modification"
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr "Dé-échapper le code"
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr "Utilisateurs qui peuvent modifier :"
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr "Utilisateurs qui peuvent voir :"
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr "Verbatim"
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+msgid "Web"
+msgstr "Web"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[un nombre d'espaces multiple de 3] * [espace] Set [espace] NOMDEVARIABLE "
+"[espace] = [valeur]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+msgid "default as defined in the %1"
+msgstr "défaut tel que définit dans %1"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "modifier"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+msgid "edit form"
+msgstr "modifier formulaire"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr "ignorer casse"
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "indique les champs nécessaires"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr "nouveau"
+
+#: templates/edit.natedit.tmpl:119
+msgid "public view access"
+msgstr "accès public"
+
+#: templates/edit.natedit.tmpl:7
+msgid "restore"
+msgstr "restaurer"
+
+#: templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr "restaurer formulaire"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr "restreindre l'accès à %1"
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+"restreindre l'accès en lecture aux utilisateurs qui ont un compte sur ce site"
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+"restreindre l'accès en écriture aux utilisateurs qui ont un compte sur ce "
+"site"
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr "spécifier une liste d'utilisateurs et/ou de groupes"
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr "interdire strictement tout accès à cette page"
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr "interdire strictement l'accès en écriture à cette page"
+
+#~ msgid "!WikiName"
+#~ msgstr "!NomWiki"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,jour) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,heure) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,minute) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,seconde) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 %2 Page %3 of %4 %5 %6"
+#~ msgstr "%1 %2 page %3 de %4 %5 %6"
+
+#~ msgid "%1 (default)"
+#~ msgstr "%1 (défaut)"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Echec de l'inscription de %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Inscription de %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "Web %1"
+
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 ajouté au groupe %2."
+
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%1 ne peut être retiré de %2"
+
+#~ msgid "%1 denied the registration."
+#~ msgstr "%1 a refusé l'inscription."
+
+#~ msgid "%1 group topic upgraded."
+#~ msgstr "Page de groupe %1 mise à niveau."
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 a une liste des autres utilisateurs de Foswiki"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr ""
+#~ "%1 modifie la page depuis %2, et son verrou est encore valide pour %3."
+
+#~ msgid ""
+#~ "%1 has been emailed to inform them that their registration has been "
+#~ "successful"
+#~ msgstr ""
+#~ "Un e-mail a été adressé à %1 pour l'informer que son inscription a été "
+#~ "effectuée avec succès"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 s'est inscrit(e) avec l'adresse e-mail %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr ""
+#~ "%1 a reçu une demande de changement suspecte provenant de votre "
+#~ "navigateur."
+
+#~ msgid "%1 home"
+#~ msgstr "Accueil %1"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 est un nom invalide pour un nouveau web"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 est actuellement connecté·e"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 vaut actuellement %2"
+
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "%1 est en train d'éditer [[%2][%3]]."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 fait partie d'au moins un groupe et ne peut donc être supprimé"
+
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "%1 n'est pas un nom de formulaire valide"
+
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "%1 n'est pas une valeur valide pour le paramètre %2"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr ""
+#~ "%1 est la page par défaut pour les fichiers attachés qui ont été "
+#~ "supprimés."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%2 est peut-être toujours en cours de modification par %1."
+
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 changements récents dans le Web %2"
+
+#~ msgid "%1 registration approval required"
+#~ msgstr "Inscription %1 à valider"
+
+#~ msgid "%1 registration denied"
+#~ msgstr "Inscription de %1 refusée"
+
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 a été retiré du groupe %2."
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 pour créer un nouveau web"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 pour modifier la configuration de ce web"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 pour commencer à travailler sur ce nouveau web"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "La page %1 n'existe pas"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
+
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 a été renommé ou déplacé de %2 le %3 par %4"
+
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr ""
+#~ "%1: Nom de modèle (template) invalide (%2) - Contient des caractères "
+#~ "invalides."
+
+#~ msgid "&Cancel"
+#~ msgstr "Annuler"
+
+#~ msgid "&History"
+#~ msgstr "&Historique"
+
+#~ msgid "&Sequential"
+#~ msgstr "À la &suite"
+
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' n'est pas un [[%2][nom de connexion]] valide."
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "La page \"Créer nouvelle page\" a été déplacée"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(connexion sur %1)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(validation de %1)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 vs. %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr ""
+#~ "(*Suggestion:* Il est possible d'attacher votre photo à votre page.)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=all= pour afficher toutes les pages)"
+
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(pages filles dans le Web %1)"
+
+#~ msgid "(This message will be removed automatically)"
+#~ msgstr "(Ce message sera retiré automatiquement)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(accès refusé)"
+
+#~ msgid "(attach)"
+#~ msgstr "(attacher)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(liens entrants dans le Web %1)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(liens entrants dans tous les Webs)"
+
+#~ msgid "(book view)"
+#~ msgstr "(mise en page d'impression)"
+
+#~ msgid "(change form)"
+#~ msgstr "(changer de formulaire)"
+
+#~ msgid "(change language)"
+#~ msgstr "(changer de langue)"
+
+#~ msgid "(changes)"
+#~ msgstr "(modifications)"
+
+#~ msgid "(compare)"
+#~ msgstr "(comparer)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(supprimer le fichier attaché)"
+
+#~ msgid "(delete)"
+#~ msgstr "(supprimer)"
+
+#~ msgid "(disabled)"
+#~ msgstr "(désactivé)"
+
+#~ msgid "(edit form)"
+#~ msgstr "(modifier le formulaire)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(modifier le texte)"
+
+#~ msgid "(edit)"
+#~ msgstr "(modifier)"
+
+#~ msgid "(login)"
+#~ msgstr "(connexion)"
+
+#~ msgid "(more)"
+#~ msgstr "(autres fonctions)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(déplacer le fichier attaché)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(pas de parent, page orpheline)"
+
+#~ msgid "(none)"
+#~ msgstr "(aucun)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(sinon, chercher seulement sur le Web %1)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(code source)"
+
+#~ msgid "(redirect denied)"
+#~ msgstr "(Redirection refusée)"
+
+#~ msgid "(rename)"
+#~ msgstr "(renommer)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(version %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(erreur d'enregistrement)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(un seul caractère pour le prénom)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(un seul caractère pour le nom de famille)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(ignoré)"
+
+#~ msgid ""
+#~ "*Administrators:* You can change user's e-mail address using this form. "
+#~ "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+#~ "address."
+#~ msgstr ""
+#~ "*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur "
+#~ "en utilisant ce formulaire. Entrez le Nom de connexion ou [[WikiName]"
+#~ "[NomWiki]] de l'utilisateur et la nouvelle adresse e-mail."
+
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*Ajouter nouveau fichier:* Si vous choisissez un fichier différent dans "
+#~ "votre ordinateur, c'est celui-là qui sera mis à jour ou ajouté."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Changement de commentaire :* Si vous utilisez _Modifier les propriétés_ "
+#~ "pour modifier un commentaire, le commentaire affiché sur la page sera "
+#~ "effectivement modifié, mais le commentaire affiché sur l'historique du "
+#~ "fichier attaché sera celui fourni lors de l'envoi du fichier."
+
+#~ msgid "*Formatting help:*"
+#~ msgstr "*Aide au formatage :*"
+
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Important :* les informations fournies via ce formulaire seront "
+#~ "enregistrées dans la base de données du serveur web. Cette base de "
+#~ "données est accessible à quiconque peut accéder au serveur par l'Internet "
+#~ "(les mots de passe seront cependant chiffrés, et les adresses e-mail "
+#~ "seront affichées dans un format réduisant les risques de spam). Le pays "
+#~ "dans lequel vous résidez, ou celui dans lequel le serveur se trouve, sont "
+#~ "susceptibles d'avoir mis en place des lois régissant la protection des "
+#~ "données personnelles. Si vous avez un doute, avant de vous inscrire, vous "
+#~ "pouvez demander à %1 des détails concernant la politique de protection "
+#~ "des données du présent serveur web."
+
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*Propriétés :* Vous pouvez modifier le commentaire et la visibilité "
+#~ "(c'est-à-dire, le fait que le fichier attaché soit dissimulé ou non), "
+#~ "sans envoyer le moindre fichier, en cliquant sur \"Modifier seulement les "
+#~ "propriétés\"."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr ""
+#~ "*gras* mettre le mot ou la phrase entre astérisques : =<nop>*votre "
+#~ "phrase*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*liste à puces* 3 espaces, une astérisque, 1 espace : =&&nbsp;&&nbsp;"
+#~ "&&nbsp;*&&nbsp; votre texte="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*liens externes* =http://yahoo.fr=, ou =[<nop>[http://yahoo.fr/][lien "
+#~ "vers Yahoo]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*titres et sous-titres* 3 tirets, entre 1 et 6 signes plus, 1 espace : "
+#~ "=---++&&nbsp;Votre sous-titre="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr ""
+#~ "*italique* mettre le mot ou la phrase entre tirets-bas : =_<nop>vos mots_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*police à chasse fixe* mettre le mot ou la phrase entre signes égal : "
+#~ "=<nop>=vos mots=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*paragraphes* les séparer par des lignes vides"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*liens internes= utiliser le nom de la page : =%1 ou =[<nop>[%1][Page "
+#~ "d'accueil]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "1 hour ago"
+#~ msgstr "1 heure"
+
+#~ msgid "1 week ago"
+#~ msgstr "1 semaine"
+
+#~ msgid "12 hours ago"
+#~ msgstr "12 heures"
+
+#~ msgid "2 weeks ago"
+#~ msgstr "2 semaines"
+
+#~ msgid "24 hours ago"
+#~ msgstr "24 heures"
+
+#~ msgid "3 days ago"
+#~ msgstr "3 jours"
+
+#~ msgid "4 weeks ago"
+#~ msgstr "4 semaines"
+
+#~ msgid "6 hours ago"
+#~ msgstr "6 heures"
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>Fil RSS</a>, modifications récentes sur <a href='%2'>50</a>, "
+#~ "<a href='%3'>100</a>, <a href='%4'>200</a>, <a href='%5'>500</a>, <a "
+#~ "href='%6'>1000</a> pages, <a href='%7'>toutes les modifications</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "<em>dans le web %1</em> seulement"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em> dans tous les webs publics</em>"
+
+#~ msgid ""
+#~ "<nop>%1 (%2) can be emailed to inform them that their registration has "
+#~ "been rejected."
+#~ msgstr ""
+#~ "Il est possible d'informer <nop>%1 (%2) que son inscription a été refusée."
+
+#~ msgid ""
+#~ "<nop>%1 <%2> has been emailed to inform them that their registration has "
+#~ "been denied"
+#~ msgstr ""
+#~ "Un e-mail a été adressé à <nop>%1 <%2> l'informant que son inscription a "
+#~ "été refusée"
+
+#~ msgid "<nop>WikiName:"
+#~ msgstr "<nop>NomWiki :"
+
+#~ msgid ""
+#~ "<strong>Confirmation required!</strong> Press OK to confirm this change "
+#~ "was intentional<br />Press Cancel otherwise"
+#~ msgstr ""
+#~ "<strong>Confirmation requise !</strong> Cliquez sur OK pour confirmer que "
+#~ "ce changement était intentionnel<br />Sinon cliquez sur Annuler"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr ""
+#~ "Une extension =.txt= est ajoutée à certains noms de fichiers pour des "
+#~ "raisons de sécurité"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Un site Foswiki est divisé en webs, chacun représentant un thème ou une "
+#~ "zone de collaboration. Vous tentez de %1 dans un web qui n'existe pas."
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "Un code couleur commence par un dièse (#), suivi de six chiffres "
+#~ "hexadécimaux ; exemple : =#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "Un e-mail de confirmation a été envoyé à %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "Un lien vers une page d'un autre web s'écrit comme %1. Vérifiez qu'il n'y "
+#~ "a pas d'erreur, sur la page précédente, dans le nom du web, et corrigez "
+#~ "le lien si nécessaire."
+
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Un nouveau mot de passe a été généré pour le nom de connexion %1 (!"
+#~ "NomWiki : %2), et a été envoyé à l'adresse utilisée pour votre "
+#~ "inscription. Si votre adresse n'est plus valide, veuillez contacter %3."
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr "Un modèle de page définit le contenu initial d'une nouvelle page."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "Une page avec le même nom existait, mais elle a été renommée ou déplacée "
+#~ "vers %1."
+
+#~ msgid "A user requires your approval to complete their registration"
+#~ msgstr ""
+#~ "Votre approbation est nécessaire pour valider l'inscription d'un "
+#~ "utilisateur"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Access Denied"
+#~ msgstr "Accès refusé"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "L'accès à %1 a été refusé"
+
+#~ msgid "Access keys:"
+#~ msgstr "Raccourcis clavier :"
+
+#~ msgid "Access to pending registrations is restricted to administrators."
+#~ msgstr ""
+#~ "L'accès aux inscriptions en attente est restreint aux administrateurs."
+
+#~ msgid "Action"
+#~ msgstr "Action"
+
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Action %1: %2 pour l'utilisateur %3."
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Activation Failed"
+#~ msgstr "Échec de l'activation"
+
+#~ msgid "Activation for code %1 failed with an internal error."
+#~ msgstr ""
+#~ "L'activation pour le code %1 a échoué en raison d'une erreur interne."
+
+#~ msgid "Add"
+#~ msgstr "Ajouter"
+
+#~ msgid "Add Members to %1"
+#~ msgstr "Ajouter des membres à %1"
+
+#~ msgid "Add members"
+#~ msgstr "Ajouter des membres"
+
+#~ msgid "Add members..."
+#~ msgstr "Ajouter des membres..."
+
+#~ msgid "Add row"
+#~ msgstr "Ajouter une ligne"
+
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Ajouter des paramètres de gestion utilisateur à cette page."
+
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Ajout d'un paramètre %1 dans WebPreferences"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Authentification administrateur de Foswiki"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Maintenance"
+
+#~ msgid "Administration"
+#~ msgstr "Administration"
+
+#~ msgid "Advanced search"
+#~ msgstr "Recherche avancée"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Après validation de ce formulaire, votre adresse e-mail sera modifiée, et "
+#~ "vous serez de retour ici."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Après validation de ce formulaire, votre mot de passe sera modifié."
+
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Après validation de ce formulaire, vous recevrez un e-mail contenant "
+#~ "votre nouveau mot de passe généré automatiquement, ainsi qu'un lien vers "
+#~ "la page où vous pourrez le modifier."
+
+#~ msgid "Ah, no!"
+#~ msgstr "Ah, non !"
+
+#~ msgid "All public webs"
+#~ msgstr "Tous les webs publics"
+
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr ""
+#~ "Exiger un <nop>MotWiki (<nop>WikiWord) pour le nouveau nom de la page"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Sinon, appuyez sur _Page précédente_ pour retourner à la page %SYSTEMWEB%."
+#~ "UserRegistration et choisir un nom de connexion différent."
+
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Un fichier attaché portant le même nom existe déjà sur cette page."
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Un e-mail n'a pas pu être envoyé. Merci d'en informer votre "
+#~ "administrateur de %1 : %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "Un message d'erreur s'affichera si l'une des pages est bloquée par "
+#~ "quelqu'un d'autre."
+
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "Une personne mal intentionnée peut tenter d'utiliser votre identifiant de "
+#~ "connexion pour changer le contenu de votre wiki à votre insu."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "Et rempli avec les pages du web de base"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Les modifications que vous avez effectuées sur la page avant d'arriver "
+#~ "ici seront préservées."
+
+#~ msgid "Approve"
+#~ msgstr "Approuver"
+
+#~ msgid "Attach"
+#~ msgstr "Attacher"
+
+#~ msgid "Attach a file"
+#~ msgstr "Attacher un fichier"
+
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "Attacher une image ou un document à cette page ; gérer des fichiers déjà "
+#~ "attachés (a)"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Attacher un fichier à %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Attacher une image ou un document à %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Attacher un nouveau fichier"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Le fichier attaché '%1' n'existe pas"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "La suppression du fichier joint a échoué"
+
+#~ msgid "Attachment does not exist."
+#~ msgstr "Le fichier attaché n'existe pas."
+
+#~ msgid "Attachment history"
+#~ msgstr "Historique du fichier attaché"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Le déplacement du fichier joint a échoué"
+
+#~ msgid "Attachment name:"
+#~ msgstr "Nom du fichier attaché :"
+
+#~ msgid "Attachments"
+#~ msgstr "Fichiers attachés"
+
+#~ msgid "Attachments %1"
+#~ msgstr "Fichiers attachés %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Fichiers attachés à %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Les fichiers attachés ne seront pas affichés sur la page."
+
+#~ msgid "Attention"
+#~ msgstr "Attention"
+
+#~ msgid "Attribute"
+#~ msgstr "Attribut"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Notifications automatiques de modifications"
+
+#~ msgid "Available Information"
+#~ msgstr "Informations disponibles"
+
+#~ msgid "Available form templates"
+#~ msgstr "Modèles de formulaires disponibles"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Modèles (templates) disponibles dans le Web %1 :"
+
+#~ msgid "Back to topic"
+#~ msgstr "Revenir à la page"
+
+#~ msgid "Backlinks"
+#~ msgstr "Liens entrants"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Liens pointant vers %1 dans le Web %2"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Liens pointant vers %1 dans tous les Webs"
+
+#~ msgid "Backlinks:"
+#~ msgstr "Liens entrants :"
+
+#~ msgid "Bad password"
+#~ msgstr "Mot de passe erroné"
+
+#~ msgid "Bad subscriber '%1'"
+#~ msgstr "Abonné erroné '%1'"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Le web de base %1 n'existe pas"
+
+#~ msgid "Both body and title"
+#~ msgstr "Dans le titre et dans le texte"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Mais les données des formulaires seront perdues (vous pouvez toujours "
+#~ "récupérer ces données dans l'historique de la page)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "Par défaut, la consultation du web Trash est réservée à %1. Si vous "
+#~ "souhaitez permettre à tout utilisateur de consulter le web Trash, enlevez "
+#~ "la ligne =ALLOWWEBVIEW= de la page WebPreferences."
+
+#~ msgid "CHANGE not permitted by %1"
+#~ msgstr "Modification (CHANGE) non permise par %1"
+
+#~ msgid "CHANGE not permitted for %1 by %2"
+#~ msgstr "Modification (CHANGE) de %1 non permise par %2"
+
+#~ msgid "Cache =refresh=all= denied for non-admin users."
+#~ msgstr "Cache =refresh=all= interdit aux utilisateurs non administrateurs."
+
+#~ msgid "Can't find user %1"
+#~ msgstr "L'utilisateur ou l'utilisatrice %1 est introuvable"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "L'adresse e-mail de %1 (nécessaire pour réinitialiser son mot de passe) "
+#~ "est introuvable"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Annuler et abandonner les modifications"
+
+#~ msgid "Cancel upload"
+#~ msgstr "Annuler l'envoi"
+
+#~ msgid "Cannot change subscription: %1"
+#~ msgstr "Modification impossible de l'abonnement : %1"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Impossible de créer %1, qui existe déjà."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Impossible de créer le web %1, qui existe déjà"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "Impossible de renommer %1 en %2, qui existe déjà."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Sensible à la casse"
+
+#~ msgid "Categories"
+#~ msgstr "Catégories"
+
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Attention : le système de mots de passe est actuellement en lecture-"
+#~ "seule. Les utilisateurs ne seront pas ajoutés au fichier de mot de passes."
+
+#~ msgid "Change E-mail Address"
+#~ msgstr "Changer l'adresse e-mail"
+
+#~ msgid "Change Password"
+#~ msgstr "Changer de mot de passe"
+
+#~ msgid "Change cannot be completed"
+#~ msgstr "Le changement ne peut être finalisé"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Modifier seulement les propriétés et commentaires"
+
+#~ msgid "Change e-mail address"
+#~ msgstr "Modifier l'adresse e-mail"
+
+#~ msgid "Change from"
+#~ msgstr "Modification depuis"
+
+#~ msgid "Change language"
+#~ msgstr "Changer de langue"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr ""
+#~ "Modifier les liens pointant vers !%1, sur les pages de tous les Webs :"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Modifier les liens pointant vers !%1, sur les pages du Web %2 :"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr ""
+#~ "Modifier les liens pointant vers %1, sur les pages de tous les Webs :"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Modifier les liens pointant vers %1, sur les pages du Web %2 :"
+
+#~ msgid "Change password"
+#~ msgstr "Changer de mot de passe"
+
+#~ msgid "Change properties only"
+#~ msgstr "Modifier seulement les propriétés"
+
+#~ msgid "Change topic"
+#~ msgstr "Modifier la page"
+
+#~ msgid "Changed by:"
+#~ msgstr "Modifié par :"
+
+#~ msgid "Changed on"
+#~ msgstr "Modifié le"
+
+#~ msgid "Changed:"
+#~ msgstr "Modifié :"
+
+#~ msgid "Changes"
+#~ msgstr "Modifications"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Modifications entre r%1 et r%2"
+
+#~ msgid ""
+#~ "Check your configuration settings for {TemplateDir} and {TemplatePath}."
+#~ msgstr ""
+#~ "Vérifiez vos paramètres de configuration pour {TemplateDir} et "
+#~ "{TemplatePath}."
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "Les liens pointant vers cette page seront mis à jour, sur les pages "
+#~ "sélectionnées."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr ""
+#~ "Les liens pointant vers ce web seront mis à jours, sur les pages "
+#~ "sélectionnées."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Pages filles dans le web %1"
+
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Pages filles de %1 dans le Web %2"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Choisissez un nouveau formulaire pour %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Désélectionner toutes"
+
+#~ msgid "Clear all topics"
+#~ msgstr "Désélectionner toutes"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Cliquez ici pour déplacer la page à son emplacement précédent, avec la "
+#~ "possibilité de mettre à jour les rétroliens."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "La couleur %1 a un format invalide"
+
+#~ msgid "Come on in"
+#~ msgstr "Entrez"
+
+#~ msgid "Comment"
+#~ msgstr "Commentaire"
+
+#~ msgid "Commenting is disabled for static viewing"
+#~ msgstr "Les commentaires sont désactivés en affichage statique"
+
+#~ msgid "Commenting is disabled when not in view context"
+#~ msgstr "Les commentaires sont désactivés hors du contexte d'affichage"
+
+#~ msgid "Commenting is disabled while not logged in"
+#~ msgstr "Les commentaires sont désactivés lorsque vous n'êtes pas connecté"
+
+#~ msgid "Commenting is disabled while running from the command line"
+#~ msgstr ""
+#~ "Les commentaires sont désactivés lors d'une exécution en ligne de commande"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Comparer les versions"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Confirmer mot de passe :"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Confirmer le renommage ou le déplacement"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "Confirmer vos modifications en utilisant [[%1][l'outil de comparaison "
+#~ "d'historique (diff)]] de Foswiki."
+
+#~ msgid "Conflict"
+#~ msgstr "Conflit"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Contactez %1 si vous avez des questions."
+
+#~ msgid ""
+#~ "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
+#~ "assistance."
+#~ msgstr ""
+#~ "Contactez <a href=\\'mailto:%1\\'>l'administrateur de votre site</a> pour "
+#~ "de l'aide supplémentaire."
+
+#~ msgid "Context"
+#~ msgstr "Contexte"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Continuer et essayer de renommer le web ?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Continuer de créer la page"
+
+#~ msgid ""
+#~ "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+#~ "content."
+#~ msgstr ""
+#~ "La conversion en HTML pour l'édition WYSIWYG est désactivée en raison du "
+#~ "contenu de la page."
+
+#~ msgid "Copy this topic (and all attachments) to a new topic."
+#~ msgstr ""
+#~ "Copier cette page (et tous ses fichiers joints) vers une nouvelle page."
+
+#~ msgid "Copy topic"
+#~ msgstr "Copie page"
+
+#~ msgid "Copy topic..."
+#~ msgstr "Copie page..."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; par les auteurs. Le contenu de cette plateforme "
+#~ "collaborative est la propriété des auteurs qui y ont contribué."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; par les auteurs contributeurs. Le contenu de ce site "
+#~ "est la propriété des auteurs qui y ont contribué."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Impossible de créer le web %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "Impossible de trouver le modèle (template)"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Impossible d'effectuer la recherche. L'erreur est : %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Impossible d'enregistrer %1."
+
+#~ msgid "Country:"
+#~ msgstr "Pays :"
+
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Créer une nouvelle page de FAQ"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Créer nouvelle page"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Créer une nouvelle page dans le Web %1"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Créer un lien vers le fichier attaché"
+
+#~ msgid "Create a new group"
+#~ msgstr "Créer un nouveau groupe"
+
+#~ msgid "Create account"
+#~ msgstr "Créer un compte"
+
+#~ msgid "Create group"
+#~ msgstr "Créer le groupe"
+
+#~ msgid "Create new topic"
+#~ msgstr "Créer nouvelle page"
+
+#~ msgid "Create not specified and group does not exist"
+#~ msgstr "Création non spécifiée et le groupe n'existe pas"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Créer barre latérale personnelle"
+
+#~ msgid "Create the topic"
+#~ msgstr "Créer la page"
+
+#~ msgid "Create this topic"
+#~ msgstr "Créer cette page"
+
+#~ msgid "Create your account to edit pages on this site."
+#~ msgstr "Veuillez créer votre compte pour modifier des pages sur ce site."
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Créant une page correcte de définition de formulaire"
+
+#~ msgid "Current location:"
+#~ msgstr "Emplacement actuel :"
+
+#~ msgid "Current password:"
+#~ msgstr "Mot de passe actuel :"
+
+#~ msgid "Dear %1"
+#~ msgstr "Cher·e %1"
+
+#~ msgid "Debug"
+#~ msgstr "Debug"
+
+#~ msgid "Default template"
+#~ msgstr "Modèle (template) par défaut"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Delete attachment %1"
+#~ msgstr "Supprimer le fichier attaché %1"
+
+#~ msgid "Delete last row"
+#~ msgstr "Supprimer la dernière ligne"
+
+#~ msgid "Delete topic"
+#~ msgstr "Supprimer la page"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Supprimer la page..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr ""
+#~ "Décrivez ce fichier, afin que les autres personnes sachent de quoi il "
+#~ "s'agit."
+
+#~ msgid "Description"
+#~ msgstr "Description"
+
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Liste détaillée des pages pour le web %1"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Cliquez pour avoir plus de détails, dans une autre fenêtre"
+
+#~ msgid "Details:"
+#~ msgstr "Détails :"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Avez-vous tapé le nom de la page correctement ? Rappel : respectez les "
+#~ "majuscules et minuscules du nom de page."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Souhaitiez-vous [[%1][réinitialiser le mot de passe de %2]] ?"
+
+#~ msgid "Difference Topic"
+#~ msgstr "Page de comparaison"
+
+#~ msgid "Difference:"
+#~ msgstr "Page de comparaison :"
+
+#~ msgid "Discover the details, and how to start your own site with Foswiki"
+#~ msgstr ""
+#~ "Découvrez les détails, et comment démarrer votre propre site avec Foswiki"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "N'oubliez pas d'enregistrer vos modifications"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Ne pas afficher dans la liste des fichiers attachés"
+
+#~ msgid "Don't show:"
+#~ msgstr "Ne pas afficher :"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "Une erreur est survenue lors de l'effacement du fichier attaché =%1=. "
+#~ "Merci d'en informer l'administrateur de %2."
+
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr ""
+#~ "Une erreur est survenue lors du déplacement du fichier attaché =%1= vers "
+#~ "%2."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "Une erreur (%3) est survenue lors du renommage de la page %1 en %2. Merci "
+#~ "d'en informer l'administrateur de %4."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "Une erreur (%3) est survenue lors du renommage du web %1 en %2. Merci "
+#~ "d'en informer l'administrateur de %4."
+
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr "Une erreur est survenue lors du renommage du Web %1 vers %2."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "Une erreur est survenue lors de l'enregistrement de %1, au niveau du "
+#~ "système de versions. Merci d'en informer l'administrateur de %2."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "E-mail changé avec succès !"
+
+#~ msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+#~ msgstr ""
+#~ "ENCODE a échoué - =type= ne peut pas être utilisé avec =old= et =new= "
+
+#~ msgid "ENCODE failed - both of =old= and =new= must be given"
+#~ msgstr "ENCODE a échoué - =old= et =new= doivent tous deux être spécifiés"
+
+#~ msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+#~ msgstr ""
+#~ "ENCODE a échoué - l'identificateur '%PARAM1%' est répété dans =old= "
+
+#~ msgid "EXPAND failed - access to '%PARAM1%' denied"
+#~ msgstr "EXPAND a échoué - l'accès à '%PARAM1%' est interdit"
+
+#~ msgid "EXPAND failed - no macro"
+#~ msgstr "EXPAND a échoué - pas de macro"
+
+#~ msgid "EXPAND failed - no such topic '%PARAM1%'"
+#~ msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
+
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "Modifier %*(%1,fichier)"
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Modifier tout de même"
+
+#~ msgid "Edit Wiki<nop>Text"
+#~ msgstr "Modifier Wiki<nop>Text"
+
+#~ msgid "Edit help"
+#~ msgstr "Aide à l'édition"
+
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Modifier les paramètres de cette page..."
+
+#~ msgid "Edit this table"
+#~ msgstr "Modifier ce tableau"
+
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Modifier le texte de cette page (e)"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Modifier les paramètres de la page"
+
+#~ msgid "Editable"
+#~ msgstr "Modifiable"
+
+#~ msgid "Ehm, let me go back to correct the page..."
+#~ msgstr "Hum, laissez moi revenir en arrière pour corriger la page..."
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "Soit le code est erroné, soit vous l'avez déjà utilisé pour confirmer "
+#~ "votre inscription."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant form."
+#~ msgstr ""
+#~ "Soit le nom est invalide, soit il se réfère à un formulaire inexistant."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant topic."
+#~ msgstr "Soit le nom est invalide, soit il se réfère à une page inexistante."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Soit vous n'avez pas spécifié de nom de fichier, soit le fichier %1 que "
+#~ "vous tentez d'envoyer est vide. Vous ne pouvez pas envoyer un fichier "
+#~ "vide."
+
+#~ msgid "Email address:"
+#~ msgstr "Adresse e-mail:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "L'e-mail a été désactivé sur cette installation de Foswiki"
+
+#~ msgid "Email verification is not enabled."
+#~ msgstr "La vérification par e-mail n'est pas activée."
+
+#~ msgid "End presentation"
+#~ msgstr "Finir présentation"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Agrandir le cadre d&&#39;édition"
+
+#~ msgid "Enter __none__ to clear the topic parent"
+#~ msgstr "Écrivez __none__ pour effacer la page mère"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr ""
+#~ "Entrez un nouveau nom de connexion et mot de passe pour changer d'identité"
+
+#~ msgid "Enter parent name"
+#~ msgstr "Indiquez la page mère"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr ""
+#~ "Entrez le nom d'utilisateur servant à l'administration du Wiki, qui a été "
+#~ "défini dans %1"
+
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "Comme nom de page, saisissez un MotWiki, ou cochez la case permettant de "
+#~ "forcer le choix d&#39;un nom qui n&#39;est pas un MotWiki."
+
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Saisissez des utilisateurs ou des groupes à ajouter à ce groupe"
+
+#~ msgid "Error encountered loading the plugin. See errors below."
+#~ msgstr ""
+#~ "Erreur survenue en chargeant le plugin. Les erreurs sont ci-dessous."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Erreur lors de l'inscription de l'utilisateur"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Erreur lors de l'inscription de l'utilisateur ou utilisatrice %1"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Erreur lors de l'enregistrement de la page"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Erreur : Le fichier attaché à %1,%2 n'existe pas"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Erreur : Type de contenu non supporté : %1 (types supportés : =text/"
+#~ "html=, =text/plain= et =text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Erreur : Protocole non supporté. (Doit être 'http://domaine/...')"
+
+#~ msgid "Errors"
+#~ msgstr "Erreurs "
+
+#~ msgid "Errors adding members to group"
+#~ msgstr "Erreurs lors de l'ajout de membres au groupe"
+
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Erreurs lors de la suppression de membres de groupes"
+
+#~ msgid "Evil person"
+#~ msgstr "Personne mal intentionnée"
+
+#~ msgid "Exit"
+#~ msgstr "Quitter"
+
+#~ msgid "Failed plugins"
+#~ msgstr "Plugins en erreur"
+
+#~ msgid "Failed to add user: "
+#~ msgstr "Impossible d'ajouter l'utilisateur : "
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Échec de l'insertion de l'URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Les champs marqués de %1 sont obligatoires"
+
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr ""
+#~ "Les champs marqués de <span class='required'>*</span> sont obligatoires."
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Ce fichier a été envoyé, sous un nom différent"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Trouver des pages similaires"
+
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Chercher les pages qui sont des filles de %1..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Chercher les pages qui contiennent un lien pointant vers %1..."
+
+#~ msgid "First"
+#~ msgstr "Début"
+
+#~ msgid "First name:"
+#~ msgstr "Prénom :"
+
+#~ msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+#~ msgstr "Par exemple, le !NomWiki de Tim Berners-Lee est [[TimBernersLee]]"
+
+#~ msgid ""
+#~ "For more detailed information on cross-site request forgery, and the "
+#~ "dangers it poses to you, see [[%1][the Cross-site request forgery article "
+#~ "on Wikipedia]]."
+#~ msgstr ""
+#~ "Pour plus d'information sur la falsification de requête inter-domaine "
+#~ "(CSRF : cross-site request forgery), et ses dangers, voyez [[%1]"
+#~ "[l'article Cross-site request forgery sur Wikipedia]]."
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Mot de passe oublié ?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Définition du formulaire %1 manquante"
+
+#~ msgid "Form data"
+#~ msgstr "Données du formulaire"
+
+#~ msgid "Form definition"
+#~ msgstr "Définition du formulaire"
+
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Définition du formulaire '%1' introuvable"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Définition du formulaire manquante"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Authentification utilisateur Foswiki"
+
+#~ msgid ""
+#~ "Foswiki checks all requests it receives from browsers, and tries to check "
+#~ "that the persons using the browsers intentionally sent them."
+#~ msgstr ""
+#~ "Foswiki contrôle toutes les requêtes reçues des navigateurs, et tente de "
+#~ "vérifier que les personnes utilisant les navigateurs les ont "
+#~ "intentionnellement envoyées."
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Réinitialisation du mot de passe Foswiki pour %1"
+
+#~ msgid "Get a fresh version <a href='%1'>here</a>."
+#~ msgstr "Obtenir une version actualisée <a href='%1'>ici</a>."
+
+#~ msgid "Get help on attaching files"
+#~ msgstr "Obtenir de l'aide à propos des fichiers attachés"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Etre informé lorsque le résultat de cette recherche change"
+
+#~ msgid "Globe"
+#~ msgstr "Globe"
+
+#~ msgid "Go back"
+#~ msgstr "Revenir en arrière"
+
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "Retournez à la page précédente et remplissez tous les champs nécessaires "
+#~ "avant de sauvegarder à nouveau"
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr ""
+#~ "Retournez à la page précédente et enregistrez vos modifications "
+#~ "localement (c'est-à-dire, dans l'ordinateur que vous utilisez "
+#~ "présentement)."
+
+#~ msgid ""
+#~ "Go back to the previous page, and enable Cookies and !JavaScript before "
+#~ "trying again"
+#~ msgstr ""
+#~ "Retournez à la page précédente, et activez les Cookies et le !Javascript "
+#~ "avant d'essayer de nouveau"
+
+#~ msgid "Good examples:"
+#~ msgstr "Exemples corrects :"
+
+#~ msgid "Group"
+#~ msgstr "Groupe"
+
+#~ msgid "Group does not exist and create not permitted"
+#~ msgstr "Le groupe n'existe pas et la création n'est pas permise"
+
+#~ msgid "Group name"
+#~ msgstr "Nom du groupe"
+
+#~ msgid "Group names must end in Group"
+#~ msgstr "Les noms de groupes doivent se terminer par Group"
+
+#~ msgid "Groups"
+#~ msgstr "Groupes"
+
+#~ msgid "Having problems logging in?"
+#~ msgstr "Des problèmes pour vous connecter ?"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Bonjour, %1 !"
+
+#~ msgid "Hi, %1"
+#~ msgstr "Bonjour, %1"
+
+#~ msgid "Hide file"
+#~ msgstr "Cacher le fichier"
+
+#~ msgid "Hide help"
+#~ msgstr "Cacher l'aide"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "Les Webs hiérarchisés sont actuellement désactivés, vous ne pouvez pas "
+#~ "créer de sous-webs."
+
+#~ msgid "History"
+#~ msgstr "Historique"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Et si vous attachiez votre photo ?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "Comment valider votre inscription sur %1"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Cependant, l'envoi d'une confirmation par e-mail à %2 a échoué, ce qui "
+#~ "semble indiquer une inscription frauduleuse.  L'utilisateur '%1' n'a pas "
+#~ "pu être supprimé automatiquement."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Cependant, l'envoi d'une confirmation par e-mail à %2 a échoué, ce qui "
+#~ "semble indiquer une inscription frauduleuse.  L'utilisateur '%1' a été "
+#~ "supprimé automatiquement. Néanmoins, il se peut que vous deviez supprimer "
+#~ "la page personnelle de l'utilisateur manuellement."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr ""
+#~ "Néanmoins, veuillez noter que le nom %1 du fichier a été changé en %2."
+
+#~ msgid "I forgot my password"
+#~ msgstr "J'ai oublié mon mot de passe"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Des idées, requêtes ou problèmes concernant %1 ? <a href='%2'>Écrivez-"
+#~ "nous</a>"
+
+#~ msgid ""
+#~ "If Foswiki can't find a registered e-mail for you in the secret database, "
+#~ "you will be unable to reset your password or take advantage of email "
+#~ "notifications of topic changes."
+#~ msgstr ""
+#~ "Si Foswiki ne dispose pas de votre adresse e-mail enregistrée dans sa "
+#~ "base de données sécurisée, vous ne pourrez pas réinitialiser votre mot de "
+#~ "passe, ni profiter des notifications de changements de pages par e-mail."
+
+#~ msgid ""
+#~ "If Foswiki detects a suspicious request that may have been sent from such "
+#~ "a page, then you are asked to confirm the request."
+#~ msgstr ""
+#~ "Si Foswiki détecte une requête suspecte ayant pu être envoyée depuis une "
+#~ "telle page, il vous est alors demandé de confirmer la requête."
+
+#~ msgid ""
+#~ "If registration is not disabled by errors, administrators can still "
+#~ "register users to this site using %1."
+#~ msgstr ""
+#~ "Si l'inscription n'est pas désactivé en raison d'erreurs, les "
+#~ "administrateurs peuvent toujours inscrire des utilisateurs sur ce site en "
+#~ "utilisant %1."
+
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Si tel n'est pas le problème, il est possible que vous ayez une valeur de "
+#~ "%1 qui pointe vers un modèle (template) qui n'existe pas."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr ""
+#~ "Si cette ligne n'apparaît pas, lisez le paragraphe concernant la mise à "
+#~ "jour (_upgrade_), ci-dessous"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr ""
+#~ "Si cette page n'existe pas, créez-la ; sinon, vérifiez qu'elle ne "
+#~ "contient pas d'erreurs."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Si vous programmez une application Foswiki, voyez %1 pour une description "
+#~ "des paramètres corrects."
+
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez : %1"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr ""
+#~ "Si vous êtes arrivé·e ici en cliquant sur un lien en forme de point "
+#~ "d'interrogation"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr ""
+#~ "Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit, "
+
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr "Si vous entrez un nom différent, assurez vous que la page existe."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Si vous recevez cet e-mail par erreur, c'est que quelqu'un (%1) s'est "
+#~ "inscrit sur le site %2 en fournissant votre adresse e-mail %3. Dans ce "
+#~ "cas, veuillez en informer %4."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr ""
+#~ "Si vous avez des questions concernant l'inscription, vous pouvez écrire à "
+#~ "%1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Si vous avez des questions, vous pouvez contacter %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Si vous avez des questions, vous pouvez contacter %1."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Si vous n'avez pas encore choisi de mot de passe, ou si vous souhaitez le "
+#~ "réinitialisez, allez sur la page %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "Si vous avez reçu un lien vers cette page par e-mail, ou si vous "
+#~ "souhaitez seulement consulter cette page, cliquez sur [[%1][annuler "
+#~ "l'enregistrement]] pour vous rendre sur %2."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Si vous souhaitez créer la page"
+
+#~ msgid ""
+#~ "If you want to search for a word in the stop word list, prefix the word "
+#~ "with a plus sign"
+#~ msgstr ""
+#~ "Si vous souhaitez effectuer une recherche sur un mot présent dans la "
+#~ "liste de mots vides, préfixez le mot avec un signe plus"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Si vous souhaitez créer ce web"
+
+#~ msgid ""
+#~ "If you would like to send an email and give them feedback, please type it "
+#~ "below and hit 'Send mail'"
+#~ msgstr ""
+#~ "Si vous voulez envoyer un e-mail pour leur donner un retour, veuillez "
+#~ "l'écrire ci-dessous et pressez 'Envoyer e-mail'"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Si vos anciennes adresses e-mails sont toutes obsolètes (c'est-à-dire, si "
+#~ "vous ne pouvez plus les consulter) et que vous avez oublié votre mot de "
+#~ "passe, vous pouvez demander de l'aide à %1."
+
+#~ msgid ""
+#~ "If your wiki uses an external password manager, and the users you want to "
+#~ "register are known to the password manager, then bulk registration may "
+#~ "still be useful.  Please contact %1 if you are unsure."
+#~ msgstr ""
+#~ "Si votre wiki utilise un gestionnaire de mots de passe externe, et que "
+#~ "les utilisateurs que vous voulez enregistrer sont connus du gestionnaire "
+#~ "de mots de passe, alors l'enregistrement en masse (bulk registration) "
+#~ "peut toujours être utile. Veuillez contacter %1 si vous n'êtes pas sûr."
+
+#~ msgid "Ignore for 7 days"
+#~ msgstr "Ignorer pendant 7 jours"
+
+#~ msgid "Image"
+#~ msgstr "Image"
+
+#~ msgid "Image %1 of %2"
+#~ msgstr "Image %1 sur %2"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr ""
+#~ "S'il s'agit d'une image, elle sera affichée ; sinon, un lien vers le "
+#~ "fichier attaché sera créé."
+
+#~ msgid ""
+#~ "In a possible scenario, an evil person has left a link to seduce you to "
+#~ "visit a page on http<nop>://crime.org, which has some clever javascript "
+#~ "on it."
+#~ msgstr ""
+#~ "Un scénario possible est qu'une personne mal intentionnée ait laissé un "
+#~ "lien pour vous pousser à visiter une page sur http<nop>://crime.org, qui "
+#~ "contient du code javascript malicieux."
+
+#~ msgid "In case of a zip file, attach all included files to this topic"
+#~ msgstr ""
+#~ "Dans le cas d'un fichier zip, attacher tous les fichiers inclus à cette "
+#~ "page"
+
+#~ msgid "In reversed order"
+#~ msgstr "En ordre inverse"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "Dans certains cas, Foswiki modifie le nom du fichier attaché afin qu'il "
+#~ "soit utilisable, en toute sécurité, sur toutes les plates-formes :"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Mot de passe erroné"
+
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Préfixe incorrect"
+
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "[[%1][NomWiki]] incorrect"
+
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "[[%1][MotsWiki]] incorrects :"
+
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "[[%1][Nom de connexion]] incorrect"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Paramètres erronés pour le script =%1="
+
+#~ msgid "Incorrect topic name provided for the templatetopic parameter."
+#~ msgstr ""
+#~ "Nom de page de modèle (template) incorrect fournit pour le paramètre "
+#~ "templatetopic."
+
+#~ msgid "Index"
+#~ msgstr "Index"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Code de validation erroné"
+
+#~ msgid "Invalid Input"
+#~ msgstr "Entrée non valide"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Adresse e-mail invalide"
+
+#~ msgid "Invalid topic name."
+#~ msgstr "Nom de page invalide."
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Il est probablement possible de passer outre, sauf dans le cas où vous "
+#~ "souhaiteriez modifier le formulaire attaché à la page. Si %1 enregistre "
+#~ "ses modifications pendant que vous modifiez la page, vos modifications "
+#~ "seront fusionnées avec les siennes, et rien ne sera perdu. Les "
+#~ "informations contenues dans des formulaires ne peuvent être fusionnées "
+#~ "aisément, c'est pourquoi il est préférable, dans ce cas, de vous "
+#~ "coordonner avec %1 auparavant."
+
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "Il est généralement préférable de choisir un <nop>MotWiki (%1) comme "
+#~ "nouveau nom de page. Sinon, la création automatique de lien peut ne pas "
+#~ "fonctionner. Les caractères interdits dans le nom d'une page, tels que "
+#~ "les espaces, seront automatiquement enlevés."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "Il est généralement préférable de choisir un nom court pour le nouveau "
+#~ "web, car ça facilite l'écriture de liens pointant vers ce dernier. Les "
+#~ "caractères interdits dans le nom d'un web, tels que les espaces, seront "
+#~ "automatiquement enlevés."
+
+#~ msgid "Join %1"
+#~ msgstr "Rejoindre %1"
+
+#~ msgid "Jump"
+#~ msgstr "Aller à"
+
+#~ msgid "Jump to first revision"
+#~ msgstr "Aller à la première révision"
+
+#~ msgid "Jump to latest revision (%1)"
+#~ msgstr "Aller à la dernière révision (%1)"
+
+#~ msgid "Keyword search"
+#~ msgstr "Recherche de mots clés par radical (keyword search)"
+
+#~ msgid "Last"
+#~ msgstr "Fin"
+
+#~ msgid "Last edited by"
+#~ msgstr "Dernière modification par"
+
+#~ msgid "Last editor"
+#~ msgstr "Dernier auteur"
+
+#~ msgid "Last modified"
+#~ msgstr "Dernière modification"
+
+#~ msgid "Last modified time"
+#~ msgstr "Dernière modification"
+
+#~ msgid "Last name:"
+#~ msgstr "Nom de famille :"
+
+#~ msgid "Latest revision: %1"
+#~ msgstr "Dernière révision : %1"
+
+#~ msgid "Leave %1"
+#~ msgstr "Quitter %1"
+
+#~ msgid "Leave unchecked if you wish to attach the zip file itself"
+#~ msgstr "Laisser décoché si vous souhaitez attacher le fichier zip lui même"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Restreindre les résultats à :"
+
+#~ msgid "Line: %1"
+#~ msgstr "Ligne : %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Ligne : %1 à %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Afficher la liste des pages dont le nom commence par la lettre :"
+
+#~ msgid "Literal search"
+#~ msgstr "Recherche littérale"
+
+#~ msgid "Load content"
+#~ msgstr "Charger contenu"
+
+#~ msgid "Log In"
+#~ msgstr "Connexion"
+
+#~ msgid "Log Out"
+#~ msgstr "Déconnexion"
+
+#~ msgid "Log in to continue."
+#~ msgstr "Connectez-vous pour continuer."
+
+#~ msgid "Log on to %1"
+#~ msgstr "Se connecter à %1"
+
+#~ msgid "Login"
+#~ msgstr "Connexion"
+
+#~ msgid "Login username:"
+#~ msgstr "Nom de connexion :"
+
+#~ msgid "Logon"
+#~ msgstr "Connexion"
+
+#~ msgid "Logout"
+#~ msgstr "Déconnexion"
+
+#~ msgid "Mail to"
+#~ msgstr "Écrivez à "
+
+#~ msgid "Make search:"
+#~ msgstr "Chercher :"
+
+#~ msgid "Maximum %1 items per web"
+#~ msgstr "%1 résultats maximum par web"
+
+#~ msgid "Members"
+#~ msgstr "Membres"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Champs manquants"
+
+#~ msgid "Missing action command"
+#~ msgstr "Commande manquante"
+
+#~ msgid "Missing or illegal web name"
+#~ msgstr "Nom de web manquant ou invalide"
+
+#~ msgid "Modify search"
+#~ msgstr "Modifier la recherche"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Autres actions sur la page %1"
+
+#~ msgid "More actions for %1:"
+#~ msgstr "Autres actions pour %1:"
+
+#~ msgid "More formatting help"
+#~ msgstr "Plus d'aide au formatage"
+
+#~ msgid "More on hiding attachments"
+#~ msgstr "Plus d'informations sur comment cacher les fichiers attachés"
+
+#~ msgid "More topic actions"
+#~ msgstr "Autres actions sur la page"
+
+#~ msgid "More topic actions..."
+#~ msgstr "Autres actions sur la page..."
+
+#~ msgid "More..."
+#~ msgstr "Suite..."
+
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "Autres : effacer ou renommer cette page ; définir la page mère ; voir et "
+#~ "comparer les différentes versions (m)"
+
+#~ msgid "Move"
+#~ msgstr "Déplacer"
+
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Déplacer %1 vers le Web Trash (poubelle)"
+
+#~ msgid "Move attachment %1"
+#~ msgstr "Déplacer le fichier attaché %1"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Déplacer le fichier attaché"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Déplacer ou supprimer le fichier attaché"
+
+#~ msgid "Move to web:"
+#~ msgstr "Vers le web :"
+
+#~ msgid "Move to web: %1"
+#~ msgstr "Vers le web: %1"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Déplacer la page vers le web :"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Déplacer/Renommer"
+
+#~ msgid "My Links"
+#~ msgstr "Mes liens"
+
+#~ msgid "My Profile"
+#~ msgstr "Mon profil"
+
+#~ msgid "NEW"
+#~ msgstr "NOUVEAU"
+
+#~ msgid "Name of copy"
+#~ msgstr "Nom de la copie"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Le nom du nouveau web fait défaut"
+
+#~ msgid "Name:"
+#~ msgstr "Nom :"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Naviguer vers une page similaire"
+
+#~ msgid "Never mind"
+#~ msgstr "Peu importe"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "L'inscription de nouveaux utilisateurs est désactivée"
+
+#~ msgid "New User Registration failed"
+#~ msgstr "L'inscription comme nouvel utilisateur a échoué"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "L'inscription de nouveaux utilisateurs n'est pas supportée"
+
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "Nouvelles adresses e-mail (liste séparée par des espaces) :"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Pages modifiées ou nouvellement créées dans %1, depuis %2 :"
+
+#~ msgid "New parent web:"
+#~ msgstr "Nouveau web parent :"
+
+#~ msgid "New password:"
+#~ msgstr "Nouveau mot de passe :"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Le nouveau nom de page (%1) n'est pas un %2"
+
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "L'inscription de nouveaux utilisateurs est désactivée sur ce site."
+
+#~ msgid "New web name:"
+#~ msgstr "Nouveau nom du web :"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Nouvelle version :"
+
+#~ msgid "Next"
+#~ msgstr "Suivant"
+
+#~ msgid "No"
+#~ msgstr "Non"
+
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(liens entrants dans les Webs publics)"
+
+#~ msgid "No backlinks in this web"
+#~ msgstr "pas de liens entrants dans ce Web"
+
+#~ msgid "No changes"
+#~ msgstr "Aucun changement"
+
+#~ msgid "No child topics found."
+#~ msgstr "Pas de pages filles trouvées."
+
+#~ msgid "No group name specified"
+#~ msgstr "Nom de groupe non spécifié"
+
+#~ msgid "No members"
+#~ msgstr "Aucun membre"
+
+#~ msgid "No pending registration was found for the verification code %1."
+#~ msgstr ""
+#~ "Aucune inscription en attente n'a été trouvée pour le code de "
+#~ "vérification %1."
+
+#~ msgid "No permission to view %1"
+#~ msgstr "Vous n'avez pas la permission d'accéder à %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Aucune version précédente n'existe."
+
+#~ msgid "No registrations are pending."
+#~ msgstr "Il n'y pas d'Inscriptions en attente."
+
+#~ msgid "No topic to subscribe to"
+#~ msgstr "Aucune page à laquelle s'abonner"
+
+#~ msgid "No topics to update."
+#~ msgstr "Aucune page à mettre à jour."
+
+#~ msgid "No username specified"
+#~ msgstr "Nom de connexion non spécifié"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr ""
+#~ "Aucun nom d'utilisateur fourni pour la réinitialisation de mots de passe."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Déconseillé lors de la suppression d'une page."
+
+#~ msgid "Not sure this is right, please confirm!"
+#~ msgstr "Pas sûr que ce soit légitime, merci de confirmer !"
+
+#~ msgid "Notation"
+#~ msgstr "Notation"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "Sachez que tout lien pointant vers ce fichier attaché ne fonctionnera "
+#~ "plus après ce déplacement."
+
+#~ msgid "Note:"
+#~ msgstr "Note :"
+
+#~ msgid ""
+#~ "Note: you must have Cookies and Javascript enabled in your browser to get "
+#~ "past this screen. This is normally the case, but if something doesn't "
+#~ "work, this is where to look first."
+#~ msgstr ""
+#~ "Note : vous devez avoir activé les Cookies et le Javascript dans votre "
+#~ "navigateur pour pouvoir passer cet écran. C'est normalement le cas, mais "
+#~ "si quelque chose ne fonctionne pas, vérifiez ceci en premier."
+
+#~ msgid "Notification help"
+#~ msgstr "Aide notification"
+
+#~ msgid "Notifications"
+#~ msgstr "Notifications"
+
+#~ msgid "Number of changes for each Web"
+#~ msgstr "Nombre de changements pour chaque Web"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Nombre de pages :"
+
+#~ msgid "Number of topics: %1"
+#~ msgstr "Nombre de pages : %1"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "OK, this is still me!"
+#~ msgstr "OK, c'est toujours moi !"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#~ msgid "Older revision:"
+#~ msgstr "Ancienne version :"
+
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "Sur ce système, une fois inscrit(e), vous pouvez aussi vous connecter en "
+#~ "utilisant adresse e-mail."
+
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr ""
+#~ "Seuls les administrateurs sont autorisés à supprimer d'autres comptes."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Seuls les membres du %1 sont autorisés à faire ça."
+
+#~ msgid "Only members or admins may update group."
+#~ msgstr ""
+#~ "Seuls les membres ou les administrateurs peuvent modifier le groupe."
+
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Mettre à jour uniquement les pages liées dans le web %1"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Argh : nous n'avons pu vous authentifier. Réessayez, ou [[%1]"
+#~ "[réinitialisez votre mot de passe]]."
+
+#~ msgid "Operation %1 failed with an internal error"
+#~ msgstr "L'opération %1 a échoué en raison d'une erreur interne"
+
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Éventuellement, modifier le nom du fichier joint :"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Éventuellement, modifier le nom de la page :"
+
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Éventuellement, entrez un autre nom de fichier attaché :"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Éventuellement, entrez un autre nom de page :"
+
+#~ msgid "Options"
+#~ msgstr "Options"
+
+#~ msgid "Organisation name:"
+#~ msgstr "Nom de l'organisation :"
+
+#~ msgid "Organisation website:"
+#~ msgstr "Site Web de l'organisation :"
+
+#~ msgid "Password"
+#~ msgstr "Mot de passe"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Mot de passe changé avec succès !"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Le mot de passe n'a pu être changé"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Échec de la réinitialisation du mot de passe"
+
+#~ msgid "Password reset failed."
+#~ msgstr "Échec de la réinitialisation du mot de passe."
+
+#~ msgid "Password:"
+#~ msgstr "Mot de passe :"
+
+#~ msgid "Passwords disabled"
+#~ msgstr "Mots de passe désactivés"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Les mots de passe ne concordent pas"
+
+#~ msgid "Pending Registrations"
+#~ msgstr "Inscriptions en cours"
+
+#~ msgid "Pending registration not found"
+#~ msgstr "Inscription en cours non trouvée"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Choisissez l'un des %1."
+
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Web pour les fichiers attachés et pages supprimés."
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Emplacement où seront déplacés les fichiers attachés supprimés"
+
+#~ msgid "Please check to ensure you have permission to modify the group."
+#~ msgstr ""
+#~ "Merci de vérifier que vous avez bien la permission de modifier le groupe."
+
+#~ msgid "Please confirm your password."
+#~ msgstr "Veuillez confirmer votre mot de passe."
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Veuillez contacter %1 si vous avez des questions."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Veuillez contacter %1."
+
+#~ msgid "Please correct the entered data before you continue."
+#~ msgstr "Veuillez corriger les données saisies avant de continuer."
+
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Veuillez saisir un [[WikiName][NomWiki]]."
+
+#~ msgid "Please enter a login username."
+#~ msgstr "Veuillez saisir un nom de connexion."
+
+#~ msgid "Please enter a password."
+#~ msgstr "Veuillez saisir un mot de passe."
+
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Veuillez saisir une adresse e-mail valide."
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Veuillez saisir le mot de passe d'administration de Wiki"
+
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Veuillez saisir le même mot de passe que ci-dessus."
+
+#~ msgid "Please enter your first name."
+#~ msgstr "Veuillez saisir votre prénom."
+
+#~ msgid "Please enter your last name."
+#~ msgstr "Veuillez saisir votre nom de famille."
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr ""
+#~ "Veuillez retourner à la page précédente, pour essayer un nouveau nom."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Veuillez retourner à la page précédente et vérifier."
+
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "Veuillez retourner à la page précédente, pour choisir, comme nom de page, "
+#~ "un [[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez la case permettant de "
+#~ "forcer le choix d'un nom qui n'est pas un <nop>MotWiki"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Veuillez retourner à la page précédente, et réessayer."
+
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr ""
+#~ "Veuillez retourner à la page précédente pour essayer un nouveau nom."
+
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "Veuillez vérifier que vous avez écrit le [[%1][nom de connexion]] "
+#~ "correctement, et réessayez. Si vous êtes bloqué, veuillez contacter %2."
+
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr "Merci d'informer l'administrateur de %1."
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Veuillez vous rendre sur la page %1 pour choisir un mot de passe dont "
+#~ "vous vous rappellerez plus facilement."
+
+#~ msgid "Plugin handlers"
+#~ msgstr "Connecteurs de plugin"
+
+#~ msgid "Plugin module did not return true. See errors below."
+#~ msgstr ""
+#~ "Le module du plugin n'a pas retourné \"true\". Voyez les erreurs ci-"
+#~ "dessous."
+
+#~ msgid ""
+#~ "Plugin module was not defined. Check configuration. See errors below."
+#~ msgstr ""
+#~ "Le module du plugin n'a pas été défini. Vérifiez la configuration. Voyez "
+#~ "les erreurs ci-dessous."
+
+#~ msgid "Preferences for"
+#~ msgstr "Options pour"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Autrement, pressez Annuler."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "Pressez OK pour confirmer que ce changement était intentionnel."
+
+#~ msgid "Previous"
+#~ msgstr "Précédent"
+
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr "Version imprimable de cette page  (p)"
+
+#~ msgid "Properties"
+#~ msgstr "Propriétés"
+
+#~ msgid "Put it back..."
+#~ msgstr "Remettre la page..."
+
+#~ msgid "Query Search"
+#~ msgstr "Recherche par requête"
+
+#~ msgid "Question:"
+#~ msgstr "Question :"
+
+#~ msgid "Quiet save"
+#~ msgstr "Enregistrer sans notification"
+
+#~ msgid "RSS Feed"
+#~ msgstr "Fil RSS"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "Lisez %1 pour un aperçu rapide de ce logiciel collaboratif. Pour en "
+#~ "apprendre plus, lisez le tutoriel (TwentyMinuteTutorial), qui est "
+#~ "disponible sur la même page."
+
+#~ msgid "Read on"
+#~ msgstr "Continuer à lire"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Pages modifiées récemment"
+
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Pages modifiées récemment dans le Web %1"
+
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Pages modifiées récemment dans tous les Webs"
+
+#~ msgid "Redirect Denied"
+#~ msgstr "Redirection interdite"
+
+#~ msgid "Refresh"
+#~ msgstr "Rafraîchir"
+
+#~ msgid "Register"
+#~ msgstr "Inscription"
+
+#~ msgid "Registered e-mail addresses for currently logged in user"
+#~ msgstr ""
+#~ "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté"
+
+#~ msgid "Registration"
+#~ msgstr "Inscription"
+
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "L\"approbation des inscriptions n'est pas activée."
+
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr ""
+#~ "L'inscription ne peut aboutir : l'e-mail a été désactivé sur cette "
+#~ "installation de Foswiki"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Les codes d'enregistrement ne peuvent être utilisés qu'une fois."
+
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "L'inscription à %1 a été refusée"
+
+#~ msgid "Registration has been denied"
+#~ msgstr "L'inscription a été refusée"
+
+#~ msgid ""
+#~ "Registration is disabled either by configuration setting "
+#~ "{EnableNewUserRegistration}, or due to errors with the password system. "
+#~ "Check the configuration for errors."
+#~ msgstr ""
+#~ "L'enregistrement est désactivé soit par le paramètre de configuration "
+#~ "{EnableNewUserRegistration}, soit en raison d'erreurs affectant le "
+#~ "système de mot de passe. Vérifiez la présence d'erreurs dans la "
+#~ "configuration."
+
+#~ msgid "Registrations awaiting Email verification"
+#~ msgstr "Inscriptions en attente de vérification par e-mail"
+
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "Inscriptions en attente de validation"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Recherche par expression rationnelle"
+
+#~ msgid "Reject"
+#~ msgstr "Refuser"
+
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr "Pages liées pour les administrateurs :"
+
+#~ msgid "Related Topics:"
+#~ msgstr "Pages liées :"
+
+#~ msgid "Related topics:"
+#~ msgstr "Pages liées :"
+
+#~ msgid "Remember me"
+#~ msgstr "Se souvenir de moi"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Se souvenir de moi sur cet ordinateur"
+
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "N'oubliez pas de mettre à jour votre page personnelle [[%1]] pour que la "
+#~ "modification de votre adresse e-mail y apparaisse aussi."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Vous souvenez-vous de votre mot de passe ?"
+
+#~ msgid "Remove Members from %1"
+#~ msgstr "Supprimer des membres de %1"
+
+#~ msgid "Remove User"
+#~ msgstr "Supprimer utilisateur"
+
+#~ msgid "Remove members..."
+#~ msgstr "Supprimer membres..."
+
+#~ msgid "Remove of user account other than your own is denied"
+#~ msgstr "La suppression d'un compte autre que le vôtre est interdite"
+
+#~ msgid "Remove selected members"
+#~ msgstr "Supprimer les membres sélectionnés"
+
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Supprimez tout d'abord l'utilisateur du (des) groupe(s) %1."
+
+#~ msgid "Rename"
+#~ msgstr "Renommer"
+
+#~ msgid "Rename failed"
+#~ msgstr "Échec du renommage"
+
+#~ msgid "Rename or move %1"
+#~ msgstr "Renommer ou déplacer %1"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Renommer ou déplacer la page"
+
+#~ msgid "Rename or move topic..."
+#~ msgstr "Renommer ou déplacer la page..."
+
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Renommer, déplacer ou supprimer ce Web"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Renommer/Déplacer"
+
+#~ msgid "Render style"
+#~ msgstr "Style d'affichage"
+
+#~ msgid "Replace form..."
+#~ msgstr "Remplacer le formulaire..."
+
+#~ msgid "Request Validation"
+#~ msgstr "Demande validation"
+
+#~ msgid ""
+#~ "Requested revision (%1) is illegal or invalid. It does not exist in "
+#~ "history, or is the same or later than the current revision (%2)"
+#~ msgstr ""
+#~ "La version demandée (%1) est invalide. Elle n'existe pas dans "
+#~ "l'historique, ou est la même ou est postérieure à la version actuelle (%2)"
+
+#~ msgid "Reset Password"
+#~ msgstr "Réinitialisation de votre mot de passe"
+
+#~ msgid "Reset password"
+#~ msgstr "Réinitialisation de votre mot de passe"
+
+#~ msgid "Resetting and setting password is not available."
+#~ msgstr ""
+#~ "La réinitialisation et la définition des mots de passe ne sont pas "
+#~ "disponibles."
+
+#~ msgid "Restore topic"
+#~ msgstr "Restaurer la page"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Restaurer la page à la version :"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Restaurer cette version de la page"
+
+#~ msgid ""
+#~ "Restore will save an exact copy of your selected revision into a new "
+#~ "revision. Because each revision will be preserved in the topic history, "
+#~ "you can always revisit the revision you are replacing. Note that "
+#~ "attachments will be left unchanged."
+#~ msgstr ""
+#~ "La restauration va sauvegarder une copie exacte de la version "
+#~ "sélectionnée sous la forme d'une nouvelle version. Comme chaque version "
+#~ "est préservée dans l'historique de la page, vous pourrez toujours "
+#~ "reconsulter la version que vous remplacez. Notez que les fichiers "
+#~ "attachés demeureront inchangés."
+
+#~ msgid "Restoring is disabled because this topic is at revision 1."
+#~ msgstr "La restauration est désactivée car cette page est en version 1."
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Résultats dans le web %1"
+
+#~ msgid "Results from %1 web:"
+#~ msgstr "Résultats dans le Web %1 :"
+
+#~ msgid "Return to %1"
+#~ msgstr "Retourner à %1"
+
+#~ msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
+#~ msgstr ""
+#~ "Retournez à %1 et fournissez un [[%2][NomWiki]] ou un [[%3][nom de "
+#~ "connexion]]."
+
+#~ msgid "Return to %1."
+#~ msgstr "Retourner à %1."
+
+#~ msgid "Retype new password:"
+#~ msgstr "Saisissez de nouveau le nouveau mot de passe :"
+
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr ""
+#~ "La version %1 a été modifiée par %2 pendant que vous étiez toujours en "
+#~ "train de modifier la page, et a été enregistrée comme version %3."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Pages modifiées récemment dans :"
+
+#~ msgid "Revision"
+#~ msgstr "Version"
+
+#~ msgid "Revision history of %1"
+#~ msgstr "Historique des versions de %1"
+
+#~ msgid "Revisions"
+#~ msgstr "Versions"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Enregistrer, C = Annuler"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Enregistrer, Q = Enregistrer sans notification, K = Enregistrer et "
+#~ "reprendre l'édition, P = Prévisualiser, C = Annuler"
+
+#~ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+#~ msgstr ""
+#~ "Bac à sable, espace de tests pour expérimenter dans un web sans "
+#~ "limitations."
+
+#~ msgid "Save table"
+#~ msgstr "Enregistrer le tableau"
+
+#~ msgid "Saved to:"
+#~ msgstr "Enregistré sous :"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Chercher dans le Web %1 uniquement"
+
+#~ msgid "Search all webs"
+#~ msgstr "Chercher dans tous les webs"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr ""
+#~ "Chercher, dans tous les webs, les pages qui contiennent un lien pointant "
+#~ "ici"
+
+#~ msgid "Search for updates"
+#~ msgstr "Recherche de mises à jour"
+
+#~ msgid "Search in %1 Web"
+#~ msgstr "Chercher dans le Web %1"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Chercher dans tous les webs"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Chercher d'avantage de pages dans le présent web"
+
+#~ msgid "Search options"
+#~ msgstr "Options de recherche"
+
+#~ msgid "Search result"
+#~ msgstr "Résultat de la recherche"
+
+#~ msgid "Search results"
+#~ msgstr "Résultats de la recherche"
+
+#~ msgid "Search string"
+#~ msgstr "Texte recherché"
+
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Chercher, dans le Web %1, les pages filles de cette page."
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Chercher, dans le Web %1, les liens pointant ici"
+
+#~ msgid "Search where:"
+#~ msgstr "Chercher dans :"
+
+#~ msgid "Searched:"
+#~ msgstr "Recherché :"
+
+#~ msgid "Security Note:"
+#~ msgstr "Note de sécurité :"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "Voyez %1 pour une liste des utilisateurs existants ou inscrivez-vous en "
+#~ "tant que nouvel utilisateur sur %2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr ""
+#~ "Pour plus d'informations à propos des définitions de formulaires, "
+#~ "consultez %1."
+
+#~ msgid "See %MAINWEB%.WikiGroups to see the result."
+#~ msgstr "Pour consulter le résultat, voir %MAINWEB%.WikiGroups."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Voir aussi %1, qui est plus rapide"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Voir aussi %1, qui est plus détaillée."
+
+#~ msgid "See also:"
+#~ msgstr "Voir aussi :"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr ""
+#~ "Pour obtenir de l'aide quant à l'édition de cette page, voir ci-dessous."
+
+#~ msgid "See changes since:"
+#~ msgstr "Voir les changements depuis :"
+
+#~ msgid "See the DISABLEDPLUGINS preference setting."
+#~ msgstr "Voyez le paramètre DISABLEDPLUGINS."
+
+#~ msgid "Select"
+#~ msgstr "Sélectionner"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr ""
+#~ "Choisissez un nouveau fichier local (sur l'ordinateur que vous utilisez "
+#~ "actuellement) pour mettre à jour ce fichier attaché"
+
+#~ msgid "Select all topics"
+#~ msgstr "Tout sélectionner"
+
+#~ msgid "Select an earlier (left) and a later (right) revision to compare"
+#~ msgstr ""
+#~ "Sélectionner une version antérieure (gauche) et une version postérieure "
+#~ "(droite) pour comparer"
+
+#~ msgid "Select groups to join:"
+#~ msgstr "Sélectionnez les groupes à rejoindre :"
+
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Sélectionnez les membres à supprimer de ce groupe :"
+
+#~ msgid "Select the group to join:"
+#~ msgstr "Sélectionnez le groupe à rejoindre :"
+
+#~ msgid "Select topic parent"
+#~ msgstr "Choisissez la page mère"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr ""
+#~ "Sélectionnez, copiez et collez votre signature à la suite de vos "
+#~ "modifications"
+
+#~ msgid "Selections apply to search in \"text body\""
+#~ msgstr ""
+#~ "Les sélections s'appliquent aux recherches dans le \"corps du texte\""
+
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "L'auto-inscription n'est pas supportée par ce site."
+
+#~ msgid "Send mail"
+#~ msgstr "Envoyer e-mail"
+
+#~ msgid "Sequential"
+#~ msgstr "À la suite"
+
+#~ msgid "Set all"
+#~ msgstr "Tout sélectionner"
+
+#~ msgid "Set new parent"
+#~ msgstr "Choisissez la nouvelle page mère"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Choisissez la nouvelle page mère"
+
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Afficher %1 versions jusqu'à la version %2"
+
+#~ msgid "Show attachments help"
+#~ msgstr "Montrer aide sur les fichiers attachés"
+
+#~ msgid "Show help"
+#~ msgstr "Afficher l'aide"
+
+#~ msgid "Showing revisions %1 - %2 (out of %3)"
+#~ msgstr "Liste des versions %1 - %2 (sur un total de %3)"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Rétrécir le cadre d'édition"
+
+#~ msgid "Side by side"
+#~ msgstr "Côte à côte"
+
+#~ msgid "Side-by-side comparison of revisions"
+#~ msgstr "Comparaison des versions côte à côte"
+
+#~ msgid "Size"
+#~ msgstr "Taille"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr ""
+#~ "Certaines personnes y incluent des informations publiques sur leur emploi "
+#~ "du temps, des messages d'absence."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr ""
+#~ "Certains caractères, tels que =&#126;=, =$=, =@=, =%=, sont supprimés"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "Certains logiciels d'e-mail font l'erreur d'envoyer deux fois la même "
+#~ "requête lorsque vous cliquez sur un lien. Si c'est le cas du votre, il "
+#~ "est possible que vous ayez *déjà* été inscrit·e avec succès."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Certaines personnes en font leur portail personnel, avec leurs liens "
+#~ "préférés, leurs thèmes de travail, l'aide dont ils ou elles ont besoin, "
+#~ "etc."
+
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "Désolé, l'inscription est temporairement désactivée."
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Désolé, le système de mots de passe est actuellement en lecture-seule, "
+#~ "merci de contacter %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Trier les résultats par :"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
+
+#~ msgid ""
+#~ "Specify =all= for all webs, or a comma separated list of webs from: %1"
+#~ msgstr ""
+#~ "Indiquez =all= pour tous les Webs, ou une liste de Webs séparés par des "
+#~ "virgules parmi : %1"
+
+#~ msgid "Start presentation"
+#~ msgstr "Démarrer présentation"
+
+#~ msgid "Statistics"
+#~ msgstr "Statistiques"
+
+#~ msgid "Submit"
+#~ msgstr "Envoyer"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Informations envoyées :"
+
+#~ msgid "Subscribe"
+#~ msgstr "Abonnement"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Abonnement / Désabonnement de :"
+
+#~ msgid "Subscribe to this topic"
+#~ msgstr "S'abonner à cette page"
+
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "S'abonner à cette page (s)"
+
+#~ msgid "Subwebs"
+#~ msgstr "Sous-webs"
+
+#~ msgid "Success adding members to group"
+#~ msgstr "Membres ajoutés au groupe avec succès"
+
+#~ msgid "Success removing members from group"
+#~ msgstr "Membres retirés du groupe avec succès"
+
+#~ msgid "Summaries"
+#~ msgstr "Les résumés"
+
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Passer en police à espacement fixe ou proportionnel"
+
+#~ msgid "System user list."
+#~ msgstr "Liste des utilisateurs du système."
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "Astuce : pour chercher les pages contenant =\"SOAP\"=, =\"WSDL\"=, et ="
+#~ "\"web service\"= littéralement, mais pas =\"shampoo\"=, écrivez :"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Le template %1 n'existe pas"
+
+#~ msgid "Text body"
+#~ msgstr "Corps du texte"
+
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Merci d'avoir approuvé cette inscription"
+
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Merci d'avoir refusé cette inscription"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Merci de vous être inscrit(e)"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "Merci de vous être inscrit(e) sur la plate-forme collaborative %1. "
+#~ "Veuillez conserver ce message, il peut vous être utile ultérieurement."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "Merci de vous être inscrit(e) sur la plate-forme collaborative %1. Votre "
+#~ "code de vérification est %2."
+
+#~ msgid "That user has already been activated"
+#~ msgstr "Cet utilisateur a déjà été activé"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "La page %1 existe déjà"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Le web %1 n'existe pas"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "Le web %1 est le \"bac à sable\" que vous pouvez utiliser pour faire des "
+#~ "tests. Toute personne est invitée à y ajouter, modifier ou supprimer des "
+#~ "pages. Il est recommandé de parcourir le %2, en tant qu'introduction à "
+#~ "%3. Une bonne pratique est d'écrire à la fin d'une page, puis de signer "
+#~ "et dater vos modifications avec votre %4."
+
+#~ msgid "The %1 web of %2."
+#~ msgstr "Le Web %1 de %2."
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "Le web %1 de Foswiki, le \"Free and Open Source Wiki\" (Wiki libre et "
+#~ "open source)."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "Le script =%1= peut être appelé seulement avec la méthode POST."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr ""
+#~ "L'administrateur a désactivé l'inscription de nouveaux utilisateurs."
+
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "L'administrateur a désactivé les changements de mots de passe."
+
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "\"Free and Open Source Wiki\" (Wiki libre et open source)."
+
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "Le chemin Web/Page suivant : '%1' comporte des éléments manquants, ou "
+#~ "contient des caractères invalides."
+
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "Le champ [[%1][NomWiki]] doit être composé de votre prénom et de votre "
+#~ "nom écrits comme un [[%2][MotWiki]], c'est à dire vos prénom et nom avec "
+#~ "des majuscules initiales accolés en ôtant les espaces."
+
+#~ msgid ""
+#~ "The [[%1][login username]] (%2) is not allowed for this installation. "
+#~ "Registration rejected."
+#~ msgstr ""
+#~ "Le [[%1][nom de connexion]] (%2) n'est pas autorisé sur cette "
+#~ "installation. Inscription refusée."
+
+#~ msgid ""
+#~ "The [[%1][login username]] is a required parameter. Registration rejected."
+#~ msgstr ""
+#~ "Le [[%1][nom de connexion]] est un paramètre obligatoire. Inscription "
+#~ "refusée."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "Le code de validation %1 est invalide."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr ""
+#~ "Le fichier attaché et l'historique éventuel seront déplacés vers la "
+#~ "nouvelle page."
+
+#~ msgid ""
+#~ "The attachment may be renamed (by appending a number to the name) if an "
+#~ "attachment of that name already exists in the target topic."
+#~ msgstr ""
+#~ "Le fichier attaché sera éventuellement renommé (en ajoutant un numéro a "
+#~ "son nom) s'il existe déjà un fichier attaché du même nom dans la page de "
+#~ "destination."
+
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr ""
+#~ "Le fichier attaché sera éventuellement renommé s'il existe déjà un "
+#~ "fichier attaché appelé '%1' dans la page de destination."
+
+#~ msgid ""
+#~ "The attacker tries to use your rights to get things, like admin rights "
+#~ "for the site."
+#~ msgstr ""
+#~ "L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme "
+#~ "des droits d'administration sur le site."
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr ""
+#~ "Il y a de fortes chances que %1 ait simplement quitté la page de "
+#~ "modification sans enregistrer."
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "Les pages cochées seront mises à jour (un autre formulaire va s'afficher, "
+#~ "pour que vous puissiez _finalement_ renommer les pages qui étaient "
+#~ "verrouillées)"
+
+#~ msgid ""
+#~ "The checks performed by Foswiki can sometimes be triggered when you do "
+#~ "something perfectly innocent, for instance if you click the Back button "
+#~ "after saving a page. Foswiki then uses the approach \"better safe than "
+#~ "sorry\"."
+#~ msgstr ""
+#~ "Les contrôles effectués par Foswiki peuvent parfois être déclenchés en "
+#~ "faisant quelque chose de parfaitement innocent, par exemple en cliquant "
+#~ "sur le bouton \"Retour\" du navigateur après avoir sauvegardé une page. "
+#~ "Foswiki utilise alors une approche \"mieux vaut prévenir que guérir\"."
+
+#~ msgid ""
+#~ "The details about REST Handlers are only available to users with Admin "
+#~ "authority."
+#~ msgstr ""
+#~ "Les informations sur les connecteurs REST sont seulement accessibles aux "
+#~ "utilisateurs ayant des droits d'administration."
+
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "L'adresse e-mail pour ce compte a été rejetée."
+
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr ""
+#~ "L'adresse e-mail pour ce compte est déjà enregistrée pour un autre "
+#~ "utilisateur."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "L'adresse e-mail de ce compte est invalide."
+
+#~ msgid ""
+#~ "The e-mail address in your user topic is typically left blank. If you "
+#~ "want to reveal an e-mail address to other users, you can manually edit "
+#~ "your user topic to add an address.  It does not have to be the same as "
+#~ "the address used internally by Foswiki."
+#~ msgstr ""
+#~ "Dans votre page personnelle, l'adresse e-mail est normalement laissée "
+#~ "vide. Si vous voulez révéler votre adresse e-mail aux autres "
+#~ "utilisateurs, vous pouvez modifier manuellement votre page personnelle "
+#~ "pour ajouter une adresse. Il n'est pas obligatoire d'indiquer la même "
+#~ "adresse que celle utilisée en interne par Foswiki."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr ""
+#~ "Le système de mot de passe ne contenait pas l'enregistrement de "
+#~ "l'utilisateur %1."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "Le fichier a été attaché avec succès à la page %1."
+
+#~ msgid ""
+#~ "The filename you are attempting to upload (%1) contains characters not "
+#~ "supported by the configured encoding (%2)."
+#~ msgstr ""
+#~ "Le nom de fichier que vous tentez d'envoyer (%1) contiens des caractères "
+#~ "non supportés par l'encodage configuré (%2)."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr ""
+#~ "La modification des pages suivantes est verrouillée, et elles ne peuvent "
+#~ "pas être déplacées :"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "Les pages listées ci-dessous contiennent des liens pointant vers des "
+#~ "pages de ce web, mais sont en cours d'édition :"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "Les pages listées ci-dessous contiennent des liens pointant vers des "
+#~ "pages de ce web, mais vous n'avez pas le droit d'y accéder :"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "Le formulaire devrait être défini sur la page %1"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "Leur verrou sur cette page a expiré il y a %1."
+
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Le nom de page (%1) contient des caractères invalides."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Le nom de la page ne peut pas être vide."
+
+#~ msgid ""
+#~ "The name provided is either invalid, or the named topic is not found. The "
+#~ "templatetopic must be an existing new user template topic in the %USERSWEB"
+#~ "% web.  If not provided, the default topic is [[%USERSWEB%."
+#~ "NewUserTemplate]], or if that does not exist. [[%SYSTEMWEB%."
+#~ "NewUserTemplate]]."
+#~ msgstr ""
+#~ "Le nom fournit est soit invalide, ou la page indiquée est introuvable. Le "
+#~ "templatetopic doit être un modèle de page de nouvel utilisateur existant "
+#~ "dans le Web %USERSWEB% web. S'il n'est pas indiqué, la page par défaut "
+#~ "est [[%USERSWEB%.NewUserTemplate]], ou si celle-ci n'existe pas "
+#~ "[[%SYSTEMWEB%.NewUserTemplate]]."
+
+#~ msgid "The name you log in with"
+#~ msgstr "Le nom avec lequel vous vous connectez"
+
+#~ msgid ""
+#~ "The new parent web (%1) may not be the same as the old or new web name."
+#~ msgstr ""
+#~ "Le nouveau web parent (%1) ne peut pas être le même que le vieux ou le "
+#~ "nouveau nom de web."
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "La page de destination doit déjà exister."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Le nouveau web a été créé"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr ""
+#~ "Le mot de passe que vous avez entré dans le champ *old password* est "
+#~ "erroné."
+
+#~ msgid ""
+#~ "The prefix you entered for the deleted user is not valid as a topic name."
+#~ msgstr ""
+#~ "Le préfixe que vous avez entré pour l'utilisateur supprimé n'est pas "
+#~ "valide en tant que nom de page."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "Le champ %1, qui est nécessaire, n'a pas été rempli."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr ""
+#~ "Le système d'utilisateurs sélectionné ne supporte pas l'inscription de "
+#~ "nouveaux utilisateurs."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "La page est dans un format obsolète"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "Les deux mots de passe que vous avez entrés ne concordent pas."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr ""
+#~ "L'utilisateur %1 a déjà été activé, et devrait être capable de "
+#~ "s'authentifier."
+
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "L'utilisateur a été supprimé du système d'authentification."
+
+#~ msgid "The user has probably been already verified and/or approved."
+#~ msgstr "L'utilisateur a probablement déjà été vérifié et/ou approuvé."
+
+#~ msgid ""
+#~ "The username is checked for invalid characters using the below filter. "
+#~ "Any characters matching this filter will invalidate the username."
+#~ msgstr ""
+#~ "Le filtre de caractères invalides utilisé pour vérifier le nom de "
+#~ "connexion figure ci-dessous. Tout caractère correspondant à ce filtre "
+#~ "rendra invalide le nom de connexion."
+
+#~ msgid "The username that identifies you to the signon system. %1"
+#~ msgstr ""
+#~ "Le nom de connexion qui vous identifie sur le système d'ouverture de "
+#~ "session. %1"
+
+#~ msgid "The value supplied for =%1= has been rejected."
+#~ msgstr "La valeur fournie pour =%1= a été refusée."
+
+#~ msgid ""
+#~ "Their intention is to automatically save compromising data by sending a "
+#~ "request to your server, using your browser and your identity."
+#~ msgstr ""
+#~ "Leur but est l'enregistrement automatique de données compromises, en "
+#~ "envoyant une requête a votre serveur, en utilisant votre navigateur et "
+#~ "votre identité."
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "Des problèmes se posent pour le renommage de ce web :"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr ""
+#~ "L'enregistrement de votre compte dans le système de mots de passe a "
+#~ "échoué."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "Il y a un risque que quelqu'un tente d'utiliser votre identité pour "
+#~ "changer le contenu sur %1 à votre insu."
+
+#~ msgid ""
+#~ "There is no _internal admin_ password set.  See [[%1][Installation Guide "
+#~ "section on the internal admin]] for further help."
+#~ msgstr ""
+#~ "Aucun mot de passe d'<i>administration interne</i> configuré.  Voir [[%1]"
+#~ "[la section du guide d'installation sur l'administrateur interne]] pour "
+#~ "plus d'informations."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr ""
+#~ "Il devrait y avoir une ligne incluant %1, essayez de trouver %2 (ou %3)"
+
+#~ msgid "There were errors adding to the %2 group. %1 "
+#~ msgstr "Il y a eu des erreurs lors de l'ajout au groupe %2. %1 "
+
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "Des erreurs se sont produites en retirant %1 du groupe %2."
+
+#~ msgid "These steps may not be applicable to your system."
+#~ msgstr "Ces instructions peuvent ne pas être applicables à votre système."
+
+#~ msgid "This WikiName is already in use."
+#~ msgstr "Ce NomWiki est déjà utilisé."
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "La mise à jour peut être automatiquement effectuée en :"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "Plusieurs raisons peuvent expliquer cela :"
+
+#~ msgid ""
+#~ "This field is not normally user provided. This may be a Foswiki "
+#~ "configuration error."
+#~ msgstr ""
+#~ "Ce champ n'est normalement pas fournit par l'utilisateur. Cela peut être "
+#~ "une erreur de configuration de Foswiki."
+
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "Ce formulaire sert à changer les adresses e-mail sous lesquelles vous "
+#~ "êtes inscrit(e). Ces adresses sont utilisées par Foswiki pour vous "
+#~ "envoyer des e-mails, tels que les notifications de changement de mot de "
+#~ "passe. Les adresses que vous entrez dans ce formulaire sont gardées "
+#~ "secrètes et ne seront *pas* publiées sur ce site."
+
+#~ msgid "This group should not have members."
+#~ msgstr "Ce groupe ne devrait pas avoir de membres."
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "Sur cette page, vous pouvez vous abonner afin de recevoir un e-mail "
+#~ "lorsque des pages sont modifiées dans ce web (%1). Ainsi, vous n'aurez "
+#~ "plus besoin de venir vérifier tout le temps s'il y a du nouveau. Pour "
+#~ "vous abonner, insérez une ligne contenant votre %2 dans cette liste à "
+#~ "puces (par ordre alphabétique) :"
+
+#~ msgid ""
+#~ "This is a temporary placeholder for your new comment. Refresh the topic "
+#~ "to see the actual comment."
+#~ msgstr ""
+#~ "Ceci est un emplacement temporaire pour votre nouveau commentaire. "
+#~ "Actualisez la page pour voir le commentaire réel."
+
+#~ msgid "This is also known as Cross-site Request Forgery, or CSRF."
+#~ msgstr ""
+#~ "On appelle cela également : falsification de requête inter-domaine ou "
+#~ "CSRF (sigle anglais pour \"cross-site request forgery\")."
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "Ceci un est un message automatique de %1."
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr ""
+#~ "Ceci un est un message automatique pour vous avertir de la création d'un "
+#~ "compte sur %1."
+
+#~ msgid ""
+#~ "This is an internal error.  You can try to register again, or contact %1 "
+#~ "to report the error."
+#~ msgstr ""
+#~ "Il s'agit d'une erreur interne. Vous pouvez tenter l'inscription de "
+#~ "nouveau, ou contacter %1 pour signaler l'erreur."
+
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "Ce n'est pas un NomWiki valide."
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "Ceci est la poubelle (Trash). Vous pouvez y récupérer des pages "
+#~ "effacées ; les fichiers attachés qui ont été effacés sont sur la page "
+#~ "TrashAttachment."
+
+#~ msgid "This is why the conversion is disabled:"
+#~ msgstr "Voilà pourquoi la conversion est désactivée :"
+
+#~ msgid ""
+#~ "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
+#~ "[Register]] if you do not have an account yet."
+#~ msgstr ""
+#~ "Ceci est votre nom écrit comme un !MotWiki, par exemple : !JeanDurand. "
+#~ "[[%1][Inscrivez-vous]] si vous n'avez pas encore de compte."
+
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "Cela doit être un NomWiki unique."
+
+#~ msgid "This must be a valid login username."
+#~ msgstr "Cela doit être un nom de connexion valide."
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "Ce nom a été choisi de telle sorte qu'il n'entre pas en conflit avec les "
+#~ "pages déjà existantes dans le web %1."
+
+#~ msgid ""
+#~ "This page explains one of the security measures that Foswiki, the "
+#~ "software that runs this site, performs to secure this site from attackers."
+#~ msgstr ""
+#~ "La présente page explique une des mesures de sécurité que Foswiki, le "
+#~ "logiciel qui fait fonctionner ce site, met en œuvre pour sécuriser le "
+#~ "site contre des attaquants."
+
+#~ msgid "This page was cached on %1."
+#~ msgstr "Cette page a été mise en cache le %1."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "Pour cela, le formulaire doit être défini."
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Le présent site est propulsé par Foswiki"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
+
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "Ce système est configuré pour utiliser des noms de connexion."
+
+#~ msgid ""
+#~ "This system is not configured to support user login. Return to [[%1]]."
+#~ msgstr ""
+#~ "Ce système n'est pas configuré pour utiliser des noms de connexion. "
+#~ "Retournez vers [[%1]]."
+
+#~ msgid "This topic:"
+#~ msgstr "Cette page :"
+
+#~ msgid "This username is already in use."
+#~ msgstr "Ce nom de connexion est déjà utilisé."
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "Ces modifications ont été fusionnées avec les autres dans la version %1. "
+#~ "La fusion du texte ne pose pas de problème, mais d'autres données, comme "
+#~ "les formulaires, peuvent avoir remplacé les modifications des autres "
+#~ "personnes. Veuillez inspecter la page pour vérifier que tout s'est bien "
+#~ "passé, en particulier si vous avez modifié des formulaires."
+
+#~ msgid ""
+#~ "Though rarely used in common practice, you can use the special =="
+#~ "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for "
+#~ "example, ==%<nop>USERSWEB%.%WIKINAME%==."
+#~ msgstr ""
+#~ "Bien que rarement utilisé en pratique, vous pouvez utiliser la [[%1."
+#~ "Macros][macro]] spéciale ==%<nop>USERSWEB%== comme préfixe pour les !"
+#~ "NomsWiki, par exemple, ==%<nop>USERSWEB%.%WIKINAME%==."
+
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "Pour approuver cette inscription, visitez %2"
+
+#~ msgid "To attachment:"
+#~ msgstr "Vers le fichier attaché :"
+
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "Pour bloquer cette inscription, visitez %2"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr ""
+#~ "Pour afficher le résultat de la recherche ci-dessus dans une page, copiez-"
+#~ "collez le code suivant :"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "Pour modifier la page tout de même, cliquez "
+
+#~ msgid "To login as another user please do so [[%1][here]]."
+#~ msgstr ""
+#~ "Pour vous connecter en tant qu'un autre utilisateur, veuillez le faire "
+#~ "[[%1][ici]]."
+
+#~ msgid ""
+#~ "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
+#~ "click here </a> "
+#~ msgstr ""
+#~ "Pour actualiser le cache pour cette page seulement, <a href='%1' "
+#~ "rel='nofollow' > cliquez ici </a> "
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr "Pour savoir si %1 a terminé ses modifications, cliquez "
+
+#~ msgid "To topic"
+#~ msgstr "Vers la page"
+
+#~ msgid "To topic:"
+#~ msgstr "Cette page :"
+
+#~ msgid "To web"
+#~ msgstr "Vers le web"
+
+#~ msgid "To web:"
+#~ msgstr "Vers le web :"
+
+#~ msgid "Too many recursions parsing template %1"
+#~ msgstr "Trop de récursions lors du traitement du gabarit %1"
+
+#~ msgid "Toolbox"
+#~ msgstr "Boite à outils"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "La page %1 n'existe pas"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Erreur lors de l'enregistrement de la page"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Fichiers attachés"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "Le tableau de catégories de cette page ne peut être mis à jour"
+
+#~ msgid "Topic data"
+#~ msgstr "Données de la page"
+
+#~ msgid "Topic history"
+#~ msgstr "Historique de la page"
+
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Liste des pages dans le Web %1"
+
+#~ msgid "Topic name"
+#~ msgstr "Nom de page"
+
+#~ msgid "Topic name:"
+#~ msgstr "Nom de page :"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Page mère :"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Version de la page :"
+
+#~ msgid "Topic save error"
+#~ msgstr "Erreur lors de l'enregistrement de la page"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "Modèles (templates) de pages dans le web %1"
+
+#~ msgid "Topic title"
+#~ msgstr "Titre de la page"
+
+#~ msgid "Topic was merged"
+#~ msgstr "La page a été fusionnée"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Nom de page : "
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "Pages dans le web %1 :"
+
+#~ msgid "Topics per web"
+#~ msgstr "Pages par web"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr ""
+#~ "Pages en cours de modification par d'autres personnes dans le Web %1 :"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr ""
+#~ "Pages qui contiennent un lien pointant vers ce web, et qui sont en cours "
+#~ "de modification par d'autres personnes :"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr ""
+#~ "Pages qui contiennent un lien pointant vers ce web, et que vous n'avez "
+#~ "pas le droit de modifier :"
+
+#~ msgid "Total matches"
+#~ msgstr "Le nombre de résultats"
+
+#~ msgid "Try Again"
+#~ msgstr "Réessayer"
+
+#~ msgid "Unchanged sections before and after each change"
+#~ msgstr "Sections inchangées avant et après chaque modification"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "Nom de connexion inconnu et/ou mot de passe erroné"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Commande %1 inconnue"
+
+#~ msgid ""
+#~ "Unsafe redirect to %1 is denied. The requested host does not match %2, "
+#~ "and is not in {PermittedRedirectHostUrls}."
+#~ msgstr ""
+#~ "Une redirection non-sûre vers %1 a été refusée. Le serveur dans cette "
+#~ "requête ne correspond pas à %2, et n'est pas dans "
+#~ "{PermittedRedirectHostUrls}."
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Désabonnement"
+
+#~ msgid "Unsubscribe from this topic"
+#~ msgstr "Se désabonner de cette page"
+
+#~ msgid "Unsubscribe from this topic (s)"
+#~ msgstr "Se désabonner de cette page (s)"
+
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "[[%1][Nom de connexion]] non supporté"
+
+#~ msgid "Update"
+#~ msgstr "Mettre à jour"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Mettre à jour le fichier %1 attaché à la page %2"
+
+#~ msgid "Update links"
+#~ msgstr "Mettre à jour les liens"
+
+#~ msgid "Upgrade"
+#~ msgstr "Mise à niveau"
+
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Mettre à niveau page de groupe..."
+
+#~ msgid "Upgraded group"
+#~ msgstr "Groupe mis à niveau"
+
+#~ msgid "Upload a file"
+#~ msgstr "Upload un fichier"
+
+#~ msgid "Upload file"
+#~ msgstr "Envoyer le fichier"
+
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Envoyer de multiples fichiers joints dans un fichier zip"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Taille limite d'un fichier attaché : %1 Ko."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "La taille du fichier %1 dépasse la limite de %2 Ko"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Ce fichier est trop gros"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Utilisez plutôt %1."
+
+#~ msgid "Use template:"
+#~ msgstr "Utiliser modèle :"
+
+#~ msgid ""
+#~ "Use this button to load the content.%BR% *Caution* the content is very "
+#~ "large and loading it will put a high load on your browser. Only load the "
+#~ "content if you are going to print it - otherwise use the "
+#~ "[[ReferenceManual][online reference manual]]."
+#~ msgstr ""
+#~ "Utilisez ce bouton pour charger le contenu.%BR% *Attention*, le contenu "
+#~ "est très volumineux et le charger fera supporter une charge élevée à "
+#~ "votre navigateur. Ne chargez le contenu que si vous allez l'imprimer - "
+#~ "autrement, utilisez [[ReferenceManual][le manuel de référence en ligne]]."
+
+#~ msgid ""
+#~ "Use this button to load the content.%BR% *Caution* the search on this "
+#~ "topic can be very resource intensive. Only load the content if you really "
+#~ "need it, otherwise review the WebChanges topic from each web."
+#~ msgstr ""
+#~ "Utilisez ce bouton pour charger le contenu.%BR% *Attention*, la recherche "
+#~ "sur cette page peut être très consommatrice de ressources. Ne chargez le "
+#~ "contenu que vous en avez réellement besoin, autrement consultez la page "
+#~ "WebChanges sur chaque Web."
+
+#~ msgid "User %1 does not have CHANGE permission on %2."
+#~ msgstr ""
+#~ "L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
+
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "Utilisateur %1 pas dans le groupe, ne peut être supprimé"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "Compte %1 supprimé"
+
+#~ msgid "User Account was not supplied"
+#~ msgstr "Compte utilisateur non fourni"
+
+#~ msgid "User Reference"
+#~ msgstr "Aide"
+
+#~ msgid "User Registration"
+#~ msgstr "Inscription utilisateur"
+
+#~ msgid ""
+#~ "User exists in the Password Manager,  and the password you provided is "
+#~ "different from the users current password.   You cannot add a user and "
+#~ "change the password at the same time."
+#~ msgstr ""
+#~ "L'utilisateur existe dans le gestionnaire de mots de passes, et le mot de "
+#~ "passe que vous avez saisi est différent du mot de passe actuel de "
+#~ "l'utilisateur. Vous ne pouvez pas ajouter un utilisateur est changer le "
+#~ "mot de passe en même temps."
+
+#~ msgid "Username"
+#~ msgstr "Nom de connexion"
+
+#~ msgid "Username %1."
+#~ msgstr "Nom de connexion %1."
+
+#~ msgid "Username or email address"
+#~ msgstr "Nom de connexion ou adresse e-mail"
+
+#~ msgid "Users"
+#~ msgstr "Utilisateurs"
+
+#~ msgid "Users cannot be added to %1"
+#~ msgstr "On ne peut pas ajouter des utilisateur à %1"
+
+#~ msgid "Users cannot be removed from %1"
+#~ msgstr "Les utilisateurs ne peuvent pas être supprimés de %1"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Vous devriez immédiatement [[%1][changer ce mot de passe]] généré "
+#~ "automatiquement, pour le remplacer par un autre que vous pourrez "
+#~ "mémoriser aisément."
+
+#~ msgid "Version"
+#~ msgstr "Version"
+
+#~ msgid "Version history"
+#~ msgstr "Historique des versions"
+
+#~ msgid "Version history of %1"
+#~ msgstr "Historique des versions de %1"
+
+#~ msgid "View"
+#~ msgstr "Visualiser"
+
+#~ msgid "View complete topic history"
+#~ msgstr "Afficher l&#39;intégralité de l&#39;historique"
+
+#~ msgid "View difference"
+#~ msgstr "Afficher les différences"
+
+#~ msgid "View differences"
+#~ msgstr "Afficher différences"
+
+#~ msgid "View earlier"
+#~ msgstr "Voir précédentes"
+
+#~ msgid "View later"
+#~ msgstr "Voir suivantes"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Afficher la version précédente de la page"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Afficher le code source, sans formatage"
+
+#~ msgid "View revision"
+#~ msgstr "Afficher version"
+
+#~ msgid "View revision:"
+#~ msgstr "Afficher la version :"
+
+#~ msgid "View sequential topic history"
+#~ msgstr "Afficher historique séquentiel de la page"
+
+#~ msgid "View templates"
+#~ msgstr "Voir les modèles"
+
+#~ msgid "View topic"
+#~ msgstr "Afficher la page"
+
+#~ msgid "View total topic history"
+#~ msgstr "Afficher l&#39;intégralité de l&#39;historique"
+
+#~ msgid "View without formatting (v)"
+#~ msgstr "Afficher le code source, sans formatage (v)"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Confirmation nécessaire"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Attention : page incluse par une directive 'include' n'existe pas !"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr ""
+#~ "Attention : la page %1 est déjà insérée. Vous ne pouvez utiliser INCLUDE "
+#~ "à plusieurs reprises. %2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Attention : impossible d'exécuter INCLUDE '%1', le chemin est vide ou "
+#~ "contient des caractères non autorisés."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr ""
+#~ "Attention : impossible de trouver la section dénommée %3 dans la page %1."
+#~ "%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Attention : la page %1.%2 est introuvable"
+
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Attention : le Web %1 pour la page %2 est introuvable"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Attention : l'e-mail de confirmation n'a pas pu être envoyé"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr ""
+#~ "Attention : l'e-mail de confirmation n'a pas pu être envoyé, la "
+#~ "fonctionnalité e-mail a été désactivée"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr ""
+#~ "Attention : ce site n'autorise pas l'inclusion d'URLs avec %<nop>INCLUDE%"
+
+#~ msgid "Warning: Updates found for %1 extension(s)."
+#~ msgstr "Attention : Mises à jour trouvées pour %1 extension(s)."
+
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Attention : la page \\'include\\' <nop>%1 n'existe pas !"
+
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Attention : page incluse par une directive 'include' n'existe pas !"
+
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr ""
+#~ "Attention : la définition de table dans la page \\'include\\' %1 n'existe "
+#~ "pas !"
+
+#~ msgid ""
+#~ "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+#~ "you wish to register."
+#~ msgstr ""
+#~ "Nous avons remarqué que vous avez désactivé Javascript. Veuillez activer "
+#~ "Javascript si vous souhaitez vous inscrire."
+
+#~ msgid ""
+#~ "We noticed you have disabled cookies. Please enable cookies if you wish "
+#~ "to register."
+#~ msgstr ""
+#~ "Nous avons remarqué que vous avez désactivé les cookies. Veuillez "
+#~ "autoriser les cookies si vous souhaitez vous inscrire."
+
+#~ msgid "Web Changes notification service"
+#~ msgstr "Service de notification de changements d'un Web"
+
+#~ msgid "Webs"
+#~ msgstr "Webs"
+
+#~ msgid "Webserver <em>running Foswiki</em>"
+#~ msgstr "Serveur web <em>exécutant Foswiki</em>"
+
+#~ msgid "Welcome to %1 ... meet people on this site"
+#~ msgstr ""
+#~ "Bienvenue sur %1 ... collaborez avec les autres utilisateurs de ce site"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Bienvenue sur le web %1"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "En essayant d'envoyer un e-mail à <noautolink>%1</noautolink>."
+
+#~ msgid "Who"
+#~ msgstr "Qui"
+
+#~ msgid "Who is requesting this, actually?"
+#~ msgstr "Qui est à l'origine de la requête, en réalité ?"
+
+#~ msgid "Whole page"
+#~ msgstr "Page entière"
+
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "Pourquoi m'est-il demandé de confirmer ?"
+
+#~ msgid ""
+#~ "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+#~ "Foswiki.org]]."
+#~ msgstr ""
+#~ "Les administrateurs du wiki devraient lire la [[%1][page SecurityFeatures "
+#~ "(mesures de sécurité) sur Foswiki.org]]."
+
+#~ msgid "Word search"
+#~ msgstr "Recherche de mots identiques (word search)"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Souhaitez vous aller à :"
+
+#~ msgid "Yes"
+#~ msgstr "Oui"
+
+#~ msgid "You"
+#~ msgstr "Vous"
+
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "Pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni "
+#~ "au moins une adresse e-mail valide lors de votre inscription. Si aucune "
+#~ "des adresses e-mail que vous avez fournies n'est valide, et que vous avez "
+#~ "oublié votre mot de passe, contactez %1."
+
+#~ msgid "You are already registered."
+#~ msgstr "Vous êtes déjà inscrit(e)."
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Vous figurez aussi sur la page %1"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "Dans ce web, l'accès aux pages suivantes vous est refusé :"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Il est probablement possible de passer outre, sauf dans le cas où vous "
+#~ "souhaiteriez modifier le formulaire attaché à la page. Si %1 enregistre "
+#~ "ses modifications pendant que vous modifiez la page, vos modifications "
+#~ "seront fusionnées avec les siennes, et rien ne sera perdu. Les "
+#~ "informations contenues dans des formulaires ne peuvent cependant être "
+#~ "fusionnées aisément, c'est pourquoi il est préférable, dans ce cas, de "
+#~ "vous coordonner avec %1."
+
+#~ msgid "You are here:"
+#~ msgstr "Vous êtes ici :"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "Il est conseillé de choisir des noms relativement courts (si possible "
+#~ "moins de 10 caractères), commençant par une lettre majuscule, et ne "
+#~ "contenant que des caractères alphanumériques. Si vous souhaitez créer un "
+#~ "modèle de web (c'est-à-dire, un web qui ne sert que de base pour la "
+#~ "création d'autres webs), choisissez un nom qui commence par un underscore "
+#~ "(_), et ne contenant par ailleurs que des caractères alphanumériques."
+
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Vous tentez d'accéder à un fichier attaché qui n'existe pas."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr ""
+#~ "Vous tentez de créer une page d'un modèle (template) qui n'existe pas."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr ""
+#~ "Vous tentez d'effectuer une action sur une page qui n'existe pas. (action "
+#~ "'%1')."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Vous tentez de renommer une page qui n'existe pas."
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "Vous pouvez [[%1][créer un nouveau web]] si vous en avez l'autorisation. "
+#~ "Contactez %2 si vous avez des questions."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "Vous pouvez aussi utiliser les noms de couleurs HTML standard (black, "
+#~ "silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
+#~ "yellow, navy, blue, teal, et aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "Vous pouvez changer de mot de passe via %1"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "Vous pouvez renommer ce web."
+
+#~ msgid ""
+#~ "You can use the \"approve\" or \"reject\" links to approve or reject "
+#~ "these registrations"
+#~ msgstr ""
+#~ "Vous pouvez utiliser les liens \"approuver\" ou \"refuser\" pour "
+#~ "approuver ou refuser ces inscriptions"
+
+#~ msgid ""
+#~ "You cannot add users to a missing group unless the create option is set."
+#~ msgstr ""
+#~ "Vous ne pouvez ajouter des utilisateurs à un groupe inexistant à moins "
+#~ "que l'option créer soit activée."
+
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr ""
+#~ "Vous ne pouvez pas changer votre nom de connexion : vous devez demander à "
+#~ "l'administrateur de le faire pour vous."
+
+#~ msgid ""
+#~ "You cannot proceed because either Cookies or !JavaScript are disabled in "
+#~ "your browser."
+#~ msgstr ""
+#~ "Vous ne pouvez pas continuer car soit les cookies, soit le Javascript "
+#~ "sont désactivés dans votre navigateur."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr ""
+#~ "Vous ne pouvez pas vous inscrire deux fois, et le nom %1 est déjà utilisé."
+
+#~ msgid ""
+#~ "You change your email address by setting the form field called Email in "
+#~ "your user topic. If this form field does not exist it will look for a "
+#~ "line like this:"
+#~ msgstr ""
+#~ "Vous pouvez modifier votre adresse email en saisissant le champ appelé "
+#~ "'Email' dans votre page utilisateur. Si ce champ n'existe pas, alors le "
+#~ "système cherchera une ligne comme celle-ci :"
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "Vous n'avez *pas* été inscrit(e)."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "Si elles ne sont pas adaptées à votre contexte, vous pouvez demander aux "
+#~ "administrateurs de ce Wiki de les modifier."
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr ""
+#~ "Il est possible que vous ayez déjà visité ce lien de vérification "
+#~ "d'inscription."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr ""
+#~ "Il se peut que vous deviez fermer votre navigateur internet pour que ce "
+#~ "changement prenne effet."
+
+#~ msgid ""
+#~ "You must be the =%1= super user, or a member of the %2, to clear the "
+#~ "global cache for all topics."
+#~ msgstr ""
+#~ "Vous devez être le super-utilisateur =%1= , ou un membre de %2, pour "
+#~ "purger le cache global pour toutes les pages."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "Vous devez fournir un nom de page."
+
+#~ msgid "You need to specify a valid group name to add members to a group."
+#~ msgstr ""
+#~ "Vous devez spécifier un nom de groupe valide pour ajouter des membres à "
+#~ "un groupe."
+
+#~ msgid ""
+#~ "You need to specify a valid group name to remove members from a group."
+#~ msgstr ""
+#~ "Vous devez spécifier un nom de groupe valide pour supprimer des membres "
+#~ "d'un groupe."
+
+#~ msgid "You need to specify a valid member to add to a group."
+#~ msgstr "Vous devez spécifier un membre valide à ajouter à un groupe."
+
+#~ msgid "You need to specify a valid member to remove from a group."
+#~ msgstr "Vous devez spécifier un membre valide à retirer d'un groupe."
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "Il vous faut maintenant confirmer la validité de votre adresse e-mail. "
+#~ "Pour cela, vous pouvez entrer %1 dans le formulaire affiché lors de "
+#~ "l'envoi de cet e-mail, ou bien vous rendre sur la page %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr ""
+#~ "Vous devrez probablement demander à l'administrateur, %1, de faire cela."
+
+#~ msgid "You will receive an e-mail when your registration has been approved."
+#~ msgstr "Vous recevrez un e-mail quand votre inscription aura été approuvée."
+
+#~ msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+#~ msgstr "Votre [[%1][NomWiki]] est %2 et votre nom de connexion est =%3=."
+
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Votre [[%1][nom de connexion]] :"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "Votre code de validation a été envoyé à %1. Pour terminer la création de "
+#~ "votre compte, vous pouvez entrer ce code ci-dessous, ou bien suivre le "
+#~ "lien contenu dans l'e-mail que vous allez recevoir. (Ce code est de la "
+#~ "forme \"VotreNom.xxxxxxxxxx\")"
+
+#~ msgid "Your email address will be kept confidential."
+#~ msgstr "Votre adresse e-mail restera confidentielle."
+
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Votre langue a été modifiée ; elle est maintenant %1. [[%2][cliquez ici "
+#~ "pour continuer]]."
+
+#~ msgid "Your name as displayed by %1."
+#~ msgstr "Votre nom tel qu'affiché par %1."
+
+#~ msgid ""
+#~ "Your name, usually your first and last name connected without a space."
+#~ msgstr ""
+#~ "Votre nom, en général votre prénom et votre nom de famille accolés sans "
+#~ "espace."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Votre mot de passe a été modifié ; il est maintenant %1."
+
+#~ msgid "Your password has not been changed."
+#~ msgstr "Votre mot de passe n'a pas été modifié."
+
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Votre mot de passe doit être composé d'au moins %1 caractères."
+
+#~ msgid "Your password:"
+#~ msgstr "Votre mot de passe :"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr ""
+#~ "Votre page personnelle sur %1 est %2. Vous pouvez la modifier selon vos "
+#~ "souhaits :"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Votre page personnelle Foswiki %1 a été créée"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "Votre, ou vos adresse(s) e-mail a (ont) été mises à jour vers : "
+#~ "<noautolink>%1</noautolink>."
+
+#~ msgid ""
+#~ "Your registered e-mails are used by Foswiki for sending you e-mails, "
+#~ "include notifications of password changes."
+#~ msgstr ""
+#~ "Les adresses e-mail enregistrées sont utilisées par Foswiki pour vous "
+#~ "envoyer des e-mails, y compris des notifications de changement de mot de "
+#~ "passe."
+
+#~ msgid "Your registration is pending approval by the system administrators."
+#~ msgstr ""
+#~ "Votre inscription est en attente d'approbation par les administrateurs du "
+#~ "système."
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr ""
+#~ "La vérification a votre inscription par e-mail a échoué, ou elle est en "
+#~ "cours d'acheminement par le système de messagerie."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Votre signature, à copier/coller"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Votre signature, à copier/coller :"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr ""
+#~ "Votre système peut ne pas permettre le changement des mots de passe avec "
+#~ "Foswiki. Veuillez vérifier auprès de votre administrateur du Wiki."
+
+#~ msgid ""
+#~ "Your user registration failed because it did not pass the validation "
+#~ "tests."
+#~ msgstr ""
+#~ "Votre inscription a échoué car elle n'a pas passé les tests de validation."
+
+#~ msgid ""
+#~ "[[%1][Click here]] for guidance on creating a valid username for this "
+#~ "site."
+#~ msgstr ""
+#~ "[[%1][Cliquez ici]] pour de l'aide sur la création d'un nom de connexion "
+#~ "valide pour ce site."
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "Consultez les [[%1][informations de débogage de la page]]."
+
+#~ msgid "[[%1][username]]:"
+#~ msgstr "[[%1][nom de connexion]] :"
+
+#~ msgid "_language_name"
+#~ msgstr "Français"
+
+#~ msgid "access denied on root"
+#~ msgstr "l'accès à la racine est interdit"
+
+#~ msgid "access denied on topic"
+#~ msgstr "l'accès à la page est interdit"
+
+#~ msgid "access denied on web"
+#~ msgstr "l'accès à ce web est interdit"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "l'accès à la racine est interdit"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "l'accès à la page est interdit"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "l'accès à ce web est interdit"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "raccourci clavier='c'"
+
+#~ msgid "and"
+#~ msgstr "et"
+
+#~ msgid "by %1 "
+#~ msgstr "par %1 "
+
+#~ msgid "change display options"
+#~ msgstr "modifier options d'affichage"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "changer, mettre à jour, versions précédentes, déplacer, effacer..."
+
+#~ msgid "close display options"
+#~ msgstr "fermer options d'affichage"
+
+#~ msgid "diff"
+#~ msgstr "diff"
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "n'oubliez pas de vérifier votre page de préférences"
+
+#~ msgid "earlyInitPlugin failed.  See errors below."
+#~ msgstr "earlyInitPlugin a échoué.  Voyez les erreurs ci-dessous."
+
+#~ msgid "fields are required."
+#~ msgstr "sont des champs devant être remplis."
+
+#~ msgid "help"
+#~ msgstr "aide"
+
+#~ msgid "hide form"
+#~ msgstr "Cacher formulaire"
+
+#~ msgid "hints on good style"
+#~ msgstr "astuces sur des pratiques courantes de collaboration"
+
+#~ msgid "in raw text format"
+#~ msgstr "afficher le code source"
+
+#~ msgid "initPlugin was not defined. See errors below."
+#~ msgstr "initPlugin n'a pas été défini. Voyez les erreurs ci-dessous."
+
+#~ msgid "last change"
+#~ msgstr "dernière modification"
+
+#~ msgid "manage"
+#~ msgstr "gérer"
+
+#~ msgid "more..."
+#~ msgstr "suite..."
+
+#~ msgid "now %1"
+#~ msgstr "maintenant %1"
+
+#~ msgid "or"
+#~ msgstr "ou"
+
+#~ msgid "preview"
+#~ msgstr "prévisualiser"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "trouvées à %1"
+
+#~ msgid "revision %1"
+#~ msgstr "version %1"
+
+#~ msgid "set preferences"
+#~ msgstr "définir les options"
+
+#~ msgid "the beginning"
+#~ msgstr "le début"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Attacher une image ou un document à cette page' "
+#~ "accesskey='a'>&Attacher"
+
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr "title='Attacher une image ou un document à cette page'>Attacher"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "value='Créer une page' accesskey='c'>&Créer"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Supprimer ou renommer cette page ; définir la page mère ; voir et "
+#~ "comparer les différentes versions' accesskey='m'>Autres fonctions (&m)"
+
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr ""
+#~ "title='Modifier la source de cette page au format Wiki text' "
+#~ "accesskey='w'>Modifier &wiki text"
+
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Modifier le texte de cette page' >Modifier"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
+
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr ""
+#~ "title='Différences entrelacées' accesskey='i'>D&ifférences entrelacées"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr "title='Version imprimable de cette page' accesskey='p'>Im&primer"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Chercher, dans tous les webs, les pages qui contiennent un lien "
+#~ "pointant ici' accesskey='l'>Tous &les webs"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Chercher dans le Web %1 les liens pointant ici' "
+#~ "accesskey='b'>Liens entrants (&b)"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr ""
+#~ "title='Chercher dans le Web %1 les liens pointant ici' accesskey='b'>We&b"
+
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='Côte-à-côte' accesskey='s'>Différence&s côte-à-côte"
+
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Abonnement à cette page' accesskey='s'>&S'abonner"
+
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr "title='Désabonnement à cette page' accesskey='s'>Dé&sabonnement"
+
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr ""
+#~ "title='Afficher l&#39;intégralité de l&#39;historique de la page' "
+#~ "accesskey='h'>&Historique"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Voir la page' accesskey='v'>&Voir la page"
+
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr ""
+#~ "title='Afficher la source de cette page au format Wiki text, sans "
+#~ "formatage' accesskey='v'>&Voir wiki text"
+
+#~ msgid "user list truncated"
+#~ msgstr "liste incomplète"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Annuler' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Abandonner' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Prévisualiser' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Enregistrer sans notification' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Enregistrer et continuer de modifier' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Enregistrer' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "visualiser"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "pourquoi il vous est demandé de confirmer"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 a été approuvé(e) et inscrit(e) avec l'adresse e-mail %2"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Retourner à [_0]"
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Les caractères internationaux (8 bits) sont enlevés, et remplacés, dans "
+#~ "le cas du Latin-1, par leurs équivalents US-ASCII"
+
+#~ msgid "Notes:"
+#~ msgstr "Notes :"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "À compter de la prochaine page, votre langue préférée sera %1. Vous allez "
+#~ "y être redirigé automatiquement. Sinon, [[%2][cliquez ici]] pour vous y "
+#~ "rendre."
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Déplacer ou supprimer le fichier attaché"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "les pages référencées"
+
+#~ msgid "Choose files"
+#~ msgstr "Choisir les fichiers"
+
+#~ msgid "Drag files here"
+#~ msgstr "Glisser-déposer les fichiers ici"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Envoyer le fichier"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Choisir à partir d'une liste"
+
+#~ msgid "%1.LoginName:"
+#~ msgstr "%1.NomDeConnexion :"
+
+#~ msgid "Login name %1"
+#~ msgstr "Nom de connexion %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Votre %1.NomDeConnexion"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "%1 incorrect"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "Le champs %1 doit respecter le filtre {LoginNameFilterIn} de ce site"
+
+#~ msgid "Click here"
+#~ msgstr "Cliquez ici"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Prénom :"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Renommer"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Nom de page"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Action"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Cette page :"
+
+#~ msgid "Hello %1"
+#~ msgstr "Bonjour, %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "ou"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Nom de page"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Aide au formatage :*"
+
+#~ msgid "&Edit text"
+#~ msgstr "Modifi&er le texte"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "Une liste plus détaillée des modifications est disponible via le lien "
+#~ "[[%1][Modifications récentes]]."
+
+#~ msgid "Bathing problem"
+#~ msgstr "Problème de bain"
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Créer la page"
+
+#~ msgid "Current parent:"
+#~ msgstr "Page mère actuelle :"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Modifier les informations personnelles"
+
+#~ msgid "Edit text"
+#~ msgstr "Modifier le texte"
+
+#~ msgid "Error: %1"
+#~ msgstr "Erreur : %1"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Si votre page personnelle n'est pas protégée contre les modifications par "
+#~ "d'autres personnes, et que vous ne fournissez pas d'adresse e-mail dans "
+#~ "ce formulaire, n'importe qui pourra prendre le contrôle de votre compte "
+#~ "utilisateur."
+
+#, fuzzy
+#~ msgid "Log on with your username and password"
+#~ msgstr ""
+#~ "Veuillez entrer votre nom de connexion, ainsi que votre mot de passe"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "Problème dans le remplissage de la baignoire"
+
+#, fuzzy
+#~ msgid "Show"
+#~ msgstr "Afficher l'aide"
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(Pour choisir un nom de page, utilisez la System.WikiNotation)"
+
+#~ msgid "Warning"
+#~ msgstr "Attention"
+
+#, fuzzy
+#~ msgid "You cannot register on this site."
+#~ msgstr ""
+#~ "Vous ne pouvez pas vous inscrire deux fois, et le nom %1 est déjà utilisé."
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Vous devriez vraiment fournir une adresse e-mail valide. Si Foswiki ne "
+#~ "trouve pas votre adresse e-mail dans la base de données confidentielles, "
+#~ "il regardera si votre page personnelle contient une ligne du type :"
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr ""
+#~ "Votre page personnelle n'a pas été renommée. Veuillez envoyer un e-mail à "
+#~ "%1 pour lui en faire la demande."
+
+#, fuzzy
+#~ msgid "later"
+#~ msgstr "Date"
+
+#, fuzzy
+#~ msgid "revisions up to"
+#~ msgstr "Versions"
+
+#, fuzzy
+#~ msgid "Attachment metadata"
+#~ msgstr "Le déplacement du fichier joint a échoué"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Obtenir de l'aide sur <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>le paramétrage des pages</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Obtenir de l'aide sur <a target='ManagingTopics' class='foswikiPopUp' "
+#~ "href='%1' rel='nofollow'>le renommage et le déplacement de pages</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Obtenir de l'aide sur <a target='ManagingWebs' class='foswikiPopUp' "
+#~ "href='%1' rel='nofollow'>le renommage et le déplacement de webs</a>."
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Aide sur les nouvelles version (dans une nouvelle fenêtre)"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr ""
+#~ "S = Enregistrer, Q = Enregistrer sans notification, K = Enregistrer et "
+#~ "reprendre l'édition, D = Abandonner"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr ""
+#~ "%1 - la documentation complète de Foswiki, du Guide de démarrage rapide "
+#~ "au Manuel de référence"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - seulement pour moi"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - points de départ sur Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - essayer Foswiki par vous même"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - lire une courte introduction à Foswiki, pour les débutants"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 pour changer votre adresse e-mail"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 pour changer votre mot de passe"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 est une liste de la documentation utilisateur de Foswiki"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr ""
+#~ "%1 énumère tous les outils d'administration des utilisateurs de Foswiki "
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(nom utilisé pour la connexion) NomDeConnexion :"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(nom qui sera visible sur le site) NomWiki :"
+
+#~ msgid "(optional)"
+#~ msgstr "(optionnel)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(recommandé)"
+
+#~ msgid "(search results)"
+#~ msgstr "(résultats de la recherche)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr ""
+#~ "Ajouter votre nom dans la liste des utilisateurs, sur la page %1, dans le "
+#~ "web %2."
+
+#~ msgid "Advanced Search"
+#~ msgstr "Recherche avancée"
+
+#~ msgid "Comments:"
+#~ msgstr "Commentaires :"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr ""
+#~ "Copier le texte et les données du formulaire vers une nouvelle page (les "
+#~ "documents joints ne seront pas copiés cependant)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Créer la page de test <nop>TestTopic###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Créer une nouvelle page de test, numérotée automatiquement :"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Créer une nouvelle page avec pour nom :"
+
+#~ msgid "Create by Name"
+#~ msgstr "Créer par nom"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Créer votre page %1 personnelle, dont le nom sera votre <nop>NomWiki, et "
+#~ "y insérer les informations que vous avez fourni sur la page actuelle."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Terminer de créer votre compte, afin que vous puissiez commencer à "
+#~ "modifier des pages en utilisant votre <nop>NomWiki (WikiName)."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "L'interface de Foswiki est disponible en plusieurs langues. Si vous "
+#~ "souhaitez changer de langue pour cette session, choisissez l'une de "
+#~ "celles qui sont proposées ci-dessous, puis cliquez sur \"Changer de langue"
+#~ "\". Sinon, cliquez sur \"Annuler\" en bas de la page, afin de retourner à "
+#~ "la page précédente."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Si vous connaissez déjà le nom de la page, entrez son nom dans le cadre "
+#~ "intitulé [[%1][Aller à]], tout en haut"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "Afficher, par ordre alphabétique, la liste des pages du web %1"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Options de configuration locales concernant tout le système"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Déplacer le fichier attaché vers le web :"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "Site web de l'organisation :"
+
+#~ msgid "Other Country"
+#~ msgstr "Autre pays"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr ""
+#~ "Sinon, utilisez ce formulaire pour en obtenir un nouveau, qui vous sera "
+#~ "envoyé par e-mail."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Options personnelles"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Modification rapide des préférences existantes (pour en ajouter, modifier "
+#~ "la page)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Modifier le code source"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Les utilisateurs inscrits peuvent [[%1][changer de mot de passe]] et [[%2]"
+#~ "[réinitialiser leur mot de passe]]."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Renommer/déplacer la page..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Renommer/déplacer le web..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Entrez de nouveau le mot de passe :"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Vous envoyer par e-mail la confirmation de votre inscription."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr ""
+#~ "Lorsque votre souris est sur un lien %1, afficher une bulle d'aide "
+#~ "contenant les informations sur la page cible ? =on= ou =off= :"
+
+#~ msgid "Simple search"
+#~ msgstr "Recherche basique"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Les préférences globales sont sur %1, mais c'est cette page %2 que vous "
+#~ "devez utiliser si vous souhaitez les modifier. Ainsi, il sera plus simple "
+#~ "de mettre à jour Foswiki car vous ne risquerez pas que les préférences "
+#~ "par défaut inclues dans la mise à jour écrasent les vôtres. Vous pourrez "
+#~ "facilement distinguer les préférences que vous avez modifiées de celles "
+#~ "qui ont gardé leur valeur par défaut, si vous ne reportez ici que les "
+#~ "préférences modifiées."
+
+#~ msgid "Test Topics"
+#~ msgstr "Pages de test"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "Le web %1 de Foswiki. Foswiki est le \"Free and Open Source Wiki\" (Wiki "
+#~ "libre et open source)."
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "Ce Foswiki ne supporte _pas_ l'inscription de nouveaux utilisateurs"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "Pour modifier des pages sur ce site Foswiki, vous devez vous inscrire "
+#~ "pour obtenir un nom de connexion et un mot de passe."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "Pour vous inscrire, il vous suffit de remplir ce formulaire :"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Pour activer une option, décommentez, en ôtant le dièse (#), à la ligne "
+#~ "correspondante. L'aide détaillée sur ces options est consultable sur %1."
+
+#~ msgid "Web Search"
+#~ msgstr "Recherche"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Lorsque %1 recevra le contenu de ce formulaire, il enverra un code de "
+#~ "validation à l'adresse e-mail que vous avez fournie. Pour terminer la "
+#~ "création de votre compte, vous pouvez entrer ce code sur la page "
+#~ "suivante, ou bien suivre le lien contenu dans l'e-mail en question. Une "
+#~ "fois votre la création de votre compte terminée, %1 va :"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Vous pouvez choisir et enregistrer votre langue préférée en réglant la "
+#~ "variable %1 sur votre page personnelle."
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr "Vous pourrez vérifier la page copiée avant de sauvegarder"
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Vous pourrez vérifier la page avant d'en enregistrer une nouvelle version"
+
+#~ msgid "advanced search"
+#~ msgstr "recherche avancée"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr ""
+#~ "en recherchant, dans _tous les webs publics_, les pages pointant vers "
+#~ "celle-ci"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "en recherchant, dans le _web %1_, les pages pointant vers celle-ci"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr ""
+#~ "en recherchant, dans _tous les webs publics_, les pages pointant vers "
+#~ "celle-ci"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr ""
+#~ "title='Modifier le code source de cette page' accesskey='w'>Modifier "
+#~ "source (&w)"
+
+#~ msgid "%1 Web Home"
+#~ msgstr "Page d'accueil du web %1"
+
+#~ msgid "(oops)"
+#~ msgstr "(argh)"
+
+#~ msgid "(semicolon =;= for and)"
+#~ msgstr "(point-virgule =;= signifie ET)"
+
+#~ msgid "Create '%1'"
+#~ msgstr "Créer '%1'"
+
+#~ msgid "Did you spell the %1 correctly?"
+#~ msgstr "Avez-vous écrit correctement le %1 ?"
+
+#~ msgid "Do show:"
+#~ msgstr "Afficher :"
+
+#~ msgid "Do you wish to create the topic %1?"
+#~ msgstr "Souhaitez-vous créer la page %1 ?"
+
+#~ msgid ""
+#~ "Enter your System.LoginName. (Typically First name and last name, no "
+#~ "space, no dots, capitalized, e.g. !JohnSmith, unless you chose "
+#~ "otherwise). Visit %SYSTEMWEB%.UserRegistration if you do not have one."
+#~ msgstr ""
+#~ "Entrez votre !NomWiki. (Typiquement, vos noms et prénoms, sans espace ni "
+#~ "point, commençant par des majuscules, par exemple !PrenomNom, à moins que "
+#~ "vous n'ayez choisi autre chose). Si vous n'en avez pas, veuillez vous "
+#~ "rendre sur %SYSTEMWEB%.UserRegistration."
+
+#~ msgid "Internal error when sending email to %1."
+#~ msgstr "Erreur interne lors de l'envoi d'un e-mail à %1."
+
+#~ msgid "List more similar topic in this web"
+#~ msgstr "Éventuelles pages similaires dans ce web"
+
+#~ msgid "Note: This topic does not exist"
+#~ msgstr "NB : Cette page Wiki n'existe pas"
+
+#~ msgid "Opens page in new window"
+#~ msgstr "Ouvre la page dans une nouvelle fenêtre"
+
+#~ msgid "Remember, a %1 is case sensitive."
+#~ msgstr ""
+#~ "Souvenez-vous que les majuscules et minuscules importent dans un %1."
+
+#~ msgid "Similar topics in this web (if any):"
+#~ msgstr "Éventuelles pages similaires dans ce web :"
+
+#~ msgid ""
+#~ "The %1 web of TWiki. TWiki is a Web-Based Collaboration Platform for the "
+#~ "Enterprise."
+#~ msgstr ""
+#~ "Le web %1 de TWiki. TWiki est une plate-forme internet collaborative."
+
+#~ msgid "The topic %1 you are trying to access does not exist, yet."
+#~ msgstr "Vous tentez d'accéder à la page %1 qui n'existe pas pour l'instant."
+
+#~ msgid ""
+#~ "This topic name is not recommended because it will not be linked "
+#~ "automatically. See %1 for details"
+#~ msgstr ""
+#~ "Ce nom n'est pas recommandé car, lorsqu'il sera écrit sur une page, le "
+#~ "lien correspondant ne sera pas généré automatiquement. Pour plus "
+#~ "d'informations, visitez %1"
+
+#~ msgid "WARNING:"
+#~ msgstr "ATTENTION :"
+
+#~ msgid "about !BookView"
+#~ msgstr "à propos de !BookView"
+
+#~ msgid "about regular expression search"
+#~ msgstr "à propos de la recherche par expressions rationnelles"
+
+#~ msgid "looking for references in _%1 web_ only"
+#~ msgstr "en recherchant, dans le _web %1_, les pages pointant vers celle-ci"
+
+#~ msgid "All topics in %1"
+#~ msgstr "Toutes les pages de %1"
+
+#~ msgid ""
+#~ "Log in as [[%SCRIPTURL{login}%?sudo=sudo][internal admin]] if you need to "
+#~ "quickly fix something"
+#~ msgstr ""
+#~ "Connectez-vous en [[%SCRIPTURL{login}%?sudo=sudo][internal administrateur/"
+#~ "administratrice interne]] si vous avez besoin d'effectuer une réparation "
+#~ "rapide"

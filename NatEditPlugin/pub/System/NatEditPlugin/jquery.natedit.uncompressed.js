@@ -523,6 +523,10 @@ $.NatEditor.prototype.showMessage = function(type, msg, title) {
   * hide all open error messages in the notification system
   */
 $.NatEditor.prototype.hideMessages = function() {
+  var self = this;
+
+  self.form.find(".jqTabGroup a.error, input.error").removeClass("error");
+  self.form.find("label.error").hide();
   $.pnotify_remove_all();
 };
 
@@ -613,6 +617,7 @@ $.NatEditor.prototype.initForm = function() {
     var $editCaptcha = $("#editcaptcha"),
       buttons,
       doIt = function() {
+        self.hideMessages();
         if (self.form.validate().form()) {
           self.beforeSubmit("save").then(function() {
             document.title = $.i18n("Saving ...");
@@ -648,6 +653,7 @@ $.NatEditor.prototype.initForm = function() {
       doIt = function() {
         var editAction = $(ev.currentTarget).attr("href").replace(/^#/, "");
 
+        self.hideMessages();
         if (self.form.validate().form()) {
           self.beforeSubmit(editAction).then(function() {
             if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
@@ -741,9 +747,6 @@ $.NatEditor.prototype.initForm = function() {
   // TODO: only use this for foswiki engines < 1.20
   self.form.find(".ui-natedit-cancel").on("click", function() {
     self.hideMessages();
-    $("label.error").hide();
-    $("input.error").removeClass("error");
-    $(".jqTabGroup a.error").removeClass("error");
     self.beforeSubmit("cancel").then(function() {
       self.form.submit();
     });
@@ -782,15 +785,17 @@ $.NatEditor.prototype.initForm = function() {
         $.unblockUI();
         self.showMessage("error", $.i18n('One or more fields have not been filled correctly'));
         $.each(validator.errorList, function() {
-          var $errorElem = $(this.element);
+          var $errorElem = $(this.element),
+              tabPane = $errorElem.parents(".jqTabPane:first").data("tabPane");
+
           $errorElem.parents(".jqTab").each(function() {
-            var id = $(this).attr("id");
-            $("[data=" + id + "]").addClass("error");
+            var id = $(this).attr("id"),
+                $tab = tabPane.getNaviOfTab('#'+id);
+            $tab.addClass("error");
           });
         });
       } else {
         self.hideMessages();
-        $form.find(".jqTabGroup a.error").removeClass("error");
       }
     },
     rules: formRules,
@@ -1446,7 +1451,7 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
   }
 
   //$.log("opts=",opts);
-  return self.insertLink(opts);
+  return self.engine.insertLink(opts);
 };
 
 /*****************************************************************************
@@ -1455,10 +1460,10 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
 $.NatEditor.prototype.handleInsertAttachment = function(elem) {
   var self = this, $dialog = $(elem);
  
-  return self.insertLink({
+  return self.engine.insertLink({
     web: $dialog.find("input[name='web']").val(),
     topic: $dialog.find("input[name='topic']").val(),
-    file: $dialog.find("input[name='file']").val(),
+    file: $dialog.find("select[name='file']").val(),
     text: $dialog.find("input[name='linktext_attachment']").val()
   });
 };
@@ -1675,11 +1680,31 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
   var self = this,
       $dialog = $(elem), tabId,
       xhr, requestIndex = 0,
-      $thumbnail = $dialog.find(".ui-natedit-attachment-thumbnail"),
-      $container = $dialog.find(".jqTab.current");
+      $container = $dialog.find(".jqTab.current"),
+      $fileSelect = $dialog.find(".natEditAttachmentSelector");
 
   if ($container.length === 0) {
     $container = $dialog;
+  }
+
+  function loadAttachments(web, topic) {
+    var selection = $fileSelect.data("selection") || '';
+    web = web || $container.find("input[name='web']").val();
+    topic = topic || $container.find("input[name='topic']").val();
+    $.ajax({
+      url: foswiki.getScriptUrl("rest", "WysiwygPlugin", "attachments"),
+      data: {
+        topic: web+"."+topic
+      },
+      dataType: "json"
+    }).done(function(data) {
+      var options = [];
+      options.push("<option></option>");
+      $(data).each(function(i, item) {
+        options.push("<option"+(selection === item.name?" selected":"")+">"+item.name+"</option>");
+      });
+      $fileSelect.html(options.join(""));
+    });
   }
 
   $dialog.find("input[name='web']").each(function() {
@@ -1690,6 +1715,8 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
         contenttype: "application/json"
       })
     });
+  }).on("change", function() {
+    loadAttachments();
   });
 
   $dialog.find("input[name='topic']").each(function() {
@@ -1725,59 +1752,11 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
         });
       }
     });
+  }).on("change", function() {
+    loadAttachments();
   });
 
-  // attachments autocomplete ... TODO: rename css class
-  $dialog.find(".natEditAttachmentSelector").each(function() {
-    $(this).autocomplete({
-      source: function(request, response) {
-
-        if (xhr) {
-          xhr.abort();
-        }
-        xhr = $.ajax({
-          url: foswiki.getScriptUrl("rest", "NatEditPlugin", "attachments"),
-          data: $.extend(request, {
-            topic: $container.find("input[name='web']").val()+'.'+$container.find("input[name='topic']").val()
-          }),
-          dataType: "json",
-          autocompleteRequest: ++requestIndex,
-          success: function(data) {
-            if (this.autocompleteRequest === requestIndex) {
-              response(data);
-            }
-          },
-          error: function() {
-            if (this.autocompleteRequest === requestIndex) {
-              response([]);
-            }
-          }
-        });
-      },
-      select: function(ev, ui) {
-        if ($thumbnail.length) {
-          $thumbnail.attr("src", ui.item.img).show();
-        }
-      },
-      change: function(ev, ui) {
-        if ($thumbnail.length) {
-          if (ui.item) {
-            $thumbnail.attr("src", ui.item.img).show();
-          } else {
-            $thumbnail.hide();
-          }
-        }
-      }
-    }).data("ui-autocomplete")._renderItem = function(ul, item) {
-      if (typeof(item.label) !== "undefined") {
-        return $("<li></li>")
-          .data("item.autocomplete", item)
-          .append("<a><table width='100%'><tr>"+(typeof(item.img) !== 'undefined' ? "<td width='60px'><img width='50' src='"+item.img+"' /></td>":"")+"<td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
-          .appendTo(ul);
-      }
-    };
-  });
-  
+  loadAttachments();
 
   if (typeof(data.type) !== 'undefined') {
     tabId = $dialog.find(".jqTab."+data.type).attr("id");
@@ -1802,33 +1781,6 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
 
   $dialog.on("dialogclose", function() {
     self.hideMessages();
-  });
-
-  // only execute below with jQuery-File-Upload available, part of TopicInteractionPlugin
-  $dialog.find(".ui-natedit-uploader").each(function() {
-    var $input = $dialog.find("input[name='file']"),
-        $uploadButton = $dialog.find(".ui-natedit-uploader-button");
-
-    if (typeof($uploadButton.fileUploadButton) !== 'undefined') {
-      $uploadButton.fileUploadButton();
-
-      $uploadButton.bind("fileuploadstart", function() {
-        //console.log("started upload");
-        $input.attr("disabled", "disabled").val($.i18n("uploading ..."));
-        self.hideMessages();
-      });
-
-      $uploadButton.bind("fileuploaddone", function(/*e, data*/) {
-        //console.log("done upload");
-        var file = data.files[0].name;
-        $input.removeAttr("disabled").val(file).focus();
-      });
-
-      $uploadButton.bind("fileuploadfail", function(/*e, data*/) {
-        //console.log("processfaiul upload");
-        self.showMessage("error", $.i18n("Error during upload"));
-      });
-    }
   });
 };
 

@@ -75,6 +75,7 @@ TinyMCEEngine.prototype.init = function() {
           alert("Error calling tml2html"); // SMELL: better error handling
         });
 
+/*
       self.on("BeforeSetContent", function(ev) {  
         if (foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
           var paramsRegex = /(?:(\w+?)=)?&#34;(.*?)&#34;/g;
@@ -103,6 +104,7 @@ TinyMCEEngine.prototype.init = function() {
         }
       });
       self.on("GetContent", function() { console.log("got GetContent event"); });
+*/
     };
 
     tinymce.init(self.opts.tinymce);
@@ -428,6 +430,96 @@ TinyMCEEngine.prototype.insertTable = function(opts) {
   self.insert(table);
 };
 
+/***************************************************************************
+ * insert a link
+ * opts is a hash of params that can have either of two forms:
+ *
+ * insert a link to a topic:
+ * {
+ *   web: "TheWeb",
+ *   topic: "TheTopic",
+ *   text: "the link text" (optional)
+ * }
+ *
+ * insert an external link:
+ * {
+ *   url: "http://...",
+ *   text: "the link text" (optional)
+ * }
+ *
+ * insert an attachment link:
+ * {
+ *   web: "TheWeb",
+ *   topic: "TheTopic",
+ *   file: "TheAttachment.jpg",
+ *   text: "the link text" (optional)
+ * }
+ */
+TinyMCEEngine.prototype.insertLink = function(opts) {
+  var self = this, markup, link;
+
+  //console.log("called insertLink",opts);
+
+  if (typeof(opts.url) !== 'undefined') {
+    if (opts.url === '') {
+      return; // nop
+    }
+
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+      markup = "<a href='"+opts.url+"'>"+opts.text+"</a>";
+    } else {
+      markup = "<a href='"+opts.url+"'>"+opts.url+"</a>";
+    }
+  } else if (typeof(opts.file) !== 'undefined') {
+    // attachment link
+
+    if (typeof(opts.web) === 'undefined' || opts.web === '' || 
+        typeof(opts.topic) === 'undefined' || opts.topic === '') {
+      return; // nop
+    }
+
+    link = '%PUBURLPATH%/'+opts.web+'/'+opts.topic+'/'+opts.file;
+
+    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && !opts.text) {
+      markup = "<img src='"+link+"' alt='"+opts.file+"' height='320' />";
+    } else {
+      // linking to an ordinary attachment
+
+      markup = "<a href='"+link+"'>";
+
+      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+        markup += opts.text;
+      } else {
+        markup += opts.file;
+      }
+      markup += "</a>";
+    }
+
+  } else {
+    // wiki link
+    
+    if (typeof(opts.topic) === 'undefined' || opts.topic === '') {
+      return; // nop
+    }
+
+    link = opts.web+'.'+opts.topic; // converted by WysiwygPlugin
+
+    markup = "<a href='"+link+"'>";
+
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+      markup += opts.text;
+    }  else {
+      markup += opts.topic;
+    }
+    markup += "</a>";
+  }
+
+  //console.log("markup=",markup);
+
+  self.remove();
+  self.insert(markup);
+};
+
 /*************************************************************************
  * set the value of the editor
  */
@@ -484,7 +576,7 @@ TinyMCEEngine.defaults = {
     menubar: false,
     toolbar: false,
     statusbar: false,
-    plugins: 'contextmenu table searchreplace paste lists link anchor hr legacyoutput image textpattern', // save autosave fullscreen anchor charmap code textcolor colorpicker
+    plugins: 'table searchreplace paste lists link anchor hr legacyoutput image textpattern', // save autosave fullscreen anchor charmap code textcolor colorpicker
     table_toolbar : "tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
     table_appearance_options: false,
     table_advtab: false,
@@ -493,6 +585,11 @@ TinyMCEEngine.defaults = {
     object_resizing: "img",
     paste_data_images: true,
     content_css: [],
+    style_formats_autohide: true,
+    removeformat: [{ 
+      selector: 'div,p,pre', 
+      remove: 'all' 
+    }],
     formats: {
       h1Markup: { block: "h1", toolbar: ".ui-natedit-h1" },
       h2Markup: { block: "h2", toolbar: ".ui-natedit-h2" },

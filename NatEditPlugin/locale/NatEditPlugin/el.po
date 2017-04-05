@@ -1,0 +1,4472 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki Greek Translation\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-06-30 14:03+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: Greek <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/el/>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.1\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Πλήκτρα πρόσβασης"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+#, fuzzy
+msgid "Add a new form to <nop>%1"
+msgstr "Επιλέξτε μια νέα φόρμα για το %1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Προσθήκη φόρμας"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Συννημένο"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+#, fuzzy
+msgid "Change form"
+msgstr "Αλλαγή από:"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Κλείσε"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:50
+#, fuzzy
+msgid "Create a new table"
+msgstr "Δημιουργήστε ένα νέο έγγραφο με βάση το όνομα:"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+#, fuzzy
+msgid "Default"
+msgstr "Προεπιλεγμένο πρότυπο"
+
+#: data/System/NatEditWordHelpText.txt:16
+#, fuzzy
+msgid "Documentation"
+msgstr "Υφιστάμενη τοποθεσία:"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Κάθε προτίμηση έχει τη σύνταξη"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Εξαναγκασμός νέας αναθεώρησης"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+#, fuzzy
+msgid "Formatted Search"
+msgstr "Σύνθετη Αναζήτηση"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+#, fuzzy
+msgid "Indent"
+msgstr "Κατάλογος"
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+#, fuzzy
+msgid "Insert an attachment"
+msgstr "Διαγραφή συνημμένου"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Σύνδεσμος"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+#, fuzzy
+msgid "More character formats"
+msgstr "σε αδιαμόρφωτη μορφή κειμένου"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+#, fuzzy
+msgid "More tools"
+msgstr "Περισσότερες ενέργειες"
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+#, fuzzy
+msgid "Numbered list"
+msgstr "Αριθμός θεμάτων:"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+#, fuzzy
+msgid "Permissions"
+msgstr "Αναθεωρήσεις"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "προεπισκόπηση"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "Εγγραφή"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Replace"
+msgstr "Αντικατάσταση φόρμας ..."
+
+#: templates/edittoolbar.natedit.tmpl:144
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: templates/edittoolbar.natedit.tmpl:160
+#, fuzzy
+msgid "Restore and Continue"
+msgstr "Επαναφορά θέματος"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+#, fuzzy
+msgid "Restore and exit"
+msgstr "Επαναφορά θέματος"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+#, fuzzy
+msgid "Save"
+msgstr "Αποθήκευση στο:"
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='Save and Continue' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "Αποθήκευση στο:"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "Αναζήτηση που;"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "Σώμα κειμένου"
+
+#: templates/edit.natedit.tmpl:79
+#, fuzzy
+msgid "Title:"
+msgstr "Τίτλος θέματος"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "Στο θέμα:"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "Ιστοί"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+#, fuzzy
+msgid "default as defined in the %1"
+msgstr "The form should be defined in the topic %1"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "Επεξεργασία"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "(επεξεργασία φόρμας)"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "δηλώνει υποχρεωτικά πεδία"
+
+#: templates/edit.natedit.tmpl:10
+#, fuzzy
+msgid "new"
+msgstr "Νέο"
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "Όλους τους δημόσιους Ιστούς"
+
+#: templates/edit.natedit.tmpl:7
+#, fuzzy
+msgid "restore"
+msgstr "Επαναφορά"
+
+#: templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "restore form"
+msgstr "Επαναφορά θέματος"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#, fuzzy
+#~ msgid "!WikiName"
+#~ msgstr "Ονομασία θέματος"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,ημέρα) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,ώρα) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,λεπτό) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,δευτερόλεπτο) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Αποτυχία εγγραφής για %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Εγγραφή για %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "Ιστός %1"
+
+#, fuzzy
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
+
+#, fuzzy
+#~ msgid "%1 denied the registration."
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 έχει ένα κατάλογο από άλλους χρήστες του Foswiki"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr ""
+#~ "%1 διορθώνει το θέμα εδώ και %2 και η κράτηση του είναι ακόμη ενεργή για "
+#~ "%3."
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "Ο/Η %1 έχει εγγραφεί με το e-mail %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 έχει δεχθεί ένα ύποπτο αίτημα αλλαγής από τον φυλομετρητή σου."
+
+#~ msgid "%1 home"
+#~ msgstr "%1 Αρχική σελίδα"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "Το %1 δεν είναι επιτρεπτό όνομα για ένα νέο ιστό"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 είναι συνδεδεμένος"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 για την ώρα έχει τεθεί στο %2"
+
+#, fuzzy
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "Ο %1 διορθώνει το %2."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr ""
+#~ "%1 είναι σε τουλάχιστον μια ομάδα χρηστών και δεν μπορεί να αφαιρεθεί"
+
+#, fuzzy
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#, fuzzy
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 είναι το προεπιλεγμένο θέμα για διεγραμμένα συννημένα."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "Ο %1 μπορεί ακόμη να επεξεργάζεται το %2."
+
+#, fuzzy
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 Πρόσφατες αλλαγές στον Ιστό %2"
+
+#, fuzzy
+#~ msgid "%1 registration approval required"
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#, fuzzy
+#~ msgid "%1 registration denied"
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#, fuzzy
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 για να δημιουργήσεις άλλο έναν ιστό"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 για να παραμετροποιήσεις τις ειδικές προτιμήσεις του ιστού"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 για να αρχίσεις να εργάζεσαι στον νέο ιστό"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "Το θέμα %1 δεν υπάρχει"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "Ο/Η %1 δοκίμασε να εγγραφεί με το e-mail %2"
+
+#, fuzzy
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "Η ονομασία του θέματος δεν πρέπει να είναι κενό."
+
+#~ msgid "&Cancel"
+#~ msgstr "&C Ακύρωση"
+
+#~ msgid "&History"
+#~ msgstr "&H Ιστορικό"
+
+#, fuzzy
+#~ msgid "&Sequential"
+#~ msgstr "Διαδοχική"
+
+#, fuzzy
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "Η σελίδα 'Δημιουργία Νέου Θέματος' έχει μετακινηθεί"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 σύνδεση)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 επικύρωση)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 έναντι %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr ""
+#~ "(*Πρόταση:* Μήπως σε ενδιαφέρει να ανεβάσεις τη φωτογραφία σου στο θέμα "
+#~ "σου;?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=all= για να εμφανίσεις όλα τα θέματα)"
+
+#, fuzzy
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(εισερχόμενοι σύνδεσμοι στον Ιστό %1)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(απαγορεύεται η πρόσβαση)"
+
+#~ msgid "(attach)"
+#~ msgstr "(επισύναψη)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(εισερχόμενοι σύνδεσμοι στον Ιστό %1)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(εισερχόμενοι σύνδεσμοι σε όλους τους Ιστούς)"
+
+#~ msgid "(book view)"
+#~ msgstr "(προβολή βιβλίου)"
+
+#~ msgid "(change form)"
+#~ msgstr "(αλλαγή φόρμας)"
+
+#~ msgid "(change language)"
+#~ msgstr "(αλλαγή γλώσσας)"
+
+#~ msgid "(changes)"
+#~ msgstr "(αλλαγές)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(διαγραφή συννημένου)"
+
+#~ msgid "(delete)"
+#~ msgstr "(διαγραφή)"
+
+#~ msgid "(edit form)"
+#~ msgstr "(επεξεργασία φόρμας)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(επεξεργασία κειμένου)"
+
+#~ msgid "(edit)"
+#~ msgstr "(επεξεργασία)"
+
+#~ msgid "(login)"
+#~ msgstr "(είσοδος)"
+
+#~ msgid "(more)"
+#~ msgstr "(περισσότερα)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(μετακίνησε συννημένο)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(χωρίς γονέα, ορφανό θέμα)"
+
+#~ msgid "(none)"
+#~ msgstr "(καμία)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(ειδάλως αναζήτησε μόνο στον Ιστό %1)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(αδιαμόρφωτη προβολή)"
+
+#, fuzzy
+#~ msgid "(redirect denied)"
+#~ msgstr "(απαγορεύεται η πρόσβαση)"
+
+#~ msgid "(rename)"
+#~ msgstr "(μετονομασία)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(αναθεώρηση %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(σφάλμα αποθήκευσης)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(μονός χαρακτήρας μικρού ονόματος)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(μονός χαρακτήρας επιθέτου)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(παρελήφθει)"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "* Τοπικό αρχείο: * Αν επιλέξετε ένα διαφορετικό αρχείο στο  _Τοπικό "
+#~ "αρχείο: _, αυτό θα είναι και αυτό που θα ανανεωθεί ή προστεθεί."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Σχόλιο αλλαγής:* Αν χρησιμοποιήσεις την  _Αλλαγή Ιδιοτήτων _ για να "
+#~ "αλλάξεις ένα σχόλιο, το σχόλιο που θα φαίνεται στο θέμα θα αλλάξει, αλλά "
+#~ "το σχόλιο που θα φαίνεται στο ιστορικό των συννημένων θα είναι το σχόλιο "
+#~ "που καταχωρήθηκε όταν ανέβηκε το αρχείο."
+
+#, fuzzy
+#~ msgid "*Formatting help:*"
+#~ msgstr "Περισσότερη βοήθεια μορφοποίησης"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Σημαντικό:* οι πληροφορίες που παρέχονται σε αυτή τη φόρμα θα "
+#~ "αποθηκευθούν σε μια βάση δεδομένων στον διακομιστή του Foswiki. Αυτή η "
+#~ "βάση δεδομένων είναι προσβάσιμη στον καθένα που μπορεί να έχει πρόσβαση "
+#~ "στον διακομιστή μέσω του web (αν και οι κωδικοί θα είναι "
+#~ "κρυπτογραφημένοι, και οι διευθύνσεις e-mail θωλομένες για να αποτραπεί το "
+#~ "spamming). Η χώρα σου, ή η χώρα όπου φιλοξενείται ο διακομιστής μπορεί να "
+#~ "έχει νόμους Προστασίας Δεδομένων σχετικά με τη διατήρηση τέτοιων βάσεων "
+#~ "δεδομένων. Εάν έχετε αμφιβολίες, θα πρέπει να επικοινωνήσετε με τον %1 "
+#~ "για λεπτομέρειες σχετικά με την Πολιτική Προστασίας Δεδομένων για αυτό το "
+#~ "διακομιστή Foswiki πριν την εγγραφή σας."
+
+#, fuzzy
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "* Ιδιότητες: * Το σχόλιο και η ορατότητα του (δηλαδή εάν είναι κρυφό "
+#~ "συνημμένο) μπορεί να αλλαχθεί χωρίς μεταφόρτωση αρχείου, πατώντας "
+#~ "\"Αλλαγή Ιδιοτήτων μόνο\". Βλέπε %1."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr ""
+#~ "Για * Έντονα * βάλε τη λέξη / φράση σε αστερίσκους: = <nop> * Η φράση σας "
+#~ "*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "* Λίστα με βούλες * 3 κενά, αστερίσκος, 1 κενό: =&&nbsp;&&nbsp;&&nbsp;"
+#~ "*&&nbsp; το κείμενό σας ="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "* Εξωτερικοί σύνδεσμοι * = http://yahoo.com = ή = [ <nop> [Http://yahoo."
+#~ "com/][σύνδεσμος προς το Yahoo]] ="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*Επικεφαλίδες* 3 παύλες, 1 έως 6 συν, 1 κενό: =---++&&nbsp; Η Επικεφαλίδα "
+#~ "σας="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr "Για *πλάγια* βάλτε τη λέξη σε underscores: = _ <nop> η λέξη_ σας ="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*monospaced* βάλτε τη λέξη/φράση σε σημεία ισον: =<nop>=οι λέξεις σας=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*παράγραφοι* χωρίστε το κείμενο με μια κενή γραμμή"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*σύνδεσμοι ιστοτόπου* χρησιμοποιήστε το όνομα του θέματος: =%1= ή "
+#~ "=[<nop>[%1][Η αρχική μας σελίδα]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>ροή RSS</a>, πρόσφατες αλλαγές ανά <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "θέματα, <a href='%7' rel='nofollow'>όλες οι αλλαγές</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "μόνο <em>στον ιστό %1</em>"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>σε ολους τους δημόσιους ιστούς</em>"
+
+#, fuzzy
+#~ msgid "<nop>WikiName:"
+#~ msgstr "Ονομασία θέματος"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr ""
+#~ "Για λόγους ασφαλείας σε μερικά αρχεία προστίθεται μια κατάληξη  =.txt="
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Ένας ιστοτόπος του Foswiki διαιρείται σε ιστούς. Κάθε ένας αντιπροσωπεύει "
+#~ "ένα θέμα, μια περιοχή συνεργασίας. Προσπαθείς να %1 σε ένα ιστο που δεν "
+#~ "υπάρχει."
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "Ένα χρώμα αρχίζει με ένα σήμα  #, ακολουθούμενο από 6 δεκαεξαδικούς "
+#~ "αριθμούς, πχ =#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "Ένα επιβεβαιωτικό e-mail έχει αποσταλεί στο %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "Ένας σύνδεσμος σε ένα θέμα που βρίσκεται σε ένα άλλο ιστό γράφεται όπως "
+#~ "το %1. Βεβαιωθείτε ότι το όνομα του ιστού δεν γράφεται με άλλο τρόπο στην "
+#~ "προηγούμενη σελίδα, και διορθώστε και το σύνδεσμο εάν απαιτείται."
+
+#, fuzzy
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Ένας νέος κωδικός που δημιουργήθηκε από το σύστημα για το όνομα εισόδου "
+#~ "σου %1 (!ΌνομασίαWiki %2) έχει αποσταλεί στην καταχωρημένη διεύθυνση e-"
+#~ "mail. Εάν η διεύθυνση ηλεκτρονικού ταχυδρομείου σας δεν είναι πλέον "
+#~ "έγκυρη, παρακαλούμε επικοινωνήστε με 3%"
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr ""
+#~ "Ένα πρότυπο θέματος καθορίζει το αρχικό περιεχόμενο ενός νέου θέματος."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "Ένα θέμα με αυτό το όνομα υπήρχε, αλλά έχει μετονομαστεί ή μετακινηθεί "
+#~ "στο %1."
+
+#~ msgid "Access Denied"
+#~ msgstr "Δεν επιτρέπεται η πρόσβαση"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "Απέτυχε ο έλεγχος πρόσβασης στο %1"
+
+#, fuzzy
+#~ msgid "Access keys:"
+#~ msgstr "Πλήκτρα πρόσβασης"
+
+#~ msgid "Action"
+#~ msgstr "Ενέργεια"
+
+#, fuzzy
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Ενέργεια %1 : %2."
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "Ενέργεια"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Εσφαλμένος κωδικός ενεργοποίησης"
+
+#, fuzzy
+#~ msgid "Add"
+#~ msgstr "Προσθήκη γραμμής"
+
+#, fuzzy
+#~ msgid "Add row"
+#~ msgstr "Προσθήκη φόρμας"
+
+#, fuzzy
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Επεξεργαστείτε τις ρυθμίσεις για αυτό το θέμα"
+
+#, fuzzy
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Προσθέτω μια %1 μεταβλητή στις WebPreferences"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Ταυτοποίηση Χρήστη Διαχειριστή του Foswiki"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Συντήρηση Διαχειριστή"
+
+#, fuzzy
+#~ msgid "Administration"
+#~ msgstr "Εγγραφή"
+
+#~ msgid "Advanced search"
+#~ msgstr "Σύνθετη αναζήτηση"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Μετά την υποβολή αυτής της φόρμας e-mail σας θα αλλάξει, και εσείς θα "
+#~ "επιστρέψετε σε αυτή τη φόρμα."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr ""
+#~ "Μετά την υποβολή αυτής της φόρμας, ο κωδικός πρόσβασής σας θα αλλάξει."
+
+#, fuzzy
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Μετά την υποβολή αυτής της φόρμας, θα λάβετε ένα e-mail με το νέο, "
+#~ "*δημιουργημένο από το σύστημα* κωδεικό, και ένα σύνδεσμο σε μια σελίδα "
+#~ "όπου μπορείς να το αλλάξεις."
+
+#~ msgid "All public webs"
+#~ msgstr "Όλους τους δημόσιους Ιστούς"
+
+#, fuzzy
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "Επέτρεψε μη-<nop>WikiΛέξη για τη νέα ονομασία του θέματος"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Εναλλακτικά, πατήστε το πίσω για να πάτε στο %SYSTEMWEB%.UserRegistration "
+#~ "και επιλέξτε ένα διαφορετικό όνομα χρήστη."
+
+#, fuzzy
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Τι συννημένο υπάρχει ήδη στο νέο θέμα"
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου δεν μπόρεσε να παραδοθεί. Παρακαλώ "
+#~ "ενημερώστε τον διαχειριστή %1, %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "Μια σελίδα λάθους θα εμφανιστεί εάν κάποια από τα θέματα είναι κλειδωμένο "
+#~ "από άλλο χρήστη."
+
+#, fuzzy
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "Και πληρωθεί με θέματα από τον κυρίως ιστό"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Οι όποιες αλλαγές κάνατε στο θέμα πριν επισκεφθείτε αυτή τη σελίδα θα "
+#~ "διατηρηθούν."
+
+#~ msgid "Attach"
+#~ msgstr "Επισύναψη"
+
+#, fuzzy
+#~ msgid "Attach a file"
+#~ msgstr "Επισύναψη νέου αρχείου"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "title='Επισύναψε μια εικόνα ή ένα έγγραφο σε αυτό το θέμα' "
+#~ "accesskey='a'>&Attach"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Επισύναψη αρχείου στο %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Επισύναψη εικόνας ή εγγράφου στο %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Επισύναψη νέου αρχείου"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Το συννημένο %1' δεν υπάρχει"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Η διαγραφή του συνημμένου απέτυχε"
+
+#, fuzzy
+#~ msgid "Attachment does not exist."
+#~ msgstr "Το συννημένο δεν υπάρχει"
+
+#, fuzzy
+#~ msgid "Attachment history"
+#~ msgstr "Συννημένα"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Η μετακίνηση του συννημένου απέτυχε"
+
+#, fuzzy
+#~ msgid "Attachment name:"
+#~ msgstr "Συννημένο"
+
+#~ msgid "Attachments"
+#~ msgstr "Συννημένα"
+
+#, fuzzy
+#~ msgid "Attachments %1"
+#~ msgstr "Συννημένα του %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Συννημένα του %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Τα συννημένα δεν θα φαίνονται στη σελίδα επισκόπησης του θέματος."
+
+#~ msgid "Attention"
+#~ msgstr "Προσοχή"
+
+#~ msgid "Attribute"
+#~ msgstr "Ιδιότητα"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Αυτοματοποιημένη κοινοποίηση των τροποποιήσεων θέματος"
+
+#~ msgid "Available Information"
+#~ msgstr "Διαθέσιμες πληροφορίες"
+
+#~ msgid "Available form templates"
+#~ msgstr "Διαθέσιμα πρότυπα φορμών"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Διαθέσιμα πρότυπα στον Ιστό %1:"
+
+#~ msgid "Back to topic"
+#~ msgstr "Επιστροφή στο θέμα"
+
+#~ msgid "Backlinks"
+#~ msgstr "Εισερχόμενοι σύνδεσμοι"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Εισερχόμενοι σύνδεσμοι στο %1 στον Ιστό %2"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Εισερχόμενοι σύνδεσμοι για το %1 σε όλους τους Ιστούς"
+
+#, fuzzy
+#~ msgid "Backlinks:"
+#~ msgstr "Εισερχόμενοι σύνδεσμοι"
+
+#~ msgid "Bad password"
+#~ msgstr "Κακός κωδικός"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Ο κύριος ιστός %1 λείπει ή δεν υπάρχει"
+
+#~ msgid "Both body and title"
+#~ msgstr "Τόσο το σώμα όσο και στον τίτλο"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Όμως, τα υπάρχοντα δεδομένα μορφή θα χαθούν (μπορείτε να ανακτήσετε πάντα "
+#~ "αυτά τα δεδομένα μέσα από το ιστορικό του θέματος)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "Από προεπιλογή, η προβολή του Ιστού Trash περιορίζεται στο %1. Εάν θέλετε "
+#~ "να επιτρέψετε σε όλους τους χρήστες να βλέπουν τον ιστό Trash, αφαιρέστε "
+#~ "τον περιορισμό =ALLOWWEBVIEW= στις WebPreferences."
+
+#~ msgid "Can't find user %1"
+#~ msgstr "Δεν μπορώ να βρώ το χρήστη %1"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "Δεν μπορώ να βρω μια διεύθυνση e-mail για τον %1 (απαιτείται για "
+#~ "επανάταξη κωδικού)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Ακύρωση της επεξεργασίας και απόρριψη των αλλαγών"
+
+#, fuzzy
+#~ msgid "Cancel upload"
+#~ msgstr "Ακύρωση"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Δεν μπορώ να δημιουργήσω το %1 γιατί υπάρχει ήδη."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Δεν μπορώ να δημιουργήσω τον Ιστό %1 γιατί υπάρχει ήδη."
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "Δεν μπορώ να μετονομάσω το %1 σε %2 γιατί υπάρχει ήδη."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Διάκριση κεφαλαίων-πεζών"
+
+#~ msgid "Categories"
+#~ msgstr "Κατηγορίες"
+
+#, fuzzy
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Λυπούμαστε, το σύστημα κωδικών πρόσβασης είναι προς το παρόν μόνο για "
+#~ "ανάγνωση, παρακαλούμε επικοινωνήστε με %1"
+
+#, fuzzy
+#~ msgid "Change E-mail Address"
+#~ msgstr "Διεύθυνση e-mail:"
+
+#~ msgid "Change Password"
+#~ msgstr "Αλλαγή κωδικού πρόσβασης"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Αλλαγή σχολίων και ιδιοτήτων μόνο"
+
+#, fuzzy
+#~ msgid "Change e-mail address"
+#~ msgstr "Άκυρη διεύθυνση e-mail"
+
+#, fuzzy
+#~ msgid "Change from"
+#~ msgstr "Αλλαγή από:"
+
+#~ msgid "Change language"
+#~ msgstr "Αλλαγή γλώσσας"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr ""
+#~ "Αλλαγή συνδέσμων σε θέματα που παραπέμπουν στο !%1 σε όλους τους Ιστούς:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Αλλαγή συνδέσμων σε θέματα που παραπέμπουν στο !%1 στον Ιστό %2:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Αλλαγή συνδέσμων σε θέματα που παραπέμπουν στο %1 σε κάθε Ιστό:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Αλλαγή συνδέσμων σε θέματα που παραπέμπουν στο %1 στον Ιστό %2:"
+
+#~ msgid "Change password"
+#~ msgstr "Αλλαγή κωδικού πρόσβασης"
+
+#~ msgid "Change properties only"
+#~ msgstr "Αλλαγή ιδιοτήτων μόνον"
+
+#~ msgid "Change topic"
+#~ msgstr "Τροποποίηση θέματος"
+
+#, fuzzy
+#~ msgid "Changed by:"
+#~ msgstr "Τροποποιήθηκε από"
+
+#, fuzzy
+#~ msgid "Changed on"
+#~ msgstr "Τροποποιήθηκε"
+
+#~ msgid "Changed:"
+#~ msgstr "Τροποποιήθηκε:"
+
+#~ msgid "Changes"
+#~ msgstr "Τροποποιήσεις"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Τροποποιήσεις από εκδ.%1 στην εκδ.%2"
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "Τα επιλεγμένα θέματα θα ενημερωθούν να παραπέμπουν στη νέα τοποθεσία του "
+#~ "θέματος."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr ""
+#~ "Τα επιλεγμένα θέματα θα ενημερωθούν να παραπέμπουν στη νέα ονομασία του "
+#~ "ιστού."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Child topics in %1 web"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Εισερχόμενοι σύνδεσμοι στο %1 στον Ιστό %2"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Επιλέξτε μια νέα φόρμα για το %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Καθαρισμός όλων"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Καθαρισμός όλων"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Κάντε κλικ για να μετακινήσετε το θέμα πίσω στην προηγούμενη θέση, με "
+#~ "επιλογή αλλαγής παραπομπών."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "Το χρώμα %1 έχει μη-έγκυρη μορφή"
+
+#~ msgid "Comment"
+#~ msgstr "Σχόλιο"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Συγκρίνετε τις αναθεωρήσεις"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "Ο κωδικός πρόσβασής σας:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Επιβεβαιώστε τη μετονομασία ή μετακίνηση"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "Επιβεβαιώστε τις αλλαγές σας χρησιμοποιώντας [[%1][το εργαλείο ιστορικού "
+#~ "του θέματος (diff)]] του Foswiki."
+
+#~ msgid "Conflict"
+#~ msgstr "Σύγκρουση"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Επικοινωνήστε με τον %1, αν έχετε απορίες."
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Να συνεχίσω και να προσπαθήσω να μετονομάσω τον ιστό;"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Συνέχεια για τη δημιουργία της νέας σελίδας"
+
+#~ msgid "Copy topic"
+#~ msgstr "Αντιγράψτε το θέμα"
+
+#, fuzzy
+#~ msgid "Copy topic..."
+#~ msgstr "Αντιγράψτε το θέμα"
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; από τους συνεισφέροντες συγγραφείες. Όλο το υλικό σε "
+#~ "αυτή την πλατφόρμα συνεργασίας είναι ιδιοκτησία των συνεισφερόντων "
+#~ "συγγραφέων."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; από τους συνεισφέροντες συγγραφείες. All material on "
+#~ "this site is the property of the contributing authors."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Δεν μπόρεσα να δημιουργήσω τον νέο ιστό %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "Δεν μπόρεσα να βρω το πρότυπο"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Δεν ήταν δυνατή η εκτέλεση αναζήτησης. Το σφάλμα ήταν: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Δεν είναι δυνατή η αποθήκευση του αρχείου %1."
+
+#, fuzzy
+#~ msgid "Country:"
+#~ msgstr "Χώρα:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Δημιουργήστε το θέμα"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Δημιουργία νέου θέματος"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Δημιουργία Νέου Θέματος στον Ιστό %1"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Δημιουργήστε ένα σύνδεσμο προς το συνημμένο αρχείο"
+
+#, fuzzy
+#~ msgid "Create a new group"
+#~ msgstr "Δημιουργία νέου θέματος"
+
+#, fuzzy
+#~ msgid "Create group"
+#~ msgstr "Δημιουργία νέου θέματος"
+
+#, fuzzy
+#~ msgid "Create new topic"
+#~ msgstr "Δημιουργήστε το θέμα"
+
+#, fuzzy
+#~ msgid "Create personal sidebar"
+#~ msgstr "Επεξεργασία προσωπικών δεδομένων"
+
+#~ msgid "Create the topic"
+#~ msgstr "Δημιουργήστε το θέμα"
+
+#~ msgid "Create this topic"
+#~ msgstr "Δημιουργήστε αυτό το θέμα"
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Creating a suitable Form Definition topic"
+
+#~ msgid "Current location:"
+#~ msgstr "Υφιστάμενη τοποθεσία:"
+
+#, fuzzy
+#~ msgid "Current password:"
+#~ msgstr "Τρέχοντας κωδικό πρόσβασης"
+
+#~ msgid "Dear %1"
+#~ msgstr "Αγαπητέ %1"
+
+#~ msgid "Debug"
+#~ msgstr "Debug"
+
+#~ msgid "Default template"
+#~ msgstr "Προεπιλεγμένο πρότυπο"
+
+#~ msgid "Delete"
+#~ msgstr "Διαγραφή"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "Διαγραφή συνημμένου"
+
+#~ msgid "Delete last row"
+#~ msgstr "Διαγραφή τελευταίας γραμμής"
+
+#~ msgid "Delete topic"
+#~ msgstr "Διαγραφή θέματος"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Διαγραφή θέματος ..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "Περιγράψτε το αρχείο ώστε οι υπόλοιποι να ξέρουν τι είναι."
+
+#, fuzzy
+#~ msgid "Description"
+#~ msgstr "Εγγραφή"
+
+#, fuzzy
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Child topics in %1 web"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Λεπτομέρειες σε ξεχωριστό παράθυρο"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Θα ήθελες να  [[%1][επανατάξης τον κωδικό του %2]];"
+
+#, fuzzy
+#~ msgid "Difference Topic"
+#~ msgstr "Διαφορά:"
+
+#~ msgid "Difference:"
+#~ msgstr "Διαφορά:"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Μην ξεχάσετε να αποθηκεύσετε τις αλλαγές σας"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Μην φαίνοντα τα συννημένα στον πίνακα"
+
+#~ msgid "Don't show:"
+#~ msgstr "Να μην εμφανίζεται:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "Κατά τη διάρκεια της διαγραφής του συνημμένου =%1= σημειώθηκε σφάλμα. "
+#~ "Παρακαλούμε να ειδοποιήσετε τον %2 διαχειριστή σας."
+
+#, fuzzy
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr ""
+#~ "During move of attachment %1 to %2 an error was found. Please notify your "
+#~ "%3 administrator."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+
+#, fuzzy
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr ""
+#~ "During move of attachment %1 to %2 an error was found. Please notify your "
+#~ "%3 administrator."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Παρακαλούμε να ειδοποιήσετε τον %2 διαχειριστή σας."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "To e-mail άλλαξε με επιτυχία!"
+
+#, fuzzy
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,λεπτό) "
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Επεξεργασία όπως και να έχει"
+
+#~ msgid "Edit help"
+#~ msgstr "Επεξεργασία βοήθειας"
+
+#, fuzzy
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Επεξεργαστείτε τις ρυθμίσεις για αυτό το θέμα"
+
+#, fuzzy
+#~ msgid "Edit this table"
+#~ msgstr "Επεξεργασία αυτού του θέματος"
+
+#, fuzzy
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Επεξεργασία αυτού του κειμένου του θέματος"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Επεξεργαστείτε τις ρυθμίσεις προτίμησων του θέματος"
+
+#, fuzzy
+#~ msgid "Editable"
+#~ msgstr "Επεξεργασία αυτού του πίνακα"
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Είτε δεν καταχωρήσατε το όνομα του αρχείου, ή το αρχείο %1 που "
+#~ "προσπαθείτε να ανεβάσετε δεν έχει περιεχόμενο. Δεν μπορείτε να ανεβάσετε "
+#~ "ένα κενό αρχείο."
+
+#, fuzzy
+#~ msgid "Email address:"
+#~ msgstr "Διεύθυνση e-mail:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "Email has been disabled for this Foswiki installation"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Μεγένθυση πλαίσιου επεξεργασίας"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr ""
+#~ "Πληκτρολογήστε ένα νέο όνομα χρήστη και κωδικό πρόσβασης για να αλλάξετε "
+#~ "ταυτότητα"
+
+#, fuzzy
+#~ msgid "Enter parent name"
+#~ msgstr "Νέος γονεϊκός ιστός:"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr "Enter the Wiki Administrator user or login as set in %1"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "Please go back in your browser and choose a topic name that is a %1."
+#~ "WikiWord or check the allow non-Wiki Word box"
+
+#~ msgid "Error registering new user"
+#~ msgstr "Σφάλμα εγγραφής νέου χρήστη"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Σφάλμα εγγραφής χρήστη %1"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Λάθος κατά την αποθήκευση θέματος"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Σφάλμα: Το συνημμένο αρχείο στο %1,%2 δεν υπάρχει"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Error: Unsupported protocol. (Must be 'http://domain/...')"
+
+#~ msgid "Errors"
+#~ msgstr "Σφάλματα"
+
+#, fuzzy
+#~ msgid "Evil person"
+#~ msgstr "Επεξεργασία προσωπικών δεδομένων"
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Αποτυχία συμπερίληψης URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Fields marked %1 are required"
+
+#, fuzzy
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "Fields marked %1 are required"
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Το αρχείο έχει μεταφορτωθεί με διαφορετικό όνομα"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Βρείτε παρόμοια θέματα"
+
+#, fuzzy
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
+
+#, fuzzy
+#~ msgid "First"
+#~ msgstr "Μικρό Όνομα:"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "Μικρό Όνομα:"
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Ξεχάσατε τον κωδικό σας;"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Form Definition %1 missing"
+
+#, fuzzy
+#~ msgid "Form definition"
+#~ msgstr "Form definition missing"
+
+#, fuzzy
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Form Definition %1 missing"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Form definition missing"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Ταυτοποίηση χρήστη"
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Επανάταξη κωδικού χρήστη για %1"
+
+#, fuzzy
+#~ msgid "Get help on attaching files"
+#~ msgstr "έχει περισσότερες πληροφορίες σχετικά με επισύναψη αρχείων."
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Ενημερωθείτε για τις αλλαγές σε αυτή την έρευνα"
+
+#~ msgid "Go back"
+#~ msgstr "Πηγαίνετε πίσω"
+
+#, fuzzy
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "Πηγαίνετε πίσω με το φυλομετρητή και εισάγετε τα στοιχεία σας για όλα τα "
+#~ "υποχρεωτικά πεδία."
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr ""
+#~ "Πηγαίνετε πίσω με το φυλομετρητή σας και να αποθηκεύστε τις αλλαγές σας "
+#~ "σε τοπικό επίπεδο."
+
+#~ msgid "Good examples:"
+#~ msgstr "Καλά παραδείγματα:"
+
+#, fuzzy
+#~ msgid "Group"
+#~ msgstr "Ομάδες"
+
+#, fuzzy
+#~ msgid "Group name"
+#~ msgstr "Ονομασία θέματος"
+
+#~ msgid "Groups"
+#~ msgstr "Ομάδες"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Γεια σου %1!"
+
+#~ msgid "Hide file"
+#~ msgstr "Απόκρυψη αρχείου"
+
+#~ msgid "Hide help"
+#~ msgstr "Απόκρυψη βοήθειας"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "Οι Ιεραρχικοί Ιστοί είναι για την ώρα απενεργοποιημένοι, δεν μπορείτε να "
+#~ "δημιουργήσετε Ένθετους ιστούς."
+
+#~ msgid "History"
+#~ msgstr "Ιστορικό"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Μήπως σε ενδιαφέρει να επισυνάψεις τη φωτογραφία σου;"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "How to activate your %1 registration"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Ωστόσο, η αποστολή ενός e-mail επιβεβαίωσης στο %2 απέτυχε, γεγονός που "
+#~ "υποδηλώνει ότι αυτό μπορεί να είναι μια δόλια καταχώριση.  Ο χρήστης %1' "
+#~ "δεν μπόρεσε να αφαιρεθεί αυτόματα."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Ωστόσο, η αποστολή ενός e-mail επιβεβαίωσης στο %2 απέτυχε, γεγονός που "
+#~ "υποδηλώνει ότι αυτό μπορεί να είναι μια δόλια καταχώριση.  Ο χρήστης %1' "
+#~ "αφαιρέθηκε αυτόματα. Ωστόσο ενδέχεται να χρειαστεί να αφαιρέσετε το "
+#~ "προσωπικό θέμα του χρήστη με το χέρι."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr ""
+#~ "Ωστόσο, το όνομα του αρχείου έχει αλλάξει από %1 σε %2. Παρακαλώ "
+#~ "σημειώστε το."
+
+#~ msgid "I forgot my password"
+#~ msgstr "Ξέχασα τον κωδικό μου"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Ιδέες, αιτήματα, προβλήματα σχετικά με το %1; <a href='%2'>Στείλτε μας "
+#~ "ανατροφοδότηση</a>"
+
+#, fuzzy
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Ελέγξτε τις ρυθμίσεις παραμέτρων για (TemplateDir) και (TemplatePath). "
+#~ "Εάν δεν είναι αυτό το πρόβλημα, μπορεί να είναι επειδή έχετε μια ρύθμιση "
+#~ "του %1 που εαναφέρεται σε ένα πρότυπο που δεν υπάρχει."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr "If this line isn't present see _upgrade_ section below"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr "If this topic is missing create it, otherwise check it for errors."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+
+#, fuzzy
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "If you are unsure what this means, read:"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr ""
+#~ "Εάν έφτασες εδώ κάνοντας κλικ σε ένα σύνδεσμο με αγγλικό ερωτηματικό"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr ""
+#~ "Εάν δεν λάβετε ένα μήνυμα ηλεκτρονικού ταχυδρομείου επαλήθευσης κατά την "
+#~ "επόμενη ώρα, "
+
+#, fuzzy
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr ""
+#~ "Αν εισάγετε ένα διαφορετικό όνομα, βεβαιωθείτε ότι το θέμα υπάρχει ήδη."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Εάν έλαβες αυτό το e-mail κατά λάθος: Κάποιος (%1) εγγράφηκε στη σελίδα "
+#~ "%2 χρησιμοποιώντας τη δική σου διεύθυνση e-mail %3. Επικοινωνήστε με %4, "
+#~ "αν αυτό είναι λάθος."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr ""
+#~ "Αν έχετε οποιαδήποτε απορία σχετικά με την εγγραφή, στείλτε ένα e-mail "
+#~ "στη διεύθυνση %1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Αν έχετε οποιεσδήποτε απορίες, παρακαλώ επικοινωνήστε με %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Αν έχετε οποιεσδήποτε απορίες, παρακαλώ επικοινωνήστε με %1"
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Εάν δεν έχετε ορίσει κωδικό πρόσβασης ακόμη ή θέλετε να το επαναφέρετε, "
+#~ "πηγαίνετε στο: %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "Εάν έχετε λάβει ένα σύνδεσμο προς αυτό το θέμα σε ένα e-mail ή απλά "
+#~ "θέλετε να το δείτε, [[%1] [ακυρώστε το σώσιμο]] για να πάτει στο %2."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Εάν θέλετε να δημιουργήσετε το θέμα"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Αν θέλετε να δημιουργήσετε αυτό τον ιστό"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Εάν η παλιά σας διεύθυνση e-mail είναι άκυρη (δεν μπορείτε να λαμβάνετε "
+#~ "μηνύματα εκεί πια) και έχετε ξεχάσει τον κωδικό σας, παρακαλώ "
+#~ "επικοινωνήστε με τον %1 για να βοηθήσει."
+
+#, fuzzy
+#~ msgid "Image %1 of %2"
+#~ msgstr "Τροποποιήθηκε από %1 την %2"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr ""
+#~ "Οι εικόνες θα εμφανίζονται, ενώ για άλλα συνημμένα θα δημιουργηθεί ένας "
+#~ "σύνδεσμος."
+
+#~ msgid "In reversed order"
+#~ msgstr "Σε αντίστροφη σειρά"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "Σε συγκεκριμένες περιπτώσεις, το σύστημα αλλάζει το όνομα του αρχείου για "
+#~ "να το κάνει ασφαλές και προσβάσιμο από όλα τα συστήματα:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Εσφαλμένος κωδικός"
+
+#, fuzzy
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Εσφαλμένο %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Incorrect %1.WikiNames:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Incorrect %1.WikiNames:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Incorrect %1.WikiNames:"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Incorrect parameters to the =%1= script"
+
+#~ msgid "Index"
+#~ msgstr "Κατάλογος"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Εσφαλμένος κωδικός ενεργοποίησης"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Άκυρη διεύθυνση e-mail"
+
+#, fuzzy
+#~ msgid "Invalid topic name."
+#~ msgstr "Ονομασία θέματος"
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Είναι μάλλον ΟΚ για να προχωρήσετε σε επεξεργασία - εκτός εαν σκοπεύετε "
+#~ "να αλλάξετε τα δεδομένα σε μια φόρμα που είναι συννημένη στο θέμα. If %1 "
+#~ "actually _does_ save the topic while you are editing, your changes will "
+#~ "be merged, and nothing will be lost. Form data cannot easily be merged "
+#~ "though, so in this case you are recommended to check with %1 first."
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' "
+#~ "href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise "
+#~ "automatic linking may not work. Οι χαρακτήρες που δεν επιτρέπονται στα "
+#~ "ονόματα θεμάτων, όπως κενά, θα διαγραφούν αυτόματα."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Χαρακτήρες που δεν επιτρέπονται σε ονόματα "
+#~ "ιστών, όπως τα κενά, θα διαγραφούν αυτόματα."
+
+#~ msgid "Jump"
+#~ msgstr "Μεταπήδησε"
+
+#, fuzzy
+#~ msgid "Jump to first revision"
+#~ msgstr "Επαναφορά θέματος σε αυτή την αναθεώρηση:"
+
+#, fuzzy
+#~ msgid "Keyword search"
+#~ msgstr "Τροποποίηση αναζήτησης"
+
+#, fuzzy
+#~ msgid "Last edited by"
+#~ msgstr "Τελευταίος συντάκτης"
+
+#~ msgid "Last editor"
+#~ msgstr "Τελευταίος συντάκτης"
+
+#, fuzzy
+#~ msgid "Last modified"
+#~ msgstr "Ώρα τελευταίας τροποποίησης"
+
+#~ msgid "Last modified time"
+#~ msgstr "Ώρα τελευταίας τροποποίησης"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Επώνυμο:"
+
+#, fuzzy
+#~ msgid "Latest revision: %1"
+#~ msgstr "(αναθεώρηση %1)"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Περιορίσετε τα αποτελέσματα σε:"
+
+#~ msgid "Line: %1"
+#~ msgstr "Γραμμή: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Γραμμή:%1 έως %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Λίστα θεμάτων που ξεκινούν με το γράμμα:"
+
+#~ msgid "Literal search"
+#~ msgstr "Κυριολεκτική αναζήτηση"
+
+#, fuzzy
+#~ msgid "Load content"
+#~ msgstr "Υποβεβλημένο περιεχόμενο:"
+
+#~ msgid "Login"
+#~ msgstr "Σύνδεση"
+
+#, fuzzy
+#~ msgid "Login username:"
+#~ msgstr "Όνομα Σύνδεσης %1"
+
+#~ msgid "Logon"
+#~ msgstr "Σύνδεση"
+
+#~ msgid "Logout"
+#~ msgstr "Αποσύνδεση"
+
+#~ msgid "Mail to"
+#~ msgstr "Αποστολή e-mail σε"
+
+#~ msgid "Make search:"
+#~ msgstr "Κάνετε αναζήτηση:"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Πεδία που λείπουν"
+
+#~ msgid "Missing action command"
+#~ msgstr "Λείπει εντολή ενέργειας"
+
+#~ msgid "Modify search"
+#~ msgstr "Τροποποίηση αναζήτησης"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Περισσότερες ενέργειες για το Θέμα %1"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Περισσότερες ενέργειες για το Θέμα %1"
+
+#~ msgid "More formatting help"
+#~ msgstr "Περισσότερη βοήθεια μορφοποίησης"
+
+#, fuzzy
+#~ msgid "More on hiding attachments"
+#~ msgstr "Μετακίνηση ή διαγραφή συνημμένου"
+
+#, fuzzy
+#~ msgid "More topic actions"
+#~ msgstr "Λοιπές ενέργειες θέματος ..."
+
+#~ msgid "More topic actions..."
+#~ msgstr "Λοιπές ενέργειες θέματος ..."
+
+#~ msgid "More..."
+#~ msgstr "Περισσότερα ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "title='Διαγραφή ή μετονομασία αυτού του θέματος; ορισμός γονεϊκού "
+#~ "θέματος; προβολή και σύγκριση αναθεωρήσεων' accesskey='m'>&More topic "
+#~ "actions"
+
+#~ msgid "Move"
+#~ msgstr "Μετακίνηση"
+
+#, fuzzy
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Μετακίνηση στον ιστό:"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "Μετακίνηση συννημένου"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Μετακίνηση συνημμένου αρχείου"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Μετακίνηση ή διαγραφή συνημμένου"
+
+#~ msgid "Move to web:"
+#~ msgstr "Μετακίνηση στον ιστό:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "Μετακίνηση στον ιστό:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Μετακινήστε το θέμα στον ιστό:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Μετακίνηση / Μετονομασία"
+
+#~ msgid "My Links"
+#~ msgstr "Οι Σύνδεσμοι μου"
+
+#~ msgid "NEW"
+#~ msgstr "ΝΕΟ"
+
+#, fuzzy
+#~ msgid "Name of copy"
+#~ msgstr "Όνομα του αντιγράφου:"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Λείπει το όνομα του νέου ιστού"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Πλοήγηση σε ένα παρόμοιο θέμα"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#, fuzzy
+#~ msgid "New User Registration failed"
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
+
+#, fuzzy
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "New e-mails (space-separated list)"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Νέα ή αλλαγμένα θέματα στο %1, από την %2:"
+
+#~ msgid "New parent web:"
+#~ msgstr "Νέος γονεϊκός ιστός:"
+
+#, fuzzy
+#~ msgid "New password:"
+#~ msgstr "Νέος κωδικός πρόσβασης"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Το νέο όνομα %1 του θέματος δεν είναι %2"
+
+#, fuzzy
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#~ msgid "New web name:"
+#~ msgstr "Νέο όνομα ιστού:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Νεότερη αναθεώρηση:"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(εισερχόμενοι σύνδεσμοι σε όλους τους Ιστούς)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(εισερχόμενοι σύνδεσμοι στον Ιστό %1)"
+
+#, fuzzy
+#~ msgid "No changes"
+#~ msgstr "(αλλαγές)"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "No child topics"
+
+#~ msgid "No permission to view %1"
+#~ msgstr "Δεν δικαιώματα προβολής %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Δεν υπάρχει προηγούμενη αναθεώρηση."
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#, fuzzy
+#~ msgid "No topics to update."
+#~ msgstr "Μετακινήστε το θέμα στον ιστό:"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "No users to reset passwords for."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Δεν συνιστάται κατά τη διαγραφή ενός θέματος."
+
+#, fuzzy
+#~ msgid "Notation"
+#~ msgstr "Κοινοποιήσεις"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "Σημειώστε ότι οι όποιες διευθύνσεις URL που αναφέρονται στο συνημμένο θα "
+#~ "διαταραχθούν μετά από αυτή την κίνηση."
+
+#~ msgid "Note:"
+#~ msgstr "Σημείωση:"
+
+#~ msgid "Notification help"
+#~ msgstr "Βοήθεια κοινοποίησεων"
+
+#~ msgid "Notifications"
+#~ msgstr "Κοινοποιήσεις"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Αριθμός θεμάτων:"
+
+#, fuzzy
+#~ msgid "Number of topics: %1"
+#~ msgstr "Αριθμός θεμάτων:"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Older revision:"
+#~ msgstr "Παλαιότερη αναθεώρηση:"
+
+#, fuzzy
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "Μόλις εγγραφείς μπορείς να εισέλθεις χρησιμοποιώντας το %1 σου και τον "
+#~ "κωδικό."
+
+#, fuzzy
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "Μόνο μέλη του %1 επιτρέπεται να εκτελέσουν αυτή την ενέργεια."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Μόνο μέλη του %1 επιτρέπεται να εκτελέσουν αυτή την ενέργεια."
+
+#, fuzzy
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Child topics in %1 web"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Ώπ!: δεν μπορέσαμε να σας αναγνωρίσουμε. Δοκιμάστε ξανά ή  [[%1]"
+#~ "[επανατάξτε τον κωδικό σας]]."
+
+#, fuzzy
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Προαιρετικά άλλαξε την ονομασία του θέματος:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Προαιρετικά άλλαξε την ονομασία του θέματος:"
+
+#, fuzzy
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Προαιρετικά εισάγετε μια διαφορετική ονομασία του θέματος:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Προαιρετικά εισάγετε μια διαφορετική ονομασία του θέματος:"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "Ενέργεια"
+
+#, fuzzy
+#~ msgid "Organisation name:"
+#~ msgstr "Ονομασία οργανισμού:"
+
+#, fuzzy
+#~ msgid "Organisation website:"
+#~ msgstr "Ονομασία οργανισμού:"
+
+#~ msgid "Password"
+#~ msgstr "Κωδικός Πρόσβασης"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Ο κωδικός πρόσβασης άλλαξε με επιτυχία!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Ο κωδικός πρόσβασης δεν μπόρεσε να αλλαχθεί"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Απέτυχε η επανάταξη του κωδικού πρόσβασης"
+
+#, fuzzy
+#~ msgid "Password reset failed."
+#~ msgstr "Απέτυχε η επανάταξη του κωδικού πρόσβασης"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Κωδικός Πρόσβασης"
+
+#, fuzzy
+#~ msgid "Passwords disabled"
+#~ msgstr "Απέτυχε η επανάταξη του κωδικού πρόσβασης"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
+
+#, fuzzy
+#~ msgid "Pending registration not found"
+#~ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Διαλέξτε έναν από τα %1."
+
+#, fuzzy
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Placeholder for trashed attachments"
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Placeholder for trashed attachments"
+
+#, fuzzy
+#~ msgid "Please confirm your password."
+#~ msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Παρακαλώ επικοινωνήστε με το %1 εάν έχεται την οποιαδήποτε ερώτηση."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Παρακαλούμε επικοινωνήστε με %1."
+
+#, fuzzy
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Άκυρη διεύθυνση e-mail"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Παρακαλώ εισάγετε τον κωδικό πρόσβασης του διαχειριστή του Wiki"
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "Παρακαλώ πάνε _πίσω_ με τον browser και δοκίμασε ένα νέο όνομα."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Παρακαλώ πάνε πίσω με τον browser και πάτησε το ξανά."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "Please go back in your browser and choose a topic name that is a %1."
+#~ "WikiWord or check the allow non-Wiki Word box"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Παρακαλώ πάνε πίσω με τον browser και δοκίμασε ξανά."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "Παρακαλώ πάνε _πίσω_ με τον browser και δοκίμασε ένα νέο όνομα."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "Παρακαλώ βεβαιωθείτε ότι γράψατε το %1 σωστά και προσπαθήστε ξανά. Εάν "
+#~ "έχετε κολλήσει, παρακαλώ στείλτε ένα e-mail στο %2."
+
+#, fuzzy
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr ""
+#~ "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου δεν μπόρεσε να παραδοθεί. Παρακαλώ "
+#~ "ενημερώστε τον διαχειριστή %1, %2"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Παρακαλούμε επισκεφθείτε %1 για να αλλάξετε τον κωδικό πρόσβασής σας σε "
+#~ "κάτι πιο εύκολο να το θυμάστε."
+
+#~ msgid "Preferences for"
+#~ msgstr "Προτιμήσεις για"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Ειδάλως πιέστε Ακύρωση."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "Πατήστε ΟΚ για να επιβεβαιώσετε ότι η αλλαγή αυτή ήταν εσκεμμένη."
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr ""
+#~ "title='Εκτυπώσιμη έκδοση αυτού του θέματος' accesskey='p'>&Print version"
+
+#~ msgid "Properties"
+#~ msgstr "Ιδιότητες"
+
+#, fuzzy
+#~ msgid "Put it back..."
+#~ msgstr "επανατοποθετήστε"
+
+#~ msgid "Query Search"
+#~ msgstr "Αναζήτηση μέσω Ερωτήματος"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "Εγγραφή"
+
+#~ msgid "Quiet save"
+#~ msgstr "Ήσυχο σώσιμο"
+
+#~ msgid "RSS Feed"
+#~ msgstr "Ροή RSS"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "Διαβάστε το %1 για να πάρετε μια γρήγορη εικόνα αυτής της πλατφόρμας "
+#~ "συνεργασίας. To learn more, study the TwentyMinuteTutorial, which is "
+#~ "accessible from the same link."
+
+#~ msgid "Read on"
+#~ msgstr "Διαβάστε κι άλλο"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Πρόσφατα τροποποιημένα θέματα"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Πρόσφατα τροποποιημένα θέματα"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Πρόσφατα τροποποιημένα θέματα"
+
+#~ msgid "Refresh"
+#~ msgstr "Ενημέρωση"
+
+#~ msgid "Register"
+#~ msgstr "Εγγραφή"
+
+#~ msgid "Registration"
+#~ msgstr "Εγγραφή"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr "Email has been disabled for this Foswiki installation"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Οι κωδικοί καταχώρισης μπορούν να χρησιμοποιηθούν μόνο μία φορά."
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποιηθεί"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Αναζήτηση με έκφραση PERL"
+
+#, fuzzy
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr ""
+#~ "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου δεν μπόρεσε να παραδοθεί. Παρακαλώ "
+#~ "ενημερώστε τον διαχειριστή %1, %2"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "Σχετιζόμενα θέματα"
+
+#~ msgid "Related topics:"
+#~ msgstr "Σχετιζόμενα θέματα:"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Να με θυμάσαι σε αυτόν τον υπολογιστή"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "Remember to update your user topic if you want your e-mail change to be "
+#~ "reflected there as well."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Θυμάστε τον κωδικό σας;"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Remove the user from the group(s) %1 first."
+
+#~ msgid "Rename"
+#~ msgstr "Μετονομασία"
+
+#~ msgid "Rename failed"
+#~ msgstr "Η μετονομασία απέτυχε"
+
+#, fuzzy
+#~ msgid "Rename or move %1"
+#~ msgstr "Μετονομάσετε ή μετακινήστε το θέμα"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Μετονομάσετε ή μετακινήστε το θέμα"
+
+#, fuzzy
+#~ msgid "Rename or move topic..."
+#~ msgstr "Μετονομάσετε ή μετακινήστε το θέμα"
+
+#, fuzzy
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Μετονομασία, μετακίνηση ή διαγραφή αυτού του ιστού:"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Μετονομασία / Μετακίνηση"
+
+#~ msgid "Replace form..."
+#~ msgstr "Αντικατάσταση φόρμας ..."
+
+#~ msgid "Request Validation"
+#~ msgstr "Αίτηση Επικύρωσης"
+
+#~ msgid "Reset Password"
+#~ msgstr "Επανάταξη Κωδικού Πρόσβασης"
+
+#~ msgid "Reset password"
+#~ msgstr "Επανάταξη Κωδικού Πρόσβασης"
+
+#~ msgid "Restore topic"
+#~ msgstr "Επαναφορά θέματος"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Επαναφορά θέματος σε αναθεώρηση:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Επαναφορά θέματος σε αυτή την αναθεώρηση:"
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Αποτελέσματα από ιστό %1"
+
+#, fuzzy
+#~ msgid "Results from %1 web:"
+#~ msgstr "Αποτελέσματα από ιστό %1"
+
+#, fuzzy
+#~ msgid "Return to %1"
+#~ msgstr "Επιστροφή στο %1."
+
+#~ msgid "Return to %1."
+#~ msgstr "Επιστροφή στο %1."
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "Πληκτρολογήστε ξανά το νέο κωδικό πρόσβασης"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr "Rev %1 was saved by %2, while you were still editing."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
+
+#~ msgid "Revision"
+#~ msgstr "Αναθεώρηση"
+
+#, fuzzy
+#~ msgid "Revision history of %1"
+#~ msgstr "Ιστορικό έκδοσης του %1"
+
+#~ msgid "Revisions"
+#~ msgstr "Αναθεωρήσεις"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Αποθήκευση, C = Ακύρωση"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Αποθήκευση, Q = Ήσυχη αποθήκευση, K = Αποθήκευση και συνέχεια, P = "
+#~ "Προεπισκόπηση, C = Ακύρωση"
+
+#~ msgid "Save table"
+#~ msgstr "Αποθήκευση πίνακα"
+
+#~ msgid "Saved to:"
+#~ msgstr "Αποθήκευση στο:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Αναζήτηση μόνο στον ιστό %1"
+
+#~ msgid "Search all webs"
+#~ msgstr "Αναζήτηση σε όλους τους ιστούς"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Αναζήτηση όλων των ιστών για θέματα που παραπέμπουν εδώ"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "Αναζήτηση σε όλους τους ιστούς"
+
+#, fuzzy
+#~ msgid "Search in %1 Web"
+#~ msgstr "Αναζήτηση μόνο στον ιστό %1"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Αναζήτηση σε όλους τους ιστούς"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Αναζήτησε περισσότερα θέματα σε αυτόν τον ιστό"
+
+#, fuzzy
+#~ msgid "Search options"
+#~ msgstr "Άλλες επιλογές αναζήτησης:"
+
+#, fuzzy
+#~ msgid "Search result"
+#~ msgstr "(αναζήτηση αποτελέσματος)"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "(αναζήτηση αποτελέσματος)"
+
+#~ msgid "Search string"
+#~ msgstr "Κείμενο αναζήτησης"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Αναζήτηση στον ιστό %1για θέματα που παραπέμπουν εδώ"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Αναζήτηση στον ιστό %1για θέματα που παραπέμπουν εδώ"
+
+#~ msgid "Search where:"
+#~ msgstr "Αναζήτηση που;"
+
+#~ msgid "Searched:"
+#~ msgstr "Αναζητήθηκαν:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Σημείωση ασφαλείας:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr "See %1 for a list of existing users or register as new user in %2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Βλ.%1 για πληροφορίες σχετικά με Ορισμούς Φορμών."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Βλ. επίσης την ταχύτερη %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Βλέπε επίσης λεπτομερές %1."
+
+#~ msgid "See also:"
+#~ msgstr "Βλέπε επίσης:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "Βλέπε παρακάτω για βοήθεια για την επεξεργασία αυτής της σελίδας."
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
+
+#~ msgid "Select"
+#~ msgstr "Επιλογή"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "Επιλέξτε ένα νέο τοπικό αρχείο για να ενημερώσετε το συνημμένο"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Επιλογή όλων"
+
+#, fuzzy
+#~ msgid "Select topic parent"
+#~ msgstr "Επιλέξτε γονεϊκό θέμα:"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr ""
+#~ "Επιλέξτε, αντιγράψτε και επικολλήστε το κείμενο της υπογραφής σας στο "
+#~ "κάτω μέρος της καταχώρησης σας"
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
+
+#~ msgid "Sequential"
+#~ msgstr "Διαδοχική"
+
+#~ msgid "Set all"
+#~ msgstr "Ορισμός όλων"
+
+#~ msgid "Set new parent"
+#~ msgstr "Ορισμός νέου γονέα"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Ορισμός νέου γονέα θέματος"
+
+#, fuzzy
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Επισκόπηση προηγούμενης αναθεώρησης θέματος"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "Βοήθεια για τα συννημένα"
+
+#~ msgid "Show help"
+#~ msgstr "Εμφάνιση βοήθειας"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Μείωσε το πλαίσιο επεξεργασίας"
+
+#~ msgid "Side by side"
+#~ msgstr "Δίπλα-δίπλα"
+
+#~ msgid "Size"
+#~ msgstr "Μέγεθος"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "Μερικοί προσθέτουν πληροφορίες ραντεβού και ειδοποίηση διακοπών."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "Μερικά εργαλεία mail έχουν ένα σφάλμα που τα αναγκάζει να στλενουν το "
+#~ "ίδιο αίτημα δύο φορές όταν κάνετε κλικ σε έναν σύνδεσμο. Εάν το κάνατε "
+#~ "αυτό, είναι πιθανό ότι μπορεί πράγματι να *έχετε* εγγραφεί επιτυχώς."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+
+#, fuzzy
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Λυπούμαστε, το σύστημα κωδικών πρόσβασης είναι προς το παρόν μόνο για "
+#~ "ανάγνωση, παρακαλούμε επικοινωνήστε με %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Ταξινόμηση αποτελεσμάτων κατά:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Τα κενά αντικαθίστανται από underscores"
+
+#~ msgid "Statistics"
+#~ msgstr "Στατιστικά χρήσης"
+
+#~ msgid "Submit"
+#~ msgstr "Υποβολή"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Υποβεβλημένο περιεχόμενο:"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Συνδρομή / Διαγφραφή Συνδρομής σε:"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Εκτύπωση αυτού του θέματος"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Εκτύπωση αυτού του θέματος"
+
+#~ msgid "Summaries"
+#~ msgstr "Περιλήψεις"
+
+#, fuzzy
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Αλλαγή σε μονοτυπία ή αναλογική γραμματοσειρά"
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "Βοήθεια: για να αναζητήσετε όλα τα θέματα που περιέχουν = \"SOAP\" =, = "
+#~ "\"WSDL\" =, κυριολεκτικά = \"web service\" =, αλλά όχι = \"shampoo\" =, "
+#~ "γράψτε:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Το Πρότυπο %1 δεν υπάρχει"
+
+#~ msgid "Text body"
+#~ msgstr "Σώμα κειμένου"
+
+#, fuzzy
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#, fuzzy
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "Ευχαριστούμε για την εγγραφή στην πλατφόρμας συνεργασίας %1. Παρακαλώ "
+#~ "αποθηκεύστε αυτό το e-mail για μελλοντική αναφορά."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "Ευχαριστούμε για την εγγραφή στην πλατφόρμας συνεργασίας %1. Ο κωδικός "
+#~ "σας επαλήθευσης είναι ο %2."
+
+#, fuzzy
+#~ msgid "That user has already been activated"
+#~ msgstr "Αυτός ο χρήστης έχει ήδη ενεργοποιηθεί "
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "Το θέμα %1 υπάρχει ήδη"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Ο ιστός %1 δεν υπάρχει"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "Ο ιστός %1 είναι το sandbox που μπορείτε να χρησιμοποιήσετε για δοκιμές. "
+#~ "Όλοι είναι ευπρόσδεκτοι να προσθέσουν ή να διαγράψουν κάποια πράγματα. It "
+#~ "is recommended to walk through the %2 to get a jumpstart on the %3 tool. "
+#~ "A good rule of thumb is to add at the end of the page and sign and date "
+#~ "it with your %4."
+
+#, fuzzy
+#~ msgid "The %1 web of %2."
+#~ msgstr "Ο ιστός %1 δεν υπάρχει"
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr "The %1 web of Foswiki, the Free and Open Source Wiki."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "The =%1= script can only be called with POST method."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "Ο Διαχειριστής έχει απενεργοποιήσει τις εγγραφές νέου χρήστη."
+
+#, fuzzy
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "Ο Διαχειριστής έχει απενεργοποιήσει τις εγγραφές νέου χρήστη."
+
+#, fuzzy
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "The %1 web of Foswiki, the Free and Open Source Wiki."
+
+#, fuzzy
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+
+#, fuzzy
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "The %1 field must be your first and last name in %2, e.g. your "
+#~ "capitalized first and last name with spaces removed."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "The activation code %1 is invalid."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "The attachment and any history will be moved to the new topic."
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr "Τι συννημένο υπάρχει ήδη στο νέο θέμα"
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr ""
+#~ "Οι πιθανότητες είναι ότι ο %1 έχει απλώς πλοηγηθεί μακριά από την σελίδα "
+#~ "επεξεργασίας χωρίς να το αποθηκεύσει."
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Η διεύθυνση e-mail για το λογαριασμό αυτό δεν είναι έγκυρη."
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "Η διεύθυνση e-mail για το λογαριασμό αυτό δεν είναι έγκυρη."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Η διεύθυνση e-mail για το λογαριασμό αυτό δεν είναι έγκυρη."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr ""
+#~ "Η καταχώρηση για το χρήστη %1 έλειπε από το σύστημα κωδικών πρόσβασης."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "The file has been uploaded and attached properly to the %1 topic."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr ""
+#~ "Τα ακόλουθα θέματα κλειδωμένα για επεξεργασία, και δεν μπορούν να "
+#~ "μετακινηθούν:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "Τα ακόλουθα θέματα παραπέμπουν σε θέματα σε αυτό τον ιστό, αλλά "
+#~ "υπόκεινται σε επεξεργασία:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "Τα ακόλουθα θέματα παραπέμπουν σε θέματα σε αυτό τον ιστό, αλλά δεν έχετε "
+#~ "πρόσβαση σε αυτά:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "The form should be defined in the topic %1"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "Η κράτηση για το θέμα αυτό έληξε πριν από %1."
+
+#, fuzzy
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Η ονομασία του θέματος δεν πρέπει να είναι κενό."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Η ονομασία του θέματος δεν πρέπει να είναι κενό."
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "Το νέο θέμα που επελέγη πρέπει να υπάρχει ήδη."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Ο νέος ιστός έχει δημιουργηθεί"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr ""
+#~ "Ο κωδικός πρόσβασης που δώσατε στο πεδίο *παλαιός κωδικός πρόσβασης* "
+#~ "είναι εσφαλμένος."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "Το απαιτούμενο πεδίο %1 δεν είχε συμπληρωθεί."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr ""
+#~ "Το επιλεγμένο Σύστημα Χρήστών δεν υποστηρίζει την εγγραφή νέου χρήστη."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "Το θέμα είναι σε ένα παλαιότερη μορφοποίηση"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "Οι δύο κωδικοί που δώσατε δεν ταιριάζουν."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr ""
+#~ "Ο χρήστης %1 έχει ήδη ενεργοποιηθεί, και θα πρέπει να είναι σε θέση να "
+#~ "συνδεθεί."
+
+#, fuzzy
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "Your user name has been removed from the Authentication System."
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "Υπάρχουν προβλήματα με τη μετονομασία του παρόντος ιστού:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr ""
+#~ "There has been a problem adding your user id to the Password system."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr "There should be a line that includes %1, look for %2 (or %3)"
+
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "Αυτό μπορεί να αναβαθμιστεί αυτόματα από:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "Αυτό θα μπορούσε να οφείλεται σε πολλούς λόγους:"
+
+#, fuzzy
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "Η παρούσα φόρμα χρησιμοποιείται για την αλλαγή της καταχωρημένης "
+#~ "διεύθυνσης e-mail σας. Your registered e-mails are used by Foswiki for "
+#~ "sending you e-mails, include notifications of password changes. The "
+#~ "addresses you register via this form are kept secret and will *not* be "
+#~ "published anywhere on this site."
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "Αυτό είναι μια συνδρομητική υπηρεσία για να ειδοποιείσται αυτόματα, μέσω "
+#~ "ηλεκτρονικού ταχυδρομείου όταν αλλάζουν κάποια θέματα σε αυτόν τον ιστό "
+#~ "%1. Αυτό είναι μια βολική υπηρεσία, ώστε να μην χρειαστεί να επανέλθουμε "
+#~ "και ελέγχουμε συνεχώς αν κάτι έχει αλλάξει. Για να εγγραφείτε, μπορείτε "
+#~ "να προσθέσετε μια σφαίρα με το %2 σας, σε αλφαβητική σειρά σε αυτή τη "
+#~ "λίστα:"
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "Αυτό είναι ένα αυτοματοποιημένο e-mail από %1."
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr ""
+#~ "Αυτό είναι ένα αυτοματοποιημένο e-mail κοινοποίησης της εγγραφής χρήστη "
+#~ "στο %1."
+
+#, fuzzy
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "Αυτό είναι το Trash. Here you can undelete topics; deleted attachments "
+#~ "are in TrashAttachment."
+
+#, fuzzy
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "This requires the form definition to be present."
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Αυτή η ιστοσελίδα λειτουργεί από το Foswiki"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr ""
+#~ "Αυτό το site αυτό απαιτεί κωδικούς πρόσβασης με τουλάχιστον %1 χαρακτήρες"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "Το '%1' δεν είναι έγκυρο %2 "
+
+#~ msgid "This topic:"
+#~ msgstr "Αυτό το θέμα:"
+
+#, fuzzy
+#~ msgid "This username is already in use."
+#~ msgstr "Αυτός ο χρήστης έχει ήδη ενεργοποιηθεί "
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "Αυτές οι αλλαγές έχουν συγχωνευθεί με τις δικές σας να δημιουργηθεί η Εκδ."
+#~ "%1. Text fields will have been merged, but other data such as form fields "
+#~ "may have overwritten the other users changes. Παρακαλούμε να ελέγξετε το "
+#~ "θέμα για να βεβαιωθείτε ότι είναι εντάξει, ειδικά εάν έχετε κάνει "
+#~ "οποιεσδήποτε αλλαγές σε πεδία φόρμας."
+
+#, fuzzy
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#, fuzzy
+#~ msgid "To attachment:"
+#~ msgstr "Συνημμένα θέματος"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "Σας ευχαριστούμε για την εγγραφή"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr ""
+#~ "Για να εμφανιστούν τα παραπάνω αποτελέσματα αναζήτησης σε ένα θέμα, copy-"
+#~ "paste την ακόλουθη σήμανση:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr ""
+#~ "Για να επεξεργαστείτε το θέμα, έτσι κι αλλιώς κάντε κλικ στο κουμπί "
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr ""
+#~ "Για να δείτε αν ο %1 έχει τελειώσει την επεξεργασία, απλά κάντε κλικ στο "
+#~ "κουμπί "
+
+#, fuzzy
+#~ msgid "To topic"
+#~ msgstr "Στο θέμα:"
+
+#~ msgid "To topic:"
+#~ msgstr "Στο θέμα:"
+
+#, fuzzy
+#~ msgid "To web"
+#~ msgstr "Στον ιστό:"
+
+#~ msgid "To web:"
+#~ msgstr "Στον ιστό:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Εργαλειοθήκη"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "Το θέμα %1 δεν υπάρχει"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Σφάλμα Αποθήκευσης Θέματος"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Συνημμένα θέματος"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "Topic can not be upgraded from old style category table"
+
+#, fuzzy
+#~ msgid "Topic data"
+#~ msgstr "Ονομασία θέματος"
+
+#, fuzzy
+#~ msgid "Topic history"
+#~ msgstr "Προβολή ιστορικού θέματος"
+
+#, fuzzy
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Θέματα στον ιστό %1"
+
+#~ msgid "Topic name"
+#~ msgstr "Ονομασία θέματος"
+
+#~ msgid "Topic name:"
+#~ msgstr "Ονομασία θέματος:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Γονέας θέματος:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Αναθεώρηση θέματος:"
+
+#~ msgid "Topic save error"
+#~ msgstr "Σφάλμα αποθήκευσης θέματος"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "Topic templates in %1 Web"
+
+#~ msgid "Topic title"
+#~ msgstr "Τίτλος θέματος"
+
+#~ msgid "Topic was merged"
+#~ msgstr "Το θέμα συγχωνεύτηκε"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Το θέμα θα φέρει το όνομα: "
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "Θέματα στον ιστό %1:"
+
+#~ msgid "Topics per web"
+#~ msgstr "Θέματα ανά ιστό"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr ""
+#~ "Θέματα τα οποία τελούν υπό επεξεργασία από άλλους χρήστες στον ιστό %1:"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr ""
+#~ "Θέματα τα οποία αναφέρονται σε αυτό τον ιστό και τελούν υπό επεξεργασία "
+#~ "από άλλους χρήστες:"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr ""
+#~ "Θέματα τα οποία αναφέρονται σε αυτό το τόπο που εσείς δεν έχετε το "
+#~ "δικαίωμα να αλλάξετε:"
+
+#~ msgid "Total matches"
+#~ msgstr "Συνολικά όμοια"
+
+#~ msgid "Try Again"
+#~ msgstr "Προσπαθήστε πάλι"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "Μη-αναγνωρίσιμος χρήστης και / ή κωδικός πρόσβασης"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Unrecognized action command %1"
+
+#, fuzzy
+#~ msgid "Unsubscribe from this topic"
+#~ msgstr "Εκτύπωση αυτού του θέματος"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Incorrect %1.WikiNames:"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Ενημέρωση συνδέσμων"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Update attachment %1 on %2"
+
+#~ msgid "Update links"
+#~ msgstr "Ενημέρωση συνδέσμων"
+
+#, fuzzy
+#~ msgid "Upload a file"
+#~ msgstr "Μεταφόρτωση αρχείου"
+
+#~ msgid "Upload file"
+#~ msgstr "Μεταφόρτωση αρχείου"
+
+#, fuzzy
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Update attachment %1 on %2"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Μεταφορτώστε έως %1 KB."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Το μεταφορτωμένο αρχείο %1 υπερβαίνει το όριο των %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Το μεταφορτωμένο αρχείο είναι πολύ μεγάλο"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Χρησιμοποιήστε %1 αντ 'αυτού."
+
+#~ msgid "Use template:"
+#~ msgstr "Χρησιμοποιήστε το πρότυπο:"
+
+#, fuzzy
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr ""
+#~ "%1 είναι σε τουλάχιστον μια ομάδα χρηστών και δεν μπορεί να αφαιρεθεί"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "User Account %1 Deleted"
+
+#, fuzzy
+#~ msgid "User Account was not supplied"
+#~ msgstr "User Account %1 Deleted"
+
+#~ msgid "User Reference"
+#~ msgstr "User Reference"
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "Εγγραφή"
+
+#~ msgid "Username"
+#~ msgstr "Όνομα Χρήστη"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "Όνομα Χρήστη"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "Άκυρη διεύθυνση e-mail"
+
+#~ msgid "Users"
+#~ msgstr "Χρήστες"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+
+#~ msgid "Version"
+#~ msgstr "Έκδοση"
+
+#~ msgid "Version history"
+#~ msgstr "Ιστορικό έκδοσης"
+
+#~ msgid "Version history of %1"
+#~ msgstr "Ιστορικό έκδοσης του %1"
+
+#~ msgid "View"
+#~ msgstr "Προβολή"
+
+#, fuzzy
+#~ msgid "View complete topic history"
+#~ msgstr "Προβολή συνολικού ιστορικού του θέματος"
+
+#~ msgid "View difference"
+#~ msgstr "Προβολή διαφορών"
+
+#, fuzzy
+#~ msgid "View differences"
+#~ msgstr "Προβολή διαφορών"
+
+#, fuzzy
+#~ msgid "View earlier"
+#~ msgstr "Προβολή προτύπων"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "Προβολή προτύπων"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Επισκόπηση προηγούμενης αναθεώρησης θέματος"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Προβολή αδιαμόρφωτου κείμενου χωρίς μορφοποίηση"
+
+#, fuzzy
+#~ msgid "View revision"
+#~ msgstr "Προβολή αναθεώρησης:"
+
+#~ msgid "View revision:"
+#~ msgstr "Προβολή αναθεώρησης:"
+
+#, fuzzy
+#~ msgid "View sequential topic history"
+#~ msgstr "Προβολή συνολικού ιστορικού του θέματος"
+
+#~ msgid "View templates"
+#~ msgstr "Προβολή προτύπων"
+
+#~ msgid "View topic"
+#~ msgstr "Προβολή θέματος"
+
+#~ msgid "View total topic history"
+#~ msgstr "Προβολή συνολικού ιστορικού του θέματος"
+
+#, fuzzy
+#~ msgid "View without formatting (v)"
+#~ msgstr "Προβολή αδιαμόρφωτου κείμενου χωρίς μορφοποίηση"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Προειδοποίηση! Απαιτείται επιβεβαίωση"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Warning: 'include' topic does not exist!"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "Warning: Can't find named section %3 in topic %1.%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Warning: Can't find topic %1.%2"
+
+#, fuzzy
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Warning: Can't find topic %1.%2"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Warning: Could not send confirmation email"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr "Warning: Could not send confirmation email, email has been disabled"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Warning: \\'include\\' topic does not exist!"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Warning: 'include' topic does not exist!"
+
+#, fuzzy
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "Warning: \\'include\\' topic does not exist!"
+
+#~ msgid "Webs"
+#~ msgstr "Ιστοί"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Καλώς ήλθατε στον ιστό %1"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr ""
+#~ "Επιχειρώντας να αποστείλω ηλεκτρονικό ταχυδρομείο σε <noautolink>%1</"
+#~ "noautolink> ."
+
+#~ msgid "Who"
+#~ msgstr "Ποιος"
+
+#, fuzzy
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#, fuzzy
+#~ msgid "Word search"
+#~ msgstr "Τροποποίηση αναζήτησης"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Θα θέλατε να πάτε στο:"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "*θα πρέπει* να έχετε τουλάχιστον ένα έγκυρο καταχωρημένο e-mail για να "
+#~ "είσται σε θέση να επανατάξετε τον κωδικό πρόσβασής σας. If none of your "
+#~ "registered e-mail addresses is valid, and you have forgotten your "
+#~ "password, contact %1."
+
+#, fuzzy
+#~ msgid "You are already registered."
+#~ msgstr "Έχετε ήδη εγγραφεί"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "You are also listed in the %1 topic"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "Δεν έχεται πρόσβαση στα ακόλουθα θέματα στον ιστό:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+
+#~ msgid "You are here:"
+#~ msgstr "Είστε εδώ:"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+
+#, fuzzy
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Προσπαθείτε να %1 για ένα συνημμένο που δεν υπάρχει."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr ""
+#~ "Προσπαθείτε να δημιουργήσετε ένα θέμα από ένα πρότυπο που δεν υπάρχει."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr ""
+#~ "Προσπαθείτε να εκτελέσετε μια ενέργεια για ένα θέμα που δεν υπάρχει "
+#~ "(ενέργεια'%1')."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Προσπαθείτε να μετονομάσετε ένα θέμα που δεν υπάρχει."
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "Μπορείτε να [[%1] [δημιουργήσετε ένα νέο ιστό]], εάν έχετε το δικαίωμα. "
+#~ "Επικοινωνήστε με %2, αν έχετε απορίες."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "Μπορείτε επίσης να χρησιμοποιήσετε τα ονόματα των τυποποιημένων χρωμάτων "
+#~ "HTML  (black, silver, gray, white, maroon, red, purple, fuchsia, green, "
+#~ "lime, olive, yellow, navy, blue, teal, or aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "Μπορείτε να αλλάξετε τον κωδικό σας μέσω %1"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "Μπορείτε να δώσετε διαφορετικό όνομα σε αυτό τον ιστό."
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr "You will probably have to ask your administrator, %1, to do this."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr ""
+#~ "Δεν μπορείτε να εγγραφείτε δύο φορές, το όνομα %1 έχει ήδη καταχωρηθεί."
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "*Δεν* έχεται εγγραφεί."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr ""
+#~ "Μπορεί να έχετε κάνει κλικ σε σύνδεσμο επιβεβαίωσης εγγραφής που έχετε "
+#~ "ήδη επισκεφθεί."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr ""
+#~ "Μπορεί να χρειαστεί να κλείσετε το πρόγραμμα περιήγησης για αυτή την "
+#~ "αλλαγή να ισχύσει."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "Θα πρέπει να περάσετε ένα όνομα θέματος."
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr "You will probably have to ask your administrator, %1, to do this."
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Incorrect %1.WikiNames:"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "Ο κωδικός ενεργοποίησης σας έχει σταλεί στο %1.  Either click on the link "
+#~ "in your e-mail or enter the code in the box below to activate your "
+#~ "membership. (Ο κωδικός αυτός είναι της μορφής «YourName.xxxxxxxxxx\")"
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr ""
+#~ "Αυτό το site αυτό απαιτεί κωδικούς πρόσβασης με τουλάχιστον %1 χαρακτήρες "
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "Ο κωδικός πρόσβασής σας:"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr ""
+#~ "Το προσωπικό σας θέμα %1 βρίσκεται στο %2. Μπορείτε να το προσαρμόσετε "
+#~ "όπως θέλετε:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Your personal Foswiki topic %1 has been created"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Η υπογραφή σου για αντιγραφή / επικόλληση:"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Η υπογραφή σου για την αντιγραφή / επικόλληση:"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr ""
+#~ "Το σύστημά σας μπορεί να μην υποστηρίζει την αλλαγή κωδικών πρόσβασης "
+#~ "μέσω του Foswiki. Ελέγξτε με τον διαχειριστή του Wiki σας."
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][Debug topic text]]."
+
+#~ msgid "_language_name"
+#~ msgstr "Ελληνικά"
+
+#~ msgid "access denied on root"
+#~ msgstr "δεν επιτρέπεται η πρόσβαση στο root"
+
+#~ msgid "access denied on topic"
+#~ msgstr "δεν επιτρέπεται η πρόσβαση στο θέμα"
+
+#~ msgid "access denied on web"
+#~ msgstr "δεν επιτρέπεται η πρόσβαση στον ιστό"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "Η πρόσβαση δεν επιτρέπεται στο ριζικό"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "Η πρόσβαση δεν επιτρέπεται στο θέμα"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "Η πρόσβαση δεν επιτρέπεται στον ιστό"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "accesskey='c'"
+
+#~ msgid "and"
+#~ msgstr "και"
+
+#, fuzzy
+#~ msgid "change display options"
+#~ msgstr "Άλλες επιλογές αναζήτησης:"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr ""
+#~ "αλλαγή, ενημέρωση, προηγούμενες αναθεωρήσεις, μετακίνηση, διαγραφή ..."
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "Μην ξεχάσετε να ελέγξετε τις Ρυθμίσεις του Θέματος σας"
+
+#~ msgid "fields are required."
+#~ msgstr "απαιτούνται πεδία."
+
+#~ msgid "help"
+#~ msgstr "βοήθεια"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Προσθήκη φόρμας"
+
+#~ msgid "hints on good style"
+#~ msgstr "συμβουλές για καλό στυλ"
+
+#~ msgid "in raw text format"
+#~ msgstr "σε αδιαμόρφωτη μορφή κειμένου"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "(αλλαγές)"
+
+#~ msgid "manage"
+#~ msgstr "διαχείριση"
+
+#~ msgid "more..."
+#~ msgstr "περισσότερα ..."
+
+#~ msgid "now %1"
+#~ msgstr "τώρα %1"
+
+#~ msgid "or"
+#~ msgstr "ή"
+
+#~ msgid "preview"
+#~ msgstr "προεπισκόπηση"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "ανακτήθηκε την %1"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "(αναθεώρηση %1)"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "(ορισμός προτιμήσεων)"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Επισύναψε μια εικόνα ή ένα έγγραφο σε αυτό το θέμα' "
+#~ "accesskey='a'>&Attach"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr ""
+#~ "title='Επισύναψε μια εικόνα ή ένα έγγραφο σε αυτό το θέμα' "
+#~ "accesskey='a'>&Attach"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Δημιουργία νέου θέματος' accesskey='c'>&Create"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Διαγραφή ή μετονομασία αυτού του θέματος; ορισμός γονεϊκού "
+#~ "θέματος; προβολή και σύγκριση αναθεωρήσεων' accesskey='m'>&More topic "
+#~ "actions"
+
+#, fuzzy
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "title='Επεξεργασία του κειμένου του θέματος' accesskey='e'>&Edit"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Επεξεργασία του κειμένου του θέματος' accesskey='e'>&Edit"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Επεξεργασία του κειμένου του θέματος' accesskey='e'>&Edit"
+
+#, fuzzy
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='Προβολή θέματος' accesskey='v'>&View topic"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='Εκτυπώσιμη έκδοση αυτού του θέματος' accesskey='p'>&Print version"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Αναζήτησε όλους τους ιστούς για θέματα που παραπέμπουν εδώ' "
+#~ "accesskey='l'>A&ll Webs"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Αναζήτηση στον ιστό %1 για θέματα που παραπέμπουν εδώ' "
+#~ "accesskey='b'>&Backlinks"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr ""
+#~ "title='Αναζήτησε τον ιστό %1 για θέματα που παραπέμπουν εδώ' "
+#~ "accesskey='b'>We&b"
+
+#, fuzzy
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='Προβολή θέματος' accesskey='v'>&View topic"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Επεξεργασία του κειμένου του θέματος' accesskey='e'>&Edit"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='Εκτυπώσιμη έκδοση αυτού του θέματος' accesskey='p'>&Print version"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Προβολή συνολικού ιστορικού θέματος' accesskey='h'>&History"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Προβολή θέματος' accesskey='v'>&View topic"
+
+#, fuzzy
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr ""
+#~ "title='Προβολή αδιαμόρφωτου κειμένου χωρίς μορφοποίηση' "
+#~ "accesskey='r'>&Raw View"
+
+#~ msgid "user list truncated"
+#~ msgstr "user list truncated"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Cancel' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Discard' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Preview' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Quiet save' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Save and Continue' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Save' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "προβολή"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "Ο/Η %1 έχει εγγραφεί με το e-mail %2"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Επιστροφή στο %1."
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+
+#~ msgid "Notes:"
+#~ msgstr "Σημειώσεις:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Η γλώσσα σας θα αλλάξει σε %1 από την επόμενη οθόνη. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Μετακίνηση ή διαγραφή συνημμένου"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "checkboxes of referenced topics"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Μεταφόρτωση αρχείου"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Επιλέξετε από μια λίστα"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "Your %1.LoginName"
+
+#~ msgid "Login name %1"
+#~ msgstr "Όνομα Σύνδεσης %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Your %1.LoginName"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Εσφαλμένο %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "The %1 field must match the {LoginNameFilterIn} filter for this site"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Μικρό Όνομα:"
+
+#, fuzzy
+#~ msgid ":lastName"
+#~ msgstr "Επώνυμο:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Μετονομασία"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Ονομασία θέματος"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Ενέργεια"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Στο θέμα:"
+
+#~ msgid "Hello %1"
+#~ msgstr "Γεια σου %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "ή"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Βοήθεια Μορφοποίησης:*"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - πλήρη τεκμηρίωση του Foswiki, από Γρήγορη Έναρξη έως Αναφορές"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - μόνο για εμένα"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - σημεία εκκίνησης στο Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - δοκίμασε το Foswiki μόνος σου"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr ""
+#~ "%1 - δες μια συνοπτική εισαγωγική παρουσίαση του Foswiki για αρχάριους"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 για να αλλάξεις τη διεύθυνση e-mail σου"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 για να αλλάξεις το password σου"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 είναι ένας κατάλογος από τεκμηρίωση χρηστών για το Foswiki"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "Το %1 αναφέρει όλα τα εργαλεία χρηστών του Foswiki"
+
+#~ msgid "&Edit text"
+#~ msgstr "&E Διόρθωση Κειμένου"
+
+#~ msgid "(Use a topic name in System.WikiNotation)"
+#~ msgstr ""
+#~ "(Χρησιμοποίησε μια ονομασία θέματος σύμφωνα με το System.WikiNotation)"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(το όνομα που θα συνδέεσαι) ΌνομαΕισόδου:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(σε ταυτοποιεί στους άλλους) ΌνομαWiki:"
+
+#~ msgid "(optional)"
+#~ msgstr "(προαιρετικό)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(προτεινόμενο)"
+
+#~ msgid "(search results)"
+#~ msgstr "(αναζήτηση αποτελεσμάτων)"
+
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent Changes]]."
+#~ msgstr ""
+#~ "Ένας πιο αναλυτικός κατάλογος αλλαγών είναι διαθέσιμος μέσω του [[%1]"
+#~ "[Πρόσφατες Αλλαγές]]."
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr ""
+#~ "Προσθέστε το όνομά σας στον κατάλογο των χρηστών του θέματος %1 στον ιστό "
+#~ "%2."
+
+#~ msgid "Bathing problem"
+#~ msgstr "Bathing problem"
+
+#~ msgid "Comments:"
+#~ msgstr "Σχόλια:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr ""
+#~ "Αντιγράψτε το κείμενο και τα δεδομένα φόρμας σε ένα νέο θέμα (ται "
+#~ "συνημμένα αρχεία δεν θα αντιγραφούν)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Δημιουργία <nop>TestTopic###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Create a new auto-numbered test topic:"
+
+#~ msgid "Create by Name"
+#~ msgstr "Δημιουργήστε με το Όνομα"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+
+#~ msgid "Current parent:"
+#~ msgstr "Τρέχων γονέας:"
+
+#~ msgid "Edit text"
+#~ msgstr "Επεξεργασία κειμένου"
+
+#~ msgid "Error: %1"
+#~ msgstr "Σφάλμα: %1"
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Ολοκληρώσετε τη δημιουργία ενός λογαριασμού για σας, έτσι ώστε να "
+#~ "μπορείτε να αρχίσετε να επεξεργάζεστε σελίδες χρησιμοποιώντας το WikiName "
+#~ "σας."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Το περιβάλλον του χρήστη είναι διαθέσιμο σε αρκετές γλώσσες. Αν θέλετε να "
+#~ "αλλάξετε τη γλώσσα για την παρούσα σύνοδο, επιλέξτε ένα από τα ακόλουθα "
+#~ "και πατήστε \"Αλλαγή γλώσσας\". Ειδάλως, ακολουθήστε το σύνδεσμο για  "
+#~ "\"Cancel\" στο τέλος της σελίδας για να γυρίσετε στο προηγούμενο θέμα."
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "Κατάλογος όλων των θεμάτων του ιστού %1 σε αλφαβητική σειρά"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Τοπικές τροποποιήσεις γενικών προτιμήσεων της σελίδας"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Μετακίνηση συννημένου στον ιστό:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "URL του οργανισμού:"
+
+#~ msgid "Other Country"
+#~ msgstr "Άλλη χώρα"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr ""
+#~ "Διαφορετικά, χρησιμοποιήστε αυτή τη φόρμα για να σας αποσταλλεί ένα νέο "
+#~ "με e-mail."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Προσωπικές προτιμήσεις"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "Problem filling bath"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Γρήγορη επεξεργασία των υφιστάμενων προτιμήσεων (επεξεργαστείτε το "
+#~ "κείμενο του θέματος για να ορίσετε νέες προτιμήσεις)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Επεξεργασία αδιαμόρφωτου κειμένου"
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Διαβάστε το κείμενο βοήθειας νέας αναθεώρησης σε νέο παράθυρο"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Οι εγγεγραμένοι χρήστες μπορούν να [[%1][αλλάξουν]] και να [[%2]"
+#~ "[επανατάξουν]] τους κωδικούς τους."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Μετονομασία / μετακίνηση θέματος..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Μετονομασία / μετακίνηση / διαγραφή ιστού ..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Πληκτρολογήστε ξανά τον κωδικό:"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr ""
+#~ "S = Αποθήκευση, Q = Ήσυχη αποθήκευση, K = Αποθήκευση και συνέχεια, D = "
+#~ "Απόρριψη"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Σας στέλνουμε μια επιβεβαίωση της εγγραφής σας μέσω e-mail."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+
+#~ msgid "Simple search"
+#~ msgstr "Απλή αναζήτηση"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+
+#~ msgid "Test Topics"
+#~ msgstr "Δοκιμαστικά Θέματα"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "Ο ιστός %1 του Foswiki. Το Foswiki είναι το ελεύθερο και Ανοικτού "
+#~ "Λογισμικού Wiki."
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "This Foswiki does _not_ support new User Registration"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "Για να επεξεργαστείτε τις σελίδες σε αυτό το site Foswiki, θα πρέπει να "
+#~ "έχει εγγραφεί με όνομα χρήστη και κωδικό πρόσβασης."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "Για να εγγραφείτε ως νέος χρήστης, απλά συμπληρώστε την φόρμα:"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). "
+#~ "Βοήθεια και λεπτομέρειες σχετικά με τις ρυθμίσεις προτιμήσεων είναι "
+#~ "διαθέσιμα στο %1."
+
+#~ msgid "Warning"
+#~ msgstr "Προειδοποίηση"
+
+#~ msgid "Web Search"
+#~ msgstr "Αναζήτηση στο Web"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Μόλις ενεργοποιηθεί ο λογαριασμός σας, %1 θα:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Μπορείτε να ρυθμίσετε την αγαπημένη σας γλώσσα μόνιμα ορίζοντας τη "
+#~ "μεταβλητή %1 στο θέμα χρήστη σας."
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a line like this:"
+#~ msgstr ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a line like this:"
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr "You will be able to review the copied topic before saving"
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Θα είστε σε θέση να επανεξετάσετε το θέμα πριν αποθηκεύσετε τη νέα "
+#~ "αναθεώρηση"
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr ""
+#~ "Το θέμα χρήστη σας δεν έχει μετονομαστεί. Please e-mail %1 to request "
+#~ "this."
+
+#~ msgid "advanced search"
+#~ msgstr "σύνθετη αναζήτηση"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "looking for references in _all public webs_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "αναζήτηση συνδέσμων μόνο στον  _ιστό %1_ "
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "αναζήτηση συνδέσμων σε _όλους τους δημόσιους ιστούς_"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr "title='Επεξεργασία αδιαμόρφωτου θέματος' accesskey='w'>Ra&w edit"
+
+#~ msgid "My sidebar"
+#~ msgstr "Προσωπικό Μενού"
+
+#~ msgid "Tools"
+#~ msgstr "Εργαλεία"
+
+#~ msgid "Add to sidebar"
+#~ msgstr "Στο μενού μου"
+
+#~ msgid "Attach files and manage existing attachments"
+#~ msgstr "Επισύναψη αρχείων και διαχείριση υφιστάμενων συννημένων"
+
+#~ msgid "Raw"
+#~ msgstr "Αδιαμόρφωτο"
+
+#~ msgid "View raw topic text"
+#~ msgstr "Προβολή αδιαμόρφωτου κειμένου θέματος"
+
+#~ msgid "Delete this topic"
+#~ msgstr "Διαγραφή αυτού του θέματος"
+
+#~ msgid "Get notified if this topic changes"
+#~ msgstr "Ειδοποιηθείτε εάν αλλάξει αυτό το θέμα"
+
+#~ msgid "Print"
+#~ msgstr "Εκτύπωση"

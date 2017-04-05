@@ -249,6 +249,108 @@ BaseEngine.prototype.insertTable = function(opts) {
   self.insert(table);
 };
 
+/***************************************************************************
+ * insert a link
+ * opts is a hash of params that can have either of two forms:
+ *
+ * insert a link to a topic:
+ * {
+ *   web: "TheWeb",
+ *   topic: "TheTopic",
+ *   text: "the link text" (optional)
+ * }
+ *
+ * insert an external link:
+ * {
+ *   url: "http://...",
+ *   text: "the link text" (optional)
+ * }
+ *
+ * insert an attachment link:
+ * {
+ *   web: "TheWeb",
+ *   topic: "TheTopic",
+ *   file: "TheAttachment.jpg",
+ *   text: "the link text" (optional)
+ * }
+ */
+BaseEngine.prototype.insertLink = function(opts) {
+  var self = this, markup;
+
+console.log("insertLink opts=",opts);
+
+  if (typeof(opts.url) !== 'undefined') {
+    // external link
+    if (typeof(opts.url) === 'undefined' || opts.url === '') {
+      return; // nop
+    }
+
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+      markup = "[["+opts.url+"]["+opts.text+"]]";
+    } else {
+      markup = "[["+opts.url+"]]";
+    }
+  } else if (typeof(opts.file) !== 'undefined') {
+    // attachment link
+
+    if (typeof(opts.web) === 'undefined' || opts.web === '' || 
+        typeof(opts.topic) === 'undefined' || opts.topic === '') {
+      return; // nop
+    }
+
+    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
+      markup = '%IMAGE{"'+opts.file+'"';
+      if (opts.web !== self.shell.opts.web || opts.topic !== self.shell.opts.topic) {
+        markup += ' topic="';
+        if (opts.web !== self.shell.opts.web) {
+          markup += opts.web+'.';
+        }
+        markup += opts.topic+'"';
+      }
+      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+        markup += ' caption="'+opts.text+'"';
+      }
+      markup += ' size="320"}%';
+    } else {
+      // linking to an ordinary attachment
+
+      if (opts.web === self.shell.opts.web && opts.topic === self.shell.opts.topic) {
+        markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
+      } else {
+        markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
+      }
+
+      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+        markup += "["+opts.text+"]";
+      } else {
+        markup += "["+opts.file+"]";
+      }
+      markup += "]";
+    }
+
+  } else {
+    // wiki link
+    
+    if (typeof(opts.topic) === 'undefined' || opts.topic === '') {
+      return; // nop
+    }
+
+    if (opts.web === self.shell.opts.web) {
+      markup = "[["+opts.topic+"]";
+    } else {
+      markup = "[["+opts.web+"."+opts.topic+"]";
+    }
+
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+      markup += "["+opts.text+"]";
+    } 
+    markup += "]";
+  }
+
+  self.remove();
+  self.insert(markup);
+};
+
 /*****************************************************************************
  * parse the current selection into a two-dimensional array
  * to be used initializing a table. rows are separated by \n, columns by whitespace

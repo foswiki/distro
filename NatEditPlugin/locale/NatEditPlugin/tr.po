@@ -1,0 +1,1970 @@
+# Foswiki translation for <Language>
+# Translators:
+#   <add-yourself-here>
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-07-30 20:25+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: TURKCE <yamant@gmail.com>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.1\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr ""
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Form Ekle"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "İptal"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+#, fuzzy
+msgid "Change form"
+msgstr "Parolayı değiştir"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Kapat"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:50
+#, fuzzy
+msgid "Create a new table"
+msgstr "Yeni grup oluştur"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Tarih"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+#, fuzzy
+msgid "Default"
+msgstr "Öntanımlı tema"
+
+#: data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Düzenle"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Yeni revizyona zorla"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Yardım"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+msgid "Indent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+#, fuzzy
+msgid "Insert an attachment"
+msgstr "Eklentiyi sil"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+msgid "More character formats"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+#, fuzzy
+msgid "Numbered list"
+msgstr "Bulunan konu sayısı:"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+#, fuzzy
+msgid "Permissions"
+msgstr "Revizyonlar"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "önizleme"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "Değişiklikleri görebileceğiniz adres: "
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "Kayıt Ol"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+msgid "Replace"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:144
+msgid "Restore"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:160
+msgid "Restore and Continue"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+msgid "Restore and exit"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+msgid "Save"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='Kaydet ve devam' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "Tabloyu kaydet"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Arama"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "Arama yapılacak yerler:"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "Metin içinde"
+
+#: templates/edit.natedit.tmpl:79
+msgid "Title:"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "Bu konunun bağlanacağı üst konu:"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "Webler"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+msgid "default as defined in the %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "düzenle"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "Form Ekle"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "Genel kullanıma açık tüm web'ler"
+
+#: templates/edit.natedit.tmpl:7
+msgid "restore"
+msgstr ""
+
+#: templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#, fuzzy
+#~ msgid "!WikiName"
+#~ msgstr "Konu adı:"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,gün) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,saat) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,dakika) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,saniye) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - %2 (%3) için kayıt"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 Web"
+
+#, fuzzy
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%2 grubuna %1 eklendi. "
+
+#, fuzzy
+#~ msgid "%1 denied the registration."
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#, fuzzy
+#~ msgid "%1 group topic upgraded."
+#~ msgstr "%1 grup konusu güncellendi. "
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 linkinde kayıtlı wiki kullanıcılarının listesini bulabilirsiniz"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 şüpheli olabilecek bir değişiklik talebi aldı."
+
+#, fuzzy
+#~ msgid "%1 registration approval required"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "%1 registration denied"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%2 grubuna %1 eklendi. "
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "Konu adı boş bırakılamaz."
+
+#, fuzzy
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*Tavsiye: :* Kişisel konunuza fotoğrafınızı ekleyebilirsiniz?)"
+
+#~ msgid "(This message will be removed automatically)"
+#~ msgstr "(Bu mesah otomatik olarak kaldırılacaktır)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(erişim reddedildi)"
+
+#~ msgid "(change language)"
+#~ msgstr "(dil değiştir)"
+
+#~ msgid "(changes)"
+#~ msgstr "(değişiklikler)"
+
+#~ msgid "(compare)"
+#~ msgstr "(karşılaştır)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(dosya ekini sil)"
+
+#~ msgid "(delete)"
+#~ msgstr "(sil)"
+
+#~ msgid "(edit)"
+#~ msgstr "(düzenle)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(dosya ekini taşı)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(İşaretlenmediği takdirde sadece %1 Web içinde arama yapılır)"
+
+#, fuzzy
+#~ msgid "(redirect denied)"
+#~ msgstr "(erişim reddedildi)"
+
+#, fuzzy
+#~ msgid "<nop>WikiName:"
+#~ msgstr "Konu adı:"
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "%1 adresine onay/doğrulama için bir e-mail gönderilmiştir"
+
+#~ msgid "Access Denied"
+#~ msgstr "Erişim Engellendi"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "%1 a erişim kontrolünüz onaylanmadı"
+
+#, fuzzy
+#~ msgid "Access keys:"
+#~ msgstr "Erişim Engellendi"
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "Dikkat"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Geçersiz Aktivasyon Kodu"
+
+#, fuzzy
+#~ msgid "Add Members to %1"
+#~ msgstr "Kullanıcı ekle"
+
+#, fuzzy
+#~ msgid "Add members"
+#~ msgstr "Kullanıcı ekle"
+
+#, fuzzy
+#~ msgid "Add members..."
+#~ msgstr "Kullanıcı ekle..."
+
+#~ msgid "Add row"
+#~ msgstr "Satır Ekle"
+
+#, fuzzy
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Bu konu için ayarları düzenle..."
+
+#, fuzzy
+#~ msgid "Administration"
+#~ msgstr "Kayıt"
+
+#~ msgid "Advanced search"
+#~ msgstr "Gelişmiş arama"
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Bu form ile mevcut şifrenizi değiştirebilirsiniz."
+
+#~ msgid "All public webs"
+#~ msgstr "Genel kullanıma açık tüm web'ler"
+
+#, fuzzy
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr ""
+#~ "Yeni konu adında <nop>WikiKelimesi formatına uymayan söz dizilimine izin "
+#~ "ver (Tavsiye edilmez)"
+
+#, fuzzy
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "Art niyetli kişilerin %1 kullanıcı bilgilerinize ulaşıp, değiştirme "
+#~ "riskine karşı onay gerekiyor."
+
+#~ msgid "Attach a file"
+#~ msgstr "Dosya ekle"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "title='Bu konuya bir imaj veya döküman ekle' accesskey='a'>&DosyaEkle"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "%1 e dosya ekle"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "%1 e imaj veya döküman ekle"
+
+#~ msgid "Attach new file"
+#~ msgstr "Yeni dosya ekle"
+
+#, fuzzy
+#~ msgid "Attachments %1"
+#~ msgstr "%1 e dosya ekle"
+
+#~ msgid "Attention"
+#~ msgstr "Dikkat"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Konu değişikliği ile ilgili otomatik uyarı"
+
+#~ msgid "Back to topic"
+#~ msgstr "Konuya geri dön"
+
+#~ msgid "Bad password"
+#~ msgstr "Hatalı parola"
+
+#~ msgid "Both body and title"
+#~ msgstr "Hem metin hem konu başlığında"
+
+#~ msgid "Can't find user %1"
+#~ msgstr "%1 kullanıcısı bulunamıyor"
+
+#, fuzzy
+#~ msgid "Cancel upload"
+#~ msgstr "İptal"
+
+#, fuzzy
+#~ msgid "Change E-mail Address"
+#~ msgstr "E-Posta adresi"
+
+#~ msgid "Change Password"
+#~ msgstr "Parolayı değiştir"
+
+#, fuzzy
+#~ msgid "Change e-mail address"
+#~ msgstr "Geçersiz e-posta adresi"
+
+#~ msgid "Change password"
+#~ msgstr "Şifreyi Değiştir"
+
+#, fuzzy
+#~ msgid "Changed by:"
+#~ msgstr "Değiştiren"
+
+#, fuzzy
+#~ msgid "Changed on"
+#~ msgstr "Değiştiren"
+
+#~ msgid "Changed:"
+#~ msgstr "Değişiklik:"
+
+#~ msgid "Changes"
+#~ msgstr "Güncellemeler"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Konu oluştur"
+
+#~ msgid "Comment"
+#~ msgstr "Yorum"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Revizyonları karşılaştır"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "Şimdiki Şifreniz"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Yeniden adlandırma veya taşımayı onaylayın"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Bir sonunuz varsa lütfen %1 ile iletişime geçiniz."
+
+#~ msgid "Copy topic"
+#~ msgstr "Konuyu kopyala"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Yeni bir SSS konusu oluştur"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Yeni Konu Oluştur"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "%1 Web'de Yeni Konu Oluştur"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Eklenen dosyaya link oluşur"
+
+#~ msgid "Create a new group"
+#~ msgstr "Yeni grup oluştur"
+
+#, fuzzy
+#~ msgid "Create account"
+#~ msgstr "Grup oluştur"
+
+#~ msgid "Create group"
+#~ msgstr "Grup oluştur"
+
+#, fuzzy
+#~ msgid "Create new topic"
+#~ msgstr "Yeni bir SSS konusu oluştur"
+
+#, fuzzy
+#~ msgid "Create personal sidebar"
+#~ msgstr "Kişisel Bilgilerinizi Düzenleyin"
+
+#~ msgid "Create the topic"
+#~ msgstr "Konuyu oluştur"
+
+#~ msgid "Create this topic"
+#~ msgstr "Bu konuyu oluştur"
+
+#~ msgid "Create your account to edit pages on this site."
+#~ msgstr "Bu sitedeki sayfaları düzenlemek için hesap oluşturun."
+
+#, fuzzy
+#~ msgid "Current password:"
+#~ msgstr "Şimdiki Şifreniz"
+
+#~ msgid "Dear %1"
+#~ msgstr "Sayın %1"
+
+#~ msgid "Default template"
+#~ msgstr "Öntanımlı tema"
+
+#~ msgid "Delete"
+#~ msgstr "Sil"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "Eklentiyi sil"
+
+#~ msgid "Delete last row"
+#~ msgstr "Son satırı sil"
+
+#~ msgid "Delete topic"
+#~ msgstr "Konuyu sil"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Konuyu sil..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "Dosya açıklaması."
+
+#, fuzzy
+#~ msgid "Description"
+#~ msgstr "Kayıt"
+
+#, fuzzy
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "%1 Web'de Yeni Konu Oluştur"
+
+#~ msgid "Difference:"
+#~ msgstr "Fark:"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Yaptığınız değişiklikleri kaydetmeyi unutmayın"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Eklenen dosyayı tabloda gösterme"
+
+#~ msgid "Don't show:"
+#~ msgstr "Gösterme:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "=%1= dosya ekini silerken bir hata tespit edildi. lütfen %2 yöneticisine "
+#~ "bilgi veriniz."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "E-mail adresi değiştirildi!"
+
+#, fuzzy
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,dakika) "
+
+#~ msgid "Edit help"
+#~ msgstr "Düzenleme Yardımı"
+
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Bu konu için ayarları düzenle..."
+
+#, fuzzy
+#~ msgid "Edit this table"
+#~ msgstr "Tablo Düzenle"
+
+#, fuzzy
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Tablo Düzenle"
+
+#, fuzzy
+#~ msgid "Editable"
+#~ msgstr "Tablo Düzenle"
+
+#, fuzzy
+#~ msgid "Email address:"
+#~ msgstr "E-Posta adresi"
+
+#, fuzzy
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#~ msgid "Errors"
+#~ msgstr "Hatalar"
+
+#, fuzzy
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#, fuzzy
+#~ msgid "Evil person"
+#~ msgstr "Kişisel Bilgilerinizi Düzenleyin"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "%1 ile işaretlenmiş alanlar zorunludur"
+
+#, fuzzy
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "%1 ile işaretlenmiş alanlar zorunludur"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Benzer konuları bul"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "Soyad"
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Şifrenizi mi unuttunuz?"
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "%1 için Foswiki Şifre Sıfırlama"
+
+#~ msgid "Group"
+#~ msgstr "Grup"
+
+#~ msgid "Group name"
+#~ msgstr "Grup adı"
+
+#~ msgid "Groups"
+#~ msgstr "Gruplar"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Merhaba %1!"
+
+#~ msgid "Hide help"
+#~ msgstr "Yardımı gizle"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr ""
+#~ "Fotoğrafınızı ekleyerek diğer çalışanların sizi tanımasını "
+#~ "sağlayabilirsiniz."
+
+#~ msgid "I forgot my password"
+#~ msgstr "Şifremi unuttum"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "ewiki ile ilgli soru, görüş ve önerileriniz varsa <a href='%2'>Lütfen "
+#~ "bize ulaşınız</a>"
+
+#, fuzzy
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Daha detaylı bilgi için:"
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr "Kayıt ile ilgili sorularınız için  %1 e e-mail yollayabilirsiniz."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Parolanızı unutursanız %1 adresine giderek parolanızı sıfırlayabilir ve "
+#~ "yeni bir parola oluşturabilirsiniz"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Hatalı Şifre"
+
+#, fuzzy
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Hatalı %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Hatalı %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Hatalı %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Hatalı %1"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Geçersiz Aktivasyon Kodu"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Geçersiz e-posta adresi"
+
+#, fuzzy
+#~ msgid "Invalid topic name."
+#~ msgstr "Konu adı:"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "Konu adlarında WikiKonusu formatına uymanız halinde, herhangi bir konuda "
+#~ "geçen bu konu için otomatik olarak linkler oluşturulacaktır. Aksi "
+#~ "taktirde metin içinde link vermeniz mümkün olmayacaktır. Konu "
+#~ "başlıklarında sadece harfler kabul edilir. Boşluklar otomatik olarak "
+#~ "kaldırılacaktır."
+
+#, fuzzy
+#~ msgid "Jump to first revision"
+#~ msgstr "Revizyonları karşılaştır"
+
+#, fuzzy
+#~ msgid "Last"
+#~ msgstr "Soyad"
+
+#, fuzzy
+#~ msgid "Last edited by"
+#~ msgstr "Son düzenleyen"
+
+#~ msgid "Last editor"
+#~ msgstr "Son düzenleyen"
+
+#, fuzzy
+#~ msgid "Last modified"
+#~ msgstr "En son düzenleme zamanı"
+
+#~ msgid "Last modified time"
+#~ msgstr "En son düzenleme zamanı"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Soyad"
+
+#, fuzzy
+#~ msgid "Latest revision: %1"
+#~ msgstr "Revizyonları karşılaştır"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Konunun ilk harfine göre listelemek için:"
+
+#, fuzzy
+#~ msgid "Load content"
+#~ msgstr "Girilen Bilgiler:"
+
+#~ msgid "Login"
+#~ msgstr "Giriş"
+
+#, fuzzy
+#~ msgid "Login username:"
+#~ msgstr "Kullanıcı Adınız"
+
+#~ msgid "Logon"
+#~ msgstr "Giriş"
+
+#~ msgid "Logout"
+#~ msgstr "Çıkış"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Diğer konu aksiyonları..."
+
+#, fuzzy
+#~ msgid "More on hiding attachments"
+#~ msgstr "(dosya ekini taşı)"
+
+#, fuzzy
+#~ msgid "More topic actions"
+#~ msgstr "Diğer konu aksiyonları..."
+
+#~ msgid "More topic actions..."
+#~ msgstr "Diğer konu aksiyonları..."
+
+#, fuzzy
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "title='Konuyu silme veya adını değiştirme; Bağlı üst konuyu değiştirme; "
+#~ "revizyonları görme/karşılaştırma ' accesskey='m'>& Diğer Değişiklikler"
+
+#~ msgid "Move"
+#~ msgstr "Taşı"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "(dosya ekini taşı)"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Taşı/Yeniden adlandır"
+
+#~ msgid "NEW"
+#~ msgstr "YENİ"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "New User Registration failed"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "%1 konusunda/başlığında %2 itibarıyla değişiklik yapılmıştır:"
+
+#, fuzzy
+#~ msgid "New password:"
+#~ msgstr "Yeni Şifre"
+
+#, fuzzy
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "Genel kullanıma açık tüm web'ler"
+
+#, fuzzy
+#~ msgid "No changes"
+#~ msgstr "(değişiklikler)"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "Kullanıcı ekle"
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "Notation"
+#~ msgstr "Bildirimler"
+
+#~ msgid "Note:"
+#~ msgstr "Not:"
+
+#~ msgid "Notification help"
+#~ msgstr "Bildirim Yardımı"
+
+#~ msgid "Notifications"
+#~ msgstr "Bildirimler"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Bulunan konu sayısı:"
+
+#~ msgid "OK"
+#~ msgstr "TAMAM"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Özür dileriz, giriş yapamadınız. Kullanıcı adınızı ve şifrenizi kontrol "
+#~ "ederek tekrar deneyiniz veya  [[%1][şifrenizi sıfırlayın]]."
+
+#, fuzzy
+#~ msgid "Organisation name:"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "Organisation website:"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#~ msgid "Password"
+#~ msgstr "Parola"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Parolanız değiştirildi!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Parola değiştirilemedi"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Parola sıfırlanamadı"
+
+#, fuzzy
+#~ msgid "Password reset failed."
+#~ msgstr "Parola sıfırlanamadı"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Parola"
+
+#, fuzzy
+#~ msgid "Passwords disabled"
+#~ msgstr "Parola sıfırlanamadı"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Girdiğiniz parola eşleşmiyor"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir."
+
+#, fuzzy
+#~ msgid "Pending registration not found"
+#~ msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir."
+
+#, fuzzy
+#~ msgid "Please confirm your password."
+#~ msgstr "Şifrenizi hatırladınız mı?"
+
+#~ msgid "Please contact %1."
+#~ msgstr "%1 ile iletişime geçiniz."
+
+#, fuzzy
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Geçersiz e-posta adresi"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Lütfen %1 adresini ziyaret ederek sistem tarafından oluşturulmuş bu "
+#~ "şifrenizi değiştiriniz."
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Aksi halde İPTAL e tıklayın."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr ""
+#~ "Bu değişikliği bilinçli olarak yapıyorsanız, değişikliği onaylamak için "
+#~ "OK e tıklayın."
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr ""
+#~ "title='Bu konunun yazdırılabilir versiyonu' accesskey='y'>&Yazıcı Önizleme"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "Kayıt"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Yakın zamanda değişiklik yapılan konular"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Yakın zamanda değişiklik yapılan konular"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Yakın zamanda değişiklik yapılan konular"
+
+#~ msgid "Refresh"
+#~ msgstr "Yenile"
+
+#~ msgid "Register"
+#~ msgstr "Kayıt Ol"
+
+#~ msgid "Registration"
+#~ msgstr "Kayıt"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Kayıt"
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "Kayıt"
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "İlgili Konular:"
+
+#~ msgid "Related topics:"
+#~ msgstr "İlgili Konular:"
+
+#~ msgid "Remember your password?"
+#~ msgstr "Şifrenizi hatırladınız mı?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#, fuzzy
+#~ msgid "Remove User"
+#~ msgstr "Seçilmiş kullanıcıyı kaldır..."
+
+#, fuzzy
+#~ msgid "Remove members..."
+#~ msgstr "Seçilmiş kullanıcıyı kaldır..."
+
+#, fuzzy
+#~ msgid "Remove selected members"
+#~ msgstr "Seçilmiş kullanıcıları kaldır"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#~ msgid "Rename"
+#~ msgstr "Yeniden adlandır"
+
+#~ msgid "Rename failed"
+#~ msgstr "Yeniden adlandırma başarısız"
+
+#~ msgid "Rename or move %1"
+#~ msgstr "%1 i taşı veya kaldır"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Konuyu taşı veya kaldır"
+
+#~ msgid "Rename or move topic..."
+#~ msgstr "Konuyu taşı veya kaldır..."
+
+#~ msgid "Reset Password"
+#~ msgstr "Şifre Sıfırla"
+
+#~ msgid "Reset password"
+#~ msgstr "Şifre sıfırla"
+
+#~ msgid "Results from %1 web"
+#~ msgstr "%1 için arama sonuçları"
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "Yeni şifre (tekrar)"
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Değişiklikleri görebileceğiniz adres:"
+
+#~ msgid "Revision"
+#~ msgstr "Revizyon"
+
+#~ msgid "Revision history of %1"
+#~ msgstr "%1 için revizyon geçmişi"
+
+#~ msgid "Revisions"
+#~ msgstr "Revizyonlar"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Kaydet, C = İptal"
+
+#, fuzzy
+#~ msgid "Save table"
+#~ msgstr "Tabloyu kaydet"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Sadece %1 Web içinde ara"
+
+#~ msgid "Search all webs"
+#~ msgstr "Tüm webleri ara"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "Tüm weblerde ara"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Tüm weblerde ara"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "Tüm weblerde ara"
+
+#~ msgid "Search where:"
+#~ msgstr "Arama yapılacak yerler:"
+
+#~ msgid "Searched:"
+#~ msgstr "Aranan Kelime/ler:"
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "Değişiklikleri görebileceğiniz adres: "
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Konuyu sil"
+
+#, fuzzy
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir."
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "(dosya ekini taşı)"
+
+#~ msgid "Show help"
+#~ msgstr "Yardımı Gizle"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "İş planınızı, görev tanımınızı paylaşabilirsiniz."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Kişisel bilgilerinizi, favori linklerinizi, ne üzerine çalıştığınızı "
+#~ "paylaşacağınız kişisel bir portal olarak kullanabilirsiniz veya."
+
+#~ msgid "Statistics"
+#~ msgstr "İstatistikler"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Girilen Bilgiler:"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Konu Aboneliği veya abonelik iptali için:"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Bu konuyu oluştur"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Bu konuyu oluştur"
+
+#, fuzzy
+#~ msgid "Success removing members from group"
+#~ msgstr "Kullanıcıları bu gruptan çıkart"
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "İPUCU: =\"SOAP\"=, =\"WSDL\"= kelimelerini ve tam olarak =\"web service"
+#~ "\"= kelime grubunu içeren ve aynı zamanda  =\"shampoo\"= kelimesini "
+#~ "içermeyen konuları aramak için:"
+
+#~ msgid "Text body"
+#~ msgstr "Metin içinde"
+
+#, fuzzy
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#, fuzzy
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "%1 Paylaşım platformuna kayıt olduğunuz için teşekkürler. Bu e-postayı "
+#~ "referans olarak saklamanızı tavsiye ederiz."
+
+#, fuzzy
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "%1 Paylaşım platformuna kayıt olduğunuz için teşekkürler. Bu e-postayı "
+#~ "referans olarak saklamanızı tavsiye ederiz."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "Sistem yöneticisi yeni kullanıcı kaydını hizmet dışı bırakmıştır."
+
+#, fuzzy
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "Sistem yöneticisi yeni kullanıcı kaydını hizmet dışı bırakmıştır."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "Aktivasyon kodu %1 geçersiz."
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Bu hesap için e-mail adresi gerçerli değildir."
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "Bu hesap için e-mail adresi gerçerli değildir."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Bu hesap için e-mail adresi gerçerli değildir."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "Yüklenen dosya, %1 başlıklı konuya eklenmişti."
+
+#, fuzzy
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Konu adı boş bırakılamaz."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Konu adı boş bırakılamaz."
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "*Eski Şifreniz* kısmına girdiğiniz şifre hatalıdır."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "%1 alanı zorunlu bir alandır. Lütfen %1 alanını doldurunuz."
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "Girdiğiniz iki şifre birbirini tutmuyor."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "Art niyetli kişilerin %1 kullanıcı bilgilerinize ulaşıp, değiştirme "
+#~ "riskine karşı onay gerekiyor."
+
+#, fuzzy
+#~ msgid "There were errors adding to the %2 group. %1 "
+#~ msgstr "%2 grubuna %1 eklendi. "
+
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%2 grubuna %1 eklendi. "
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "%1 tarafından, otomatik olarak gönderilen e-mail."
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "Wiki admin parolasını giriniz"
+
+#, fuzzy
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "Kayıt olduğunuz için teşekkürler"
+
+#, fuzzy
+#~ msgid "Topic data"
+#~ msgstr "Bu konunun bağlanacağı üst konu:"
+
+#~ msgid "Topic name:"
+#~ msgstr "Konu adı:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Bu konunun bağlanacağı üst konu:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Konu Revizyonu:"
+
+#~ msgid "Topic title"
+#~ msgstr "Konu başlığında"
+
+#, fuzzy
+#~ msgid "Topic will be named: "
+#~ msgstr "Konu adı:"
+
+#~ msgid "Try Again"
+#~ msgstr "Tekrar deneyin"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Hatalı %1"
+
+#, fuzzy
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Konuyu taşı veya kaldır..."
+
+#, fuzzy
+#~ msgid "Upgraded group"
+#~ msgstr "Grup oluştur"
+
+#, fuzzy
+#~ msgid "Upload a file"
+#~ msgstr "Dosya ekle"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "En fazla %1 KB. lık dosya yükleyebilirsiniz."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Yüklediğiniz %1 adlı dosya %2 KB'lık limiti aşıyor"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Yüklenen dosya çok büyük"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "%1 kullanabilirsiniz."
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "Kayıt"
+
+#~ msgid "Username"
+#~ msgstr "Kullanıcı Adınız"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "Kullanıcı Adınız"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "Geçersiz e-posta adresi"
+
+#~ msgid "Users"
+#~ msgstr "Kullanıcılar"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Otomatik olarak oluşturulan şifrenizi [[%1][Şifre Değiştirme]] "
+#~ "sayfasından değiştirmenizi tavsiye ederiz."
+
+#~ msgid "Version"
+#~ msgstr "Versiyon"
+
+#~ msgid "View difference"
+#~ msgstr "Farkı görüntüle"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "Konuyu Görüntüle"
+
+#~ msgid "View topic"
+#~ msgstr "Konuyu Görüntüle"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Dikkat! Doğrulama Gerekiyor"
+
+#~ msgid "Webs"
+#~ msgstr "Webler"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "%1 Web'e Hoşgeldiniz"
+
+#~ msgid "Who"
+#~ msgstr "Kim"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Ayrıca; kullanıcı adınız %1 başlığında listelenmiştir"
+
+#~ msgid "You are here:"
+#~ msgstr "Konumunuz:"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "%1 adresinden mevcut parolanızı değiştirebilirsiniz"
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Hatalı %1"
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "Şimdiki Şifreniz"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr "Kişisel wiki başlığınız %2 adresindedir. Bu başlıkı:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Kişisel Wiki başlığınız %1 sistem tarafından oluşturuldu"
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Yazıdaki imzanız"
+
+#~ msgid "_language_name"
+#~ msgstr "Türkçe"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "Konuya erişime izin verilmiyor"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "Web'e erişime izin verilmiyor"
+
+#~ msgid "and"
+#~ msgstr "ve"
+
+#~ msgid "help"
+#~ msgstr "yardım"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Form Ekle"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "(değişiklikler)"
+
+#~ msgid "or"
+#~ msgstr "veya"
+
+#~ msgid "preview"
+#~ msgstr "önizleme"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "Revizyon"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "Tercihler"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Bu konuya bir imaj veya döküman ekle' accesskey='a'>&DosyaEkle"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr ""
+#~ "title='Bu konuya bir imaj veya döküman ekle' accesskey='a'>&DosyaEkle"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Yeni konu oluştur' accesskey='c'>&YeniKonu"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Konuyu silme veya adını değiştirme; Bağlı üst konuyu değiştirme; "
+#~ "revizyonları görme/karşılaştırma ' accesskey='m'>& Diğer Değişiklikler"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Bu konu metnini düzenlet' accesskey='e'>&Düzenle"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Bu konu metnini düzenlet' accesskey='e'>&Düzenle"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='Bu konunun yazdırılabilir versiyonu' accesskey='y'>&Yazıcı Önizleme"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Bu konu metnini düzenlet' accesskey='e'>&Düzenle"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='Bu konunun yazdırılabilir versiyonu' accesskey='y'>&Yazıcı Önizleme"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Konu geçmişini göster' accesskey='h'>&Geçmiş"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='İptal' accesskey='c'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Önizleme' accesskey='p'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Kaydet ve devam' accesskey='k'"
+
+#~ msgid "Notes:"
+#~ msgstr "Notlar:"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Listeden seç"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "Your %1.LoginName"
+
+#~ msgid "Login name %1"
+#~ msgstr "Kullanıcı Adınız : %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Your %1.LoginName"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Yeniden adlandır"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Konu adı:"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Konuyu kopyala"
+
+#~ msgid "Hello %1"
+#~ msgstr "Merhaba %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "veya"
+
+#~ msgid "Edit text"
+#~ msgstr "Metni düzenle"
+
+#~ msgid "Error: %1"
+#~ msgstr "Hata: %1"
+
+#~ msgid "Warning"
+#~ msgstr "Uyarı"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr "S = Kaydet, Q = Quiet save, K = Kaydet ve Devam et, D = Discard"

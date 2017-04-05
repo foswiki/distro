@@ -1,0 +1,4567 @@
+# Foswiki translation for <Language>
+# Translators:
+#   <add-yourself-here>
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-02-10 12:40+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: none\n"
+"Language: tlh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.4\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr "choHmey buSHa&&#39; &&#39;ej mej"
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "ghunmeH leQmey"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr "<nop>%1Daq Form chu&&#39; chel"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "yu&&#39;muD chel"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr "poSDaq lan"
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr "nIHDaq lan"
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "tep"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr "jatlhwI&&#39; meyrI&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr "ror"
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr "moQHommey tetlh"
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "qIl"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr "jojDaq lan"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+msgid "Change form"
+msgstr "yu&&#39;muD qa&&#39;"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr "<nop>%1 <nop>DaHjaj Form choH"
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "<nop>SoQmoH"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr "nguvmoH"
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr "tutmey"
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr "choHqa&&#39;"
+
+#: templates/editdialog.natedit.tmpl:50
+msgid "Create a new table"
+msgstr "wa&&#39;chaw chu&&#39; chenmoH"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr "bIpolDI&&#39; ghItlh Dotlh chu&&#39; chenmoH"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr "De&&#39; yu&&#39;muD wa&&#39;chaw pong"
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr "De&&#39; tlheghmey"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "<nop>HovpoH"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+msgid "Default"
+msgstr "motlh"
+
+#: data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr "<nop>QaH latlh je"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "ngoqvetlh ghaj Hoch lISmeH <nop>DuH"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "(choH)"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr "choHmeH ngoqHommey"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr "Hur Doch lan"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr "qabHom Degh"
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr "ngoq meS"
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr "Hoch"
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr "&&#39;Internet <nop>QaH"
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr "De&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Dotlh chu&&#39; raD"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr "yu&&#39;muD"
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr "Form poQbogh De&&#39;SuqwI&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr "mu&&#39;mey luwIvlu&&#39;bogh nguvmoH"
+
+#: data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr "nejwI&&#39; le&&#39;qu&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr "<nop>SImmeH ngoq"
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr "ghItlh <nop>DuHmey lISmeH mIw yajqu&&#39;choH"
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr "ghItlhmeH pab"
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr "nach tlheghmey"
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr "&&#39;ay&&#39; pong 1"
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr "&&#39;ay&&#39; pong 2"
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr "&&#39;ay&&#39; pong 3"
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr "&&#39;ay&&#39; pong 4"
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr "&&#39;ay&&#39; pong 5"
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr "&&#39;ay&&#39; pong 6"
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "<nop>QaH"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr "tlhegh <nop>SaS"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr "<nop>DeghHom"
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr "Dochmey chel (include)"
+
+#: templates/edittoolbar.natedit.tmpl:75
+msgid "Indent"
+msgstr "yuv"
+
+#: templates/edittoolbar.natedit.tmpl:85
+#, fuzzy
+msgid "Insert Image"
+msgstr "poH chel"
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr "nguvlu&&#39;meH ngoq chel"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr "De&&#39; yu&&#39;muD wa&&#39;chaw pong chel"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr "poH chel"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr "tlhegh <nop>SaS chel"
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr "rarwI&&#39; chel"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr "<nop>HurvaD, ghItlhvaD ghap rarwI&&#39; chel"
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr "lo&&#39;wI&&#39; taDaq Qeqbogh rarwI&&#39; chel"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr "mIwHom chel"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr "<nop>SImwI ngoq chel"
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr "wa&&#39;chaw chu&&#39; roQ"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr "<nop>DeghHom chel"
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+msgid "Insert an attachment"
+msgstr "tep chel"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr "qabHom Degh chel"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr "mIlloghHom chel"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr "qI&&#39;meH ponglIj chel"
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr "wanHa&&#39;"
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr "<nop>jIH <nop>neH"
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr "meyrI&&#39; rurmoH"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "<nop>rarwI&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr "<nop>mIwHom"
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr "<nop>mIwHommey"
+
+#: templates/edittoolbar.natedit.tmpl:46
+msgid "More character formats"
+msgstr "latlh Degh nguvmoHmeH <nop>DuHmey"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr "latlh <nop>chelmeH Dochmey"
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr "latlh janmey"
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr "pagh"
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+msgid "Numbered list"
+msgstr "mI&&#39;mey tetlh"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr "OEmbed"
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr "luH"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr "&&#39;ay&&#39;"
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+msgid "Permissions"
+msgstr "chaw&&#39;mey"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr "<nop>DaH yI&&#39;ol"
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr "Pluginmey"
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "<nop>DuHmey"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+msgid "Preview"
+msgstr "bej"
+
+#: templates/edittoolbar.natedit.tmpl:184
+msgid "Preview your changes"
+msgstr "choHmeylIj &&#39;ol"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr "nungbogh choH ta&&#39;qa&&#39;"
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+msgid "Registered users"
+msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+msgid "Replace"
+msgstr "qa&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:144
+msgid "Restore"
+msgstr "polqa&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:160
+msgid "Restore and Continue"
+msgstr "&&#39; &&#39;ej ruch"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr "polqa&&#39; &&#39;ej choHtaH ruch"
+
+#: templates/edittoolbar.natedit.tmpl:145
+msgid "Restore and exit"
+msgstr "polqa&&#39; &&#39;ej bup"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+msgid "Save"
+msgstr "pol"
+
+#: templates/edittoolbar.natedit.tmpl:167
+msgid "Save and Continue"
+msgstr "pol &&#39;ej ruch"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr "pol &&#39;ej choHtaH"
+
+#: templates/edittoolbar.natedit.tmpl:153
+msgid "Save and exit"
+msgstr "pol &&#39;ej mej"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "nejwI&&#39;"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+msgid "Search && Replace"
+msgstr "nej && qa&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr "qI&&#39;meH pong"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr "mISHa&&#39;DI&&#39; tagh machwI&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr "mISHa&&#39;DI&&#39; tagh tInwI&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr "tlheghmey luwIvlu&&#39;bogh <nop>SalmoH"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr "tlheghmey luwIvlu&&#39;bogh ghIrmoH"
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr "ghommey/lo&&#39;<nop>wI&&#39; le&&#39;"
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr "*%2* moj *%1* ghu&&#39; Dotlh ([[%3][workflow definition]] yIlaD)."
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr "Degh botlh tlhegh"
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr "bIngDaq mu&&#39;mey lan"
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr "<nop>DungDaq mu&&#39;mey lan"
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr "wysiwyg <nop>HaSta chu&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr "<nop>DeghHom"
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr "wa&&#39;chaw"
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+msgid "Text"
+msgstr "ngoq"
+
+#: templates/edit.natedit.tmpl:79
+msgid "Title:"
+msgstr "pong:"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+msgid "Topic"
+msgstr "ghItlh"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr "URL"
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr "Degh bIng tlhegh"
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr "nungbogh choH ta&&#39;Ha&&#39;"
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr "ngoq meSHa&&#39;"
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr "choHlaHbogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;:"
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr "leghlaHbogh lo&&#39;wI&&#39;pu&&#39;:"
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr "mu&&#39;mey neH"
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+msgid "Web"
+msgstr "mIch"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+msgid "default as defined in the %1"
+msgstr "%1Daq lISlu&&#39;bogh <nop>DuHmey motlh"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "choH"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+msgid "edit form"
+msgstr "yu&&#39;muD choH"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr "Degh&&#39;a&&#39;/<nop>DeghHom buSQo&&#39;"
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "De&&#39; poQlu&&#39;bogh &&#39;ang"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr "chu&&#39;"
+
+#: templates/edit.natedit.tmpl:119
+msgid "public view access"
+msgstr "leghlaH Hoch"
+
+#: templates/edit.natedit.tmpl:7
+msgid "restore"
+msgstr "polqa&&#39;"
+
+#: templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr "yu&&#39;muD polqa&&#39;"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr "%1 naw&&#39; SoQmoH"
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+"chaw&&#39; choH: laDlaH patvamDaq ta ghajbogh lo&&#39;wI&&#39;pu&&#39;&&#39;"
+"e&&#39; neH"
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+"chaw&&#39; choH: ghItlhlaH patvamDaq ta ghajbogh lo&&#39;wI&&#39;pu&&#39;"
+"&&#39;e&&#39; neH"
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr "ghom, lo&&#39;wI&&#39; tetlh ghap lIS"
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr "ghItlhvam naw&&#39; lajHa&&#39;chu&&#39;"
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr "ghItlhvam choHmeH chaw&&#39; lajHa&&#39;chu&&#39;"
+
+#~ msgid "!WikiName"
+#~ msgstr "wIqI-pong"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,jaj) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,rep) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,tup) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,lup) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 %2 Page %3 of %4 %5 %6"
+#~ msgstr "%1 %2 %4 navmey nav %3 %5 %6"
+
+#~ msgid "%1 (default)"
+#~ msgstr "%1 (motlh)"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%2vaD (%3) Qagh %1 - muvmeH mIw"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "(%3) %2<nop>vaD %1 - muvmeH mIw"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 mIch"
+
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%2 ghomvaD %1 chellu&&#39;."
+
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%2vo&&#39; %1 teqlaHbe&&#39; vay&&#39;"
+
+#~ msgid "%1 denied the registration."
+#~ msgstr "muvmeH mIw lajHa&&#39; %1."
+
+#~ msgid "%1 group topic upgraded."
+#~ msgstr "%1 ghom ghItlh chu&&#39;moHlu&&#39;."
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1Daq latlh lo&&#39;wI&&#39; tetlh tu&&#39;lu&&#39;"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr ""
+#~ "qaStaHvIS %2 ghItlh choHtaH %1 &&#39;ej qaStaHvIS %3 taHlI&&#39; poHDaj."
+
+#~ msgid ""
+#~ "%1 has been emailed to inform them that their registration has been "
+#~ "successful"
+#~ msgstr "Qapchu&&#39;mo&&#39; muvmeH mIwDaj %1vaD QIn ngeHlu&&#39;"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "muvmeH %2 QIn Quv lo&&#39;ta&&#39; %1"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 <nop>tlhobtaHvIS loQ <nop>pIH De&&#39;wI&&#39;lIj."
+
+#~ msgid "%1 home"
+#~ msgstr "%1 juH"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "mIch chu&&#39; <nop>pongmeH <nop>lI&&#39;be&&#39; %1"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "<nop>DaH &&#39;elta&&#39; %1 rIntaH"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "<nop>DaH %2 &&#39;oS %1"
+
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "[[%2][%3]] choHtaH %1."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "wa&&#39; ghomDaq ghaHtaHmo&&#39; %1, ghaH teqlaHbe&&#39; vay&&#39;"
+
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "_Form_ pong <nop>QaQ &&#39;oHbe&&#39; %1"
+
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "%2 lISmeH lI&&#39;be&&#39; %1"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr ""
+#~ "roD %1Daq tepmey&&#39;e&&#39; lupolHa&&#39;lu&&#39;bogh lulanlu&&#39;."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "chaq %2 choHtaH %1."
+
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%2 mIch %1 choHmey"
+
+#~ msgid "%1 registration approval required"
+#~ msgstr "%1 <nop>DamuvmeH <nop>DalajnISlu&&#39;"
+
+#~ msgid "%1 registration denied"
+#~ msgstr "%1 muvmeH mIw lajHa&&#39;lu&&#39;"
+
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "ghom %2vo&&#39; %1 teqlu&&#39;."
+
+#~ msgid "%1 to create another web"
+#~ msgstr "latlh mIch <nop>chenmoHmeH %1"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 vaj mIchvam <nop>DuHmey <nop>DalISlaH"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 vaj mIch chu&&#39;Daq bIvumchoHlaH"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "ghItlh %1 tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "QIn Quv %2 lo&&#39;taHvIS muv &&#39;e&&#39; nID %1"
+
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%3 %2vo&#39; %1Daq pongqa&#39; pagh vIHmoHta&#39; %4"
+
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "%1: qarbe&&#39; ghantoH pong (%2) - Deghmey <nop>QaQbe&&#39; ngaS."
+
+#~ msgid "&Cancel"
+#~ msgstr "&qIl"
+
+#~ msgid "&History"
+#~ msgstr "qun"
+
+#~ msgid "&Sequential"
+#~ msgstr "tlha&&#39;taH"
+
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr ""
+#~ "[[%2][&&#39;elmeH lo&&#39;wI&&#39; pong]] <nop>QaQ &&#39;oHbe&&#39; '%1'."
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "'ghItlh chu&&#39; chenmoHmeH' ghItlh vIHmoHta&&#39; vay&&#39;"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 &&#39;el)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 &&#39;ol)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 - %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr ""
+#~ "(*chuplu&&#39;*: <nop>DaH ghItlhlIjDaq mIllogh Dachel <nop>DaneH&&#39;"
+#~ "a&&#39;?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(Hoch ghItlhmey &&#39;angmeH =all= yIghItlh)"
+
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(%1 mIch puqqoqpu&&#39;)"
+
+#~ msgid "(This message will be removed automatically)"
+#~ msgstr "(<nop>QInvam polHa&&#39; De&&#39;wI&&#39;)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(naw&&#39; lajHa&&#39;lu&&#39;)"
+
+#~ msgid "(attach)"
+#~ msgstr "(tep)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(%1 mIch cheghbogh rarwI&&#39;mey)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(Hoch mIchmey cheghbogh rarwI&&#39;mey&&#39;e&&#39;)"
+
+#~ msgid "(book view)"
+#~ msgstr "(paq <nop>HaSta)"
+
+#~ msgid "(change form)"
+#~ msgstr "(yu&&#39muD qa&&#39;)"
+
+#~ msgid "(change language)"
+#~ msgstr "(Hol choH)"
+
+#~ msgid "(changes)"
+#~ msgstr "(choHmey)"
+
+#~ msgid "(compare)"
+#~ msgstr "(choH nuq)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(tep polHa&&#39;)"
+
+#~ msgid "(delete)"
+#~ msgstr "(<nop>polHa&&#39;)"
+
+#~ msgid "(disabled)"
+#~ msgstr "(chu&&#39;Ha&&#39;lu&&#39;)"
+
+#~ msgid "(edit form)"
+#~ msgstr "(yu&&#39;muD choH)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(ghItlh choH)"
+
+#~ msgid "(edit)"
+#~ msgstr "(choH)"
+
+#~ msgid "(login)"
+#~ msgstr "(&&#39;el)"
+
+#~ msgid "(more)"
+#~ msgstr "(latlh)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(tep vIHmoH)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(qup Hutlh, ghItlh mob)"
+
+#~ msgid "(none)"
+#~ msgstr "(pagh)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(%1 mIch <nop>neH nej)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(ngoq <npo>HaSta)"
+
+#~ msgid "(redirect denied)"
+#~ msgstr "(rarqa&&#39;wI&&#39; lajHa&&#39;lu&&#39;)"
+
+#~ msgid "(rename)"
+#~ msgstr "(pongqa&&#39;)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(Dotlh %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(Qagh <nop>polmeH <nop>mIw)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(ponglIj Degh wa&&#39;DIch)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(tuqlIj pong Degh wa&&#39;DIch)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(noplu&&#39;)"
+
+#~ msgid ""
+#~ "*Administrators:* You can change user's e-mail address using this form. "
+#~ "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+#~ "address."
+#~ msgstr ""
+#~ "*peqIm, loHwI&&#39;pu&&#39;&&#39;e&&#39;: lo&&#39;wI&&#39; QIn Quv "
+#~ "<nop>DachoHmeH Form-vam Dalo&&#39;laH. lo&&#39;wI&&#39; [[%1][lo&&#39;"
+#~ "wI&&#39; pong]], [[%1][wIqI-pong]] ghap yIghItlh &&#39;ej QIn Quv "
+#~ "chu&&#39; yIghItlh."
+
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*De&&#39; chu&&#39; chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; "
+#~ "<nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*choH <nop>QInHom*: <nop>QInHom <nop>DachoHmeH _<nop>DuHmey neH choH_ "
+#~ "Dalo&&#39;chugh, vaj ghItlhDaq &&#39;anglu&&#39;bogh <nop>QInHom&&#39;"
+#~ "e&&#39; choHlu&&#39;, &&#39;ach tep qunDaq ratlh tep <nop>QInHom qan."
+
+#~ msgid "*Formatting help:*"
+#~ msgstr "*Degh nguvmoHmeH <nop>QaH:*"
+
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*potlh:* &&#39;Internet toy&&#39;wI&&#39; qawHaqDaq Form-vamDaq De&&#39;"
+#~ "&&#39;e&&#39; Dapolbogh lanlu&&#39;. qawHaqvam naw&&#39;laH Hoch "
+#~ "ghot&&#39;e&&#39;, &&#39;Internetvo&&#39; toy&&#39;wI&&#39; naw&&#39;"
+#~ "laHchugh. (&&#39;ach reH QIn Quvmey, chaw&&#39; ngoqmey je lu&&#39;"
+#~ "So&&#39;lu&&#39; vaj veQ QInmey <nop>DaHevbe&&#39;). chaq De&&#39;vetlh "
+#~ "<nop>QaDmoHmeH pabmey ghaj Sep&&#39;e&&#39; <nop>DaDabbogh. chaq "
+#~ "chutmeyvetlh ghaj je toy&&#39;wI&&#39; Sep. bIHonchugh, vaj %1 "
+#~ "<nop>DarI&&#39;nIS &&#39;ej toy&&#39;wI&&#39;vam De&&#39; polmeH ngoch "
+#~ "<nop>DalaDnIS bImuvpa&&#39;."
+
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*<nop>DuHmey:* <nop>QInHom leghlaHghach (So&&#39;lu&&#39;chugh tep) je "
+#~ "neH <nop>DachoHmeH, &&#39;ej De&&#39; chu&&#39; Dalab <nop>DaneHchugh, "
+#~ "vaj \"<nop>DuHmey neH choH\" yI&&#39;uy."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr ""
+#~ "*ror*: <nop>HovHommey jojDaq mu&&#39;mey lan: =<nop>*mu&&#39;meylIj*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*moQHommey tetlh* 3 Deghmey chIm, 1 <nop>HovHom, 1 Degh chIm: =&&nbsp;"
+#~ "&&nbsp;&&nbsp;*&&nbsp;mu&&#39;meylIj="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*rarwI&&#39;mey* =http://yahoo.com= pagh =[<nop>[http://yahoo.com/][Yahoo "
+#~ "Delbogh mu&&#39;]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*&&#39;ay&&#39; pongmey* 3 tlheghHommey, 1-6 +mey, 1 Degh chIm: =---+"
+#~ "+&&nbsp; &&#39;ay&&#39; ponglIj="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr ""
+#~ "*wanHa&&#39;* bIng tlheghHommey jojDaq mu&&#39;mey lan: =_<nop>mu&&#39;"
+#~ "meylIj_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*Deghmey nIb* nIbwI&&#39; Deghmey jojDaq mu&&#39;lIj lan: =<nop>=mu&&#39;"
+#~ "meylIj=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*&&#39;ay&&#39;mey* tlhegh chIm chel"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*rarwI&&#39;mey* ghItlh pong yIlo&&#39;: =%1= pagh =[<nop>[%1]"
+#~ "[juHwIjnav]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "1 hour ago"
+#~ msgstr "1 rep ret"
+
+#~ msgid "1 week ago"
+#~ msgstr "1 Hogh ret"
+
+#~ msgid "12 hours ago"
+#~ msgstr "12 rep ret"
+
+#~ msgid "2 weeks ago"
+#~ msgstr "2 Hogh ret"
+
+#~ msgid "24 hours ago"
+#~ msgstr "24 rep ret"
+
+#~ msgid "3 days ago"
+#~ msgstr "wejHu&&#39;"
+
+#~ msgid "4 weeks ago"
+#~ msgstr "4 Hogh ret"
+
+#~ msgid "6 hours ago"
+#~ msgstr "6 rep ret"
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>RSS feed</a>, choHmey chu&&#39; &&#39;angmeH <a "
+#~ "href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' "
+#~ "rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' "
+#~ "rel='nofollow'>1000</a> ghItlhmey &&#39;ang, <a href='%7' "
+#~ "rel='nofollow'>Hoch choHmey &&#39;ang</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "<em>%1 mIchDaq</em> neH"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>mIchmeyDaq luleghlaHbogh Hoch neH</em>"
+
+#~ msgid ""
+#~ "<nop>%1 (%2) can be emailed to inform them that their registration has "
+#~ "been rejected."
+#~ msgstr ""
+#~ "<nop>%1vaD (%2) QIn <nop>DangeHlaH, muvmeH mIwDaj lajHa&&#39;lu&&#39;"
+#~ "pu&&#39; jatlhmeH."
+
+#~ msgid ""
+#~ "<nop>%1 <%2> has been emailed to inform them that their registration has "
+#~ "been denied"
+#~ msgstr ""
+#~ "<nop>%1vaD <%2> QIn ngeHlu&&#39;pu&&#39;, vaj muvmeH mIwDaj lajHa&&#39;"
+#~ "lu&&#39;pu&&#39; &&#39;e&&#39; <nop>SovchoH"
+
+#~ msgid "<nop>WikiName:"
+#~ msgstr "wIqI-pong:"
+
+#~ msgid ""
+#~ "<strong>Confirmation required!</strong> Press OK to confirm this change "
+#~ "was intentional<br />Press Cancel otherwise"
+#~ msgstr ""
+#~ "<strong>bI&&#39;ol net poQ!</strong> bIchoH <nop>DaneHbejchugh vaj OK "
+#~ "yI&&#39;uy.<br />bIbejbe&&#39;chugh vaj yIqIl"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr "Hungmo&&#39; chaq De&&#39;vaD =.txt= chellu&&#39;"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "mIchmey law&&#39; ghaj Hoch Foswiki pat. mIchmeyDaq Dochmey, qeSmey je "
+#~ "Sar luwavlu&&#39;. mIch tu&&#39;lu&&#39;be&&#39;bogh %1 "
+#~ "<nop>DaneHlaw&&#39;."
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "vay&&#39; <nop>DanguvmoHmeH, ngoq <nop>DaghunmeH tagh #, tlha&&#39; 6 "
+#~ "hexadecimal mI&&#39;mey, yIbuS: =#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "%1 rur latlh mIch ghItlh rarwI&&#39;&&#39;e&&#39;. reH mIch pong "
+#~ "yIghItlhHa&&#39;Qo&&#39;. rarwI&&#39; muj yIlughmoH."
+
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; '%1' pongmo&&#39; (wIqI-pong %2) <nop>QInlIj Sovlu&&#39;"
+#~ "boghvaD chaw&&#39; ngoq chu&&#39; ngeHlu&&#39;pu&&#39;. Qapbe&&#39;chugh "
+#~ "QIn <nop>QuvlIj, vaj %3 yIrI&&#39;."
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr ""
+#~ "ghItlh chu&&#39; <nop>chenmoHmeH, De&&#39; <nop>wa&&#39;DIch <nop>noblaH "
+#~ "ghantoH."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "poH ret pongvam ghajbogh ghItlh tu&&#39;lu&&#39;pu&&#39;, &&#39;ach "
+#~ "<nop>DaH latlh pong ghaj, pagh %1Daq vIHmoHlu&&#39;."
+
+#~ msgid "A user requires your approval to complete their registration"
+#~ msgstr "<nop>QaHlIj poQ lo&&#39;wI&&#39; muvchu&&#39;meH"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Access Denied"
+#~ msgstr "naw&&#39; lajHa&&#39;lu&&#39;"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "%1 naw&&#39; lajHa&&#39;lu&&#39;"
+
+#~ msgid "Access keys:"
+#~ msgstr "ghunmeH leQmey:"
+
+#~ msgid "Access to pending registrations is restricted to administrators."
+#~ msgstr "muvbogh jeSqangwI&&#39;pu&&#39; leghlaH loHwI&&#39; neH."
+
+#~ msgid "Action"
+#~ msgstr "vang"
+
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "%1: %2, vangchugh lo&&#39;wI&&#39; %3."
+
+#~ msgid "Actions"
+#~ msgstr "ta&&#39;mey"
+
+#~ msgid "Activation Failed"
+#~ msgstr "chu&&#39;meH ngoq qarHa&&#39;"
+
+#~ msgid "Activation for code %1 failed with an internal error."
+#~ msgstr "qoD Qaghmo&&#39; Qapbe&&#39; %1 ngoq chu&&#39;meH Qu&&#39;."
+
+#~ msgid "Add"
+#~ msgstr "chel"
+
+#~ msgid "Add Members to %1"
+#~ msgstr "%1Daq jeSwI&&#39; chel"
+
+#~ msgid "Add members"
+#~ msgstr "jeSwI&&#39;pu&&#39; chel"
+
+#~ msgid "Add members..."
+#~ msgstr "jeSwI&&#39;pu&&#39; chel..."
+
+#~ msgid "Add row"
+#~ msgstr "wev chel"
+
+#~ msgid "Add user management options to this topic."
+#~ msgstr "ghItlhvamDaq lo&&#39;wI&&#39; vu&&#39;meH <nop>DuHmey chel."
+
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "WebPreferencesDaq %1 <nop>DuH chellI&&#39;"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Foswiki loHwI&&#39; lo&&#39;wI&&#39; &&#39;olwI&&#39;"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "loHwI&&#39; <nop>SeHlaw"
+
+#~ msgid "Administration"
+#~ msgstr "loH"
+
+#~ msgid "Advanced search"
+#~ msgstr "<nop>nejwI&&#39; &&#39;Itlh"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Form-vam <nop>DangeHDI&&#39; vaj QIn <nop>QuvlIj choHlu&&#39; &&#39;ej "
+#~ "Form-vamDaq bIchegh."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Form-vam <nop>DangeHDI&&#39; vaj chaw&&#39; ngoqlIj choHlu&&#39;."
+
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Form-vam De&&#39; <nop>DangeHDI&&#39;, tugh QIn <nop>DaHev. chaw&&#39; "
+#~ "ngoq chu&&#39; ngaS &&#39;ej chaw&&#39; ngoq <nop>DachoHmeH navvaD "
+#~ "rarwI&&#39; Dunob."
+
+#~ msgid "Ah, no!"
+#~ msgstr "Qo&&#39;!"
+
+#~ msgid "All public webs"
+#~ msgstr "Hoch mIchmey&&#39;e&&#39; <nop>luleghlaHbogh vay&&#39;"
+
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "ghItlh chu&&#39; <nop>pongmeH wIqI-mu&&#39; chaw&&#39; neH"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Qapbe&&#39;chugh vaj cheghmeH leQ yI&&#39;uy, [[%SYSTEMWEB%."
+#~ "UserRegistration]]Daq yIghegh &&#39;ej latlh lo&&#39;wI&&#39; pong yIwIv."
+
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "pongvam ghajbogh tep <nop>ghajtaH ghItlhvam."
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "QIn ngeHlaHbe&&#39; De&&#39;wI&&#39;. <nop>DaH %1 loHwI&&#39;lIj (%2) "
+#~ "yIrI&&#39;"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "wa&&#39; ghItlh lo&&#39;taHchugh latlh lo&&#39;wI&&#39; vaj Qagh QIn "
+#~ "Da&&#39;aghlu&&#39;."
+
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "chaq wIqI-lIjDaq De&&#39; choH neHlaw&&#39; vum, ta&&#39;vam chavmeH chaq "
+#~ "&&#39;elmeH ponglIj lo&&#39; &&#39;e&&#39; nID."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "&&#39;ej mung mIch ghItlhmey luchellu&&#39;"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "navvam Da&&#39;elpa&&#39;, Hoch ghItlh choHmey <nop>DachoHbogh "
+#~ "lupollu&&#39;."
+
+#~ msgid "Approve"
+#~ msgstr "laj"
+
+#~ msgid "Attach"
+#~ msgstr "chel"
+
+#~ msgid "Attach a file"
+#~ msgstr "De&&#39; chel"
+
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "ghItlhvamDaq mIllogh ghItlhHom joq chel; tep tu&&#39;lu&&#39;bogh loH (a)"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "%1<nop>Daq De&&#39; chel"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "%1<nop>Daq mIllogh De&&#39; ghap chel"
+
+#~ msgid "Attach new file"
+#~ msgstr "De&&#39; chu&&#39; chel"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "tep '%1' tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Qagh tep polHa&&#39;meH mIw"
+
+#~ msgid "Attachment does not exist."
+#~ msgstr "tep tu&&#39;lu&&#39;be."
+
+#~ msgid "Attachment history"
+#~ msgstr "tep qun"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Qagh tep vIHmoHmeH mIw"
+
+#~ msgid "Attachment name:"
+#~ msgstr "tep pong:"
+
+#~ msgid "Attachments"
+#~ msgstr "tepmey"
+
+#~ msgid "Attachments %1"
+#~ msgstr "tepmey %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "%1 tep"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "ghItlh bejlu&&#39;taHvIS tep lu&&#39;anglu&&#39;be&&#39;."
+
+#~ msgid "Attention"
+#~ msgstr "Qu&&#39;vatlh"
+
+#~ msgid "Attribute"
+#~ msgstr "Segh"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "ghItlh choHmey wanI&&#39; QIn&&#39;"
+
+#~ msgid "Available Information"
+#~ msgstr "Delbogh De&&#39; tu&&#39;lu&&#39;bogh"
+
+#~ msgid "Available form templates"
+#~ msgstr "Form ghantoHmey lutu&&#39;lu&&#39;bogh"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "%1 mIch ghantoHmey:"
+
+#~ msgid "Back to topic"
+#~ msgstr "ghItlhDaq chegh"
+
+#~ msgid "Backlinks"
+#~ msgstr "cheghbogh rarwI&&#39;mey"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "%1Daq Qeqbogh %2 mIch rarwI&&#39;mey&&#39;e&&#39;"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "%1Daq Qeqbogh Hoch mIchmey rarwI&&#39;mey&&#39;e&&#39;"
+
+#~ msgid "Backlinks:"
+#~ msgstr "cheghbogh rarwI&&#39;mey:"
+
+#~ msgid "Bad password"
+#~ msgstr "chaw&&#39; ngoq qab"
+
+#~ msgid "Bad subscriber '%1'"
+#~ msgstr "qImwI&&#39; qab '%1'"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Hutlh mIch motlh %1 pagh &&#39;oH tu&&#39;be&&#39;lu&&#39;"
+
+#~ msgid "Both body and title"
+#~ msgstr "pong porgh je"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "&&#39;ach Form De&&#39; <nop>DachIlbej (reH Dotlh tIQDaq Datlhapqa&&#39;"
+#~ "laH)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "motlh veQ mIch leghlaH %1 neH. veQ lulegh Hoch lo&&#39;wI&&#39;pu&&#39; "
+#~ "&&#39;e&&#39; Dachaw&&#39; <nop>DaneHchugh, vaj [[WebPreferences]"
+#~ "[WebPreferencesDaq]] tuchbogh =ALLOWWEBVIEW= yIteq."
+
+#~ msgid "CHANGE not permitted by %1"
+#~ msgstr "choHmey (CHANGE) chaw&&#39;be&&#39; %1"
+
+#~ msgid "CHANGE not permitted for %1 by %2"
+#~ msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
+
+#~ msgid "Cache =refresh=all= denied for non-admin users."
+#~ msgstr ""
+#~ "<nop>loHwI&&#39; <nop>SoHbe&&#39;chugh vaj Qapbe&&#39; Cache "
+#~ "=refresh=all=."
+
+#~ msgid "Can't find user %1"
+#~ msgstr "lo&&#39;wI&&#39; %1 vISamlaHbe&&#39;"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "%1 QIn Quv vISamlaHbe&&#39; (chaw&&#39; ngoq choHmeH &&#39;oH poQlu&&#39;)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "choH &&#39;e&&#39; mev &&#39;ej choHmey woD"
+
+#~ msgid "Cancel upload"
+#~ msgstr "jabbI&&#39;ID qIl"
+
+#~ msgid "Cannot change subscription: %1"
+#~ msgstr "qImwI&&#39; ghu&&#39; choHlaHbe&&#39;: %1"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "taHqu&&#39;mo&&#39; &&#39;oH, %1 vIchenmoHlaHbe&&#39;."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "taHqu&&#39;mo&&#39; mIch %1, &&#39;oH vIchenmoHlaHbe&&#39;"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "taHqu&&#39; mo&&#39; %1, %2vaD &&#39;oH vIpongqa&&#39;laHbe&&#39;."
+
+#~ msgid "Case sensitive"
+#~ msgstr "potlh <nop>DeghHom/Degh&&#39;a&&#39;"
+
+#~ msgid "Categories"
+#~ msgstr "Seghmey"
+
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. chaw&&#39; "
+#~ "ngoq <nop>tetlhDaq lo&&#39;wI&&#39; chellu&&#39;be&&#39;."
+
+#~ msgid "Change E-mail Address"
+#~ msgstr "QIn Quv choH"
+
+#~ msgid "Change Password"
+#~ msgstr "chaw&&#39; ngoq choH"
+
+#~ msgid "Change cannot be completed"
+#~ msgstr "choHmey vIrInmoHlaHbe&&#39;"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Delbogh <nop>QInHom <nop>DuHmey je neH choH"
+
+#~ msgid "Change e-mail address"
+#~ msgstr "QIn Quv choH"
+
+#~ msgid "Change from"
+#~ msgstr "Daq choH"
+
+#~ msgid "Change language"
+#~ msgstr "Hol choH"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "Hoch mIchmeyDaq <nop>%1Daq SIqbogh rarwI&&#39;mey choH:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "%2 mIchDaq <nop>%1vaD SIqbogh rarwI&&#39;mey choH:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Hoch mIchmeyDaq %1Daq SIqbogh rarwI&&#39;mey choH:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "%2 mIchDaq %1Daq SIqbogh rarwI&&#39;mey choH:"
+
+#~ msgid "Change password"
+#~ msgstr "chaw&&#39; ngoq choH"
+
+#~ msgid "Change properties only"
+#~ msgstr "<nop>DuHmey neH choH"
+
+#~ msgid "Change topic"
+#~ msgstr "ghItlh choH"
+
+#~ msgid "Changed by:"
+#~ msgstr "choHta&&#39;:"
+
+#~ msgid "Changed on"
+#~ msgstr "choHlu&&#39;"
+
+#~ msgid "Changed:"
+#~ msgstr "choHlu&&#39;:"
+
+#~ msgid "Changes"
+#~ msgstr "choHmey"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "D%1vo&&#39; D%2Daq choHmey"
+
+#~ msgid ""
+#~ "Check your configuration settings for {TemplateDir} and {TemplatePath}."
+#~ msgstr "{TemplateDir} {TemplatePath} je <nop>DuHmey tI&&#39;ol."
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "ghItlh Daq chu&&#39;vaD rarmeH ghItlhmey luwIvlu&&#39;bogh luchu&&#39;"
+#~ "moHlu&&#39;."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr ""
+#~ "mIch pong chu&&#39;vaD rarmeH ghItlhmey luwIvlu&&#39;bogh luchu&&#39;"
+#~ "moHlu&&#39;."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "%1 mIch puq ghItlhmey"
+
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "%2 mIch %1 puqpu&&#39;&&#39;e&&#39;"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "%1vaD Form chu&&#39; yIwIv"
+
+#~ msgid "Clear all"
+#~ msgstr "Hoch wIvHa&&#39;"
+
+#~ msgid "Clear all topics"
+#~ msgstr "Hoch wIvHa&&#39;"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "yI&&#39;uy, vaj Daq qanDaq ghItlh lanlau&&#39; &&#39;ej cheghbogh "
+#~ "rarwI&&#39;mey <nop>DalISlaH."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "qarbe&&#39;ba&&#39; %1 nguvmoHmeH ngoq"
+
+#~ msgid "Come on in"
+#~ msgstr "yI&&#39;el"
+
+#~ msgid "Comment"
+#~ msgstr "ghItlhHom"
+
+#~ msgid "Commenting is disabled for static viewing"
+#~ msgstr "bejmeH ghItlhHommey luchu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "Commenting is disabled when not in view context"
+#~ msgstr ""
+#~ "<nop>HaSta motlhDaq (view) <nop>SoHbe&&#39;chugh vaj <nop>QInHommey "
+#~ "luchu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "Commenting is disabled while not logged in"
+#~ msgstr "bI&&#39;elta&&#39;be&&#39;taHvIS vaj Qapbe&&#39; <nop>QInHommey"
+
+#~ msgid "Commenting is disabled while running from the command line"
+#~ msgstr "ra&&#39;wI&&#39; tlheghDaq Qapbe&&#39; <nop>QInHommey"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Dotlhmey &&#39;ol"
+
+#~ msgid "Confirm password:"
+#~ msgstr "chaw&&#39; ngoq yIghItlhqa&&#39;:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "pong chu&&#39;, latlh ghItlh Daq ghap &&#39;ol"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "choHmeylIj Da&&#39;olmeH Foswiki [[%1][ghItlh qun Dotlh pImbogh &&#39;"
+#~ "olwI&&#39; jan (diff)]] yIlo&&#39;."
+
+#~ msgid "Conflict"
+#~ msgstr "qaD"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "vay&&#39; <nop>Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
+
+#~ msgid ""
+#~ "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
+#~ "assistance."
+#~ msgstr ""
+#~ "QaH <nop>DapoQchugh vaj <a href=\\'mailto:%1\\'>Daqvam loHwI&&#39;</a> "
+#~ "yIrI&&#39;."
+
+#~ msgid "Context"
+#~ msgstr "latlhpu&&#39;"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "mIch Dapongqa&&#39;rup&&#39;a&&#39;?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "ghItlh chu&&#39; chenmoHmeH yIruch"
+
+#~ msgid ""
+#~ "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+#~ "content."
+#~ msgstr ""
+#~ "ghItlh De&&#39;mo&&#39; <nop>HTMLvaD ghItlh choHmeH mIw chu&&#39;Ha&&#39;"
+#~ "lu&&#39; vaj WYSIWYG Dalo&&#39;laHbe&&#39;."
+
+#~ msgid "Copy this topic (and all attachments) to a new topic."
+#~ msgstr ""
+#~ "ghItlh chu&&#39;Daq ghItlhvam velqa&&#39; lan (tep chenmoHqa&&#39; je)."
+
+#~ msgid "Copy topic"
+#~ msgstr "ghItlh velqa&&#39; <nop>chenmoH"
+
+#~ msgid "Copy topic..."
+#~ msgstr "ghItlh velqa&&#39; <nop>chenmoH..."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "velqa&&#39; DIb &&copy; ghaj Hoch ghItlhbogh qonwI&&#39;pu&&#39;&&#39;"
+#~ "e&&#39;. naDev Hoch <nop>DalaDlaHbogh lughaj qonwI&&#39;pu&&#39;."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "velqa&&#39; DIb &&copy; ghaj Hoch ghItlhbogh qonwI&&#39;pu&&#39;&&#39;"
+#~ "e&&#39;. naDev Hoch <nop>DalaDlaHbogh lughaj qonwI&&#39;pu&&#39;."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "mIch chu&rsquo; %1 chenmoHlaHbe&&#39;"
+
+#~ msgid "Could not find template"
+#~ msgstr "ghantoH <nop>vISamlaHbe&&#39;"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Qapbe&&#39; nejwI&&#39;. Qagh yIbuS: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "%1 pollaHbe&&#39;."
+
+#~ msgid "Country:"
+#~ msgstr "Sep:"
+
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "<nop>QaH ghItlh chu&&#39; <nop>chenmoH"
+
+#~ msgid "Create New Topic"
+#~ msgstr "ghItlh chu&&#39; <nop> chenmoH"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "%1 mIchDaq ghItlh chu&&#39; chenmoH"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "tepvaD Qeqbogh rarwI&&#39; chenmoH"
+
+#~ msgid "Create a new group"
+#~ msgstr "ghom chu&rsquo; chenmoH"
+
+#~ msgid "Create account"
+#~ msgstr "lo&&#39;wI&&#39; ta chenmoH"
+
+#~ msgid "Create group"
+#~ msgstr "ghom chenmoH"
+
+#~ msgid "Create new topic"
+#~ msgstr "ghItlh chu&&#39; chenmoH"
+
+#~ msgid "Create not specified and group does not exist"
+#~ msgstr ""
+#~ "chenmoHmeH mIw tlhobbe&&#39;lu&&#39; &&#39;ej ghom tu&&#39;lu&&#39;"
+#~ "be&&#39;"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "<nop>HIDjolevlIj chenmoH"
+
+#~ msgid "Create the topic"
+#~ msgstr "ghItlh <nop>chenmoH"
+
+#~ msgid "Create this topic"
+#~ msgstr "ghItlhvam <nop>chenmoH"
+
+#~ msgid "Create your account to edit pages on this site."
+#~ msgstr ""
+#~ "<nop>DaqvamDaq ghItlhmey <nop>DachenmoHmeH lo&&#39;wI&&#39; talIj "
+#~ "yIchenmoH."
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Form <nop>DelmeH ghItlh chenmoHlI&&#39;"
+
+#~ msgid "Current location:"
+#~ msgstr "<nop>DaHjaj Daq:"
+
+#~ msgid "Current password:"
+#~ msgstr "<nop>DaHjaj chaw&&#39; ngoq:"
+
+#~ msgid "Dear %1"
+#~ msgstr "yIqIm, %1"
+
+#~ msgid "Debug"
+#~ msgstr "<nop>QaghHa&&#39;moH"
+
+#~ msgid "Default template"
+#~ msgstr "ghantoH motlh"
+
+#~ msgid "Delete"
+#~ msgstr "polHa&&#39;"
+
+#~ msgid "Delete attachment %1"
+#~ msgstr "tep %1 polHa&&#39;"
+
+#~ msgid "Delete last row"
+#~ msgstr "wev Qav teq"
+
+#~ msgid "Delete topic"
+#~ msgstr "ghItlh polHa&&#39;"
+
+#~ msgid "Delete topic..."
+#~ msgstr "ghItlh polHa&&#39;..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "De&&#39;vam yIDel vaj meqDaj yajchoH latlhwI&&#39;pu&&#39;."
+
+#~ msgid "Description"
+#~ msgstr "Delbogh mu&&#39;mey"
+
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "%1 mIch ghItlhmey tetlh"
+
+#~ msgid "Details in separate window"
+#~ msgstr "latlh <nop>QorwaghDaq ngoDHommey &&#39;ang"
+
+#~ msgid "Details:"
+#~ msgstr "ngoDHommey:"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "ghItlh pong <nop>DaghItlhHa&&#39;&&#39;a&&#39;? ghItlhvaD potlh Degh&&#39;"
+#~ "a&&#39;/<nop>DeghHom &&#39;e&&#39; yIqaw."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "[[%1][%2 chaw&&#39; ngoq]] <nop>DachoH <nop>DaneH&&#39;a&&#39;?"
+
+#~ msgid "Difference Topic"
+#~ msgstr "Dochmey pIm"
+
+#~ msgid "Difference:"
+#~ msgstr "pIm:"
+
+#~ msgid "Discover the details, and how to start your own site with Foswiki"
+#~ msgstr ""
+#~ "ngoDHommey tItu&&#39; &&#39;ej naDev <nop>FoswikiDaq <nop>DaqlIj "
+#~ "yIcherqu&&#39;"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "choHmeylIj Dapol &&#39;e&&#39; yIlIjQo&&#39;"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "<nop>wa&&#39;chawDaq tep &&#39;angQo&&#39;"
+
+#~ msgid "Don't show:"
+#~ msgstr "&&#39;angQo&&#39;:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "tep =%1= polHa&&#39;taHvIS Qagh tu&&#39;lu&&#39;. <nop>DaH %2 loHwI&&#39;"
+#~ "lIj yIrI&&#39;."
+
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr "%2Daq tep =%1= vIHmoHtaHvIS Qagh tu&&#39;lu&&#39;."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "%2vaD %1 ghItlh pongqa&&#39;taHvIS Qagh (%3) tu&&#39;lu&&#39;. <nop>DaH "
+#~ "%4 loHwI&&#39;lIj yIghuHmoH."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "%2vaD %1 mIch pongqa&&#39;taHvIS Qagh tu&&#39;lu&&#39; (%3). <nop>DaH %4 "
+#~ "loHwI&&#39;lIj yIghuHmoH."
+
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr "%2vaD %1 mIch pongqa&&#39;taHvIS Qagh tu&&#39;lu&&#39;."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "%1 poltaHvIS Qagh tu&&#39; Dotlh <nop>SeHpat. <nop>DaH %2 loHwI&&#39;lIj "
+#~ "yIghuHmoH."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "Qapchu&&#39; QIn Quv choHmeH mIw!"
+
+#~ msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+#~ msgstr "Qagh ENCODE - quqlaHbe&&#39; =type= quqtaHvIS =old= =new joq "
+
+#~ msgid "ENCODE failed - both of =old= and =new= must be given"
+#~ msgstr "Qagh ENCODE - =old= =new= je wIvnISlu&&#39;"
+
+#~ msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+#~ msgstr "Qagh ENCODE - =old=Daq ngoq '%PARAM1%' tu&&#39;lu&&#39; "
+
+#~ msgid "EXPAND failed - access to '%PARAM1%' denied"
+#~ msgstr "Qagh EXPAND - '%PARAM1%' naw&&#39;lu&&#39; net chaw&&#39;be&&#39;"
+
+#~ msgid "EXPAND failed - no macro"
+#~ msgstr "Qagh EXPAND - mIwHom tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "EXPAND failed - no such topic '%PARAM1%'"
+#~ msgstr "Qagh EXPAND - Hutlh ghItlh '%PARAM1%'"
+
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,ghItlh) choH"
+
+#~ msgid "Edit Anyway"
+#~ msgstr "<nop>DaH choH jay&&#39;"
+
+#~ msgid "Edit Wiki<nop>Text"
+#~ msgstr "ghunwI&&#39; mu&&#39;mey choH"
+
+#~ msgid "Edit help"
+#~ msgstr "choHmeH <nop>QaH"
+
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "ghItlhvam <nop>DuHmey choH..."
+
+#~ msgid "Edit this table"
+#~ msgstr "wa&&#39;chawvam choH"
+
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "ghItlhvam choH"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "ghItlh <nop>DuHmey choH"
+
+#~ msgid "Editable"
+#~ msgstr "choHlaH vay&&#39;"
+
+#~ msgid "Ehm, let me go back to correct the page..."
+#~ msgstr "toH, vay&&#39; vIchoHmeH jIcheghnIS..."
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "chaq Qapbe&&#39; ngoqvetlh, chaq bImuvmeH &&#39;oH Dalo&&#39;ta&&#39; "
+#~ "<nop>rIntaH."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant form."
+#~ msgstr ""
+#~ "chaq <nop>QaQbe&&#39; pongvetlh, chaq <nop>FormvaD tu&&#39;be&&#39;"
+#~ "lu&&#39; rar."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant topic."
+#~ msgstr ""
+#~ "chaq lI&&#39;be&&#39; pong, chaq ghItlhDaq tu&&#39;be&&#39;lu&&#39;bogh "
+#~ "chIj neH &&#39;oH."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "chaq <nop>QaQbe&&#39; pong <nop>DawIvbogh, chaq pagh De&&#39; ngaS %1. "
+#~ "jabbI&&#39;ID chIm Dalab net chaw&&#39;be&&#39;."
+
+#~ msgid "Email address:"
+#~ msgstr "QIn Quv:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "Foswiki janvamvaD QInmey luchu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "Email verification is not enabled."
+#~ msgstr "jabbI'&&#39;ID &&#39;olwI&&#39; chu&&#39;lu&&#39;be&&#39;."
+
+#~ msgid "End presentation"
+#~ msgstr "much rInmoH"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
+
+#~ msgid "Enter __none__ to clear the topic parent"
+#~ msgstr "ghItlh qup <nop>qIlmeH __none__ <nop>yIwIv"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr ""
+#~ "ghotqoqlIj <nop>DachoHmeH chaw&&#39; ngoq chu&&#39; lo&&#39;wI&&#39; pong "
+#~ "chu&&#39; je tIghItlh"
+
+#~ msgid "Enter parent name"
+#~ msgstr "qup pong ghItlh"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr ""
+#~ "DaH wIqI loHmeH lo&&#39;wI&&#39; pong yIghItlh, pagh %1 &&#39;elmeH ngoq "
+#~ "yIghItlh"
+
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "ghItlh pong <nop>DaghItlhDI&&#39; wIqI-mu&&#39; <nop>yIghItlh, pagh wIqI-"
+#~ "mu&&#39; <nop>poQbogh meyrI&&#39;Hom yIchu&&#39;Ha&&#39;."
+
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "ghomvamDaq chelmeH lo&&#39;wI&&#39;pu&&#39; ghommey qoj tIchel"
+
+#~ msgid "Error encountered loading the plugin. See errors below."
+#~ msgstr "Plugin taghmeH Qagh vay&&#39;. bIngDaq Qaghmey yIlaD."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Qagh lo&&#39;wI&&#39; chu&&#39; muvmeH mIw"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Qagh %1 muvmeH mIw"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Qagh ghItlh polmeH mIw"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Qagh: De' tep %1Daq, %2 tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Qagh: De&&#39; Segh Qutlhbe&&#39;lu&&#39;: %1 (=text/html=, =text/plain=, "
+#~ "=text/css= qoj &&#39;oH net poQ)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr ""
+#~ "Qagh: ngoqvam lajbe&&#39;lu&&#39;. ('http://domain/...' &&#39;oH net pIH)"
+
+#~ msgid "Errors"
+#~ msgstr "Qaghmey"
+
+#~ msgid "Errors adding members to group"
+#~ msgstr "Qagh ghomDaq <nop>jeSwI&&#39;pu&&#39; chelmeH mIw"
+
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Qagh ghomvo&&#39; <nop>jeSwI&&#39;pu&&#39; teqmeH mIw"
+
+#~ msgid "Evil person"
+#~ msgstr "vum"
+
+#~ msgid "Exit"
+#~ msgstr "bup"
+
+#~ msgid "Failed plugins"
+#~ msgstr "Qaghbogh <nop>janHommey"
+
+#~ msgid "Failed to add user: "
+#~ msgstr "Qagh lo&&#39;wI&&#39; chelmeH mIw: "
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Qagh URL %1 chelmeH mIw"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "mu&&#39;mey&&#39;e&&#39; lutlhejbogh %1 lupoQlu&&#39;"
+
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr ""
+#~ "mu&&#39;mey&&#39;e&&#39; lutlhejbogh <span class='required'>*</span> "
+#~ "lupoQlu&&#39;."
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "latlh pong ghaj De&&#39;&&#39;e&&#39; lablu&&#39;bogh"
+
+#~ msgid "Find similar topics"
+#~ msgstr "rurbogh ghItlhmey Sam"
+
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "%1 puq ghItlhmey Sam ..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "%1Daq Qeqbogh ghItlhmey Sam ..."
+
+#~ msgid "First"
+#~ msgstr "wa&&#39;DIch"
+
+#~ msgid "First name:"
+#~ msgstr "pong:"
+
+#~ msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+#~ msgstr ""
+#~ "QIjlu&&#39;meH: [[TimBernersLee]] &&#39;oH Tim Berners-Lee wIqI-pong&&#39;"
+#~ "e&&#39;"
+
+#~ msgid ""
+#~ "For more detailed information on cross-site request forgery, and the "
+#~ "dangers it poses to you, see [[%1][the Cross-site request forgery article "
+#~ "on Wikipedia]]."
+#~ msgstr ""
+#~ "cross-site-tlhobbogh-<nop>HeSwI&&#39; nIw lIbbogh Qob je Dayajchu&&#39;"
+#~ "meH, wIqIpeDIya' [[%1][Cross-site request forgery ghItlh]] yIlaD."
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "chaw&&#39; ngoqlIj <nop>DalIj&&#39;a&&#39;?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Hutlh Form <nop>DelwI&&#39; %1"
+
+#~ msgid "Form data"
+#~ msgstr "yu&&#39;muD De&&#39;"
+
+#~ msgid "Form definition"
+#~ msgstr "yu&&#39;muD <nop>DelwI&&#39;"
+
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Form <nop>DelwI&&#39; '%1' Samlu&&#39;be&&#39;"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Hutlh Form <nop>DelwI&&#39;"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Foswiki lo&&#39;wI&&#39; &&#39;olwI&&#39;"
+
+#~ msgid ""
+#~ "Foswiki checks all requests it receives from browsers, and tries to check "
+#~ "that the persons using the browsers intentionally sent them."
+#~ msgstr ""
+#~ "Hoch tlhobwI&&#39; jabbI&&#39;IDmey&&#39;e&&#39; Hevbogh  &&#39;oH &&#39;"
+#~ "ol Foswiki. chIch bIH ngeHta&&#39; lo&&#39;wI&&#39; &&#39;e&&#39; &&#39;"
+#~ "ol je."
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "%1vaD Foswiki chaw&&#39; ngoq chu&&#39;moHlu&&#39;pu&&#39;"
+
+#~ msgid "Get a fresh version <a href='%1'>here</a>."
+#~ msgstr "<a href='%1'>naDev</a> nav chu&&#39; yISuq."
+
+#~ msgid "Get help on attaching files"
+#~ msgstr "tep chelmeH mIw yIyajqu&&#39;choH"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "nejwI&&#39;vam choHmey qImchoH"
+
+#~ msgid "Globe"
+#~ msgstr "yuQ"
+
+#~ msgid "Go back"
+#~ msgstr "chegh"
+
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "&&#39;Internet janlIjDaq yIchegh &&#39;ej Hoch De&&#39;&&#39;e&&#39; "
+#~ "poQlu&&#39;bogh yIghItlhqa&&#39; bIpolqa&&#39;pa&&#39;"
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr ""
+#~ "&&#39;Internet janDaq yIchegh &&#39;ej juHlIj De&&#39;wI&&#39;lIjDaq "
+#~ "choHmeylIj tIpol."
+
+#~ msgid ""
+#~ "Go back to the previous page, and enable Cookies and !JavaScript before "
+#~ "trying again"
+#~ msgstr ""
+#~ "nungbogh navDaq yIchegh, chabHommey <nop>JavaScript je tIchu&&#39; &&#39;"
+#~ "ej yInIDqa&&#39;"
+
+#~ msgid "Good examples:"
+#~ msgstr "ghantoHmey <nop>QaQ:"
+
+#~ msgid "Group"
+#~ msgstr "ghom"
+
+#~ msgid "Group does not exist and create not permitted"
+#~ msgstr ""
+#~ "ghom tu&&#39;lu&&#39;be&&#39; &&#39;ej <nop>DachenmoH chaw&&#39;be&&#39;"
+#~ "lu&&#39;"
+
+#~ msgid "Group name"
+#~ msgstr "ghom pong"
+
+#~ msgid "Group names must end in Group"
+#~ msgstr "ghom pong tlhuQDaq \"Group\" ghItlhnISlu&&#39;"
+
+#~ msgid "Groups"
+#~ msgstr "ghommey"
+
+#~ msgid "Having problems logging in?"
+#~ msgstr "bI&&#39;ellaHbe&&#39;&&#39;a&&#39;?"
+
+#~ msgid "Hello %1!"
+#~ msgstr "nuqneH, %1?"
+
+#~ msgid "Hi, %1"
+#~ msgstr "qIm, %1"
+
+#~ msgid "Hide file"
+#~ msgstr "De&&#39; So&&#39;"
+
+#~ msgid "Hide help"
+#~ msgstr "<nop>QaH So&&#39;"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "<nop>DaHjaj puqmIchmey luchu&&#39;Ha&&#39;lu&&#39;. mIchHommey "
+#~ "<nop>DachenmoHlaHbe&&#39;."
+
+#~ msgid "History"
+#~ msgstr "qun"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "mIlloghlIj Dachel <nop>DaneH&&#39;a&&#39;?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "chay&&#39; muvmeH mIwlIj Dachu&&#39;laH"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Do&&#39;Ha&&#39; Qaghpu&&#39; %2vaD &&#39;olmeH QIn ngeHmeH Qu&&#39;. "
+#~ "chaq muvwI&&#39; ngeb ghaH muvwI&&#39;&&#39;e&&#39;. lo&&#39;wI&&#39; "
+#~ "'%1' teqlaHbe&&#39; De&&#39;wI&&#39;."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Do&&#39;Ha&&#39; Qaghpu&&#39; %2vaD &&#39;olmeH QIn ngeHmeH Qu&&#39;. "
+#~ "chaq muvwI&&#39; ngeb ghaH muvwI&&#39;&&#39;e&&#39;. lo&&#39;wI&&#39; "
+#~ "'%1' teqta&&#39; De&&#39;wI&&#39;. chaq lo&&#39;wI&&#39; nuv ta "
+#~ "<nop>DateqnISqu&&#39; <nop>SoH&&#39;e&&#39;."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr "<nop>DaH %1vaD %2 ponglu&&#39;. yIqaw&&#39;eghmoH."
+
+#~ msgid "I forgot my password"
+#~ msgstr "chaw&&#39; ngoqwIj vIlIjpu&&#39;"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "%1mo&&#39; qeSmey, vuDmey ghaj&&#39;a&&#39;? qay&&#39;&&#39;a&&#39; "
+#~ "vay&&#39;? <a href='%2'>QIn ngeH</a>"
+
+#~ msgid ""
+#~ "If Foswiki can't find a registered e-mail for you in the secret database, "
+#~ "you will be unable to reset your password or take advantage of email "
+#~ "notifications of topic changes."
+#~ msgstr ""
+#~ "qawHaq peghDaq QIn <nop>QuvlIj <nop>SamlaHbe&&#39;chugh Foswiki, vaj "
+#~ "chaw&&#39; ngoqlIj <nop>DachoHlaHbe&&#39; &&#39;ej ghItlh choH wanI&&#39; "
+#~ "QInmey <nop>DaHevlaHbe&&#39;."
+
+#~ msgid ""
+#~ "If Foswiki detects a suspicious request that may have been sent from such "
+#~ "a page, then you are asked to confirm the request."
+#~ msgstr ""
+#~ "tlhobwI&&#39; pIH Hevchugh Foswiki, vaj &&#39;oH Dachaw&&#39; SoH tlhob "
+#~ "Foswiki."
+
+#~ msgid ""
+#~ "If registration is not disabled by errors, administrators can still "
+#~ "register users to this site using %1."
+#~ msgstr ""
+#~ "Qaghmeymo&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;be&&#39;chugh, vaj "
+#~ "lo&&#39;wI&&#39;pu&&#39; muvmoHmeH %1 lulo&&#39;laH loHwI&&#39;pu&&#39;."
+
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "qay&&#39;wI&&#39; &&#39;oHbe&&#39;chugh <nop>ngoDvam, vaj chaq "
+#~ "<nop>ghantoH tu&&#39;be&&#39;lu&&#39;boghDaq Qeq %1 <nop>DuHlIj."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr ""
+#~ "tlheghvam tu&&#39;be&&#39;lu&&#39;chugh, vaj <nop>bIngDaq _upgrade_ &&#39;"
+#~ "ay&&#39; <nop>yIbuS"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr ""
+#~ "ghItlhvam tu&&#39;lu&&#39;be&&#39;chugh, vaj yIchenmoH pagh yIlughmoH."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Foswiki jan Daghunchugh vaj %1 yIlaD. pa&&#39; Hoch <nop>DapoQbogh "
+#~ "Dellu&&#39;."
+
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Dochvam Dayajchu&&#39;be&&#39;chugh vaj yIlaD: %1"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "naDev <nop>DuDevta&&#39;chugh ghelwI&&#39; Degh rarwI&&#39;"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr ""
+#~ "qaStaHvIS wa&&#39; rep pIq &&#39;olmeH QIn <nop>DaHevbe&&#39;chugh, "
+
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr ""
+#~ "latlh pong <nop>DaghItlhchugh, vaj ghItlhvam tu&&#39;lu&&#39; &&#39;"
+#~ "e&&#39; yI&&#39;ol."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Qaghmo&&#39; QInvam <nop>DaHevchugh: %2Daq muvta&&#39; vay&&#39; (%1) "
+#~ "&&#39;ej QIn <nop>QuvlIj (%3) lo&&#39;ta&&#39;. Qagh &&#39;oHchugh "
+#~ "wanI&&#39;vam vaj %4 yIrI&&#39;."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr ""
+#~ "muvlu&&#39;meH vay&&#39; Daghel <nop>DaneHchugh vaj %1vaD QIn yIngeH."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "vay&&#39; Daghel <nop>DaneHchugh, vaj %1 yIrI&&#39;"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "chaw&&#39; ngoq Daghajbe&&#39;chugh pagh &&#39;oH <nop>DachoH "
+#~ "<nop>DaneHchugh vaj naDev yIghoS:%1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "<nop>ghItlhvam Qeqbogh rarwI&&#39; <nop>DaHevta&&#39;chugh pagh &&#39;oH "
+#~ "Dalegh <nop>DaneHchugh neH, vaj [[%1][polbe&&#39;]] yIwIv %2 "
+#~ "<nop>DaghoSmeH."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "ghItlhvam <no>DachenmoH &&#39;e&&#39; <nop>DaHechchugh"
+
+#~ msgid ""
+#~ "If you want to search for a word in the stop word list, prefix the word "
+#~ "with a plus sign"
+#~ msgstr ""
+#~ "mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; "
+#~ "<nop>tlhopDaq chelwI&&#39; ngutlh yIghItlh"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "mIchvam <nop>DachenmoH <nop>DaneHchugh"
+
+#~ msgid ""
+#~ "If you would like to send an email and give them feedback, please type it "
+#~ "below and hit 'Send mail'"
+#~ msgstr ""
+#~ "<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj "
+#~ "<nop>bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Qapbe&&#39;chugh <nop>QInQuvlIj qan (vaj Dalo&&#39;laHbe&&#39;>taH), "
+#~ "&&#39;ej chaw&&#39; <nop>ngoqlIj <nop>DalIjchugh, vaj <nop>QaH "
+#~ "<nop>DaSammeH %1 yIrI&&#39;."
+
+#~ msgid "Ignore for 7 days"
+#~ msgstr "<nop>qaStaHvIS 7 jaj <nop>buSHa&&#39;"
+
+#~ msgid "Image"
+#~ msgstr "mIllogh"
+
+#~ msgid "Image %1 of %2"
+#~ msgstr "%2Daq mIllogh %1"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr "mIlloghmey lu&&#39;aghlu&&#39;, rarwI&&#39; luHev latlh tepmey."
+
+#~ msgid ""
+#~ "In a possible scenario, an evil person has left a link to seduce you to "
+#~ "visit a page on http<nop>://crime.org, which has some clever javascript "
+#~ "on it."
+#~ msgstr ""
+#~ "ghu&&#39;vam qIt <nop>yIbuS: <nop>DutojmeH <nop>SoHvaD rarwI&&#39; "
+#~ "ngeHta&&#39; vay&&#39;, chaq http<nop>://HeSwI&&#39;.tlh &&#39;oH, &&#39;"
+#~ "ej pa&&#39; javascript mIw qab tu&&#39;lu&&#39;."
+
+#~ msgid "In case of a zip file, attach all included files to this topic"
+#~ msgstr ""
+#~ "ZIP De&&#39; &&#39;aplo&&#39; Daghajchugh vaj ghItlhDaq Hoch ngaSbogh "
+#~ "De&&#39; ghItlhHommey lupollu&&#39;"
+
+#~ msgid "In reversed order"
+#~ msgstr "tagh <nop>QavwI&&#39;"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "rut De&&#39; pong choH Foswiki, vaj &&#39;oH lo&&#39;laHchu&&#39; latlh "
+#~ "lo&&#39;wI&&#39; je:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "chaw&&#39; ngoq qarHa&&#39;"
+
+#~ msgid "Incorrect Prefix"
+#~ msgstr "moHaq qarHa&&#39;"
+
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "[[%1][wIqI-pong]] muj"
+
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "[[%1][wIqIpongmey]] muj:"
+
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "[[%1][lo&&#39;wI&&#39; pong]] muj"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "=%1= ngoqDaq ghunmeH mu&&#39;mey qab tu&&#39;lu&&#39;"
+
+#~ msgid "Incorrect topic name provided for the templatetopic parameter."
+#~ msgstr ""
+#~ "<nop>ghantoHghItlh <nop>DuHmeyvaD ghItlh pong <nop>QaQHa&&#39; "
+#~ "noblu&&#39;."
+
+#~ msgid "Index"
+#~ msgstr "tetlh"
+
+#~ msgid "Info"
+#~ msgstr "<nop>HIchuH"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "chu&&#39;meH ngoq qarHa&&#39;"
+
+#~ msgid "Invalid Input"
+#~ msgstr "qab Doch <nop>DaghItlhta&&#39;bogh"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "qab QIn Quv"
+
+#~ msgid "Invalid topic name."
+#~ msgstr "qab ghItlh pong."
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+#~ "<nop>DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh "
+#~ "_polqu&&#39;_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj "
+#~ "lupollu&&#39; &&#39;ej ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form "
+#~ "De&&#39; choHmeH mIw, vaj qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net "
+#~ "chup bIruchpa&&#39;."
+
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "ghItlh pong chu&&#39;vaD reH qaq %1. Dalo&&#39;be&&#39;chugh vaj chaq "
+#~ "Qapbe&&#39;choH rarwI&&#39;mey. Deghmey chIm teq De&&#39;wI&&#39;."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "mIch chu&&#39; <nop>DapongmeH reH qaq pong run. Dalo&&#39;be&&#39;chugh "
+#~ "vaj chaq Qapbe&&#39;choH rarwI&&#39;mey. Deghmey chIm teq De&&#39;"
+#~ "wI&&#39;."
+
+#~ msgid "Join %1"
+#~ msgstr "%1 muv"
+
+#~ msgid "Jump"
+#~ msgstr "Sup"
+
+#~ msgid "Jump to first revision"
+#~ msgstr "Dotlh <nop>wa'DIchDaq Sup"
+
+#~ msgid "Jump to latest revision (%1)"
+#~ msgstr "Dotlh <nop>chu'Daq Sup (%1)"
+
+#~ msgid "Keyword search"
+#~ msgstr "mu&&#39;na&&#39; nejwI&&#39;"
+
+#~ msgid "Last"
+#~ msgstr "Qav"
+
+#~ msgid "Last edited by"
+#~ msgstr "choHpu&&#39;"
+
+#~ msgid "Last editor"
+#~ msgstr "choHwI&&#39; Qav"
+
+#~ msgid "Last modified"
+#~ msgstr "choHlu&&#39;"
+
+#~ msgid "Last modified time"
+#~ msgstr "choHlu&&#39; poH"
+
+#~ msgid "Last name:"
+#~ msgstr "tuq pong:"
+
+#~ msgid "Latest revision: %1"
+#~ msgstr "Dotlh Qav: %1"
+
+#~ msgid "Leave %1"
+#~ msgstr "%1vo&&#39; mej"
+
+#~ msgid "Leave unchecked if you wish to attach the zip file itself"
+#~ msgstr ""
+#~ "meyrI&&#39;Hom yIwIvQo&&#39; ZIP De&&#39; naQ Dalab &&#39;e&&#39; "
+#~ "<nop>DaHechchugh"
+
+#~ msgid "Limit results to:"
+#~ msgstr "&&#39;aqroS <nop>SammeH Dochmey:"
+
+#~ msgid "Line: %1"
+#~ msgstr "tlhegh: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "tlhegh: %1-%2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "mu&&#39; taghbogh Degh&&#39;e&&#39; <nop>yIwIv:"
+
+#~ msgid "Literal search"
+#~ msgstr "mu&&#39; qar nejwI&&#39;"
+
+#~ msgid "Load content"
+#~ msgstr "<nop>ngaSbogh De&&#39; Suq"
+
+#~ msgid "Log In"
+#~ msgstr "&&#39;el"
+
+#~ msgid "Log Out"
+#~ msgstr "&&#39;elHa&&#39;"
+
+#~ msgid "Log in to continue."
+#~ msgstr "<nop>bIruchmeH <nop>yI&&#39;el."
+
+#~ msgid "Log on to %1"
+#~ msgstr "%1<nop>Daq &&#39;el"
+
+#~ msgid "Login"
+#~ msgstr "&&#39;el"
+
+#~ msgid "Login username:"
+#~ msgstr "&&#39;elmeH lo&&#39;<nop>wI&&#39; pong:"
+
+#~ msgid "Logon"
+#~ msgstr "&&rsquo;elmeH"
+
+#~ msgid "Logout"
+#~ msgstr "&&rsquo;elHa&&rsquo;<nop>meH"
+
+#~ msgid "Mail to"
+#~ msgstr "QIn <nop>HevwI&&#39;"
+
+#~ msgid "Make search:"
+#~ msgstr "nejwI&&#39; chenmoH:"
+
+#~ msgid "Maximum %1 items per web"
+#~ msgstr "&&#39;aqroS %1 mIch Dochmey"
+
+#~ msgid "Members"
+#~ msgstr "<nop>jeSwI&&#39;pu&&#39;"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Hutlhbogh De&&#39;"
+
+#~ msgid "Missing action command"
+#~ msgstr "Hutlh vangmeH ra&&#39;wI&&#39;"
+
+#~ msgid "Missing or illegal web name"
+#~ msgstr "Hutlh mIch pong, pagh Qagh &&#39;oH"
+
+#~ msgid "Modify search"
+#~ msgstr "nejwI&&#39; lIS"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "%1 ghItlh latlh <nop>DuHmey"
+
+#~ msgid "More actions for %1:"
+#~ msgstr "latlh %1 <nop>DuHmey:"
+
+#~ msgid "More formatting help"
+#~ msgstr "latlh ghunmeH <nop>QaH Sam"
+
+#~ msgid "More on hiding attachments"
+#~ msgstr "tep So&&#39;meH qeSmey"
+
+#~ msgid "More topic actions"
+#~ msgstr "latlh ghItlh <nop>DuHmey"
+
+#~ msgid "More topic actions..."
+#~ msgstr "latlh ghItlh <nop>DuHmey..."
+
+#~ msgid "More..."
+#~ msgstr "latlh..."
+
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "latlh: ghItlhvam polHa&&#39; pagh pongqa&&#39;, qup ghItlh lIS, Dotlhmey "
+#~ "&&#39;ol (m)"
+
+#~ msgid "Move"
+#~ msgstr "vIHmoH"
+
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "<nop>veQmIchDaq %1 lan"
+
+#~ msgid "Move attachment %1"
+#~ msgstr "tep %1 vIHmoH"
+
+#~ msgid "Move file attachment"
+#~ msgstr "De&&#39; tep vIHmoH"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "tep vIHmoH pagh polHa&&#39;"
+
+#~ msgid "Move to web:"
+#~ msgstr "mIchvamDaq lan:"
+
+#~ msgid "Move to web: %1"
+#~ msgstr "mIchvamDaq lan: %1"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "mIchvamDaq ghItlh lan:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "vIHmoH/pongqa&&#39;"
+
+#~ msgid "My Links"
+#~ msgstr "<nop>rarwI&&#39;<nop>wIj"
+
+#~ msgid "My Profile"
+#~ msgstr "<nop>tawIj"
+
+#~ msgid "NEW"
+#~ msgstr "chu&#39;"
+
+#~ msgid "Name of copy"
+#~ msgstr "velqa&&#39; pong"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Hutlh mIch chu&&#39; pong"
+
+#~ msgid "Name:"
+#~ msgstr "pong:"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "pongvam rurbogh ghItlhDaq ghoS"
+
+#~ msgid "Never mind"
+#~ msgstr "<nop>HIbuSQo&&#39;"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "lo&&#39;wI&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "New User Registration failed"
+#~ msgstr "Qagh lo&&#39;wI&&#39; muvmeH mIw"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "lo&&#39;wI&&#39; muvmeH mIw Qutlhbe&&#39;lu&&#39;"
+
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "QIn Quvmey chu&&#39; (tetlhDaq wav Deghmey chIm):"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "%1Daq ghItlhmey chu&&#39;, ghItlhmey choHlu&&#39;bogh, %2 tagh:"
+
+#~ msgid "New parent web:"
+#~ msgstr "qup mIch chu&&#39;:"
+
+#~ msgid "New password:"
+#~ msgstr "chaw&&#39; ngoq chu&&#39;:"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "%2 &&#39;oHbe&&#39; ghItlh chu&&#39; pong %1"
+
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr ""
+#~ "<nop>DaqvamDaq lo&&#39;wI&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
+
+#~ msgid "New web name:"
+#~ msgstr "mIch pong chu&&#39;:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Dotlh chu&&#39;:"
+
+#~ msgid "Next"
+#~ msgstr "Duv"
+
+#~ msgid "No"
+#~ msgstr "ghobe&&#39;"
+
+#~ msgid "No backlinks in public webs"
+#~ msgstr ""
+#~ "mIchmeyDaq leghlaHbogh Hoch, cheghbogh rarwI&&#39;mey tu&&#39;lu&&#39;"
+#~ "be&&#39;"
+
+#~ msgid "No backlinks in this web"
+#~ msgstr "(mIchvamDaq cheghbogh rarwI&&#39;mey tu&&#39;lu&&#39;be&&#39;)"
+
+#~ msgid "No changes"
+#~ msgstr "pagh choHmey"
+
+#~ msgid "No child topics found."
+#~ msgstr "pagh puq ghItlhmey Samlu&&#39;."
+
+#~ msgid "No group name specified"
+#~ msgstr "pagh ghpm pong wIvlu&&#39;"
+
+#~ msgid "No members"
+#~ msgstr "pagh jeSwI&&#39;pu&&#39;"
+
+#~ msgid "No pending registration was found for the verification code %1."
+#~ msgstr "%1 &&#39;olmeH ngoqvaD loSbogh muvmeH mIw tu&&#39;be&&#39;lu&&#39;."
+
+#~ msgid "No permission to view %1"
+#~ msgstr "%1 bejlu&&#39;meH chaw&&#39; tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "nungbogh Dotlh tu&&#39;lu&&#39;be&&#39;."
+
+#~ msgid "No registrations are pending."
+#~ msgstr "loStaH pagh muvmeH mIw lajHa&&#39;lu&&#39;bogh."
+
+#~ msgid "No topic to subscribe to"
+#~ msgstr "qImmeH ghItlh tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "No topics to update."
+#~ msgstr "chu&&#39;moHmeH ghItlh tu&&#39;lu&&#39;be&&#39;."
+
+#~ msgid "No username specified"
+#~ msgstr "pagh lo&&#39;wI&&#39; wIvlu&&#39;"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "chaw&&#39; ngoq choHmeH lo&&#39;wI&&#39; tu&&#39;lu&&#39;be&&#39;."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "ghItlh <nop>DapolHa&&#39;chugh mIwvam chupbe&&#39;lu&&#39;."
+
+#~ msgid "Not sure this is right, please confirm!"
+#~ msgstr "qar&&#39;a&&#39; ghu&&#39;vam? <nop>DaH yI&&#39;ol!"
+
+#~ msgid "Notation"
+#~ msgstr "ghunwI&&#39; ngoq"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "yIqIm: tep <nop>DavIHmoHta&&#39;DI&&#39; vaj Qapbe&&#39;choH tepvamDaq "
+#~ "SIqbogh URLmey."
+
+#~ msgid "Note:"
+#~ msgstr "qeS:"
+
+#~ msgid ""
+#~ "Note: you must have Cookies and Javascript enabled in your browser to get "
+#~ "past this screen. This is normally the case, but if something doesn't "
+#~ "work, this is where to look first."
+#~ msgstr ""
+#~ "<nop>HaStavam <nop>DajuSmeH <nop>chabHommey, Javascript je luchu&&#39;"
+#~ "lu&&#39; net poQ. roD Qap janmeyvam, &&#39;ach qay&&#39;chugh vay&&#39; "
+#~ "vaj <nop>leQmeyvetlh tI&&#39;ol."
+
+#~ msgid "Notification help"
+#~ msgstr "wanI&&#39; QInmey <nop>QaH"
+
+#~ msgid "Notifications"
+#~ msgstr "wanI&&#39; QInmey"
+
+#~ msgid "Number of changes for each Web"
+#~ msgstr "Hoch mIch choHmey mI&&#39;"
+
+#~ msgid "Number of topics:"
+#~ msgstr "ghItlhmey Sambogh:"
+
+#~ msgid "Number of topics: %1"
+#~ msgstr "ghItlhmey Sambogh: %1"
+
+#~ msgid "OK"
+#~ msgstr "luq"
+
+#~ msgid "OK, this is still me!"
+#~ msgstr "qar, jIHbej!"
+
+#~ msgid "Ok"
+#~ msgstr "luq"
+
+#~ msgid "Older revision:"
+#~ msgstr "Dotlh qan:"
+
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "patvamDaq bImuvta&&#39;DI&&#39;, vaj bI&&#39;elmeH QIn <nop>QuvlIj "
+#~ "Dalo&&#39;laH je."
+
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "latlh tamey polHa&&#39;laH loHwI&&#39;pu&&#39; neH."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "mIwvam luta&&#39;laH %1 jeSwI&&#39;pu&&#39;&&#39;e&&#39; neH."
+
+#~ msgid "Only members or admins may update group."
+#~ msgstr ""
+#~ "ghom chu&&#39;moH jeSwI&&#39;pu&&#39; loHwI&&#39;pu&&#39; joq neH net "
+#~ "chaw&&#39;."
+
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "%1 mIchDaq neH rarlu&&#39;bogh ghItlhmey chu&&#39;moH"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "toH: pIghovlaHbe&&#39;. yInIDqa&&#39; pagh [[%1][chaw&&#39; ngoqlIj "
+#~ "yIchoH]]."
+
+#~ msgid "Operation %1 failed with an internal error"
+#~ msgstr "Qaghmo&&#39; Qapbe&&#39; %1 Qu&&#39;"
+
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "tep pong <nop>DachoHlaH je:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "ghItlh pong <nop>DachoHlaH je:"
+
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "latlh tep pong <nop>DaghItlhlaH je:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "latlh ghItlh pong <nop>DaghItlhlaH je:"
+
+#~ msgid "Options"
+#~ msgstr "<nop>DuHmey"
+
+#~ msgid "Organisation name:"
+#~ msgstr "<nop>DIvI&&#39; pong:"
+
+#~ msgid "Organisation website:"
+#~ msgstr "<nop>DIvI&&#39; weQmoQnaQ Daq:"
+
+#~ msgid "Password"
+#~ msgstr "chaw&&#39; ngoq"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Qapchu&&#39; chaw&&#39; ngoq choHmeH mIw!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Qapbe&&#39; chaw&&#39; ngoq choHmeH mIw"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw"
+
+#~ msgid "Password reset failed."
+#~ msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw."
+
+#~ msgid "Password:"
+#~ msgstr "chaw&&#39; ngoq:"
+
+#~ msgid "Passwords disabled"
+#~ msgstr "chaw&&#39; ngoqmey chu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "nIbbe&&#39; chaw&&#39; ngoqmey"
+
+#~ msgid "Pending Registrations"
+#~ msgstr "<nop>loSbogh <nop>jeSqangwI&&#39;"
+
+#~ msgid "Pending registration not found"
+#~ msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "%1Daq wa&&#39; yIwIv."
+
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "tepmey ghItlhmey je lupolHa&&#39;bogh Daq&&#39;e&&#39;."
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "tep polHa&&#39;bogh Daq &&#39;oSwI&&#39;"
+
+#~ msgid "Please check to ensure you have permission to modify the group."
+#~ msgstr ""
+#~ "bIvangpa&&#39;, ghomvam <nop>DachoHmeH DIb Daghaj &&#39;e&&#39; yI&&#39;"
+#~ "ol."
+
+#~ msgid "Please confirm your password."
+#~ msgstr "<nop>DaH chaw&&#39; ngoqlIj yI&&#39;ol."
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
+
+#~ msgid "Please contact %1."
+#~ msgstr "%1vaD QIn yIngeH."
+
+#~ msgid "Please correct the entered data before you continue."
+#~ msgstr ""
+#~ "bIruchpa&&#39;, De&&#39;&&#39;e&&#39; <nop>DaghItlhta&&#39;bogh yIlughmoH."
+
+#~ msgid "Please enter a WikiName."
+#~ msgstr "<nop>DaH wIqI-pong yIghItlh."
+
+#~ msgid "Please enter a login username."
+#~ msgstr "<nop>DaH lo&&#39;wI&&#39; pong yIghItlh."
+
+#~ msgid "Please enter a password."
+#~ msgstr "<nop>DaH chaw&&#39; ngoq yIghItlh."
+
+#~ msgid "Please enter a valid email address."
+#~ msgstr "<nop>DaH QIn Quv qar yIghItlh."
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "<nop>DaH wIqI loHwI&&#39; chaw&&#39; ngoq yIghItlh"
+
+#~ msgid "Please enter the same password as above."
+#~ msgstr "naDev Dung chaw&&#39; ngoq yIghItlhqa&&#39;."
+
+#~ msgid "Please enter your first name."
+#~ msgstr "ponglIj yIghItlh."
+
+#~ msgid "Please enter your last name."
+#~ msgstr "tuq ponglIj yIghItlh."
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "&&#39;Internet janlIjDaq _yIchegh_ &&#39;ej latlh pong yInID."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "&&#39;Internet janlIjDaq yIchegh &&#39;ej yI&&#39;olqa&&#39;."
+
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej [[%SYSTEMWEB%.WikiWord]"
+#~ "[WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>WikiWord meyrI&&#39; "
+#~ "yIchu&&#39;Ha&&#39;"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "&&#39;Internet janlIjDaq yIchegh &&#39;ej yInIDqa&&#39;."
+
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "&&#39;Internet janlIjDaq _yIchegh_ &&#39;ej latlh pong yInID."
+
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "[[%1][lo&&#39;wI&&#39; pong]] <nop>DaghItlhchu&&#39;ta&&#39; &&#39;"
+#~ "e&&#39; yI&&#39;ol &&#39;ej <nop>yInIDqa&&#39;. Qapbe&&#39;taHchugh vaj "
+#~ "%2 yIrI&&#39;."
+
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr "<nop>DaH %1 loHwI&#39;lIj yIghuHmoH."
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "%1Daq yIchegh &&#39;ej chu&&#39;bogh ngoq pegh <nop>DaqawlaHchu&&#39;bogh "
+#~ "yIwIv."
+
+#~ msgid "Plugin handlers"
+#~ msgstr "Plugin raQwI&&#39;mey"
+
+#~ msgid "Plugin module did not return true. See errors below."
+#~ msgstr "true jatlhbe&&#39; Plugin bobcho&&#39;. bIngDaq Qaghmey tIbuS."
+
+#~ msgid ""
+#~ "Plugin module was not defined. Check configuration. See errors below."
+#~ msgstr ""
+#~ "Plugin bobcho&&#39; Dellu&&#39;be&&#39;. SeHlaw yI&&#39;ol. bIngDaq "
+#~ "Qaghmey tIbuS."
+
+#~ msgid "Preferences for"
+#~ msgstr "DuHmey"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "<nop>DaneHbe&&#39;chugh vaj qIl yIwIv."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "choHvam <nop>DaHechchugh vaj luq yIwIv."
+
+#~ msgid "Previous"
+#~ msgstr "<nop>HeD"
+
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr "ghItlhvam ghItlhwI&&#39; nav (p)"
+
+#~ msgid "Properties"
+#~ msgstr "<nop>DuHmey"
+
+#~ msgid "Put it back..."
+#~ msgstr "tatlh..."
+
+#~ msgid "Query Search"
+#~ msgstr "pat nejwI&&#39; &&#39;Itlh"
+
+#~ msgid "Question:"
+#~ msgstr "<nop>yu&&#39;<nop>wI&&#39;:"
+
+#~ msgid "Quiet save"
+#~ msgstr "pol &&#39;ej tam"
+
+#~ msgid "RSS Feed"
+#~ msgstr "RSS Feed"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "%1 <nop>yIlaD <nop>ghItlhmeH mIwvam nom <nop>DayajmeH. latlh "
+#~ "Daghojqangchugh vaj TwentyMinuteTutorial yIbuS je."
+
+#~ msgid "Read on"
+#~ msgstr "latlh laD"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "qen ghItlhmey luchoHlu&&#39;bogh"
+
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "qen %1 mIchDaq ghItlhmey luchoHlu&&#39;bogh"
+
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "qen Hoch mIchmeyDaq ghItlhmey luchoHlu&&#39;bogh"
+
+#~ msgid "Redirect Denied"
+#~ msgstr "rarqa&&#39;wI&&#39; lajHa&&#39;lu&&#39;"
+
+#~ msgid "Refresh"
+#~ msgstr "labqa&&#39;"
+
+#~ msgid "Register"
+#~ msgstr "muv"
+
+#~ msgid "Registered e-mail addresses for currently logged in user"
+#~ msgstr ""
+#~ "DaH &&#39;elta&&#39;bogh lo&&#39;wI&&#39; QIn Quvmey&&#39;e&&#39; "
+#~ "Sovlu&&#39;bogh"
+
+#~ msgid "Registration"
+#~ msgstr "muvmeH mIw"
+
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "<nop>muvmeH lajwI&&#39; chu&&#39;lu&&#39;be&&#39;."
+
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr ""
+#~ "QaplaHbe&&#39; muvmeH mIw. <nop>FoswikivamDaq QIn jabbI&&#39;IDmey "
+#~ "luchu&&#39;Ha&&#39;lu&&#39;"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "wa&&#39;logh neH muvmeH ngoq lo&&#39;laH vay&&#39;."
+
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "%1 muvmeH lajHa&&#39;lu&&#39;"
+
+#~ msgid "Registration has been denied"
+#~ msgstr "muvmeH mIw lajHa&&#39;lu&&#39;"
+
+#~ msgid ""
+#~ "Registration is disabled either by configuration setting "
+#~ "{EnableNewUserRegistration}, or due to errors with the password system. "
+#~ "Check the configuration for errors."
+#~ msgstr ""
+#~ "muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;. chaq Qapbe&&#39; "
+#~ "{EnableNewUserRegistration}, chaq Qagh chaw&&#39; ngoq pat. "
+#~ "<nop>SeHlawDaq Qaghmey tI&&#39;ol."
+
+#~ msgid "Registrations awaiting Email verification"
+#~ msgstr "jabbI&&#39;ID lajwI&&#39; <nop>loSbogh muvqangwI&&#39;"
+
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "lajlu&&#39;meH <nop>loStaHbogh <nop>muvqangwI&&#39;"
+
+#~ msgid "Regular expression search"
+#~ msgstr "mu&&#39;tlhegh nejwI&&#39; (Regex)"
+
+#~ msgid "Reject"
+#~ msgstr "lajHa&&#39;"
+
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr "loHwI&&#39;vaD ghItlhmey:"
+
+#~ msgid "Related Topics:"
+#~ msgstr "rurbogh ghItlhmey:"
+
+#~ msgid "Related topics:"
+#~ msgstr "rurbogh ghItlhmey:"
+
+#~ msgid "Remember me"
+#~ msgstr "HIqaw"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "De&&#39;wI&&#39;vamDaq HIqaw"
+
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; ghItlhlIj [[%1]] yIchu&&#39;moH je, pa&&#39; QIn "
+#~ "<nop>QuvlIj chu&&#39; &&#39;anglu&&#39; je <nop>DaneHchugh."
+
+#~ msgid "Remember your password?"
+#~ msgstr "chaw&&#39; ngoqlIj <nop>DaSov&&#39;a&&#39;?"
+
+#~ msgid "Remove Members from %1"
+#~ msgstr "%1vo&&#39; jeSwI&&#39; teq"
+
+#~ msgid "Remove User"
+#~ msgstr "lo&&#39;wI&&#39; teq"
+
+#~ msgid "Remove members..."
+#~ msgstr "jeSwI&&#39; teq..."
+
+#~ msgid "Remove of user account other than your own is denied"
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; ta&&#39;e&&#39; Davu&&#39;be&&#39;bogh "
+#~ "<nop>DapolHa&&#39; net chaw&&#39;be&&#39;"
+
+#~ msgid "Remove selected members"
+#~ msgstr "jeSwI&&#39;pu&&#39;&&#39;e&&#39; luwIvlu&&#39;bogh teq"
+
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "bIruchpa&&#39;, %1 ghom(mey)vo&&#39; jeSwI&&#39; yIteq."
+
+#~ msgid "Rename"
+#~ msgstr "pongqa&&#39;"
+
+#~ msgid "Rename failed"
+#~ msgstr "Qagh pongqa&&#39;meH mIw"
+
+#~ msgid "Rename or move %1"
+#~ msgstr "%1 pongqa&&#39; pagh vIHmoH"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "ghItlh pongqa&&#39; pagh vIHmoH"
+
+#~ msgid "Rename or move topic..."
+#~ msgstr "ghItlh pongqa&&#39; pagh vIHmoH..."
+
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "mIchvam ghItlh pongqa&&#39;, polHa&&#39; pagh vIHmoH"
+
+#~ msgid "Rename/Move"
+#~ msgstr "pongqa&&#39;/vIHmoH"
+
+#~ msgid "Render style"
+#~ msgstr "&&#39;angmeH mIw"
+
+#~ msgid "Replace form..."
+#~ msgstr "yu&&#39;muD qa&&#39;..."
+
+#~ msgid "Request Validation"
+#~ msgstr "&&#39;olmeH tlhobwI&&#39;"
+
+#~ msgid ""
+#~ "Requested revision (%1) is illegal or invalid. It does not exist in "
+#~ "history, or is the same or later than the current revision (%2)"
+#~ msgstr ""
+#~ "QaQbe&&#39;law&&#39; Dotlh <nop>DapoQbogh (%1). chaq qunDaq &&#39;oH "
+#~ "tu&&#39;lu&&#39;be&&#39;, pagh chaq nIb Dotlh chu&&#39; (%2)"
+
+#~ msgid "Reset Password"
+#~ msgstr "chaw&&#39; ngoq chu&&#39;moH"
+
+#~ msgid "Reset password"
+#~ msgstr "chaw&&#39; ngoq chu&&#39;moH"
+
+#~ msgid "Resetting and setting password is not available."
+#~ msgstr "chaw&&#39; ngoq choHmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
+
+#~ msgid "Restore topic"
+#~ msgstr "ghItlh polqa&&#39;"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Dotlhvam polqa&&#39;:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Dotlhvam polqa&&#39;"
+
+#~ msgid ""
+#~ "Restore will save an exact copy of your selected revision into a new "
+#~ "revision. Because each revision will be preserved in the topic history, "
+#~ "you can always revisit the revision you are replacing. Note that "
+#~ "attachments will be left unchanged."
+#~ msgstr ""
+#~ "ghItlh Dapolqa&&#39;chugh, vaj ghItlh velqa&&#39; <nop>DachenmoHmeH Dotlh "
+#~ "mI&&#39; <nop>DawIv &&#39;ej ghItlh Dotlh chu&&#39; <nop>DachenmoH. "
+#~ "qunDaq Hoch ghItlh Dotlh pollu&&#39;mo&&#39;, reH ghItlh Daqa&&#39;bogh "
+#~ "Deleghqa&&#39;laH. tepmey luchoHlu&&#39;be&&#39;."
+
+#~ msgid "Restoring is disabled because this topic is at revision 1."
+#~ msgstr ""
+#~ "wa&&#39; Dotlh neH ghajmo&&#39; ghItlhvam, &&#39;oH Dapolqa&&#39;"
+#~ "laHbe&&#39;."
+
+#~ msgid "Results from %1 web"
+#~ msgstr "%1 mIchDaq Dochmey&&#39;e&&#39; luSamlu&&#39;bogh"
+
+#~ msgid "Results from %1 web:"
+#~ msgstr "%1 mIch Dochmey&&#39;e&&#39; luSamlu&&#39;bogh:"
+
+#~ msgid "Return to %1"
+#~ msgstr "%1Daq chegh"
+
+#~ msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
+#~ msgstr ""
+#~ "%1Daq yIchegh &&#39;ej [[%2][wIqI-pong]] [[%3][lo&&#39;wI&&#39; pong]] "
+#~ "ghap yIghItlh."
+
+#~ msgid "Return to %1."
+#~ msgstr "%1Daq chegh."
+
+#~ msgid "Retype new password:"
+#~ msgstr "chaw&&#39; ngoq chu&&#39; yIghItlh:"
+
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr ""
+#~ "ghItlh <nop>DachoHtaHvIS, Dotlh %1 choHlI&&#39; %2 &&#39;ej &&#39;oH "
+#~ "polDI&&#39; ghaH, Dotlh %3 moj ghItlh."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "naDev choHmey chu&&#39; legh:"
+
+#~ msgid "Revision"
+#~ msgstr "Dotlh"
+
+#~ msgid "Revision history of %1"
+#~ msgstr "%1 Dotlh qun"
+
+#~ msgid "Revisions"
+#~ msgstr "Dotlhmey"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = pol, C = qIl"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = pol, Q = pol &&#39;ej tam, K = pol &&#39;ej ruch, P = &&#39;ol, C = "
+#~ "qIl"
+
+#~ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+#~ msgstr "Sandbox mIch: lamveyqoqDaq qeqlaH Hoch."
+
+#~ msgid "Save table"
+#~ msgstr "wa&&#39;chaw pol"
+
+#~ msgid "Saved to:"
+#~ msgstr "naDev pol:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "%1 mIchDaq neH nej"
+
+#~ msgid "Search all webs"
+#~ msgstr "Hoch mIchmeyDaq nej"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Hoch mIchmeyDaq naDev rarbogh ghItlhmey&&#39;e&&#39; Sam"
+
+#~ msgid "Search for updates"
+#~ msgstr "De&&#39; chu&&#39; nej"
+
+#~ msgid "Search in %1 Web"
+#~ msgstr "%1 mIchDaq nej"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Hoch mIchmeyDaq nej"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "mIchvamDaq latlh ghItlhmey Sam"
+
+#~ msgid "Search options"
+#~ msgstr "nejwI&&#39; <nop>DuHmey"
+
+#~ msgid "Search result"
+#~ msgstr "Dochmey Sambogh"
+
+#~ msgid "Search results"
+#~ msgstr "Dochmey Sambogh"
+
+#~ msgid "Search string"
+#~ msgstr "Doch nejbogh"
+
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "ghItlhvam puqpu&&#39; <nop>DaSammeH %1 mIchDaq nej."
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "naDev rarbogh ghItlhmey <nop>DaSammeH %1 mIchDaq nej"
+
+#~ msgid "Search where:"
+#~ msgstr "nejmeH Daq:"
+
+#~ msgid "Searched:"
+#~ msgstr "nejpu&&#39;:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Hung qeS:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39;pu&&#39; tu&&#39;lu&&#39;bogh tetlh <nop>DaleghmeH %1 "
+#~ "yISuch pagh %2Daq lo&&#39;wI&&#39; chu&&#39; yImoj."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Form Delbogh De&&#39; <nop>DaSammeH %1 yIlaD."
+
+#~ msgid "See %MAINWEB%.WikiGroups to see the result."
+#~ msgstr "chavmeylIj Da&&#39;angmeH %MAINWEB%.WikiGroups yISuch."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "nomqu&&#39; vumbogh %1 yIlegh je"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "%1 &&#39;Itlh <nop>yIbuS je."
+
+#~ msgid "See also:"
+#~ msgstr "yIlegh je:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "ghItlhvam choHmeH bIngDaq <nop>QaH <nop>DaSam."
+
+#~ msgid "See changes since:"
+#~ msgstr "&&#39;ar poH ret choHmey &&#39;ang:"
+
+#~ msgid "See the DISABLEDPLUGINS preference setting."
+#~ msgstr "DISABLEDPLUGINS <nop>DuHmey tI&&#39;ol."
+
+#~ msgid "Select"
+#~ msgstr "wIv"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "tep chu&&#39;moHmeH De&&#39;wI&&#39;lIjDaq De&&#39; chu&&#39; yIwIv"
+
+#~ msgid "Select all topics"
+#~ msgstr "Hoch ghItlhmey wIv"
+
+#~ msgid "Select an earlier (left) and a later (right) revision to compare"
+#~ msgstr "choHmey <nop>DaleghmeH, Dotlh qan (poS) Dotlh chu&&#39; (nIH) yIwIv"
+
+#~ msgid "Select groups to join:"
+#~ msgstr "ghommey Damuv <nop>DaneHbogh tIwIv:"
+
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "ghomvamvo&&#39; teqlu&&#39;meH jeSwI&&#39;pu&&#39; tIwIv:"
+
+#~ msgid "Select the group to join:"
+#~ msgstr "muvmeH ghom yIwIv:"
+
+#~ msgid "Select topic parent"
+#~ msgstr "ghItlh qup wIv"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr "qI&&#39;meH ponglIj yIwIv, yIwoH &&#39;ej ghItlh bIngDaq yIroQ"
+
+#~ msgid "Selections apply to search in \"text body\""
+#~ msgstr ""
+#~ "\"ghItlh porgh\" nejwI&&#39; bop <nop>DuHmey&&#39;e&&#39; <nop>DawIvbogh"
+
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "patvamDaq bImuv&&#39;eghmoHlaHbe&&#39;."
+
+#~ msgid "Send mail"
+#~ msgstr "QIn ngeH"
+
+#~ msgid "Sequential"
+#~ msgstr "bIngDaq"
+
+#~ msgid "Set all"
+#~ msgstr "<nop>Hoch <nop>wIv"
+
+#~ msgid "Set new parent"
+#~ msgstr "qup chu&&#39; jom"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "ghItlh qup chu&&#39; wIv"
+
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "%1 Dotlhmey &&#39;ang. %2 &&#39;oH Dotlh <nop>HochDIch&&#39;e&&#39;"
+
+#~ msgid "Show attachments help"
+#~ msgstr "tep <nop>QaH &&#39;ang"
+
+#~ msgid "Show help"
+#~ msgstr "<nop>QaH &&#39;ang"
+
+#~ msgid "Showing revisions %1 - %2 (out of %3)"
+#~ msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "choHmeH vey machmoH"
+
+#~ msgid "Side by side"
+#~ msgstr "retlhDaq"
+
+#~ msgid "Side-by-side comparison of revisions"
+#~ msgstr "retlhDaq Dotlhmey pIm &&#39;ang"
+
+#~ msgid "Size"
+#~ msgstr "ngI&&#39;"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "&&#39;ISjaH, jey De&&#39; qoj luchel &&#39;op."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "Deghmey =&#126;=, =$=, =@=, =%= luteqlu&&#39;"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "rut Qagh <nop>QIn janmey, chaq cha&&#39;logh <nop>QIn <nop>ngeH bIH "
+#~ "rarwI&&#39;Daq &&#39;uylu&&#39;chugh &&#39;<nop>oH <nop>ngeHmeH. bI&&#39;"
+#~ "uyta&&#39;chugh, vaj chaq *Qapchu&&#39;qu&&#39;* <nop>muvmeH <nop>mIwlIj."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "naDev De&&#39; poQbogh chel &&#39;op, rarwI&&#39;mey, jInmolmeyDaj ghap "
+#~ "luchel &&#39;op."
+
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr ""
+#~ "Do&&#39;Ha&&#39;, muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;. ru&&#39; ghu&&#39;"
+#~ "vam."
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. <nop>DaH %1 "
+#~ "yIrI&&#39;"
+
+#~ msgid "Sort results by:"
+#~ msgstr "mISHa&&#39;moH:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Deghmey chIm qa&&#39; bIng tlheghHommey"
+
+#~ msgid ""
+#~ "Specify =all= for all webs, or a comma separated list of webs from: %1"
+#~ msgstr ""
+#~ "Hoch mIchmey Da&&#39;angmeH, =all= yIghItlh, pagh mIchmey&&#39;e&&#39; "
+#~ "wavbogh <nop>DoDmey tetlh yIchenmoH: %1"
+
+#~ msgid "Start presentation"
+#~ msgstr "much tagh"
+
+#~ msgid "Statistics"
+#~ msgstr "<nop>QonoS"
+
+#~ msgid "Submit"
+#~ msgstr "ngeH"
+
+#~ msgid "Submitted content:"
+#~ msgstr "De&&#39;&&#39;e&&#39; ngeHlu&&#39;bogh:"
+
+#~ msgid "Subscribe"
+#~ msgstr "qImchoH"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "naDev qImchoH / qImHa&&#39;choH:"
+
+#~ msgid "Subscribe to this topic"
+#~ msgstr "ghItlhvam qImchoH"
+
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "ghItlhvam qImchoH"
+
+#~ msgid "Subwebs"
+#~ msgstr "mIchHommey"
+
+#~ msgid "Success adding members to group"
+#~ msgstr "Qapchu&&#39; ghomvaD jeSwI&&#39;pu&&#39; chelmeH Qu&&#39;"
+
+#~ msgid "Success removing members from group"
+#~ msgstr "Qapchu' ghomvo' jeSwI' teqmeH Qu'"
+
+#~ msgid "Summaries"
+#~ msgstr "lutHommey"
+
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Deghmey choH: monotype/proportional ghap"
+
+#~ msgid "System user list."
+#~ msgstr "pat lo&&#39;wI&&#39; tetlh."
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "qeS: mu&&#39;mey =\"SOAP\"=, =\"WSDL\"=, mu&&#39;na&&#39; =\"web service"
+#~ "\"= ngaSbogh &&#39;ach =\"shampoo\"=  Hutlhbogh ghItlhmey&&#39;e&&#39; "
+#~ "<nop>DaSammeH, yIghItlh:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "ghantoH %1 tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "Text body"
+#~ msgstr "ghItlh porgh"
+
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "batlh muvmeH mIw Da&&#39;olta&&#39;"
+
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "batlh muvmeH mIwvam <nop>DalajHa&&#39;ta&&#39;"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "batlh vImuvta&&#39;"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH "
+#~ "<nop>QInvam yIpol."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "batlh %1 vummeH pat Damuvta&&#39;. bI&&#39;elmeH ngoqvam <nop>DapoQ: %2."
+
+#~ msgid "That user has already been activated"
+#~ msgstr "lo&&#39;wI&&#39;vam chu&&#39;lu&&#39;ta&&#39; rIntaH"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "taHtaH ghItlh %1"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "mIch %1 tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "lamveyqoq &&#39;oH %1 mIch. naDev bIqeqmeH bIQujlaH. Hoch Dachel "
+#~ "<nop>DaneHbogh <nop>DachellaH. %3 jan <nop>DayajmeH %2 <nop>DaSuch net "
+#~ "chup. pabqoqvam yIbuS: reH ghItlh bIS&&#39;ubDaq ponglIj, poH je tIghItlh."
+
+#~ msgid "The %1 web of %2."
+#~ msgstr "%2 %1 mIch."
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "Foswiki, wIqI&&#39;e&&#39; tlhab &&#39;ej ghunlaHbogh Hoch, %1 mIch."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "=%1= mIw taghlaH POST mIw neH."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "lo&&#39;wI&&#39; muvmeH mIw chu&&#39;Ha&&#39;ta&&#39; loHwI&#39;."
+
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "chaw' ngoq choH vay' 'e' chu'Ha'ta' loHwI'."
+
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "wIqI&&#39;e&&#39; tlhab &&#39;ej ghunlaHbogh Hoch."
+
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "&&#39;ay&&#39;mey ngutlhmey <nop>QaQ ghap Hutlhlaw&&#39; mIch/ghItlh '%1'."
+
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "[[%1][wIqIponglIj]] <nop>DaghItlhmeH ponglIj wa&&#39;DIch, tuq ponglIj je "
+#~ "<nop>DaghItlhnIS &&#39;ej [[%2][wIqI-mu&&#39;]] rurnIS. yIqIm: Degh&&#39;"
+#~ "a&&#39; &&#39;oHnIS Degh wa&&#39;DIch &&#39;ej Degh chIm Dalo&&#39;"
+#~ "laHbe&&#39;."
+
+#~ msgid ""
+#~ "The [[%1][login username]] (%2) is not allowed for this installation. "
+#~ "Registration rejected."
+#~ msgstr ""
+#~ "[[%1][&&#39;elmeH lo&&#39;wI&&#39; pong]] (%2) chaw&&#39;be&&#39;"
+#~ "lu&&#39;. muvmeH mIw lajHa&&#39;lu&&#39;."
+
+#~ msgid ""
+#~ "The [[%1][login username]] is a required parameter. Registration rejected."
+#~ msgstr ""
+#~ "muvlu&&#39;meH [[%1][&&#39;elwI&&#39; lo&&#39;wI&&#39; pong]] "
+#~ "poQlu&&#39;. muvmeH mIw lajHa&&#39;lu&&#39;."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "lI&&#39;be&&#39; chu&&#39;meH ngoq %1."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "ghItlh chu&&#39;Daq tep qun je luvIHmoHlu&&#39; je."
+
+#~ msgid ""
+#~ "The attachment may be renamed (by appending a number to the name) if an "
+#~ "attachment of that name already exists in the target topic."
+#~ msgstr ""
+#~ "<nop>DoS ghItlhDaq tep tu&&#39;lu&&#39;bogh pong rurchugh tep qan pong, "
+#~ "vaj &&#39;oHvaD latlh pong ponglu&&#39; (roD pongDaq mI&&#39; "
+#~ "chellu&&#39;)."
+
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr ""
+#~ "<nop>DoS ghItlhDaq tep '%1' tu&&#39;lu&&#39;chugh, vaj &&#39;oHvaD latlh "
+#~ "pong pongnISlu&&#39;."
+
+#~ msgid ""
+#~ "The attacker tries to use your rights to get things, like admin rights "
+#~ "for the site."
+#~ msgstr ""
+#~ "Dochmey <nop>SammeH, <nop>DIbmeylIj nIH &&#39;e&&#39; nID "
+#~ "<nop>HIvwI&&#39;. chaq loHwI&&#39; DIb lurur DIbmeyvetlh."
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr ""
+#~ "choHmeH Qorwaghvo&&#39; lengta&&#39; %1 &&#39;ej pol &&#39;e&&#39; "
+#~ "lIjpu&&#39; &&#39;e&&#39; vInoH."
+
+#~ msgid ""
+#~ "The details about REST Handlers are only available to users with Admin "
+#~ "authority."
+#~ msgstr "REST Handler <nop>ngoDHommey <nop>leghlaH loHwI&&#39; <nop>neH."
+
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "tavamvaD QIn Quv lajHa&&#39;lu&&#39;."
+
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "tavamvaD QIn Quv lo&&#39;taH latlh lo&&#39;wI&&#39;."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "tavamvaD <nop>QaQbe&&#39; QIn Quvvam."
+
+#~ msgid ""
+#~ "The e-mail address in your user topic is typically left blank. If you "
+#~ "want to reveal an e-mail address to other users, you can manually edit "
+#~ "your user topic to add an address.  It does not have to be the same as "
+#~ "the address used internally by Foswiki."
+#~ msgstr ""
+#~ "roD lo&&#39;wI&&#39; <nop>ghItlhDaq <nop>QInQuv cha&&#39;lu&&#39;"
+#~ "be&&#39;. <nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;"
+#~ "oH <nop>DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh "
+#~ "chu&&#39;."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "chaw&&#39; ngoq patDaq Hutlh %1 lo&&#39;wI&&#39; De&&#39;."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr ""
+#~ "lablu&&#39;chu&&#39; jabbI&&#39;IDvam &&#39;ej Qapchu&&#39; %1 ghItlhDaq "
+#~ "lanmeH Qu&&#39;."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr "ngaQ ghItlhmeyvetlh vaj bIH vIHmoHlaHbe&&#39; vay&&#39;:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "mIchvam ghItlhmey bIH ghItlhmey veb&&#39;e&&#39;, &&#39;ach bIH "
+#~ "luchoHlI&&#39; vay&&#39;:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "mIchvam ghItlhmeyDaq Qeq ghItlhmeyvetlh, &&#39;ach bIH Danaw&&#39; net "
+#~ "chaw&&#39;be&&#39;:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "ghItlh %1Daq Form lISnISlu&&#39;"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "%1 ret Dor ghItlhvam qav&&#39;ap poH."
+
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Deghmey <nop>QaQbe&&#39; ngaS ghItlh pong (%1)."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "chIm ghItlh pong net chaw&&#39;be&&#39;."
+
+#~ msgid ""
+#~ "The name provided is either invalid, or the named topic is not found. The "
+#~ "templatetopic must be an existing new user template topic in the %USERSWEB"
+#~ "% web.  If not provided, the default topic is [[%USERSWEB%."
+#~ "NewUserTemplate]], or if that does not exist. [[%SYSTEMWEB%."
+#~ "NewUserTemplate]]."
+#~ msgstr ""
+#~ "<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh tu&&#39;"
+#~ "be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh chu&&#39; "
+#~ "&&#39;oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
+#~ "pongbe&&#39;lu&&#39;chugh vaj [[%USERSWEB%.NewUserTemplate]] &&#39;oH "
+#~ "ghItlh motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj [[%SYSTEMWEB%."
+#~ "NewUserTemplate]] &&#39;oH."
+
+#~ msgid "The name you log in with"
+#~ msgstr "&&#39;elmeH pong Dalo&&#39;bogh"
+
+#~ msgid ""
+#~ "The new parent web (%1) may not be the same as the old or new web name."
+#~ msgstr ""
+#~ "pong chu&&#39;, pong qan je rur qup web pong chu&&#39; (%1) net chaw&&#39;"
+#~ "be&&#39;."
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "taHnIS ghItlh chu&&#39; <nop>DawIvbogh."
+
+#~ msgid "The new web has been created"
+#~ msgstr "mIch chu&&#39; chenmoHlu&&#39;ta&&#39;"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "qarbe&&#39; *chaw&&#39; ngoqlIj qan* <nop>DaghItlhta&&#39;bogh."
+
+#~ msgid ""
+#~ "The prefix you entered for the deleted user is not valid as a topic name."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; polHa&&#39;lu&&#39;bogh Dapongqa&&#39;meH moHaq "
+#~ "<nop>DaghItlhta&&#39;bogh Dalo&&#39; net chaw&&#39;be&&#39;."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr ""
+#~ "De&&#39;letbaQ %1 De&&#39;&&#39;e&&#39; poQlu&&#39;bogh "
+#~ "<nop>DaghItlhta&&#39;be&&#39;."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; muvmeH mIw Qutlhbe&&#39; lo&&#39;wI&&#39; pat&&#39;"
+#~ "e&&#39; wIvlu&&#39;bogh."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "ghItlh Segh qan &&#39;oH ghItlhvam Segh&&#39;e&&#39;"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr ""
+#~ "nIbbe&&#39; cha&&#39; chaw&&#39; ngoqmey&&#39;e&&#39; "
+#~ "<nop>DaghItlhta&&#39;bogh."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr "lo&&#39;wI&&#39; chu&&#39;lu&&#39;mo&&#39; vaj &&#39;ellaH ghaH."
+
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "&&#39;olmeH patvo&&#39; lo&&#39;wI&&#39;vam teqlu&&#39;."
+
+#~ msgid "The user has probably been already verified and/or approved."
+#~ msgstr "ghaytan lo&&#39;wI&&#39; lajlu&&#39;law&&#39; <nop>rIntaH."
+
+#~ msgid "The username that identifies you to the signon system. %1"
+#~ msgstr "&&#39;olmeH pong &&#39;oH lo&&#39;wI&&#39; pongvam&&#39;e&&#39;. %1"
+
+#~ msgid "The value supplied for =%1= has been rejected."
+#~ msgstr "=%1= De&&#39;&&#39;e&&#39; DaghItlhta&&#39;bogh lajlu&&#39;."
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "qay&&#39;taH mIchvam pongqa&&#39;meH mIw:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr ""
+#~ "ngoq pegh patDaq lo&&#39;wI&&#39; <nop>ponglIj <nop>cheltaHvIS "
+#~ "Qapbe&&#39; De&&#39;wI&&#39;."
+
+#~ msgid ""
+#~ "There is no _internal admin_ password set.  See [[%1][Installation Guide "
+#~ "section on the internal admin]] for further help."
+#~ msgstr ""
+#~ "_internal admin_ ngoq pegh tu&&#39;lu&&#39;be&&#39;. [[%1][internal admin "
+#~ "<nop>DuHmey <nop>QIjwI&&#39;]] yIlaD mIwvam <nop>DayajmeH."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr ""
+#~ "%1 chelbogh tlhegh tu&&#39;lu&&#39; net poQ. <nop>DaH %2 (%3 qoj) yInej"
+
+#~ msgid "There were errors adding to the %2 group. %1 "
+#~ msgstr "%2 ghomDaq cheltaHvIS, Qaghmey lutu&&#39;lu&&#39;. %1 "
+
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%2 ghomvo&&#39; %1 teqtaHvIS Qaghmey lutu&&#39;lu&&#39;."
+
+#~ msgid "These steps may not be applicable to your system."
+#~ msgstr "chaq patlIjDaq Qapchu&&#39;be&&#39; mIwmeyvam."
+
+#~ msgid "This WikiName is already in use."
+#~ msgstr "wIqI-pongvam lo&&#39;taH vay&&#39;."
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "Dochvam chu&&#39;moHlaH De&&#39;wI&&#39;:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "meqmey law&&#39; tu&&#39;lu&&#39;ba&&#39;:"
+
+#~ msgid ""
+#~ "This field is not normally user provided. This may be a Foswiki "
+#~ "configuration error."
+#~ msgstr ""
+#~ "roD De&&#39;vam <nop>leghlaHbe&&#39; lo&&#39;wI&&#39;.chaq Qagh Foswiki."
+
+#~ msgid "This group should not have members."
+#~ msgstr "pagh jeSwI&&#39; ghajnIS ghomvam."
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "qawmoHbogh jan &&#39;oH janvam&&#39;e&&#39;. %1 mIchDaq vay&&#39; "
+#~ "choHlu&&#39;DI&&#39; vaj <nop>SoHvaD QIn ngeHlu&&#39;. <nop>QaQbej "
+#~ "janvam, vaj not naDev bIcheghnIS, choHmey Da&&#39;olmeH. vay&&#39; "
+#~ "<nop>DaqImchoH <nop>DaneHchugh, vaj tetlhvamDaq <nop>HovHom, %2lIj je "
+#~ "yIghItlh. taghbogh Deghmey pab yIbuS, tetlh yImISHa&&#39;moHQo&&#39;:"
+
+#~ msgid ""
+#~ "This is a temporary placeholder for your new comment. Refresh the topic "
+#~ "to see the actual comment."
+#~ msgstr ""
+#~ "<nop>QInHomlIj lIw ru&&#39; Dalegh. ghItlh yIlabqa&&#39; vaj "
+#~ "<nop>QInHomna&&#39;lIj <nop>DaleghlaH."
+
+#~ msgid "This is also known as Cross-site Request Forgery, or CSRF."
+#~ msgstr ""
+#~ "rut wanI&&#39;vamvaD Cross-site Request Forgery (CSRF) ponglu&&#39;."
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "QInvam <nop>DungeHta&&#39; %1 De&&#39;wI&&#39;."
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr "%1 muvmeH mIwmo&&#39; QIn Quv ngeHta&&#39; De&&#39;wI&&#39;."
+
+#~ msgid ""
+#~ "This is an internal error.  You can try to register again, or contact %1 "
+#~ "to report the error."
+#~ msgstr ""
+#~ "pat Qagh &&#39;oH Qaghvam&&#39;e&&#39;. <nop>yInIDqa&&#39;, pagh %1vaD "
+#~ "Qaghvam <nop>yIDel."
+
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "pabbe&&#39; wIqI-pongvam."
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "veQ (Trash) &&#39;oH Daqvam&&#39;e&&#39;. naDev ghItlhmey lupolHa&&#39;"
+#~ "lu&&#39;bogh Datlhapqa&&#39;laH; TrashAttachmentDaq bIH tepmey&&#39;"
+#~ "e&&#39; lupolHa&&#39;pu&&#39;bogh."
+
+#~ msgid "This is why the conversion is disabled:"
+#~ msgstr "ngoDvammo&&#39; choHwI&&#39; chu&&#39;Ha&&#39;lu&&#39;:"
+
+#~ msgid ""
+#~ "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
+#~ "[Register]] if you do not have an account yet."
+#~ msgstr ""
+#~ "ponglIj <nop>DaghItlhDI&&#39;, wIqI-mu&&#39; rurnIS. ghantoH: "
+#~ "<nop>JohnSmith. [[%1][yImuv]] ta Daghajbe&&#39;chugh."
+
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "wIqI-pong le&&#39;qu&&#39; poQlu&&#39;."
+
+#~ msgid "This must be a valid login username."
+#~ msgstr "&&#39;elmeH lo&&#39;wI&&#39; pong <nop>QaQ &&#39;oH net poQ."
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "pongvetlh wIvlu&&#39; vaj %1 mIchDaq latlh rurbogh pong ghajbogh "
+#~ "ghItlhmey qaDlaHbe&&#39; ghItlh."
+
+#~ msgid "This page was cached on %1."
+#~ msgstr "%1 ghItlhvam velqa&&#39; pollu&&#39;."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "naDev Form <nop>DelwI&&#39; poQlu&&#39;."
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Foswikimo&&#39; Qap Daqvam"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "%1 Deghmey ghajnIS chaw&&#39; ngoq &&#39;e&&#39; poQ Daqvam"
+
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "lo&&#39;wI&&#39; pongmey lo&&#39; patvam."
+
+#~ msgid "This topic:"
+#~ msgstr "ghItlhvam:"
+
+#~ msgid "This username is already in use."
+#~ msgstr "lo&&#39;wI&&#39; pongvam lo&&#39;taH vay&&#39;."
+
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "muvmeH mIwlIj Da&&#39;olmeH, %2 yISuch"
+
+#~ msgid "To attachment:"
+#~ msgstr "tepvaD:"
+
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "muvmeH mIwvam <nop>DabotmeH, %2 yISuch"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr ""
+#~ "ghItlhDaq Dochmey&&#39;e&&#39; Sambogh &&#39;angmeH, ngoqvetlh yIwoH "
+#~ "&&#39;ej yIroQ:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "ghItlh <nop>DachoH <nop>DaneHchugh, vaj yI&&#39;uy "
+
+#~ msgid "To login as another user please do so [[%1][here]]."
+#~ msgstr ""
+#~ "latlh lo&&#39;wI&&#39; <nop>DagheSmeH, vaj [[%1][yI&&#39;elqa&&#39;]]."
+
+#~ msgid ""
+#~ "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
+#~ "click here </a> "
+#~ msgstr ""
+#~ "ghItlhvam qawHaq neH chu&&#39;<nop>moHmeH, <a href='%1' rel='nofollow' > "
+#~ "naDev yI&&#39;uy&&#39; </a> "
+
+#~ msgid "To topic"
+#~ msgstr "<nop>DoS pong"
+
+#~ msgid "To topic:"
+#~ msgstr "<nop>DoS pong:"
+
+#~ msgid "To web"
+#~ msgstr "<nop>DoS mIch"
+
+#~ msgid "To web:"
+#~ msgstr "<nop>DoS mIch:"
+
+#~ msgid "Toolbox"
+#~ msgstr "janvey"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "ghItlh %1 tu&&#39;lu&&#39;be&&#39;"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Qagh ghItlh polwI'"
+
+#~ msgid "Topic attachments"
+#~ msgstr "ghItlh tepmey"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "wa&&#39;chaw Segh tIQ rurmeH ghItlh Dachu&&#39;moHlaHbe&&#39;"
+
+#~ msgid "Topic data"
+#~ msgstr "ghItlh De'"
+
+#~ msgid "Topic history"
+#~ msgstr "ghItlh qun"
+
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "%1 mIch ghItlhmey tetlh"
+
+#~ msgid "Topic name"
+#~ msgstr "ghItlh pong"
+
+#~ msgid "Topic name:"
+#~ msgstr "ghItlh pong:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "ghItlh qup:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "ghItlh Dotlh:"
+
+#~ msgid "Topic save error"
+#~ msgstr "ghItlh polmeH Qagh"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "%1 mIch ghItlh ghantoHmey"
+
+#~ msgid "Topic title"
+#~ msgstr "ghItlh pong"
+
+#~ msgid "Topic was merged"
+#~ msgstr "latlh ghItlh mojta&&#39; ghItlh"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "ghItlhvaD ponglu&&#39;: "
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "%1 mIch ghItlhmey:"
+
+#~ msgid "Topics per web"
+#~ msgstr "mIchvam ghItlhmey"
+
+#~ msgid "Total matches"
+#~ msgstr "nIbwI&&#39;pu&&#39;"
+
+#~ msgid "Try Again"
+#~ msgstr "nIDqa&&#39;"
+
+#~ msgid "Unchanged sections before and after each change"
+#~ msgstr ""
+#~ "nungbogh &&#39;ej tlha&&#39;bogh &&#39;ay&&#39;mey luchoHbe&&#39;lu&&#39;"
+#~ "bogh"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "lo&&#39;wI&&#39;, chaw&&#39; ngoq joq ghovbe&&#39;lu&&#39;"
+
+#~ msgid ""
+#~ "Unsafe redirect to %1 is denied. The requested host does not match %2, "
+#~ "and is not in {PermittedRedirectHostUrls}."
+#~ msgstr ""
+#~ "%1 rarqa&&#39;wI&&#39; <nop>QaDHa&&#39; lajbe&&#39;lu&&#39;. %2 "
+#~ "rurbe&&#39; host &&#39;ej {PermittedRedirectHostUrls}Daq &&#39;oH "
+#~ "Samlu&&#39;be&&#39;."
+
+#~ msgid "Unsubscribe"
+#~ msgstr "qImHa&&#39;choH"
+
+#~ msgid "Unsubscribe from this topic"
+#~ msgstr "ghItlhvam qImHa&&#39;choH"
+
+#~ msgid "Unsubscribe from this topic (s)"
+#~ msgstr "ghItlhvam qImHa&&#39;choH"
+
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "[[%1][username]] lajHa&&#39;lu&&#39;bogh"
+
+#~ msgid "Update"
+#~ msgstr "chu&&#39;moH"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "%2 tep %1 chu&&#39;moH"
+
+#~ msgid "Update links"
+#~ msgstr "rarwI&&#39;mey chu&&#39;moH"
+
+#~ msgid "Upgrade"
+#~ msgstr "chu&&#39;moH"
+
+#~ msgid "Upgrade group topic..."
+#~ msgstr "ghom ghItlh chu&&#39;moH..."
+
+#~ msgid "Upgraded group"
+#~ msgstr "ghom chu&&#39;moHlu&&#39;pu&&#39;"
+
+#~ msgid "Upload a file"
+#~ msgstr "De&&#39; lab"
+
+#~ msgid "Upload file"
+#~ msgstr "De&&#39; lab"
+
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "wa&&#39; ZIP De&&#39;Daq tepmey law&&#39; lI&&#39;"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "%1 KB &&#39;oH jabbI&&#39;ID &&#39;aqroS&&#39;e&&#39;."
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "tlhoy tIn De&&#39; Dalabbogh"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "%1 yIlo&&#39;."
+
+#~ msgid "Use template:"
+#~ msgstr "ghantoH yIwIv:"
+
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr ""
+#~ "ghomDaq ghaHbe&&#39;mo&&#39; lo&&#39;wI&&#39; %1 ghaH teqlaHbe&&#39; "
+#~ "vay&&#39;"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "lo&&#39;wI&&#39; ta %1 polHa&&#39;lu&&#39;"
+
+#~ msgid "User Account was not supplied"
+#~ msgstr "lo&&#39;wI&&#39; ta noblu&&#39;be&&#39;"
+
+#~ msgid "User Reference"
+#~ msgstr "lo&&#39;wI&&#39; De&&#39; Daj"
+
+#~ msgid "User Registration"
+#~ msgstr "lo&&#39;wI&&#39; muvmeH mIw"
+
+#~ msgid "Username"
+#~ msgstr "lo&&#39;wI&&#39; pong"
+
+#~ msgid "Username %1."
+#~ msgstr "lo&&#39;wI&&#39; pong %1."
+
+#~ msgid "Username or email address"
+#~ msgstr "lo&&#39;wI&&#39; pong, QIn Quv ghap"
+
+#~ msgid "Users"
+#~ msgstr "lo&&#39;wI&&#39;pu&&#39;"
+
+#~ msgid "Users cannot be added to %1"
+#~ msgstr "%1Daq lo&&#39;wI&&#39; chellaHbe&&#39; vay&&#39;"
+
+#~ msgid "Users cannot be removed from %1"
+#~ msgstr "%1vo&&#39; lo&&#39;wI&&#39; teqlaHbe&&#39; vay&&#39;"
+
+#~ msgid "Version"
+#~ msgstr "Dotlh"
+
+#~ msgid "Version history"
+#~ msgstr "Dotlh qun"
+
+#~ msgid "Version history of %1"
+#~ msgstr "%1 Dotlh qun"
+
+#~ msgid "View"
+#~ msgstr "&&#39;ang"
+
+#~ msgid "View complete topic history"
+#~ msgstr "ghItlh qun naQ &&#39;ang"
+
+#~ msgid "View difference"
+#~ msgstr "Doch pIm &&#39;angmeH:"
+
+#~ msgid "View differences"
+#~ msgstr "Dochmey pIm &&#39;ang"
+
+#~ msgid "View earlier"
+#~ msgstr "De&&#39; &&#39;eq &&#39;ang"
+
+#~ msgid "View later"
+#~ msgstr "De&&#39; paS &&#39;ang"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "nungbogh ghItlh Dotlh &&#39;ang"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "ghunwI&&#39; mu&&#39;mey &&#39;ang"
+
+#~ msgid "View revision"
+#~ msgstr "Dotlh &&#39;ang"
+
+#~ msgid "View revision:"
+#~ msgstr "Dotlh &&#39;ang:"
+
+#~ msgid "View sequential topic history"
+#~ msgstr "tlha&&#39;bogh ghItlh qun &&#39;ang"
+
+#~ msgid "View templates"
+#~ msgstr "ghantoHmey &&#39;ang"
+
+#~ msgid "View topic"
+#~ msgstr "ghItlh bej"
+
+#~ msgid "View total topic history"
+#~ msgstr "ghItlh qun naQ &&#39;ang"
+
+#~ msgid "View without formatting (v)"
+#~ msgstr "ghunwI&&#39; mu&&#39;mey nguvbe&&#39;lu&&#39;bogh &&#39;ang"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Qu&&#39;vatlh! bI&&#39;ol net poQ"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh  tu&&#39;lu&&#39;be&&#39;!"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Qu&&#39;vatlh! '%1' INCLUDE-laHbe&&#39;. chImlaw&&#39; ghItlh pong pagh "
+#~ "pabbe&&#39;bogh Deghmey ngaS."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: ghItlh %1.%2Daq &&#39;ay&&#39; %3 <nop>vISamlaHbe&&#39;"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
+
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;, QInmey chu&&#39;Ha&&#39;"
+#~ "lu&&#39;mo&&#39;"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: URL %<nop>INCLUDE% chaw&&#39;be&&#39; weQmoQnaQ Daqvam"
+
+#~ msgid "Warning: Updates found for %1 extension(s)."
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: %1 extension(mey)vaD chu&&#39;moHwI&&#39; luSamlu&&#39;."
+
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
+
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh tu&&#39;lu&&#39;be&&#39;!"
+
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr ""
+#~ "Qu&&#39;vatlh: ghItlh %1Daq wa&&#39;chaw <nop>DelwI&&#39; \\'include\\' "
+#~ "tu&&#39;tlu&&#39;be&&#39;!"
+
+#~ msgid ""
+#~ "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+#~ "you wish to register."
+#~ msgstr ""
+#~ "<nop>JavaScript Dachu&&#39;Ha&&#39;ba&&#39;. bImuv <nop>DaneHchugh vaj "
+#~ "DaH <nop>JavaScript yIchu&&#39;."
+
+#~ msgid ""
+#~ "We noticed you have disabled cookies. Please enable cookies if you wish "
+#~ "to register."
+#~ msgstr ""
+#~ "chabHommey <nop>Dachu&&#39;Ha&&#39;ba&&#39;ta&&#39;. bImuv <nop> "
+#~ "DaneHchugh vaj DaH chabHommey tIchu&&#39;."
+
+#~ msgid "Web Changes notification service"
+#~ msgstr "mIch choHmey QInmey jan"
+
+#~ msgid "Webs"
+#~ msgstr "mIchmey"
+
+#~ msgid "Webserver <em>running Foswiki</em>"
+#~ msgstr "<em>Foswiki ghajbogh</em> De&&#39;wI&&#39; toywI&&#39;"
+
+#~ msgid "Welcome to %1 ... meet people on this site"
+#~ msgstr "%1 yI&&#39;el... naDev ghotpu&&#39; <nop>DaqIHlaH"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "%1 mIchDaq nuqneH"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "<noautolink>%1</noautolink>vaD QIn ngeHtaHvIS."
+
+#~ msgid "Who"
+#~ msgstr "labwI&&#39;"
+
+#~ msgid "Who is requesting this, actually?"
+#~ msgstr "tlhobtaH &&#39;Iv jay&&#39;?"
+
+#~ msgid "Whole page"
+#~ msgstr "nav naQ"
+
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "qatlh jI&&#39;olnIS?"
+
+#~ msgid ""
+#~ "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+#~ "Foswiki.org]]."
+#~ msgstr ""
+#~ "[[%1][Foswiki.orgDaq SecurityFeatures]] laDnISqu&&#39; loHwI&&#39;pu&&#39;"
+#~ "&&#39;e&&#39;."
+
+#~ msgid "Word search"
+#~ msgstr "mu&&#39; nejwI&&#39;"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "<nop>naDev <nop>bIjaHrup'a':"
+
+#~ msgid "Yes"
+#~ msgstr "<nop>HISlaH"
+
+#~ msgid "You"
+#~ msgstr "<nop>SoH"
+
+#~ msgid "You are already registered."
+#~ msgstr "bImuvta&&#39; rIntaH."
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "%1 tetlhDaq <nop>SoH je"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "mIchDaq ghItlhmeyvam Danaw&&#39; net chaw&&#39;be&&#39;:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "qay&&#39;be&&#39;bej bIchoH bIruchchugh. &&#39;ach ghItlh Form De&&#39; "
+#~ "<nop>DachoH &&#39;e&&#39; <nop>DaHechchugh, vaj qay&&#39;bej. ghItlh "
+#~ "_polqu&&#39;_ %1 &&#39;oH <nop>DachoHtaHvIS <nop>SoH, choHmeylIj "
+#~ "lupollu&&#39; &&#39;ej ngab pagh De&&#39;. &&#39;ach quqlaHbe&&#39; Form "
+#~ "De&&#39; choHmeH mIw, vaj qaSchugh ghu&&#39;vetlh, %1 <nop>DarI&&#39; net "
+#~ "chup bIruchpa&&#39;."
+
+#~ msgid "You are here:"
+#~ msgstr "<nop>naDev <nop>SoH:"
+
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr ""
+#~ "tep tu&&#39;be&&#39;lu&&#39;bogh Danaw&&#39; &&#39;e&&#39; <nop>DanIDtaH."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr ""
+#~ "ghItlh <nop>DachenmoHmeH ghantoH tu&&#39;be&&#39;lu&&#39;bogh Dalo&&#39; "
+#~ "<nop>DaneHlaw&&#39;."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr ""
+#~ "ghItlh tu&&#39;be&&#39;lu&&#39;boghDaq vay Data&&#39; <nop>DaneHba&&#39; "
+#~ "('%1')."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr ""
+#~ "ghItlh tu&&#39;be&&#39;lu&&#39;bogh Dapongqa&&#39; &&#39;e&&#39; "
+#~ "DanIDba&&#39;."
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "chaw&&#39; Daghajchugh vaj [[%1][mIch chu&&#39; DachenmoHlaH]]. vay&&#39; "
+#~ "Daghel <nop>DaneHchugh vaj %2 yIrI&&#39;."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "vay&&#39; <nop>DanguvmoHmeH HTML-mu&&#39;mey motlh Dalo&&#39; net "
+#~ "chaw&&#39; (black, silver, gray, white, maroon, red, purple, fuchsia, "
+#~ "green, lime, olive, yellow, navy, blue, teal, aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "%1Daq chaw&&#39; ngoqlIj <nop>DachoHlaH"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "mIchvamvaD latlh pong <nop>DaponglaH."
+
+#~ msgid ""
+#~ "You can use the \"approve\" or \"reject\" links to approve or reject "
+#~ "these registrations"
+#~ msgstr ""
+#~ "<nop>muvqangwI&&#39;pu&&#39;vam <nop>DalajmeH &&#39;ej <nop>DalajHa&&#39;"
+#~ "meH leQ <nop>DapoQbogh yI&&#39;uy neH"
+
+#~ msgid ""
+#~ "You cannot add users to a missing group unless the create option is set."
+#~ msgstr ""
+#~ "Hutlhbogh <nop>ghomDaq lo&&#39;wI&&#39;pu&&#39; <nop>DachellaHbe&&#39; "
+#~ "chu&&#39;lu&&#39;be&&#39;chugh create-option."
+
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr ""
+#~ "lo&&#39;wI&&#39; ponglIj <nop>DachoHlaHbe&&#39;: &&#39;oH choHlaH "
+#~ "loHwI&#39; neH."
+
+#~ msgid ""
+#~ "You cannot proceed because either Cookies or !JavaScript are disabled in "
+#~ "your browser."
+#~ msgstr ""
+#~ "bIruchlaHbe&&#39;, chabmey <nop>JavaScript qoj Dachu&&#39;Ha&&#39;"
+#~ "mo&&#39;."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr "cha&&#39;logh bImuvlaHbe&&#39;. pong %1 muvta&&#39; rIntaH."
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "bImuvta&&#39;*be&&#39;*qu&&#39;."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "Deghmeyvetlh <nop>DapoQchugh, chaq wIqI loHwI&&#39;lIj <nop>DaponlaH vaj "
+#~ "mIwvam choH ghaH."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr ""
+#~ "choHmeyvam <nop>DaleghmeH chaq &&#39;Internet <nop>janlIj Dachu&&#39;"
+#~ "nISqa&&#39;."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "ghItlh pong <nop>DaghItlhnIS."
+
+#~ msgid "You need to specify a valid group name to add members to a group."
+#~ msgstr ""
+#~ "ghomvaD&&#39; <nop>jeSwI&&#39; <nop>DachelmeH, ghom pong QaQ "
+#~ "<nop>DawIvnIS."
+
+#~ msgid ""
+#~ "You need to specify a valid group name to remove members from a group."
+#~ msgstr ""
+#~ "ghomvo&&#39; <nop>jeSwI&&#39; <nop>DateqmeH, ghom pong <nop>QaQ "
+#~ "<nop>DawIvnIS."
+
+#~ msgid "You need to specify a valid member to add to a group."
+#~ msgstr ""
+#~ "<nop>ghomvaD&&#39; <nop>jeSwI&&#39; <nop>DachelmeH, jeSwI&&#39;na&&#39; "
+#~ "<nop>DawIvnIS."
+
+#~ msgid "You need to specify a valid member to remove from a group."
+#~ msgstr ""
+#~ "ghomvo&&#39; <nop>jeSwI&&#39; <nop>DateqmeH, jeSwI&&#39;na&&#39; "
+#~ "<nop>DawIvnIS."
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr "Dochvam <nop>DachavmeH loHwI&&#39;lI&&#39; <nop>DatlhobnISba&&#39;."
+
+#~ msgid "You will receive an e-mail when your registration has been approved."
+#~ msgstr "muvmeH mIwlIj lajlu&&#39;DI&&#39; vaj QIn <nop>DaHevbej."
+
+#~ msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+#~ msgstr ""
+#~ "%2 &&#39;oH [[%1][wIqI-ponglIj]]&&#39;e&&#39; &&#39;ej =%3= &&#39;oH "
+#~ "lo&&#39;wI&&#39; ponglIj&&#39;e&&#39;."
+
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "[[%1][<nop>lo&&#39;wI&&#39; <nop>ponglIj]]:"
+
+#~ msgid "Your email address will be kept confidential."
+#~ msgstr "reH QIn <nop>QuvlIj peghlu&&#39;."
+
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "<nop>DaH %1 Hol Dalo&&#39;choH. [[%2][bIruchmeH yI&&#39;uy]]."
+
+#~ msgid "Your name as displayed by %1."
+#~ msgstr "%1Daq pongvam &&#39;aghlu&&#39;."
+
+#~ msgid ""
+#~ "Your name, usually your first and last name connected without a space."
+#~ msgstr ""
+#~ "ponglIj, tuq ponglIj je, &&#39;ach bIH jojDaq Degh chIm tu&&#39;lu&&#39;"
+#~ "be&&#39;."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "DaH %1 &&#39;oH chaw&&#39; ngoqlIj&&#39;e&&#39;."
+
+#~ msgid "Your password has not been changed."
+#~ msgstr "chaw&&#39; ngoqlIj choHlu&&#39;be&&#39;."
+
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "%1 Deghmey ghaj chaw&&#39; ngoqlIj net poQ."
+
+#~ msgid "Your password:"
+#~ msgstr "chaw&&#39; ngoqlIj:"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr "%2Daq %1 nuv talIj cherlu&&#39;. <nop>DachoHlaHchu&&#39;:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Foswiki nuv talIj %1 cherlu&&#39; rIntaH"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "QIn <nop>QuvmeylIj luchu&&#39;moHlu&&#39;ta&&#39;:  <noautolink>%1</"
+#~ "noautolink>."
+
+#~ msgid "Your registration is pending approval by the system administrators."
+#~ msgstr "<nop>muvmeH <nop>mIwlIj <nop>lajnIS pat <nop>loHwI&&#39;."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "qI&&#39;meH ponglIj woH/roQ"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "qI&&#39;meH ponglIj woH/roQ:"
+
+#~ msgid ""
+#~ "[[%1][Click here]] for guidance on creating a valid username for this "
+#~ "site."
+#~ msgstr ""
+#~ "patvamDaq lo&&#39;wI&&#39; pong <nop>DachenmoHmeH pab <nop>DayajmeH [[%1]"
+#~ "[naDev yI&&#39;uy]]."
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][ghItlh mu&&#39;mey QaghHa&&#39:choH]]."
+
+#~ msgid "[[%1][username]]:"
+#~ msgstr "[[%1][lo&&#39;wI&&#39; pong]]:"
+
+#~ msgid "_language_name"
+#~ msgstr "tlhIngan Hol"
+
+#~ msgid "access denied on root"
+#~ msgstr "&&#39;oQqar <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
+
+#~ msgid "access denied on topic"
+#~ msgstr "ghItlh <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
+
+#~ msgid "access denied on web"
+#~ msgstr "mIch <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "&&#39;oQqar Danaw&&#39; chaw&&#39;be&&#39;lu&&#39;"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "mIchDaq naw' chaw'be'lu'"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "accesskey='c'"
+
+#~ msgid "and"
+#~ msgstr "&&#39;ej"
+
+#~ msgid "by %1 "
+#~ msgstr "qon %1 "
+
+#~ msgid "change display options"
+#~ msgstr "<nop>HaSta <nop>DuHmey choH"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "choH, chu&&#39;moH, Dotlhmey, vIHmoH, polHa&&#39;..."
+
+#~ msgid "close display options"
+#~ msgstr "<nop>HaSta <nop>DuHmey <nop>SoQmoH"
+
+#~ msgid "diff"
+#~ msgstr "pIm"
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "ghItlh <nop>DuHmey <nop>tIlIjQo&&#39;"
+
+#~ msgid "earlyInitPlugin failed.  See errors below."
+#~ msgstr "Qagh earlyInitPlugin.  <nop>bIngDaq Qaghmey tetlh <nop>yIbuS."
+
+#~ msgid "fields are required."
+#~ msgstr "De&&#39;vetlh <nop>poQlu&&#39;."
+
+#~ msgid "help"
+#~ msgstr "<nop>QaH"
+
+#~ msgid "hide form"
+#~ msgstr "yu&&#39;muD So&&#39;"
+
+#~ msgid "hints on good style"
+#~ msgstr "batlh ghItlhmeH <nop>qeSmey laD"
+
+#~ msgid "in raw text format"
+#~ msgstr "ghunwI&&#39; ngoq"
+
+#~ msgid "initPlugin was not defined. See errors below."
+#~ msgstr "initPlugin lISlu&&#39;be&&#39;. bIngDaq Qaghmey tIbuS."
+
+#~ msgid "last change"
+#~ msgstr "choH Qav"
+
+#~ msgid "manage"
+#~ msgstr "vu&&#39;"
+
+#~ msgid "more..."
+#~ msgstr "latlh..."
+
+#~ msgid "now %1"
+#~ msgstr "<nop>DaH %1"
+
+#~ msgid "or"
+#~ msgstr "pagh"
+
+#~ msgid "preview"
+#~ msgstr "ghItlh &&#39;ol"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "%1 Hevlu&&#39;"
+
+#~ msgid "revision %1"
+#~ msgstr "Dotlh %1"
+
+#~ msgid "set preferences"
+#~ msgstr "<nop>DuHmey lIS"
+
+#~ msgid "the beginning"
+#~ msgstr "bI&&#39;reS"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='ghItlhvamDaq mIllogh, De&&#39; ghap chel' accesskey='a'>tep chel"
+
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr "title='ghItlhvamDaq mIllogh, De&&#39; ghap chel'>tep chel"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='ghItlh chu&&#39; <nop>chenmoH' accesskey='c'>&chenmoH"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='ghItlhvam polHa&&#39; pagh pongqa&&#39;, qup choH; Dotlhmey legh' "
+#~ "accesskey='m'>latlh ghItlh <nop>DuH&mey"
+
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr ""
+#~ "title='ghunwI&&#39; mu&&#39;mey choH' accesskey='w'>ghun&wI&&#39; mu&&#39;"
+#~ "mey choH"
+
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='ghItlhvam choH' >choH"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='ghItlhvam choH' accesskey='e'>choH"
+
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='<nop>nIqlu&&#39;' accesskey='i'><nop>n&Iqlu&&#39;"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='ghItlhwI&&#39; nav &&#39;ang' accesskey='p'>ghItlhwI&&#39; nav"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='naDev SIqbogh ghItlhmey <nop>SammeH Hoch <nop>mIchmeyDaq nej' "
+#~ "accesskey='l'>Hoch mIchmey (&l)"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='naDev Qeqbogh rarwI&&#39;mey <nop>DaSammeH %1 mIchDaq nej' "
+#~ "accesskey='b'>cheghbogh rarwI&&#39;mey"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr "title='%1 mIchDaq naDev rarbogh ghItlhmey Sam' accesskey='b'>mIch"
+
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='retlhDaq' accesskey='s'>retlhDaq"
+
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='ghItlhvam qImchoH' accesskey='s'>qImchoH"
+
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='ghItlhvam qImHa&&#39;choH' accesskey='s'><nop>qImHa&&#39;choH (&s)"
+
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='ghItlh qun &&#39;ang' accesskey='h'>qun"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='ghItlh &&#39;ang' accesskey='v'>ghItlh &&#39;ang (&v)"
+
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr ""
+#~ "title='Deghmey nguvbogh &&#39;angQo&&#39;' accesskey='v'>ghunwI&&#39; "
+#~ "mu&&#39;mey &&#39;ang"
+
+#~ msgid "user list truncated"
+#~ msgstr "lo&&#39;wI&&#39; tetlh poD"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='qIl' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='polbe&&#39;' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='&&#39;ol' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='tam &&#39;ej pol' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='pol &&#39;ej ruch' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='pol' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "bej"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "qatlh naDev bI&&#39;olnIS"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 lajlu&&#39; &&#39;ej muvmeH QIn Quv %2 lo&&#39;lu&&#39;"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "[_0]Daq chegh"
+
+#~ msgid "Notes:"
+#~ msgstr "qeSmey:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "narghDI&#39; <nop>HaSta veb, %1 Hol Dalo&#39;choH. pa&#39; "
+#~ "<nop>DajaHmoHlu&#39;. Qapbe&#39;chugh, vaj [[%2][naDev yI&#39;uy]]."
+
+#~ msgid "Move or Delete %1:"
+#~ msgstr "tep %1 vIHmoH pagh &&#39;oH polHa&&#39;:"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "ghItlhmey lurarlu&&#39;bogh wIvmeH meyrI&&#39;Hommey&&#39;e&&#39;"

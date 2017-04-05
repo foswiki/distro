@@ -1,0 +1,4280 @@
+# Foswiki translation for Traditional Chinese
+# Translators:
+#   Foswiki:Main/CheDong, <chedong AT gmail.com>, 2006 - 2008
+#   Foswiki:Main/ChYang, <dr3939 AT gmail.com>, 2009 -
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2009-09-18 11:50+0200\n"
+"Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
+"Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Country: Taiwan\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "快捷键"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+#, fuzzy
+msgid "Add a new form to <nop>%1"
+msgstr "为 %1 选个新表单"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "增加表单"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "附件"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+#, fuzzy
+msgid "Change form"
+msgstr "改自:"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "关闭"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:50
+#, fuzzy
+msgid "Create a new table"
+msgstr "建立新主题"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "日期"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+#, fuzzy
+msgid "Default"
+msgstr "预设范本"
+
+#: data/System/NatEditWordHelpText.txt:16
+#, fuzzy
+msgid "Documentation"
+msgstr "目前位置:"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "个属性都有语法"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "编辑"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "强制新版本"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+#, fuzzy
+msgid "Formatted Search"
+msgstr "修改搜寻:"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "说明"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+#, fuzzy
+msgid "Indent"
+msgstr "索引"
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+#, fuzzy
+msgid "Insert an attachment"
+msgstr "删除附件"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "连结 "
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+#, fuzzy
+msgid "More character formats"
+msgstr "源码模式"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+#, fuzzy
+msgid "Numbered list"
+msgstr "主题数量:"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+#, fuzzy
+msgid "Permissions"
+msgstr "修订版"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "设定"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "预览"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "检查最近的更新:"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "注册"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Replace"
+msgstr "取代表单..."
+
+#: templates/edittoolbar.natedit.tmpl:144
+#, fuzzy
+msgid "Restore"
+msgstr "还原"
+
+#: templates/edittoolbar.natedit.tmpl:160
+#, fuzzy
+msgid "Restore and Continue"
+msgstr "还原主题"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+#, fuzzy
+msgid "Restore and exit"
+msgstr "还原主题"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+#, fuzzy
+msgid "Save"
+msgstr "存到:"
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='保存并继续编辑' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "存到:"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "搜寻"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "(搜寻结果)"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "内容"
+
+#: templates/edit.natedit.tmpl:79
+#, fuzzy
+msgid "Title:"
+msgstr "主题标题"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "到主题:"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+#, fuzzy
+msgid "Undo last change"
+msgstr "最近更新的主题"
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "子网"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+#, fuzzy
+msgid "default as defined in the %1"
+msgstr "主题 %1 内应定义此表单"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "编辑"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "(编辑表单)"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "指出必填栏位"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "所有公开的子网"
+
+#: templates/edit.natedit.tmpl:7
+#, fuzzy
+msgid "restore"
+msgstr "还原"
+
+#: templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "restore form"
+msgstr "还原主题"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#, fuzzy
+#~ msgid "!WikiName"
+#~ msgstr "主题名称"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,天) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,小时) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,分钟) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,秒)"
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - %2 (%3) 注册失败"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - %2 (%3) 注册"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 子网"
+
+# "<nop>$fromWeb.<nop>$fromTopic",
+# $date,
+# $by)
+#, fuzzy
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 由 %4 从 %2 移到 %3"
+
+# "<nop>$fromWeb.<nop>$fromTopic",
+# $date,
+# $by)
+#, fuzzy
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%1 由 %4 从 %2 移到 %3"
+
+#, fuzzy
+#~ msgid "%1 denied the registration."
+#~ msgstr "谢谢您注册"
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 列出其他用户"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr "%1 正被 %2 编辑中，限制将在 %3 后释放。"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 已使用电子邮件地址 %2 注册"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "％1 已收到来自您浏览器发出的可疑修改要求。"
+
+#~ msgid "%1 home"
+#~ msgstr "%1 首页"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 是个非法的新子网名称"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 已经登录"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 现在已设为 %2"
+
+#, fuzzy
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "%1 正在编辑 %2."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 至少需加入一个群组，无法删除"
+
+#, fuzzy
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#, fuzzy
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 是附件删除后的预设主题。"
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%1 可能仍在编辑 %2 。"
+
+#, fuzzy
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 %2 子网的最近更新"
+
+#, fuzzy
+#~ msgid "%1 registration approval required"
+#~ msgstr "禁止新用户注册"
+
+#, fuzzy
+#~ msgid "%1 registration denied"
+#~ msgstr "禁止新用户注册"
+
+# "<nop>$fromWeb.<nop>$fromTopic",
+# $date,
+# $by)
+#, fuzzy
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 由 %4 从 %2 移到 %3"
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 建立新子网"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 设定子网属性"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 开始使用新子网"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "%1 主题不存在"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 试着以电子邮件 %2 注册"
+
+# "<nop>$fromWeb.<nop>$fromTopic",
+# $date,
+# $by)
+#, fuzzy
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 由 %4 从 %2 移到 %3"
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "主题的名字不能空白。"
+
+#~ msgid "&Cancel"
+#~ msgstr "取消(&C)"
+
+#~ msgid "&History"
+#~ msgstr "历史(&H)"
+
+#, fuzzy
+#~ msgid "&Sequential"
+#~ msgstr "连续的"
+
+#, fuzzy
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "\"建立新主题\" 页已被移走"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 登录)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 验证)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 比上 %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*建议：*上传您的图片?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=所有= 显示所有主题)"
+
+#, fuzzy
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(%1 子网中的反向连结)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(禁止访问)"
+
+#~ msgid "(attach)"
+#~ msgstr "(附件)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(%1 子网中的反向连结)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(所有子网中的反向连结)"
+
+#~ msgid "(book view)"
+#~ msgstr "(源码)"
+
+#~ msgid "(change form)"
+#~ msgstr "(变更表单)"
+
+#~ msgid "(change language)"
+#~ msgstr "(变更语言)"
+
+#~ msgid "(changes)"
+#~ msgstr "(变更)"
+
+#, fuzzy
+#~ msgid "(compare)"
+#~ msgstr "(更多)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(删除附件)"
+
+#~ msgid "(delete)"
+#~ msgstr "(删除)"
+
+#, fuzzy
+#~ msgid "(disabled)"
+#~ msgstr "编辑表格"
+
+#~ msgid "(edit form)"
+#~ msgstr "(编辑表单)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(编辑内文)"
+
+#~ msgid "(edit)"
+#~ msgstr "(编辑)"
+
+#~ msgid "(login)"
+#~ msgstr "(登录)"
+
+#~ msgid "(more)"
+#~ msgstr "(更多)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(移动附件)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(无父主题，孤立主题)"
+
+#~ msgid "(none)"
+#~ msgstr "(无)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(否则只搜寻 %1子网)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(检示源码)"
+
+#, fuzzy
+#~ msgid "(redirect denied)"
+#~ msgstr "(禁止访问)"
+
+#~ msgid "(rename)"
+#~ msgstr "(更名)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(修订版 %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(保存错误)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(单字元名字)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(单字元姓氏)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(忽略)"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr "*本地档案:* 若您选择不同的 _本地档案:_ ，这个档案将被更新或新增。"
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*修改评论:* 若使用 _变更属性_ 变更评论，文章的评论将会改变，但附件历史中的"
+#~ "评论并不会改变。 "
+
+#, fuzzy
+#~ msgid "*Formatting help:*"
+#~ msgstr "更多格式说明"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*重要提示:* 本表内的资讯将存储于伺服器的资料库中，任何浏览网页的用户皆会使"
+#~ "用这些资料（虽然密码已加密，为避免垃圾邮件而将电子邮件地址变形）。您的国"
+#~ "家/或伺服器所在国家可能有相关资料保护法主管此类资料，如有疑问请在注册前向 "
+#~ "%1 询问本主机的资料保护策略。"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*属性:* 点 \"只改变档属性\" 可以变更评论和显示（如：隐藏附件）而不用再上传"
+#~ "档案；参考 %1."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr "*粗体* 将文字放在星号间: =<nop>*文字*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*点列表* 3 个空格，星号，1 个空格: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;文字="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*外部连结* =http://yahoo.com=, 或 =[<nop>[http://yahoo.com/][连到 Yahoo]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr "*标题* 3 横线，1 至 6 个加号，1 空格: =---++&&nbsp;标题="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr "*斜体* 将文字放在下划线间: =_<nop>文字_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr "*等宽* 将文字放在等号间: =<nop>=文字=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*段落* 用空行分段"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr "*网站连结* 使用主题名称: =%1= 或 =[<nop>[%1][首页]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>订阅 RSS</a>，最近更新的<a href='%2'>50</a>个，<a href='%3' "
+#~ "rel='nofollow'>100</a>个，<a href='%4' rel='nofollow'>200</a>个，<a "
+#~ "href='%5' rel='nofollow'>500</a>个，<a href='%6' rel='nofollow'>1000</a>个"
+#~ "主题，<a href='%7' rel='nofollow'>所有主题</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "只<em>在 %1 子网</em>中"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>在所有公开的子网</em>"
+
+#, fuzzy
+#~ msgid "<nop>WikiName:"
+#~ msgstr "主题名称"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr "因安全考量，部分档案加上 =.txt= 的副档名"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Foswiki 网站分成多个子网；每个子网包含一个主题/合作计划。您想浏览的 %2 子"
+#~ "网不存在。"
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "确认的电子邮件已寄往 %1 "
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "与 %1 相似的主题在另一个子网内。请确认子网名没有拼错；必要时请修正连结。"
+
+#, fuzzy
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "系统为用户 %1 (!WikiName %2) 产生的新密码已寄到您注册的电子邮件位址，若您"
+#~ "的注册邮件地址失效，请联系 %3"
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr "利用主题范本设定新主题的预设内容。"
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr "同名主题已存在，但被改名或移到 %1。"
+
+#~ msgid "Access Denied"
+#~ msgstr "禁止访问"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "访问检查%1失败"
+
+#, fuzzy
+#~ msgid "Access keys:"
+#~ msgstr "快捷键"
+
+#~ msgid "Action"
+#~ msgstr "功能"
+
+#, fuzzy
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "功能 %1: %2."
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "功能"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "启动码错误"
+
+#, fuzzy
+#~ msgid "Add"
+#~ msgstr "加一列"
+
+#, fuzzy
+#~ msgid "Add Members to %1"
+#~ msgstr "加一列"
+
+#, fuzzy
+#~ msgid "Add members"
+#~ msgstr "加一列"
+
+#~ msgid "Add row"
+#~ msgstr "加一列"
+
+#, fuzzy
+#~ msgid "Add user management options to this topic."
+#~ msgstr "编辑本主题的设定"
+
+#, fuzzy
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "增加 %1 参数到 WebPreferences 内"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Foswiki 管理员认证"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "管理员维护"
+
+#, fuzzy
+#~ msgid "Administration"
+#~ msgstr "注册"
+
+#~ msgid "Advanced search"
+#~ msgstr "进阶搜寻"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr "表单提交后，您的密码将被修改，并返回本表单"
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "表单提交后，您的密码将会更新。"
+
+#, fuzzy
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "表单提交后，您将收到一封邮件内有一个*系统自动产生*的新密码，及密码修改网页"
+#~ "的连结。"
+
+#~ msgid "All public webs"
+#~ msgstr "所有公开的子网"
+
+#, fuzzy
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "允许新主题名称使用非<nop>WikiWord"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "点击\"返回\"回到 %SYSTEMWEB%.UserRegistration 并选择另一个用户名称。 "
+
+#, fuzzy
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "新主题中的附件已存在"
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr "若本主题被其他用户锁住，将会出现错误页提示。"
+
+#, fuzzy
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "有个风险，就是在您不知情的情况下，有人可能试着以您的身份变更 %1 的内容。"
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "并使用基本子网的主题"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr "显示本页前，您对对本主题的任何修改都已保留。"
+
+#~ msgid "Attach"
+#~ msgstr "附件"
+
+#, fuzzy
+#~ msgid "Attach a file"
+#~ msgstr "增加新档"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr "title='为这个主题增加图片或档案' accesskey='a'>增加附件(&A)"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "为 %1 附档"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "为 %1 附图"
+
+#~ msgid "Attach new file"
+#~ msgstr "增加新档"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "附件 '%1' 不存在"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "附件删除失败"
+
+#, fuzzy
+#~ msgid "Attachment does not exist."
+#~ msgstr "附件不存在"
+
+#, fuzzy
+#~ msgid "Attachment history"
+#~ msgstr "附件 "
+
+#~ msgid "Attachment move failed"
+#~ msgstr "附件移动失败"
+
+#, fuzzy
+#~ msgid "Attachment name:"
+#~ msgstr "附件"
+
+#~ msgid "Attachments"
+#~ msgstr "附件 "
+
+#, fuzzy
+#~ msgid "Attachments %1"
+#~ msgstr "%1 的附件"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "%1 的附件"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "主题浏览时将不显示附件。"
+
+#~ msgid "Attention"
+#~ msgstr "注意"
+
+#~ msgid "Attribute"
+#~ msgstr "属性"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "主题更新的自动通知"
+
+#~ msgid "Available Information"
+#~ msgstr "可用的资讯"
+
+#~ msgid "Available form templates"
+#~ msgstr "可用的表单范本"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr " %1 子网可用的范本"
+
+#~ msgid "Back to topic"
+#~ msgstr "回到主题"
+
+#~ msgid "Backlinks"
+#~ msgstr "反向连结"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "%2 子网中指向 %1 的反向连结"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "所有子网中指向 %1 的反向连结"
+
+#, fuzzy
+#~ msgid "Backlinks:"
+#~ msgstr "反向连结"
+
+#~ msgid "Bad password"
+#~ msgstr "密码错误"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "基本子网 %1 遗失或不存在"
+
+#~ msgid "Both body and title"
+#~ msgstr "内容和标题"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr "但已存在的表单资料将遗失（但您可利用主题历史找回这些资料）"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "预设情况下，只有 %1 成员能浏览垃圾子网，若要让所有用户浏览，请删除垃圾子"
+#~ "网 WebPreferences 中 =ALLOWWEBVIEW= 的相关限制。"
+
+#~ msgid "Can't find user %1"
+#~ msgstr "无法找到用户%1"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "取消编辑并放弃变更"
+
+#, fuzzy
+#~ msgid "Cancel upload"
+#~ msgstr "取消"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "%1 已存在，无法建立"
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "%1 子网已存在，无法建立"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "无法将 %1 改名为 %2，因 %2 已经存在。"
+
+#~ msgid "Case sensitive"
+#~ msgstr "区分字母大小写"
+
+#~ msgid "Categories"
+#~ msgstr "类别"
+
+#, fuzzy
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr "抱歉，目前密码系统是唯读，请联系 %1"
+
+#, fuzzy
+#~ msgid "Change E-mail Address"
+#~ msgstr "电子邮件位址:"
+
+#~ msgid "Change Password"
+#~ msgstr "修改密码"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "只变更评论及属性"
+
+#, fuzzy
+#~ msgid "Change e-mail address"
+#~ msgstr "电子邮件地址错误"
+
+#, fuzzy
+#~ msgid "Change from"
+#~ msgstr "改自:"
+
+#~ msgid "Change language"
+#~ msgstr "改变语言"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "修改所有子网中各主题指向 !%1 的连结:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "修改子网 %2 中各主题指向 !%1 的连结:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "修改所有子网中各主题指向 %1 的连结:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "修改子网 %2 中各主题指向 %1 的连结:"
+
+#~ msgid "Change password"
+#~ msgstr "修改密码"
+
+#~ msgid "Change properties only"
+#~ msgstr "只修改属性"
+
+#~ msgid "Change topic"
+#~ msgstr "改变主题"
+
+#, fuzzy
+#~ msgid "Changed by:"
+#~ msgstr "变更者:"
+
+#, fuzzy
+#~ msgid "Changed on"
+#~ msgstr "已变更"
+
+#~ msgid "Changed:"
+#~ msgstr "已变更:"
+
+#~ msgid "Changes"
+#~ msgstr "更新"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "由 r%1 改成 r%2"
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr "选择的主题，文中连结将更改为新主题。"
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr "选定的主题，文中连结将更改为新子网。"
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "在%1子网中的子主题"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "%2 子网中指向 %1 的反向连结"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "为 %1 选个新表单"
+
+#~ msgid "Clear all"
+#~ msgstr "全部清除"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "全部清除"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr "点这将移动主题回到以前的位置，有选项可修改设定。 "
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "颜色 %1包含非法格式"
+
+#~ msgid "Comment"
+#~ msgstr "评论"
+
+#~ msgid "Compare revisions"
+#~ msgstr "比较版本"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "您的密码:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "确认更名和移动"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr "使用 [[%1][主题版本比较工具 (diff)]] 确认您的修改"
+
+#~ msgid "Conflict"
+#~ msgstr "冲突"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "如有问题，请联系 %1"
+
+#, fuzzy
+#~ msgid "Context"
+#~ msgstr "国家:"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "继续为子网改名?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "继续建立新页面"
+
+#~ msgid "Copy topic"
+#~ msgstr "复制主题 "
+
+#, fuzzy
+#~ msgid "Copy topic..."
+#~ msgstr "复制主题 "
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr "版权所有 &&copy; 作者 在合作平台上的所有资料归于内容贡献者所有。"
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr "版权所有 &&copy; 所有作者。本合作平台的所有资料归内容提贡者所有。"
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "无法建立新子网 %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "找不到范本"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "无法搜寻，错误: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "%1 无法保存。"
+
+#, fuzzy
+#~ msgid "Country:"
+#~ msgstr "国家:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "建立新主题"
+
+#~ msgid "Create New Topic"
+#~ msgstr "建立新主题"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "在 %1 子网中建立新主题"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "建立附件连结"
+
+#, fuzzy
+#~ msgid "Create a new group"
+#~ msgstr "建立新主题"
+
+#, fuzzy
+#~ msgid "Create account"
+#~ msgstr "建立新主题"
+
+#, fuzzy
+#~ msgid "Create group"
+#~ msgstr "建立新主题"
+
+#, fuzzy
+#~ msgid "Create new topic"
+#~ msgstr "建立新主题"
+
+#, fuzzy
+#~ msgid "Create personal sidebar"
+#~ msgstr "编辑个人资料"
+
+#~ msgid "Create the topic"
+#~ msgstr "建立主题"
+
+#~ msgid "Create this topic"
+#~ msgstr "建立这个主题"
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "建立适当的表单定义主题"
+
+#~ msgid "Current location:"
+#~ msgstr "目前位置:"
+
+#, fuzzy
+#~ msgid "Current password:"
+#~ msgstr "目前密码"
+
+#~ msgid "Dear %1"
+#~ msgstr "亲爱的 %1"
+
+#~ msgid "Debug"
+#~ msgstr "除错"
+
+#~ msgid "Default template"
+#~ msgstr "预设范本"
+
+#~ msgid "Delete"
+#~ msgstr "删除"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "删除附件"
+
+#~ msgid "Delete last row"
+#~ msgstr "删除最后一行"
+
+#~ msgid "Delete topic"
+#~ msgstr "删除主题"
+
+#~ msgid "Delete topic..."
+#~ msgstr "删除主题..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "档案说明，方便其他人了解档案内容。"
+
+#, fuzzy
+#~ msgid "Description"
+#~ msgstr "版本"
+
+#, fuzzy
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "在%1子网中的子主题"
+
+#~ msgid "Details in separate window"
+#~ msgstr "细节显示于新视窗"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr "主题名称是否拼写正确？注意主题名称是有大小写的区分。"
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "您是否想 [[%1][重设 %2 的密码]]?"
+
+#, fuzzy
+#~ msgid "Difference Topic"
+#~ msgstr "差异:"
+
+#~ msgid "Difference:"
+#~ msgstr "差异:"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "别忘记储存变更"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "表格内不显示附件"
+
+#~ msgid "Don't show:"
+#~ msgstr "不显示:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr "删除附件 =%1= 时发生错误。请通知 %2 管理员。"
+
+#, fuzzy
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr "移动附件 %1 到 %2 时发生错误。请通知 %3 管理员。"
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr "主题改名 %1 到 %2 时发生错误 (%3)。请通知 %4 管理员。"
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr "子网改名 %1 到 %2 时发生错误 (%3)。请通知 %4 管理员。"
+
+#, fuzzy
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr "移动附件 %1 到 %2 时发生错误。请通知 %3 管理员。"
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr "主题 %1 保存时发生版本控制错误。请通知 %2 管理员。"
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "电子邮件变更成功!"
+
+#, fuzzy
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,分钟) "
+
+#~ msgid "Edit Anyway"
+#~ msgstr "强制编辑"
+
+#~ msgid "Edit help"
+#~ msgstr "编辑说明"
+
+#, fuzzy
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "编辑本主题的设定"
+
+#~ msgid "Edit this table"
+#~ msgstr "编辑这个表格"
+
+#, fuzzy
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "编辑这个主题"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "编辑主题属性设定"
+
+#, fuzzy
+#~ msgid "Editable"
+#~ msgstr "编辑表格"
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr "您的注册码错误，或已用这个代码完成确认。"
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr "未指定档名，或上传的档案 %1 没有内容。不能上传空档。"
+
+#, fuzzy
+#~ msgid "Email address:"
+#~ msgstr "电子邮件位址:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "本网站不开放电子邮件使用。"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "放大编辑框"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr "输入新用户名和密码以改变身份"
+
+#, fuzzy
+#~ msgid "Enter parent name"
+#~ msgstr "新的父子网:"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr "输入 Wiki 管理员或依 %1 设定登录"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "请返回浏览器的上一页，并选择一个 %1.WikiWord 的主题名，或是点选 \"允许非"
+#~ "WikiWord\"选项。"
+
+#, fuzzy
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "请先将用户从 %1 群组删除。"
+
+#~ msgid "Error registering new user"
+#~ msgstr "注册新用户发生错误"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "注册用户 %1 发生错误"
+
+#~ msgid "Error saving topic"
+#~ msgstr "主题保存失败"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "错误: %1 的附件 %2 不存在"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "错误: 不支援的内容类别: %1 (必须是 =text/html=, =text/plain= 或 =text/"
+#~ "css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "错误: 不支援的协定 (必须是 'http://domain/...')"
+
+#~ msgid "Errors"
+#~ msgstr "错误"
+
+#, fuzzy
+#~ msgid "Errors adding members to group"
+#~ msgstr "主题保存失败"
+
+#, fuzzy
+#~ msgid "Errors removing members from groups"
+#~ msgstr "主题保存失败"
+
+#, fuzzy
+#~ msgid "Evil person"
+#~ msgstr "编辑个人资料"
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "无法包含 URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "必填标为 %1 的栏位"
+
+#, fuzzy
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "必填标为 %1 的栏位"
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "档案已用其他名称上传"
+
+#~ msgid "Find similar topics"
+#~ msgstr "寻找相似主题"
+
+#, fuzzy
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "找连到 %1 的主题..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "找连到 %1 的主题..."
+
+#, fuzzy
+#~ msgid "First"
+#~ msgstr "名:"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "名:"
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "忘记密码?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "表单定义 %1 遗失"
+
+#, fuzzy
+#~ msgid "Form definition"
+#~ msgstr "表单定义遗失"
+
+#, fuzzy
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "表单定义 %1 遗失"
+
+#~ msgid "Form definition missing"
+#~ msgstr "表单定义遗失"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Foswiki 用户认证"
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "%1 的 Foswiki 密码重设"
+
+#, fuzzy
+#~ msgid "Get help on attaching files"
+#~ msgstr "有附件的更多资讯。"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "得到此搜寻的修改通知"
+
+#, fuzzy
+#~ msgid "Globe"
+#~ msgstr "关闭"
+
+#~ msgid "Go back"
+#~ msgstr "返回"
+
+#, fuzzy
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr "回到浏览器上一页并输入所有必填的栏位。"
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr "回浏览器上一页并储存本地所有变更。"
+
+#~ msgid "Good examples:"
+#~ msgstr "好范例:"
+
+#, fuzzy
+#~ msgid "Group"
+#~ msgstr "群组"
+
+#, fuzzy
+#~ msgid "Group name"
+#~ msgstr "主题名称"
+
+#~ msgid "Groups"
+#~ msgstr "群组"
+
+#~ msgid "Hello %1!"
+#~ msgstr "您好 %1！"
+
+#~ msgid "Hide file"
+#~ msgstr "隐藏档案 "
+
+#~ msgid "Hide help"
+#~ msgstr "隐藏说明"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr "目前禁用次子网，您无法建立巢状子网。"
+
+#, fuzzy
+#~ msgid "History"
+#~ msgstr "历史(&H)"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "附上您的照片吗?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "如何启动 %1 您的注册"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "然而，确认的电子邮件无法寄给 %2，表示可能是个假注册。用户 '%1' 无法自动移"
+#~ "除。"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "然而，确认的电子邮件无法寄给 %2，表示可能是个假注册。用户 '%1' 已自动移"
+#~ "除，但您需手动移除用户个人主题。"
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr "档案已从 %1 改名为 %2。请加上备注。"
+
+#~ msgid "I forgot my password"
+#~ msgstr "我忘记密码"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr "请<a href='%2'>回馈</a>有关 %1 的建议、需求及问题。"
+
+#, fuzzy
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "检查您设定页内 {TemplateDir} 和 {TemplatePath} 的设定。若不是这个问题，可"
+#~ "能是您有个设定指向不存在的范本 %1。"
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr "如果未显示这行，请看下面 _升级_ 的段落"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr "若此主题不存在，请建立它。否则请检查错误。"
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr "若您将开发 Foswiki 应用程式，请参考 %1 内正确的参数说明。"
+
+#, fuzzy
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "若您不清楚这是什么意思，请读："
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "若您是点问号连结才来这里"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr "若您未在一小时内收到确认的电子邮件，"
+
+#, fuzzy
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr "如果您输入不同的名称，请确认该主题不存在。"
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "如果这封邮件错寄给您：某人 (%1) 已在 %2 网站，用您的电子邮件 %3 注册。请联"
+#~ "系 %4 说明。"
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr "有任何关于注册的问题，请寄电子邮件给 %1。"
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "任何问题，请联系 %1。"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "任何问题，请联系 %1。"
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr "若您尚未设定密码，或想重设密码，请到: %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消保存]] 并转"
+#~ "到 %2。"
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "让您想建立这主题"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "让您想建立这子网"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "如果您的旧邮件地址失效（您无法收到任何邮件）而又忘记密码的话，请联系 %1 协"
+#~ "助。"
+
+#, fuzzy
+#~ msgid "Image %1 of %2"
+#~ msgstr "子网 %1 不存在"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr "将显示图片，或建立其他附件的连结。"
+
+#~ msgid "In reversed order"
+#~ msgstr "反向排序"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr "某些情况下，系统会修改上传的档名以确保各平台都能使用:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "不正确的密码"
+
+#, fuzzy
+#~ msgid "Incorrect Prefix"
+#~ msgstr "不正确的 %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "不正确的 %1.WikiNames"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "不正确的 %1.WikiNames"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "不正确的 %1.WikiNames"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "=%1= 脚本的参数错误"
+
+#~ msgid "Index"
+#~ msgstr "索引"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "启动码错误"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "电子邮件地址错误"
+
+#, fuzzy
+#~ msgid "Invalid topic name."
+#~ msgstr "主题名称"
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "继续保存和编辑也许没有问题，除非您想改变本主题附的表单内容。若 %1 _真的_在"
+#~ "您编辑时保存，您的修改将会合并，并不会遗失任何资料。但表单资料并无法简单地"
+#~ "合并，所以此时建议您先检查 %1。"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "建立新主题时最好使用 <a target='WikiWord' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>WikiWord</a> ，否则无法自动产生连结。其他不被允许作为主题名"
+#~ "称的字元，如：空格等将被自动删除。"
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "新子网名称一般最好选短的，这样之后连结时较简单。其他不被允许作为子网名称的"
+#~ "字元，如：空格等将被自动删除。"
+
+#~ msgid "Jump"
+#~ msgstr "到"
+
+#, fuzzy
+#~ msgid "Jump to first revision"
+#~ msgstr "还原主题至这个版本"
+
+#, fuzzy
+#~ msgid "Keyword search"
+#~ msgstr "修改搜寻:"
+
+#, fuzzy
+#~ msgid "Last"
+#~ msgstr "姓:"
+
+#, fuzzy
+#~ msgid "Last edited by"
+#~ msgstr "最后编辑者"
+
+#~ msgid "Last editor"
+#~ msgstr "最后编辑者"
+
+#, fuzzy
+#~ msgid "Last modified"
+#~ msgstr "最后修改时间"
+
+#~ msgid "Last modified time"
+#~ msgstr "最后修改时间"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "姓:"
+
+#, fuzzy
+#~ msgid "Latest revision: %1"
+#~ msgstr "(修订版 %1)"
+
+#~ msgid "Limit results to:"
+#~ msgstr "限制结果于:"
+
+#~ msgid "Line: %1"
+#~ msgstr "行: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "行: %1 到 %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "列出所有以某字母开头的主题:"
+
+#~ msgid "Literal search"
+#~ msgstr "简单搜寻"
+
+#, fuzzy
+#~ msgid "Load content"
+#~ msgstr "提交内容:"
+
+#~ msgid "Login"
+#~ msgstr "登录"
+
+#, fuzzy
+#~ msgid "Login username:"
+#~ msgstr "登录名 %1"
+
+#~ msgid "Logon"
+#~ msgstr "登录"
+
+#~ msgid "Logout"
+#~ msgstr "登出"
+
+#~ msgid "Mail to"
+#~ msgstr "邮寄给"
+
+#~ msgid "Make search:"
+#~ msgstr "搜寻:"
+
+#~ msgid "Missing Fields"
+#~ msgstr "缺少栏位"
+
+#~ msgid "Missing action command"
+#~ msgstr "缺少功能命令"
+
+#~ msgid "Modify search"
+#~ msgstr "修改搜寻:"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "主题 %1 的更多功能"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "主题 %1 的更多功能"
+
+#~ msgid "More formatting help"
+#~ msgstr "更多格式说明"
+
+#, fuzzy
+#~ msgid "More on hiding attachments"
+#~ msgstr "移动或删除附件"
+
+#, fuzzy
+#~ msgid "More topic actions"
+#~ msgstr "更多主题功能..."
+
+#~ msgid "More topic actions..."
+#~ msgstr "更多主题功能..."
+
+#~ msgid "More..."
+#~ msgstr "更多..."
+
+#, fuzzy
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "title='主题删除或改名；设定父主题；查看和比较版本' accesskey='m'>更多主题"
+#~ "功能(&M)"
+
+#~ msgid "Move"
+#~ msgstr "移动"
+
+#, fuzzy
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "移动到子网:"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "移动附件"
+
+#~ msgid "Move file attachment"
+#~ msgstr "移动附件"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "移动或删除附件"
+
+#~ msgid "Move to web:"
+#~ msgstr "移动到子网:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "移动到子网:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "移动主题到子网:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "移动/更名"
+
+#~ msgid "My Links"
+#~ msgstr "我的连结"
+
+#~ msgid "NEW"
+#~ msgstr "新"
+
+#, fuzzy
+#~ msgid "Name of copy"
+#~ msgstr "复本名称:"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "新子网名称遗失"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "查看相关主题"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "禁止新用户注册"
+
+#, fuzzy
+#~ msgid "New User Registration failed"
+#~ msgstr "禁止新用户注册"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "不支援新用户注册"
+
+#, fuzzy
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "新邮件地址 (用空白区隔的清单)"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "自 %2 起，%1 中新的或变更过的主题"
+
+#~ msgid "New parent web:"
+#~ msgstr "新的父子网:"
+
+#, fuzzy
+#~ msgid "New password:"
+#~ msgstr "新密码"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "新主题名 %1 不是 %2"
+
+#, fuzzy
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "禁止新用户注册"
+
+#~ msgid "New web name:"
+#~ msgstr "新子网名称:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "新版本:"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(所有子网中的反向连结)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(%1 子网中的反向连结)"
+
+#, fuzzy
+#~ msgid "No changes"
+#~ msgstr "(变更)"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "无子主题"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "加一列"
+
+#~ msgid "No permission to view %1"
+#~ msgstr "无浏览 %1 的权限"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "前一个版本不存在。"
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "禁止新用户注册"
+
+#, fuzzy
+#~ msgid "No topic to subscribe to"
+#~ msgstr "移动主题到子网:"
+
+#, fuzzy
+#~ msgid "No topics to update."
+#~ msgstr "移动主题到子网:"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "没有用户重设密码."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "删除主题时不建议。"
+
+#, fuzzy
+#~ msgid "Notation"
+#~ msgstr "通知"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr "移动后，任何引用此附件的 URL 都将失效。"
+
+#~ msgid "Note:"
+#~ msgstr "注意:"
+
+#~ msgid "Notification help"
+#~ msgstr "说明通知"
+
+#~ msgid "Notifications"
+#~ msgstr "通知"
+
+#~ msgid "Number of topics:"
+#~ msgstr "主题数量:"
+
+#, fuzzy
+#~ msgid "Number of topics: %1"
+#~ msgstr "主题数量:"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Older revision:"
+#~ msgstr "旧版本:"
+
+#, fuzzy
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr "注册后您可以帐号 %1 和密码登录."
+
+#, fuzzy
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "只有 %1 的成员允许使用这些功能。"
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "只有 %1 的成员允许使用这些功能。"
+
+#, fuzzy
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "在%1子网中的子主题"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr "抱歉：无法辨识您，请再试一次或 [[%1][重设密码]] 。"
+
+#, fuzzy
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "主题改名（非必要）:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "主题改名（非必要）:"
+
+#, fuzzy
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "输入不同的主题名称（非必要）:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "输入不同的主题名称（非必要）:"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "功能"
+
+#, fuzzy
+#~ msgid "Organisation name:"
+#~ msgstr "组织名称:"
+
+#, fuzzy
+#~ msgid "Organisation website:"
+#~ msgstr "组织名称:"
+
+#~ msgid "Password"
+#~ msgstr "密码"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "密码修改成功!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "密码无法修改"
+
+#~ msgid "Password reset failed"
+#~ msgstr "密码重设失败"
+
+#, fuzzy
+#~ msgid "Password reset failed."
+#~ msgstr "密码重设失败"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "密码"
+
+#, fuzzy
+#~ msgid "Passwords disabled"
+#~ msgstr "密码重设失败"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "密码不相同"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "不支援新用户注册"
+
+#, fuzzy
+#~ msgid "Pending registration not found"
+#~ msgstr "不支援新用户注册"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "从 %1 选一个。"
+
+#, fuzzy
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "丢弃附件的存放地"
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "丢弃附件的存放地"
+
+#, fuzzy
+#~ msgid "Please confirm your password."
+#~ msgstr "您的密码:"
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "如有问题请联系 %1."
+
+#~ msgid "Please contact %1."
+#~ msgstr "请联系 %1."
+
+#, fuzzy
+#~ msgid "Please enter a WikiName."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "电子邮件地址错误"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "请输入 Wiki 管理员的密码"
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "请_返回_浏览器的上一页，并试一个新名字."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "请返回浏览器的上一页，并再检查一次."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "请返回浏览器的上一页，并选择一个 %1.WikiWord 的主题名，或是点选 \"允许非"
+#~ "WikiWord\"选项。"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "请返回浏览器的上一页，并再试一次."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "请_返回_浏览器的上一页，并试一个新名字."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr "请确认 %1 的拼写正确并重试。若仍不成功，请发邮件给 %2。"
+
+#, fuzzy
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr "请至 %1 将您的密码设成自己较容易记的."
+
+#~ msgid "Preferences for"
+#~ msgstr "设定"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "其他，按「取消」。"
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "按「OK」确认此修改是故意的。"
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr "title='列印本主题' accesskey='p' >列印(&P)"
+
+#~ msgid "Properties"
+#~ msgstr "属性"
+
+#, fuzzy
+#~ msgid "Put it back..."
+#~ msgstr "放回"
+
+#~ msgid "Query Search"
+#~ msgstr "查询式检索"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "版本"
+
+#~ msgid "Quiet save"
+#~ msgstr "快速保存"
+
+#~ msgid "RSS Feed"
+#~ msgstr "订阅 RSS"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 "
+#~ "%SYSTEMWEB%.TwentyMinuteTutorial."
+
+#~ msgid "Read on"
+#~ msgstr "阅读"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "最近更新的主题"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "最近更新的主题"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "最近更新的主题"
+
+#~ msgid "Refresh"
+#~ msgstr "更新"
+
+#~ msgid "Register"
+#~ msgstr "注册"
+
+#~ msgid "Registration"
+#~ msgstr "注册"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "禁止新用户注册"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr "本网站不开放电子邮件使用。"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "注册码只能使用一次。"
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "抱歉，暂时禁用注册。"
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "抱歉，暂时禁用注册。"
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "禁止新用户注册"
+
+#~ msgid "Regular expression search"
+#~ msgstr "正则运算式搜寻"
+
+#, fuzzy
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "相关主题"
+
+#~ msgid "Related topics:"
+#~ msgstr "相关主题:"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "在此电脑上记住我"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr "请记得更新您用户主题中的邮件位址，以反应实情。"
+
+#~ msgid "Remember your password?"
+#~ msgstr "记住密码?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "请先将用户从 %1 群组删除。"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "请先将用户从 %1 群组删除。"
+
+#~ msgid "Rename"
+#~ msgstr "改名"
+
+#~ msgid "Rename failed"
+#~ msgstr "改名失败"
+
+#, fuzzy
+#~ msgid "Rename or move %1"
+#~ msgstr "主题改名或移动"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "主题改名或移动"
+
+#, fuzzy
+#~ msgid "Rename or move topic..."
+#~ msgstr "主题改名或移动"
+
+#, fuzzy
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "改名，移动或删除子网:"
+
+#~ msgid "Rename/Move"
+#~ msgstr "改名/移动"
+
+#~ msgid "Replace form..."
+#~ msgstr "取代表单..."
+
+#~ msgid "Request Validation"
+#~ msgstr "请求验证"
+
+#~ msgid "Reset Password"
+#~ msgstr "重设密码"
+
+#~ msgid "Reset password"
+#~ msgstr "重设密码"
+
+#~ msgid "Restore topic"
+#~ msgstr "还原主题"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "还原主题至版本:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "还原主题至这个版本"
+
+#~ msgid "Results from %1 web"
+#~ msgstr "%1 子网中的结果"
+
+#, fuzzy
+#~ msgid "Results from %1 web:"
+#~ msgstr "%1 子网中的结果"
+
+#, fuzzy
+#~ msgid "Return to %1"
+#~ msgstr "回到 %1."
+
+#~ msgid "Return to %1."
+#~ msgstr "回到 %1."
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "重新输入新密码"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr "在您编辑期间，用户 %2 以版本 %1 保存。"
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "检查最近的更新:"
+
+#~ msgid "Revision"
+#~ msgstr "修订版"
+
+#, fuzzy
+#~ msgid "Revision history of %1"
+#~ msgstr "%1 的版本历史"
+
+#~ msgid "Revisions"
+#~ msgstr "修订版"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = 保存，C = 取消"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，P = 预览，C = 取消"
+
+#~ msgid "Save table"
+#~ msgstr "储存表格"
+
+#~ msgid "Saved to:"
+#~ msgstr "存到:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "只搜寻 %1 子网 "
+
+#~ msgid "Search all webs"
+#~ msgstr "搜寻所有子网 "
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "搜寻在所有子网中连结至此的主题"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "其他搜寻选项:"
+
+#, fuzzy
+#~ msgid "Search in %1 Web"
+#~ msgstr "只搜寻 %1 子网 "
+
+#~ msgid "Search in all webs"
+#~ msgstr "搜寻所有子网"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "搜寻本子网的更多主题"
+
+#, fuzzy
+#~ msgid "Search options"
+#~ msgstr "其他搜寻选项:"
+
+#, fuzzy
+#~ msgid "Search result"
+#~ msgstr "(搜寻结果)"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "(搜寻结果)"
+
+#~ msgid "Search string"
+#~ msgstr "搜寻字串"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "在 %1 子网中搜寻连结至此的主题"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "在 %1 子网中搜寻连结至此的主题"
+
+#~ msgid "Search where:"
+#~ msgstr "搜寻哪里:"
+
+#~ msgid "Searched:"
+#~ msgstr "搜寻:"
+
+#~ msgid "Security Note:"
+#~ msgstr "安全提示:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr "查看 %1 的用户列表或在 %2 注册新用户."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "更多关于表单定义的资讯，请参考 %1."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "查看更快的 %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "查看更完整的 %1."
+
+#~ msgid "See also:"
+#~ msgstr "也可查看:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "编辑此页请参考以下说明."
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "检查最近的更新:"
+
+#~ msgid "Select"
+#~ msgstr "选择"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "选择本地的新档来更新附件"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "全选"
+
+#, fuzzy
+#~ msgid "Select groups to join:"
+#~ msgstr "选择父主题:"
+
+#, fuzzy
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "请先将用户从 %1 群组删除。"
+
+#, fuzzy
+#~ msgid "Select the group to join:"
+#~ msgstr "选择父主题:"
+
+#, fuzzy
+#~ msgid "Select topic parent"
+#~ msgstr "选择父主题:"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr "在您输入的段落底部选择/复制/贴上您的签名文字"
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "不支援新用户注册"
+
+#~ msgid "Sequential"
+#~ msgstr "连续的"
+
+#~ msgid "Set all"
+#~ msgstr "设定所有"
+
+#~ msgid "Set new parent"
+#~ msgstr "设定新父主题 "
+
+#~ msgid "Set new topic parent"
+#~ msgstr "设定新父主题"
+
+#, fuzzy
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "检视主题的前一个版本"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "附件说明"
+
+#~ msgid "Show help"
+#~ msgstr "显示说明"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "缩小编辑框"
+
+#~ msgid "Side by side"
+#~ msgstr "并列"
+
+#~ msgid "Size"
+#~ msgstr "大小"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "加上某些时间表资讯和假期通知。"
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "已删除一些像于 =&#126;=, =$=, =@=, =%= 的字元"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "有些邮件工具会在您点击同一个连结后，错误地连续发送 2 次相同的请求 。若已如"
+#~ "此操作，您可能*已经*注册成功。"
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "某些人将它变成个人的入口网站，内容包括最喜欢的连结、目前运作的事项、的想做"
+#~ "的事，等等。"
+
+#, fuzzy
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "抱歉，暂时禁用注册。"
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr "抱歉，目前密码系统是唯读，请联系 %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "对结果排序:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "空格已以下划线替代"
+
+#~ msgid "Statistics"
+#~ msgstr "统计"
+
+#~ msgid "Submit"
+#~ msgstr "提交"
+
+#~ msgid "Submitted content:"
+#~ msgstr "提交内容:"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "订阅/退订:"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "建立这个主题"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "建立这个主题"
+
+#, fuzzy
+#~ msgid "Success adding members to group"
+#~ msgstr "主题保存失败"
+
+#, fuzzy
+#~ msgid "Success removing members from group"
+#~ msgstr "请先将用户从 %1 群组删除。"
+
+#~ msgid "Summaries"
+#~ msgstr "摘要"
+
+#, fuzzy
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "切换到等宽或等比的字体"
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "技巧：搜寻所有包含 =\"SOAP\"=, =\"WSDL\"=, 逐字的 =\"web service\"=，但不"
+#~ "包含 =\"shampoo\"=  的主题: "
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "范本 %1 不存在"
+
+#~ msgid "Text body"
+#~ msgstr "内容"
+
+#, fuzzy
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "谢谢您注册"
+
+#, fuzzy
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "谢谢您注册"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "谢谢您注册"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr "谢谢您在 %1 合作平台注册。请保留本邮件以供未来参考。"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr "谢谢您在 %1 合作平台注册。您的校验码是 %2."
+
+#, fuzzy
+#~ msgid "That user has already been activated"
+#~ msgstr "用户已经启动"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "主题 %1 已存在"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "子网 %1 不存在"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "子网 %1 是个测试用的沙盘，欢迎任何人增加或删除内容。建议先看 %2 以快速熟"
+#~ "悉 %3 的工具。在页面底端加上您的签名、姓名 %4 和日期，是个好习惯."
+
+#, fuzzy
+#~ msgid "The %1 web of %2."
+#~ msgstr "子网 %1 不存在"
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "=％1= 的脚本只以 POST 的方式呼叫。"
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "系统管理员禁止新用户注册。"
+
+#, fuzzy
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "系统管理员禁止新用户注册。"
+
+#, fuzzy
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr "警告: 无法包含 %1，路径空白或包含非法字元。"
+
+#, fuzzy
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr "%1 栏位必须是姓名，姓氏在 %2 ，如：大写的姓名拼字但去掉空格。 "
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "启动码 %1 不合法."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "附件和任何历史将移到新主题."
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr "新主题中的附件已存在"
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr "若 %1 仅浏览到编辑页而未保存是没有问题的。"
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "标记的主题将被更新（另外一个表格_最终_将允许您重命名任何锁定的主题）"
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "这个帐号的电子邮件位址不合法。"
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "这个帐号的电子邮件位址不合法。"
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "这个帐号的电子邮件位址不合法。"
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "%1 的用户资料不在密码系统中。"
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "档案已上传并附于主题 %1 内。"
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr "以下主题正在编辑中而被锁定，且无法移动:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr "以主题属于本子网内的文章，但正在编辑中:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr "以主题属于本子网内的文章，但您没有存取的权限:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "主题 %1 内应定义此表单"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "本主题的锁定期于 %1 前到期。"
+
+#, fuzzy
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "主题的名字不能空白。"
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "主题的名字不能空白。"
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "选择的新主题必须已经存在."
+
+#~ msgid "The new web has been created"
+#~ msgstr "新子网已建立"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "*旧密码* 栏内的密码错误."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "必备的栏位%1没有填写"
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr "选择的用户系统并不支援新用户注册。"
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "本主题属于旧格式"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "两次输入的密码不相同。"
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr "用户 %1 已经启动并可登录。"
+
+#, fuzzy
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "您的用户名称已从认证系统删除。"
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "此子网改名时出现错误:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr "新增您的用户资料到密码系统时出现错误。"
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "有个风险，就是在您不知情的情况下，有人可能试着以您的身份变更 %1 的内容。"
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr "必须包含一行包含 %1，参考 %2 (或 %3)"
+
+# "<nop>$fromWeb.<nop>$fromTopic",
+# $date,
+# $by)
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%1 由 %4 从 %2 移到 %3"
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "这将被自动更新:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "可能由很多问题引起:"
+
+#, fuzzy
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "用本表单修改注册邮件地址。系统会发送邮件至您的注册邮箱，包括：密码变更通"
+#~ "知。表中的注册邮件地址将会隐藏保密，并*不会*显示于网站的其他网页内。"
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "这是个订阅服务，当 %1子网内的主题更新时会自动利用电子邮件通知。这是个非常"
+#~ "方便的服务，所以您不用常常回来查看是否有更新。若要订阅，请将您的 %2 依字母"
+#~ "顺序加入以下清单:"
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "这是一封由 %1 自动发的送电子邮件。"
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr "这是用户在 %1 注册的自动电子邮件通知。"
+
+#, fuzzy
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "这是垃圾区。您可以在这里还回删除的主题；删除的附件放在 TrashAttachment "
+#~ "中。"
+
+#, fuzzy
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr "名称已选定，所以不会和其他 %1 内的主题冲突。"
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "这儿需要表单定义。"
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "本站使用 Foswiki"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "本站的密码至少要 %1 个字元"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "'%1' 不是个合法的 %2"
+
+#~ msgid "This topic:"
+#~ msgstr "主题:"
+
+#, fuzzy
+#~ msgid "This username is already in use."
+#~ msgstr "用户已经启动"
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "您的修改已经和版本 %1 合并。内文栏位已合并，但其他资料，如表单内的资料可能"
+#~ "被其他用户覆盖。若您修改表单内容，请检查表单资料。"
+
+#, fuzzy
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "谢谢您注册"
+
+#, fuzzy
+#~ msgid "To attachment:"
+#~ msgstr "主题附件"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "谢谢您注册"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr "要将上面的检索结果显示于文章内，请复制并贴上下面的标记:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "强制编辑本主题，请按"
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr "检查 %1 是否已编辑完毕，请按"
+
+#, fuzzy
+#~ msgid "To topic"
+#~ msgstr "到主题:"
+
+#~ msgid "To topic:"
+#~ msgstr "到主题:"
+
+#, fuzzy
+#~ msgid "To web"
+#~ msgstr "到子网:"
+
+#~ msgid "To web:"
+#~ msgstr "到子网:"
+
+#~ msgid "Toolbox"
+#~ msgstr "工具箱"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "主题 %1 不存在"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "主题保存错误"
+
+#~ msgid "Topic attachments"
+#~ msgstr "主题附件"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "主题无法由旧风格的类别表格升级"
+
+#, fuzzy
+#~ msgid "Topic data"
+#~ msgstr "主题名称"
+
+#, fuzzy
+#~ msgid "Topic history"
+#~ msgstr "主题标题"
+
+#, fuzzy
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "子网 %1 内的主题"
+
+#~ msgid "Topic name"
+#~ msgstr "主题名称"
+
+#~ msgid "Topic name:"
+#~ msgstr "主题名称:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "父主题:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "主题版本:"
+
+#~ msgid "Topic save error"
+#~ msgstr "主题保存错误"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "在 %1 子网中的主题范本"
+
+#~ msgid "Topic title"
+#~ msgstr "主题标题"
+
+#~ msgid "Topic was merged"
+#~ msgstr "合并主题"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "主题将改名为:"
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "子网 %1 内的主题:"
+
+#~ msgid "Topics per web"
+#~ msgstr "每个子网的主题"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr "另一个用户正编辑子网 %1 内的主题:"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr "另一个用户正编辑引用此子网内容的主题:"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr "您无权变更被引用子网的主题:"
+
+#~ msgid "Total matches"
+#~ msgstr "完全符合"
+
+#~ msgid "Try Again"
+#~ msgstr "再试一次"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "无法识别用户和/或密码"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "无法识别的功能 %1"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "不正确的 %1.WikiNames"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "更新连结"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "在 %2 更新附件 %1"
+
+#~ msgid "Update links"
+#~ msgstr "更新连结"
+
+#, fuzzy
+#~ msgid "Upgrade group topic..."
+#~ msgstr "复制主题 "
+
+#, fuzzy
+#~ msgid "Upgraded group"
+#~ msgstr "建立新主题"
+
+#, fuzzy
+#~ msgid "Upload a file"
+#~ msgstr "上传档案"
+
+#~ msgid "Upload file"
+#~ msgstr "上传档案"
+
+#, fuzzy
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "在 %2 更新附件 %1"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "上传档案大小上限 %1 KB."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "上传档案 %1 的大小超过上限 %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "上传的档案过大"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "用 %1 取代."
+
+#~ msgid "Use template:"
+#~ msgstr "使用范本:"
+
+#, fuzzy
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "%1 至少需加入一个群组，无法删除"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "删除用户帐号 %1"
+
+#, fuzzy
+#~ msgid "User Account was not supplied"
+#~ msgstr "删除用户帐号 %1"
+
+#~ msgid "User Reference"
+#~ msgstr "用户手册"
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "注册"
+
+#~ msgid "Username"
+#~ msgstr "用户名"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "用户名"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "电子邮件地址错误"
+
+#~ msgid "Users"
+#~ msgstr "用户"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr "使用自动产生密码的用户应立刻[[%1][修改成易记的密码]]。"
+
+#~ msgid "Version"
+#~ msgstr "版本"
+
+#~ msgid "Version history"
+#~ msgstr "版本历史"
+
+#~ msgid "Version history of %1"
+#~ msgstr "%1 的版本历史"
+
+#~ msgid "View"
+#~ msgstr "浏览"
+
+#, fuzzy
+#~ msgid "View complete topic history"
+#~ msgstr "检视主题完整修订史"
+
+#~ msgid "View difference"
+#~ msgstr "检视差异"
+
+#, fuzzy
+#~ msgid "View differences"
+#~ msgstr "检视差异"
+
+#, fuzzy
+#~ msgid "View earlier"
+#~ msgstr "检视范本"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "检视范本"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "检视主题的前一个版本"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "检视源码"
+
+#, fuzzy
+#~ msgid "View revision"
+#~ msgstr "检视修订版:"
+
+#~ msgid "View revision:"
+#~ msgstr "检视修订版:"
+
+#, fuzzy
+#~ msgid "View sequential topic history"
+#~ msgstr "检视主题完整修订史"
+
+#~ msgid "View templates"
+#~ msgstr "检视范本"
+
+#~ msgid "View topic"
+#~ msgstr "检视主题"
+
+#~ msgid "View total topic history"
+#~ msgstr "检视主题完整修订史"
+
+#, fuzzy
+#~ msgid "View without formatting (v)"
+#~ msgstr "检视源码"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "要求确认"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "警告:  \"包含\" 的主题不存在！"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr "警告: 无法重复包含 %1，主题已经包含。%2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr "警告: 无法包含 %1，路径空白或包含非法字元。"
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "警告: 主题 %1. %2 内找不到命名的段落 %3"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "警告: 找不到主题%1. %2"
+
+#, fuzzy
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "警告: 找不到主题%1. %2"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "警告: 无法寄送确认邮件"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "警告: \\'include\\' 的主题不存在！"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "警告:  \"包含\" 的主题不存在！"
+
+#, fuzzy
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "警告: \\'include\\' 的主题不存在！"
+
+#~ msgid "Webs"
+#~ msgstr "子网"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "欢迎来到 %1 子网"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "正试寄电子邮件给 <noautolink>%1</noautolink>."
+
+#~ msgid "Who"
+#~ msgstr "谁"
+
+#, fuzzy
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "为何您被要求确认"
+
+#, fuzzy
+#~ msgid "Word search"
+#~ msgstr "修改搜寻:"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "您喜欢去:"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "您 *必须* 至少有 1 个有效的注册电子邮件才能重设密码。若您忘记密码且注册用"
+#~ "的邮件地址已失效，后请联系 %1。"
+
+#, fuzzy
+#~ msgid "You are already registered."
+#~ msgstr "您已注册"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "您也被列在%1主题中"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "在本子网中，您禁止浏览在以下主题:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "鼓励您保存后继续编辑 - 除非您想改变本主题附的表单内容。如果 %1 _真的_在您"
+#~ "编辑时保存，您的修改将会合并，而不会有资料遗失。但表单资料无法简单合并，所"
+#~ "以此时建议您先检查 %1。"
+
+#~ msgid "You are here:"
+#~ msgstr "您在:"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "建议您使用短名称，最好少于 10 个字母，以大写字母开头且只用英文字母及数字。"
+#~ "若您想建立子网范本（建立新子网用的子网），子网名称必须始于下划线，且之后只"
+#~ "用英文字母及数字。"
+
+#, fuzzy
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "%1 的附件不存在。"
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr "您将建立的主题，其范本并不存在。"
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr "您将处理的主题并不存在（处理 %1）。"
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "您将更名的主题并不存在。"
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr "若有授权，您可以 [[%1][建立新子网]]。如有任何问题，联系 %2。"
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "您能使用标准 HTML 颜色的名称：(black, silver, gray, white, maroon, red, "
+#~ "purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "您可利用 %1 修改密码"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "您能为本子网改名。"
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr "或许您需要询问管理员 %1 以进行这个工作。"
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr "您不能注册 2 次，%1 已经注册过。"
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "您*尚未*注册。"
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr "若觉得设定不适合您的环境，请通知管理员协助修改。"
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr "您已点击曾经浏览过的注册验证连结。"
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr "您需关闭浏览器，使变更生效。"
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "您必须输入主题名称。"
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "现在您需要检查电子邮件位址。当电子邮件寄出后，您能进入 %1 检查表单内容，或"
+#~ "是浏览 %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr "或许您需要询问管理员 %1 以进行这个工作。"
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "不正确的 %1.WikiNames"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "您的启动码已经寄到 %1 。点击电子邮件中的连结或在下面输入代码以启动会员资格"
+#~ "（启动码格式 \"YourName.xxxxxxxxxx\"）"
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "您的密码已改成 %1。"
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "您的密码已改成 %1。"
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "您的密码已改成 %1。"
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "本站的密码至少要 %1 个字元"
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "您的密码:"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr "您在 %2 内的个人 %1 主题。可按您的习惯修改。 "
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "已建立您的个人主题 %1"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr "您的注册邮件地址已更新为 <noautolink>%1</noautolink> 。"
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr "您的注册确认电子邮件寄送失败，或在邮件系统中等待寄出。"
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "复制/贴上您的签名"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "复制/贴上您的签名:"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr "您的系统可能不支援变更 Foswiki 密码，请联络管理者。"
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][主题内文除错]]。"
+
+# please enter the name of your language here (written in the native language):
+#~ msgid "_language_name"
+#~ msgstr "简体中文"
+
+#~ msgid "access denied on root"
+#~ msgstr "禁止浏览根目录"
+
+#~ msgid "access denied on topic"
+#~ msgstr "禁止浏览主题"
+
+#~ msgid "access denied on web"
+#~ msgstr "禁止浏览子网"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "不允许浏览根目录"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "不允许浏览主题"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "不允许浏览子网"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "快捷键='c'"
+
+#~ msgid "and"
+#~ msgstr "和"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "变更，更新，前一个版本，移动，删除..."
+
+#, fuzzy
+#~ msgid "close display options"
+#~ msgstr "更多主题功能..."
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "别忘了检查您的主题设定"
+
+#~ msgid "fields are required."
+#~ msgstr "必填栏位。"
+
+#~ msgid "help"
+#~ msgstr "说明"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "增加表单"
+
+#~ msgid "hints on good style"
+#~ msgstr "优良格式的提示"
+
+#~ msgid "in raw text format"
+#~ msgstr "源码模式"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "最近更新的主题"
+
+#~ msgid "manage"
+#~ msgstr "管理"
+
+#~ msgid "more..."
+#~ msgstr "更多..."
+
+#~ msgid "now %1"
+#~ msgstr "现在 %1"
+
+#~ msgid "or"
+#~ msgstr "或"
+
+#~ msgid "preview"
+#~ msgstr "预览"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "自 %1 找出"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "(修订版 %1)"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "(设定属性)"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr "title='为这个主题增加图片或档案' accesskey='a'>增加附件(&A)"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr "title='为这个主题增加图片或档案' accesskey='a'>增加附件(&A)"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='建立新主题' accesskey='c'>建立(&C)"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='主题删除或改名；设定父主题；查看和比较版本' accesskey='m'>更多主题"
+#~ "功能(&M)"
+
+#, fuzzy
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
+
+#, fuzzy
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr "title='列印本主题' accesskey='p' >列印(&P)"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr "title='搜寻所有子网中连结至此的主题' accesskey='l'>全站搜寻(&L)"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr "title='搜寻 %1 子网中连结至此的主题' accesskey='b'>反向连结(&B)"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr "title='搜寻 %1 子网中连结至此的主题' accesskey='b'>子网搜寻(&B)"
+
+#, fuzzy
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr "title='列印本主题' accesskey='p' >列印(&P)"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='浏览主题历史' accesskey='h'>历史(&H)"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
+
+#, fuzzy
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr "title='检视源码' accesskey='v'>检视源码(&V)"
+
+#~ msgid "user list truncated"
+#~ msgstr "用户列表被删节"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='取消' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='放弃' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='预览' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='快速保存' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='保存并继续编辑' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='保存' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "浏览"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "为何您被要求确认"
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 已使用电子邮件地址 %2 注册"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "回到 %1."
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr "国际字元 (8位元) 已删除 (并以 Latin-1 相同的 US-ASCII 字元替代)"
+
+#~ msgid "Notes:"
+#~ msgstr "注意:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "您的语言将在下个荧幕改成 %1。现在您即将转到那里。若否，请[[%2][点击这"
+#~ "里]]。"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "移动或删除附件"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "勾选参考主题"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "上传档案"
+
+#~ msgid "Pick from a list"
+#~ msgstr "自清单中选择"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "您的 %1.LoginName"
+
+#~ msgid "Login name %1"
+#~ msgstr "登录名 %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "您的 %1.LoginName"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "不正确的 %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr "%1 栏位必须符合本站的注册名称的 {LoginNameFilterIn} 过滤规则"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "名:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "改名"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "主题名称"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "功能"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "到主题:"
+
+#~ msgid "Hello %1"
+#~ msgstr "您好 %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "或"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "主题名称"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*格式说明:*"
+
+#~ msgid "&Edit text"
+#~ msgstr "编辑(&E)"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr "[[%1][最近更新]]内有更完整的变更清单。 "
+
+#~ msgid "Bathing problem"
+#~ msgstr "洗澡套件有问题"
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "建立主题"
+
+#~ msgid "Current parent:"
+#~ msgstr "目前父主题:"
+
+#~ msgid "Edit text"
+#~ msgstr "编辑文本"
+
+#~ msgid "Error: %1"
+#~ msgstr "错误: %1"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "若您的用户主题没有上锁不让其他用户修改，且您的注册表单未填邮件地址，您的帐"
+#~ "号可能被他人盗用。"
+
+#, fuzzy
+#~ msgid "Log on with your username and password"
+#~ msgstr "请输入您的用户名和密码"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "充填澡盆有问题"
+
+#, fuzzy
+#~ msgid "Show"
+#~ msgstr "显示说明"
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(在 System.WikiNotation 使用一个主题名)"
+
+#~ msgid "Warning"
+#~ msgstr "警告"
+
+#, fuzzy
+#~ msgid "You cannot register on this site."
+#~ msgstr "您不能注册 2 次，%1 已经注册过。"
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "您必须以合法的邮件地址注册。若系统无法找到您注册的邮件地址，它将在您的用户"
+#~ "主题中找以下这行:"
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr "您的用户主题尚未更名。请用电子邮件向 %1 申请。"
+
+#, fuzzy
+#~ msgid "later"
+#~ msgstr "日期"
+
+#, fuzzy
+#~ msgid "revisions up to"
+#~ msgstr "修订版"
+
+#, fuzzy
+#~ msgid "Attachment metadata"
+#~ msgstr "附件移动失败"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "<a target='Macros' class='foswikiPopUp' href='%1' rel='nofollow'>变更主题"
+#~ "设定</a>的说明。"
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "<a target='ManagingTopics' class='foswikiPopUp' href='%1' rel='nofollow'>"
+#~ "主题移动和改名</a>的说明。"
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "<a target='ManagingWebs' class='foswikiPopUp' href='%1' rel='nofollow'>子"
+#~ "网移动和改名</a>的说明。"
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "在新视窗浏览新修订版说明"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，D = 放弃"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - 快速参考 Foswiki 的完整文件"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - 个人使用"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - 开始用 Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - 开始试用 Foswiki"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - 观看 Foswiki 新手简介"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 修改您的电子邮件地址"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 修改您的密码"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 是 Foswiki 使用者文件清单"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 列出所有使用者工具"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(如何登录) LoginName:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(变更身份) WikiName:"
+
+#~ msgid "(optional)"
+#~ msgstr "(非必须)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(建议)"
+
+#~ msgid "(search results)"
+#~ msgstr "(搜寻结果)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "将您的名字加入 %2 子网 %1 主题的用户列表中。"
+
+#~ msgid "Advanced Search"
+#~ msgstr "进阶搜寻"
+
+#~ msgid "Comments:"
+#~ msgstr "评论:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr "复制文字和表单资料到新的主题（但不复制附件）。"
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "建立<nop>TestTopic###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "建立一个新的自动编号测试主题:"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "建立新主题的名称:"
+
+#~ msgid "Create by Name"
+#~ msgstr "根据名称建立"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr "依您的 WikiName 建立个人%1主题，并为主题增加内容。"
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr "您的帐号建立完成，您可以开始编辑您的 WikiName 页面。"
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Foswikis 用户介面有多种语言，若要改变语言，请选择并点 \"改变语言\"。否则"
+#~ "点  \"取消\" 回到前一个主题。"
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr "若您已知主题名称，请在上面的[[%1][到...]]中输入主题名称"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "依字母顺序列出%1子网的所有主题"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "本地客制化的网站设定"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "移动附件到子网:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "组织连结:"
+
+#~ msgid "Other Country"
+#~ msgstr "其他国家"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr "否则，用本表单发一封新的邮件给您。"
+
+#~ msgid "Personal Preferences"
+#~ msgstr "个人设定"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr "快速编辑现有属性（编辑主题并设定新属性）"
+
+#~ msgid "Raw edit"
+#~ msgstr "编辑源码"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr "注册用户可以 [[%1][修改]] 和 [[%2][重设]] 密码"
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "改名/移动主题..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "改名/移动/删除子网..."
+
+#~ msgid "Retype password:"
+#~ msgstr "重新输入密码:"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "寄电子邮件确认您的注册。"
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr "滑鼠移动到连结 %1 上时显示工具技巧提示，打开或关闭:"
+
+#~ msgid "Simple search"
+#~ msgstr "简单搜寻"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "网站层级的设定放在 %1，但这个 %2 偏好主题有更高的优先权且于本地客制化时应"
+#~ "用。这样可更易于升级，因为新版附的设定并不会覆盖您的设定，可以不用担心。若"
+#~ "只复制您改过的设定，这样较容易掌控。"
+
+#~ msgid "Test Topics"
+#~ msgstr "测试主题"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "本网站_不_支持新用户注册"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr "您必须有注册帐号和密码，才能编辑本网站页面。"
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "注册新用户，请填写本表格:"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr "请将评论符号 # 删除以启用相关的参数设定，更多参数说明请参考 %1"
+
+#~ msgid "Web Search"
+#~ msgstr "子网搜寻"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "当 %1 收到表单，系统将自动寄用户启动码给您留的邮件地址。请在下个视窗输入启"
+#~ "动码，或点击邮件中的帐号启动连结启动帐号。帐号启动后，%1 将:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr "在您的用户主题中设定 %1 的参数，将可永远设定您喜好的语言。"
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr "您能在审查复制的主题后再保存"
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr "您能在审查主题后再存成新的版本"
+
+#~ msgid "advanced search"
+#~ msgstr "进阶搜寻"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "寻找 _所有子网_ 中的参考资料"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "只搜寻在 _%1 子网_ 中的连结"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "搜寻_所有公开子网_ 中的连结"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr "title='编辑主题源码' accesskey='w'>编辑源码(&W)"

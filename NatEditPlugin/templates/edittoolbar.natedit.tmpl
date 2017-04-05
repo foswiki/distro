@@ -19,7 +19,7 @@
 
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::paragraphbuttons"}%<!-- -->
-  <a href="#" class="ui-natedit-menu-button ui-natedit-paragraph" data-menu=".ui-natedit-paragraph-menu" title="%MAKETEXT{"Format selected text"}%">%MAKETEXT{"Paragraph"}%</a>
+  <a href="#" class="ui-natedit-menu-button ui-natedit-paragraph" data-menu=".ui-natedit-paragraph-menu" title="%MAKETEXT{"Format selected text"}%">%MAKETEXT{"Format"}%</a>
 <!-- -->%TMPL:END%
 
 %{ ################################################################################ }%
@@ -82,8 +82,7 @@
   <div class="ui-natedit-buttons ui-natedit-insert-object-buttons">
     <a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="fa fa-table"></i></a>
     <a href="#" title="%MAKETEXT{"Insert a link"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="fa fa-link"></i></a>
-    <a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="fa fa-paperclip"></i></a>
-    <!-- a href="#" title="Insert image" data-dialog="insertimage"><i class="fa fa-picture-o"></i></a -->
+    <a href="#" title="%MAKETEXT{"Insert Image"}%" data-dialog="insertimage" data-okay-handler="handleInsertImage" data-open-handler="initImageDialog"><i class="fa fa-picture-o"></i></a>
     <a href="#" class="ui-natedit-menu-button ui-natedit-insert" title="%MAKETEXT{"More objects to insert"}%" data-menu=".ui-natedit-more-insert-menu"><i class="fa fa-plus"></i></a>
   </div>
 <!-- -->%TMPL:END%
@@ -101,7 +100,6 @@
 }%<!-- -->
     <!-- li><a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="ui-icon fa fa-table"></i> %MAKETEXT{"Table"}%</a></li -->
     <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a topic or an external resource"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="ui-icon fa fa-link"></i> %MAKETEXT{"Link"}%</a></li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="ui-icon fa fa-paperclip"></i> %MAKETEXT{"Attachment"}%</a></li -->
     <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a user-profile"}%"><i class="ui-icon fa">@</i> User mention</a></li -->
     <li><a href="#" title="%MAKETEXT{"Insert your signature"}%" data-markup="signatureMarkup"><i class="ui-icon fa fa-pencil-square-o"></i> %MAKETEXT{"Signature"}%</a></li>
     <li><a href="#" title="%MAKETEXT{"Insert a horizontal ruler"}%" data-markup="horizRulerMarkup"><i class="ui-icon fa fa-minus"></i> %MAKETEXT{"Horizontal ruler"}%</a></li>

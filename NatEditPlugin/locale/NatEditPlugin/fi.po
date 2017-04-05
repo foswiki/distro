@@ -1,0 +1,4531 @@
+# Foswiki translation for finnish
+# Translators:
+#   Heikki Toivonen <heikki@osafoundation.org>
+#   Tapio Salonsaari <take@nerd.fi> 2009
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2010-07-15 14:07+0200\n"
+"Last-Translator: ghfg <sdfsd@gmail.com>\n"
+"Language-Team: FINNISH <heikki@osafoundation.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Finnish\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Pääsyavaimet"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+#, fuzzy
+msgid "Add a new form to <nop>%1"
+msgstr "Valitse uusi malli %1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Lisää lomake"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Liite"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Peru"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+#, fuzzy
+msgid "Change form"
+msgstr "Muuta:"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Sulje"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:50
+#, fuzzy
+msgid "Create a new table"
+msgstr "Luo uusi aihe"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Päiväys"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+#, fuzzy
+msgid "Default"
+msgstr "Oletus-sivupohja"
+
+#: data/System/NatEditWordHelpText.txt:16
+#, fuzzy
+msgid "Documentation"
+msgstr "Nykyinen sijainti:"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Jokaisella preferenssillä on syntaksi"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Pakota uusi versio"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+#, fuzzy
+msgid "Formatted Search"
+msgstr "Muuta hakua"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Ohje"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+#, fuzzy
+msgid "Indent"
+msgstr "Hakemisto"
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+#, fuzzy
+msgid "Insert an attachment"
+msgstr "Poista liite"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Linkki"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+#, fuzzy
+msgid "More character formats"
+msgstr "raa'assa tekstimuodossa"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+#, fuzzy
+msgid "Numbered list"
+msgstr "Aiheiden lukumäärä:"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+#, fuzzy
+msgid "Permissions"
+msgstr "Versiot"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "esikatselu"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "Esikatsele viimeisimpiä muutoksia:"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "Rekisteröidy"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Replace"
+msgstr "Korvaa lomake..."
+
+#: templates/edittoolbar.natedit.tmpl:144
+#, fuzzy
+msgid "Restore"
+msgstr "Palauta"
+
+#: templates/edittoolbar.natedit.tmpl:160
+#, fuzzy
+msgid "Restore and Continue"
+msgstr "Palauta aihe"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+#, fuzzy
+msgid "Restore and exit"
+msgstr "Palauta aihe"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+#, fuzzy
+msgid "Save"
+msgstr "Tallennettu:"
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='Tallenna ja Jatka' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "Tallennettu:"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Etsi"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "(haun tulos)"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "Leipäteksti"
+
+#: templates/edit.natedit.tmpl:79
+#, fuzzy
+msgid "Title:"
+msgstr "Aiheen otsikko"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "Aiheeseen:"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "Verkot"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr "[3 väliä] * [väli] Set [väli] MUUTTUJANNIMI [väli] = [arvo]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+#, fuzzy
+msgid "default as defined in the %1"
+msgstr "Mallin pitäisi olla määritelty %1 aiheessa"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "muokkaa"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "(muokkaa lomaketta)"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "merkitsee vaadittua kenttää"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "Kaikki julkiset verkot"
+
+#: templates/edit.natedit.tmpl:7
+#, fuzzy
+msgid "restore"
+msgstr "Palauta"
+
+#: templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "restore form"
+msgstr "Palauta aihe"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#, fuzzy
+#~ msgid "!WikiName"
+#~ msgstr "Aiheen nimi"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,päivä) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,tunti) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,minuutti) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,sekunti) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Rekisteröinnin epäonnistuminen %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Rekisteröinti %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 Web"
+
+#, fuzzy
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
+
+#, fuzzy
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
+
+#, fuzzy
+#~ msgid "%1 denied the registration."
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 sisältää listan muista Foswikin käyttäjistä"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr ""
+#~ "%1 on muokannut aihetta %2 ja muokkaustila on yhä aktiivinen seuraavien "
+#~ "%3 ajan"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 on rekisteröitynyt sähköpostiosoitteella %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 on vastaanottanut epäilyttävän muutospyynnön selaimeltasi."
+
+#~ msgid "%1 home"
+#~ msgstr "%1 koti"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 ei ole sallittu nimi uudelle verkolle"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 on kirjautuneena"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 on tällähetkellä asetettu arvoon %2"
+
+#, fuzzy
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "%1 muokkaa aihetta %2"
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 on vähintään yhdessä ryhmässä eikä täten voida poistaa"
+
+#, fuzzy
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#, fuzzy
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 on oletusaihe poistetuille liitteille"
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%1 saattaa edelleen muokata aihetta %2"
+
+#, fuzzy
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 viimeisintä muutosta %2 verkossa"
+
+#, fuzzy
+#~ msgid "%1 registration approval required"
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "%1 registration denied"
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 luodaksesi uuden webin"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 kustomoidaksesi verkon tietyt asetukset"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 aloittaaksesi työskentelyn uuden webin kanssa"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "%1 aihetta ei ole olemassa"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 yritti rekisteröityä sähköpostiosoitteella %2"
+
+#, fuzzy
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "Aiheen nimi ei voi olla tyhjä."
+
+#~ msgid "&Cancel"
+#~ msgstr "&Peru"
+
+#~ msgid "&History"
+#~ msgstr "&Historia"
+
+#, fuzzy
+#~ msgid "&Sequential"
+#~ msgstr "Peräkkäinen"
+
+#, fuzzy
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "'Luo uusi aihe' sivu on siirretty"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 kirjaudu sisään)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 validointi)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 vs. %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*Ehdotus:* Mitä jos lataisit kuvasi aiheeseesi?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=kaikki= näyttääksesi kaikki aiheet)"
+
+#, fuzzy
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(käänteislinkit %1 verkossa)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(pääsy kielletty)"
+
+#~ msgid "(attach)"
+#~ msgstr "(liitä)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(käänteislinkit %1 verkossa)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(Käänteislinkit kaikissa verkoissa)"
+
+#~ msgid "(book view)"
+#~ msgstr "(kirjanäkymä)"
+
+#~ msgid "(change form)"
+#~ msgstr "(vaihda lomake)"
+
+#~ msgid "(change language)"
+#~ msgstr "(vaihda kieli)"
+
+#~ msgid "(changes)"
+#~ msgstr "(muutokset)"
+
+#, fuzzy
+#~ msgid "(compare)"
+#~ msgstr "(lisää...)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(poista liite)"
+
+#~ msgid "(delete)"
+#~ msgstr "(poista)"
+
+#, fuzzy
+#~ msgid "(disabled)"
+#~ msgstr "Muokkaa taulukkoa"
+
+#~ msgid "(edit form)"
+#~ msgstr "(muokkaa lomaketta)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(muokkaa tekstiä)"
+
+#~ msgid "(edit)"
+#~ msgstr "(muokkaa)"
+
+#~ msgid "(login)"
+#~ msgstr "(kirjaudu sisään)"
+
+#~ msgid "(more)"
+#~ msgstr "(lisää...)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(siirrä liite)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(ei isäartikkelia, orpoartikkeli)"
+
+#~ msgid "(none)"
+#~ msgstr "(tyhjä)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(muutoin etsi vain verkosta %1)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(näytä raaka)"
+
+#, fuzzy
+#~ msgid "(redirect denied)"
+#~ msgstr "(pääsy kielletty)"
+
+#~ msgid "(rename)"
+#~ msgstr "(nimeä uudelleen)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(versio %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(tallenna virhe)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(yhden merkin etunimi)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(yhden merkin sukunimi)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(hypätty yli)"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*Paikallinen tiedosto:* Jos valitset eri tiedoston _Local file:_, tämä "
+#~ "tulee päivitetyksi tai lisätyksi."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Muuta kommentti:* Jos käytät _Change Properties_ muuttaaksesi "
+#~ "kommenttia, aiheessa näkyvä kommentti muuttuu, mutta liitehistoriassa "
+#~ "näkyvä kommentti on se mikä määriteltiin tiedostoa lähettäessä."
+
+#, fuzzy
+#~ msgid "*Formatting help:*"
+#~ msgstr "Lisää muotoiluapua"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Tärkeää:* Tästä lomakkeesta saatu data varastoidaan tietokantaan "
+#~ "Foswikipalvelimelle. Tähän tietokantaan pääsee kirjautumaan selaimen "
+#~ "kautta kuka tahansa, jolla on pääsy palvelimelle (Paitsi salasant ovat "
+#~ "kryptattuja ja sähköpostiosoitteet sotkettu, jotta spammaaminen "
+#~ "vähentyisi). Sinun maa, tai se maa jolla palvelin toimii; voi olla datan "
+#~ "suojaus lakeja valvoakseen, joilla valvotaan tälläisten tietokantojen "
+#~ "ylläpitoa. Jos epäilet tätä, ota yhteyttä %1 yksityiskohdista tämän "
+#~ "Foswikin datan suojauksen menettelytavoista ennen rekisteröimistä."
+
+#, fuzzy
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*Asetukset:* Kommentti ja näkyvyys (esim. onko liite piilotettu) voidaan "
+#~ "muuttaa lähettämättä tiedostoa painamalla  \"Change Properties only\"; "
+#~ "katso %1."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr "*vahvistus* ympäröi sana tai lause tähdillä: =<nop>*sinun lause*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*Luetelmalistaus* 3 väliä, 1 tähti, 1 väli: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "tekstisi="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*ulkoiset linkit*  =http://yahoo.com= tai =[<nop>[http://yahoo.com/]"
+#~ "[linkki Yahoon]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*Otsikot* 3 ajatusviivaa, 1-6 plussaa, 1 väli: =---++&&nbsp;Otsikkosi="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr ""
+#~ "*kursivointi* Ympäröi sana tai lause alaviivoilla:   =_<nop>sanasi_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*tasalevyiset* Ympäröi sana tai lause 2 yhtä suuri-merkillä: "
+#~ "=<nop>=sanasi=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*kappaleet* erotetaan tyhjällä viivalla"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*sivustolinkit* käytä aiheen nimeä: =%1= or =[<nop>[%1][Kotisivumme]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>RSS syöttö</a>, viimeiset <a href='%2'>50</a>, <a href='%3' "
+#~ "rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
+#~ "rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> muutosta "
+#~ "aiheissa, <a href='%7' rel='nofollow'>kaikki muutokset</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "vain <em>verkossa %1</em>"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>kaikissa julkisissa verkoissa</em>"
+
+#, fuzzy
+#~ msgid "<nop>WikiName:"
+#~ msgstr "Aiheen nimi"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr ""
+#~ "Tiedostotarkenne =.txt= liitetään joihinkin tiedostoihin automaattisesti "
+#~ "tietoturvasyistä"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Foswiki sivusto on jaettu verkkoihin. Jokainen verkko edustaa yhtä "
+#~ "aihealuetta. Yrität suorittaa %1 verkossa, jota ei ole olemassa"
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "Värimäärittely alkaa # -merkillä, jonka jälkeen tulee 6 heksadesimaalista "
+#~ "numeroa, esimerkiksi =#FFFF00="
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "Varmistussähköposti lähetetty osoitteeseen %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "Linkitys aiheeseen, joka sijaitsee toisessa verkossa, kirjoitetaan esim. "
+#~ "näin %1. Huolehdi, ettei verkon nimi ole kirjoitettu väärin edellisellä "
+#~ "sivulla; korjaa linkki tarvittaessa."
+
+#, fuzzy
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Uusi, automaattisesti generoitu, salasanasi tunnukselle %1 (!WikiNimi %2) "
+#~ "on lähetetty rekisteröimääsi sähköpostiosoitteeseen. Mikäli tämä osoite "
+#~ "ei ole enää voimassa ota yhteyttä ylläpitäjään: %3"
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr "Aihesivupohja määrittelee alustavan sisällön uusille aiheille."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "Aihe tällä nimellä on ollut olemassa, mutta se on joko poistettu tai "
+#~ "siirretty sijaintiin %1."
+
+#~ msgid "Access Denied"
+#~ msgstr "Pääsy estetty"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "Pääsytarkistus %1 epäonnistui"
+
+#, fuzzy
+#~ msgid "Access keys:"
+#~ msgstr "Pääsyavaimet"
+
+#~ msgid "Action"
+#~ msgstr "Toiminto"
+
+#, fuzzy
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Toiminto %1: %2."
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "Toiminto"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Virheellinen aktivointikoodi"
+
+#, fuzzy
+#~ msgid "Add"
+#~ msgstr "Lisää rivi"
+
+#, fuzzy
+#~ msgid "Add Members to %1"
+#~ msgstr "Lisää rivi"
+
+#, fuzzy
+#~ msgid "Add members"
+#~ msgstr "Lisää rivi"
+
+#~ msgid "Add row"
+#~ msgstr "Lisää rivi"
+
+#, fuzzy
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Muokkaa tämän aiheen asetuksia"
+
+#, fuzzy
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Lisätä %1 muuttuja Web"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Foswikin ylläpitäjän käyttäjätodennus"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Ylläpitäjän huolto"
+
+#, fuzzy
+#~ msgid "Administration"
+#~ msgstr "Rekisteröinti"
+
+#~ msgid "Advanced search"
+#~ msgstr "Tarkennettu haku"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Lomakkeen lähettämisen jälkeen sähköpostiosoitteesi vaihdetaan ja palaat "
+#~ "takaisin lomakkeelle."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Lomakkeen lähettämisen jälkeen salasanasi vaihtuu."
+
+#, fuzzy
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Lomakkeen lähettämisen jälkeen saat sähköpostitse uuden, *automaattisesti "
+#~ "generoidun*, salasanasi ja linkin sivulle, jossa voit vaihtaa sen."
+
+#~ msgid "All public webs"
+#~ msgstr "Kaikki julkiset verkot"
+
+#, fuzzy
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "Salli ei- <nop>WikiSana uuden aiheen nimeksi"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Vaihtoehtoisesti klikkaa paluuta palataksesi [[%SYSTEMWEB%."
+#~ "UserRegistration][rekisteröitymislomakkeelle]] ja valitse toinen "
+#~ "käyttäjätunnus."
+
+#, fuzzy
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Liite on jo olemassa uudessa aiheessa"
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "Jos aiheet ovat lukittu toisen käyttäjän toimesta sinulle näytetään "
+#~ "virheilmoitus."
+
+#, fuzzy
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "On mahdollista että joku yrittää käyttää sinun käyttäjänimeäsi "
+#~ "muuttaakseen %1 sisältöä tietämättäsi."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "Sisältää kantaverkon aiheita"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Kaikki muutokset, jotka olet tehnyt aiheeseen ennen saapumistasi tälle "
+#~ "sivulle on säilytetty."
+
+#~ msgid "Attach"
+#~ msgstr "Liitä"
+
+#, fuzzy
+#~ msgid "Attach a file"
+#~ msgstr "Liitä uusi tiedosto"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "title='Liitä kuva tai dokumentti tähän aiheeseen' accesskey='a'>Liitä"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Liitä tiedosto sijaintiin %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Liitä kuva tai dokumentti sijaintiin %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Liitä uusi tiedosto"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Liitettä '%1' ei ole olemassa"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Liitteen poisto ei onnistunut"
+
+#, fuzzy
+#~ msgid "Attachment does not exist."
+#~ msgstr "Liitettä ei ole olemassa"
+
+#, fuzzy
+#~ msgid "Attachment history"
+#~ msgstr "Liitteet"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Liitteen siirto ei onnistunut"
+
+#, fuzzy
+#~ msgid "Attachment name:"
+#~ msgstr "Liite"
+
+#~ msgid "Attachments"
+#~ msgstr "Liitteet"
+
+#, fuzzy
+#~ msgid "Attachments %1"
+#~ msgstr "Liitteet kohteessa %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Liitteet kohteessa %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Liitteitä ei näytetä aiheiden sivulla."
+
+#~ msgid "Attention"
+#~ msgstr "Huomio"
+
+#~ msgid "Attribute"
+#~ msgstr "Attribuutti"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Automaattinen ilmoitus aiheen muutoksista"
+
+#~ msgid "Available Information"
+#~ msgstr "Käytössäoleva tieto"
+
+#~ msgid "Available form templates"
+#~ msgstr "Saatavilla olevat sivupohjamallit"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Saatavilla olevat sivupohjat %1 verkossa:"
+
+#~ msgid "Back to topic"
+#~ msgstr "Takaisin aiheeseen"
+
+#~ msgid "Backlinks"
+#~ msgstr "Käänteislinkit"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Käänteislinkit %1 %2 verkossa"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Käänteislinkit %1 kaikissa verkoissa"
+
+#, fuzzy
+#~ msgid "Backlinks:"
+#~ msgstr "Käänteislinkit"
+
+#~ msgid "Bad password"
+#~ msgstr "Huono salasana"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Perusverkko %1 puuttuu tai ei ole olemassa"
+
+#~ msgid "Both body and title"
+#~ msgstr "Molemmat otsikko ja runko"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Mutta nykyinen dataluokka menetetään (voit aina noutaa tämän datan "
+#~ "aihehistoriasta)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "Oletuksena, Trash verkon selaaminen on rajoitettu %1. Jos haluat sallia "
+#~ "kaikkien käyttäjien selata Trash verkon, poista =ALLOWWEBVIEW= "
+#~ "rajoitukset WebPreferences:ssä."
+
+#~ msgid "Can't find user %1"
+#~ msgstr "Käyttäjää %1 ei löydy"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "Sähköpostiosoitetta tilille %1 ei löydy (vaaditaan salasanan resetointiin)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Peru muokkaus ja hylkää muutokset"
+
+#, fuzzy
+#~ msgid "Cancel upload"
+#~ msgstr "Peru"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Ei voi luoda %1 koska se on jo olemassa."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Ei voida luoda verkkoa %1 koska se on jo olemassa"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr ""
+#~ "%1: nimeäminen uudelleen nimelle %2 ei onnistu, koska kohde on jo "
+#~ "olemassa."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Merkkikokoriippuvainen"
+
+#~ msgid "Categories"
+#~ msgstr "Kategoriat"
+
+#, fuzzy
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä "
+#~ "osoitteeseen %1"
+
+#, fuzzy
+#~ msgid "Change E-mail Address"
+#~ msgstr "Sähköpostiosoite:"
+
+#~ msgid "Change Password"
+#~ msgstr "Muuta salasana"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Muuta kommentti ja asetuksia ainoastaan"
+
+#, fuzzy
+#~ msgid "Change e-mail address"
+#~ msgstr "Virheellinen sähköpostiosoite"
+
+#, fuzzy
+#~ msgid "Change from"
+#~ msgstr "Muuta:"
+
+#~ msgid "Change language"
+#~ msgstr "Vaihda kieli"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "Muuta aiheiden linkit jotka viittaavat !%1 mihin tahansa verkkoon:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Muuta aiheen linkit, jotka viittaavat !%1 verkossa %2:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Muuta linkit aiheissa, mitkä viittaavat %1 mihin tahansa verkkoon:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Muuta linkit aiheissa, mitkä viittaavat %1 verkossa %2:"
+
+#~ msgid "Change password"
+#~ msgstr "Muuta salasana"
+
+#~ msgid "Change properties only"
+#~ msgstr "Muuta asetuksia ainoastaan"
+
+#~ msgid "Change topic"
+#~ msgstr "Muuta aihetta"
+
+#, fuzzy
+#~ msgid "Changed by:"
+#~ msgstr "Muuttanut"
+
+#, fuzzy
+#~ msgid "Changed on"
+#~ msgstr "Muutettu"
+
+#~ msgid "Changed:"
+#~ msgstr "Muuttanut:"
+
+#~ msgid "Changes"
+#~ msgstr "Muutokset"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Muutokset v%1 - v%2"
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr "Valitut aiheet päivitetään viittaamaan uuteen aiheen sijaintiin."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr "Valitut aiheet päivitetään viittaamaan uuteen verkkonimeen."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Aliaiheet %1 verkossa"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Käänteislinkit %1 %2 verkossa"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Valitse uusi malli %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Tyhjennä kaikki"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Tyhjennä kaikki"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Muuttaaksesi asetuksia, klikkaa siirtyäksesi takaisin edelliseen kohtaan."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "Värikoodi %1 ei ole oikein määritelty"
+
+#~ msgid "Comment"
+#~ msgstr "Kommentti"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Vertaa versioita"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "Uusi salasana:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Varmista uudelleennimeäminen tai siirto"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "Vahvista muutoksesi käyttäen Foswikin [[%1][aiheen historiavertailu-"
+#~ "työkalua]]."
+
+#~ msgid "Conflict"
+#~ msgstr "Ristiriita"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Ota yhteyttä %1 jos sinulla on kysyttävää"
+
+#, fuzzy
+#~ msgid "Context"
+#~ msgstr "Maa:"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Jatka ja yritä nimetä verkko uudelleen?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Jatka uuden sivun luontiin"
+
+#~ msgid "Copy topic"
+#~ msgstr "Kopioi aihe"
+
+#, fuzzy
+#~ msgid "Copy topic..."
+#~ msgstr "Kopioi aihe"
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Tekijänoikeus &&copy; osallistujien kesken. Kaikki materiaali tässä "
+#~ "yhteisöllisessä sovellusalustassa on osallistujien omistuksessa."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Tekijänoikeus &&copy; osallistujien kesken. Kaikki materiaali tässä "
+#~ "sivustossa on osallistujien omistuksessa."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Ei voitu luoda uutta verkkoa %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "Sivupohjaa ei löytynyt"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Ei voitu tallentaa %1."
+
+#, fuzzy
+#~ msgid "Country:"
+#~ msgstr "Maa:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Luo uusi aihe"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Luo uusi aihe"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Luo uusi aihe verkossa %1"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Luo linkki liitettyyn tiedostoon"
+
+#, fuzzy
+#~ msgid "Create a new group"
+#~ msgstr "Luo uusi aihe"
+
+#, fuzzy
+#~ msgid "Create account"
+#~ msgstr "Luo uusi aihe"
+
+#, fuzzy
+#~ msgid "Create group"
+#~ msgstr "Luo uusi aihe"
+
+#, fuzzy
+#~ msgid "Create new topic"
+#~ msgstr "Luo uusi aihe"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Luo henkilökohtainen sivupaneeli"
+
+#~ msgid "Create the topic"
+#~ msgstr "Luo aihe"
+
+#~ msgid "Create this topic"
+#~ msgstr "Luo tämä aihe"
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Luo sopiva lomakkeen määritelmä aihe"
+
+#~ msgid "Current location:"
+#~ msgstr "Nykyinen sijainti:"
+
+#, fuzzy
+#~ msgid "Current password:"
+#~ msgstr "Nykyinen salasana"
+
+#~ msgid "Dear %1"
+#~ msgstr "Hyvä %1,"
+
+#~ msgid "Debug"
+#~ msgstr "Debug"
+
+#~ msgid "Default template"
+#~ msgstr "Oletus-sivupohja"
+
+#~ msgid "Delete"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "Poista liite"
+
+#~ msgid "Delete last row"
+#~ msgstr "Poista viimeinen rivi"
+
+#~ msgid "Delete topic"
+#~ msgstr "Poista aihe"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Poista aihe..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr ""
+#~ "Anna tiedostolle kuvaus, jotta muut tietävät mikä tiedosto on kyseessä."
+
+#, fuzzy
+#~ msgid "Description"
+#~ msgstr "Versio"
+
+#, fuzzy
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Aliaiheet %1 verkossa"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Yksityiskohdat erillisessä ikkunassa"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Kirjoititko aiheen nimen oikein? Muista että aiheen nimi "
+#~ "merkkikokoriippuvainen."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Haluatko [[%1][nollata %2 salasanan]]?"
+
+#, fuzzy
+#~ msgid "Difference Topic"
+#~ msgstr "Eroavaisuudet:"
+
+#~ msgid "Difference:"
+#~ msgstr "Eroavaisuudet:"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Älä unohda tallentaa muutoksia"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Älä näytä liitettä taulukossa"
+
+#~ msgid "Don't show:"
+#~ msgstr "Älä näytä:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "Liitteen =1%= poistossa havaittiin virhe. Ole hyvä ja ilmoita tästä wiki-"
+#~ "vastaavalle %2. "
+
+#, fuzzy
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr ""
+#~ "Liitteen %1 siirron yhteydessä %2, havaittiin virhe. Ota yhteyttä %3 wiki-"
+#~ "vastaavaan."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "Aiheen %1 uudelleennimeämisen %2 yhteydessä havaittiin virhe (%3). Ota "
+#~ "yhteyttä %4 wiki-vastaavaan."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "Verkon %1 uudelleennimeämisen %2 yhteydessä havaittiin virhe (%3). Ota "
+#~ "yhteyttä wiki-vastaavaan %4."
+
+#, fuzzy
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr ""
+#~ "Liitteen %1 siirron yhteydessä %2, havaittiin virhe. Ota yhteyttä %3 wiki-"
+#~ "vastaavaan."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "%1 tallennuksen yhteydessä version hallintajärjestelmä havaitsi virheen. "
+#~ "Ota yhteyttä Wiki-vastaavaan %2."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "Sähköpostiosoitteen muutos onnistui!"
+
+#, fuzzy
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,minuutti) "
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Muokkaa kaikeat huolimatta"
+
+#~ msgid "Edit help"
+#~ msgstr "Muokkauksen ohje"
+
+#, fuzzy
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Muokkaa tämän aiheen asetuksia"
+
+#~ msgid "Edit this table"
+#~ msgstr "Muokkaa tätä taulukkoa"
+
+#, fuzzy
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Muokkaa tämän aiheen tekstiä"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Muokkaa aiheen as"
+
+#, fuzzy
+#~ msgid "Editable"
+#~ msgstr "Muokkaa taulukkoa"
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "Joko koodi ei ole validi, tai olet jo vahvistanut rekisteröintisi "
+#~ "käyttävän sitä."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Joko et tarkentanut tiedoston nimeä; tai tiedostosta, jota yrität "
+#~ "lähettää %1, uupuu sisältö. Voit myös yrittää lähettää tyhjää tiedostoa."
+
+#, fuzzy
+#~ msgid "Email address:"
+#~ msgstr "Sähköpostiosoite:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "Sähköposti on poistettu käytöstä tässä Foswiki asennuksessa"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Suurenna muokkauslaatikkoa"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr "Syötä uusi käyttäjätunnus ja salasana muuttaaksesi identiteettisi"
+
+#, fuzzy
+#~ msgid "Enter parent name"
+#~ msgstr "Uusi yläverkko:"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr "Syötä wiki-vastaavan käyttäjänimi tai kirjaudu kuten %1"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "Ole hyvä ja palaa selaimeesi ja valitse aiheen nimi, joka on WikiSana tai "
+#~ "rastita Ei-Wiki sanalaatikko"
+
+#, fuzzy
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Virhe uuden käyttäjän rekisteröimisessä"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Virhe käyttäjän %1 rekisteröimisessä"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Virhe aiheen tallennuksessa"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Virhe: Liitetiedostoa %2 ei löydy %1"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Virhe: Ei-tuettu sisältötyyppi: %1 (Täytyy olla =text/html=, =text/plain= "
+#~ "tai =text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Virhe: Ei-tuettu protokolla (täytyy alkaa 'http://domain/...')."
+
+#~ msgid "Errors"
+#~ msgstr "Virheet"
+
+#, fuzzy
+#~ msgid "Errors adding members to group"
+#~ msgstr "Virhe aiheen tallennuksessa"
+
+#, fuzzy
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Virhe aiheen tallennuksessa"
+
+#, fuzzy
+#~ msgid "Evil person"
+#~ msgstr "Muokkaa henkilökohtaisia tietoja"
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "URLin %1 lisääminen epäonnistui"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Kentät jotka on merkitty %1:llä ovat vaadittuja"
+
+#, fuzzy
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "Kentät jotka on merkitty %1:llä ovat vaadittuja"
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Tiedosto on lähetetty eri nimellä"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Etsi samankaltaisia aiheita"
+
+#, fuzzy
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
+
+#, fuzzy
+#~ msgid "First"
+#~ msgstr "Etunimi:"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "Etunimi:"
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Unohditko salasanasi?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Lomakkeen määritelmä %1 puuttuu"
+
+#, fuzzy
+#~ msgid "Form definition"
+#~ msgstr "Lomakkeen määritelmä puuttuu"
+
+#, fuzzy
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Lomakkeen määritelmä %1 puuttuu"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Lomakkeen määritelmä puuttuu"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Foswiki käyttäjäautentikointi"
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Foswiki salasanan uudistaminen %1:lle"
+
+#, fuzzy
+#~ msgid "Get help on attaching files"
+#~ msgstr "sisältää tarkempaa tietoa liitetyistä tiedostoista"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Vastaanota huomautuksia muutoksista tässä etsinnässä"
+
+#, fuzzy
+#~ msgid "Globe"
+#~ msgstr "Sulje"
+
+#~ msgid "Go back"
+#~ msgstr "Takaisin"
+
+#, fuzzy
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr "Palaa selaimeesi ja täytä kaikkiin pakollisiin kenttiin. "
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr "Palaa selaimeesi ja tallenna muutoksesi paikallisesti."
+
+#~ msgid "Good examples:"
+#~ msgstr "Hyviä esimerkkejä:"
+
+#, fuzzy
+#~ msgid "Group"
+#~ msgstr "Ryhmät"
+
+#, fuzzy
+#~ msgid "Group name"
+#~ msgstr "Aiheen nimi"
+
+#~ msgid "Groups"
+#~ msgstr "Ryhmät"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Hei %1!"
+
+#~ msgid "Hide file"
+#~ msgstr "Piilota tiedosto"
+
+#~ msgid "Hide help"
+#~ msgstr "Piilota ohje"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "Hierarkiset verkot ovat kielletty tällä hetkellä, et voi luoda "
+#~ "aliverkkoja."
+
+#, fuzzy
+#~ msgid "History"
+#~ msgstr "&Historia"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Mitä jos liittäisit valokuvasi?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "Kuinka aktivoida %1 rekisteröintisi"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Kuitenkin, vahvistus-sähköpostin lähetys %2 epäonnistui, tämä on "
+#~ "mahdollisesti huijaus rekisteröinti. Käyttäjää %1 ei voitu poistaa "
+#~ "automaattisesti."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Vahvistus sähköpostin lähettäminen %2 epäonnistui, viitaten että tämä voi "
+#~ "huijaus rekisteröinti. Käyttäjä %1 poistettiin automaattisesti. Kuitenkin "
+#~ "voit joutua poistamaan käyttäjän henkilökohtaisen sivun manuaalisesti."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr "Kuitenkin, tiedoston nimi %1 on muutettu %2.  "
+
+#~ msgid "I forgot my password"
+#~ msgstr "Unohdin salasanani"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Ideoita, pyyntöjä tai ongelmia koskien %1:tä? <a href='%2'>Lähetä "
+#~ "palautetta</a>"
+
+#, fuzzy
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Tarkista konfiguraatio asetukset {TemplateDir} ja {TemplatePath}. Jos se "
+#~ "ei ole ongelma, jokin asetus %1 voi viitata sivupohjaan, jota ei ole "
+#~ "olemassa."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr "Jollei tämä ole näkyvissä katso päivitysosio alempaa"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr ""
+#~ "Jos tämä aihe puuttuu, luo se. Muussa tapauksessa tarkista virheiden "
+#~ "varalta."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Jos olet kehittämässä Foswikiä, katso %1 korrektien parametrien kuvaukset."
+
+#, fuzzy
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Jos olet epävarma, mitä tämä tarkoittaa, lue:"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "Jos tulit tänne klikkaamalla kysymysmerkki-linkkiä"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr "Jos et vastaanota vahvistus-sähköpostia seuraavan tunnin sisällä,"
+
+#, fuzzy
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr "Jos syötät eri nimen, varmista että aihe on olemassa."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Jos sait tämän sähköpostin yllättäen, joku on rekisteröitynyt sivustolle "
+#~ "%2 (nimellä %1) käyttäen sähköpostiosoitettasi %3. Ota yhteyttä "
+#~ "osoitteeseen: %4, jos luulet että tässä on tapahtunut virhe."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr ""
+#~ "Jos sinulla on kysyttävää rekisteröinnistä, lähetä sähköpostia "
+#~ "osoitteeseen %1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Kysymyksiisi vastaa %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Kysymyksiisi vastaa %1."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Jos et ole vielä määritellyt salasanaa tai haluat vaihtaa sen, mene "
+#~ "osoitteeseen: %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "Jos vastaanotit linkin tähän aiheeseen sähköpostissa, tai haluat vain "
+#~ "selata tätä aihetta, [[%1][peruuta tallennus]] siirtyäksesi %2."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Jos haluat luoda aiheen"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Jos haluat luoda tämän verkon"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Jos kaikki vanhat sähköpostisi ovat ei-valideja (et voi vastaanottaa "
+#~ "sähköpostia enää) ja olet unohtanut salasanasi, ota yhteyttä %1."
+
+#, fuzzy
+#~ msgid "Image %1 of %2"
+#~ msgstr "Verkkoa %1 ei ole olemassa"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr "Kuvat näytetään, muille liitteille luodaan linkit."
+
+#~ msgid "In reversed order"
+#~ msgstr "Päinvastaisessa järjestyksessä"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "Joissain tapauksissa, Foswiki muuttaa ladatun tiedoston nimen, "
+#~ "turvallisuuden ja pääsyvyyden(Kaikkien sovellusalustojen välillä) vuoksi:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Väärä salasana"
+
+#, fuzzy
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Väärä %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Väärät %1.WikiNimet:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Väärät %1.WikiNimet:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Väärät %1.WikiNimet:"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Väärät parametrit =%1= skriptiin"
+
+#~ msgid "Index"
+#~ msgstr "Hakemisto"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Virheellinen aktivointikoodi"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Virheellinen sähköpostiosoite"
+
+#, fuzzy
+#~ msgid "Invalid topic name."
+#~ msgstr "Aiheen nimi"
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "On todennäköisesti hyvä muokata - jollet halua muuttaa lomakkeen dataa "
+#~ "aiheessa. Jos %1 actually _does_ save aihetta, samaan aikaan kun itse "
+#~ "muokkaat, sinun muokkaukset yhdistetään, eikä mitään tietoa katoa. Lomake "
+#~ "dataa ei voi helposti yhdistää, joten on suositeltavaa tarkistaa %1 ensin."
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "On yleensä hyvä valita <a target='WikiWord' class='foswikiPopUp' "
+#~ "href='%1' rel='nofollow'>WikiSana</a> uusille aiheille, muutoin "
+#~ "linkittäminen ei välttämättä onnistu. Aiheiden nimissä kielletyt "
+#~ "kirjaimet, kuten välit, poistetaan automaattisesti."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "On hyvä yleensä valita lyhyt nimi uudelle verkolle, jotta siihen on "
+#~ "helpompi linkittää myöhemmin. Verkkojen nimissä kielletyt kirjaimet, "
+#~ "kuten välit, poistetaan automaattisesti."
+
+#~ msgid "Jump"
+#~ msgstr "Hyppää"
+
+#, fuzzy
+#~ msgid "Jump to first revision"
+#~ msgstr "Palauta aihe tähän versioon"
+
+#, fuzzy
+#~ msgid "Keyword search"
+#~ msgstr "Muuta hakua"
+
+#, fuzzy
+#~ msgid "Last"
+#~ msgstr "Sukunimi:"
+
+#, fuzzy
+#~ msgid "Last edited by"
+#~ msgstr "Viimeisin muokkaaja"
+
+#~ msgid "Last editor"
+#~ msgstr "Viimeisin muokkaaja"
+
+#, fuzzy
+#~ msgid "Last modified"
+#~ msgstr "Muokattu viimeksi"
+
+#~ msgid "Last modified time"
+#~ msgstr "Muokattu viimeksi"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Sukunimi:"
+
+#, fuzzy
+#~ msgid "Latest revision: %1"
+#~ msgstr "(versio %1)"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Rajoita tulokset:"
+
+#~ msgid "Line: %1"
+#~ msgstr "Rivi: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Rivi: %1 - %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Luettele aiheet jotka alkavat kirjaimella:"
+
+#~ msgid "Literal search"
+#~ msgstr "Tarkka sanahaku"
+
+#, fuzzy
+#~ msgid "Load content"
+#~ msgstr "Syötetyt tiedot:"
+
+#~ msgid "Login"
+#~ msgstr "Kirjaudu sisään"
+
+#, fuzzy
+#~ msgid "Login username:"
+#~ msgstr "Käyttäjätunnus %1"
+
+#~ msgid "Logon"
+#~ msgstr "Kirjaudu sisään"
+
+#~ msgid "Logout"
+#~ msgstr "Kirjaudu ulos"
+
+#~ msgid "Mail to"
+#~ msgstr "Sähköpostita"
+
+#~ msgid "Make search:"
+#~ msgstr "Tee haku:"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Puuttuvat kentät"
+
+#~ msgid "Missing action command"
+#~ msgstr "Puuttuva komento"
+
+#~ msgid "Modify search"
+#~ msgstr "Muuta hakua"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Lisää toimintoja aiheessa %1"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Lisää toimintoja aiheessa %1"
+
+#~ msgid "More formatting help"
+#~ msgstr "Lisää muotoiluapua"
+
+#, fuzzy
+#~ msgid "More on hiding attachments"
+#~ msgstr "Siirrä tai poista liite"
+
+#, fuzzy
+#~ msgid "More topic actions"
+#~ msgstr "Lisää aihetoimintoja..."
+
+#~ msgid "More topic actions..."
+#~ msgstr "Lisää aihetoimintoja..."
+
+#~ msgid "More..."
+#~ msgstr "Lisää..."
+
+#, fuzzy
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "title='Poista tai uudelleennimeä tämä aihe; Aseta isäartikkeli; Katso ja "
+#~ "vertaile muokkausversioita' accesskey='m'>&Lisää vaihtoehtoja"
+
+#~ msgid "Move"
+#~ msgstr "Siirrä"
+
+#, fuzzy
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Siirrä verkkoon:"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "Siirrä liite"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Siirrä tiedostoliite"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Siirrä tai poista liite"
+
+#~ msgid "Move to web:"
+#~ msgstr "Siirrä verkkoon:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "Siirrä verkkoon:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Siirrä aihe verkkoon:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Siirrä/nimeä uudelleen"
+
+#~ msgid "My Links"
+#~ msgstr "Minun linkkini"
+
+#~ msgid "NEW"
+#~ msgstr "UUSI"
+
+#, fuzzy
+#~ msgid "Name of copy"
+#~ msgstr "Kopion nimi:"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Verkon nimi puuttuu"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Suunnista samankaltaiseen aiheeseen"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "New User Registration failed"
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
+
+#, fuzzy
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Uudet tai muokatut aiheet %1, sitten %2:"
+
+#~ msgid "New parent web:"
+#~ msgstr "Uusi yläverkko:"
+
+#, fuzzy
+#~ msgid "New password:"
+#~ msgstr "Uusi salasana"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Uusi aiheen nimi %1 ei ole %2"
+
+#, fuzzy
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#~ msgid "New web name:"
+#~ msgstr "Uusi verkon nimi:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Uudempi versio:"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(Käänteislinkit kaikissa verkoissa)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(käänteislinkit %1 verkossa)"
+
+#, fuzzy
+#~ msgid "No changes"
+#~ msgstr "(muutokset)"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "Ei ala-aiheita"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "Lisää rivi"
+
+#~ msgid "No permission to view %1"
+#~ msgstr "Ei oikeuksia näyttää %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Aikaisempaa versiota ei ole olemassa."
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "No topic to subscribe to"
+#~ msgstr "Siirrä aihe verkkoon:"
+
+#, fuzzy
+#~ msgid "No topics to update."
+#~ msgstr "Siirrä aihe verkkoon:"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "Ei käyttäjiä, joiden salasana voitaisiin resetoida."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Ei suositeltu poistettaessa aihetta"
+
+#, fuzzy
+#~ msgid "Notation"
+#~ msgstr "Huomautukset"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "Huomaa, että kaikki URL:t, jotka viittaavat tähän liitteeseen rikkoutuvat "
+#~ "tämän toiminnon jälkeen."
+
+#~ msgid "Note:"
+#~ msgstr "Huomaa:"
+
+#~ msgid "Notification help"
+#~ msgstr "Huomautus apua."
+
+#~ msgid "Notifications"
+#~ msgstr "Huomautukset"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Aiheiden lukumäärä:"
+
+#, fuzzy
+#~ msgid "Number of topics: %1"
+#~ msgstr "Aiheiden lukumäärä:"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Older revision:"
+#~ msgstr "Vanhempi versio:"
+
+#, fuzzy
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "Kun olet rekisteröitynyt voit kirjautua käyttämällä %1 ja salasanaasi."
+
+#, fuzzy
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
+
+#, fuzzy
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Aliaiheet %1 verkossa"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Hupsista: Tunnistus epäonnistui. Yritä uudelleen tai [[%1][resetoi "
+#~ "salasanasi]]."
+
+#, fuzzy
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Vaihtoehtoisesti muuta aiheen nimeä:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Vaihtoehtoisesti muuta aiheen nimeä:"
+
+#, fuzzy
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "Toiminto"
+
+#, fuzzy
+#~ msgid "Organisation name:"
+#~ msgstr "Organisaation nimi:"
+
+#, fuzzy
+#~ msgid "Organisation website:"
+#~ msgstr "Organisaation nimi:"
+
+#~ msgid "Password"
+#~ msgstr "Salasana"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Salasana muutos onnistui!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Salasanaa ei voitu muuttaa"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Salasanan resetointi epäonnistui."
+
+#, fuzzy
+#~ msgid "Password reset failed."
+#~ msgstr "Salasanan resetointi epäonnistui."
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Salasana"
+
+#, fuzzy
+#~ msgid "Passwords disabled"
+#~ msgstr "Salasanan resetointi epäonnistui."
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Salasanat eivät täsmää"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
+
+#, fuzzy
+#~ msgid "Pending registration not found"
+#~ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Valitse yksi %1"
+
+#, fuzzy
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Paikka poistetuille liitteille"
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Paikka poistetuille liitteille"
+
+#, fuzzy
+#~ msgid "Please confirm your password."
+#~ msgstr "Uusi salasana:"
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Ole hyvä ja ota yhteyttä %1 jos sinulla on kysyttävää."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Ole hyvä ja ota yhteyttä %1."
+
+#, fuzzy
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Virheellinen sähköpostiosoite"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "Syötä wiki-vastaavan salasana"
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "Ole hyvä ja palaa selaimeesi ja yritä uutta nimeä."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Ole hyvä ja palaa selaimeesi ja tarkista uudestaan."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "Ole hyvä ja palaa selaimeesi ja valitse aiheen nimi, joka on WikiSana tai "
+#~ "rastita Ei-Wiki sanalaatikko"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Ole hyvä ja palaa selaimeesi ja yritä uudelleen."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "Ole hyvä ja palaa selaimeesi ja yritä uutta nimeä."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "Varmista %1 oikeinkirjoitus ja yritä uudelleen. Jos jäät jumiin, ota "
+#~ "yhteyttä %2."
+
+#, fuzzy
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr ""
+#~ "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Ole hyvä ja siirry %1 muuttaaksesi salasanasi joksikin helpommin "
+#~ "muistettavaksi."
+
+#~ msgid "Preferences for"
+#~ msgstr "Asetukset"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Paina Peruuta muussa tapauksessa."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "Paina OK vahvistaaksesi tämän muutoksen tarkoituksellisuus."
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr ""
+#~ "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
+
+#~ msgid "Properties"
+#~ msgstr "Ominaisuudet"
+
+#, fuzzy
+#~ msgid "Put it back..."
+#~ msgstr "laita takaisin"
+
+#~ msgid "Query Search"
+#~ msgstr "Verkkohaku"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "Versio"
+
+#~ msgid "Quiet save"
+#~ msgstr "Hiljainen tallennus"
+
+#~ msgid "RSS Feed"
+#~ msgstr "RSS-uutisotsikot"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "Lue %1 saadaksesi yleiskäsityksen wikistä. Oppiaksesi enemmän, lue "
+#~ "TwentyMinuteTutorial, joka löytyy samasta linkistä."
+
+#~ msgid "Read on"
+#~ msgstr "Lue"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Vastikään muuttuneet aiheet"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Vastikään muuttuneet aiheet"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Vastikään muuttuneet aiheet"
+
+#~ msgid "Refresh"
+#~ msgstr "Päivitä"
+
+#~ msgid "Register"
+#~ msgstr "Rekisteröidy"
+
+#~ msgid "Registration"
+#~ msgstr "Rekisteröinti"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr "Sähköposti on poistettu käytöstä tässä Foswiki asennuksessa"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Rekisteröintikoodeja voidaan käyttää vain kerran."
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Säännöllinen lauseke etsintä"
+
+#, fuzzy
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr ""
+#~ "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "Liittyvät aiheet"
+
+#~ msgid "Related topics:"
+#~ msgstr "Liittyvät aiheet:"
+
+#~ msgid "Remember me"
+#~ msgstr "Muista minut"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Muista minut tällä tietokoneella"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "Muista päivittää käyttäjäsivusi, jos haluat sähköpostin vaihdon "
+#~ "heijastuvan sinnekkin."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Muistatko salasanasi?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "Muista minut"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
+
+#~ msgid "Rename"
+#~ msgstr "Nimeä uudelleen"
+
+#~ msgid "Rename failed"
+#~ msgstr "Uudelleen nimeäminen ei onnistunut"
+
+#, fuzzy
+#~ msgid "Rename or move %1"
+#~ msgstr "Nimeä uudelleen tai siirrä aihe"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Nimeä uudelleen tai siirrä aihe"
+
+#, fuzzy
+#~ msgid "Rename or move topic..."
+#~ msgstr "Nimeä uudelleen tai siirrä aihe"
+
+#, fuzzy
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Nimeä uudelleen, siirrä tai poista tämä verkko:"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Nimeä uudelleen/siirrä"
+
+#~ msgid "Replace form..."
+#~ msgstr "Korvaa lomake..."
+
+#~ msgid "Request Validation"
+#~ msgstr "Pyynnön vahvistus"
+
+#~ msgid "Reset Password"
+#~ msgstr "Resetoi salasana"
+
+#~ msgid "Reset password"
+#~ msgstr "Resetoi salasana"
+
+#~ msgid "Restore topic"
+#~ msgstr "Palauta aihe"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Palauta aihe versioon:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Palauta aihe tähän versioon"
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Tulokset %1 verkosta"
+
+#, fuzzy
+#~ msgid "Results from %1 web:"
+#~ msgstr "Tulokset %1 verkosta"
+
+#, fuzzy
+#~ msgid "Return to %1"
+#~ msgstr "Palaa %1"
+
+#~ msgid "Return to %1."
+#~ msgstr "Palaa %1"
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "Uusi salasana uudelleen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr "Rev %1 tallennettu käyttäjän %2 toimesta muokkauksesi aikana."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Esikatsele viimeisimpiä muutoksia:"
+
+#~ msgid "Revision"
+#~ msgstr "Versio"
+
+#, fuzzy
+#~ msgid "Revision history of %1"
+#~ msgstr "%1:n versiohistoria"
+
+#~ msgid "Revisions"
+#~ msgstr "Versiot"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Tallenna, C = Peruuta"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Tallenna, Q = Hiljainen tallennus, K = Tallenna ja jatka, P = "
+#~ "Esikatsele, C = Peruuta"
+
+#~ msgid "Save table"
+#~ msgstr "Tallenna taulu"
+
+#~ msgid "Saved to:"
+#~ msgstr "Tallennettu:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Etsi vain verkosta %1"
+
+#~ msgid "Search all webs"
+#~ msgstr "Etsi kaikki web:t"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Etsi kaikista verkoista aiheita, jotka linkittävät tänne"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "Muut hakuoptiot"
+
+#, fuzzy
+#~ msgid "Search in %1 Web"
+#~ msgstr "Etsi vain verkosta %1"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Etsi kaikista verkoista"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Luettele lisää samankaltaisia aiheita tässä web:ssä"
+
+#, fuzzy
+#~ msgid "Search options"
+#~ msgstr "Muut hakuoptiot"
+
+#, fuzzy
+#~ msgid "Search result"
+#~ msgstr "(haun tulos)"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "(haun tulos)"
+
+#~ msgid "Search string"
+#~ msgstr "Etsi merkkijonoa"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
+
+#~ msgid "Search where:"
+#~ msgstr "Etsi mistä:"
+
+#~ msgid "Searched:"
+#~ msgstr "Etsitty:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Turvallisuushuomautus:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "Selaa %1 nykyisten käyttäjien listaa tai rekisteröidy uutena käyttäjänä "
+#~ "%2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Katso %1, infoa lomakkeiden määrittelystä."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Katso myös nopeampi kuin %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Katso myös monisanainen %1."
+
+#~ msgid "See also:"
+#~ msgstr "Katso myös:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "Katso ohjeet alempaa sivun muokkaamiseksi."
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "Esikatsele viimeisimpiä muutoksia:"
+
+#~ msgid "Select"
+#~ msgstr "Valitse"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "Valitse uusi paikallinen tiedosto päivittääksesi liite"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Valitse kaikki"
+
+#, fuzzy
+#~ msgid "Select groups to join:"
+#~ msgstr "Valitse yläartikkeli:"
+
+#, fuzzy
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
+
+#, fuzzy
+#~ msgid "Select the group to join:"
+#~ msgstr "Valitse yläartikkeli:"
+
+#, fuzzy
+#~ msgid "Select topic parent"
+#~ msgstr "Valitse yläartikkeli:"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr "Valitse, kopioi ja liitä allekirjoitustekstisi artikkelin alaosaan"
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
+
+#~ msgid "Sequential"
+#~ msgstr "Peräkkäinen"
+
+#~ msgid "Set all"
+#~ msgstr "Aseta kaikki"
+
+#~ msgid "Set new parent"
+#~ msgstr "Aseta uusi yläartikkeli"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Aseta uusi yläaihe"
+
+#, fuzzy
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Näytä aiheen edellinen versio"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "Liitteiden ohjeet"
+
+#~ msgid "Show help"
+#~ msgstr "Näytä ohje"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Pienennä muokkauslaatikkoa"
+
+#~ msgid "Side by side"
+#~ msgstr "Vierekkäin"
+
+#~ msgid "Size"
+#~ msgstr "Koko"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "Lisää aikataulu infoa ja lomahuomautus."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "Jotkin merkit, kuten =&#126;=, =$=, =@= ja =%= on poistettu"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "Jotkin sähköpostityökalut virheellisesti lähettävät saman pyynnön "
+#~ "kahdesti, kun klikkaat linkkiä. Jos teit tämän, on mahdollista että "
+#~ "*olet* rekisteröinyt onnistuneesti."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Jotkut käyttäjät tekevät siitä henkilökohtaisen portaalinsa lisäten omia "
+#~ "linkkejään, kertovat mitä tekevät, mitä apua haluaisivat saada jne."
+
+#, fuzzy
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä "
+#~ "osoitteeseen %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Lajittele tulokset:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Välilyönnit korvataan alaviivoilla"
+
+#~ msgid "Statistics"
+#~ msgstr "Tilastot"
+
+#~ msgid "Submit"
+#~ msgstr "Lähetä"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Syötetyt tiedot:"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Merkitse / Peruuta:"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Luo tämä aihe"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Luo tämä aihe"
+
+#, fuzzy
+#~ msgid "Success adding members to group"
+#~ msgstr "Virhe aiheen tallennuksessa"
+
+#, fuzzy
+#~ msgid "Success removing members from group"
+#~ msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
+
+#~ msgid "Summaries"
+#~ msgstr "Yhteenvedot"
+
+#, fuzzy
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Vaihda monotyyppiseen tai suhteelliseen fonttiin"
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "Vinkki: Etsiääkseen kaikki aiheet, jotka sisältävät =\"SOAP\"=, =\"WSDL"
+#~ "\"=, kirjaimellisesti =\"web service\"=, mutta ei =\"shampoo\"=, kirjoita:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Mallinnetta %1 ei ole olemassa"
+
+#~ msgid "Text body"
+#~ msgstr "Leipäteksti"
+
+#, fuzzy
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#, fuzzy
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "Kiitos rekisteröitymisestäsi wikiin. Laita tämä sähköposti talteen, "
+#~ "saatat tarvita tietoja myöhemmin."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "Kiitos kun rekisteröidyit %1 yhteilölliseen sovellusalustaan. Sinun "
+#~ "vahvistukoodisi on %2."
+
+#, fuzzy
+#~ msgid "That user has already been activated"
+#~ msgstr "Käyttäjätili on jo aktivoitu"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "Aihe %1 on jo olemassa"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Verkkoa %1 ei ole olemassa"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "%1 verkko on hiekkalaatikko ja se on tarkoitettu testaukseen. Kaikki "
+#~ "voivat lisätä ja poistaa materiaalia. On suositeltavaa käydä lävitse %2 "
+#~ "saadakseen hyvän alun %3 työkaluun. Hyvä nyrkkisääntö on merkitä sivun "
+#~ "alaosaan oma %4 ja päiväys."
+
+#, fuzzy
+#~ msgid "The %1 web of %2."
+#~ msgstr "Verkkoa %1 ei ole olemassa"
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "Skripti =%1= voidaan ainoastaan kutsua POST metodilla."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "Ylläpito on poistanut uusien käyttäjien rekisteröitymisen käytöstä."
+
+#, fuzzy
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "Ylläpito on poistanut uusien käyttäjien rekisteröitymisen käytöstä."
+
+#, fuzzy
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
+
+#, fuzzy
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "Varoitus: Ei voi lisätä '%1', polku on tyhjä tai sisältää virheellisiä "
+#~ "kirjaimia."
+
+#, fuzzy
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "%1 kenttään tulee etunimi ja sukunimi %2, etukirjaimet isolla ja väli "
+#~ "poistetaan nimien väliltä."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "Aktivointikoodi %1 on virheellinen."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "Liite ja sen historiatiedot siirretään uuteen aiheeseen."
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr "Liite on jo olemassa uudessa aiheessa"
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr ""
+#~ "On todennäköistä että %1 on yksinkertaisesti siirtynyt pois muokkaus-"
+#~ "sivulta tallentamatta muutoksia."
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "Merkityt aiheet päivitetään (Toinen lomake ilmaantuu, mikä sallii sinun "
+#~ "uudelleennimetä aiheita, jotka olivat lukittuina)"
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "Tietue käyttäjälle %1 puuttuu salasanajärjestelmästä."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "Tiedosto on lähetetty ja liitetty onnistuneesti %1 aiheeseen."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr "Seuraavat aiheet on lukittu muutoksilta ja niitä ei voi siirtää:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "Seuraavat aiheet viittaavat aiheisiin tässä verkossa, mutta joita "
+#~ "parhaillaan muokataan:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "Seuraavat aiheet viittaavat aiheisiin tässä verkossa, mutta sinulta on "
+#~ "pääsy kielletty niihin:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "Mallin pitäisi olla määritelty %1 aiheessa"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "Aiheen lukitus umpeutui %1 sitten."
+
+#, fuzzy
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Aiheen nimi ei voi olla tyhjä."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Aiheen nimi ei voi olla tyhjä."
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "Valitun uuden aiheen täytyy olla olemassa."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Uusi verkko on luotu"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "*Vanha salasana* kenttään syöttämäsi salasana on väärin."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "Vaadittu kenttä %1 on tyhjä."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr ""
+#~ "Valittu käyttäjäjärjestelmä ei tue uusien käyttäjien rekisteröintiä."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "Aihe on vanhassa formaatissa."
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "Syöttämäsi salasanat eivät täsmää."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr ""
+#~ "Käyttäjätili %1 on jo aktivoitu ja tunnuksella pitäisi pystyä "
+#~ "kirjautumaan."
+
+#, fuzzy
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "Käyttäjätunnuksesi on poistettu autentikointijärjestelmästä"
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "Ongelmia verkon uudelleen nimeämisessä:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr "Ongelma havaittu syötettäessä käyttäjä-id salasanajärjestelmään."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "On mahdollista että joku yrittää käyttää sinun käyttäjänimeäsi "
+#~ "muuttaakseen %1 sisältöä tietämättäsi."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr "Rivin tulisi lisätä %1, katso %2 (tai %3)"
+
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "Tämä voidaan automaattisesti päivittää:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "Tämä voi johtua useasta syystä:"
+
+#, fuzzy
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "Tätä lomaketta käytetään rekisteröityjesi sähköpostien muuttamiseen. "
+#~ "Foswiki käyttää Rekisteröimiäsi sähköpostiosoitteita sähköpostin "
+#~ "lähettämiseen ja huomautuksiin mm. salasanojen muutoksista. Osoitteet, "
+#~ "jotka rekisteröit tämän lomakkeen kautta, pidetään salassa, eikä niitä "
+#~ "julkaista missään tällä sivulla. "
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "Alla listattuja käyttäjiä informoidaan automaattisesti sähköpostitse "
+#~ "kaikista %1 webiin tulleista muutoksista. Jos haluat ilmoituksen "
+#~ "itsellesi, lisää oma %2 listaan muokkaamalla tätä sivua:"
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "Tämä on automaattinen sähköposti lähettäjältä %1"
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr ""
+#~ "Tämä on automaattinen sähköposti-ilmoitus käyttäjän rekisteröitymisestä "
+#~ "palveluun %1."
+
+#, fuzzy
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "Tämä on roskakori. Täällä voit palauttaa aiheita; poistetut liitteet ovat "
+#~ "TrashAttachment:ssä."
+
+#, fuzzy
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "Tämä nimi on valittu, jottei se aiheuta ristiriitaisuuksia muiden "
+#~ "aiheiden välillä 1% verkossa."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "Tämä edellyttää lomakkeen määrittelyn"
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Foswiki on tehnyt tämän sivuston"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "'%1' ei ole sallittu %2"
+
+#~ msgid "This topic:"
+#~ msgstr "Tämä aihe:"
+
+#, fuzzy
+#~ msgid "This username is already in use."
+#~ msgstr "Käyttäjätili on jo aktivoitu"
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "Nuo muutokset ovat yhdistetty sinun muutoksien kanssa, muodostaen "
+#~ "uudistetun version %1. Tekstikentät ovat yhdistetty, mutta muu data, "
+#~ "kuten lomakekentät, voivat olla korvattu toisen käyttäjän toimesta. "
+#~ "Tarkista aihe, varsinkin jos teit muutoksia lomakekenttiin."
+
+#, fuzzy
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#, fuzzy
+#~ msgid "To attachment:"
+#~ msgstr "Aiheen liitteet"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "Kiitos rekisteröitymisestä"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr ""
+#~ "Näyttääksesi hakutulokset yläpuolelta aiheessa, kopioi-liitä seuraava "
+#~ "merkintä:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "Muokataksesi kuitenkin aihetta, klikkaa "
+
+#, fuzzy
+#~ msgid "To login as another user please do so [[%1][here]]."
+#~ msgstr "Voit nähdä eroavaisuudet [[%1][täällä]]."
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr "Tarkistaaksesi onko %1 lopettanut muokkauksen, klikkaa"
+
+#, fuzzy
+#~ msgid "To topic"
+#~ msgstr "Aiheeseen:"
+
+#~ msgid "To topic:"
+#~ msgstr "Aiheeseen:"
+
+#, fuzzy
+#~ msgid "To web"
+#~ msgstr "Verkkoon:"
+
+#~ msgid "To web:"
+#~ msgstr "Verkkoon:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Työkalut"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "Aihetta %1 ei ole olemassa"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Aiheen tallennusvirhe"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Aiheen liitteet"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "Aihetta ei voi päivittää vanhan tyylisestä kategoriataulusta"
+
+#, fuzzy
+#~ msgid "Topic data"
+#~ msgstr "Aiheen nimi"
+
+#, fuzzy
+#~ msgid "Topic history"
+#~ msgstr "Aiheen otsikko"
+
+#, fuzzy
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Aiheita verkossa %1"
+
+#~ msgid "Topic name"
+#~ msgstr "Aiheen nimi"
+
+#~ msgid "Topic name:"
+#~ msgstr "Aiheen nimi:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Isäartikkeli"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Aiheen versio:"
+
+#~ msgid "Topic save error"
+#~ msgstr "Aiheen tallennusvirhe"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "Aihesivupohjat %1 verkossa"
+
+#~ msgid "Topic title"
+#~ msgstr "Aiheen otsikko"
+
+#~ msgid "Topic was merged"
+#~ msgstr "Aihe yhdistetty"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Aihe tullaan nimeämään:"
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "Aiheita verkossa %1:"
+
+#~ msgid "Topics per web"
+#~ msgstr "Aiheet per verkko"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr ""
+#~ "Aiheet, joita parhaillaan muokataan muiden %1 verkon käyttäjien toimesta:"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr ""
+#~ "Aiheet, jotka viittaavat tähän verkkoon ja joita muokataan tällä hetkellä "
+#~ "muiden käyttäjien toimesta:"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr ""
+#~ "Aiheet, jotka viittaavat tähän verkkoon, joihin sinulla ei ole oikeuksia "
+#~ "muokata:"
+
+#~ msgid "Total matches"
+#~ msgstr "Osumia kaikkiaan"
+
+#~ msgid "Try Again"
+#~ msgstr "Yritä uudelleen"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "Tuntematon käyttäjä ja/tai salasana"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Ei-tunnettu toimintokomento %1"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Väärät %1.WikiNimet:"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Päivitä linkit"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Päivitä liitetiedosto %1 %2"
+
+#~ msgid "Update links"
+#~ msgstr "Päivitä linkit"
+
+#, fuzzy
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Kopioi aihe"
+
+#, fuzzy
+#~ msgid "Upgraded group"
+#~ msgstr "Luo uusi aihe"
+
+#, fuzzy
+#~ msgid "Upload a file"
+#~ msgstr "Lähetä tiedosto"
+
+#~ msgid "Upload file"
+#~ msgstr "Lähetä tiedosto"
+
+#, fuzzy
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Päivitä liitetiedosto %1 %2"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Lähetä jopa %1 kB nopeudella."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Lähetetyn tiedoston %1 koko ylittää rajoituksen %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Lähetetty tiedosto on liian suuri"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Käytä sen sijasta %1."
+
+#~ msgid "Use template:"
+#~ msgstr "Käytä sivupohjaa:"
+
+#, fuzzy
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "%1 on vähintään yhdessä ryhmässä eikä täten voida poistaa"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "Käyttäjätili %1 poistettu"
+
+#, fuzzy
+#~ msgid "User Account was not supplied"
+#~ msgstr "Käyttäjätili %1 poistettu"
+
+#~ msgid "User Reference"
+#~ msgstr "Käyttäjäopas"
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "Rekisteröinti"
+
+#~ msgid "Username"
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "Virheellinen sähköpostiosoite"
+
+#~ msgid "Users"
+#~ msgstr "Käyttäjät"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Käyttäjät, joiden salasana on generoitu automaattisesti tulisi siirtyä "
+#~ "välittömästi [[%1][vaihtamaan salasanansa]] johonkin muistettavaan arvoon."
+
+#~ msgid "Version"
+#~ msgstr "Versio"
+
+#~ msgid "Version history"
+#~ msgstr "Versiohistoria"
+
+#~ msgid "Version history of %1"
+#~ msgstr "%1:n versiohistoria"
+
+#~ msgid "View"
+#~ msgstr "Näytä"
+
+#, fuzzy
+#~ msgid "View complete topic history"
+#~ msgstr "Näytä aiheen täysi historia"
+
+#~ msgid "View difference"
+#~ msgstr "Näytä eroavaisuudet"
+
+#, fuzzy
+#~ msgid "View differences"
+#~ msgstr "Näytä eroavaisuudet"
+
+#, fuzzy
+#~ msgid "View earlier"
+#~ msgstr "Näytä sivupohjat"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "Näytä sivupohjat"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Näytä aiheen edellinen versio"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Näytä raaka teksti ilman muotoiluja"
+
+#, fuzzy
+#~ msgid "View revision"
+#~ msgstr "Näytä versio:"
+
+#~ msgid "View revision:"
+#~ msgstr "Näytä versio:"
+
+#, fuzzy
+#~ msgid "View sequential topic history"
+#~ msgstr "Näytä aiheen täysi historia"
+
+#~ msgid "View templates"
+#~ msgstr "Näytä sivupohjat"
+
+#~ msgid "View topic"
+#~ msgstr "Näytä aihe"
+
+#~ msgid "View total topic history"
+#~ msgstr "Näytä aiheen täysi historia"
+
+#, fuzzy
+#~ msgid "View without formatting (v)"
+#~ msgstr "Näytä raaka teksti ilman muotoiluja"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Varoitus! Vahvistus vaadittu"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Varoitus: Aihetta ei ole olemassa"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr "Varoitus: Toistuva lisääminen ei onnistu, aihe on jo lisätty. %2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Varoitus: Ei voi lisätä '%1', polku on tyhjä tai sisältää virheellisiä "
+#~ "kirjaimia."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "Varoitus: Nimettyä osaa %3 ei löydy aiheesta %1.%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Varoitus: Aihetta %1.%2 ei löydy"
+
+#, fuzzy
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Varoitus: Aihetta %1.%2 ei löydy"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Varoitus: Vahvistus-sähköpostia ei voitu lähettää"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr ""
+#~ "Varoitus: Vahvistus-sähköpostia ei voitu lähettää, sähköposti on poistettu"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "Varoitus: Tämä sivusto ei salli URLien %<nop>INCLUDE%"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Varoitus: Aihetta ei ole olemassa"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Varoitus: Aihetta ei ole olemassa"
+
+#, fuzzy
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "Varoitus: Aihetta ei ole olemassa"
+
+#~ msgid "Webs"
+#~ msgstr "Verkot"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Tervetuloa %1 verkkoon"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "Yrittäessään lähettää sähköpostia <noautolink>%1</noautolink>."
+
+#~ msgid "Who"
+#~ msgstr "Kuka"
+
+#, fuzzy
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "Word search"
+#~ msgstr "Muuta hakua"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Haluaisitko mennä:"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "sinulla *täytyy* olla vähintään yksi validi rekisteröity sähköposti, "
+#~ "jotta voit resetoida salasanasi. Jos yksikään sinun rekisteröidyistä "
+#~ "sähköpostiosoitteista ei ole validi, ja olet unohtanut salasanasi, ota "
+#~ "yhteyttä %1."
+
+#, fuzzy
+#~ msgid "You are already registered."
+#~ msgstr "Olet jo rekisteröitynyt"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Olet myös listattu %1 aiheessa"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "Sinulta on evätty pääsy seuraaviin aiheisiin verkossa:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "On suositeltavaa muokata - jollet ole muuttamassa aiheessa olevaa "
+#~ "lomakkeen dataa. Jos %1 tallentaa, kun olet muokkaamassa, muutokset "
+#~ "yhdistetään, eikä mitään dataa häviä. Lomakedataa ei voi helposti "
+#~ "yhdistää, joten on suositeltavaa merkitä %1 ensiksi."
+
+#~ msgid "You are here:"
+#~ msgstr "Olet täällä:"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "On suositeltavaa valita lyhyet nimet, mielellään alle 10 kirjainta, "
+#~ "aloittaen isolla kirjaimella ja käyttäen ainoastaan aakkosnumeerisia "
+#~ "kirjaimia. Jos haluat luoda malliverkon (Verkko, jota käytetään perustana "
+#~ "uusille verkoille) valitse nimi, joka alkaa alleviivauksella ja sisältää "
+#~ "ainoastaan aakkosnumeerisia kirjaimia. "
+
+#, fuzzy
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Yrität toimintoa %1 liitteelle, jota ei ole olemassa."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr "Yrität luoda uutta artikkelia sivupohjasta, jota ei ole olemassa."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr ""
+#~ "Yrität suorittaa toiminnon aiheelle, jota ei ole olemassa (toiminto '%1')."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Yrität uudelleennimetä aiheen, jota ei ole olemassa"
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "Voit [[%1][Luoda uuden verkon]] jos sinulla on oikeuksia. Ota yhteyttä %2 "
+#~ "jos sinulla on kysyttävää."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "Voit myös käyttää HTML standardien värinimiä  (black(=musta), "
+#~ "silver(=hopea), gray(=harmaa), white(=valkoinen), "
+#~ "maroon(=kastajanruskea), red(=punainen), purple(=purppura), "
+#~ "fuchsia(=fuksia), green(=vihreä), lime, olive(=oliivin vihreä), "
+#~ "yellow(=keltainen), navy(=tumman sininen), blue(=sininen), teal(=tavi), "
+#~ "tai aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "Voit antaa tälle verkolle toisen nimen."
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr ""
+#~ "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään "
+#~ "tämä."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr "Et voi rekisteröityä kahdesti, nimi %1 on jo rekisteröity."
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "*Et* ole rekisteröitynyt."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "Voit mahdollisesti saada Wiki-vastaavan muuttamaan asetuksia, jos ne ovat "
+#~ "sopimattomia ympäristöllesi."
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr ""
+#~ "Olet mahdollisesti klikannut rekisteröinnin vahvistus-linkkiä, jota olet "
+#~ "jo aiemmin klikannut."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr "Voit joutua sulkemaan selaimesi, jotta muutokset päivittyvät."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "Sinun on syötettävä aiheen nimi."
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "Nyt sinun tulee vahvistaa sähköpostiosoitteesi. Voit tehdä sen "
+#~ "syöttämällä %1 lomakkeen, jonka sait kun tämä sähköposti lähetettiin, tai "
+#~ "vierailemalla %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr ""
+#~ "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään "
+#~ "tämä."
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Väärät %1.WikiNimet:"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "Aktivointisähköpostisi on lähetetty osoitteeseen %1. Aktivoidaksesi "
+#~ "tunnuksesi voit joko klikata linkkiä sähköpostissa tai kirjoittaa "
+#~ "aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi."
+#~ "xxxxxxxxxx\")"
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "Salasanasi on vaihdettu arvoon %1."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Salasanasi on vaihdettu arvoon %1."
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "Salasanasi on vaihdettu arvoon %1."
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "Uusi salasana:"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr ""
+#~ "Henkilökohtainen aiheesi, %1, on sijainnissa %2. Voit muokata sitä "
+#~ "haluamallasi tavalla:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Henkilökohtainen Foswiki aiheesi %1 on luotu"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "Rekisteröidyt sähköpostiosoitteesi on päivitetty seuraavasti: <noautolink>"
+#~ "%1</noautolink>"
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr ""
+#~ "Rekisteröitymisen tarkistussähköposti on joko jäänyt saapumatta perille "
+#~ "tai se on edelleen jonossa postijärjestelmässä."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Allekirjoituksesi kopioitavaksi"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Allekirjoituksesi kopioitavaksi:"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr ""
+#~ "Järjestelmäsi ei välttämättä tue salasanojen vaihtamista Foswikin kautta. "
+#~ "Varmista tieto Wiki -ylläpitäjältäsi."
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][Debuggaa aiheen teksti]]."
+
+#~ msgid "_language_name"
+#~ msgstr "Suomi"
+
+#~ msgid "access denied on root"
+#~ msgstr "Pääsy kielletty roottiin"
+
+#~ msgid "access denied on topic"
+#~ msgstr "pääsy kielletty aiheeseen"
+
+#~ msgid "access denied on web"
+#~ msgstr "pääsy kielletty webiin"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "Pääsy roottiin kielletty"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "pääsy aiheeseen estetty"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "pääsy web:iin estetty"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "accesskey='c'"
+
+#~ msgid "and"
+#~ msgstr "ja"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "muokkaa, päivitä, aikaisemmat versiot, siirrä, poista..."
+
+#, fuzzy
+#~ msgid "close display options"
+#~ msgstr "Lisää aihetoimintoja..."
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "älä unohda tarkistaa Aiheesi asetuksia"
+
+#~ msgid "fields are required."
+#~ msgstr "kentät ovat vaadittuja"
+
+#~ msgid "help"
+#~ msgstr "ohje"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Lisää lomake"
+
+#~ msgid "hints on good style"
+#~ msgstr "vinkkejä hyvään tyyliin"
+
+#~ msgid "in raw text format"
+#~ msgstr "raa'assa tekstimuodossa"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "(muutokset)"
+
+#~ msgid "manage"
+#~ msgstr "hallitse"
+
+#~ msgid "more..."
+#~ msgstr "lisää..."
+
+#~ msgid "now %1"
+#~ msgstr "nyt %1"
+
+#~ msgid "or"
+#~ msgstr "tai"
+
+#~ msgid "preview"
+#~ msgstr "esikatselu"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "noudettu %1"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "(versio %1)"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "(Aseta asetukset)"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Liitä kuva tai dokumentti tähän aiheeseen' accesskey='a'>Liitä"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr ""
+#~ "title='Liitä kuva tai dokumentti tähän aiheeseen' accesskey='a'>Liitä"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Luo uusi aihe' accesskey='c'>Uusi"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Poista tai uudelleennimeä tämä aihe; Aseta isäartikkeli; Katso ja "
+#~ "vertaile muokkausversioita' accesskey='m'>&Lisää vaihtoehtoja"
+
+#, fuzzy
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
+
+#, fuzzy
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Etsi kaikista verkoista aiheita jotka linkittävät tänne' "
+#~ "accesskey='l'>Kaikki verkot"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Etsi %1 verkosta artikkelit, jotka viittaavat tänne ' "
+#~ "accesskey='b'>&Käänteislinkit"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr ""
+#~ "title='Etsi verkosta %1 aiheita, jotka linkittävät tänne' "
+#~ "accesskey='b'>Verkko"
+
+#, fuzzy
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Näytä täydellinen historia' accesskey='h'>&Historia"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
+
+#, fuzzy
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr "title='Näytä aihe ilman muotoiluja' accesskey='n'>&Näytä raaka"
+
+#~ msgid "user list truncated"
+#~ msgstr "käyttäjälista nollattu"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Peruuta' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Hylkää' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Esikatselu' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Hiljainen tallennus' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Tallenna ja Jatka' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Tallenna' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "näytä"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 on rekisteröitynyt sähköpostiosoitteella %2"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Palaa %1"
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Kansainväliset (8-bittiset) kirjaimet poistetaan (korvataan US-ASCII, "
+#~ "Latin-1 verrattavaan)"
+
+#~ msgid "Notes:"
+#~ msgstr "Huomautukset:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Kieliasetus muutetaan arvoon %1 seuraavasta sivusta lähtien. Sinut "
+#~ "uudelleenohjataan seuraavalle sivulle automaattisesti, mutta voit myös "
+#~ "[[%2][klikata tästä jatkaaksesi]]"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Siirrä tai poista liite"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "valintaruudut viitettyihin aiheisiin"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Lähetä tiedosto"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Valitse listalta"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "Sinun %1.Käyttäjätunnuksesi"
+
+#~ msgid "Login name %1"
+#~ msgstr "Käyttäjätunnus %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Sinun %1.Käyttäjätunnuksesi"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Väärä %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "%1 kentän täytyy vastata tämän sivuston {LoginNameFilterIn} suodatinta"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Etunimi:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Nimeä uudelleen"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Aiheen nimi"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Toiminto"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Aiheeseen:"
+
+#~ msgid "Hello %1"
+#~ msgstr "Hei %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "tai"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Aiheen nimi"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Apua muotoiluun:*"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Muokkaa"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "Kattavampi muutoslista on saatavilla [[%1][Viimmeisistä muutoksista]]."
+
+#~ msgid "Bathing problem"
+#~ msgstr "Puhdistus ongelma"
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Luo aihe"
+
+#~ msgid "Current parent:"
+#~ msgstr "Nykyinen yläartikkeli:"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Muokkaa henkilökohtaisia tietoja"
+
+#~ msgid "Edit text"
+#~ msgstr "Muokkaa tekstiä"
+
+#~ msgid "Error: %1"
+#~ msgstr "Virhe: %1"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Jos käyttäjäsivusi ei ole suojattu muiden käyttäjien muutoksilta, ja et "
+#~ "rekisteröi sähköpostiosoitetta käyttäen tätä lomaketta, käyttäjätilisi "
+#~ "voidaan kaapata."
+
+#, fuzzy
+#~ msgid "Log on with your username and password"
+#~ msgstr "Kirjoita käyttäjätunnus ja salasana"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "Polun täyttö ongelma"
+
+#, fuzzy
+#~ msgid "Show"
+#~ msgstr "Näytä ohje"
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(Käytä aiheen nimeä System.WikiNotation)"
+
+#~ msgid "Warning"
+#~ msgstr "Varoitus"
+
+#, fuzzy
+#~ msgid "You cannot register on this site."
+#~ msgstr "Et voi rekisteröityä kahdesti, nimi %1 on jo rekisteröity."
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Sinun tulisi rekisteröidä validi sähköpostiosoite. Jos Foswiki ei löydä "
+#~ "rekisteröityä sähköpostiosoitetta, käyttäjäsivusi näyttää tälläiseltä "
+#~ "riviltä:"
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr ""
+#~ "Käyttäjätunnuksesi otsikkoa ei ole uudelleennimetty. Lähetä pyyntö "
+#~ "sähköpostilla osoitteeseen %1"
+
+#, fuzzy
+#~ msgid "later"
+#~ msgstr "Päiväys"
+
+#, fuzzy
+#~ msgid "revisions up to"
+#~ msgstr "Versiot"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - täydellinen Foswiki dokumentaatio, pika-aloitus viitteeseen"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - vain minulle"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - aloituspaikkoja Foswikiin"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - kokeile itse Foswikiä"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - katso lyhyt perustietojen esittely Foswikistä aloittelijoille"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 vaihtaaksesi sähköpostiosoitettasi"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 vaihtaaksesi salasanaasi"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 sisältää listan Foswikin käyttäjädokumentoinnista"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 listaa kaikki Foswiki käyttäjän työkalut"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(kuinka kirjaudut sisään) Käyttäjätunnus:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "WikiNimi (EtunimiSukunimi, esim MattiMakela):"
+
+#~ msgid "(optional)"
+#~ msgstr "(valinnainen)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(suositeltu)"
+
+#~ msgid "(search results)"
+#~ msgstr "(haun tulokset)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "Lisää nimesi käyttäjälistaan webissä %2 aiheessa %1 ."
+
+#~ msgid "Advanced Search"
+#~ msgstr "Tarkennettu haku"
+
+#~ msgid "Comments:"
+#~ msgstr "Kommentit:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr ""
+#~ "Kopioi teksti ja lomakedata uuteen aiheeseen (liitteitä ei kopioida)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Luo <nop>TestiAihe###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Luo uusi, automaattisesti numeroitu, testausaihe"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Luo uusi asiakirja nimellä:"
+
+#~ msgid "Create by Name"
+#~ msgstr "Luo nimen mukaan"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Luo henkilökohtainen %1 aihe käyttäen Wiki-tunnustasi aiheen nimenä; ja "
+#~ "lisää data, minkä lisäsit aiheeseen."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Viimeistele tilin luontisi, jotta voit aloittaa sivujen muokkauksen "
+#~ "käyttäen WikiNimeä."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Foswikin käyttöliittymä on saatavissa useilla eri kielillä. Jos haluat "
+#~ "vaihtaa nykyisen istunnon kieltä valitse listalta yksi ja klikkaa "
+#~ "\"Vaihda kieli\" -nappia. Muutoin klikkaa \"Peruuta\" -linkkiä sivun "
+#~ "alareunassa palataksesi edelliseen aiheesen"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Hae apua <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Aiheen asetuksista</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Hae apua <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Aiheiden siirtoon ja uudelleennimeämiseen</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Hae apua <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Verkkojen uudelleennimeämiseen ja siirtoon</a>."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Jos tiedät aiheen nimen, syötä nimi [[%1][Hyppää-laatikkoon]] ylhäällä."
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "Luettele kaikki aiheet verkossa %1 aakkosjärjestyksessä"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Paikalliset muutokset sivustonlaajuisiin asetuksiin"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Siirrä liite verkkoon:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "Organisaation URL:"
+
+#~ msgid "Other Country"
+#~ msgstr "Toinen maa"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr ""
+#~ "Muutoin käytä tätä lomaketta ja lähetämme uuden sinulle sähköpostilla."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Henkilökohtaiset asetukset"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Nykyisten asetusten nopea muokkaus (Muokkaa aiheen tekstiä asettaaksesi "
+#~ "uudet asetukset)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Raaka muokkaus"
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Lue uudistetun version ohje uudessa ikkunassa"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Rekisteröityneet käyttäjät voivat [[%1][vaihtaa]] ja [[%2][nollata]] "
+#~ "salasanansa."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Nimeä uudelleen/siirrä aihe..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Nimeä uudelleen/siirrä/poista verkko..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Salasana uudelleen:"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr ""
+#~ "S = Tallenna, Q = Hiljainen tallennus, K = Tallenna ja jatka, D = Hylkää"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Lähetä vahvistus rekisteröinnistä sähköpostilla."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr ""
+#~ "Näytä työkaluvihjeet hiiren kursorin alla linkeistä %1, päälle tai pois"
+
+#~ msgid "Simple search"
+#~ msgstr "Yksinkertainen haku"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Sivustonlaajuiset asetukset sijaitsevat sivulla %1, kuitenkin tällä %2 "
+#~ "asetussivulla on korkeampi prioriteetti ja tätä tulisi käyttää "
+#~ "paikallisiin räätälöinteihin. Tämä helpottaa järjestelmän päivitystä, "
+#~ "koska sinun ei tarvitse huolehtia oletusasetusten ylikirjoittavan "
+#~ "tekemiäsi muutoksia. Asetukset ovat helpompia käsitellä, kun kopioit "
+#~ "tälle sivulle vain määritykset joita muutat."
+
+#~ msgid "Test Topics"
+#~ msgstr "Testiaiheet"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr "%1 verkko Foswikissä. Foswiki on Vapaa ja Avoimen lähdekoodin Wiki."
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "Tämä Foswiki _ei_ tue uusien käyttäjien rekisteröitymistä"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "Muokataksesi sivuja tällä Foswiki -sivustolla sinulla täytyy olla "
+#~ "rekisteröity käyttäjätunnus ja salasana."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "Kirjautuaksesi uudeksi käyttäjäksi täytä vain tämä lomake:"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Poista kommentit preferenssin asetuksista aktivoidaksesi ne (poista #-"
+#~ "merkki). Yksityiskohdat ja infoa preferenssin asetuksista löytyy %1."
+
+#~ msgid "Web Search"
+#~ msgstr "Verkkohaku"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Kun %1 vastaanottaa lomakkeen, se sähköpostittaa tilin aktivointikoodin "
+#~ "siihen osoitteeseen, jonka annoit ylempänä. Syötä aktivointikoodi "
+#~ "seuraavaan näyttöön, tai seuraa sähköpostin linkkiä aktivoidaksesi "
+#~ "tilisi. Kun tili on aktivoitu, %1:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Voit vaihtaa kielen pysyvästi haluamaksesi asettamalla muuttujan %1 "
+#~ "käyttäjäsivullesi"
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr ""
+#~ "Sinulla on mahdollisuus tarkistaa kopioitava aihe ennen tallennusta."
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Sinulla on mahdollisuus tarkistaa aihe ennen uuden version tallennusta"
+
+#~ msgid "advanced search"
+#~ msgstr "tarkennettu haku"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "etsitään referenssejä _kaikista julkisista webeistä_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "etsi linkkejä vain _%1 verkosta_"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "etsi linkkejä _kaikista julkisista verkoista_"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr ""
+#~ "title='Muokkaa tekstiä ilman muotoiluja' accesskey='w'>Raaka muokkaus"
+
+#~ msgid "%1 Web Home"
+#~ msgstr "%1 Verkkokoti"
+
+#~ msgid "(oops)"
+#~ msgstr "(oho)"
+
+#~ msgid "Create '%1'"
+#~ msgstr "Luo '%1'"
+
+#~ msgid "Do show:"
+#~ msgstr "Näytä:"
+
+#~ msgid "Do you wish to create the topic %1?"
+#~ msgstr "Haluatko luoda aiheen %1?"
+
+#~ msgid "Note: This topic does not exist"
+#~ msgstr "Huomaa: Aihetta ei ole olemassa"
+
+#~ msgid "Opens page in new window"
+#~ msgstr "Avaa sivun uudessa ikkunassa"
+
+#~ msgid "Similar topics in this web (if any):"
+#~ msgstr "Vastaavanlaisia aiheita tässä verkossa (jos yhtään):"
+
+#~ msgid "WARNING:"
+#~ msgstr "VAROITUS:"
+
+#~ msgid "&WYSIWYG"
+#~ msgstr "&WYSIWYG"
+
+#~ msgid "WYSIWYG"
+#~ msgstr "WYSIWYG"

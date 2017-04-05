@@ -334,7 +334,6 @@ CodemirrorEngine.prototype.insertLineTag = function(markup) {
   doc.setSelection(start, end);
 
   self.cm.focus();
-  
 };
 
 /*************************************************************************

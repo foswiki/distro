@@ -1,0 +1,4743 @@
+# Foswiki translation for norwegian
+# Translators:
+#   Foswiki:Main/LarsEik
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-04-25 13:01+0200\n"
+"Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
+"Language-Team: Norwegian <LL@li.org>\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 2.1\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr "Avbryt endringer og avslutt"
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Hurtigtaster"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr "Legg til et nytt skjema for <nop>%1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Legg til skjema"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr "Venstrejustering"
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr "Høyrejustering"
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Vedlegg"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr "Fet"
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr "Punktliste"
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr "Midtstill"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+msgid "Change form"
+msgstr "Endre skjema"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr "Endre gjeldende skjema for <nop>%1"
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Lukk"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr "Farge"
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr "Kolonner"
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr "Fortsett redigering"
+
+#: templates/editdialog.natedit.tmpl:50
+msgid "Create a new table"
+msgstr "Lag en ny tabell"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr "Oppretter en ny revisjon av siden ved lagring"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr "Datarader"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Dato"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+msgid "Default"
+msgstr "Standard"
+
+#: data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr "Dokumentasjon"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Hver egenskap har syntaksen"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Rediger"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr "RedigeringForkortelser"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr "Innkapsle eksternt objekt"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr "Unntaksmerking"
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr "Alle"
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr "Ekstern"
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr "Fil"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Tving ny versjon"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr "Skjema"
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr "Formatert Søk"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr "Oppskrift"
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr "Få hjelp med å sette egenskaper for sider"
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Hjelp"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+msgid "Indent"
+msgstr "Innrykk"
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+msgid "Insert an attachment"
+msgstr "Sett inn et vedlegg"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Link"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+msgid "More character formats"
+msgstr "Flere tegn formater"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+msgid "Numbered list"
+msgstr "Nummerert liste"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+msgid "Permissions"
+msgstr "Rettigheter"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+#, fuzzy
+msgid "Plugins"
+msgstr "Plugin behandlere"
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Preferanser"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "forhåndsvisning"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "Gjennomse nylige endringer i:"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "Registrer"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Replace"
+msgstr "Erstatt skjema..."
+
+#: templates/edittoolbar.natedit.tmpl:144
+#, fuzzy
+msgid "Restore"
+msgstr "Gjenopprett..."
+
+#: templates/edittoolbar.natedit.tmpl:160
+#, fuzzy
+msgid "Restore and Continue"
+msgstr "Gjenopprett side"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+#, fuzzy
+msgid "Restore and exit"
+msgstr "Gjenopprett side"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+#, fuzzy
+msgid "Save"
+msgstr "Lagret til:"
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='Lagre og fortsett' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "Lagret til:"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Søk"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "Søkeresultat"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "Tekst innhold"
+
+#: templates/edit.natedit.tmpl:79
+#, fuzzy
+msgid "Title:"
+msgstr "Tittel"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "Til side"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+#, fuzzy
+msgid "Undo last change"
+msgstr "Siste endringer"
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "Web"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[3 mellomrom] * [mellomrom] Set [mellomrom] VARIABELNAVN [mellomrom] = "
+"[verdi]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+msgid "default as defined in the %1"
+msgstr "standard som definert i %1"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "rediger"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "(rediger skjema)"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "indikerer obligatoriske felt"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "Alle offentige web"
+
+#: templates/edit.natedit.tmpl:7
+#, fuzzy
+msgid "restore"
+msgstr "Gjenopprett..."
+
+#: templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "restore form"
+msgstr "Gjenopprett side"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#~ msgid "!WikiName"
+#~ msgstr "!WikiNavn"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,dag) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,time) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,minutt) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,sekund) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 (default)"
+#~ msgstr "%1 (default)"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Registreringsfeil for %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Registrering for %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 Web"
+
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 lagt til i %2 gruppen."
+
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%1 kan ikke fjernes fra %2"
+
+#~ msgid "%1 denied the registration."
+#~ msgstr "%1 nektet registreringen."
+
+#~ msgid "%1 group topic upgraded."
+#~ msgstr "%1 gruppe side oppgradert."
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 har en liste over andre Foswiki brukere"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr "%1 har redigert siden i %2 og leien er aktiv for ytterligere %3."
+
+#~ msgid ""
+#~ "%1 has been emailed to inform them that their registration has been "
+#~ "successful"
+#~ msgstr "%1 er sendt epost med info om at registreringen var vellykket"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 er registrert med epost %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr ""
+#~ "%1 har mottatt en mistenkelig endringsforespørsel fra din nettleser."
+
+#~ msgid "%1 home"
+#~ msgstr "%1 hjem"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 er et ugyldig navn for en ny web"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 er logget inn"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 er satt til %2"
+
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "%1 redigerer [[%2][%3]]."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
+
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "%1 er ikke gyldig verdi for  %2 parameteret"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 er standard side for slettede vedlegg."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%1 redigerer kanskje fremdeles %2."
+
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 siste endringer i %2 Web"
+
+#~ msgid "%1 registration approval required"
+#~ msgstr "%1 registreringen må godkjennes"
+
+#~ msgid "%1 registration denied"
+#~ msgstr "%1 registrering nektet"
+
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 fjernet fra %2 gruppen."
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 for å lage en ny web"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 for å tilpasse web spesifikke preferanser"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 for å starte å bruke den nye weben"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "%1 siden eksisterer ikke"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 forsøkte å registrere med epost %2"
+
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 har endret navn eller flyttet fra %2 på %3 av %4"
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "Sidenavnet kan ikke være tomt."
+
+#~ msgid "&Cancel"
+#~ msgstr "Avbryt (&c)"
+
+#~ msgid "&History"
+#~ msgstr "&Historikk"
+
+#~ msgid "&Sequential"
+#~ msgstr "&Sekvensiell"
+
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' er ikke et gyldig [[%2][login brukernavn]]."
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "'Lag ny side' siden har flyttet"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 logg inn)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 bekreftelse)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 vs. %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=alle= for å se alle sider)"
+
+#, fuzzy
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(referanser i %1 weben)"
+
+#~ msgid "(This message will be removed automatically)"
+#~ msgstr "(Denne meldingen blir fjernet automatisk)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(tilgang nektes)"
+
+#~ msgid "(attach)"
+#~ msgstr "(legg ved)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(referanser i %1 weben)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(referanser i alle web)"
+
+#~ msgid "(book view)"
+#~ msgstr "(bokvisning)"
+
+#~ msgid "(change form)"
+#~ msgstr "(endre skjema)"
+
+#~ msgid "(change language)"
+#~ msgstr "(endre språk)"
+
+#~ msgid "(changes)"
+#~ msgstr "(endringer)"
+
+#~ msgid "(compare)"
+#~ msgstr "(sammenlign)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(slett vedlegg)"
+
+#~ msgid "(delete)"
+#~ msgstr "(slett)"
+
+#~ msgid "(disabled)"
+#~ msgstr "(deaktivert)"
+
+#~ msgid "(edit form)"
+#~ msgstr "(rediger skjema)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(rediger tekst)"
+
+#~ msgid "(edit)"
+#~ msgstr "(rediger)"
+
+#~ msgid "(login)"
+#~ msgstr "(innlogging)"
+
+#~ msgid "(more)"
+#~ msgstr "(mer)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(flytt vedlegg)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(ingen foreldre, foreldreløs side)"
+
+#~ msgid "(none)"
+#~ msgstr "(ingen)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(eller søk kun i %1 web)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(rå tekst)"
+
+#~ msgid "(redirect denied)"
+#~ msgstr "(videresending nektes)"
+
+#~ msgid "(rename)"
+#~ msgstr "(navngi)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(revisjon %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(lagringsfeil)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(enkelt bokstav fornavn)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(enkelt bokstav etternavn)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(oversett)"
+
+#~ msgid ""
+#~ "*Administrators:* You can change user's e-mail address using this form. "
+#~ "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+#~ "address."
+#~ msgstr ""
+#~ "*Administratorer:* Du kan endre brukeres epostadresse med dette skjemaet. "
+#~ "Skriv brukeres [[%1][brukernavn]] eller [[%1][WikiNavn]] og den nye "
+#~ "epostadressen."
+
+#, fuzzy
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*Lokal fil:* Hvis du velger en annen fil i _Lokal fil:_, så er det denne "
+#~ "som blir oppdatert eller lagt til."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Endringskommentar:* Hvis du bruker _Endre egenskaper_ for å endre en "
+#~ "kommentar vil kommentaren som vises til siden endres, men kommentaren som "
+#~ "vises til et vedlegg vil vise kommentaren fra når vedlegget ble lastet "
+#~ "opp."
+
+#~ msgid "*Formatting help:*"
+#~ msgstr "*Formateringshjelp:*"
+
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Viktig:* informasjonen fra dette skjemaet blir lagret i en database på "
+#~ "web serveren. Denne database er tilgjengelig for alle som kan nå serveren "
+#~ "gjennon nettverket (selv om passord blir kryptert, og epost adresser blir "
+#~ "kodet for å hindre spam). Ditt land, eller landet hvor serveren står, kan "
+#~ "ha datavern-lover som omhandler vedlikehold av slike databaser. Hvis du "
+#~ "er i tvil bør du kontakte %1 for detaljer som datavern regler for denne "
+#~ "web serveren før du registrerer deg."
+
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*Egenskaper:* Kommentaren og synligheten (i.e. er vedlegg skjult) kan "
+#~ "endres uten å laste opp en fil ved å velge \"Endre kun egenskaper\"."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr "*fet* skriv ord/uttrykk med stjerner: =<nop>*ditt uttrykk*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*punktliste* 3 mellomrom, stjerne. 1 mellomrom: =&&nbsp;&&nbsp;&&nbsp;"
+#~ "*&&nbsp;din tekst="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*eksterne linker* =http://yahoo.com= eller =[<nop>[http://yahoo.com/]"
+#~ "[link til Yahoo]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*overskrifter* 3 streker, 1 til 6 plusser, 1 mellomrom: =---++&&nbsp;Din "
+#~ "Overskrift="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr "*italic* skriv dine ord og uttrykk i underscores: =_<nop>dine ord_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr "*monospaced* skriv ord i likhetstegn: =<nop>=dine ord=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*avsnitt* separer med en blank linje"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "1 hour ago"
+#~ msgstr "1 time siden"
+
+#~ msgid "1 week ago"
+#~ msgstr "1 uke siden"
+
+#~ msgid "12 hours ago"
+#~ msgstr "12 timer siden"
+
+#~ msgid "2 weeks ago"
+#~ msgstr "2 uker siden"
+
+#~ msgid "24 hours ago"
+#~ msgstr "24 timer siden"
+
+#~ msgid "3 days ago"
+#~ msgstr "3 dager siden"
+
+#~ msgid "4 weeks ago"
+#~ msgstr "4 uker siden"
+
+#~ msgid "6 hours ago"
+#~ msgstr "6 timer siden"
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>RSS feed</a>, siste endringer av <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "sider, <a href='%7' rel='nofollow'>alle endringer</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "<em> kun i %1 web </em>"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em> i alle offentlige web'er</em>"
+
+#~ msgid ""
+#~ "<nop>%1 (%2) can be emailed to inform them that their registration has "
+#~ "been rejected."
+#~ msgstr ""
+#~ "<nop>%1 (%2) kan sendes epost for å informere om at deres registrering "
+#~ "ikke ble godkjent."
+
+#~ msgid ""
+#~ "<nop>%1 <%2> has been emailed to inform them that their registration has "
+#~ "been denied"
+#~ msgstr ""
+#~ "<nop>%1 <%2> har fått epost med informasjon om at deres registrering ikke "
+#~ "har blitt godkjent"
+
+#~ msgid "<nop>WikiName:"
+#~ msgstr "<nop>WikiNavn:"
+
+#~ msgid ""
+#~ "<strong>Confirmation required!</strong> Press OK to confirm this change "
+#~ "was intentional<br />Press Cancel otherwise"
+#~ msgstr ""
+#~ "<strong>Bekreftelse påkrevd!</strong> Trykk OK for å bekrefte at denne "
+#~ "endringen er riktig<br />Trykk Avbryt hvis ikke"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr "=.txt= legges til noen av filnavnene av sikkerhetshensyn"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "En Foswiki webløsning deles inn i forskjellige webs; hver web "
+#~ "representerer et område for samhandling og samarbeid. Du forsøker å %1 i "
+#~ "en web som ikke eksisterer."
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "En farge begynner med et # tegn, ettefulgt av 6 hexadecimaltegn, e.g. "
+#~ "=#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "En bekreftelses epost har blitt sent til %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "En link til en side i en annen web skrives som %1. Vær sikker på at "
+#~ "navnet er stavet riktig på forrige side; fiks linken hvis nødvendig."
+
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Et nytt systemgenerert passord for ditt brukernavn '%1' (!WikiNavn %2) er "
+#~ "sendt til din registrerte epostadresse. Hvis din epostadresse ikke lenger "
+#~ "er gyldig, ta kontakt med %3."
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr ""
+#~ "En malside definerer innholdet en ny side skal ha til å begynne med."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "En side med dette navnet eksisterer, men det har endret navn eller "
+#~ "flyttet til %1."
+
+#~ msgid "A user requires your approval to complete their registration"
+#~ msgstr "En bruker trenger din godkjenning for å fullføre sin registrering"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Access Denied"
+#~ msgstr "Tilgang nektes"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "Tilgangskontroll til %1 feilet"
+
+#~ msgid "Access keys:"
+#~ msgstr "Hurtigtaster:"
+
+#~ msgid "Action"
+#~ msgstr "Valg"
+
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Valg %1: %2 av bruker %3."
+
+#~ msgid "Actions"
+#~ msgstr "Valg"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Ugyldig aktiveringskode"
+
+#~ msgid "Add"
+#~ msgstr "Legg til"
+
+#, fuzzy
+#~ msgid "Add Members to %1"
+#~ msgstr "Legg til medlemmer"
+
+#~ msgid "Add members"
+#~ msgstr "Legg til medlemmer"
+
+#~ msgid "Add members..."
+#~ msgstr "Legg til brukere..."
+
+#~ msgid "Add row"
+#~ msgstr "Ny rad"
+
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Legg til valg for brukerbehandling på denne siden."
+
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Legger til %1 innstilling i WebPreferences"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Admin Foswiki Bruker Autentisering"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Administrator Vedlikehold"
+
+#~ msgid "Administration"
+#~ msgstr "Administrasjon"
+
+#~ msgid "Advanced search"
+#~ msgstr "Avansert søk"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Etter å ha bekreftet dette skjemaet vil din epost bli endret og du "
+#~ "returnerer til dette skjemaet."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Etter å ha bekreftet denne skjemaet blir ditt passord endret."
+
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Etter å ha registrert dette skjemaet mottar du en epost med ditt nye "
+#~ "*system-genererte* passord, og en link til en side hvor du kan endre det."
+
+#~ msgid "Ah, no!"
+#~ msgstr "Åh, nei!"
+
+#~ msgid "All public webs"
+#~ msgstr "Alle offentige web"
+
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "Tillat kun <nop>WikiOrd for det nye sidenavnet"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Alternativt velg 'Tilbake' for å gå tilbake til %SYSTEMWEB%."
+#~ "UserRegistration og velg et annet brukernavn."
+
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Et vedlegg med samme navn eksisterer allerede for denne siden."
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "En feilmelding vil vises hvis en av sidene er låst av en annen bruker."
+
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "En ondsinnet person kan forsøke å bruke din identitet for å endre "
+#~ "innholde i din wiki uten din viten."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "Og består av sider fra mal-web'en"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Alle endringer du gjorde på siden før du kom til denne siden er lagret."
+
+#~ msgid "Attach"
+#~ msgstr "Legg ved"
+
+#~ msgid "Attach a file"
+#~ msgstr "Legg ved en fil"
+
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "Legg ved et bilde eller dokument til denne siden; administrer "
+#~ "eksisterende vedlegg (a)"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Legg ved fil til %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Legg ved bilde eller dokument på %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Legg ved ny fil"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Vedlegg '%1' eksisterer ikke"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Sletting av vedlegg feilet"
+
+#~ msgid "Attachment does not exist."
+#~ msgstr "Vedlegg eksisterer ikke."
+
+#~ msgid "Attachment history"
+#~ msgstr "Vedlegg historikk"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Flytting av vedlegg feilet"
+
+#~ msgid "Attachment name:"
+#~ msgstr "Vedlegg navn:"
+
+#~ msgid "Attachments"
+#~ msgstr "Vedlegg"
+
+#~ msgid "Attachments %1"
+#~ msgstr "Vedlegg %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Vedlegg i %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Vedlegg vises ikke i teksten på siden."
+
+#~ msgid "Attention"
+#~ msgstr "Oppmerksomhet"
+
+#~ msgid "Attribute"
+#~ msgstr "Egenskap"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Automatisk varsling av endringer på sider"
+
+#~ msgid "Available Information"
+#~ msgstr "Tilgjengelig informasjon"
+
+#~ msgid "Available form templates"
+#~ msgstr "Tilgjengelige skjema-maler"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Tilgjenglige maler i %1 web:"
+
+#~ msgid "Back to topic"
+#~ msgstr "Tilbake til siden"
+
+#~ msgid "Backlinks"
+#~ msgstr "Referanser"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Referanser til %1 i %2 web'en"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Referanser til %1 i alle webs"
+
+#~ msgid "Backlinks:"
+#~ msgstr "Tilbakelenker:"
+
+#~ msgid "Bad password"
+#~ msgstr "Ugyldig passord"
+
+#~ msgid "Bad subscriber '%1'"
+#~ msgstr "Feil abbonnent '%1'"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Basis web %1 mangler eller eksisterer ikke"
+
+#~ msgid "Both body and title"
+#~ msgstr "Både innhold og tittel"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Men eksisterende skjemadata forsvinner (du kan alltids finne igjen data i "
+#~ "tidligere revisjoner av siden)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "Som standard er visning av Trash web'en tilgjengelig kun for %1. Hvis du "
+#~ "ønsker at alle skal kunne se Trash web'en så fjern =ALLOWWEBVIEW= i "
+#~ "WebPreferences."
+
+#~ msgid "CHANGE not permitted by %1"
+#~ msgstr "ENDRING ikke tillatt av %1"
+
+#~ msgid "CHANGE not permitted for %1 by %2"
+#~ msgstr "ENDRING ikke tillatt for %1 av %2"
+
+#~ msgid "Can't find user %1"
+#~ msgstr "Kan ikke finne bruker %1"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Avbryt redigering og forkast endringer"
+
+#~ msgid "Cancel upload"
+#~ msgstr "Avbryt opplasting"
+
+#~ msgid "Cannot change subscription: %1"
+#~ msgstr "Kan ikke endre abonnement: %1"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Kan ikke lage %1 fordi den allerede eksisterer."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Kan ikke lage web'en %1 fordi den allerede eksisterer"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "Kan ikke navngi %1 til %2 fordi den allerede eksisterer."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Store/små bokstaver"
+
+#~ msgid "Categories"
+#~ msgstr "Kategorier"
+
+#, fuzzy
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
+#~ "kontakt %1"
+
+#~ msgid "Change E-mail Address"
+#~ msgstr "Endre Epost Adresse"
+
+#~ msgid "Change Password"
+#~ msgstr "Endre passord"
+
+#~ msgid "Change cannot be completed"
+#~ msgstr "Endringen kan ikke fullføres"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Kun endre kommentar og egenskaper"
+
+#~ msgid "Change e-mail address"
+#~ msgstr "Endre epost adresse"
+
+#~ msgid "Change from"
+#~ msgstr "Endre fra"
+
+#~ msgid "Change language"
+#~ msgstr "Endre språk"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "Endre linker i sider som refererer til !%1 i alle webs:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Endre linker i sider som refererer til !%1 i %2 web'en:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Endre linker til sider som refererer til %1 i alle web:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Endre linker i sider som refererer til %1 in %2 web'en:"
+
+#~ msgid "Change password"
+#~ msgstr "Endre passord"
+
+#~ msgid "Change properties only"
+#~ msgstr "Kun endre egenskaper"
+
+#~ msgid "Change topic"
+#~ msgstr "Endre side"
+
+#~ msgid "Changed by:"
+#~ msgstr "Endret av:"
+
+#~ msgid "Changed on"
+#~ msgstr "Endret den"
+
+#~ msgid "Changed:"
+#~ msgstr "Endret:"
+
+#~ msgid "Changes"
+#~ msgstr "Endringer"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Endinger fra r%1 til r%2"
+
+#~ msgid ""
+#~ "Check your configuration settings for {TemplateDir} and {TemplatePath}."
+#~ msgstr "Sjekk innstillingene foro {TemplateDir} og {TemplatePath}."
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "Valgte sider vil bli oppdatert til å referere til den nye linken for "
+#~ "siden."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr ""
+#~ "Valgte sider vil bli oppdatert til å referere til det nye web navnet."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Undersider i %1 web'en"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Referanser til %1 i %2 web'en"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Velg et nytt skjema for %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Tøm alle"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Tøm alle"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Klikk for å flytte en side tilbake til tidligere lokasjon, med "
+#~ "valgmulighet til å endre referanser."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "Farge %1 har ugyldig format"
+
+#~ msgid "Come on in"
+#~ msgstr "Kom inn"
+
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
+
+#~ msgid "Commenting is disabled for static viewing"
+#~ msgstr "Kommentering er deaktivert for statisk visning"
+
+#~ msgid "Commenting is disabled when not in view context"
+#~ msgstr "Kommentering er deaktivert foruten i visningskontekst"
+
+#~ msgid "Commenting is disabled while not logged in"
+#~ msgstr "Kommentering er deaktivert uten innlogging"
+
+#~ msgid "Commenting is disabled while running from the command line"
+#~ msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Sammenlign versjoner"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Bekreft passord:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Bekreft navngivning eller flytting"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "Bekreft dine endringer ved hjelp av Foswiki's [[%1][sidehistorikk "
+#~ "sammenlignings verktøy (diff)]]."
+
+#~ msgid "Conflict"
+#~ msgstr "Konflikt"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Kontakt %1 dersom du har spørsmål."
+
+#~ msgid ""
+#~ "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
+#~ "assistance."
+#~ msgstr ""
+#~ "Kontakt <a href=\\'mailto:%1'>din nettsted administrator</a> for videre "
+#~ "hjelp."
+
+#~ msgid "Context"
+#~ msgstr "Kontekst"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Fortsett og forsøk å navngi web?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Fortsett å lage ny side"
+
+#~ msgid ""
+#~ "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+#~ "content."
+#~ msgstr ""
+#~ "Konvertering til HTML for WYSIWYG redigering er deaktivert på grunnav "
+#~ "innholdet på siden."
+
+#~ msgid "Copy this topic (and all attachments) to a new topic."
+#~ msgstr "Kopier denne siden (og alle vedlegg) til en ny side."
+
+#~ msgid "Copy topic"
+#~ msgstr "Kopier side"
+
+#~ msgid "Copy topic..."
+#~ msgstr "Kopier side..."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; av de bidragende forfattere. Alt materiale i denne "
+#~ "samarbeidsplattform er eiet av de bidragende forfattere."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; av de bidragende forfattere. Alt materiale i denne "
+#~ "webløsning er eiet av de bidragende forfattere."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Kunne ikke lage ny web %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "Kunne ikke finne mal"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Kunne ikke utføre søk. Feil var: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Kunne ikke lagre %1."
+
+#~ msgid "Country:"
+#~ msgstr "Land:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Lag ny FAQ side"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Lag Ny Side"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Lag Ny Side i %1 web"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Lag link til vedlagte fil"
+
+#~ msgid "Create a new group"
+#~ msgstr "Lag en ny gruppe"
+
+#~ msgid "Create account"
+#~ msgstr "Opprett konto"
+
+#~ msgid "Create group"
+#~ msgstr "Lag gruppe"
+
+#~ msgid "Create new topic"
+#~ msgstr "Lag ny side"
+
+#~ msgid "Create not specified and group does not exist"
+#~ msgstr "Opprett ikke spesifisert og gruppe finnes ikke"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Lag personlig sidemeny"
+
+#~ msgid "Create the topic"
+#~ msgstr "Lag siden"
+
+#~ msgid "Create this topic"
+#~ msgstr "Lag denne siden"
+
+#~ msgid "Create your account to edit pages on this site."
+#~ msgstr "Lag din konto for å redigere sider her."
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Lag en passende Skjemadefinisjons side"
+
+#~ msgid "Current location:"
+#~ msgstr "Gjeldende sted:"
+
+#~ msgid "Current password:"
+#~ msgstr "Gjeldende passord:"
+
+#~ msgid "Dear %1"
+#~ msgstr "Kjære %1"
+
+#~ msgid "Debug"
+#~ msgstr "Debug"
+
+#~ msgid "Default template"
+#~ msgstr "Standard mal"
+
+#~ msgid "Delete"
+#~ msgstr "Slett"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "Slett vedlegg"
+
+#~ msgid "Delete last row"
+#~ msgstr "Slett siste rad"
+
+#~ msgid "Delete topic"
+#~ msgstr "Slett side"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Slett side..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "Beskriv filen slik at andre vet hva den er."
+
+#~ msgid "Description"
+#~ msgstr "Beskrivelse"
+
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Detaljert sideliste for %1 weben"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Detaljer i eget vindu"
+
+#~ msgid "Details:"
+#~ msgstr "Detaljer:"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Stavet du sidenavnet riktig? Husk at sidenavn skiller mellom store og små "
+#~ "bokstaver."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Ville du [[%1][sette %2's passord]]?"
+
+#~ msgid "Difference Topic"
+#~ msgstr "Differanse Side"
+
+#~ msgid "Difference:"
+#~ msgstr "Differanse:"
+
+#~ msgid "Discover the details, and how to start your own site with Foswiki"
+#~ msgstr "Oppdag detaljene og hvordan du kan starte ditt eget Foswiki sted"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Ikke glem å lagre dine endringer"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Ikke vis vedlegg i tabell"
+
+#~ msgid "Don't show:"
+#~ msgstr "Ikke vis:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "Under sletting av vedlegg =%1= ble feil funnet. Vennligst informer din %2 "
+#~ "administrator."
+
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr "Ved flytting av vedlegg =%1= til %2 ble feil funnet."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "Ved navneendring av side %1 til %2 ble feil (%3) funnet. Vennligst "
+#~ "informer din %4 administrator."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "Ved navneendring av web %1 til %2 ble feil (%3) funnet. Vennligst "
+#~ "informer din %4 administrator."
+
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr "Ved navngivning av web %1 til %2 ble feil funnet."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "Under lagring av %1 ble en feil funnet av revisjonskontroll systemet. "
+#~ "Vennligst informer din %2 administrator."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "Epost ble endret!"
+
+#~ msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+#~ msgstr "ENCODE feilet - =type= kan ikke brukes sammen med =old= og =new= "
+
+#~ msgid "ENCODE failed - both of =old= and =new= must be given"
+#~ msgstr "ENCODE feilet - både =old= og =new= må angis"
+
+#~ msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+#~ msgstr "ENCODE feilet - tegnet '%PARAM1%' er gjentatt i =old= "
+
+#~ msgid "EXPAND failed - access to '%PARAM1%' denied"
+#~ msgstr "EXPAND feilet - ingen tilgang til '%PARAM1%'"
+
+#~ msgid "EXPAND failed - no macro"
+#~ msgstr "EXPAND feilet - ingen makro"
+
+#~ msgid "EXPAND failed - no such topic '%PARAM1%'"
+#~ msgstr "EXPAND feilet - ingen side kalt '%PARAM1%'"
+
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "Rediger %*(%1,fil)"
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Rediger allikevel"
+
+#~ msgid "Edit Wiki<nop>Text"
+#~ msgstr "Rediger Wiki<nop>Tekst"
+
+#~ msgid "Edit help"
+#~ msgstr "Redigeringshjelp"
+
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Rediger innstillinger for denne siden..."
+
+#~ msgid "Edit this table"
+#~ msgstr "Rediger denne tabellen"
+
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Rediger teksten på denne siden (e)"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Rediger preferansene for denne siden"
+
+#~ msgid "Editable"
+#~ msgstr "Redigerbar"
+
+#~ msgid "Ehm, let me go back to correct the page..."
+#~ msgstr "Eh, la meg gå tilbake og korrigere siden..."
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "Enten er koden ugyldig eller så har du allerede bekreftet din "
+#~ "regsitrasjon med den."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant form."
+#~ msgstr "Navnet er feil eller peker til et skjema som ikke eksisterer."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant topic."
+#~ msgstr "Navnet er feil eller peker til en side som ikke eksisterer."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Enten har du ikke spesifisert et filnavn eller så har ikke filen du "
+#~ "forsøke å laste opp %1 noe innhold. Du kan ikke laste opp en tom fil."
+
+#~ msgid "Email address:"
+#~ msgstr "Epost adresse:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "Epost er ikke aktivert for denne Foswiki installasjonen"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Forstørr redigeringsboks"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr "Skriv inn nytt brukernavn og passord for å endre indentitet"
+
+#~ msgid "Enter parent name"
+#~ msgstr "Skriv overordnet navn"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr "Skriv administrators brukernavn eller brukernavn som satt i %1"
+
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "Skriv sidenavnet som WikiOrd eller huk av boksen for å tillate ikke-Wiki "
+#~ "ord."
+
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Skriv inn brukere eller grupper for å legge til denne gruppen"
+
+#~ msgid "Error encountered loading the plugin. See errors below."
+#~ msgstr "Feil ved lasting av plugin tillegg. Se feilmelding under."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Feil ved registrering av ny bruker"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Feil ved registrering av bruker %1"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Feil ved lagring av side"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Feil: Vedlegg til %1,%2 eksisterer ikke"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Feil: Usupportert innholdstype: %1 (Må være =text/html=, =text/plain= "
+#~ "eller =text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Feil: Usupportert protokoll. (Må være 'http://domene/...')"
+
+#~ msgid "Errors"
+#~ msgstr "Feil"
+
+#~ msgid "Errors adding members to group"
+#~ msgstr "Problemer med å legge til brukere i gruppe"
+
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Feil ved fjerning av medlemmer fra grupper"
+
+#~ msgid "Evil person"
+#~ msgstr "Ondsinnet person"
+
+#~ msgid "Exit"
+#~ msgstr "Avslutt"
+
+#~ msgid "Failed plugins"
+#~ msgstr "Feilede plugins"
+
+#~ msgid "Failed to add user: "
+#~ msgstr "Feilet med å legge til bruker: "
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Klarte ikke å inkludere URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Felter merket %1 er obligatoriske"
+
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "Felter merket <span class='required'>*</span> er påkrevd."
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Filen har blitt lastet opp med annet navn"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Finn liknende sider"
+
+#, fuzzy
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Finn sider som linker til %1..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Finn sider som linker til %1..."
+
+#~ msgid "First"
+#~ msgstr "Første"
+
+#~ msgid "First name:"
+#~ msgstr "Fornavn:"
+
+#~ msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+#~ msgstr "For eksempel Tim Berners-Lees !WikiName er [[TimBernersLee]]"
+
+#~ msgid ""
+#~ "For more detailed information on cross-site request forgery, and the "
+#~ "dangers it poses to you, see [[%1][the Cross-site request forgery article "
+#~ "on Wikipedia]]."
+#~ msgstr ""
+#~ "For mer detaljer informasjon om cross-site request forgery og farene det "
+#~ "utgjør for deg, se [[%1][Cross-site request forgery artikkel på "
+#~ "Wikipedia]]."
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Glemt passordet ditt?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Skjemadefinisjon %1 mangler"
+
+#~ msgid "Form data"
+#~ msgstr "Skjemadata"
+
+#~ msgid "Form definition"
+#~ msgstr "Skjemadefinisjon"
+
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Skjemadefinisjon '%1' ikke funnet"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Skjemadefinisjon mangler"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Foswiki Brukerautentisering"
+
+#~ msgid ""
+#~ "Foswiki checks all requests it receives from browsers, and tries to check "
+#~ "that the persons using the browsers intentionally sent them."
+#~ msgstr ""
+#~ "Foswiki sjekker alle forespørsler den mottar fra nettlesere og forsøker å "
+#~ "kontrollere at den som bruker nettleseren virkelig har villet sende dem."
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Foswiki passord er satt for %1"
+
+#~ msgid "Get help on attaching files"
+#~ msgstr "Få hjelp om å legge ved filer"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Få varsler om endringer på dette søket"
+
+#~ msgid "Globe"
+#~ msgstr "Globus"
+
+#~ msgid "Go back"
+#~ msgstr "Gå tilbake"
+
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "Gå tilbake i nettleseren din og fyll inn alle obligatoriske felter før du "
+#~ "lagrer igjen"
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr "Gå tilbake i nettleseren og lagre endringene lokalt."
+
+#~ msgid ""
+#~ "Go back to the previous page, and enable Cookies and !JavaScript before "
+#~ "trying again"
+#~ msgstr ""
+#~ "Gå tilbake til den forrige siden og skru på meldingskapsler (coockies) "
+#~ "og !Javascript før du forsøker på nytt"
+
+#~ msgid "Good examples:"
+#~ msgstr "Gode eksempler:"
+
+#~ msgid "Group"
+#~ msgstr "Gruppe"
+
+#~ msgid "Group name"
+#~ msgstr "Gruppenavn"
+
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Hallo %1!"
+
+#~ msgid "Hide file"
+#~ msgstr "Skjul fil"
+
+#~ msgid "Hide help"
+#~ msgstr "Skjul hjelp"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr "Hierarkiske Web er deaktivert, du kan ikke lage nestede web."
+
+#~ msgid "History"
+#~ msgstr "Historikk"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Hva med å legge ved ditt bilde?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "Hvordan aktivere din %1 registrasjon"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Men bekreftelses epost til %2 feilet, indikerer at dette kan være en "
+#~ "falsk registrering. Brukeren '%1' kunne ikke fjernes automatisk."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Men bekreftelses epost til %2 feilet, indikerer at dette kan være en "
+#~ "falsk registrering. Brukeren '%1' ble automatisk fjernet. Du må kanskje "
+#~ "allikevel slette brukerens personlige side."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr ""
+#~ "Men filnavnet har blitt endret fra %1 til %2. Vennligst noter dette."
+
+#~ msgid "I forgot my password"
+#~ msgstr "Jeg har glemt mitt passord"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Ideer, forespørsler, problemer angående %1? <a href='%2'>Gi "
+#~ "tilbakemelding</a>"
+
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Dersom det ikke er feilen kan det være at innstillingen %1 peker til en "
+#~ "mal som ikke eksisterer."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr ""
+#~ "Hvis denne linjen ikke er tilstede, se _oppgradering_ avsnittet nedenfor"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr "Hvis denne siden mangler, lag den, eller sjekk etter feil."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Dersom du utvikler en Foswiki applikasjon, se %1 for beskrivelse av de "
+#~ "riktige parameterne."
+
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Hvis du er usikker på hva dette betyr, les: %1"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "Dersom du kom hit ved å klikke på et spørsmålstegn-link"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr "Dersom du ikke mottar en bekreftelses epost innen en time, "
+
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr ""
+#~ "Dersom du skriver et annet navn, forsikre deg om at siden eksisterer."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Dersom du har mottatt denne eposten ved en feiltakelse: Noen (%1) har "
+#~ "registrert seg på %2 med denne epostadressen %3. Kontakt %4 dersom dette "
+#~ "er feil."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr "Hvis du har spørsmål om registrering send en epost til %1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Dersom du har spørsmål vennligst kontakt %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Dersom du harspørsmål vennlighst kontakt %1."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Hvis du ikke har satt et passord enda eller vil endre det, gå til: %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "Dersom du mottok en link til denne siden i en epost eller bare vil se på "
+#~ "denne siden, [[%1][avbryt lagring]] for å gå til %2."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Dersom du ønsker å lage siden"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Dersom du ønsker å lage denne web'en"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Hvis alle dine gamle epostadresser er ugyldige (dersom du ikke kan motta "
+#~ "epost der lenger) og du har glemt ditt passord, vennligst kontakt %1 for "
+#~ "hjelp."
+
+#~ msgid "Image %1 of %2"
+#~ msgstr "Bilde %1 av %2"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr "Bilder vil vises, andre vedlegg får en link."
+
+#~ msgid "In reversed order"
+#~ msgstr "I omvendt rekkefølge"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "I noen tilfeller kan Foswiki endre navn på opplastet fil for å gjøre den "
+#~ "trygg og tilgjengelig på alle plattformer:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Feil Passord"
+
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Feil Prefiks"
+
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Feil [[%1][WikiNavn]]"
+
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Feil [[%1][WikiNavn:]]"
+
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Feil [[%1][brukernavn]]"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Feil parametere til =%1= skriptet"
+
+#~ msgid "Index"
+#~ msgstr "Indeks"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Ugyldig aktiveringskode"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Ugyldig epostadresse"
+
+#~ msgid "Invalid topic name."
+#~ msgstr "Ugyldig sidenavn."
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Det er trolig OK å fortsette å redigere - med mindre du skal endre data i "
+#~ "et skjema på siden. Hvis %1 faktisk _lagrer_ siden mens du redigerer den "
+#~ "vil dine endringer bli flettet inn, og ingenting forsvinner. Skjemadata "
+#~ "kan ikke flettes like enkelt så i slike tilfeller anbefales det at du "
+#~ "sjekker med %1 først."
+
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "Det er vanligvis best å velge et %1 for den nye siden, ellers vil kanskje "
+#~ "ikke automatisk linking fungere. Tegn som ikke er tillatt i sidenavn blir "
+#~ "automatisk fjernet, for eksempel mellomrom."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "Det er vanligvis best å velge korte navn for nye web, da er det enklere å "
+#~ "linke til dem senere. Tegn som ikke er tillatt i webnavn blir automatisk "
+#~ "fjernet, for eksempel mellomrom."
+
+#~ msgid "Jump"
+#~ msgstr "Hopp"
+
+#~ msgid "Jump to first revision"
+#~ msgstr "Hopp til første versjon"
+
+#~ msgid "Keyword search"
+#~ msgstr "Nøkkelord søk"
+
+#~ msgid "Last"
+#~ msgstr "Siste"
+
+#~ msgid "Last edited by"
+#~ msgstr "Sist redigert av"
+
+#~ msgid "Last editor"
+#~ msgstr "Siste redigerer"
+
+#~ msgid "Last modified"
+#~ msgstr "Sist endret"
+
+#~ msgid "Last modified time"
+#~ msgstr "Siste endringstidspunkt"
+
+#~ msgid "Last name:"
+#~ msgstr "Etternavn:"
+
+#~ msgid "Latest revision: %1"
+#~ msgstr "Siste versjon: %1"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Begrens resultater til:"
+
+#~ msgid "Line: %1"
+#~ msgstr "Linje: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Linje: %1 til %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "List sider som starter med bokstaven:"
+
+#~ msgid "Literal search"
+#~ msgstr "Bokstavelig søk"
+
+#~ msgid "Load content"
+#~ msgstr "Last innhold"
+
+#~ msgid "Login"
+#~ msgstr "Logg Inn"
+
+#~ msgid "Login username:"
+#~ msgstr "Logg inn brukernavn:"
+
+#~ msgid "Logon"
+#~ msgstr "Logg på"
+
+#~ msgid "Logout"
+#~ msgstr "Logg Ut"
+
+#~ msgid "Mail to"
+#~ msgstr "Post til"
+
+#~ msgid "Make search:"
+#~ msgstr "Lag søk:"
+
+#~ msgid "Members"
+#~ msgstr "Medlemmer"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Manglende Felter"
+
+#~ msgid "Missing action command"
+#~ msgstr "Manglende kommando"
+
+#~ msgid "Modify search"
+#~ msgstr "Endre søk"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Mer Valg for Side %1"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Mer Valg for Side %1"
+
+#~ msgid "More formatting help"
+#~ msgstr "Mer formateringshjelp"
+
+#~ msgid "More on hiding attachments"
+#~ msgstr "Mer om skuling av vedlegg"
+
+#~ msgid "More topic actions"
+#~ msgstr "Flere valg for siden"
+
+#~ msgid "More topic actions..."
+#~ msgstr "Flere valg for siden..."
+
+#~ msgid "More..."
+#~ msgstr "Mer..."
+
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "Mer: slett eller navngi denne siden; sett overordnet side; vis og "
+#~ "sammenlign versjoner (m)"
+
+#~ msgid "Move"
+#~ msgstr "Flytt"
+
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Flytt %1 til Papirkurv web"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "Flytt vedlegg"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Flytt vedlagt fil"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Flytt eller slett vedlegg"
+
+#~ msgid "Move to web:"
+#~ msgstr "Flytt til web:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "Flytt til web:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Flytt side til web:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Flytt/Navngi"
+
+#~ msgid "My Links"
+#~ msgstr "Mine linker"
+
+#~ msgid "NEW"
+#~ msgstr "NY"
+
+#~ msgid "Name of copy"
+#~ msgstr "Navn på kopi"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Navn på ny web mangler"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Gå til en liknende side"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Registrering av ny bruker er ikke aktivert"
+
+#~ msgid "New User Registration failed"
+#~ msgstr "Registrering av ny bruker feilet"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Registrering av ny bruker er ikke supportert"
+
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "Nye epostadresser (delt med mellomrom):"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Nye eller endrede sider i %1, siden %2:"
+
+#~ msgid "New parent web:"
+#~ msgstr "Ny foreldre web:"
+
+#~ msgid "New password:"
+#~ msgstr "Nytt passord:"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Nytt sidenavn %1 er ikke et %2"
+
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Registrering av nye brukere er ikke aktivert på dette nettstedet."
+
+#~ msgid "New web name:"
+#~ msgstr "Nytt webnavn:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Nyere versjon:"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(referanser i alle web)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(referanser i %1 weben)"
+
+#~ msgid "No changes"
+#~ msgstr "Ingen endringer"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "Ingen undersider"
+
+#~ msgid "No group name specified"
+#~ msgstr "Gruppenavn er ikke spesifisert"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "Ingen medlemmer"
+
+#~ msgid "No permission to view %1"
+#~ msgstr "Ingen tilgang til å lese %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Ingen tidligere versjon finnes."
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "%1 registrering nektet"
+
+#~ msgid "No topic to subscribe to"
+#~ msgstr "Ingen sider å abonnere på"
+
+#~ msgid "No topics to update."
+#~ msgstr "Ingen sider å oppdatere."
+
+#~ msgid "No username specified"
+#~ msgstr "Brukernavn ikke oppgitt"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "Ingen brukere å tilbakestille passordet for."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Ikke anbefalt ved sletting av en side."
+
+#~ msgid "Not sure this is right, please confirm!"
+#~ msgstr "Er dette riktig? Vennligst bekreft!"
+
+#~ msgid "Notation"
+#~ msgstr "Bemerking"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "Merk at eventuelle URL'er som refererer til vedlegget ikke fungerer "
+#~ "lenger etter denne flyttingen."
+
+#~ msgid "Note:"
+#~ msgstr "Merk:"
+
+#~ msgid ""
+#~ "Note: you must have Cookies and Javascript enabled in your browser to get "
+#~ "past this screen. This is normally the case, but if something doesn't "
+#~ "work, this is where to look first."
+#~ msgstr ""
+#~ "Merk: du må ha informasjonskapsler (cookies) og Javascript aktivert i "
+#~ "nettleseren for å kommer videre fra dette skjermbildet. Det har man som "
+#~ "regel, men hvis noe ikke fungerer så er det de første tingene du må "
+#~ "sjekke."
+
+#~ msgid "Notification help"
+#~ msgstr "Varslingshjelp"
+
+#~ msgid "Notifications"
+#~ msgstr "Varslinger"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Antall sider:"
+
+#~ msgid "Number of topics: %1"
+#~ msgstr "Antall sider: %1"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "OK, this is still me!"
+#~ msgstr "OK, dette er fortsatt meg!"
+
+#~ msgid "Older revision:"
+#~ msgstr "Eldre versjon:"
+
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "På dette systemet kan du også logge inn med epostadressen din når du "
+#~ "først er registrert."
+
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "Kun administratorer har lov til å fjerne andre kontoer."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Kun medlemmer av %1 er tillatt å gjøre denne handlingen."
+
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Oppdater kun koblede sider i %1 web'en"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Oops: vi kunne ikke igjenkjenne deg. Forsøk igjen eller [[%1]"
+#~ "[tilbakestill ditt passord]]."
+
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Eventuelt endre navn på vedlegg:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Eventuelt endre sidenavn:"
+
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Eventuelt skriv et annet navn på vedlegg:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Eventuelt skriv et annet sidenavn:"
+
+#~ msgid "Options"
+#~ msgstr "Valg"
+
+#~ msgid "Organisation name:"
+#~ msgstr "Organisasjonsnavn:"
+
+#~ msgid "Organisation website:"
+#~ msgstr "Organisasjons nettsted:"
+
+#~ msgid "Password"
+#~ msgstr "Passord"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Passord ble endret!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Passordet kunne ikke endres"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Tilbakestilling av passord feilet"
+
+#~ msgid "Password reset failed."
+#~ msgstr "Tilbakestilling av passord feilet."
+
+#~ msgid "Password:"
+#~ msgstr "Passord:"
+
+#~ msgid "Passwords disabled"
+#~ msgstr "Passord deaktivert"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Passordene er ulike"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Ventende registrering ikke funnet"
+
+#~ msgid "Pending registration not found"
+#~ msgstr "Ventende registrering ikke funnet"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Velg en av %1."
+
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Plassholder for slettede sider og vedlegg."
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Plassholder for slettede vedlegg"
+
+#~ msgid "Please check to ensure you have permission to modify the group."
+#~ msgstr "Vennligst sjekk at du har rettigheter til å endre gruppen."
+
+#~ msgid "Please confirm your password."
+#~ msgstr "Vennligst bekreft ditt passord."
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Vennligst kontakt %1 hvis du har spørsmål."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Vennligst kontakt %1."
+
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Vennligst skriv inn et WikiNavn."
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Ugyldig epostadresse"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "Vennligst skriv inn Wiki administrator passordet"
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "Vennligst gå tilbake i nettleseren og forsøk et nytt navn."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Vennligst gå tilbake i nettleseren og sjekk på nytt."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "Vennligst gå tilbake i nettleseren og velg et sidenavn som er et %1."
+#~ "WikiOrd eller huk av i tillat ikke-WikiOrd boksen"
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Vennligst gå tilbake i nettleseren og forsøk på nytt."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "Vennligst gå tilbake i nettleseren og forsøk et nytt navn."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "Vennligst forsikre deg om at du stavet %1 riktig og forsøk på nytt. "
+#~ "Dersom det ikke går, vennligst send epost til %2."
+
+#, fuzzy
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr ""
+#~ "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Vennligst besøk %1 for å endre ditt passord til noe du husker enklere."
+
+#~ msgid "Plugin handlers"
+#~ msgstr "Plugin behandlere"
+
+#~ msgid "Preferences for"
+#~ msgstr "Preferanser for"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Ellers trykk Avbryt."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr ""
+#~ "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen."
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr ""
+#~ "title='Vis utskriftsvennlig versjon av siden' "
+#~ "accesskey='p'>Utskriftsvennlig versjon (&p)"
+
+#~ msgid "Properties"
+#~ msgstr "Egenskaper"
+
+#~ msgid "Put it back..."
+#~ msgstr "Tilbakestill..."
+
+#~ msgid "Query Search"
+#~ msgstr "Query Søk"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "Spørsmål"
+
+#~ msgid "Quiet save"
+#~ msgstr "Stille lagring"
+
+#~ msgid "RSS Feed"
+#~ msgstr "RSS Strøm"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "Les %1 for et raskt overblikk over denne samarbeidsplattformen. For å "
+#~ "lære mer, se TwentyMinuteTutorial som er tilgjengelig fra samme sted."
+
+#~ msgid "Read on"
+#~ msgstr "Les videre"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Nylig endrede sider"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Nylig endrede sider"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Nylig endrede sider"
+
+#~ msgid "Refresh"
+#~ msgstr "Oppdater"
+
+#~ msgid "Register"
+#~ msgstr "Registrer"
+
+#~ msgid "Registration"
+#~ msgstr "Registrering"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "%1 registreringen må godkjennes"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr "Epost er ikke aktivert for denne Foswiki installasjonen"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Registreringskoder kan kun benyttes en gang."
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Beklager, Registrering er midlertidig deaktivert"
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "Beklager, Registrering er midlertidig deaktivert"
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "%1 registreringen må godkjennes"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Regulære uttrykk søk"
+
+#, fuzzy
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr ""
+#~ "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "Relaterte Sider"
+
+#~ msgid "Related topics:"
+#~ msgstr "Relaterte sider:"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Husk meg på denne maskinen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "Husk å oppdatere din brukerside hvis du ønsker at epost endringen skal "
+#~ "vises der også."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Husker du ditt passord?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "Fjern brukere fra denne gruppen"
+
+#, fuzzy
+#~ msgid "Remove User"
+#~ msgstr "Fjern bruker..."
+
+#, fuzzy
+#~ msgid "Remove members..."
+#~ msgstr "Fjern bruker..."
+
+#, fuzzy
+#~ msgid "Remove selected members"
+#~ msgstr "Fjern valgte brukere"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Fjern brukeren fra gruppe(ne) %1 først."
+
+#~ msgid "Rename"
+#~ msgstr "Navngi"
+
+#~ msgid "Rename failed"
+#~ msgstr "Navngivning feilet"
+
+#~ msgid "Rename or move %1"
+#~ msgstr "Navngi eller flytt %1"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Navngi eller flytt side"
+
+#~ msgid "Rename or move topic..."
+#~ msgstr "Navngi eller flytt side..."
+
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Navngi, flytt eller slett denne web'en"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Navngi/Flytt"
+
+#~ msgid "Replace form..."
+#~ msgstr "Erstatt skjema..."
+
+#~ msgid "Request Validation"
+#~ msgstr "Forespørsel Validering"
+
+#~ msgid "Reset Password"
+#~ msgstr "Tilbakestill Passord"
+
+#~ msgid "Reset password"
+#~ msgstr "Tilbakestill passord"
+
+#, fuzzy
+#~ msgid "Resetting and setting password is not available."
+#~ msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"
+
+#~ msgid "Restore topic"
+#~ msgstr "Gjenopprett side"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Gjenopprett side til versjon:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Gjenopprett side til denne versjonen"
+
+#, fuzzy
+#~ msgid "Restoring is disabled because this topic is at revision 1."
+#~ msgstr ""
+#~ "Konvertering til HTML for WYSIWYG redigering er deaktivert på grunnav "
+#~ "innholdet på siden."
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Resultater fra %1 web'en"
+
+#~ msgid "Results from %1 web:"
+#~ msgstr "Resultater fra %1 web'en:"
+
+#, fuzzy
+#~ msgid "Return to %1"
+#~ msgstr "Tilbake til %1."
+
+#~ msgid "Return to %1."
+#~ msgstr "Tilbake til %1."
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "Skriv om igjen nytt passord"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr "Ver %1 ble lagret av %2, mens du fremdeles redigerte."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Gjennomse nylige endringer i:"
+
+#~ msgid "Revision"
+#~ msgstr "Versjon"
+
+#~ msgid "Revision history of %1"
+#~ msgstr "Versjonhistorikk for %1"
+
+#~ msgid "Revisions"
+#~ msgstr "Versjoner"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Lagre, C = Avbryt"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Lagre, Q = Lagre stille, K = Lagre og fortsett, P = Forhåndsvis, C = "
+#~ "Avbryt"
+
+#~ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+#~ msgstr "Sandbox testområde for å eksprimentere i et fritt web sted."
+
+#~ msgid "Save table"
+#~ msgstr "Lagre tabell"
+
+#~ msgid "Saved to:"
+#~ msgstr "Lagret til:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Søk kun i %1 web'en"
+
+#~ msgid "Search all webs"
+#~ msgstr "Søk i alle web"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Søk i alle web for sider som linker hit"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "Søkemuligheter"
+
+#~ msgid "Search in %1 Web"
+#~ msgstr "Søk kun i %1 web'en"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Søk i alle web"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Søk flere sider i denne web'en"
+
+#~ msgid "Search options"
+#~ msgstr "Søkemuligheter"
+
+#~ msgid "Search result"
+#~ msgstr "Søkeresultat"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "Søkeresultat"
+
+#~ msgid "Search string"
+#~ msgstr "Søkestreng"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Søk i %1 web etter sider som linker hit"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Søk i %1 web etter sider som linker hit"
+
+#~ msgid "Search where:"
+#~ msgstr "Søk hvor:"
+
+#~ msgid "Searched:"
+#~ msgstr "Søkt:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Sikkerhetsvarsel:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "Se %1 for en liste over eksisterende brukere eller registrer deg som ny "
+#~ "bruker i %2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Se %1 for informasjon om Skjemadefinisjoner."
+
+#~ msgid "See %MAINWEB%.WikiGroups to see the result."
+#~ msgstr "Se i %MAINWEB%.WikiGroups for resultater."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Se også den raskere %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Se også den mer utførlige %1."
+
+#~ msgid "See also:"
+#~ msgstr "Se også:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "Se under for hjelp om å redigere denne siden."
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "Gjennomse nylige endringer i:"
+
+#~ msgid "Select"
+#~ msgstr "Velg"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "Velg en ny local fil for å oppdatere vedlegget"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Velg alle"
+
+#~ msgid "Select an earlier (left) and a later (right) revision to compare"
+#~ msgstr ""
+#~ "Velg en tidligere (venstre) og senere (høyre) versjon for å sammenligne"
+
+#, fuzzy
+#~ msgid "Select groups to join:"
+#~ msgstr "Velg Wiki %1 for å bli med"
+
+#, fuzzy
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Fjern brukere fra denne gruppen"
+
+#, fuzzy
+#~ msgid "Select the group to join:"
+#~ msgstr "Velg Wiki %1 for å bli med"
+
+#~ msgid "Select topic parent"
+#~ msgstr "Velg forelder for siden"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr "Velg, kopier og lim inn din signaturtekst under ditt innlegg"
+
+#~ msgid "Selections apply to search in \"text body\""
+#~ msgstr "Valg gjelder søk i \"text\""
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Registrering av ny bruker er ikke supportert"
+
+#~ msgid "Sequential"
+#~ msgstr "Sekvensiell"
+
+#~ msgid "Set all"
+#~ msgstr "Velg alle"
+
+#~ msgid "Set new parent"
+#~ msgstr "Sett ny forelder"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Set ny forelder for siden"
+
+#, fuzzy
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Vis forrige versjon av siden"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "Vedlegg hjelp"
+
+#~ msgid "Show help"
+#~ msgstr "Vis hjelp"
+
+#, fuzzy
+#~ msgid "Showing revisions %1 - %2 (out of %3)"
+#~ msgstr "Versjoner %1 - %2 (av %3)"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Krymp redigeringsboks"
+
+#~ msgid "Side by side"
+#~ msgstr "Side ved side"
+
+#~ msgid "Side-by-side comparison of revisions"
+#~ msgstr "Side-ved-side sammenligning av versjoner"
+
+#~ msgid "Size"
+#~ msgstr "Størrelse"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "Noen legger inn avtaler og ferievarsling."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "Noen tegn slik som =&#126;=, =$=, =@=, =%= er fjernet"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "Noen epost verktøy har en feil som får dem til å sende samme forespørsel "
+#~ "to ganger når du klikker på en link. Hvis dette skjedde med deg kan de "
+#~ "hende du faktisk *er* registrert."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Noen gjør det til en personlig portal med favorittlenker, hva de jobber "
+#~ "med, hva de liker osv."
+
+#, fuzzy
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "Beklager, Registrering er midlertidig deaktivert"
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
+#~ "kontakt %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Sorter resultater etter:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Mellomrom erstattes av lav strek"
+
+#~ msgid "Statistics"
+#~ msgstr "Statistikk"
+
+#~ msgid "Submit"
+#~ msgstr "Send"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Sendt innhold:"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Abbonner / Si opp i:"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Lag denne siden"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Lag denne siden"
+
+#, fuzzy
+#~ msgid "Success adding members to group"
+#~ msgstr "Vellykket lagring av brukere i gruppe"
+
+#, fuzzy
+#~ msgid "Success removing members from group"
+#~ msgstr "Vellykket fjerning av brukere fra gruppe"
+
+#~ msgid "Summaries"
+#~ msgstr "Sammendrag"
+
+#, fuzzy
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Bytt til monotype eller proporsjonal font"
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "TIPS: for å søke etter alle sider som inneholder =\"SOAP\"=, =\"WSDL\"=, "
+#~ "en streng =\"web service\"=, men ikke =\"shampoo\"=, skriv:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Mal %1 eksisterer ikke"
+
+#~ msgid "Text body"
+#~ msgstr "Tekst innhold"
+
+#, fuzzy
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Takk for at du registrerte deg"
+
+#, fuzzy
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Takk for at du registrerte deg"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Takk for at du registrerte deg"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "Takk for at du registrerte deg i %1 samarbeidsplattformen. Vennligst "
+#~ "lagre denne eposten for senere referanse."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "Takk for at du registrerte deg i %1 samarbeidsplattformen. Din "
+#~ "bekreftelseskode er %2."
+
+#, fuzzy
+#~ msgid "That user has already been activated"
+#~ msgstr "Den brukeren er allerede aktivert "
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "Siden %1 finnes allerede"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Web'en %1 finnes ikke"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "Web'en %1 er sandkassa du kan bruke for testing. Alle er velkommen til å "
+#~ "legge til eller fjerne innhold. Det er anbefalt å ta en gjennomgang av %2 "
+#~ "for å få en hurtigstart med %3 verktøyet. En god tommelfinger regel er å "
+#~ "legge til tekst på slutten av en side og signere med din %4."
+
+#~ msgid "The %1 web of %2."
+#~ msgstr "Web %1 av %2."
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
+#~ "Source Wiki)."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "Skriptet =%1= kan kun kalles med metoden POST."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "Administratoren har deaktivert registrering av nye brukere."
+
+#, fuzzy
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "Administratoren har deaktiver registrering av nye brukere"
+
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "Den frie og åpne Wikien."
+
+#, fuzzy
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "Advarsel: Kan ikke bruke INCLUDE '%1', stien er tom eller inneholder "
+#~ "ulovlige tegn."
+
+#, fuzzy
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "Feltet %1 må være ditt fornavn og etternavn i %2, e.g. fornavn og "
+#~ "etternavn med store forbokstaver og uten mellomrom."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "Aktiveringskoden %1 er ugyldig."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "Vedlegget og all historikk blir flyttet til den nye siden."
+
+#~ msgid ""
+#~ "The attachment may be renamed (by appending a number to the name) if an "
+#~ "attachment of that name already exists in the target topic."
+#~ msgstr ""
+#~ "Vedlegget kan få nytt navn (ved at et nummer legges til) hvis et vedlegg "
+#~ "med samme navn allerede finnes på siden."
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr ""
+#~ "Navnet på vedlegget må kanskje endres dersom et vedlegg kalt '%FILENAME%' "
+#~ "allerede finnes på siden."
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr ""
+#~ "Muligheten er stor for at %1 helt enkelt har gått bort fra å redigere "
+#~ "siden uten å lagre."
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "De valgte sidene blir oppdatert (et annet skjema vil vises hvor du "
+#~ "_eventuelt_ kan navngi sider som var låst)"
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Epostadressen for denne kontoen er ikke gyldig."
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "Epostadressen for denne kontoen er ikke gyldig."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Epostadressen for denne kontoen er ikke gyldig."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "Informasjonen for bruker %1 manglet i passordsystemet."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "Filen har blitt lastet opp og vedlagt riktig til %1 siden."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr "De følgende sidene er låst for redigering og kan ikke flyttes:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "De følgende sidene refererer til sider i denne web'en, men blir redigert:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "De følgende sidene refererer til siden i denne web'en, men du har ikke "
+#~ "tilgang til dem:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "Skjemaet skulle vært definert i siden %1"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "Leien for denne siden gikk ut for %1 siden."
+
+#, fuzzy
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Sidenavnet kan ikke være tomt."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Sidenavnet kan ikke være tomt."
+
+#, fuzzy
+#~ msgid "The name you log in with"
+#~ msgstr "Brukernavnet du bruker for å logge inn."
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "Den nye siden som er valgt må finnes fra før."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Den nye web'en er opprettet"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "Passordet du skrev i *gammelt passord* feltet stemmer ikke."
+
+#~ msgid ""
+#~ "The prefix you entered for the deleted user is not valid as a topic name."
+#~ msgstr ""
+#~ "Prefikset du skrev for den slettede brukeren er ikke gyldig sidenavn."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "Det obligatoriske feltet %1 var ikke fylt inn."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr "Det valgte brukersystemet tilbyr ikke registrering av nye brukere."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "Siden er i et gamnmelt format"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "De to passordene du skrev inn er ikke like."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
+
+#, fuzzy
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "Ditt brukernavn har blitt fjernet fra autentiserings systemet."
+
+#, fuzzy
+#~ msgid ""
+#~ "Their intention is to automatically save compromising data by sending a "
+#~ "request to your server, using your browser and your identity."
+#~ msgstr ""
+#~ "Deres mål er å automatisk lagre kompromitterende data ved å sende en "
+#~ "forespørsel til din tjener (server), <span> med din nettleser og din "
+#~ "identitet."
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "Det er problemer med å navngi denne web'en:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr ""
+#~ "Det var et problem med å legge til din brukeridentitet til "
+#~ "passordsystemet."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "Det er en risiko at noen kan forsøke å bruke din identitet for å endre "
+#~ "innhold i %1 uten din viten."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr "Der burde være en linje som inkliderer %1, se for %2 (eller %3)"
+
+#, fuzzy
+#~ msgid "There were errors adding to the %2 group. %1 "
+#~ msgstr "Det oppsted feil ved lagring av %1 i gruppen %2. "
+
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "Det oppstod feil ved fjerning av %1 fra gruppen %2. "
+
+#, fuzzy
+#~ msgid "This WikiName is already in use."
+#~ msgstr "Brukernavnet du bruker for å logge inn."
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "Dette kan automatisk oppgraderes ved:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "Dette kan ha flere årsaker:"
+
+#, fuzzy
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "Dette skjemaet brukes til å endre dine registrerte epostadresser. Dine "
+#~ "registrerte epostadresser brukes av Foswiki til å sende deg epost, også "
+#~ "meldinger om passordbytter. Disse adressene holdes hemmelig og blir "
+#~ "*ikke* publisert noe sted på denne webløsningen."
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "Dette er en abbonneringstjeneste som automatisk varsler via epost når "
+#~ "sider endres i denne %1 web'en. Dette er en praktisk tjeneste slik at du "
+#~ "trenger å komme igjen og sjekke etter endringer hele tiden. For å "
+#~ "abbonnere, legg til et punkt med din %2 i alfabetisk rekkefølge til denne "
+#~ "listen:"
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "Dette er en automatisk epost fra %1."
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr "Dette er en automatisk epost varsling om brukerregistrering i %1."
+
+#, fuzzy
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "Dette er Trash. Her kan du ta tilbake slettede sider; slettede vedlegg "
+#~ "finner du i TrashAttachment."
+
+#~ msgid "This is why the conversion is disabled:"
+#~ msgstr "Dette er grunnen til av konvertering er deaktivert:"
+
+#~ msgid ""
+#~ "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
+#~ "[Register]] if you do not have an account yet."
+#~ msgstr ""
+#~ "Dette er ditt navn skrevet som !WikiWord. For eksempel: !JohnJohnsen. "
+#~ "[[%1][Registrering]] hvis du ikke har en konto enda."
+
+#, fuzzy
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "Dette navnet har blitt valgt slik at det ikke er i konflikt med andre "
+#~ "sider som finnes i %1 web'en."
+
+#~ msgid ""
+#~ "This page explains one of the security measures that Foswiki, the "
+#~ "software that runs this site, performs to secure this site from attackers."
+#~ msgstr ""
+#~ "Denne siden forklarer en av sikkerhetsmekanismene som Foswiki benytter "
+#~ "for å sikre dette nettstedet, som kjører Foswiki, mot angripere."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "Dette krever at skjemadefinisjonen er tilstede."
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Dette nettstedet kjøres på Foswiki"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "Denne webløsningen krever minst %1 tegns passord"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "'%1' er ikke et gyldig skjemanavn"
+
+#~ msgid "This topic:"
+#~ msgstr "Denne siden:"
+
+#, fuzzy
+#~ msgid "This username is already in use."
+#~ msgstr "Brukernavnet du bruker for å logge inn."
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "De endringene har blitt flettet med dine til å lage versjon %1. Tekst "
+#~ "felt har blitt flettet, men andre data som eks. skjemafelter kan ha "
+#~ "overksrevet den andre brukerens endringer. Vennligst sjekk siden for å se "
+#~ "om den er OK, spesielt dersom du har gjort endringer i skjemafelter."
+
+#, fuzzy
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "Takk for at du registrerte deg"
+
+#~ msgid "To attachment:"
+#~ msgstr "For vedlegg:"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "Takk for at du registrerte deg"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr ""
+#~ "For å vise de ovenstående søkeresultatene i en side, kopier og lim inn "
+#~ "følgende:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "For å redigere siden uansett, klikk "
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr "For å se om %1 er ferdig med å redigere, klikk "
+
+#~ msgid "To topic"
+#~ msgstr "Til side"
+
+#~ msgid "To topic:"
+#~ msgstr "Til side:"
+
+#~ msgid "To web"
+#~ msgstr "Til web"
+
+#~ msgid "To web:"
+#~ msgstr "Til web:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Verktøy"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "Side %1 finnes ikke"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Lagre Side Feil"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Side vedlegg"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "Siden kan ikke oppgraderes fra gammel type kategori tabell"
+
+#~ msgid "Topic data"
+#~ msgstr "Side data"
+
+#~ msgid "Topic history"
+#~ msgstr "Side historie"
+
+#, fuzzy
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Sider i %1 web'en"
+
+#~ msgid "Topic name"
+#~ msgstr "Sidenavn"
+
+#~ msgid "Topic name:"
+#~ msgstr "Sidenavn:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Forelder til siden:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Side versjon:"
+
+#~ msgid "Topic save error"
+#~ msgstr "Lagre side feil"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "Side maler i %1 web'en"
+
+#~ msgid "Topic title"
+#~ msgstr "Side tittel"
+
+#~ msgid "Topic was merged"
+#~ msgstr "Side ble flettet"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Siden får navnet: "
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "Sider i %1 web'en:"
+
+#~ msgid "Topics per web"
+#~ msgstr "Sider pr web"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr ""
+#~ "Sider som for øyeblikker blir redigert av andre brukere i %1 web'en:"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr ""
+#~ "Sider som refererer til denne web'en og som for øyeblikket blir rediger "
+#~ "av andre brukere:"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr ""
+#~ "Sider som refererer til denne web'en og som du ikke har rettigheter til å "
+#~ "endre:"
+
+#~ msgid "Total matches"
+#~ msgstr "Totalt antall treff"
+
+#~ msgid "Try Again"
+#~ msgstr "Forsøk igjen"
+
+#, fuzzy
+#~ msgid "Unchanged sections before and after each change"
+#~ msgstr "uendrede seksjoner for og etter hver endring"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "Ukjent bruker og/eller passord"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Ukjent handling %1"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Feil %1.WikiNavn:"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Oppdater lenker"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Oppdater vedlegg %1 på %2"
+
+#~ msgid "Update links"
+#~ msgstr "Oppdater lenker"
+
+#, fuzzy
+#~ msgid "Upgrade"
+#~ msgstr "Gruppe Oppgradert"
+
+#, fuzzy
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Oppgrader gruppesiden"
+
+#, fuzzy
+#~ msgid "Upgraded group"
+#~ msgstr "Gruppe Oppgradert"
+
+#~ msgid "Upload a file"
+#~ msgstr "Last opp en fil"
+
+#~ msgid "Upload file"
+#~ msgstr "Last opp fil"
+
+#, fuzzy
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Oppdater vedlegg %1 på %2"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Last opp opptil %1 KB."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Opplaster fil %1 ovestiger grense på %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Opplastet fil er for stor"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Bruk %1 i stedet."
+
+#~ msgid "Use template:"
+#~ msgstr "Bruk mal:"
+
+#, fuzzy
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "Brukerkonto %1 Slettet"
+
+#, fuzzy
+#~ msgid "User Account was not supplied"
+#~ msgstr "Brukerkonto %1 Slettet"
+
+#~ msgid "User Reference"
+#~ msgstr "Bruker Referanse"
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "Registrering"
+
+#~ msgid "Username"
+#~ msgstr "Brukernavn"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "Brukernavn"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "Ugyldig epostadresse"
+
+#~ msgid "Users"
+#~ msgstr "Brukere"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Brukere med automatisk genererte passord burde øyeblikkelig gå til [[%1]"
+#~ "[endre passord]] og endre passord til noe enklere å huske."
+
+#~ msgid "Version"
+#~ msgstr "Versjon"
+
+#~ msgid "Version history"
+#~ msgstr "Versjonshistorikk"
+
+#~ msgid "Version history of %1"
+#~ msgstr "Versjonhistorikk for %1"
+
+#~ msgid "View"
+#~ msgstr "Vis"
+
+#, fuzzy
+#~ msgid "View complete topic history"
+#~ msgstr "Vis all side historikk"
+
+#~ msgid "View difference"
+#~ msgstr "Vis differanse"
+
+#~ msgid "View differences"
+#~ msgstr "Vis differanser"
+
+#, fuzzy
+#~ msgid "View earlier"
+#~ msgstr "tidligere"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "Vis maler"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Vis forrige versjon av siden"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Vis rå tekst uten formatering"
+
+#~ msgid "View revision"
+#~ msgstr "Vis versjon"
+
+#~ msgid "View revision:"
+#~ msgstr "Vis versjon:"
+
+#, fuzzy
+#~ msgid "View sequential topic history"
+#~ msgstr "Vis all side historikk"
+
+#~ msgid "View templates"
+#~ msgstr "Vis maler"
+
+#~ msgid "View topic"
+#~ msgstr "Vis side"
+
+#~ msgid "View total topic history"
+#~ msgstr "Vis all side historikk"
+
+#, fuzzy
+#~ msgid "View without formatting (v)"
+#~ msgstr "Vis rå tekst uten formatering"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Advarsel! Bekreftelse kreves"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Advarsel: 'include' siden finnes ikke!"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr ""
+#~ "Advarsel: Kan ikke INCLUDE %1 flere ganger, siden er allerede inkludert. "
+#~ "%2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Advarsel: Kan ikke bruke INCLUDE '%1', stien er tom eller inneholder "
+#~ "ulovlige tegn."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "Advarsel: Kan ikke finne nevnt seksjon %3 i siden %1.%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Advarsel: Kan ikke finne siden %1.%2"
+
+#, fuzzy
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Advarsel: Kan ikke finne siden %1.%2"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Advarsel: Kunne ikke sende bekreftelses epost"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Advarsel: \\'include\\' siden finnes ikke!"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Advarsel: 'include' siden finnes ikke!"
+
+#, fuzzy
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "Advarsel: \\'include\\' siden finnes ikke!"
+
+#~ msgid "Web Changes notification service"
+#~ msgstr "Endringer varslingstjeneste"
+
+#~ msgid "Webs"
+#~ msgstr "Web"
+
+#, fuzzy
+#~ msgid "Webserver <em>running Foswiki</em>"
+#~ msgstr "Nettsted<span>kjører Foswiki</span>"
+
+#~ msgid "Welcome to %1 ... meet people on this site"
+#~ msgstr "Velkomme til %1 ... treff folk på dette stedet"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Welkommen til %1 web'en"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "Under forsøk på å sende epost <noautolink>%1</noautolink>."
+
+#~ msgid "Who"
+#~ msgstr "Hvem"
+
+#~ msgid "Who is requesting this, actually?"
+#~ msgstr "Hvem ber om dette, egentlig?"
+
+#~ msgid "Whole page"
+#~ msgstr "Hele siden"
+
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "Hvorfor blir jeg bedt om å bekrefte?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+#~ "Foswiki.org]]."
+#~ msgstr "Wiki administratorer bør lese om"
+
+#~ msgid "Word search"
+#~ msgstr "Ord søk"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Vil du gå til:"
+
+#~ msgid "You"
+#~ msgstr "Du"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "Du *må* ha minst en gyldig registrert epostadresse for å kunne "
+#~ "tilbakestille ditt passord. Hvis ingen av dine registrerte epostadresser "
+#~ "er gyldige, og du har glemt ditt passord, kontakt %1."
+
+#, fuzzy
+#~ msgid "You are already registered."
+#~ msgstr "Du er allerede registrert"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Du er også listet på %1 siden"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "Du er nektet tilgang til følgende sider i web'en:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Du oppfordres til å fortsette og redigere - med mindre du har til hensikt "
+#~ "å endre data i et skjema på siden. Hvis %1 faktisk _lagrer_ mens du "
+#~ "redigerer blir dine endringer flettet og ingenting går tapt. Skjemadata "
+#~ "kan ikke enkelt flettes, så i de tilfeller anbefales du å sjekke med %1 "
+#~ "først."
+
+#~ msgid "You are here:"
+#~ msgstr "Du er her:"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "Du anbefales å velge korte navn,gjerne under 10 tegn, og starter med stor "
+#~ "bokstav og kun bruker alfanumeriske tegn. Hvis du ønsker å lage en mal "
+#~ "web (en web som kun brukes ved opprettelse av nye web) velg et navn som "
+#~ "starter med lav strek og kun har alfanumeriske tegn."
+
+#, fuzzy
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Du forsøker å %1 et vedlegg som ikke eksisterer."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr "Du forsøker å lage en side fra en mal som ikke finnes."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr ""
+#~ "Du forsøker å utføre en handling på en side som ikke finnes (action '%1')."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Du forsøker å endre navn på en side som ikke finnes."
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "Du kan [[%1][lag ny web]] dersom du har tillatelser. Kontakt %2 hvis du "
+#~ "har spørsmål."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "Du kan også bruke navnene på standard HTML farger (black, silver, gray, "
+#~ "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
+#~ "blue, teal, or aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "Du kan endre ditt passord via %1"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "Du kan gi denne web'en et annet navn."
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr ""
+#~ "Du kan ikke registrere deg to ganger, navnet %1 er allerede registrert."
+
+#~ msgid ""
+#~ "You change your email address by setting the form field called Email in "
+#~ "your user topic. If this form field does not exist it will look for a "
+#~ "line like this:"
+#~ msgstr ""
+#~ "Du endrer din epost adresse ved å endre skjemafeltet kalt Email på din "
+#~ "brukerside. Hvis dette feltet ikke finnes søkes det etter en linje som "
+#~ "dette:"
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "Du er *ikke* registrert."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "Du kan få din Wiki administrator til å endre innstillingene dersom de er "
+#~ "hensiktsmessige for ditt miljø."
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr ""
+#~ "Du kan ha klikket på en registrerings-bekreftelses link som du allerede "
+#~ "har besøkt."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr ""
+#~ "Det kan hende du må starte nettleseren på nytt for at endringen skal tre "
+#~ "i kraft."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "Du må sende et sidenavn."
+
+#, fuzzy
+#~ msgid "You need to specify a valid group name to add members to a group."
+#~ msgstr ""
+#~ "Du må angi et gyldig gruppenavn for å legge til brukere i en gruppe."
+
+#, fuzzy
+#~ msgid ""
+#~ "You need to specify a valid group name to remove members from a group."
+#~ msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
+
+#, fuzzy
+#~ msgid "You need to specify a valid member to add to a group."
+#~ msgstr "Du må angi en gyldig bruker for å legge til en gruppe."
+
+#, fuzzy
+#~ msgid "You need to specify a valid member to remove from a group."
+#~ msgstr "Du må angi en gyldig bruker for å fjerne fra en gruppe."
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "Du må nå bekrefte din epostadresse. Du kan gjøre det ved å skrive %1 i "
+#~ "skjemaet du så når denne eposten ble sendt, eller ved å gå til %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Feil %1.WikiNavn:"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "Din aktiveringskode har blitt sendt til %1. Enten klikk på linken i "
+#~ "eposten eller skriv koden inn i feltet under her for å aktivere ditt "
+#~ "medlemskap. (Denne koden ser ut som \"DittNavn.xxxxxxxxxx\")"
+
+#~ msgid "Your email address will be kept confidential."
+#~ msgstr "Din epost adresse vil bli holdt konfidensiell."
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "Ditt passord er endret til %1."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Ditt passord er endret til %1."
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "Ditt passord er endret til %1."
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Denne webløsningen krever minst %1 tegns passord"
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "Ditt passord"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr ""
+#~ "Din personlige %1 side finner på %2. Du kan tilpasse den som du ønsker:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Din personlige Foswiki side %1 er lagd"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "Dine registrerte epostadresse(r) er oppdatert på <noautolink>%1</"
+#~ "noautolink>."
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr ""
+#~ "Din registrerings bekreftelses epost har enten feilet eller ligger i kø i "
+#~ "epost systemet."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Din signatur for å kopiere og lime inn"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Din signatur for å kopiere og lime inn:"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr ""
+#~ "Ditt system støtter kanskje ikke å bytte passord fra Foswiki. Sjekk med "
+#~ "din Wiki administrator."
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][Feilsøk sidetekst]]."
+
+#~ msgid "_language_name"
+#~ msgstr "Norsk"
+
+#~ msgid "access denied on root"
+#~ msgstr "tilgang nektes til root"
+
+#~ msgid "access denied on topic"
+#~ msgstr "tilgang nektes for side"
+
+#~ msgid "access denied on web"
+#~ msgstr "tilgang nektes for web"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "tilgang ikke tillatt til root"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "tilgang ikke tillatt til side"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "tilgang ikke tillatt til web"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "hurtigtast='c'"
+
+#~ msgid "and"
+#~ msgstr "og"
+
+#~ msgid "by %1 "
+#~ msgstr "av %1 "
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "endre, oppdater, tidligere versjoner, flytt, slett..."
+
+#, fuzzy
+#~ msgid "close display options"
+#~ msgstr "Flere visningsvalg:"
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "ikke glem å sjekke dine Side Innstillinger"
+
+#~ msgid "fields are required."
+#~ msgstr "felt er obligatoriske."
+
+#~ msgid "help"
+#~ msgstr "hjelp"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Legg til skjema"
+
+#~ msgid "hints on good style"
+#~ msgstr "tips om god stil"
+
+#~ msgid "in raw text format"
+#~ msgstr "i rå tekst format"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "Siste endringer"
+
+#~ msgid "manage"
+#~ msgstr "administrer"
+
+#~ msgid "more..."
+#~ msgstr "mer..."
+
+#~ msgid "now %1"
+#~ msgstr "nå %1"
+
+#~ msgid "or"
+#~ msgstr "eller"
+
+#~ msgid "preview"
+#~ msgstr "forhåndsvisning"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "hentet %1"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "(revisjon %1)"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "(sett preferanser)"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Legg ved et bilde eller dokument til denne siden' "
+#~ "accesskey='a'>Legg ved (&a)"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr ""
+#~ "title='Legg ved et bilde eller dokument til denne siden' "
+#~ "accesskey='a'>Legg ved (&a)"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Lag ny side' accesskey='c'>Lag (&c)"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Slett eller navngi denne siden; set foreldreside;vis og sammenlign "
+#~ "versjoner' accesskey='m'>Flere valg (&m)"
+
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "title='Rediger wiki tekst' accesskey='w'>Rediger &wiki tekst"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='Fletting' accesskey='i'>Flett&ing"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='Vis utskriftsvennlig versjon av siden' "
+#~ "accesskey='p'>Utskriftsvennlig versjon (&p)"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Søk alle web for sider som linker hit' accesskey='l'>A&lle Webs"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Søk i %1 web for sider som linker hit' accesskey='b'>&Backlinks"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
+
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='Side ved side' accesskey='s'>Side ved &side"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='Vis utskriftsvennlig versjon av siden' "
+#~ "accesskey='p'>Utskriftsvennlig versjon (&p)"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Vis side' accesskey='v'>&Vis side"
+
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr "title='Vis tekst uten formatering' accesskey='v'>&Vis Wiki Tekst"
+
+#~ msgid "user list truncated"
+#~ msgstr "brukerliste forkortet"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Avbryt' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Forkast' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Forhåndsvis' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Lagre stille' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Lagre og fortsett' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Lagre' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "vis"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "hvorfor du blir bedt om å bekrefte"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 er godkjent og registrert med epost %2"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Tilbake til %1."
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Internasjonale (8-bits) karakterer fjernes (erstattes av tilsvarende  US-"
+#~ "ASCII karakterer for Latin-1)"
+
+#~ msgid "Notes:"
+#~ msgstr "Merknader:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Ditt språk blir endret fra %1 fra og med neste skjermbilde. Du sendes dit "
+#~ "nå.Hvis ikke, klikk [[%2][for å fortsette]]."
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Flytt eller slett vedlegg"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "avkrysningsbokser med refererte sider"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Last opp fil"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Velg fra en liste"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "Ditt %1.LoginName"
+
+#~ msgid "Login name %1"
+#~ msgstr "Innloggingsnavn %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Ditt %1.LoginName"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Feil %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr ""
+#~ "Feltet %1 må stemme med {LoginNameFilterIn} filteret for denne "
+#~ "webløsningen"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Fornavn"
+
+#, fuzzy
+#~ msgid ":lastName"
+#~ msgstr "siste"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Navngi"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Wikinavn"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Valg"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Til side"
+
+#~ msgid "Hello %1"
+#~ msgstr "Hallo %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "eller"
+
+#, fuzzy
+#~ msgid "for members"
+#~ msgstr "ingen medlemmer"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Wikinavn"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Formateringshjelp:*"
+
+#~ msgid "&Edit text"
+#~ msgstr "R&ediger tekst"
+
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "En mer utdypende liste over endringer er tilgjengelig på [[%1][Siste "
+#~ "endringer]]."
+
+#~ msgid "Add a user to this group"
+#~ msgstr "Legg til en bruker i denne gruppen"
+
+#~ msgid "Add user"
+#~ msgstr "Legg til bruker"
+
+#~ msgid "Bathing problem"
+#~ msgstr "...problem..."
+
+#~ msgid "Create topic"
+#~ msgstr "Lag side"
+
+#~ msgid "Current parent:"
+#~ msgstr "gjeldende forelder:"
+
+#~ msgid "Edit text"
+#~ msgstr "Rediger tekst"
+
+#~ msgid "Error: %1"
+#~ msgstr "Feil: %1"
+
+#~ msgid "Home"
+#~ msgstr "Hjem"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Dersom din personlige side ikke er skrivebeskyttet for andre brukere, og "
+#~ "du ikke oppga en epostadresse i dette skjemaet, da risikerer din "
+#~ "brukerkonto å bli misbrukt av andre."
+
+#~ msgid "Interweave"
+#~ msgstr "Flett"
+
+#~ msgid "Log on with your username and password"
+#~ msgstr "Logg inn med ditt brukernavn og passord"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "Problem med å fylle badekaret"
+
+#~ msgid "Show"
+#~ msgstr "Vis"
+
+#~ msgid ""
+#~ "Upgrade will adjust the format of this group topic to the new format with "
+#~ "user management options"
+#~ msgstr ""
+#~ "Oppgradering vil tilpasse formateringen på denne gruppesiden til det nye "
+#~ "formatet med brukeradministrasjons valg"
+
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "Bruk et sidenavn i %SYSTEMWEB%.WikiNotation"
+
+#~ msgid "Warning"
+#~ msgstr "Advarsel"
+
+#~ msgid "You cannot register on this site."
+#~ msgstr "Du kan ikke registrere deg her."
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Du burde virkelig registrere en gyldig epostadresse. Hvis Foswiki ikke "
+#~ "finner en registrert epostadresse for deg i databasen vil den lete i din "
+#~ "personlige brukerside etter et skjemafeilt kalt Email. Hvis dette feltet "
+#~ "ikke finnes vil det søkes etter en linje som dette:"
+
+#~ msgid ""
+#~ "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
+#~ "WikiName][Wiki name]]. By default it is derived from your first and last "
+#~ "name."
+#~ msgstr ""
+#~ "Ditt navn som vist på nett. Merk at dette må være et unikt [[%SYSTEMWEB%."
+#~ "WikiName][Wiki navn]]. Som standard er det satt sammen av ditt fornavn og "
+#~ "etternavn."
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr ""
+#~ "Din brukerside har ikke fått nytt navn. Vennligst send epost til %1 for å "
+#~ "be om dette."
+
+#~ msgid "later"
+#~ msgstr "senere"
+
+#~ msgid "revisions up to"
+#~ msgstr "Versjoner opp til"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr "Cross-site request forgery artikkelen på Wikipedia"
+
+#~ msgid "Attachment metadata"
+#~ msgstr "Vedlegg data"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Få hjelp om <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Sette sidepreferanser</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Få hjelp om <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Endre navn og flytting av sider</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Få hjelp om <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Endre navn og flytting av web'er</a>."
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Les ny versjon hjelpetekst i nytt vindu"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr "S = Lagre, Q = Lagre stille, K = Lagre og fortsett, D = Forkast"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - komplett Foswiki dokumentasjon, Hurtigstart til Referanse"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - bare for meg"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - startpunkter for Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - prøv Foswiki selv"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - se en kort introduksjon om Foswiki for nybegynnere"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 for å endre din epost adresse"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 for å endre ditt passord"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 er en liste over Foswiki brukerdokumentasjon"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 viser alle bruker verktøy"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(hvordan du logger inn) LoginName:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(identifiserer deg for andre) WikiName:"
+
+#~ msgid "(optional)"
+#~ msgstr "(valgfri)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(anbefalt)"
+
+#~ msgid "(search results)"
+#~ msgstr "(søkeresultater)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "Legg ditt navn til listen over brukere i siden %1 i %2 web'en"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Avansert Søk"
+
+#~ msgid "Comments:"
+#~ msgstr "Kommentarer:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr "Kopier tekst og skjemadata til en ny side (vedlegg kopieres ikke)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Lag <nop>TestSide###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Lag en ny autonummerert testside:"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Lag en ny side som heter:"
+
+#~ msgid "Create by Name"
+#~ msgstr "Lag ved Navn"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Lag din personlige %1 side med ditt WikiNavn som sidenavn, og legg til "
+#~ "informasjonen som du la inn på siden."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Lag en konto for deg slik at du kan starte å redigere sider med ditt "
+#~ "WikiNavn."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Foswiki's brukergrensesnitt er tilgjengelig i flere språk. Hvis du ønsker "
+#~ "å endre språket for denne sesjonen velg en av følgende og vlg så \"Endre "
+#~ "språk\". Eller følg \"Avbryt\" linken på bunnen av siden for å komme til "
+#~ "den forrige siden."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Hvis du allerede kjenner navnet på siden så skriv navnet i [[%1][Hopp "
+#~ "feltet]] på toppen"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "List alle sider i %1 web'en i alfabetisk rekkefølge"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Lokale tilpasninger av websteds preferanser"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Flytt vedlegg til web:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "Organisasjons URL:"
+
+#~ msgid "Other Country"
+#~ msgstr "Annet Land"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr "Eller bruk dette skjemaet for å få tilsendt et nytt på epost."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Personlige Preferanser"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Hurtigredigering av eksisterende preferanser (rediger teksten for å sette "
+#~ "nye preferanser)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Rediger rå tekst"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Registrerte brukere kan [[%1][endre]] og [[%2][tilbakestille]] sine "
+#~ "passord."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Navngi/flytt side..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Navngi/flytt/slett web..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Skriv om igjen passord:"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Send deg en bekreftelse på registrering på epost."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr "Vis tips ved mus-over %1 linker, av eller på:"
+
+#~ msgid "Simple search"
+#~ msgstr "Enkelt søk"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Overordnede preferanser for alle web finnes i %1, men denne %2 "
+#~ "preferanseside har prioritet og bør brukes for lokale tilpasninger. Dette "
+#~ "sørger for enklere oppgraderinger siden du ikke trenger å tenke på at "
+#~ "installerte preferanser overskriver dine egne. Det er enklere å håndtere "
+#~ "dersom du kun kopierer over de preferansene du faktisk har endret."
+
+#~ msgid "Test Topics"
+#~ msgstr "Test Sider"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "%1 web'en til Foswiki. Foswiki er en gratis og åpen kildekode Wiki (Free "
+#~ "Open Source Wiki = Foswiki)"
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "Denne Foswiki supporterer _ikke_ registrering av nye brukere"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "For å redigere sider på denne Foswiki webløsningen trenger du å ha "
+#~ "registrert et brukernavn og passord."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "For å registrere deg som ny bruker, fyll ut dette skjemaet:"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Fjern kommentarertegn foran preferanser for å aktivere dem (fjern # "
+#~ "tegnet). Hjelp og detaljer for preferanser er tilgjengelige i %1."
+
+#~ msgid "Web Search"
+#~ msgstr "Websøk"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Når %1 mottar skjemaet sendes en aktiveringskode for kontoen til den "
+#~ "epostadressen du oppgav ovenfor. Skriv den aktiveringskoden i det "
+#~ "påfølgende skjermbildet, eller følg linken i eposten for å aktivere "
+#~ "kontoen. Når det er gjort vil %1:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Du kan sette ditt favorittspråk permanent ved å sette %1 variabelen i din "
+#~ "brukerside."
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr "Du får anledning til å se over det kopierte innholdet før du lagrer"
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Du får anledning til å se gjennom siden før du lagrer til ny versjon"
+
+#~ msgid "advanced search"
+#~ msgstr "avansert søk"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "ser etter referanser i _alle offentlige web_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "søker lenker kun i _%1 web'en_"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "søker lenker i _alle offentlige web_"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr "title='Rediger rå tekst på denne siden' accesskey='w'>Rå edit (&w)"

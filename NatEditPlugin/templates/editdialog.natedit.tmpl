@@ -67,10 +67,37 @@
 </div>%TMPL:END%
 
 %{ ################################################################################ }%
-%TMPL:DEF{"insertattachment"}%<div class="ui-natedit-dialog-content ui-natedit-insert-attachment-content" data-title="%MAKETEXT{"Insert an attachment"}%">
-%TMPL:P{"insertlink::start"}%<!-- -->
-%TMPL:P{"insertlink::attachment"}%<!-- -->
-%TMPL:P{"insertlink::end"}%<!-- -->
+%TMPL:DEF{"insertimage"}%<div class="ui-natedit-dialog-content ui-natedit-insert-image-content" data-title="%MAKETEXT{"Insert image"}%">
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Web"}%</th>
+      <td><input type="text" size="50" name="web" class="foswikiInputField" value="{{:web}}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Topic"}%</th>
+      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="{{:topic}}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Image"}%</th>
+      <td><select name='file' class='natEditAttachmentSelector foswikiSelect' data-selection="{{:file}}" data-filter="\.(png|jpe?g|gif|svg|bmp|svg)$"><option></option></select>
+      </td>    
+    </tr>
+    <tr>
+        <th>%MAKETEXT{"Size"}%</th>
+        <td>
+          <input type="text" size="10" name="width" class="foswikiInputField" value="{{:width}}" placeholder="%MAKETEXT{"width"}%" /> x 
+          <input type="text" size="10" name="height" class="foswikiInputField" value="{{:height}}" placeholder="%MAKETEXT{"height"}%" />
+        </td>
+    </tr>
+    <tr>
+        <th>%MAKETEXT{"Align"}%</th>
+        <td>
+          <label><input type="radio" name="align" value="left" class="foswikiRadio" selected>%MAKETEXT{"left"}%</label>
+          <label><input type="radio" name="align" value="center" class="foswikiRadio">%MAKETEXT{"centered"}%</label>
+          <label><input type="radio" name="align" value="right" class="foswikiRadio">%MAKETEXT{"right"}%</label>
+        </td>
+    </tr>
+  </table>
 </div>%TMPL:END%
 
 %{ ################################################################################ }%
@@ -78,6 +105,7 @@
 %TMPL:P{"insertlink::start"}%
 %TABPANE{class="plain"}%
 %TAB{"%MAKETEXT{"Topic"}%" id="topic"}%%TMPL:P{"insertlink::topic"}%%ENDTAB%
+%TAB{"%MAKETEXT{"Attachment"}%" id="topic"}%%TMPL:P{"insertlink::attachment"}%%ENDTAB%
 %TAB{"%MAKETEXT{"External"}%" id="external"}%%TMPL:P{"insertlink::external"}%%ENDTAB%
 %ENDTABPANE%
 %TMPL:P{"insertlink::end"}%
@@ -132,13 +160,8 @@
     </tr>
     <tr>
       <th>%MAKETEXT{"File"}%</th>
-      <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="{{:file}}" />
-        %IF{"context 'TEMPORARILY_DISABLED_TopicInteractionPluginEnabled'"
-          then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true' title='%MAKETEXT{"Upload a file"}%'>
-                  <span class='ui-natedit-uploader-button' style='vertical-align:middle' >%JQICON{"add"}%<input type='file' name='files[]' /></span>
-                  <span class='ui-natedit-uploader-cancel' style='vertical-align:middle;display:none'>%JQICON{"delete"}%</span>
-               </span>"
-        }%</td>
+      <td><select name='file' class='natEditAttachmentSelector foswikiSelect' data-selection="{{:file}}"><option></option></select>
+      </td>    
     </tr>
     <tr>
       <th>%MAKETEXT{"Text"}%</th>
@@ -146,3 +169,8 @@
     </tr>
   </table>
 <!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink::attachment::list"}%<select name='file' class='foswikiSelect'><option></option>
+%ATTACHMENTS{format="<option>$name</option>"}%
+</select>%TMPL:END%

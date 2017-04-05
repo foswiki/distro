@@ -1,0 +1,3810 @@
+# Foswiki translation for Bulgarian  (Български)
+# Translators:
+#   Foswiki:Main/KrassimirBerov <k.berov@gmail.com>, 2006, 2007, 2008, 2009
+msgid ""
+msgstr ""
+"Project-Id-Version: bg\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2009-06-24 15:32+0200\n"
+"Last-Translator: Krassimir Berov <k.berov@gmail.com>\n"
+"Language-Team: Bulgarian <k.berov@gmail.com>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: Bulgaria\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Клавиши за достъп"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+#, fuzzy
+msgid "Add a new form to <nop>%1"
+msgstr "Изберете нова форма за %1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Добавяне на форма"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Прикрепен файл"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Отказ"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+#, fuzzy
+msgid "Change form"
+msgstr "Промяна от:"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Затваряне"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:50
+#, fuzzy
+msgid "Create a new table"
+msgstr "Нова Страница"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Дата"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+#, fuzzy
+msgid "Default"
+msgstr "Шаблон по подразбиране"
+
+#: data/System/NatEditWordHelpText.txt:16
+#, fuzzy
+msgid "Documentation"
+msgstr "текущо местонахождение:"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Всяка настройка има синтаксисът"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Редактиране"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Нова версия сега!"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:23
+#, fuzzy
+msgid "Formatted Search"
+msgstr "Промяна на търсенето"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Помощ"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:75
+#, fuzzy
+msgid "Indent"
+msgstr "Индекс"
+
+#: templates/edittoolbar.natedit.tmpl:85
+msgid "Insert Image"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Insert a data form table header"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+#, fuzzy
+msgid "Insert an attachment"
+msgstr "Изтриване на притурка"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Връзка"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:46
+#, fuzzy
+msgid "More character formats"
+msgstr "в суров текстов формат"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+#, fuzzy
+msgid "Numbered list"
+msgstr "Брой страници:"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+#, fuzzy
+msgid "Permissions"
+msgstr "Версии"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr ""
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Настройки"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+#, fuzzy
+msgid "Preview"
+msgstr "преглед"
+
+#: templates/edittoolbar.natedit.tmpl:184
+#, fuzzy
+msgid "Preview your changes"
+msgstr "Преглед на последните промени в:"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+#, fuzzy
+msgid "Registered users"
+msgstr "Регистрация"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Replace"
+msgstr "Замести форма"
+
+#: templates/edittoolbar.natedit.tmpl:144
+#, fuzzy
+msgid "Restore"
+msgstr "Възстановяване"
+
+#: templates/edittoolbar.natedit.tmpl:160
+#, fuzzy
+msgid "Restore and Continue"
+msgstr "Възстанови страница:"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:145
+#, fuzzy
+msgid "Restore and exit"
+msgstr "Възстанови страница:"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+#, fuzzy
+msgid "Save"
+msgstr "Записано в:"
+
+#: templates/edittoolbar.natedit.tmpl:167
+#, fuzzy
+msgid "Save and Continue"
+msgstr "value='Запис и продължаване' accesskey='k'"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:153
+#, fuzzy
+msgid "Save and exit"
+msgstr "Записано в:"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Търсене"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+#, fuzzy
+msgid "Search && Replace"
+msgstr "(резултати от търсенето)"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr ""
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+#, fuzzy
+msgid "Text"
+msgstr "Тялото на текста"
+
+#: templates/edit.natedit.tmpl:79
+#, fuzzy
+msgid "Title:"
+msgstr "Заглавие на страницата"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+#, fuzzy
+msgid "Topic"
+msgstr "Към страница:"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:118
+#, fuzzy
+msgid "Undo last change"
+msgstr "Последно променяни страници"
+
+#: templates/edittoolbar.natedit.tmpl:133
+msgid "Unescape markup"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+#, fuzzy
+msgid "Web"
+msgstr "Раздели"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+#, fuzzy
+msgid "default as defined in the %1"
+msgstr "Формата трябва да е дефинирана в страницата %1"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "редакция"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "edit form"
+msgstr "(редакция на формата)"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+msgid "ignore case"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "Указва задължителни полета"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:119
+#, fuzzy
+msgid "public view access"
+msgstr "Всички публични рздели"
+
+#: templates/edit.natedit.tmpl:7
+#, fuzzy
+msgid "restore"
+msgstr "Възстановяване"
+
+#: templates/editform.natedit.tmpl:3
+#, fuzzy
+msgid "restore form"
+msgstr "Възстанови страница:"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr ""
+
+#, fuzzy
+#~ msgid "!WikiName"
+#~ msgstr "Име на страницата"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,ден) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,час) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,минута) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,секунда) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Провалена регистрация за %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Регистрация за %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "Раздел %1"
+
+#, fuzzy
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 е преместен(а) от %2 на %3 от %4"
+
+#, fuzzy
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%1 е преместен(а) от %2 на %3 от %4"
+
+#, fuzzy
+#~ msgid "%1 denied the registration."
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "на %1 има списък с Foswiki потребители"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr "%1 променя страницата от %2, и сесията му е валидна за още %3."
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 е регистриран с електронна поща %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 получи подозрителна заявка за промяна от вашия браузър."
+
+#~ msgid "%1 home"
+#~ msgstr "Начало %1"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 е невалидно име за нов раздел"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 в момента е влязъл"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 сега е настроено на %2"
+
+#, fuzzy
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr " %1 сега редактира %2."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 е член на поне една група и не може да бъде изтрит"
+
+#, fuzzy
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "'%1' е невалидно %2 "
+
+#, fuzzy
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "'%1' е невалидно %2 "
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 е подразбиращата се страница за изтрити прикачени файлове."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%1 може би все още редактира %2."
+
+#, fuzzy
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 Последни промени в раздел %2"
+
+#, fuzzy
+#~ msgid "%1 registration approval required"
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#, fuzzy
+#~ msgid "%1 registration denied"
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#, fuzzy
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 е преместен(а) от %2 на %3 от %4"
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1, за да създадете нов раздел"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1, за да промените настройките за раздела"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1, за да работите по новия раздел"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "Страница %1 не съществува"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 се опита да се регистрира с електронна поща %2"
+
+#, fuzzy
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 е преместен(а) от %2 на %3 от %4"
+
+#~ msgid "&Cancel"
+#~ msgstr "Отказ"
+
+#~ msgid "&History"
+#~ msgstr "История"
+
+#, fuzzy
+#~ msgid "&Sequential"
+#~ msgstr "Последователно"
+
+#, fuzzy
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' е невалидно %2 "
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "Страницата \"Създаване на нова страница\" е преместена"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 вход)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 валидация)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 с-у %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*Предложение:* Можете да прикачите ваша снимка към страницата.)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=всички= за показване на всички страници)"
+
+#, fuzzy
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(обратни връзки в раздел %1)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(достъпът отказан)"
+
+#~ msgid "(attach)"
+#~ msgstr "(прикачване)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(обратни връзки в раздел %1)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(връзки \"назад\" във всички раздели)"
+
+#~ msgid "(book view)"
+#~ msgstr "(книжен изглед)"
+
+#~ msgid "(change form)"
+#~ msgstr "(промяна на форма)"
+
+#~ msgid "(change language)"
+#~ msgstr "(промяна на език)"
+
+#~ msgid "(changes)"
+#~ msgstr "(промени)"
+
+#, fuzzy
+#~ msgid "(compare)"
+#~ msgstr "(още)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(изтриване на прикачения файл)"
+
+#~ msgid "(delete)"
+#~ msgstr "(изтриване)"
+
+#, fuzzy
+#~ msgid "(disabled)"
+#~ msgstr "Редактиране на таблица"
+
+#~ msgid "(edit form)"
+#~ msgstr "(редакция на формата)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(редакция на текста)"
+
+#~ msgid "(edit)"
+#~ msgstr "(редакция)"
+
+#~ msgid "(login)"
+#~ msgstr "(вход)"
+
+#~ msgid "(more)"
+#~ msgstr "(още)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(преместване на прикаченеия файл)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(няма родителска страница, страница сираче)"
+
+#~ msgid "(none)"
+#~ msgstr "(нищо)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(в противен случай, търсете само в раздел %1)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(суров изглед)"
+
+#, fuzzy
+#~ msgid "(redirect denied)"
+#~ msgstr "(достъпът отказан)"
+
+#~ msgid "(rename)"
+#~ msgstr "(преименуване)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(версия %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(грешка при запис)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(една буква за име)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(една буква за фамилия)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(пропуснато)"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*Локален файл:*Ако изберете различен файл в _Локален файл:_, той ще бъде "
+#~ "заместен или добавен."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Промяна на коментар:* Ако използвате _Промяна на характеристики_ за да "
+#~ "промените коментар, коментарът, покзан на страницата ще се промени, но "
+#~ "коментараът показан срещу историята на пртурката  ще си остане същия "
+#~ "както е бил при качваненто на файла."
+
+#, fuzzy
+#~ msgid "*Formatting help:*"
+#~ msgstr "Още помощ при форматиране"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Важно:* Информацията, предоставена в тази форма ще бъде записана в "
+#~ "базата данни на сървъра. Тази база данни е достъпна за всеки, който има "
+#~ "достъп до сървъра (все пак паролите са криптирани и e-mail адресите са "
+#~ "замаскирани, за да се предотврати спам). Вашата страна или страната, "
+#~ "където се хоства може да има закони за защита на данните,  отнасящи се до "
+#~ "управлението на такива бази от данни. Ако имате някакви съмнения, трябва "
+#~ "да се свържете с %1 за подробности по политиката за защита на данните на "
+#~ "този Foswiki-съръвър преди да се регистрирате"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*Свойства:* Коментарът и видимостта (например скрит ли е прикрепения "
+#~ "файл) могат да бъдат променени без да се качва файл като щракнете върху  "
+#~ "\"Change Properties only\"; вижте %1."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr "*удебелено* сложете звездички около думата/израза: =<nop>*думи*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*списък с водачи* 3 паузи, звездичка, 1 пауза: =&&nbsp;&&nbsp;&&nbsp;"
+#~ "*&&nbsp;вашия текст="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*външни връзки* =http://yahoo.com= или =[<nop>[http://yahoo.com/][връзка "
+#~ "към Yahoo]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*заглавия* 3 тирета, 1 до 6 плюса, 1 пауза: =---++&&nbsp;Вашето Заглавие="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr ""
+#~ "*италичен* поставете думата/фразата между подчертавки: =_<nop>вашите "
+#~ "думи_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*шрифт с фиксирана ширина*  сложете знак за равенство около думата/"
+#~ "израза: =<nop>=вашите думи=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*абзаци* разделете с празен ред"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*връзки в сайта* използвайте име на страница: =%1= или =[<nop>[%1][вашата "
+#~ "страница]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>RSS Емисии</a>, последни промени <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "страници, <a href='%7' rel='nofollow'>всички промени</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "само <em>в раздел %1</em>"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>във всички общодостъпни раздели</em>"
+
+#, fuzzy
+#~ msgid "<nop>WikiName:"
+#~ msgstr "Име на страницата"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr ""
+#~ "Разширение =.txt= се добавя към някои имена на файлове от съображения за "
+#~ "сигурност"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Един Foswiki сайт се състои от раздели. Всеки раздел представлява някаква "
+#~ "сфера на сътрудничество. Опитвате се да  %1 в раздел, който не съществува"
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "Описание то на цвета започва със знак # , последван от 6 числа в "
+#~ "шестнадесетичната бройна система, например: =#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "e-mail с потвърждение бе изпратен на %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "Връзка към страница в друг раздел се изписва като  %1. Уверете се, че сте "
+#~ "написали правилно името на раздела на предната страница; поправете "
+#~ "връзката ако е необходимо."
+
+#, fuzzy
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Нова генерирана от системата парола за вход %1 (!WikiName %2) бе "
+#~ "изпратена на вашия регистриран e-mail-адрес. Ако вашият e-mail-адрес вече "
+#~ "е невалиден,моля свържете се с %3"
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr ""
+#~ "Шаблонът за страница определя първоначалното съдържание на "
+#~ "новосъздадената страница."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "Страница с това име е съществувала, но е преименувана или преместена в %1."
+
+#~ msgid "Access Denied"
+#~ msgstr "Достъпът отказан"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "Достъпът до %1 бе отказан"
+
+#, fuzzy
+#~ msgid "Access keys:"
+#~ msgstr "Клавиши за достъп"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Действие %1 : %2."
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Невалиден код за активиране"
+
+#, fuzzy
+#~ msgid "Add"
+#~ msgstr "Добавяне на ред"
+
+#, fuzzy
+#~ msgid "Add Members to %1"
+#~ msgstr "Добавяне на ред"
+
+#, fuzzy
+#~ msgid "Add members"
+#~ msgstr "Добавяне на ред"
+
+#~ msgid "Add row"
+#~ msgstr "Добавяне на ред"
+
+#, fuzzy
+#~ msgid "Add user management options to this topic."
+#~ msgstr "Промяна на настройките за тази страница"
+
+#, fuzzy
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Добавяне на променлива %1 в страница WebPreferences"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Автентикация на Администратора на Foswiki"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Администрация"
+
+#, fuzzy
+#~ msgid "Administration"
+#~ msgstr "Регистрация"
+
+#~ msgid "Advanced search"
+#~ msgstr "Разширено търсене"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "След като изпратите тази форма вашата електронна поща ще бъде променена и "
+#~ "ще бъдете върнати обратно на формата"
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "След изпращането на тази форма, паролата ви ще бъде променена"
+
+#, fuzzy
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "След изпращането на тази форма, ще получите  e-mail с новата ви "
+#~ "*генереирана от системата* парола и връзка към страница, където можете да "
+#~ "я промените"
+
+#~ msgid "All public webs"
+#~ msgstr "Всички публични рздели"
+
+#, fuzzy
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "Разреши не-<nop>WikiWord в името на новата страница"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Също така може да отидете на %SYSTEMWEB%.UserRegistration и да изберете "
+#~ "различно потребителско име."
+
+#, fuzzy
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Прикрепения файл вече съществува в нова страница"
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Съобщението не може да бъде доставено. Моля уведомете вашия %1 "
+#~ "администратор, %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "Ще бъде показано съобщение за грешка ако някоя от страниците е заключена "
+#~ "от друг потребител."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "И запълнен със страници от основния раздел."
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Всички промени, направени от вас по страницата преди да дойдете на тази "
+#~ "страница , са запазени."
+
+#~ msgid "Attach"
+#~ msgstr "Прикрепи"
+
+#, fuzzy
+#~ msgid "Attach a file"
+#~ msgstr "Прикрепяне на нов файл"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "title='Прикачване на картинка или документ към страницата' "
+#~ "accesskey='a'>Притурка"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Прикрепяне на файл към %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Прикрепяне на картинка или документ към %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Прикрепяне на нов файл"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Прикрепеният файл '%1' не съсществува"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Изтриването на притурката се провали"
+
+#, fuzzy
+#~ msgid "Attachment does not exist."
+#~ msgstr "Притурката не съществува"
+
+#, fuzzy
+#~ msgid "Attachment history"
+#~ msgstr "Притурки"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Преместването на притурката се провали"
+
+#, fuzzy
+#~ msgid "Attachment name:"
+#~ msgstr "Прикрепен файл"
+
+#~ msgid "Attachments"
+#~ msgstr "Притурки"
+
+#, fuzzy
+#~ msgid "Attachments %1"
+#~ msgstr "Притурки към %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Притурки към %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Притурките няма да се показват в страницата."
+
+#~ msgid "Attention"
+#~ msgstr "Внимание"
+
+#~ msgid "Attribute"
+#~ msgstr "Атрибут"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Автоматично известяване при промяна на страницата"
+
+#~ msgid "Available Information"
+#~ msgstr "Налична информация"
+
+#~ msgid "Available form templates"
+#~ msgstr "Налични шаблони за форми"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Налични шаблони в Раздел %1 :"
+
+#~ msgid "Back to topic"
+#~ msgstr "Обратно в страницата"
+
+#~ msgid "Backlinks"
+#~ msgstr "Обратни връзки"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Обратни връзки към %1 в %2 Раздел"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Обратни връзки към %1 във всички раздели"
+
+#, fuzzy
+#~ msgid "Backlinks:"
+#~ msgstr "Обратни връзки"
+
+#~ msgid "Bad password"
+#~ msgstr "Грешна парола"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Основния раздел %1 липсва или не съществува"
+
+#~ msgid "Both body and title"
+#~ msgstr "В заглавието и в текста"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Но съществуващите данни от формата ще се загубят (винаги може да "
+#~ "извлечете тези данни от историята на страницата)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "По подразбиране виждането на страницата Trash (Кошче) е забранено за %1. "
+#~ "Ако желаете да рарешите на всички потребители да я виждат, премахнете "
+#~ "забраната =ALLOWWEBVIEW= в WebPreferences."
+
+#~ msgid "Can't find user %1"
+#~ msgstr "Потребителят %1  не бе открит"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr "Няма e-mail-адрес за %1 (задължителен за нулиране на паролата)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Откажи редакцията и отмени промените"
+
+#, fuzzy
+#~ msgid "Cancel upload"
+#~ msgstr "Отказ"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Страницата %1 не може да бъде създадена, тъй като вече съществува."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Разделът %1 не може да бъде създаден, тъй като вече съществува."
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr ""
+#~ "%1 не може да бъде преименуван/а на %2 , тъй като %2  вече съществува."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Чуствително към регистъра"
+
+#~ msgid "Categories"
+#~ msgstr "Категории"
+
+#, fuzzy
+#~ msgid "Change E-mail Address"
+#~ msgstr "E-mail адрес:"
+
+#~ msgid "Change Password"
+#~ msgstr "Промяна на паролата"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Промяна само на коментар и свойства"
+
+#, fuzzy
+#~ msgid "Change e-mail address"
+#~ msgstr "невалиден адрес за електронна поща"
+
+#, fuzzy
+#~ msgid "Change from"
+#~ msgstr "Промяна от:"
+
+#~ msgid "Change language"
+#~ msgstr "Смяна на език"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "Промяна на връзки в страници, рефериращи %1 във всеки раздел:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Промяна на връзки в страници, рефериращи %1 Раздел %2:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Промяна на връзки в страници, рефериращи %1 във всеки раздел:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Промяна на връзки в страници, рефериращи %1 Раздел %2:"
+
+#~ msgid "Change password"
+#~ msgstr "Смяна на парола"
+
+#~ msgid "Change properties only"
+#~ msgstr "Промяна само на свойствата"
+
+#~ msgid "Change topic"
+#~ msgstr "Смяна на страница"
+
+#, fuzzy
+#~ msgid "Changed by:"
+#~ msgstr "Променен от"
+
+#, fuzzy
+#~ msgid "Changed on"
+#~ msgstr "Променен"
+
+#~ msgid "Changed:"
+#~ msgstr "Променен:"
+
+#~ msgid "Changes"
+#~ msgstr "Промени"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Промени от r%1 до r%2"
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "Отметнатите страници ще бъдат обновени да сочат към новото "
+#~ "местонахождение на страницата"
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr ""
+#~ "Отметнатите страници ще бъдат обновени да сочат към новото  име на "
+#~ "раздела."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Подстраници в раздел %1"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Обратни връзки към %1 в %2 Раздел"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Изберете нова форма за %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Изчистван на всичко"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Изчистван на всичко"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Щракнете за да върнете страницата на предишното й място с възможност за "
+#~ "промяна на връзките"
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "Цвета %1 е с невалиден формат"
+
+#~ msgid "Comment"
+#~ msgstr "Коментар"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Сравняване на версиите"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "Вашата парола:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Попотвърдете преименуването или преместването"
+
+#~ msgid "Conflict"
+#~ msgstr "Конфликт"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Свържете се с %1 ако имате някакви въпроси."
+
+#, fuzzy
+#~ msgid "Context"
+#~ msgstr "Страна:"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Продължете и се опитайте да преименувате раздела."
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Продължете, за да създадете новата страница"
+
+#~ msgid "Copy topic"
+#~ msgstr "Копиране на страница"
+
+#, fuzzy
+#~ msgid "Copy topic..."
+#~ msgstr "Копиране на страница"
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Авторските права &&copy; принадлежат на сътрудничещите автори. Всички "
+#~ "материали по тази платформа за сътрудничество са собственост на "
+#~ "сътрудничещите автори."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Авторските права &&copy; принадлежат на сътрудничещите автори. Всички "
+#~ "материали на този сайт са собственост на сътрудничещите автори."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Новият раздел %1 не може да бъде създаден"
+
+#~ msgid "Could not find template"
+#~ msgstr "Шаблонът не може да бъде създаден"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Търсенето е невъзможно. Грешката беше: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Неуспешен запис на %1."
+
+#, fuzzy
+#~ msgid "Country:"
+#~ msgstr "Страна:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Нова Страница"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Нова Страница"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Създаване на нова страница в Раздел %1"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Създаване на връзка към притурката(прикачения файл)"
+
+#, fuzzy
+#~ msgid "Create a new group"
+#~ msgstr "Нова Страница"
+
+#, fuzzy
+#~ msgid "Create account"
+#~ msgstr "Нова Страница"
+
+#, fuzzy
+#~ msgid "Create group"
+#~ msgstr "Нова Страница"
+
+#, fuzzy
+#~ msgid "Create new topic"
+#~ msgstr "Нова Страница"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Създаване на личен страничен панел"
+
+#~ msgid "Create the topic"
+#~ msgstr "Създаване на Страницата"
+
+#~ msgid "Create this topic"
+#~ msgstr "Създаване на тази Страница"
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Създаване на подходяща страница за дефиниция на форма"
+
+#~ msgid "Current location:"
+#~ msgstr "текущо местонахождение:"
+
+#, fuzzy
+#~ msgid "Current password:"
+#~ msgstr "Текуща парола"
+
+#~ msgid "Dear %1"
+#~ msgstr "Уважаеми %1"
+
+#~ msgid "Debug"
+#~ msgstr "Дебъг"
+
+#~ msgid "Default template"
+#~ msgstr "Шаблон по подразбиране"
+
+#~ msgid "Delete"
+#~ msgstr "Изтриване"
+
+#, fuzzy
+#~ msgid "Delete attachment %1"
+#~ msgstr "Изтриване на притурка"
+
+#~ msgid "Delete last row"
+#~ msgstr "Изтриване на последния ред"
+
+#~ msgid "Delete topic"
+#~ msgstr "Изтриване на страница"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Изтриване на страница..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "Опишете файла, така че другите да знаят каво е това."
+
+#, fuzzy
+#~ msgid "Description"
+#~ msgstr "Версия"
+
+#, fuzzy
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Подстраници в раздел %1"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Подробностите в отделен прозорец.щ"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Написали ли сте правилно %1 ? Запомнете, името на страницата е "
+#~ "чувствително към регистъра."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Да не искахте да нулирате [[%1][паролата на %2]]?"
+
+#, fuzzy
+#~ msgid "Difference Topic"
+#~ msgstr "Разлика:"
+
+#~ msgid "Difference:"
+#~ msgstr "Разлика:"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Не забравяйте да запишете промените си!"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Да не се показват притурките в таблицата."
+
+#~ msgid "Don't show:"
+#~ msgstr "Не показвай:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "При изтриването на притурката =%1= се появи грешка. Моля, уведомете вашия "
+#~ "%2 администратор."
+
+#, fuzzy
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr ""
+#~ "При преместването на  %1 в %2 се появи грешка. Моля, уведомете вашия %3 "
+#~ "администратор."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "При преименуване на страница %1 на %2 се появи грешка (%3). Моля, "
+#~ "уведомете вашия %4 администратор."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "При преименуване на раздел %1 на %2 се появи грешка (%3). Моля, уведомете "
+#~ "вашия %4 администратор."
+
+#, fuzzy
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr ""
+#~ "При преместването на  %1 в %2 се появи грешка. Моля, уведомете вашия %3 "
+#~ "администратор."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "При записа на %1 бе открита грешка от системата за контрол на версиите. "
+#~ "Моля, уведомете вашия %2 администратор."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "E-mail адресът ви бе променен успешно!"
+
+#, fuzzy
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "%*(%1,минута) "
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Редактиране все пак!"
+
+#~ msgid "Edit help"
+#~ msgstr "Помощ при редактиране"
+
+#, fuzzy
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Промяна на настройките за тази страница"
+
+#~ msgid "Edit this table"
+#~ msgstr "Редактиране на тази таблица"
+
+#, fuzzy
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Редактиране на текста в тази страница"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Редактиране настройките на тази страница"
+
+#, fuzzy
+#~ msgid "Editable"
+#~ msgstr "Редактиране на таблица"
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr ""
+#~ "Кодът е невалиден или вече сте го използвали за потвърждаване на "
+#~ "регистрацията си."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Не сте предоставили име за файла или файла, който се опитвате да "
+#~ "качите( %1 ) е празен. Не може да качите празен файл."
+
+#, fuzzy
+#~ msgid "Email address:"
+#~ msgstr "E-mail адрес:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr ""
+#~ "Изпращането на електронна поща е изключено за тази инсталация на Foswiki"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Уголеми кутията за редактиране"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr ""
+#~ "Въведете ново потребителско име и парола, за да промените идентичността си"
+
+#, fuzzy
+#~ msgid "Enter parent name"
+#~ msgstr "Нов родителски раздел:"
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr ""
+#~ "Въведете Wiki Администратор потребител или влезте както е указано в %1"
+
+#, fuzzy
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Грешка при регистрация на нов потребител"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Грешка при регистрация на потребител %1"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Грешка при запис на страницата"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Грешка: прикрепенияткъм %1файл %2, does not exist"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "грешка: Неподдържан тип на съдържанието: %1 (Трябва да бъде =text/html=, "
+#~ "=text/plain= или =text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Грешка: Неподдържан протокол. (Трябва да бъде 'http://domain/...')"
+
+#~ msgid "Errors"
+#~ msgstr "Грешки"
+
+#, fuzzy
+#~ msgid "Errors adding members to group"
+#~ msgstr "Грешка при запис на страницата"
+
+#, fuzzy
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Грешка при запис на страницата"
+
+#, fuzzy
+#~ msgid "Evil person"
+#~ msgstr "Редактиране на лични данни"
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Неуспешно включване на URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Полетата, маркирани с %1 са задължителни"
+
+#, fuzzy
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "Полетата, маркирани с %1 са задължителни"
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Файлът бе качен с различно име"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Търсене на подобни страници"
+
+#, fuzzy
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Намери страници, които имат връзки към %1 ..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Намери страници, които имат връзки към %1 ..."
+
+#, fuzzy
+#~ msgid "First"
+#~ msgstr "Име:"
+
+#, fuzzy
+#~ msgid "First name:"
+#~ msgstr "Име:"
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Забравена парола?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Дефиниция на форма %1 липсва"
+
+#, fuzzy
+#~ msgid "Form definition"
+#~ msgstr "Липсва дефиниция на формата"
+
+#, fuzzy
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Дефиниция на форма %1 липсва"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Липсва дефиниция на формата"
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Foswiki паролата е нулирана за %1"
+
+#, fuzzy
+#~ msgid "Get help on attaching files"
+#~ msgstr "има повече информация за прикачване на файлове."
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Уведомяване за промени в това търсене"
+
+#, fuzzy
+#~ msgid "Globe"
+#~ msgstr "Затваряне"
+
+#~ msgid "Go back"
+#~ msgstr "Обратно"
+
+#, fuzzy
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "Върнете се назад с браузъра си и въведете информация във всички "
+#~ "задължителни полета."
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr "Върнете се назад с браузъра си и запишете локално промените."
+
+#~ msgid "Good examples:"
+#~ msgstr "Добри примери:"
+
+#, fuzzy
+#~ msgid "Group"
+#~ msgstr "Групи"
+
+#, fuzzy
+#~ msgid "Group name"
+#~ msgstr "Име на страницата"
+
+#~ msgid "Groups"
+#~ msgstr "Групи"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Здравей %1!"
+
+#~ msgid "Hide file"
+#~ msgstr "Скриване на файла"
+
+#~ msgid "Hide help"
+#~ msgstr "Скриване на помощта"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "Поддръжката на раздели в йерархия е изключена. Не можете да създавате "
+#~ "раздели един в друг."
+
+#, fuzzy
+#~ msgid "History"
+#~ msgstr "История"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Защо не прикрепите ваша снимка?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "Как да активирате вашата %1 регистрация"
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr "Моля забележете, че името на файла бе променено от %1 на %2."
+
+#~ msgid "I forgot my password"
+#~ msgstr "Забравих си паролата"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Идеи, заявки, проблеми, свързани с %1? <a href='%2'>Вашите впечатления</a>"
+
+#, fuzzy
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Проверете настройките си за {TemplateDir} и {TemplatePath}. Ако това не е "
+#~ "проблема, е може би защото имате настройка за %1, която сочи към "
+#~ "несъществуващ шаблон."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr "Ако този ред го няма, вижте секцията _подобрения_ по-долу"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr "Ако тази страница липсва, създайте я или я проверете за грешки."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Ако разработвате <nop>FoswikiApplication, прегледайте %1 за описание на "
+#~ "правилните параметри."
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "Ако сте тук защото сте щракнали върху връзка с въпрос"
+
+#, fuzzy
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr "Ако въвеждате различно име, уверете се че страницата същеµµствува."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr "Ако имате въпроси относно регистрацията, изпратете e-mail до %1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Ако имате някакви въпроси, моля свържете се с %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Ако имате въпроси, моля свържате се с %1."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Ако не сте задали парола все още или желаете д я промените, отидете на  %1"
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Ако желаете да създадете страницата"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Ако желаете да създадете този раздел"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Ако старите ви адреси за електронна поща са невалидни(не можете да "
+#~ "получавате поща на тях) и сте забравили паролата си, моля свържете се с "
+#~ "%1 за помощ."
+
+#, fuzzy
+#~ msgid "Image %1 of %2"
+#~ msgstr "Разделът %1 не съществува"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr ""
+#~ "Картинките ще бъдат показани. За другите файлове ще бъде създадена връзка "
+#~ "към тях."
+
+#~ msgid "In reversed order"
+#~ msgstr "В обратен ред"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "В някои случаи Foswiki променя името на качения файл от съображения за "
+#~ "сигурност и по-добър достъп на всички платформи."
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Грешна парола"
+
+#, fuzzy
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Невярно %1"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Невярно %1.WikiИмена:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Невярно %1.WikiИмена:"
+
+#, fuzzy
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Невярно %1.WikiИмена:"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Грешни параметри към скрипта =%1="
+
+#~ msgid "Index"
+#~ msgstr "Индекс"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Невалиден код за активиране"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "невалиден адрес за електронна поща"
+
+#, fuzzy
+#~ msgid "Invalid topic name."
+#~ msgstr "Име на страницата"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "Обикновено е най-добре да изберете <a target='WikiWord' "
+#~ "class='foswikiPopUp' href='%1' rel='nofollow'>WikiДума</a> за име на "
+#~ "новата страница, защото в противен случай автоматичното генериране на "
+#~ "връзки може да не сработи. Символи, които не са разрешени в имената на "
+#~ "страниците, като паузи ще бъдат премахнати автоматично. =бел.прев.=: Не "
+#~ "използвайте кирилица ако не сте сигурни, че файловата ви система поддържа "
+#~ "кирилица в имената на файловете."
+
+#~ msgid "Jump"
+#~ msgstr "Скок!"
+
+#, fuzzy
+#~ msgid "Jump to first revision"
+#~ msgstr "Възстанови страницата до тази версия:"
+
+#, fuzzy
+#~ msgid "Keyword search"
+#~ msgstr "Промяна на търсенето"
+
+#, fuzzy
+#~ msgid "Last"
+#~ msgstr "Фамилия:"
+
+#, fuzzy
+#~ msgid "Last edited by"
+#~ msgstr "Последен редактор"
+
+#~ msgid "Last editor"
+#~ msgstr "Последен редактор"
+
+#, fuzzy
+#~ msgid "Last modified"
+#~ msgstr "Последна промяна"
+
+#~ msgid "Last modified time"
+#~ msgstr "Последна промяна"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Фамилия:"
+
+#, fuzzy
+#~ msgid "Latest revision: %1"
+#~ msgstr "(версия %1)"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Ограничи резултатите до:"
+
+#~ msgid "Line: %1"
+#~ msgstr "Ред: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Редове: %1 до %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Списък на страниците, които започват с буквата:"
+
+#~ msgid "Literal search"
+#~ msgstr "Буквално търсене"
+
+#~ msgid "Login"
+#~ msgstr "Вход"
+
+#, fuzzy
+#~ msgid "Login username:"
+#~ msgstr "Име за вход %1"
+
+#~ msgid "Logon"
+#~ msgstr "Вход"
+
+#~ msgid "Logout"
+#~ msgstr "Изход"
+
+#~ msgid "Mail to"
+#~ msgstr "Изпрати до"
+
+#~ msgid "Make search:"
+#~ msgstr "Търси:"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Липсващи полета"
+
+#~ msgid "Missing action command"
+#~ msgstr "Липсваща команда за действие"
+
+#~ msgid "Modify search"
+#~ msgstr "Промяна на търсенето"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Още действия за страница %1"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Още действия за страница %1"
+
+#~ msgid "More formatting help"
+#~ msgstr "Още помощ при форматиране"
+
+#, fuzzy
+#~ msgid "More on hiding attachments"
+#~ msgstr "Преместване или изтриване на притурка"
+
+#, fuzzy
+#~ msgid "More topic actions"
+#~ msgstr "Още действия..."
+
+#~ msgid "More topic actions..."
+#~ msgstr "Още действия..."
+
+#~ msgid "More..."
+#~ msgstr "Още..."
+
+#, fuzzy
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "title='Изтриване или преименуване на страницата; задаване на родителска "
+#~ "страница; преглед и сравнение' revisions' accesskey='m'>Още действия"
+
+#~ msgid "Move"
+#~ msgstr "Преместване"
+
+#, fuzzy
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Преместване в раздел:"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "Преместване на притурка"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Преместване на притурка"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Преместване или изтриване на притурка"
+
+#~ msgid "Move to web:"
+#~ msgstr "Преместване в раздел:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "Преместване в раздел:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Преместване на страницата в раздел:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Премести/Преименувай"
+
+#~ msgid "My Links"
+#~ msgstr "Моите Връзки"
+
+#~ msgid "NEW"
+#~ msgstr "НОВ"
+
+#, fuzzy
+#~ msgid "Name of copy"
+#~ msgstr "Име на копие:"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Липсва име на новия раздел"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Отиване на подобна страница"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#, fuzzy
+#~ msgid "New User Registration failed"
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Регистрация на нови потребители не се поддържа"
+
+#, fuzzy
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "Нови e-mail-и (списък разделен с паузи)"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Нова или променена страница в %1, от %2:"
+
+#~ msgid "New parent web:"
+#~ msgstr "Нов родителски раздел:"
+
+#, fuzzy
+#~ msgid "New password:"
+#~ msgstr "Нова парола"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Името на новата страница %1 не е %2"
+
+#, fuzzy
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#~ msgid "New web name:"
+#~ msgstr "Име на новия раздел:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "По-нова версия:"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(връзки \"назад\" във всички раздели)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(обратни връзки в раздел %1)"
+
+#, fuzzy
+#~ msgid "No changes"
+#~ msgstr "(промени)"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "Няма подстраници"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "Добавяне на ред"
+
+#~ msgid "No permission to view %1"
+#~ msgstr "нямате права да видите %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Не съществува предна версия."
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#, fuzzy
+#~ msgid "No topic to subscribe to"
+#~ msgstr "Преместване на страницата в раздел:"
+
+#, fuzzy
+#~ msgid "No topics to update."
+#~ msgstr "Преместване на страницата в раздел:"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "Няма потребители, чиито пароли да бъдат променени."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Не се препоръчва, когато изтривате страница."
+
+#, fuzzy
+#~ msgid "Notation"
+#~ msgstr "Уведомяване"
+
+#~ msgid "Note:"
+#~ msgstr "Забележка:"
+
+#~ msgid "Notification help"
+#~ msgstr "Помощ за уведомяване"
+
+#~ msgid "Notifications"
+#~ msgstr "Уведомяване"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Брой страници:"
+
+#, fuzzy
+#~ msgid "Number of topics: %1"
+#~ msgstr "Брой страници:"
+
+#~ msgid "OK"
+#~ msgstr "Добре"
+
+#~ msgid "Older revision:"
+#~ msgstr "По-стара версия"
+
+#, fuzzy
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr ""
+#~ "След като сте регистриран можете да влезете, използвайки вашето %1 и "
+#~ "парола."
+
+#, fuzzy
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "Само членовете на %1 могат да извършват това действие."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Само членовете на %1 могат да извършват това действие."
+
+#, fuzzy
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Подстраници в раздел %1"
+
+#, fuzzy
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Може да промените името на страницата:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Може да промените името на страницата:"
+
+#, fuzzy
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Може да въведете различно име на страница:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Може да въведете различно име на страница:"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid "Organisation name:"
+#~ msgstr "Име на организацията"
+
+#, fuzzy
+#~ msgid "Organisation website:"
+#~ msgstr "Име на организацията"
+
+#~ msgid "Password"
+#~ msgstr "Парола"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Паролата е променена успешно!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Паролата не може да бъде променена"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Връщането на старата парола се провали"
+
+#, fuzzy
+#~ msgid "Password reset failed."
+#~ msgstr "Връщането на старата парола се провали"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Парола"
+
+#, fuzzy
+#~ msgid "Passwords disabled"
+#~ msgstr "Връщането на старата парола се провали"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Паролите не съвпадат"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Регистрация на нови потребители не се поддържа"
+
+#, fuzzy
+#~ msgid "Pending registration not found"
+#~ msgstr "Регистрация на нови потребители не се поддържа"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Изберете едно от %1."
+
+#, fuzzy
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Място за изхвърлени прикачени файлове"
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Място за изхвърлени прикачени файлове"
+
+#, fuzzy
+#~ msgid "Please confirm your password."
+#~ msgstr "Вашата парола:"
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Моля свържете се с %1 ако имате някакви въпроси."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Моля свържете се с %1."
+
+#, fuzzy
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter a login username."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter a password."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter a valid email address."
+#~ msgstr "невалиден адрес за електронна поща"
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter your first name."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#, fuzzy
+#~ msgid "Please enter your last name."
+#~ msgstr "Моля, въведете администраторската парола за Wiki."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Моля върнете се назад с браузъра и проверете отново."
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Моля върнете се назад с браузъра и опитайте отново."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "Моля върнете се назад с браузъра и опитайте отново."
+
+#, fuzzy
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr ""
+#~ "Съобщението не може да бъде доставено. Моля уведомете вашия %1 "
+#~ "администратор, %2"
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Моля, посетете %1, за да промените паролата си на нещо по-запомнящо се за "
+#~ "вас."
+
+#~ msgid "Preferences for"
+#~ msgstr "Настройки за"
+
+#, fuzzy
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr ""
+#~ "title='Версия за печат на тази страница' accesskey='p'>Версия за печат"
+
+#~ msgid "Properties"
+#~ msgstr "Свойства"
+
+#, fuzzy
+#~ msgid "Put it back..."
+#~ msgstr "върни обратно"
+
+#~ msgid "Query Search"
+#~ msgstr "Търсене със заявка"
+
+#, fuzzy
+#~ msgid "Question:"
+#~ msgstr "Версия"
+
+#~ msgid "Quiet save"
+#~ msgstr "Тих запис"
+
+#~ msgid "RSS Feed"
+#~ msgstr "RSS Емисии"
+
+#~ msgid "Read on"
+#~ msgstr "Целият текст"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Последно променяни страници"
+
+#, fuzzy
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Последно променяни страници"
+
+#, fuzzy
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Последно променяни страници"
+
+#~ msgid "Refresh"
+#~ msgstr "Презареждане"
+
+#~ msgid "Register"
+#~ msgstr "Регистрация"
+
+#~ msgid "Registration"
+#~ msgstr "Регистрация"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr ""
+#~ "Изпращането на електронна поща е изключено за тази инсталация на Foswiki"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Кодовете за регистрация могат да се ползват само по веднъж."
+
+#, fuzzy
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Кодовете за регистрация могат да се ползват само по веднъж."
+
+#, fuzzy
+#~ msgid "Registration has been denied"
+#~ msgstr "Кодовете за регистрация могат да се ползват само по веднъж."
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "Регистрацията на нови потребители е изключена"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Търсене с регулярни изрази"
+
+#, fuzzy
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr ""
+#~ "Съобщението не може да бъде доставено. Моля уведомете вашия %1 "
+#~ "администратор, %2"
+
+#, fuzzy
+#~ msgid "Related Topics:"
+#~ msgstr "Подобни"
+
+#~ msgid "Related topics:"
+#~ msgstr "Подобни:"
+
+#~ msgid "Remember me"
+#~ msgstr "Запомни ме"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Запомни ме на този компютър"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "Не забравяйте да обновите потребителската си страница, ако искате "
+#~ "промяната на електронната ви поща да бъде отразена и там."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Запомняне на паролата?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "Запомни ме"
+
+#, fuzzy
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
+
+#~ msgid "Rename"
+#~ msgstr "Преименуване"
+
+#~ msgid "Rename failed"
+#~ msgstr "Грешка при преименуването"
+
+#, fuzzy
+#~ msgid "Rename or move %1"
+#~ msgstr "Преименувай тази страница"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Преименувай тази страница"
+
+#, fuzzy
+#~ msgid "Rename or move topic..."
+#~ msgstr "Преименувай тази страница"
+
+#, fuzzy
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Преименувай, премести или изтрий този раздел"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Преименувай/Премести"
+
+#~ msgid "Replace form..."
+#~ msgstr "Замести форма"
+
+#, fuzzy
+#~ msgid "Request Validation"
+#~ msgstr "Регистрация"
+
+#~ msgid "Reset Password"
+#~ msgstr "Нулиране на Парола"
+
+#~ msgid "Reset password"
+#~ msgstr "Нулиране на Парола"
+
+#~ msgid "Restore topic"
+#~ msgstr "Възстанови страница:"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Възстанови страница до версия:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Възстанови страницата до тази версия:"
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Резултати от раздел %1"
+
+#, fuzzy
+#~ msgid "Results from %1 web:"
+#~ msgstr "Резултати от раздел %1"
+
+#, fuzzy
+#~ msgid "Return to %1"
+#~ msgstr "Върнете се към %1."
+
+#~ msgid "Return to %1."
+#~ msgstr "Върнете се към %1."
+
+#, fuzzy
+#~ msgid "Retype new password:"
+#~ msgstr "Въведете пак новата парола:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr "Врсия %1 бе записана от %2, докато вие редактирахте."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Преглед на последните промени в:"
+
+#~ msgid "Revision"
+#~ msgstr "Версия"
+
+#, fuzzy
+#~ msgid "Revision history of %1"
+#~ msgstr "История на версиите на %1"
+
+#~ msgid "Revisions"
+#~ msgstr "Версии"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Запис, C = Отказ"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Запис, Q = Тих запис, K = Запис и нататък, P = Преглед, C = Отказ"
+
+#~ msgid "Save table"
+#~ msgstr "Запис на таблица"
+
+#~ msgid "Saved to:"
+#~ msgstr "Записано в:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Търсене само в раздел %1"
+
+#~ msgid "Search all webs"
+#~ msgstr "Търсене във всички раздели"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Търсене във всички раздели за връзки, които сочат насам"
+
+#, fuzzy
+#~ msgid "Search for updates"
+#~ msgstr "Други възможности за търсене"
+
+#, fuzzy
+#~ msgid "Search in %1 Web"
+#~ msgstr "Търсене само в раздел %1"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Търсене във всички раздели"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Търсене на повече страници в този раздел"
+
+#, fuzzy
+#~ msgid "Search options"
+#~ msgstr "Други възможности за търсене"
+
+#, fuzzy
+#~ msgid "Search result"
+#~ msgstr "(резултати от търсенето)"
+
+#, fuzzy
+#~ msgid "Search results"
+#~ msgstr "(резултати от търсенето)"
+
+#~ msgid "Search string"
+#~ msgstr "Низ за търсене"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Търсене в Раздел %1 за страници, които сочат насам"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Търсене в Раздел %1 за страници, които сочат насам"
+
+#~ msgid "Search where:"
+#~ msgstr "Търсене къде"
+
+#~ msgid "Searched:"
+#~ msgstr "Търсено:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Бележка по Сигурността:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "Прегледайте списъка на съществуващите потребители в %1 или регистрирайте "
+#~ "нов потребител в %2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Прегледайте %1 за информация относно Дефиниране на Форми."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Вижте също по-бързия %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Вижте също подробния %1."
+
+#~ msgid "See also:"
+#~ msgstr "Вижте също"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "Вижте по-долу за помощ при редактирането на тази страница."
+
+#, fuzzy
+#~ msgid "See changes since:"
+#~ msgstr "Преглед на последните промени в:"
+
+#~ msgid "Select"
+#~ msgstr "Изберете"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "Изберете нов локален фай, за да обновите притурката"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Избор на всичко"
+
+#, fuzzy
+#~ msgid "Select groups to join:"
+#~ msgstr "Избери родителска страница:"
+
+#, fuzzy
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
+
+#, fuzzy
+#~ msgid "Select the group to join:"
+#~ msgstr "Избери родителска страница:"
+
+#, fuzzy
+#~ msgid "Select topic parent"
+#~ msgstr "Избери родителска страница:"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr ""
+#~ "Изберете копирайте и вмъкнете подписа си в дъното на въведеното от вас."
+
+#, fuzzy
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Регистрация на нови потребители не се поддържа"
+
+#~ msgid "Sequential"
+#~ msgstr "Последователно"
+
+#~ msgid "Set all"
+#~ msgstr "Отбелязване на всички"
+
+#~ msgid "Set new parent"
+#~ msgstr "Задай нов родител"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Задай нов родител на страницата"
+
+#, fuzzy
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Виж предната версия на страницата"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "Помощ относно притурките"
+
+#~ msgid "Show help"
+#~ msgstr "Покажи помощ"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Смали кутийката за редакция"
+
+#~ msgid "Size"
+#~ msgstr "Размер"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Сортирай резултатите по:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "паузите се заместват с подчертавки"
+
+#~ msgid "Statistics"
+#~ msgstr "Статистика"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Създаване на тази Страница"
+
+#, fuzzy
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Създаване на тази Страница"
+
+#, fuzzy
+#~ msgid "Success adding members to group"
+#~ msgstr "Грешка при запис на страницата"
+
+#, fuzzy
+#~ msgid "Success removing members from group"
+#~ msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "СЪВЕТ: за да търсите за страници, съдържащи =\"SOAP\"=, =\"WSDL\"=, "
+#~ "буквален текст =\"web service\"=, но не =\"shampoo\"=, напишете:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Шаблон %1 не съществува"
+
+#~ msgid "Text body"
+#~ msgstr "Тялото на текста"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "Страницата %1 вече съществува"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Разделът %1 не съществува"
+
+#, fuzzy
+#~ msgid "The %1 web of %2."
+#~ msgstr "Разделът %1 не съществува"
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr "Прикрепения файл вече съществува в нова страница"
+
+#, fuzzy
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Адресът за електронна поща на тази сметка е невалиден."
+
+#, fuzzy
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr "Адресът за електронна поща на тази сметка е невалиден."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Адресът за електронна поща на тази сметка е невалиден."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "Записът за потребител %1 липсваше в системата за пароли."
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "Формата трябва да е дефинирана в страницата %1"
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "Новоизбраната страница трябва вече да съществува."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Новият раздел бе създаден"
+
+#, fuzzy
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "%1 е преместен(а) от %2 на %3 от %4"
+
+#, fuzzy
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "'%1' е невалидно %2 "
+
+#, fuzzy
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "'%1' е невалидно %2 "
+
+#, fuzzy
+#~ msgid "This must be a valid login username."
+#~ msgstr "'%1' е невалидно %2 "
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "'%1' е невалидно %2 "
+
+#, fuzzy
+#~ msgid "To attachment:"
+#~ msgstr "Прикачени файлове към страницата"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "За да редактирате страницата, щракнете "
+
+#, fuzzy
+#~ msgid "To topic"
+#~ msgstr "Към страница:"
+
+#~ msgid "To topic:"
+#~ msgstr "Към страница:"
+
+#, fuzzy
+#~ msgid "To web"
+#~ msgstr "Към раздел:"
+
+#~ msgid "To web:"
+#~ msgstr "Към раздел:"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "Страница %1 не съществува"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Грешка при Запис на Страницата"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Прикачени файлове към страницата"
+
+#, fuzzy
+#~ msgid "Topic data"
+#~ msgstr "Име на страницата"
+
+#, fuzzy
+#~ msgid "Topic history"
+#~ msgstr "Заглавие на страницата"
+
+#, fuzzy
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Теми в раздел %1"
+
+#~ msgid "Topic name"
+#~ msgstr "Име на страницата"
+
+#~ msgid "Topic name:"
+#~ msgstr "Име на страницата:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Версия на страницата"
+
+#~ msgid "Topic save error"
+#~ msgstr "Грешка при запис на страницата"
+
+#~ msgid "Topic title"
+#~ msgstr "Заглавие на страницата"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Страницат ще бъде именувана: "
+
+#~ msgid "Total matches"
+#~ msgstr "Общо съвпадения"
+
+#~ msgid "Try Again"
+#~ msgstr "Опитай отново"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Непозната команда %1"
+
+#, fuzzy
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Невярно %1.WikiИмена:"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Връзки за обновяване"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Обновяване на прикрепен файл %1 на %2"
+
+#~ msgid "Update links"
+#~ msgstr "Връзки за обновяване"
+
+#, fuzzy
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Копиране на страница"
+
+#, fuzzy
+#~ msgid "Upgraded group"
+#~ msgstr "Нова Страница"
+
+#, fuzzy
+#~ msgid "Upload a file"
+#~ msgstr "Качване"
+
+#~ msgid "Upload file"
+#~ msgstr "Качване"
+
+#, fuzzy
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Обновяване на прикрепен файл %1 на %2"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Качване на файлове до %1 KB."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Каченият файл %1 надвишава ограничението от %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Каченият файл е твърде голям"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Използвай %1 вместо това."
+
+#~ msgid "Use template:"
+#~ msgstr "Използване на шаблон"
+
+#, fuzzy
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "%1 е член на поне една група и не може да бъде изтрит"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "Потребителска сметка %1 - Изтрита"
+
+#, fuzzy
+#~ msgid "User Account was not supplied"
+#~ msgstr "Потребителска сметка %1 - Изтрита"
+
+#~ msgid "User Reference"
+#~ msgstr "Потребителски Настройки"
+
+#, fuzzy
+#~ msgid "User Registration"
+#~ msgstr "Регистрация"
+
+#~ msgid "Username"
+#~ msgstr "Потребителско име"
+
+#, fuzzy
+#~ msgid "Username %1."
+#~ msgstr "Потребителско име"
+
+#, fuzzy
+#~ msgid "Username or email address"
+#~ msgstr "невалиден адрес за електронна поща"
+
+#~ msgid "Users"
+#~ msgstr "Потребители"
+
+#~ msgid "Version"
+#~ msgstr "Версия"
+
+#~ msgid "Version history"
+#~ msgstr "История на версиите"
+
+#~ msgid "Version history of %1"
+#~ msgstr "История на версиите на %1"
+
+#~ msgid "View"
+#~ msgstr "Виж"
+
+#, fuzzy
+#~ msgid "View complete topic history"
+#~ msgstr "Изглед на цялата история на страницата"
+
+#~ msgid "View difference"
+#~ msgstr "Виж разлики"
+
+#, fuzzy
+#~ msgid "View differences"
+#~ msgstr "Виж разлики"
+
+#, fuzzy
+#~ msgid "View earlier"
+#~ msgstr "Виж шаблоните"
+
+#, fuzzy
+#~ msgid "View later"
+#~ msgstr "Виж шаблоните"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Виж предната версия на страницата"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Преглед в суров текстов формат"
+
+#, fuzzy
+#~ msgid "View revision"
+#~ msgstr "Виж версия"
+
+#~ msgid "View revision:"
+#~ msgstr "Виж версия"
+
+#, fuzzy
+#~ msgid "View sequential topic history"
+#~ msgstr "Изглед на цялата история на страницата"
+
+#~ msgid "View templates"
+#~ msgstr "Виж шаблоните"
+
+#~ msgid "View topic"
+#~ msgstr "Покажи страницата"
+
+#~ msgid "View total topic history"
+#~ msgstr "Изглед на цялата история на страницата"
+
+#, fuzzy
+#~ msgid "View without formatting (v)"
+#~ msgstr "Преглед в суров текстов формат"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Внимание: 'include' страница не съществува"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr ""
+#~ "Внимание: %1 не може да се ВМЪКНЕ(INCLUDE) отново, страницата е вече "
+#~ "вмъкната. %2"
+
+#, fuzzy
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
+
+#, fuzzy
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr ""
+#~ "Внимание: Потвърдителното съобщение(email) не може да бъде изпратено"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr ""
+#~ "Внимание: Потвърдителното съобщение(email) не може да бъде изпратено. "
+#~ "Изпращането на електронна поща е изключено."
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "Внимание: Този сайт не разрешава %<nop>INCLUDE% на уеб-адреси"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Внимание: 'include' страница не съществува"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Внимание: 'include' страница не съществува"
+
+#, fuzzy
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "Внимание: 'include' страница не съществува"
+
+#~ msgid "Webs"
+#~ msgstr "Раздели"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Добре дошли в раздел %1"
+
+#~ msgid "Who"
+#~ msgstr "Кой"
+
+#, fuzzy
+#~ msgid "Word search"
+#~ msgstr "Промяна на търсенето"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Бихте ли желали да отидете в:"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "*трябва* да имате поне един валиден e-mail-адрес, за да можете да "
+#~ "нулирате паролата си. Ако нито един от регистрираните e-mail-адреси не е "
+#~ "валиден, свържете се с %1."
+
+#, fuzzy
+#~ msgid "You are already registered."
+#~ msgstr "Вие вече сте регистриран"
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Вие също сте в списъка на страница %1"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "На вас ви е отказан достъп до следните страници в раздела:"
+
+#~ msgid "You are here:"
+#~ msgstr "Вие сте тук:"
+
+#, fuzzy
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Опитвате се да преименувате страница, която не съществува."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Опитвате се да преименувате страница, която не съществува."
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "Вие *не* бяхте регистриран."
+
+#, fuzzy
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Невярно %1.WikiИмена:"
+
+#, fuzzy
+#~ msgid "Your password has not been changed."
+#~ msgstr "Паролата не може да бъде променена"
+
+#, fuzzy
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Паролата не може да бъде променена"
+
+#, fuzzy
+#~ msgid "Your password:"
+#~ msgstr "Вашата парола:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Вашата лична страница %1 бе създадена"
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Вашият подпис за copy/paste:"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Вашият подпис за copy/paste:"
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "[[%1][Дебъгване текста на страницатаt]]."
+
+#~ msgid "_language_name"
+#~ msgstr "Български"
+
+#~ msgid "access denied on root"
+#~ msgstr "достъпът до кореновата страница е отказан"
+
+#~ msgid "access denied on topic"
+#~ msgstr "достъпът до страницата е отказан"
+
+#~ msgid "access denied on web"
+#~ msgstr "достъпът до раздела е отказан"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "достъпът до кореновата страница е забранен"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "достъпът до страницата е забранен"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "достъпът до раздела е забранен"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "accesskey='c'"
+
+#~ msgid "and"
+#~ msgstr "и"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "промяна, обновяване, предишни версии, преместване, изтриване"
+
+#, fuzzy
+#~ msgid "close display options"
+#~ msgstr "Още действия..."
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "не забравяйте да проверите Настройките на Страницата си"
+
+#~ msgid "fields are required."
+#~ msgstr "полета са задължителни."
+
+#~ msgid "help"
+#~ msgstr "помощ"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Добавяне на форма"
+
+#~ msgid "hints on good style"
+#~ msgstr "съвети за добър стил"
+
+#~ msgid "in raw text format"
+#~ msgstr "в суров текстов формат"
+
+#, fuzzy
+#~ msgid "last change"
+#~ msgstr "Последно променяни страници"
+
+#~ msgid "manage"
+#~ msgstr "управление"
+
+#~ msgid "more..."
+#~ msgstr "още..."
+
+#~ msgid "now %1"
+#~ msgstr "сега %1"
+
+#~ msgid "or"
+#~ msgstr "или"
+
+#~ msgid "preview"
+#~ msgstr "преглед"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "извелечена версия %1"
+
+#, fuzzy
+#~ msgid "revision %1"
+#~ msgstr "(версия %1)"
+
+#, fuzzy
+#~ msgid "set preferences"
+#~ msgstr "(настройки)"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Прикачване на картинка или документ към страницата' "
+#~ "accesskey='a'>Притурка"
+
+#, fuzzy
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr ""
+#~ "title='Прикачване на картинка или документ към страницата' "
+#~ "accesskey='a'>Притурка"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Създаване на нова страница' accesskey='c'>Създаване"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Изтриване или преименуване на страницата; задаване на родителска "
+#~ "страница; преглед и сравнение' revisions' accesskey='m'>Още действия"
+
+#, fuzzy
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "title='Редактиране текста на тази страница' accesskey='e'>Редкация"
+
+#, fuzzy
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Редактиране текста на тази страница' accesskey='e'>Редкация"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Редактиране текста на тази страница' accesskey='e'>Редкация"
+
+#, fuzzy
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "title='Виж страницата' accesskey='v'>Виж страницата"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr ""
+#~ "title='Версия за печат на тази страница' accesskey='p'>Версия за печат"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Търсете във всички раздели за страници, които сочат насам' "
+#~ "accesskey='l'>Всички Раздели"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Търсете в раздел %1 страници, които сочат насам' "
+#~ "accesskey='b'>Обратни връзки"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr ""
+#~ "title='Търсете в раздел %1 страници, които сочат насам' "
+#~ "accesskey='b'>Раздел"
+
+#, fuzzy
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "title='Виж страницата' accesskey='v'>Виж страницата"
+
+#, fuzzy
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Редактиране текста на тази страница' accesskey='e'>Редкация"
+
+#, fuzzy
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr ""
+#~ "title='Версия за печат на тази страница' accesskey='p'>Версия за печат"
+
+#, fuzzy
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Цялата история на страницата' accesskey='h'>История"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Виж страницата' accesskey='v'>Виж страницата"
+
+#, fuzzy
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr "title='Суров текст без форматиране' accesskey='v'>Суров изглед"
+
+#~ msgid "user list truncated"
+#~ msgstr "списъкът с потребителите е повреден"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Отказ' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Отмяна' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Преглед' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Тих запис' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Запис и продължаване' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Запис' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "виж"
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 е регистриран с електронна поща %2"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Върнете се към %1."
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Международните (8-битови) символи са премахнати (заместени с US-ASCII "
+#~ "еквиваленти за Latin-1)"
+
+#~ msgid "Notes:"
+#~ msgstr "Бележки:"
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Преместване или изтриване на притурка"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "Отметки на реферирани страници"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Качване"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Избор от списък"
+
+#, fuzzy
+#~ msgid "%1.LoginName:"
+#~ msgstr "Име за вход %1"
+
+#~ msgid "Login name %1"
+#~ msgstr "Име за вход %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Име за вход %1"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Невярно %1"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Име:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Преименуване"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Име на страницата"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "Към страница:"
+
+#~ msgid "Hello %1"
+#~ msgstr "Здравей %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "или"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Име на страницата"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Как да форматирате*"
+
+#~ msgid "&Edit text"
+#~ msgstr "Редактиране на текста"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "По-подробен списък с промените ще намерите на страница [[%1][Последни "
+#~ "промени]]."
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Създаване на Страницата"
+
+#~ msgid "Current parent:"
+#~ msgstr "Текуша родителска страница/раздел:"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Редактиране на лични данни"
+
+#~ msgid "Edit text"
+#~ msgstr "Редактиране на текст"
+
+#~ msgid "Error: %1"
+#~ msgstr "Грешка: %1"
+
+#, fuzzy
+#~ msgid "Log on with your username and password"
+#~ msgstr "Моля, въведете вашето потребителско име и парола"
+
+#, fuzzy
+#~ msgid "Show"
+#~ msgstr "Покажи помощ"
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(За име на страница използвайте System.WikiНотацията)"
+
+#~ msgid "Warning"
+#~ msgstr "ВНИМАНИЕ:"
+
+#, fuzzy
+#~ msgid "later"
+#~ msgstr "Дата"
+
+#, fuzzy
+#~ msgid "revisions up to"
+#~ msgstr "Версии"
+
+#, fuzzy
+#~ msgid "Attachment metadata"
+#~ msgstr "Преместването на притурката се провали"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Помощ относно <a target='Macros'  class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Настройии на страницата</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Помощ относно <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Преименуване и преместване на страници</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Помощ относно <a target='ManagingWebs'  class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Преименуване и преместване на раздели</a>."
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr "S = Запис, Q = Quiet save, K = Запис и нататък, D = Отмяна"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - Пълната документация на Foswiki"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - само за мен"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - първи стъпки с Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - за да пробвате Foswiki"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - вижте кратка уводна Foswiki-презентация, за начинаещи"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 за да промените вашия e-mail"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 за да промените вашата парола"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 съдържа документация за потребители на Foswiki."
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 предоставя списък с инструменти за потребители на Foswiki"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(име за вход) ИмеЗаВход :"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(име, видимо в сайта) WikiName :"
+
+#~ msgid "(optional)"
+#~ msgstr "(незадължително)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(препоръчително)"
+
+#~ msgid "(search results)"
+#~ msgstr "(резултати от търсенето)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr ""
+#~ "Добавете вашето име към списъка от потребители на страница %1, в раздел "
+#~ "%2."
+
+#~ msgid "Advanced Search"
+#~ msgstr "Разширено Търсене"
+
+#~ msgid "Comments:"
+#~ msgstr "Коментари:"
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Създай <nop>TestTopic###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Създаване на нова автоматично номерирана страница:"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Създаване на документ по име"
+
+#~ msgid "Create by Name"
+#~ msgstr "Създаване по име"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Създаде ваша лична %1 страница, чието име ще бъде вашето <nop>WikiИме и "
+#~ "ще добави данните, които изпращате сега на нея."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Завърши процедурата по създаването на сметката и вие ще можете да "
+#~ "модифицирате страници, като ползвате вашето <nop>[[WikiName][WikiИме]]."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Ако вече знаете името на страницата, въведете го в [[%1][полето \"Скок!"
+#~ "\"]] горе"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "Списък на всички страници в раздел %1 в азбучен ред"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Локални настройки засягащи целия сайт"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Преместване на притурка в раздел:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "URL на организацията:"
+
+#~ msgid "Other Country"
+#~ msgstr "Друга страна"
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Лични настройки"
+
+#~ msgid "Raw edit"
+#~ msgstr "Редактиране на изходния код"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Регистрираните потребители могат да [[%1][променят]] и [[%2][нулират]] "
+#~ "паролите си."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Преименувай/премести страница..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Преименувай/премести/изтрий раздел..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Въведете паролата отново:"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Изпращане на потвърждение за регистрацията по e-mail."
+
+#~ msgid "Simple search"
+#~ msgstr "Просто търсене"
+
+#~ msgid "Test Topics"
+#~ msgstr "Тестови страници"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "За да модифицирате страници на този FoswikiSite, е необходимо да се "
+#~ "регистрирате."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "За да се регистрирате, е достатъчно да попълните този формуляр."
+
+#~ msgid "Web Search"
+#~ msgstr "Уеб-Търсене"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Когато получи съдържанието на тази форма, %1 ще ви изпрати код за "
+#~ "активиране на e-mail адреса, който сте предоставили. За да активирате "
+#~ "вашата сметка, въведете кода на следващата страница или щракнете на "
+#~ "връзката в писмото, което сте получили. След като създаването на вашата "
+#~ "сметка приключи, %1 ще:"
+
+#~ msgid "advanced search"
+#~ msgstr "разширено търсене"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "Търсене на връзки във всички _публични раздели_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "(сканира връзки в раздел %1)"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "(сканира връзките във всички раздели)"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr ""
+#~ "title='Редактиране суровия текст на тази страница' "
+#~ "accesskey='w'>Редакция  суров текст"
+
+#~ msgid "%1 Web Home"
+#~ msgstr "Раздел %1 - Начало"
+
+#~ msgid "(oops)"
+#~ msgstr "(опаа)"
+
+#~ msgid "(semicolon =;= for and)"
+#~ msgstr "(точка и запетая =;= означава И)"
+
+#~ msgid "Create '%1'"
+#~ msgstr "Създаване на '%1'"
+
+#~ msgid "Did you spell the %1 correctly?"
+#~ msgstr "Написали ли сте правилно %1 ?"
+
+#~ msgid "Do show:"
+#~ msgstr "Покажи:"
+
+#~ msgid "Do you wish to create the topic %1?"
+#~ msgstr "Желаете ли да създадете страницата %1?"
+
+#~ msgid ""
+#~ "Enter your System.LoginName. (Typically First name and last name, no "
+#~ "space, no dots, capitalized, e.g. !JohnSmith, unless you chose "
+#~ "otherwise). Visit %SYSTEMWEB%.UserRegistration if you do not have one."
+#~ msgstr ""
+#~ "Въведете вашето System.LoginName. (Обикновено Първото име и фмилията "
+#~ "слети, без паузи и точки с първите букви главни, например !JohnSmith, "
+#~ "Освен ако не сте избрали друго). Посетете %SYSTEMWEB%.UserRegistration "
+#~ "ако нямате такова."
+
+#~ msgid "List more similar topic in this web"
+#~ msgstr "Списък на подобни страници в този раздел"
+
+#~ msgid "Note: This topic does not exist"
+#~ msgstr "Забележка: тази страница не съществува"
+
+#~ msgid "Opens page in new window"
+#~ msgstr "Отваряне на страницата в нов прозорец"
+
+#~ msgid "Remember, a %1 is case sensitive."
+#~ msgstr "Запомнете, %1 е яувствително към регистъра на буквите."
+
+#~ msgid "about !BookView"
+#~ msgstr "за !BookView"
+
+#~ msgid "about regular expression search"
+#~ msgstr "за търсенето с регулярни изрази"
+
+#~ msgid "looking for references in _%1 web_ only"
+#~ msgstr "Търсене на връзки само в _раздел %1_"
+
+#~ msgid "All topics in %1"
+#~ msgstr "Всички страници от %1"
+
+#~ msgid "or %1"
+#~ msgstr "или %1"
+
+#~ msgid "&WYSIWYG"
+#~ msgstr "&WYSIWYG"
+
+#~ msgid ""
+#~ "Please see <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
+#~ "files."
+#~ msgstr ""
+#~ "Моля вижте <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> за повече информация относно "
+#~ "прикрепване на файлове."
+
+#~ msgid "WYSIWYG"
+#~ msgstr "WYSIWYG"
+
+#~ msgid "title='Create this topic' accesskey='w'>Create (&WYSIWYG)"
+#~ msgstr ""
+#~ "title='Създаване на тази страница' accesskey='w'>Създаване (&WYSIWYG)"
+
+#~ msgid "title='Edit this topic text' accesskey='w'>&WYSIWYG"
+#~ msgstr "title='Редактиране текста на тази страница' accesskey='w'>&WYSIWYG"
+
+#~ msgid "value='Checkpoint' accesskey='k'"
+#~ msgstr "value='Прилагане' accesskey='k'"

@@ -1,0 +1,5417 @@
+# Foswiki translation for Czech
+# Translators: 
+#   Foswiki:Main/IvanKuncl, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-11-21 23:28+0200\n"
+"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 2.1\n"
+
+#: templates/edittoolbar.natedit.tmpl:192
+msgid "Abandon changes and exit"
+msgstr "Zruš změny a skonči"
+
+#: data/System/NatEditWordHelpText.txt:29
+msgid "Access keys"
+msgstr "Přístupový klíč"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
+msgid "Add a new form to <nop>%1"
+msgstr "Přidejte nový formulář do <nop>%1"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
+msgid "Add form"
+msgstr "Přidej formulář"
+
+#: templates/edittoolbar.natedit.tmpl:63
+msgid "Align left"
+msgstr "Zarovej vlevo"
+
+#: templates/edittoolbar.natedit.tmpl:66
+msgid "Align right"
+msgstr "Zarovnej vpravo"
+
+#: templates/editdialog.natedit.tmpl:81 templates/edittoolbar.natedit.tmpl:104
+msgid "Attachment"
+msgstr "Příloha"
+
+#: templates/edittoolbar.natedit.tmpl:36
+msgid "Blockquote"
+msgstr "Citace"
+
+#: templates/edittoolbar.natedit.tmpl:43
+msgid "Bold"
+msgstr "Tučné"
+
+#: templates/edittoolbar.natedit.tmpl:74
+msgid "Bullet list"
+msgstr "Odrážky"
+
+#: templates/edit.natedit.tmpl:60 templates/edittoolbar.natedit.tmpl:191
+msgid "Cancel"
+msgstr "Přerušit"
+
+#: templates/edittoolbar.natedit.tmpl:64
+msgid "Center align"
+msgstr "Zarovnání na střed"
+
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
+msgid "Change form"
+msgstr "Změň formulář"
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
+msgid "Change the current form of <nop>%1"
+msgstr "Změň aktuální formulář pro <nop>%1"
+
+#: templates/edittoolbar.natedit.tmpl:131 templates/preview.natedit.tmpl:6
+msgid "Close"
+msgstr "Zavřít"
+
+#: templates/edittoolbar.natedit.tmpl:97
+msgid "Color"
+msgstr "Barva"
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Columns"
+msgstr "Sloupce"
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr "Pokračuj v editaci"
+
+#: templates/editdialog.natedit.tmpl:50
+msgid "Create a new table"
+msgstr "Vytvoř novou tabulku"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Creates a new topic revision when saving"
+msgstr "Vytvoří novou revizi článku při ukládání"
+
+#: templates/edittoolbar.natedit.tmpl:109
+msgid "Data Form Table Header"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:58
+msgid "Data rows"
+msgstr "Záznamy"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Date"
+msgstr "Datum"
+
+#: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
+msgid "Default"
+msgstr "Výchozí"
+
+#: data/System/NatEditWordHelpText.txt:16
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Každá preference má syntaxi"
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr "Změň"
+
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr "Editační zkratka"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "Embed external object"
+msgstr "Vlož externí objekt"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Emoticon"
+msgstr "Emotikon"
+
+#: templates/edittoolbar.natedit.tmpl:132
+msgid "Escape markup"
+msgstr "Znak [Esc]ape"
+
+#: templates/edit.natedit.tmpl:121
+msgid "Everybody"
+msgstr "Každý"
+
+#: templates/editdialog.natedit.tmpl:82
+msgid "External"
+msgstr "Externí"
+
+#: templates/editdialog.natedit.tmpl:135
+msgid "File"
+msgstr "Soubor"
+
+#: templates/edittoolbar.natedit.tmpl:208
+msgid "Force new revision"
+msgstr "Vynucení nové revize"
+
+#: templates/form.natedit.tmpl:18
+msgid "Form"
+msgstr "Formulář"
+
+#: data/System/NatEditWordHelpText.txt:24
+msgid "Form based input"
+msgstr "Vstup dat prostřednictvím formuláře"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Format selected text"
+msgstr "Formátovat vybraný text"
+
+#: data/System/NatEditWordHelpText.txt:23
+msgid "Formatted Search"
+msgstr "Formátované vyhledávání"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Formula"
+msgstr "Vzorec"
+
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr "Získej nápovědu jak nastavovat vlastnosti článku"
+
+#: data/System/NatEditWordHelpText.txt:20
+msgid "GoodStyle"
+msgstr "DobrýStyl"
+
+#: templates/editdialog.natedit.tmpl:54
+msgid "Header rows"
+msgstr "Řádky záhlaví"
+
+#: templates/edittoolbar.natedit.tmpl:29
+msgid "Heading 1"
+msgstr "Nadpis 1"
+
+#: templates/edittoolbar.natedit.tmpl:30
+msgid "Heading 2"
+msgstr "Nadpis 2"
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Heading 3"
+msgstr "Nadpis 3"
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Heading 4"
+msgstr "Nadpis 4"
+
+#: templates/edittoolbar.natedit.tmpl:33
+msgid "Heading 5"
+msgstr "Nadpis 5"
+
+#: templates/edittoolbar.natedit.tmpl:34
+msgid "Heading 6"
+msgstr "Nadpis 6"
+
+#: templates/edit.natedit.tmpl:88 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
+msgid "Help"
+msgstr "Nápověda"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Horizontal ruler"
+msgstr "Horizontální pravítko"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Icon"
+msgstr "Ikona"
+
+#: data/System/NatEditWordHelpText.txt:25
+msgid "Including"
+msgstr "Včetně"
+
+#: templates/edittoolbar.natedit.tmpl:75
+msgid "Indent"
+msgstr "Odsazení"
+
+#: templates/edittoolbar.natedit.tmpl:85
+#, fuzzy
+msgid "Insert Image"
+msgstr "Vložit datum"
+
+#: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:97
+msgid "Insert a color code"
+msgstr "Vložit barevný kód"
+
+#: templates/edittoolbar.natedit.tmpl:109
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "Vložit matematický výraz"
+
+#: templates/edittoolbar.natedit.tmpl:98
+msgid "Insert a date"
+msgstr "Vložit datum"
+
+#: templates/edittoolbar.natedit.tmpl:107
+msgid "Insert a horizontal ruler"
+msgstr "Vložit horizontální pravítko"
+
+#: templates/editdialog.natedit.tmpl:77 templates/edittoolbar.natedit.tmpl:84
+msgid "Insert a link"
+msgstr "Vložit odkaz"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Insert a link to a topic or an external resource"
+msgstr "Vložit odkaz na článek a nebo externí zdroj"
+
+#: templates/edittoolbar.natedit.tmpl:105
+msgid "Insert a link to a user-profile"
+msgstr "Vložit odkaz na profil uživatele"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Insert a macro"
+msgstr "Vložit makro"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a mathematical formula"
+msgstr "Vložit matematický výraz"
+
+#: templates/edittoolbar.natedit.tmpl:102
+#: templates/edittoolbar.natedit.tmpl:83
+msgid "Insert a new table"
+msgstr "Vložit novou tabulku"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Insert a symbol"
+msgstr "Vložit symbol"
+
+#: templates/editdialog.natedit.tmpl:70 templates/edittoolbar.natedit.tmpl:104
+msgid "Insert an attachment"
+msgstr "Vložit přílohu"
+
+#: templates/edittoolbar.natedit.tmpl:95
+msgid "Insert an emoticon"
+msgstr "Vložit emotikon"
+
+#: templates/edittoolbar.natedit.tmpl:94
+msgid "Insert an icon"
+msgstr "Vložit ikonu"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Insert your signature"
+msgstr "Vložit podpis"
+
+#: templates/edittoolbar.natedit.tmpl:44
+msgid "Italic"
+msgstr "Kurzíva"
+
+#: templates/edit.natedit.tmpl:131 templates/edit.natedit.tmpl:162
+msgid "Just me"
+msgstr "Pouze já"
+
+#: templates/edittoolbar.natedit.tmpl:65
+msgid "Justify text"
+msgstr "Zarovnej text"
+
+#: templates/edittoolbar.natedit.tmpl:103
+msgid "Link"
+msgstr "Odkaz"
+
+#: templates/edittoolbar.natedit.tmpl:111
+msgid "Macro"
+msgstr "Makro"
+
+#: data/System/NatEditWordHelpText.txt:22
+msgid "Macros"
+msgstr "Makra"
+
+#: templates/edittoolbar.natedit.tmpl:46
+msgid "More character formats"
+msgstr "Víceznakové formáty"
+
+#: templates/edittoolbar.natedit.tmpl:87
+msgid "More objects to insert"
+msgstr "Více objektů ke vložení"
+
+#: templates/edittoolbar.natedit.tmpl:121
+msgid "More tools"
+msgstr "Více nástrojů"
+
+#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+msgid "Nobody"
+msgstr "Nikdo"
+
+#: templates/edittoolbar.natedit.tmpl:28
+msgid "Normal"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:73
+msgid "Numbered list"
+msgstr "Číslovaný seznam"
+
+#: templates/edittoolbar.natedit.tmpl:100
+msgid "OEmbed"
+msgstr "OEmbed"
+
+#: templates/edittoolbar.natedit.tmpl:76
+msgid "Outdent"
+msgstr "Zruš odrážku"
+
+#: templates/edittoolbar.natedit.tmpl:22
+msgid "Paragraph"
+msgstr "Odstavec"
+
+#: templates/edit.natedit.tmpl:96 templates/edit.natedit.tmpl:98
+msgid "Permissions"
+msgstr "Oprávnění"
+
+#: templates/edit.natedit.tmpl:57
+msgid "Please validate"
+msgstr "Prosím zkontrolujte"
+
+#: data/System/NatEditWordHelpText.txt:8
+msgid "Plugins"
+msgstr "Pluginy"
+
+#: templates/settings.natedit.tmpl:16
+msgid "Preferences"
+msgstr "Preference"
+
+#: templates/edittoolbar.natedit.tmpl:183 templates/preview.natedit.tmpl:1
+msgid "Preview"
+msgstr "Náhled"
+
+#: templates/edittoolbar.natedit.tmpl:184
+msgid "Preview your changes"
+msgstr "Zobrazit náhled změn"
+
+#: templates/edittoolbar.natedit.tmpl:119
+msgid "Redo previous change"
+msgstr "Opakuj předchozí změnu"
+
+#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:157
+msgid "Registered users"
+msgstr "Registrovaní uživatelé"
+
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:131
+msgid "Replace"
+msgstr "Nahraď"
+
+#: templates/edittoolbar.natedit.tmpl:144
+msgid "Restore"
+msgstr "Obnov"
+
+#: templates/edittoolbar.natedit.tmpl:160
+msgid "Restore and Continue"
+msgstr "Obnov a pokračuj"
+
+#: templates/edittoolbar.natedit.tmpl:161
+msgid "Restore and continue editing"
+msgstr "Obnov a pokračuj v editaci"
+
+#: templates/edittoolbar.natedit.tmpl:145
+msgid "Restore and exit"
+msgstr "Obnov a skonči"
+
+#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:152
+msgid "Save"
+msgstr "Ulož"
+
+#: templates/edittoolbar.natedit.tmpl:167
+msgid "Save and Continue"
+msgstr "Ulož a pokračuj"
+
+#: templates/edittoolbar.natedit.tmpl:168
+msgid "Save and continue editing"
+msgstr "Ulož a pokračuj v editaci"
+
+#: templates/edittoolbar.natedit.tmpl:153
+msgid "Save and exit"
+msgstr "Ulož a skonči"
+
+#: templates/editdialog.natedit.tmpl:14 templates/editdialog.natedit.tmpl:32
+#: templates/editdialog.natedit.tmpl:36
+msgid "Search"
+msgstr "Hledej"
+
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:131
+msgid "Search && Replace"
+msgstr "Vyhledej && nahraď"
+
+#: templates/edittoolbar.natedit.tmpl:106
+msgid "Signature"
+msgstr "Podpis"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort ascending"
+msgstr "Seřadit vzestupně"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort descending"
+msgstr "Seřadit sestupně"
+
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines ascending"
+msgstr "Seřadit vybrané řádky vzestupně"
+
+#: templates/edittoolbar.natedit.tmpl:130
+msgid "Sort selected lines descending"
+msgstr "Seřadit vybrané řádky sestupně"
+
+#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+msgid "Specific users/groups"
+msgstr "Vybraní uživatelé/skupiny"
+
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr "Změna stavu z *%1* na *%2* (viz [[%3][workflow definition]])."
+
+#: templates/edittoolbar.natedit.tmpl:53
+msgid "Strikethrough"
+msgstr "Přeškrtnuto"
+
+#: templates/edittoolbar.natedit.tmpl:55
+msgid "Subscript"
+msgstr "Dolní index"
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Superscript"
+msgstr "Horní index"
+
+#: templates/edittoolbar.natedit.tmpl:120
+msgid "Switch to wysiwyg"
+msgstr "Přepni na WYSIWYG"
+
+#: templates/edittoolbar.natedit.tmpl:96
+msgid "Symbol"
+msgstr "Symbol"
+
+#: templates/edittoolbar.natedit.tmpl:102
+msgid "Table"
+msgstr "Tabulka"
+
+#: templates/edit.natedit.tmpl:85 templates/editdialog.natedit.tmpl:103
+#: templates/editdialog.natedit.tmpl:117 templates/editdialog.natedit.tmpl:140
+msgid "Text"
+msgstr "Text"
+
+#: templates/edit.natedit.tmpl:79
+msgid "Title:"
+msgstr "Název:"
+
+#: templates/editdialog.natedit.tmpl:131 templates/editdialog.natedit.tmpl:80
+#: templates/editdialog.natedit.tmpl:99
+msgid "Topic"
+msgstr "Článek"
+
+#: templates/editdialog.natedit.tmpl:113
+msgid "URL"
+msgstr "URL"
+
+#: templates/edittoolbar.natedit.tmpl:45
+msgid "Underline"
+msgstr "Podtržení"
+
+#: templates/edittoolbar.natedit.tmpl:118
+msgid "Undo last change"
+msgstr "Zruš poslední změnu"
+
+#: templates/edittoolbar.natedit.tmpl:133
+#, fuzzy
+msgid "Unescape markup"
+msgstr "Neeskejpovany :) znak"
+
+#: templates/edit.natedit.tmpl:149
+msgid "Users who may edit:"
+msgstr "Uživatelé, kteří mohou editovat:"
+
+#: templates/edit.natedit.tmpl:113
+msgid "Users who may view:"
+msgstr "Uživatelé, kteří mohou prohlížet:"
+
+#: templates/edittoolbar.natedit.tmpl:35
+msgid "Verbatim"
+msgstr "Doslovně"
+
+#: templates/editdialog.natedit.tmpl:127 templates/editdialog.natedit.tmpl:95
+msgid "Web"
+msgstr "Web"
+
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[násobek 3 mezer] * [mezera] Nastav [mezera] VARIABLENAME [mezera] = [mezera]"
+
+#: templates/edit.natedit.tmpl:114 templates/edit.natedit.tmpl:150
+msgid "default as defined in the %1"
+msgstr "Výchozí, jak je definováno v %1"
+
+#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr "editovat"
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+msgid "edit form"
+msgstr "formuláŕ pro editaci"
+
+#: templates/editdialog.natedit.tmpl:24 templates/editdialog.natedit.tmpl:42
+#, fuzzy
+msgid "ignore case"
+msgstr "ignoruj"
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr "označuje povinné pole"
+
+#: templates/edit.natedit.tmpl:10
+msgid "new"
+msgstr "nové"
+
+#: templates/edit.natedit.tmpl:119
+msgid "public view access"
+msgstr "Veřejný přístup pro prohlížení"
+
+#: templates/edit.natedit.tmpl:7
+msgid "restore"
+msgstr "obnov"
+
+#: templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr "obnov formulář"
+
+#: templates/edit.natedit.tmpl:129 templates/edit.natedit.tmpl:160
+msgid "restrict access to %1"
+msgstr "zakaž přístup k %1"
+
+#: templates/edit.natedit.tmpl:124
+msgid "restrict read access to users that have an account on this site"
+msgstr "zakaž právo čtení všem uživatelům majícím účet na tomto webu"
+
+#: templates/edit.natedit.tmpl:155
+msgid "restrict write access to users that have an account on this site"
+msgstr "zakaž právo zápisu všem uživatelům majícím účet na tomto webu"
+
+#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+msgid "specify a list of users and/or groups"
+msgstr "definuj seznam uživatelů a/nebo skupin"
+
+#: templates/edit.natedit.tmpl:134
+msgid "strictly deny any access to this topic"
+msgstr "striktně zakaž jakýkoli přístup na tento článek"
+
+#: templates/edit.natedit.tmpl:165
+msgid "strictly deny write access to this topic"
+msgstr "striktně zakaž jakoukoli editaci tohoto článku"
+
+#~ msgid "!WikiName"
+#~ msgstr "!WikiJméno"
+
+#~ msgid "%*(%1,day) "
+#~ msgstr "%*(%1,den) "
+
+#~ msgid "%*(%1,hour) "
+#~ msgstr "%*(%1,hodin) "
+
+#~ msgid "%*(%1,minute) "
+#~ msgstr "%*(%1,minut) "
+
+#~ msgid "%*(%1,second) "
+#~ msgstr "%*(%1,sekund) "
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "%1 %2 Page %3 of %4 %5 %6"
+#~ msgstr "%1 %2 Strana %3 of %4 %5 %6"
+
+#~ msgid "%1 (default)"
+#~ msgstr "%1 (výchozí)"
+
+#~ msgid "%1 - Registration failure for %2 (%3)"
+#~ msgstr "%1 - Registrace selhala z důvodu %2 (%3)"
+
+#~ msgid "%1 - Registration for %2 (%3)"
+#~ msgstr "%1 - Registrace pro %2 (%3)"
+
+#~ msgid "%1 Web"
+#~ msgstr "%1 Web"
+
+#~ msgid "%1 added to the %2 group."
+#~ msgstr "%1 přidáno do %2 skupiny."
+
+#~ msgid "%1 cannot be removed from %2"
+#~ msgstr "%1 nemůže být odstraněn z %2"
+
+#~ msgid "%1 denied the registration."
+#~ msgstr "%1 zamítl registraci."
+
+#~ msgid "%1 group topic upgraded."
+#~ msgstr "%1 téma skupiny aktualizováno."
+
+#~ msgid "%1 has a list of other Foswiki users"
+#~ msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
+
+#~ msgid ""
+#~ "%1 has been editing the topic for %2 and the lease is still active for "
+#~ "another %3."
+#~ msgstr "%1 editoval článek %2 a pravděpodobně na něm stále pracuje jiný %3."
+
+#~ msgid ""
+#~ "%1 has been emailed to inform them that their registration has been "
+#~ "successful"
+#~ msgstr "%1 byl odeslán, aby věděli, že jejich registrace byla úspěšná"
+
+#~ msgid "%1 has been registered with e-mail %2"
+#~ msgstr "%1 byl zaregistrován s e-mailem %2"
+
+#~ msgid "%1 has received a suspicious change request from your browser."
+#~ msgstr "%1 obdržel podezřelý požadavek na změnu z vašeho prohlížeče."
+
+#~ msgid "%1 home"
+#~ msgstr "%1 Domů"
+
+#~ msgid "%1 is an invalid name for a new web"
+#~ msgstr "%1 je chybné jméno pro nový web"
+
+#~ msgid "%1 is currently logged in"
+#~ msgstr "%1 je v současnosti přihlášen"
+
+#~ msgid "%1 is currently set to %2"
+#~ msgstr "%1 je nastaven na %2"
+
+#~ msgid "%1 is editing [[%2][%3]]."
+#~ msgstr "%1 edituje [[%2][%3]]."
+
+#~ msgid "%1 is in at least one group and cannot be removed"
+#~ msgstr "%1 je nejméně v jedné skupině a nemůže být smazán"
+
+#~ msgid "%1 is not a valid form name"
+#~ msgstr "%1 není platným názvem formuláře"
+
+#~ msgid "%1 is not a valid value for the %2 parameter"
+#~ msgstr "%1 není platnou hodnotou pro parametr %2"
+
+#~ msgid "%1 is the default topic for deleted attachments."
+#~ msgstr "%1 je přednastaveným článkem pro smazané přílohy."
+
+#~ msgid "%1 may still be editing %2."
+#~ msgstr "%1 stále může editovat %2."
+
+#~ msgid "%1 recent changes in %2 Web"
+#~ msgstr "%1 poslední změny na stránkách %2"
+
+#~ msgid "%1 registration approval required"
+#~ msgstr "%1 je vyžadováno povolení k registraci"
+
+#~ msgid "%1 registration denied"
+#~ msgstr "%1 registrace nepovolena"
+
+#~ msgid "%1 removed from the %2 group."
+#~ msgstr "%1 odstraněn ze skupiny %2."
+
+#~ msgid "%1 to create another web"
+#~ msgstr "%1 k vytvoření nového webu"
+
+#~ msgid "%1 to customize the web specific preferences"
+#~ msgstr "%1 pro změnu nastavení webu"
+
+#~ msgid "%1 to start working on the new web"
+#~ msgstr "%1 k započnutí prací na novém webu"
+
+#~ msgid "%1 topic does not exist"
+#~ msgstr "článek %1 neexistuje"
+
+#~ msgid "%1 tried to register with e-mail %2"
+#~ msgstr "%1 se pokusil o registraci s e-mailem %2"
+
+#~ msgid "%1 was renamed or moved from %2 on %3 by %4"
+#~ msgstr "%1 byl přejmenován nebo přesunut ze %2 na %3 za pomoci %4"
+
+#, fuzzy
+#~ msgid "%1: Invalid template name (%2) - Contains invalid characters."
+#~ msgstr "Název článku (%1) obsahoval nepovolené znaky."
+
+#~ msgid "&Cancel"
+#~ msgstr "&Cancel (ponechej beze změny)"
+
+#~ msgid "&History"
+#~ msgstr "Historie"
+
+#~ msgid "&Sequential"
+#~ msgstr "&Postupně"
+
+#~ msgid "'%1' is not a valid [[%2][login username]]."
+#~ msgstr "'%1' není platné [[%2][login username]]."
+
+#~ msgid "'Create New Topic' page has moved"
+#~ msgstr "'Create New Topic' stránka byla přesunuta"
+
+#~ msgid "(%1 login)"
+#~ msgstr "(%1 přihlášení)"
+
+#~ msgid "(%1 validation)"
+#~ msgstr "(%1 validace)"
+
+#~ msgid "(%1 vs. %2)"
+#~ msgstr "(%1 oproti %2)"
+
+#~ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+#~ msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
+
+#~ msgid "(=all= to show all topics)"
+#~ msgstr "(=all= pro všechny články)"
+
+#~ msgid "(Children in %1 Web)"
+#~ msgstr "(Odkazy z webu %1)"
+
+#~ msgid "(This message will be removed automatically)"
+#~ msgstr "(Tato zpráva bude automaticky odstraněna)"
+
+#~ msgid "(access denied)"
+#~ msgstr "(přístup odepřen)"
+
+#~ msgid "(attach)"
+#~ msgstr "(připoj)"
+
+#~ msgid "(backlinks in %1 Web)"
+#~ msgstr "(zpětné odkazy v %1 Webu)"
+
+#~ msgid "(backlinks in all Webs)"
+#~ msgstr "(zpětné odkazy ve všech Webech)"
+
+#~ msgid "(book view)"
+#~ msgstr "(náhled ve stylu kniha)"
+
+#~ msgid "(change form)"
+#~ msgstr "(změna formuláře)"
+
+#~ msgid "(change language)"
+#~ msgstr "(změň jazyk)"
+
+#~ msgid "(changes)"
+#~ msgstr "(změny)"
+
+#~ msgid "(compare)"
+#~ msgstr "(porovnat)"
+
+#~ msgid "(delete attachment)"
+#~ msgstr "(smazat přílohu)"
+
+#~ msgid "(delete)"
+#~ msgstr "(smazat)"
+
+#~ msgid "(disabled)"
+#~ msgstr "(vypnuto)"
+
+#~ msgid "(edit form)"
+#~ msgstr "(editovat formuláŕ)"
+
+#~ msgid "(edit text)"
+#~ msgstr "(editovat text)"
+
+#~ msgid "(edit)"
+#~ msgstr "(editovat)"
+
+#~ msgid "(login)"
+#~ msgstr "(login)"
+
+#~ msgid "(more)"
+#~ msgstr "(více)"
+
+#~ msgid "(move attachment)"
+#~ msgstr "(přesun přílohy)"
+
+#~ msgid "(no parent, orphaned topic)"
+#~ msgstr "(bez rodiče, osiřelý článek)"
+
+#~ msgid "(none)"
+#~ msgstr "(nic)"
+
+#~ msgid "(otherwise search %1 Web only)"
+#~ msgstr "(jinak hledá pouze v %1 webu)"
+
+#~ msgid "(raw view)"
+#~ msgstr "(surový náhled)"
+
+#~ msgid "(redirect denied)"
+#~ msgstr "(přesměrování odepřeno)"
+
+#~ msgid "(rename)"
+#~ msgstr "(přejmenovat)"
+
+#~ msgid "(revision %1)"
+#~ msgstr "(revize %1)"
+
+#~ msgid "(save error)"
+#~ msgstr "(chyba uložení)"
+
+#~ msgid "(single character first name)"
+#~ msgstr "(první písmeno křestního jména)"
+
+#~ msgid "(single character last name)"
+#~ msgstr "(první písmeno přijmení)"
+
+#~ msgid "(skipped)"
+#~ msgstr "(přeskočeno)"
+
+#~ msgid ""
+#~ "*Administrators:* You can change user's e-mail address using this form. "
+#~ "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
+#~ "address."
+#~ msgstr ""
+#~ "*Administrátoři:* Emailovou adresu uživatele můžete změnit pomocí tohoto "
+#~ "formuláře. Zadejte [[%1][username]] nebo [[%1][WikiName]] a nový e-mail."
+
+#~ msgid ""
+#~ "*Attach new file:* If you select a different file in the browser, it is "
+#~ "this that will be updated or added."
+#~ msgstr ""
+#~ "*Vložit nový soubor:* Pokud vyberete jiný soubor v prohlížeči, tak to "
+#~ "bude právě ten, který bude změněn nebo přidán."
+
+#~ msgid ""
+#~ "*Change comment:* If you use _Change Properties_ to change a comment, the "
+#~ "comment shown in the topic will change, but the comment shown against the "
+#~ "attachment history will be the comment when the file was uploaded."
+#~ msgstr ""
+#~ "*Komentář ke změně:* Pokud použijete _Změna předvoleb_ pro změnu "
+#~ "komentáře,komentář ukázaný ve článku se změní, ale komentář ukázaný v "
+#~ "historii přílohy bude komentář použitý, když byla přiloha nahrána."
+
+#~ msgid "*Formatting help:*"
+#~ msgstr "*Nápověda k formátování:*"
+
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the web server. This database is accessible to anyone who can "
+#~ "access the server through the web (though passwords will be encrypted, "
+#~ "and e-mail addresses will be obfuscated to help prevent spamming). Your "
+#~ "country, or the country where the server is hosted, may have Data "
+#~ "Protection laws governing the maintenance of such databases. If you are "
+#~ "in doubt, you should contact %1 for details of the Data Protection Policy "
+#~ "of this web server before registering."
+#~ msgstr ""
+#~ "*Důležité:* informace poskytované v tomto formuláři budou uloženy v "
+#~ "databázi na serveru. Tato databáze je přístupná komukoli kdo může "
+#~ "přistoupit k serveru přes web (ačkoli hesla budou zašifrována, a emailové "
+#~ "adresy budou pozměněny kvůli spamování). Vaše země nebo země, kde je "
+#~ "server umístěn, může mít zákony týkající se administrace takových "
+#~ "databází. Pokud máte pochybnosti, kontaktujte prosím %1 kvůli detailům, "
+#~ "týkajících se ochrany dat na tomto serveru před registrací."
+
+#~ msgid ""
+#~ "*Properties:* The comment and visibility (i.e. is attachment hidden) can "
+#~ "be changed without uploading a file by pressing \"Change Properties only"
+#~ "\"."
+#~ msgstr ""
+#~ "*Vlastnosti:* Komentář a viditelnost (např. jestli je přiloha skryta) "
+#~ "může být změněn bez nahrání souboru stiskem \"Změň pouze vlastnosti\"."
+
+#~ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+#~ msgstr "*tučně* uzavřete slovo/frázi do hvězdiček: =<nop>*Vaše fráze*="
+
+#~ msgid ""
+#~ "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+#~ "your text="
+#~ msgstr ""
+#~ "*seznam* 3 mezery, hvězdička, 1 mezera: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Váš "
+#~ "text="
+
+#~ msgid ""
+#~ "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+#~ "Yahoo]]="
+#~ msgstr ""
+#~ "*externí odkazy* =http://www.tmapy.cz= or =[<nop>[http://www.tmapy.cz/]"
+#~ "[odkaz na T-MAPY]]="
+
+#~ msgid ""
+#~ "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+#~ msgstr ""
+#~ "*nadpisy* 3 pomlčky, 1 až 6 plus. znamének, 1 mezera: =---++&&nbsp;Váš "
+#~ "nadpis="
+
+#~ msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+#~ msgstr "*kurzíva* uzavřete slovo/frázi do podtržítek: =_<nop>Vaše fráze_="
+
+#~ msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+#~ msgstr ""
+#~ "*neproporcionálně* uzavřete slovo/frázi do rovnítek: =<nop>=Vaše fráze=="
+
+#~ msgid "*paragraphs* separate with blank line"
+#~ msgstr "*odstavec* oddělte prázdnou řádkou"
+
+#~ msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+#~ msgstr ""
+#~ "*site linky* používají jména témat: =%1= or =[<nop>[%1][Naše domovská "
+#~ "stránka]]="
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "1 hour ago"
+#~ msgstr "Před hodinou"
+
+#~ msgid "1 week ago"
+#~ msgstr "Před týdnem"
+
+#~ msgid "12 hours ago"
+#~ msgstr "Před dvanácti hodinami"
+
+#~ msgid "2 weeks ago"
+#~ msgstr "Před dvěma týdny"
+
+#~ msgid "24 hours ago"
+#~ msgstr "Před 24 hodinami"
+
+#~ msgid "3 days ago"
+#~ msgstr "Před třemi dny"
+
+#~ msgid "4 weeks ago"
+#~ msgstr "Před čtyřmi týdny"
+
+#~ msgid "6 hours ago"
+#~ msgstr "Před šesti hodinami"
+
+#~ msgid ""
+#~ "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "topics, <a href='%7' rel='nofollow'>all changes</a>"
+#~ msgstr ""
+#~ "<a href='%1'>RSS feed</a>, nedávné změny s <a href='%2'>50</a>, <a "
+#~ "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+#~ "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+#~ "témata, <a href='%7' rel='nofollow'>všechny změny</a>"
+
+#~ msgid "<em>in %1 web</em> only"
+#~ msgstr "pouze <em>na webu %1</em>"
+
+#~ msgid "<em>in all public webs</em>"
+#~ msgstr "<em>na všech veřejných webech</em>"
+
+#~ msgid ""
+#~ "<nop>%1 (%2) can be emailed to inform them that their registration has "
+#~ "been rejected."
+#~ msgstr ""
+#~ "<nop>%1 (%2) může být odeslán emailem, aby se dozvěděli, že jejich "
+#~ "registrace byla zamítnuta."
+
+#~ msgid ""
+#~ "<nop>%1 <%2> has been emailed to inform them that their registration has "
+#~ "been denied"
+#~ msgstr ""
+#~ "<nop>%1 (%2) může být odeslán emailem, aby se dozvěděli, že jejich "
+#~ "registrace nebyla povolena"
+
+#~ msgid "<nop>WikiName:"
+#~ msgstr "<nop>WikiJméno:"
+
+#~ msgid ""
+#~ "<strong>Confirmation required!</strong> Press OK to confirm this change "
+#~ "was intentional<br />Press Cancel otherwise"
+#~ msgstr ""
+#~ "<strong>Vyžadováno potvrzení!</strong> Stiskni OK pro potvrzení, že tuto "
+#~ "změnu opravdu chcete<br />Jinak stiskněte Cancel"
+
+#~ msgid ""
+#~ "A =.txt= extension is appended to some filenames for security reasons"
+#~ msgstr "Extenze =.txt= se přidává k některým souborům z důvodu bezpečnosti"
+
+#~ msgid ""
+#~ "A Foswiki site is divided into webs; each one represents one subject, one "
+#~ "area of collaboration. You are trying to %1 in a web that does not exist."
+#~ msgstr ""
+#~ "Foswiki je rozdělena do více webů; každý reprezentuje jedno téma, jednu "
+#~ "oblast spolupráce. Zkoušíte %1 v rámci webu, který neexistuje."
+
+#~ msgid ""
+#~ "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+#~ "=#FFFF00=."
+#~ msgstr ""
+#~ "Barva začíná znakem # , následovaným 6 hexadecimálními čísly, např. "
+#~ "=#FFFF00=."
+
+#~ msgid "A confirmation e-mail has been sent to %1"
+#~ msgstr "Potvrzovací e-mail byl odeslán %1"
+
+#~ msgid ""
+#~ "A link to a topic located in another web is written like %1. Make sure "
+#~ "that the name of the web is not spelt wrongly on the previous page; fix "
+#~ "the link if necessary."
+#~ msgstr ""
+#~ "Odkaz na článek, který je v jiném webu se zapisuje takto: %1. Ujistěte "
+#~ "se, že jméno webu je správné na předchozí stránce; opravte odkaz, pokud "
+#~ "je to nezbytné."
+
+#~ msgid ""
+#~ "A new system-generated password for your username '%1' (!WikiName %2) has "
+#~ "been sent to your registered e-mail address. If your e-mail address is no "
+#~ "longer valid, please contact %3."
+#~ msgstr ""
+#~ "Nové, systémem vygenerované heslo pro Váš účet '%1' (!WikiName %2) byl "
+#~ "odeslán na Vaši registrovanou e-mailovou adresu. Pokud Vaše adresa není "
+#~ "platná, kontaktujte prosím %3."
+
+#~ msgid ""
+#~ "A topic template defines the initial content of a newly created topic."
+#~ msgstr ""
+#~ "Šablona článku definuje počáteční vzhled a obsah nově vytvářeného článku."
+
+#~ msgid ""
+#~ "A topic with this name did exist, but has been renamed or moved to %1."
+#~ msgstr ""
+#~ "Článek s tímto jménem existoval, ale byl přejmenován nebo přesunut na %1."
+
+#~ msgid "A user requires your approval to complete their registration"
+#~ msgstr "Uživatel vyžaduje vaše potvrzení k dokončení jejich registrace"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Access Denied"
+#~ msgstr "Přístup odepřen"
+
+#~ msgid "Access check on %1 failed"
+#~ msgstr "Přístup k %1 byl odepřen"
+
+#~ msgid "Access keys:"
+#~ msgstr "Přístupové klíče:"
+
+#, fuzzy
+#~ msgid "Access to pending registrations is restricted to administrators."
+#~ msgstr "Vaše registrace čeká na schválení administrátorem."
+
+#~ msgid "Action"
+#~ msgstr "Akce"
+
+#~ msgid "Action %1: %2 by user %3."
+#~ msgstr "Akce %1: %2 uživatelem %3."
+
+#~ msgid "Actions"
+#~ msgstr "Akce"
+
+#, fuzzy
+#~ msgid "Activation Failed"
+#~ msgstr "Chybný aktivační kód"
+
+#~ msgid "Add"
+#~ msgstr "Přidat"
+
+#~ msgid "Add Members to %1"
+#~ msgstr "Přidat členy do %1"
+
+#~ msgid "Add members"
+#~ msgstr "Přidej členy"
+
+#~ msgid "Add members..."
+#~ msgstr "Přidej členy..."
+
+#~ msgid "Add row"
+#~ msgstr "Přidej řádek"
+
+#~ msgid "Add user management options to this topic."
+#~ msgstr "K tomuto článku přidej volby pro nastavení uživatele."
+
+#~ msgid "Adding a %1 preference in WebPreferences"
+#~ msgstr "Přidávám proměnnou %1 do WebPreferences"
+
+#~ msgid "Admin Foswiki User Authentication"
+#~ msgstr "Administrátor Foswiki ověření uživatele"
+
+#~ msgid "Admin Maintenance"
+#~ msgstr "Administrátorská údržba"
+
+#~ msgid "Administration"
+#~ msgstr "Administrace"
+
+#~ msgid "Advanced search"
+#~ msgstr "Rozšířené hledání"
+
+#~ msgid ""
+#~ "After submitting this form your e-mail will be changed, and you will be "
+#~ "returned to this form."
+#~ msgstr ""
+#~ "Po odeslání tohoto formuláře bude Váš email změněn a Vy se vrátíte zpět "
+#~ "do tohoto formuláře."
+
+#~ msgid "After submitting this form your password will be changed."
+#~ msgstr "Po odeslání tohoto formuláře Vaše heslo bude změněno."
+
+#~ msgid ""
+#~ "After submitting this form, you will receive an e-mail with your new, "
+#~ "system-generated password, and a link to a page where you can change it."
+#~ msgstr ""
+#~ "Po odeslání tohoto formuláře obdržíte email s Vaším novým, *systémem "
+#~ "vygenerovaným* heslem a odkazem na stránku, kde ho můžete změnit."
+
+#~ msgid "Ah, no!"
+#~ msgstr "Ach, ne!"
+
+#~ msgid "All public webs"
+#~ msgstr "Všechny veřejně dostupné weby"
+
+#~ msgid "Allow only <nop>WikiWord for the new topic name"
+#~ msgstr "Povolí pouze <nop>WikiWord pro nový název článku"
+
+#~ msgid ""
+#~ "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and "
+#~ "choose a different username."
+#~ msgstr ""
+#~ "Alternativně stiskněte Zpět, pro návrat zpět do %SYSTEMWEB%."
+#~ "UserRegistration a vyberte jiné jméno uživatele."
+
+#~ msgid "An attachment with the same name already exists in this topic."
+#~ msgstr "Přiloha se stejným jménem už v článku existuje."
+
+#~ msgid ""
+#~ "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+#~ msgstr ""
+#~ "Email nemohl být doručen. Uvědomte prosím Vašeho administrátora %1, %2"
+
+#~ msgid ""
+#~ "An error page will be shown if either of the topics are locked by another "
+#~ "user."
+#~ msgstr ""
+#~ "Chybová stránka se ukáže, pokud některý z článků je alokován jiným  "
+#~ "uživatelem."
+
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in "
+#~ "your wiki without your knowledge."
+#~ msgstr ""
+#~ "Někdo může zneužít vaší identitu ke změně obsahu vaší wiki a bez vašeho "
+#~ "vědomí."
+
+#~ msgid "And populated with topics from the base web"
+#~ msgstr "Naplněno ćlánky ze základního webu"
+
+#~ msgid ""
+#~ "Any changes you made to the topic before coming to this page are "
+#~ "preserved."
+#~ msgstr ""
+#~ "Všechny změny provedené v článku před příchodem na tuto stránku zůstanou "
+#~ "zachovány."
+
+#~ msgid "Attach"
+#~ msgstr "Příloha"
+
+#~ msgid "Attach a file"
+#~ msgstr "Připoj soubor"
+
+#~ msgid ""
+#~ "Attach an image or document to this topic; manage existing attachments (a)"
+#~ msgstr ""
+#~ "Připoj obrázek nebo soubor k tomuto ćlánku; spravuj existující přílohy (a)"
+
+#~ msgid "Attach file to %1"
+#~ msgstr "Připoj soubor k %1"
+
+#~ msgid "Attach image or document on %1"
+#~ msgstr "Připoj obrázek nebo soubor k %1"
+
+#~ msgid "Attach new file"
+#~ msgstr "Připoj nový soubor"
+
+#~ msgid "Attachment '%1' does not exist"
+#~ msgstr "Přiloha '%1' neexistuje"
+
+#~ msgid "Attachment delete failed"
+#~ msgstr "Vymazání přílohy selhalo"
+
+#~ msgid "Attachment does not exist."
+#~ msgstr "Příloha neexistuje."
+
+#~ msgid "Attachment history"
+#~ msgstr "Historie přílohy"
+
+#~ msgid "Attachment move failed"
+#~ msgstr "Přesun přílohy selhal"
+
+#~ msgid "Attachment name:"
+#~ msgstr "Jméno přílohy:"
+
+#~ msgid "Attachments"
+#~ msgstr "Přílohy"
+
+#~ msgid "Attachments %1"
+#~ msgstr "Přílohy %1"
+
+#~ msgid "Attachments of %1"
+#~ msgstr "Přílohy článku %1"
+
+#~ msgid "Attachments will not be shown in topic view page."
+#~ msgstr "Přílohy nebudou zobrazeny v pohledu s názvem stránky."
+
+#~ msgid "Attention"
+#~ msgstr "Pozor"
+
+#~ msgid "Attribute"
+#~ msgstr "Vlastnosti"
+
+#~ msgid "Automated notification of topic changes"
+#~ msgstr "Automatické upozorňování na změny článku"
+
+#~ msgid "Available Information"
+#~ msgstr "Dostupné informace"
+
+#~ msgid "Available form templates"
+#~ msgstr "Dostupné vzory formulářů"
+
+#~ msgid "Available templates in %1 Web:"
+#~ msgstr "Dostupné šablony pro web %1:"
+
+#~ msgid "Back to topic"
+#~ msgstr "Zpět na článek"
+
+#~ msgid "Backlinks"
+#~ msgstr "Zpětné odkazy"
+
+#~ msgid "Backlinks to %1 in %2 Web"
+#~ msgstr "Zpětné odkazy na %1 v %2 Webu"
+
+#~ msgid "Backlinks to %1 in all Webs"
+#~ msgstr "Zpětné odkazy na %1 ve všech Webech"
+
+#~ msgid "Backlinks:"
+#~ msgstr "Zpětné odkazy:"
+
+#~ msgid "Bad password"
+#~ msgstr "Špatné heslo"
+
+#~ msgid "Bad subscriber '%1'"
+#~ msgstr "Špatný odběratel '%1'"
+
+#~ msgid "Base web %1 is missing or does not exist"
+#~ msgstr "Základní web %1 není dostupný nebo neexistuje"
+
+#~ msgid "Both body and title"
+#~ msgstr "Tělo článku i nadpis"
+
+#~ msgid ""
+#~ "But existing form data will be lost (you can always retrieve this data "
+#~ "through the topic history)"
+#~ msgstr ""
+#~ "Ale existující frmulářová data budou ztracena (můžete znovu získat data "
+#~ "za použití historie článku)"
+
+#~ msgid ""
+#~ "By default, viewing the Trash web is restricted to %1. If you would like "
+#~ "to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= "
+#~ "restriction in WebPreferences."
+#~ msgstr ""
+#~ "Je pŕednastaveno, že Trash web je dostupný pouze %1. Pokud chcete, aby "
+#~ "všichni uživatelé viděli Trash web, odstraňte =ALLOWWEBVIEW= restrikci ve "
+#~ "WebPreferences."
+
+#~ msgid "CHANGE not permitted by %1"
+#~ msgstr "Změna nepovolena díky %1"
+
+#~ msgid "CHANGE not permitted for %1 by %2"
+#~ msgstr "Změna nepovolena pro %1 díky %2"
+
+#~ msgid "Can't find user %1"
+#~ msgstr "Nemohu nalézt uživatele %1"
+
+#~ msgid "Can't get an e-mail address for %1 (required for password reset)"
+#~ msgstr ""
+#~ "Nemohu zjistit emailovou adresu pro %1 (požadovaná pro nové nastavení "
+#~ "hesla)"
+
+#~ msgid "Cancel editing and discard changes"
+#~ msgstr "Zrušit editování a zahodit změny"
+
+#~ msgid "Cancel upload"
+#~ msgstr "Zrušit upload"
+
+#~ msgid "Cannot change subscription: %1"
+#~ msgstr "Není možné změnit odběr: %1"
+
+#~ msgid "Cannot create %1 because it already exists."
+#~ msgstr "Nemohu vytvořit %1 protože už existuje."
+
+#~ msgid "Cannot create web %1 because it already exists"
+#~ msgstr "Web %1 nelze vytvoŕít, protože už existuje"
+
+#~ msgid "Cannot rename %1 to %2 because it already exists."
+#~ msgstr "Nelze přejmenovat %1 do %2 protože už existuje."
+
+#~ msgid "Case sensitive"
+#~ msgstr "Citlivé na velikost"
+
+#~ msgid "Categories"
+#~ msgstr "Kategorie"
+
+#, fuzzy
+#~ msgid ""
+#~ "Caution: The password system is currently read only. Users will not be "
+#~ "added to the Password file."
+#~ msgstr ""
+#~ "Omlouváme se, systém pro správu hesel je v současnosti pouze pro čtení. "
+#~ "Prosím kontaktujte %1"
+
+#~ msgid "Change E-mail Address"
+#~ msgstr "Změna E-mailové adresy"
+
+#~ msgid "Change Password"
+#~ msgstr "Změň heslo"
+
+#~ msgid "Change cannot be completed"
+#~ msgstr "Změna nemůže být dokončena"
+
+#~ msgid "Change comment and properties only"
+#~ msgstr "Změna pouze komentáře a vlastností"
+
+#~ msgid "Change e-mail address"
+#~ msgstr "Změň emailovou adresu"
+
+#~ msgid "Change from"
+#~ msgstr "Změň z"
+
+#~ msgid "Change language"
+#~ msgstr "Změň jazyk"
+
+#~ msgid "Change links in topics that refer to !%1 in any Web:"
+#~ msgstr "Změní odkazy v článcích, které odkazují na !%1 ve všech webech:"
+
+#~ msgid "Change links in topics that refer to !%1 in the %2 Web:"
+#~ msgstr "Změní odkazy v článcích, které odkazují na !%1 ve webu %2:"
+
+#~ msgid "Change links in topics that refer to %1 in any Web:"
+#~ msgstr "Změní odkazy v článcích, které odkazují na !%1 ve všech webech:"
+
+#~ msgid "Change links in topics that refer to %1 in the %2 Web:"
+#~ msgstr "Změní odkazy v článcích, které odkazují na !%1 ve webu %2:"
+
+#~ msgid "Change password"
+#~ msgstr "Změň heslo"
+
+#~ msgid "Change properties only"
+#~ msgstr "Změň pouze vlastnosti"
+
+#~ msgid "Change topic"
+#~ msgstr "Změna článku"
+
+#~ msgid "Changed by:"
+#~ msgstr "Změněno kým:"
+
+#~ msgid "Changed on"
+#~ msgstr "Změněno na"
+
+#~ msgid "Changed:"
+#~ msgstr "Změněno:"
+
+#~ msgid "Changes"
+#~ msgstr "Změny"
+
+#~ msgid "Changes from r%1 to r%2"
+#~ msgstr "Změněno z verze r%1 to r%2"
+
+#~ msgid ""
+#~ "Check your configuration settings for {TemplateDir} and {TemplatePath}."
+#~ msgstr "Zkontroluj nastavení pro {TemplateDir} a {TemplatePath}."
+
+#~ msgid "Checked topics will be updated to point to the new topic location."
+#~ msgstr ""
+#~ "Označené články budou aktualizovány do bodu do nového umístění příloh."
+
+#~ msgid "Checked topics will be updated to point to the new web name."
+#~ msgstr "Označené články budou aktualizovány do bodu do nového jména webu."
+
+#~ msgid "Child topics in %1 web"
+#~ msgstr "Podřízené články v %1 webu"
+
+#, fuzzy
+#~ msgid "Children of %1 in %2 Web"
+#~ msgstr "Zpětné odkazy na %1 v %2 Webu"
+
+#~ msgid "Choose a new form for %1"
+#~ msgstr "Vyberte nový formulář pro %1"
+
+#~ msgid "Clear all"
+#~ msgstr "Vymaž vše"
+
+#, fuzzy
+#~ msgid "Clear all topics"
+#~ msgstr "Vymaž vše"
+
+#~ msgid ""
+#~ "Click to move topic back to previous location, with option to change "
+#~ "references."
+#~ msgstr ""
+#~ "Klikni na přesun článku zpět na předchozí umístění s možností změnit "
+#~ "odkazy."
+
+#~ msgid "Color %1 has an invalid format"
+#~ msgstr "Barva %1 má nesprávný formát"
+
+#~ msgid "Come on in"
+#~ msgstr "Přejdi k"
+
+#~ msgid "Comment"
+#~ msgstr "Komentář"
+
+#~ msgid "Commenting is disabled for static viewing"
+#~ msgstr "V režimu prohlížení není možné vytvářet komentáře"
+
+#~ msgid "Commenting is disabled when not in view context"
+#~ msgstr "Vytváření komentářů není možné, pokud nejste ve správném kontextu"
+
+#~ msgid "Commenting is disabled while not logged in"
+#~ msgstr "Vytváření komentářů není možné, pokud nejste přihlášeni"
+
+#~ msgid "Commenting is disabled while running from the command line"
+#~ msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazové řádky"
+
+#~ msgid "Compare revisions"
+#~ msgstr "Porovnejte revize"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Potvrďte heslo:"
+
+#~ msgid "Confirm rename or move"
+#~ msgstr "Podvrďte přejmenování nebo přesun"
+
+#~ msgid ""
+#~ "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+#~ "(diff)]]."
+#~ msgstr ""
+#~ "Potvrzení Vašich změn za použití Foswiki [[%1][porovnávacího nástroje "
+#~ "historie článku (diff)]]."
+
+#~ msgid "Conflict"
+#~ msgstr "Konflikt"
+
+#~ msgid "Contact %1 if you have any questions."
+#~ msgstr "Kontaktujte %1 pokud máte nějaké otázky."
+
+#~ msgid ""
+#~ "Contact <a href=\\'mailto:%1\\'>your site administrator</a> for further "
+#~ "assistance."
+#~ msgstr ""
+#~ "Pro další pomoc, kontaktujte <a href=\\'mailto:%1\\'>vašeho web "
+#~ "administrátora</a>."
+
+#~ msgid "Context"
+#~ msgstr "Kontext"
+
+#~ msgid "Continue and try to rename web?"
+#~ msgstr "Pokračujte a zkuste přejmenovat web?"
+
+#~ msgid "Continue to create the new page"
+#~ msgstr "Pokračuj ve vytváření nové stránky"
+
+#~ msgid ""
+#~ "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+#~ "content."
+#~ msgstr ""
+#~ "Převod do HTML pro editaci pomocí WYSIWYG je vypnut z důvodu obsahu "
+#~ "článku."
+
+#~ msgid "Copy this topic (and all attachments) to a new topic."
+#~ msgstr "Zkopíruj tento článek (a všechny přílohy) do článku nového."
+
+#~ msgid "Copy topic"
+#~ msgstr "Kopíruj článek"
+
+#~ msgid "Copy topic..."
+#~ msgstr "Kopíruj článek..."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this "
+#~ "collaboration platform is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; podle přispívajících autorů. Všechen materiál na této "
+#~ "platformě pro spolupráci je vlastnictvím přispívajících autorů."
+
+#~ msgid ""
+#~ "Copyright &&copy; by the contributing authors. All material on this site "
+#~ "is the property of the contributing authors."
+#~ msgstr ""
+#~ "Copyright &&copy; podle přispívajících autorů. Všechen materiál na tomto "
+#~ "webu je vlastnictvím přispívajících autorů."
+
+#~ msgid "Could not create the new web %1"
+#~ msgstr "Nemohu vytvořit nový web %1"
+
+#~ msgid "Could not find template"
+#~ msgstr "Nemohu nalézt šablonu"
+
+#~ msgid "Could not perform search. Error was: %1"
+#~ msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
+
+#~ msgid "Could not save %1."
+#~ msgstr "Nemohl uložit %1."
+
+#~ msgid "Country:"
+#~ msgstr "Země:"
+
+#, fuzzy
+#~ msgid "Create New FAQ Topic"
+#~ msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
+
+#~ msgid "Create New Topic"
+#~ msgstr "Nový članek"
+
+#~ msgid "Create New Topic in %1 Web"
+#~ msgstr "Nový článek v %1"
+
+#~ msgid "Create a link to the attached file"
+#~ msgstr "Odkaz na přilohu"
+
+#~ msgid "Create a new group"
+#~ msgstr "Vytvoř novou skupinu"
+
+#~ msgid "Create account"
+#~ msgstr "Vytvoř účet"
+
+#~ msgid "Create group"
+#~ msgstr "Vytvoř skupinu"
+
+#~ msgid "Create new topic"
+#~ msgstr "Vytvoř nový článek"
+
+#~ msgid "Create not specified and group does not exist"
+#~ msgstr "Nedefinovaný Create a skupina neexistuje"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Vaše osobní stránka"
+
+#~ msgid "Create the topic"
+#~ msgstr "Vytvořit článek"
+
+#~ msgid "Create this topic"
+#~ msgstr "Vytvořit tento článek"
+
+#~ msgid "Create your account to edit pages on this site."
+#~ msgstr "Pro editaci stránek na tomto webu si vytvořte účet."
+
+#~ msgid "Creating a suitable Form Definition topic"
+#~ msgstr "Vytvořte vhodný Definiční článek formuláře"
+
+#~ msgid "Current location:"
+#~ msgstr "Nyní jste zde:"
+
+#~ msgid "Current password:"
+#~ msgstr "Současné heslo:"
+
+#~ msgid "Dear %1"
+#~ msgstr "Vážený %1"
+
+#~ msgid "Debug"
+#~ msgstr "Ladění"
+
+#~ msgid "Default template"
+#~ msgstr "Výchozí šablona"
+
+#~ msgid "Delete"
+#~ msgstr "Smazat"
+
+#~ msgid "Delete attachment %1"
+#~ msgstr "Smazat přílohu %1"
+
+#~ msgid "Delete last row"
+#~ msgstr "Vymazat poslední řádek"
+
+#~ msgid "Delete topic"
+#~ msgstr "Vymazat článek"
+
+#~ msgid "Delete topic..."
+#~ msgstr "Vymazat článek..."
+
+#~ msgid "Describe the file so other people know what it is."
+#~ msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
+
+#~ msgid "Description"
+#~ msgstr "Popis"
+
+#~ msgid "Detailed topic list for %1 Web"
+#~ msgstr "Detailní seznam článků webu %1"
+
+#~ msgid "Details in separate window"
+#~ msgstr "Klikněte pro zobrazení detailů v odděleném okně"
+
+#~ msgid "Details:"
+#~ msgstr "Detaily:"
+
+#~ msgid ""
+#~ "Did you spell the topic name correctly? Remember, a topic name is case "
+#~ "sensitive."
+#~ msgstr ""
+#~ "Napsal jste jméno článku korektně? Nezapomeňte, že ve jméně článku se "
+#~ "rozlišují malá a velká písmena."
+
+#~ msgid "Did you want to [[%1][reset %2's password]]?"
+#~ msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
+
+#~ msgid "Difference Topic"
+#~ msgstr "Rozdíl"
+
+#~ msgid "Difference:"
+#~ msgstr "Rozdíly:"
+
+#~ msgid "Discover the details, and how to start your own site with Foswiki"
+#~ msgstr ""
+#~ "Zjistěte si detaily o tom jak vytvořit váš nový web za pomoci Foswiki"
+
+#~ msgid "Do not forget to save your changes"
+#~ msgstr "Nezapomeňte uložit Vaše změny"
+
+#~ msgid "Do not show attachment in table"
+#~ msgstr "Neukazovat přílohu v tabulce"
+
+#~ msgid "Don't show:"
+#~ msgstr "Neukazuj:"
+
+#~ msgid ""
+#~ "During deletion of attachment =%1= an error was found. Please notify your "
+#~ "%2 administrator."
+#~ msgstr ""
+#~ "Během mazání přílohy =%1= byla nalezena chyba. Prosím uvědomte Vašeho "
+#~ "administratora %2."
+
+#~ msgid "During move of attachment =%1= to %2 an error was found."
+#~ msgstr "Během přesunu Vaší přílohy =%1= do %2 byla nalezena chyba."
+
+#~ msgid ""
+#~ "During rename of topic %1 to %2 an error (%3) was found. Please notify "
+#~ "your %4 administrator."
+#~ msgstr ""
+#~ "Během přejmenování Vašeho článku %1 na %2 se objevila chyba (%3). Prosím "
+#~ "uvědomte Vašeho %4 administratora."
+
+#~ msgid ""
+#~ "During rename of web %1 to %2 an error (%3) was found. Please notify your "
+#~ "%4 administrator."
+#~ msgstr ""
+#~ "Během přejmenování webu %1 na %2 se objevila chyba (%3). Prosím uvědomte "
+#~ "%4 - administrátora."
+
+#~ msgid "During rename of web %1 to %2 an error was found."
+#~ msgstr "Během přejmenování webu %1 na %2 byla nalezena chyba."
+
+#~ msgid ""
+#~ "During save of %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "Během ukládání %1 se objevila chyba u version control systému. Prosím "
+#~ "uvědomte %2 - administrátora."
+
+#~ msgid "E-mail changed successfully!"
+#~ msgstr "Email byl úspěšně změněn!"
+
+#~ msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+#~ msgstr "ENCODE selhalo - =type= nemůže být použit současně s =old= a =new= "
+
+#~ msgid "ENCODE failed - both of =old= and =new= must be given"
+#~ msgstr "ENCODE selhalo - oba =starý= a =nový= musí být uvedeny"
+
+#~ msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+#~ msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old= "
+
+#~ msgid "EXPAND failed - access to '%PARAM1%' denied"
+#~ msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut"
+
+#~ msgid "EXPAND failed - no macro"
+#~ msgstr "EXPAND selhal - neexistuje makro"
+
+#~ msgid "EXPAND failed - no such topic '%PARAM1%'"
+#~ msgstr "EXPAND selhal - článek '%PARAM1%' neexistuje"
+
+#~ msgid "Edit %*(%1,file)"
+#~ msgstr "Edituj %*(%1,soubor)"
+
+#~ msgid "Edit Anyway"
+#~ msgstr "Přesto změň"
+
+#~ msgid "Edit Wiki<nop>Text"
+#~ msgstr "Edituj Wiki<nop>Text"
+
+#~ msgid "Edit help"
+#~ msgstr "Pomoc k editaci"
+
+#~ msgid "Edit settings for this topic..."
+#~ msgstr "Změnit nastavení pro tento článek..."
+
+#~ msgid "Edit this table"
+#~ msgstr "Editovat tabulku"
+
+#~ msgid "Edit this topic text (e)"
+#~ msgstr "Změňte text tohoto článku (e)"
+
+#~ msgid "Edit topic preference settings"
+#~ msgstr "Změňte nastavení tohoto článku"
+
+#~ msgid "Editable"
+#~ msgstr "Editovatelné"
+
+#~ msgid "Ehm, let me go back to correct the page..."
+#~ msgstr "Dovol mi se vrátit zpět a opravit stránku..."
+
+#~ msgid ""
+#~ "Either the code is not valid, or you have already confirmed your "
+#~ "registration using it."
+#~ msgstr "Buď kód není správný nebo jste jím již potvrdili Vaši registraci."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant form."
+#~ msgstr "Buď je jméno špatně a nebo odkazuje na neexistující formulář."
+
+#~ msgid "Either the name is invalid, or it refers to a non-existant topic."
+#~ msgstr "Buď je jméno špatně a nebo odkazuje na neexistující článek."
+
+#~ msgid ""
+#~ "Either you did not specify a file name, or the file you are trying to "
+#~ "upload %1 has no content. You may not upload an empty file."
+#~ msgstr ""
+#~ "Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
+#~ "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
+
+#~ msgid "Email address:"
+#~ msgstr "Emailová adresa:"
+
+#~ msgid "Email has been disabled for this Foswiki installation"
+#~ msgstr "Email byl zablokovám pro tuto instalaci Foswiki"
+
+#, fuzzy
+#~ msgid "End presentation"
+#~ msgstr "Spusť prezentaci"
+
+#~ msgid "Enlarge edit box"
+#~ msgstr "Zvětšit editovací prostor"
+
+#, fuzzy
+#~ msgid "Enter __none__ to clear the topic parent"
+#~ msgstr "žádný (odstraňte nadřízený článek)"
+
+#~ msgid "Enter a new username and password to change identity"
+#~ msgstr "Vložte nové uživatelské jméno a heslo pro změnu identity"
+
+#~ msgid "Enter parent name"
+#~ msgstr "Zadej jméno \"rodiče\""
+
+#~ msgid "Enter the Wiki Administrator user or login as set in %1"
+#~ msgstr "Vložte Wiki Administrátora nebo login jak je nastaveno v %1"
+
+#~ msgid ""
+#~ "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+#~ msgstr ""
+#~ "Zadejte název článku jako WikiJméno nebo vyberte volbu \"povolit non-Wiki "
+#~ "Word\"."
+
+#~ msgid "Enter users or groups to add to this group"
+#~ msgstr "Vyberte uživatele nebo skupiny, které chcete přidat"
+
+#~ msgid "Error encountered loading the plugin. See errors below."
+#~ msgstr "Při nahrávání pluginu došlo k chybě. Více viz následující výpis."
+
+#~ msgid "Error registering new user"
+#~ msgstr "Chyba při registraci nového uživatele"
+
+#~ msgid "Error registering user %1"
+#~ msgstr "Chyba při registraci uživatele %1"
+
+#~ msgid "Error saving topic"
+#~ msgstr "Chyba při uložení ćlánku"
+
+#~ msgid "Error: File attachment at %1,%2 does not exist"
+#~ msgstr "Chyba: Příloha v %1,%2 neexistuje"
+
+#~ msgid ""
+#~ "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+#~ "=text/css=)"
+#~ msgstr ""
+#~ "Chyba: Nepodporovaný typ souboru: %1 (Musí být =text/html=, =text/plain= "
+#~ "nebo =text/css=)"
+
+#~ msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+#~ msgstr "Chyba: Nepodporovaný protokol. (Musí být 'http://domain/...')"
+
+#~ msgid "Errors"
+#~ msgstr "Chyby"
+
+#~ msgid "Errors adding members to group"
+#~ msgstr "Chyby při přidávání členů do skupiny"
+
+#~ msgid "Errors removing members from groups"
+#~ msgstr "Chyby při odebírání členů ze skupin"
+
+#~ msgid "Evil person"
+#~ msgstr "Zlá osoba"
+
+#~ msgid "Exit"
+#~ msgstr "Ukončit"
+
+#~ msgid "Failed plugins"
+#~ msgstr "Zhavarované pluginy"
+
+#~ msgid "Failed to add user: "
+#~ msgstr "Došlo k chybě při přidávání uživatele: "
+
+#~ msgid "Failed to include URL %1"
+#~ msgstr "Chyba při vložení URL %1"
+
+#~ msgid "Fields marked %1 are required"
+#~ msgstr "Pole označená %1 jsou nutná"
+
+#~ msgid "Fields marked <span class='required'>*</span> are required."
+#~ msgstr "Pole označená <span class='required'>*</span> jsou nutná."
+
+#~ msgid "File has been uploaded with different name"
+#~ msgstr "Soubor byl nahrán pod odlišným jménem"
+
+#~ msgid "Find similar topics"
+#~ msgstr "Najít obdobné články"
+
+#~ msgid "Find topics that are children of %1 ..."
+#~ msgstr "Najít články které odkazují na %1 ..."
+
+#~ msgid "Find topics that link to %1 ..."
+#~ msgstr "Najít články které odkazují na %1 ..."
+
+#~ msgid "First"
+#~ msgstr "První"
+
+#~ msgid "First name:"
+#~ msgstr "Křestní jméno:"
+
+#~ msgid "For example, Tim Berners-Lee's !WikiName is [[TimBernersLee]]"
+#~ msgstr "Například, !WikiJméno Tim Berners-Lee je [[TimBernersLee]]"
+
+#~ msgid ""
+#~ "For more detailed information on cross-site request forgery, and the "
+#~ "dangers it poses to you, see [[%1][the Cross-site request forgery article "
+#~ "on Wikipedia]]."
+#~ msgstr ""
+#~ "Detailnější informaci o nebezpečí cross-site požadavků, a nebezpečí s tím "
+#~ "související, získáte na [[%1][the Cross-site request forgery article on "
+#~ "Wikipedia]]."
+
+#~ msgid "Forgotten your password?"
+#~ msgstr "Zapomněl jste Vaše heslo?"
+
+#~ msgid "Form Definition %1 missing"
+#~ msgstr "Definice formuláře %1 chybí"
+
+#~ msgid "Form data"
+#~ msgstr "Data formuláře"
+
+#~ msgid "Form definition"
+#~ msgstr "Definice formuláře"
+
+#~ msgid "Form definition '%1' not found"
+#~ msgstr "Definice formuláře %1 nenalezena"
+
+#~ msgid "Form definition missing"
+#~ msgstr "Definice formuláře chybí"
+
+#~ msgid "Foswiki User Authentication"
+#~ msgstr "Ověření uživatele Foswiki"
+
+#~ msgid ""
+#~ "Foswiki checks all requests it receives from browsers, and tries to check "
+#~ "that the persons using the browsers intentionally sent them."
+#~ msgstr ""
+#~ "Foswiki kontroluje všechny požadavky z prohlížečů a pokouší se zjistit "
+#~ "zda je jejich uživatelé zasílají s dobrým úmyslem."
+
+#~ msgid "Foswiki password reset for %1"
+#~ msgstr "Foswiki znovunastavení hesla pro %1"
+
+#, fuzzy
+#~ msgid "Get a fresh version <a href='%1'>here</a>."
+#~ msgstr "Získejte aktuální verzi <a href='%1' rel='nofollow'>zde</a>."
+
+#~ msgid "Get help on attaching files"
+#~ msgstr "Získej nápovědu jak přikládat soubory"
+
+#~ msgid "Get notified on changes on this search"
+#~ msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
+
+#~ msgid "Globe"
+#~ msgstr "Glóbus"
+
+#~ msgid "Go back"
+#~ msgstr "Jdi zpět"
+
+#~ msgid ""
+#~ "Go back in your browser and insert values for all mandatory fields before "
+#~ "saving again"
+#~ msgstr ""
+#~ "Jděte v prohlížeči zpět, a vložte informace pro všechna pole kde je to "
+#~ "vyžadováno, nežli budete znovu ukládat"
+
+#~ msgid "Go back in your browser and save your changes locally."
+#~ msgstr "Jděte zpět ve svém prohlížeči a uložte Vaše změny lokálně."
+
+#~ msgid ""
+#~ "Go back to the previous page, and enable Cookies and !JavaScript before "
+#~ "trying again"
+#~ msgstr ""
+#~ "Jděte na předchozí stránku a povolte Cookies a Javascript nežli to "
+#~ "zkusíte znovu"
+
+#~ msgid "Good examples:"
+#~ msgstr "Dobré příklady:"
+
+#~ msgid "Group"
+#~ msgstr "Skupina"
+
+#~ msgid "Group does not exist and create not permitted"
+#~ msgstr "Skupina neexistuje a vytvoření není povoleno"
+
+#~ msgid "Group name"
+#~ msgstr "Jméno skupiny"
+
+#~ msgid "Group names must end in Group"
+#~ msgstr "Názvy skupin musí končit na Skupina"
+
+#~ msgid "Groups"
+#~ msgstr "Skupiny"
+
+#~ msgid "Having problems logging in?"
+#~ msgstr "Máte problém se přilogovat?"
+
+#~ msgid "Hello %1!"
+#~ msgstr "Vítejte %1!"
+
+#~ msgid "Hi, %1"
+#~ msgstr "Ahoj, %1"
+
+#~ msgid "Hide file"
+#~ msgstr "Skrýt soubor"
+
+#~ msgid "Hide help"
+#~ msgstr "Skrýt nápovědu"
+
+#~ msgid ""
+#~ "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+#~ msgstr ""
+#~ "Funkce Hierarchických Webů je momentálně vypnutá, nemůžete vytvářet "
+#~ "vložené weby."
+
+#~ msgid "History"
+#~ msgstr "Historie"
+
+#~ msgid "How about attaching your photo?"
+#~ msgstr "Nechtěl by jste připojit Vaší fotografii?"
+
+#~ msgid "How to activate your %1 registration"
+#~ msgstr "Jak aktivovat Vaši %1 registraci"
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "may be a fraudulent registration.  The user '%1' could not be removed "
+#~ "automatically."
+#~ msgstr ""
+#~ "Zasílání konfirmačního emailu pro %2 skončilo chybou, s doporučením že "
+#~ "může jít o falešnou registraci. Uživatel '%1' nemůže být automaticky "
+#~ "odstraněn."
+
+#~ msgid ""
+#~ "However, sending a confirmation e-mail to %2 failed, suggesting that this "
+#~ "maye be a fraudulent registration.  The user '%1' was removed "
+#~ "automatically. However you may have to remove the user's personal topic "
+#~ "manually."
+#~ msgstr ""
+#~ "Zasílání konfirmačního emailu pro %2 skončilo chybou, s doporučením že "
+#~ "může jít o falešnou registraci. Uživatel '%1' byl odstraněn automaticky. "
+#~ "Avšak osobní stránku uživatele musíte odstranit manuálně."
+
+#~ msgid ""
+#~ "However, the filename has been changed from %1 to %2. Please make a note "
+#~ "of it."
+#~ msgstr ""
+#~ "Jakkoliv, soubor byl změněn z %1 na %2. Prosím učiňte o tom poznámku."
+
+#~ msgid "I forgot my password"
+#~ msgstr "Zapomněl jsem své heslo"
+
+#~ msgid ""
+#~ "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+#~ msgstr ""
+#~ "Nápady, požadavky, problémy týkající se %1? <a href='%2'>Pošli svoji "
+#~ "reakci</a>"
+
+#~ msgid ""
+#~ "If Foswiki can't find a registered e-mail for you in the secret database, "
+#~ "you will be unable to reset your password or take advantage of email "
+#~ "notifications of topic changes."
+#~ msgstr ""
+#~ "Jestliže Foswiki nenalezne váš registrovaný email v databázi, nebudete "
+#~ "moci resetovat své heslo nebo využít výhod upozornění na změny v článku "
+#~ "prostřednictvím emailu."
+
+#~ msgid ""
+#~ "If Foswiki detects a suspicious request that may have been sent from such "
+#~ "a page, then you are asked to confirm the request."
+#~ msgstr ""
+#~ "Jestliže Foswiki detekuje podezřelý požadavek, který mohl být zaslán z "
+#~ "takové stránky, zeptá se vás na potvrzení požadavku."
+
+#, fuzzy
+#~ msgid ""
+#~ "If registration is not disabled by errors, administrators can still "
+#~ "register users to this site using %1."
+#~ msgstr ""
+#~ "Jestliže registrace není možná z důvodu chyb, administrátoři mohou stále "
+#~ "registrovat uživatele na tento web za použití"
+
+#~ msgid ""
+#~ "If that's not the problem, it may be because you have a setting of %1 "
+#~ "that is pointing to a template that doesn't exist."
+#~ msgstr ""
+#~ "Pokud toto není problém, problémem může být, že %1 ukazuje na šablonu, "
+#~ "která neexistuje."
+
+#~ msgid "If this line isn't present see _upgrade_ section below"
+#~ msgstr "Pokud se tato řádka neukazuje, zkontroluj _upgrade_ sekci dole"
+
+#~ msgid "If this topic is missing create it, otherwise check it for errors."
+#~ msgstr ""
+#~ "Pokud tento článek chybí, vytvořte ho, jinak ho zkontrolujte na chyby."
+
+#~ msgid ""
+#~ "If you are developing a Foswiki application, see %1 for a description of "
+#~ "the correct parameters."
+#~ msgstr ""
+#~ "Pokud vyvijíte Foswiki aplikaci, podívejte se na %1 pro popis správných "
+#~ "parametrů."
+
+#~ msgid "If you are unsure what this means, read: %1"
+#~ msgstr "Jestliže si nejste jisti co toto přesně znamená, čtěte: %1"
+
+#~ msgid "If you came here by clicking on a question mark link"
+#~ msgstr "Pokud jste sem přišel stiskem otazníku"
+
+#~ msgid "If you don't receive a verification email within the next hour, "
+#~ msgstr "Jestliže neobdržíte verifikační email v následující hodině, "
+
+#~ msgid "If you enter a different name, make sure the topic exists."
+#~ msgstr "Pokud vložíte rozdílné jméno, ujistěte se, že článek existuje."
+
+#~ msgid ""
+#~ "If you got this e-mail by mistake: Somebody (%1) registered at the %2 "
+#~ "site using your mail address %3. Contact %4 if this is in error."
+#~ msgstr ""
+#~ "Pokud jste dostal tento mail omylem: Někdo (%1) se zaregistroval na %2 "
+#~ "serveru s použitím Vaší emailové adresy %3. Kontaktujte %4 pokud je to "
+#~ "chyba."
+
+#~ msgid "If you have any questions about registration, send an e-mail to %1."
+#~ msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
+
+#~ msgid "If you have any questions, please contact %1"
+#~ msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1"
+
+#~ msgid "If you have any questions, please contact %1."
+#~ msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
+
+#~ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+#~ msgstr ""
+#~ "Pokud jste zatím nenastavil heslo nebo ho chcete znovu nastavit, jděte "
+#~ "na: %1"
+
+#~ msgid ""
+#~ "If you received a link to this topic in an e-mail or just want to look at "
+#~ "the topic, [[%1][cancel save]] to go to %2."
+#~ msgstr ""
+#~ "Pokud jste obdržel odkaz na tento článek v emailu nebo se chcete pouze "
+#~ "podívat na článek, stiskněte [[%1][přerušit uložit]] aby jste přešli na "
+#~ "%2."
+
+#~ msgid "If you want to create the topic"
+#~ msgstr "Pokud chcete vytvořit článek"
+
+#~ msgid ""
+#~ "If you want to search for a word in the stop word list, prefix the word "
+#~ "with a plus sign"
+#~ msgstr ""
+#~ "Jestliže chcete prohledávat slovo ve stop word seznamu, zadejte před "
+#~ "slovo znaménko +"
+
+#~ msgid "If you would like to create this web"
+#~ msgstr "Pokud chcete vytvořit tento web"
+
+#~ msgid ""
+#~ "If you would like to send an email and give them feedback, please type it "
+#~ "below and hit 'Send mail'"
+#~ msgstr ""
+#~ "Jestliže chcete zaslat email s osobním názorem, prosím zadejte jej níže a "
+#~ "stiskněte 'Poslat mail'"
+
+#~ msgid ""
+#~ "If your old e-mail addresses are all invalid (you can't receive mail "
+#~ "there any more) and you have forgotten your password, please contact %1 "
+#~ "for help."
+#~ msgstr ""
+#~ "Pokud je Vaše emailová adresa nefunkční (nemůžete odsud přijímat žádnou "
+#~ "poštu) a zapomněl jste své heslo, pro pomoc kontaktujte %1."
+
+#~ msgid "Ignore for 7 days"
+#~ msgstr "Ignorujte následujících 7 dní"
+
+#~ msgid "Image"
+#~ msgstr "Obraz"
+
+#~ msgid "Image %1 of %2"
+#~ msgstr "Obraz %1 z %2"
+
+#~ msgid ""
+#~ "Images will be displayed, for other attachments a link will be created."
+#~ msgstr "Obrázky budou zobrazeny, pro ostatní přílohy bude vytvořen odkaz."
+
+#~ msgid ""
+#~ "In a possible scenario, an evil person has left a link to seduce you to "
+#~ "visit a page on http<nop>://crime.org, which has some clever javascript "
+#~ "on it."
+#~ msgstr ""
+#~ "Může se stát, že podvodník zanechal link svádějící vás např. k návštěvě "
+#~ "stránky http<nop>://crime.org, která obsahuje chytrý (a zároveň možná i "
+#~ "nebezpečný) javascript."
+
+#~ msgid "In case of a zip file, attach all included files to this topic"
+#~ msgstr ""
+#~ "Pokud se jedná o soubory typu ZIP archiv, připojte je k tomuto článku"
+
+#~ msgid "In reversed order"
+#~ msgstr "V obráceném pořadí"
+
+#~ msgid ""
+#~ "In some cases, Foswiki changes the name of the uploaded file to make it "
+#~ "safe and accessible across all platforms:"
+#~ msgstr ""
+#~ "V některých případech, Foswiki změní jméno nahraného souboru pro bezpečný "
+#~ "a dosažitelný přístup ze všech platforem:"
+
+#~ msgid "Incorrect Password"
+#~ msgstr "Chybné heslo"
+
+#~ msgid "Incorrect Prefix"
+#~ msgstr "Chybný prefix"
+
+#~ msgid "Incorrect [[%1][WikiName]]"
+#~ msgstr "Chybné [[%1][WikiJméno]]"
+
+#~ msgid "Incorrect [[%1][WikiNames:]]"
+#~ msgstr "Chybná [[%1][WikiJména:]]"
+
+#~ msgid "Incorrect [[%1][username]]"
+#~ msgstr "Chybné [[%1][username]]"
+
+#~ msgid "Incorrect parameters to the =%1= script"
+#~ msgstr "Chybné parametry pro =%1= skript"
+
+#~ msgid "Index"
+#~ msgstr "Index"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Invalid Activation Code"
+#~ msgstr "Chybný aktivační kód"
+
+#~ msgid "Invalid Input"
+#~ msgstr "Chybně zadaný vstup"
+
+#~ msgid "Invalid e-mail address"
+#~ msgstr "Chybná emailová adresa"
+
+#~ msgid "Invalid topic name."
+#~ msgstr "Nekorektní jméno článku."
+
+#~ msgid ""
+#~ "It is probably OK to go ahead and edit - unless you intend to change data "
+#~ "in a form attached to the topic. If %1 actually _does_ save the topic "
+#~ "while you are editing, your changes will be merged, and nothing will be "
+#~ "lost. Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Pravděpodobně je v pořádku pokračovat a upravovat - pokud neplánujete "
+#~ "měnit datave formuláři připojeném ke článku. Pokud %1 _uloží článek_ "
+#~ "dokud ho Vy editujete, Vaše změny budou sloućeny a nic se neztratí. Data "
+#~ "formuláře bohužel nemohou být jednoduše sloučena, proto se Vám v tomto "
+#~ "případě doporučuje zkontrolovat nejdřive %1."
+
+#~ msgid ""
+#~ "It's usually best to choose a %1 for the new topic name, otherwise "
+#~ "automatic linking may not work. Characters not allowed in topic names, "
+#~ "such as spaces will automatically be removed."
+#~ msgstr ""
+#~ "Obvykle je nejlépe vybrat %1 pro nové jméno článku, jinak nebude fungovat "
+#~ "automatické odkazování. Písmena nepovolená ve jménu článku, jako jsou "
+#~ "mezery budou automaticky odstraněna."
+
+#~ msgid ""
+#~ "It's usually best to choose a short name for the new web, as it is easier "
+#~ "to link to them later on. Characters not allowed in web names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "Obvykle je nejlepší vybrat krátké jméno pro nový web, protože je lehčí "
+#~ "tvořitodkazy na něj. Písmena nepovolená ve jménu článku, jako jsou mezery "
+#~ "budou automaticky odstraněna."
+
+#~ msgid "Join %1"
+#~ msgstr "Přidej se k %1"
+
+#~ msgid "Jump"
+#~ msgstr "Přejdi na"
+
+#~ msgid "Jump to first revision"
+#~ msgstr "Přejděte na první revizi"
+
+#~ msgid "Jump to latest revision (%1)"
+#~ msgstr "Přejděte na poslední revizi (%1)"
+
+#~ msgid "Keyword search"
+#~ msgstr "Hledání dle klíčového slova"
+
+#~ msgid "Last"
+#~ msgstr "Poslední"
+
+#~ msgid "Last edited by"
+#~ msgstr "Poslední editor"
+
+#~ msgid "Last editor"
+#~ msgstr "Poslední editor"
+
+#~ msgid "Last modified"
+#~ msgstr "Naposledy změněno"
+
+#~ msgid "Last modified time"
+#~ msgstr "Naposledy změněno"
+
+#~ msgid "Last name:"
+#~ msgstr "Poslední název:"
+
+#~ msgid "Latest revision: %1"
+#~ msgstr "Poslední revize: %1"
+
+#~ msgid "Leave %1"
+#~ msgstr "Ponechej %1"
+
+#~ msgid "Leave unchecked if you wish to attach the zip file itself"
+#~ msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor"
+
+#~ msgid "Limit results to:"
+#~ msgstr "Omezit výsledky na:"
+
+#~ msgid "Line: %1"
+#~ msgstr "Řádek: %1"
+
+#~ msgid "Line: %1 to %2"
+#~ msgstr "Řádek: %1 až %2"
+
+#~ msgid "List topics that start with the letter:"
+#~ msgstr "Články, které začínají písmenem:"
+
+#~ msgid "Literal search"
+#~ msgstr "Písmenné hledání"
+
+#~ msgid "Load content"
+#~ msgstr "Nahraj obsah"
+
+#~ msgid "Log In"
+#~ msgstr "Přihlásit"
+
+#~ msgid "Log Out"
+#~ msgstr "Odhlásit"
+
+#~ msgid "Log in to continue."
+#~ msgstr "Pro pokračování se přihlaste."
+
+#~ msgid "Log on to %1"
+#~ msgstr "Přihlásit k %1"
+
+#~ msgid "Login"
+#~ msgstr "Přihlásit"
+
+#~ msgid "Login username:"
+#~ msgstr "Přihlašovací jméno:"
+
+#~ msgid "Logon"
+#~ msgstr "Přihlásit"
+
+#~ msgid "Logout"
+#~ msgstr "Odhlásit"
+
+#~ msgid "Mail to"
+#~ msgstr "Odeslat mail"
+
+#~ msgid "Make search:"
+#~ msgstr "Hledání:"
+
+#~ msgid "Maximum %1 items per web"
+#~ msgstr "Maximálně %1 položek na jeden web"
+
+#~ msgid "Members"
+#~ msgstr "Členové"
+
+#~ msgid "Missing Fields"
+#~ msgstr "Chybějící pole"
+
+#~ msgid "Missing action command"
+#~ msgstr "Chybí příkaz akce"
+
+#~ msgid "Missing or illegal web name"
+#~ msgstr "Chybějící nebo neplatné jméno webu"
+
+#~ msgid "Modify search"
+#~ msgstr "Změň hledání"
+
+#~ msgid "More Actions on Topic %1"
+#~ msgstr "Další akce s článkem %1"
+
+#, fuzzy
+#~ msgid "More actions for %1:"
+#~ msgstr "Další akce s článkem %1"
+
+#~ msgid "More formatting help"
+#~ msgstr "Více nápovědy k formátování"
+
+#~ msgid "More on hiding attachments"
+#~ msgstr "Více informací o skrytých přílohách"
+
+#~ msgid "More topic actions"
+#~ msgstr "Další akce pro práci s článkem"
+
+#~ msgid "More topic actions..."
+#~ msgstr "Další akce..."
+
+#~ msgid "More..."
+#~ msgstr "Více..."
+
+#~ msgid ""
+#~ "More: delete or rename this topic; set parent topic; view and compare "
+#~ "revisions (m)"
+#~ msgstr ""
+#~ "Více: smayat nebo přejmenovat tento článek; nastavit nadřízený článek; "
+#~ "ukázat a porovnat revize (m)"
+
+#~ msgid "Move"
+#~ msgstr "Přesun"
+
+#~ msgid "Move %1 to Trash Web"
+#~ msgstr "Přesunout %1 do koše"
+
+#, fuzzy
+#~ msgid "Move attachment %1"
+#~ msgstr "Přesun přílohy"
+
+#~ msgid "Move file attachment"
+#~ msgstr "Přesun přílohy"
+
+#~ msgid "Move or delete attachment"
+#~ msgstr "Přesun nebo smazání přílohy"
+
+#~ msgid "Move to web:"
+#~ msgstr "Přesun do:"
+
+#, fuzzy
+#~ msgid "Move to web: %1"
+#~ msgstr "Přesun do:"
+
+#~ msgid "Move topic to web:"
+#~ msgstr "Přesun článku do:"
+
+#~ msgid "Move/Rename"
+#~ msgstr "Přesunout/Přejmenovat"
+
+#~ msgid "My Links"
+#~ msgstr "Mé odkazy"
+
+#~ msgid "My Profile"
+#~ msgstr "Můj profil"
+
+#~ msgid "NEW"
+#~ msgstr "NOVÝ"
+
+#~ msgid "Name of copy"
+#~ msgstr "Jméno kopie"
+
+#~ msgid "Name of new web is missing"
+#~ msgstr "Chybí jméno nového webu"
+
+#~ msgid "Name:"
+#~ msgstr "Jméno:"
+
+#~ msgid "Navigate to a similar topic"
+#~ msgstr "Naviguj k podobnému článku"
+
+#~ msgid "Never mind"
+#~ msgstr "Nevadí"
+
+#~ msgid "New User Registration disabled"
+#~ msgstr "Registrace nových uživatelů je vypnutá"
+
+#~ msgid "New User Registration failed"
+#~ msgstr "Registrace nového uživatele selhala"
+
+#~ msgid "New User Registration not supported"
+#~ msgstr "Registrace nových uživatelů není podporována"
+
+#~ msgid "New e-mails (space-separated list):"
+#~ msgstr "Nové emailové adresy (mezerou oddělený seznam):"
+
+#~ msgid "New or changed topics in %1, since %2:"
+#~ msgstr "Nový nebo změněný článek v %1, od %2:"
+
+#~ msgid "New parent web:"
+#~ msgstr "Nový nadřízený web:"
+
+#~ msgid "New password:"
+#~ msgstr "Nové heslo:"
+
+#~ msgid "New topic name %1 is not a %2"
+#~ msgstr "Nové jméno článku %1 není %2"
+
+#~ msgid "New user registration is disabled on this site."
+#~ msgstr "Registrace nových uživatelů je na tomto webu vypnutá."
+
+#~ msgid "New web name:"
+#~ msgstr "Nové jméno webu:"
+
+#~ msgid "Newer revision:"
+#~ msgstr "Novější revize:"
+
+#~ msgid "Next"
+#~ msgstr "Následující"
+
+#~ msgid "No"
+#~ msgstr "Ne"
+
+#, fuzzy
+#~ msgid "No backlinks in public webs"
+#~ msgstr "(zpětné odkazy ve všech Webech)"
+
+#, fuzzy
+#~ msgid "No backlinks in this web"
+#~ msgstr "(zpětné odkazy v %1 Webu)"
+
+#~ msgid "No changes"
+#~ msgstr "Beze změn"
+
+#, fuzzy
+#~ msgid "No child topics found."
+#~ msgstr "Žádné podřízené články"
+
+#~ msgid "No group name specified"
+#~ msgstr "Nebylo uvedeno jméno skupiny"
+
+#, fuzzy
+#~ msgid "No members"
+#~ msgstr "Žádní členové"
+
+#~ msgid "No pending registration was found for the verification code %1."
+#~ msgstr ""
+#~ "Nebyla nalezena žádná probíhající registrace pro tento verifikační kód %1."
+
+#~ msgid "No permission to view %1"
+#~ msgstr "Nemáte právo pro prohlížení %1"
+
+#~ msgid "No previous revision exists."
+#~ msgstr "Neexistují žádné předchozí revize článku."
+
+#, fuzzy
+#~ msgid "No registrations are pending."
+#~ msgstr "%1 registrace nepovolena"
+
+#~ msgid "No topic to subscribe to"
+#~ msgstr "Žádný článek k odběru"
+
+#~ msgid "No topics to update."
+#~ msgstr "Žádné články k aktualizaci."
+
+#~ msgid "No username specified"
+#~ msgstr "Nebylo uvedeno jméno uživatele"
+
+#~ msgid "No users to reset passwords for."
+#~ msgstr "Žádní uživatelé k resetování hesla."
+
+#~ msgid "Not recommended when deleting a topic."
+#~ msgstr "Nedoporučeno při mazání článku."
+
+#~ msgid "Not sure this is right, please confirm!"
+#~ msgstr "Je toto v pořádku? Prosím potvrďte!"
+
+#~ msgid "Notation"
+#~ msgstr "Poznámka"
+
+#~ msgid ""
+#~ "Note that any URLs that refer to the attachment will be broken after this "
+#~ "move."
+#~ msgstr ""
+#~ "Bohužel všechny odkazy (URL), které ukazují na tuto přílohu budou chybné "
+#~ "po tomto přesunu."
+
+#~ msgid "Note:"
+#~ msgstr "Poznámka:"
+
+#~ msgid ""
+#~ "Note: you must have Cookies and Javascript enabled in your browser to get "
+#~ "past this screen. This is normally the case, but if something doesn't "
+#~ "work, this is where to look first."
+#~ msgstr ""
+#~ "Poznámka: musíte mít povolené Cookies a Javascript ve vašem prohlížeči, "
+#~ "aby jste se dostali přes tuto stránku. Jestliže máte problém s "
+#~ "funkcionalitou, toto je první věc kterou by jste měli zkontrolovat."
+
+#~ msgid "Notification help"
+#~ msgstr "Nápověda k notifikacím"
+
+#~ msgid "Notifications"
+#~ msgstr "Oznámení"
+
+#~ msgid "Number of changes for each Web"
+#~ msgstr "Počet změn pro každý Web"
+
+#~ msgid "Number of topics:"
+#~ msgstr "Počet článků:"
+
+#~ msgid "Number of topics: %1"
+#~ msgstr "Počet článků: %1"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "OK, this is still me!"
+#~ msgstr "OK, toto jsem stále já!"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#~ msgid "Older revision:"
+#~ msgstr "Starší revize:"
+
+#~ msgid ""
+#~ "On this system, once you are registered, you may also log in using your "
+#~ "email address."
+#~ msgstr "Po registraci se můžete přihlásit rovněž svoji emailovou adresou."
+
+#~ msgid "Only administrators are allowed to remove other accounts."
+#~ msgstr "Pouze administrátoři jsou oprávněni odstraňovat jiné účty."
+
+#~ msgid "Only members of the %1 are allowed to perform this action."
+#~ msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
+
+#~ msgid "Only members or admins may update group."
+#~ msgstr "Pouze členové nebo administrátoři mohou aktualizovat skupinu."
+
+#~ msgid "Only update linked topics in %1 web"
+#~ msgstr "Aktualizuj pouze odkazované články na webu %1"
+
+#~ msgid ""
+#~ "Oops: we could not recognize you. Try again or [[%1][reset your "
+#~ "password]]."
+#~ msgstr ""
+#~ "Chybička se vloudila: nepoznáváme Tě. Zkus to znovu nebo [[%1][resetuj "
+#~ "heslo]]."
+
+#~ msgid "Optionally change attachment name:"
+#~ msgstr "Volitelně změň jméno přílohy:"
+
+#~ msgid "Optionally change topic name:"
+#~ msgstr "Volitelně změní jméno článku:"
+
+#~ msgid "Optionally enter a different attachment name:"
+#~ msgstr "Volitelně vložte odlišné jméno přílohy:"
+
+#~ msgid "Optionally enter a different topic name:"
+#~ msgstr "Volitelně vložte odlišné jméno článku:"
+
+#~ msgid "Options"
+#~ msgstr "Vlastnosti"
+
+#~ msgid "Organisation name:"
+#~ msgstr "Jméno organizace:"
+
+#~ msgid "Organisation website:"
+#~ msgstr "Webové stránky organizace:"
+
+#~ msgid "Password"
+#~ msgstr "Heslo"
+
+#~ msgid "Password changed successfully!"
+#~ msgstr "Změna hesla byla úspěšná!"
+
+#~ msgid "Password could not be changed"
+#~ msgstr "Heslo nemohlo být změněno"
+
+#~ msgid "Password reset failed"
+#~ msgstr "Znovunastavení hesla bylo neúspěšné"
+
+#~ msgid "Password reset failed."
+#~ msgstr "Resetování hesla selhalo."
+
+#~ msgid "Password:"
+#~ msgstr "Heslo:"
+
+#~ msgid "Passwords disabled"
+#~ msgstr "Hesla jsou vypnutá"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Hesla si neodpovídají"
+
+#, fuzzy
+#~ msgid "Pending Registrations"
+#~ msgstr "Probíhající registrace nenalezena"
+
+#~ msgid "Pending registration not found"
+#~ msgstr "Probíhající registrace nenalezena"
+
+#~ msgid "Pick one of the %1."
+#~ msgstr "Vyberte jedno z %1."
+
+#~ msgid "Place for trashed topics and attachments."
+#~ msgstr "Místo pro vymazané články a přílohy."
+
+#~ msgid "Placeholder for trashed attachments"
+#~ msgstr "Místo pro vymazané přílohy"
+
+#~ msgid "Please check to ensure you have permission to modify the group."
+#~ msgstr "Prosím zkontrolujte že máte oprávnění měnit tuto skupinu."
+
+#~ msgid "Please confirm your password."
+#~ msgstr "Prosím potvrďte vaše heslo."
+
+#~ msgid "Please contact %1 if you have any questions."
+#~ msgstr "Prosím kontatujte %1 pokud máte libovolné otázky."
+
+#~ msgid "Please contact %1."
+#~ msgstr "Prosím kontaktujte %1."
+
+#~ msgid "Please correct the entered data before you continue."
+#~ msgstr "Před pokračováním prosím potvrďte vložená data."
+
+#~ msgid "Please enter a WikiName."
+#~ msgstr "Vložte prosím WikiJméno."
+
+#~ msgid "Please enter a login username."
+#~ msgstr "Zadejte prosím uživatelské jméno."
+
+#~ msgid "Please enter a password."
+#~ msgstr "Zadejte prosím heslo."
+
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Prosím zadejte korektně emailovou adresu."
+
+#~ msgid "Please enter the Wiki admin password"
+#~ msgstr "Vložte prosím heslo Wiki administrátora"
+
+#~ msgid "Please enter the same password as above."
+#~ msgstr "Zadejte prosím stejné heslo jako výše."
+
+#~ msgid "Please enter your first name."
+#~ msgstr "Zadejte prosím vaše křestní jméno."
+
+#~ msgid "Please enter your last name."
+#~ msgstr "Zadejte prosím vaše příjmení."
+
+#~ msgid "Please go _back_ in your browser and try a new name."
+#~ msgstr "Prosím jděte _zpět_ ve vašem prohlížeči a zkuste nové jméno."
+
+#~ msgid "Please go back in your browser and check again."
+#~ msgstr "Prosím jděte zpět ve Vašem prohlížeči a zkontrolujte to znova."
+
+#~ msgid ""
+#~ "Please go back in your browser and choose a topic name that is a "
+#~ "[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+#~ msgstr ""
+#~ "Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, "
+#~ "který je [[%SYSTEMWEB%.WikiWord][WikiWord]] nebo zrušte volbu \"pouze "
+#~ "Wiki Word\""
+
+#~ msgid "Please go back in your browser and try again."
+#~ msgstr "Jděte zpět ve Vašem browseru a zkuste to znova."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please go back in your browser and upload using a different filename."
+#~ msgstr "Prosím jděte _zpět_ ve vašem prohlížeči a zkuste nové jméno."
+
+#~ msgid ""
+#~ "Please make sure you spelled the [[%1][username]] correctly and try "
+#~ "again. If you get stuck, please contact %2."
+#~ msgstr ""
+#~ "Ujistéte se prosím, že jste napsal [[%1][username]] správně, a zkuste to "
+#~ "ješté jednou. Pokud problém přetrvává, prosím zašlete mail na %2."
+
+#~ msgid "Please notify your %1 administrator."
+#~ msgstr "Uvědomte prosím Vašeho administrátora %1."
+
+#~ msgid ""
+#~ "Please visit %1 to change your password to something more memorable for "
+#~ "you."
+#~ msgstr ""
+#~ "Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže "
+#~ "zapamatujete."
+
+#~ msgid "Plugin handlers"
+#~ msgstr "Držátka pluginů :)"
+
+#~ msgid "Plugin module did not return true. See errors below."
+#~ msgstr "Modul pluginu nevrátil true. Zkontrolujte chyby uvedené níže."
+
+#~ msgid ""
+#~ "Plugin module was not defined. Check configuration. See errors below."
+#~ msgstr ""
+#~ "Modul pluginu nebyl definován. Zkontrolujte konfiguraci. Zkontrolujte "
+#~ "chyby uvedené níže."
+
+#~ msgid "Preferences for"
+#~ msgstr "Preference pro"
+
+#~ msgid "Press Cancel otherwise."
+#~ msgstr "Nebo stiskněte Přerušit."
+
+#~ msgid "Press OK to confirm that this change was intentional."
+#~ msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
+
+#~ msgid "Previous"
+#~ msgstr "Předchozí"
+
+#~ msgid "Printable version of this topic (p)"
+#~ msgstr "Verze pro tisk (p)"
+
+#~ msgid "Properties"
+#~ msgstr "Vlastnosti"
+
+#~ msgid "Put it back..."
+#~ msgstr "Vrať to zpět ..."
+
+#~ msgid "Query Search"
+#~ msgstr "Hledání pomocí dotazu"
+
+#~ msgid "Question:"
+#~ msgstr "Otázka:"
+
+#~ msgid "Quiet save"
+#~ msgstr "Tiché uložení"
+
+#~ msgid "RSS Feed"
+#~ msgstr "RSS zdroj"
+
+#~ msgid ""
+#~ "Read %1 to get a quick overview of this collaboration platform. To learn "
+#~ "more, study the TwentyMinuteTutorial, which is accessible from the same "
+#~ "link."
+#~ msgstr ""
+#~ "Přečtěte si prosím %1 aby jste získal přehled o této platformě ke "
+#~ "spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
+#~ "odtud přístupný."
+
+#~ msgid "Read on"
+#~ msgstr "Pročtěte si"
+
+#~ msgid "Recently changed topics"
+#~ msgstr "Naposledy změněné články"
+
+#~ msgid "Recently changed topics in %1 Web"
+#~ msgstr "Naposledy změněné články na webu %1"
+
+#~ msgid "Recently changed topics in all Webs"
+#~ msgstr "Naposledy změněné články na všech webech"
+
+#~ msgid "Redirect Denied"
+#~ msgstr "Přesměrování zamítnuto"
+
+#~ msgid "Refresh"
+#~ msgstr "Obnov"
+
+#~ msgid "Register"
+#~ msgstr "Registruj"
+
+#~ msgid "Registered e-mail addresses for currently logged in user"
+#~ msgstr "Registrovaná e-mailová adresa aktuálně přihlášeného uživatele"
+
+#~ msgid "Registration"
+#~ msgstr "Registrace"
+
+#, fuzzy
+#~ msgid "Registration approval is not enabled."
+#~ msgstr "%1 je vyžadováno povolení k registraci"
+
+#~ msgid ""
+#~ "Registration cannot be completed: Email has been disabled for this "
+#~ "Foswiki installation"
+#~ msgstr ""
+#~ "Registrace nemůže být dokončena. Email byl zablokovám pro tuto instalaci "
+#~ "Foswiki"
+
+#~ msgid "Registration codes can only be used once."
+#~ msgstr "Registrační kódy mohou být použity pouze jednou."
+
+#~ msgid "Registration for %1 has been denied"
+#~ msgstr "Registrace %1 byla zamítnuta"
+
+#~ msgid "Registration has been denied"
+#~ msgstr "Registrace byla zamítnuta"
+
+#, fuzzy
+#~ msgid ""
+#~ "Registration is disabled either by configuration setting "
+#~ "{EnableNewUserRegistration}, or due to errors with the password system. "
+#~ "Check the configuration for errors."
+#~ msgstr ""
+#~ "Registrace není povolena buď z důvodu nastavení "
+#~ "{EnableNewUserRegistration}, nebo kůli chybě autentifikačního systému. "
+#~ "Zkontrolujte konfiguraci."
+
+#, fuzzy
+#~ msgid "Registrations awaiting approval"
+#~ msgstr "%1 je vyžadováno povolení k registraci"
+
+#~ msgid "Regular expression search"
+#~ msgstr "Hledání pomocí regulárních výrazů"
+
+#~ msgid "Related Topics for Administrators:"
+#~ msgstr "Články určené administrátorům:"
+
+#~ msgid "Related Topics:"
+#~ msgstr "Související články:"
+
+#~ msgid "Related topics:"
+#~ msgstr "Podobné články:"
+
+#~ msgid "Remember me"
+#~ msgstr "Zapamatuj si mě"
+
+#~ msgid "Remember me on this computer"
+#~ msgstr "Zapomatuj si mě na tomto počítači"
+
+#, fuzzy
+#~ msgid ""
+#~ "Remember to update your user topic [[%1]] if you want your e-mail change "
+#~ "to be reflected there as well."
+#~ msgstr ""
+#~ "Nezapomeňte změnit Váši osobní stránku, pokud chcete aby Váš email byl "
+#~ "také změněn."
+
+#~ msgid "Remember your password?"
+#~ msgstr "Pamatujete si Vaše heslo?"
+
+#, fuzzy
+#~ msgid "Remove Members from %1"
+#~ msgstr "Odstraň členy z"
+
+#, fuzzy
+#~ msgid "Remove User"
+#~ msgstr "Odstraň členy..."
+
+#~ msgid "Remove members..."
+#~ msgstr "Odstraň členy..."
+
+#~ msgid "Remove of user account other than your own is denied"
+#~ msgstr "Odstranění jiného nežli vlastního uživatelského účtu je zakázáno"
+
+#~ msgid "Remove selected members"
+#~ msgstr "Odstraň vybrané členy"
+
+#~ msgid "Remove the member from the group(s) %1 first."
+#~ msgstr "Odstraň nejdřive uživatele ze skupin(y) %1."
+
+#~ msgid "Rename"
+#~ msgstr "Přejmenovat"
+
+#~ msgid "Rename failed"
+#~ msgstr "Přejmenování selhalo"
+
+#~ msgid "Rename or move %1"
+#~ msgstr "Přejmenovat nebo přesunout %1"
+
+#~ msgid "Rename or move topic"
+#~ msgstr "Přejmenovat nebo přesunout článek"
+
+#~ msgid "Rename or move topic..."
+#~ msgstr "Přejmenovat nebo přesunout článek..."
+
+#~ msgid "Rename, move or delete this web"
+#~ msgstr "Přejmenovat, přesunout nebo smazat tento web"
+
+#~ msgid "Rename/Move"
+#~ msgstr "Přejmenovat/Přesunout"
+
+#~ msgid "Render style"
+#~ msgstr "Styl zobrazení"
+
+#~ msgid "Replace form..."
+#~ msgstr "Nahraď formulář..."
+
+#~ msgid "Request Validation"
+#~ msgstr "Ověření požadavku"
+
+#~ msgid ""
+#~ "Requested revision (%1) is illegal or invalid. It does not exist in "
+#~ "history, or is the same or later than the current revision (%2)"
+#~ msgstr ""
+#~ "Požadovaná revize (%1) není platná. Neexistuje v historii nebo je to ta "
+#~ "samá jako aktuální revize (%2)"
+
+#~ msgid "Reset Password"
+#~ msgstr "Znovunastav heslo"
+
+#~ msgid "Reset password"
+#~ msgstr "Znovunastav heslo"
+
+#~ msgid "Resetting and setting password is not available."
+#~ msgstr "Resetování a nastavení hesla není k dispozici."
+
+#~ msgid "Restore topic"
+#~ msgstr "Obnov článek"
+
+#~ msgid "Restore topic to revision:"
+#~ msgstr "Obnov revizi článku dle:"
+
+#~ msgid "Restore topic to this revision"
+#~ msgstr "Obnov tuto revizi článku"
+
+#~ msgid ""
+#~ "Restore will save an exact copy of your selected revision into a new "
+#~ "revision. Because each revision will be preserved in the topic history, "
+#~ "you can always revisit the revision you are replacing. Note that "
+#~ "attachments will be left unchanged."
+#~ msgstr ""
+#~ "Funkce Obnov uloží přesnou kopii vybrané revize jako novou revizi. "
+#~ "Protože každá revize bude zaznamenána v historii článku, můžete vždy "
+#~ "znovu zobrazit verzi kterou nahrazujete. Uvědomte si, že přílohy zůstanou "
+#~ "beze změn."
+
+#~ msgid "Restoring is disabled because this topic is at revision 1."
+#~ msgstr "Obnova není možná, protože tento článek je ve své první revizi."
+
+#~ msgid "Results from %1 web"
+#~ msgstr "Výsledky z webu %1"
+
+#~ msgid "Results from %1 web:"
+#~ msgstr "Výsledky z webu %1:"
+
+#~ msgid "Return to %1"
+#~ msgstr "Návrat k %1"
+
+#~ msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
+#~ msgstr "Návrat k %1 a doplnění [[%2][WikiName]] nebo [[%3][username]]."
+
+#~ msgid "Return to %1."
+#~ msgstr "Návrat do %1."
+
+#~ msgid "Retype new password:"
+#~ msgstr "Zopakujte vaše nové heslo:"
+
+#~ msgid ""
+#~ "Rev %1 was edited by %2 while you were still editing, and saved as Rev %3."
+#~ msgstr ""
+#~ "Revize %1 byla editována uživatelem %2, v době kdy jste stále editoval, a "
+#~ "uložena jako %3."
+
+#~ msgid "Review recent changes in:"
+#~ msgstr "Zkontrolujte poslední změny v:"
+
+#~ msgid "Revision"
+#~ msgstr "Revize"
+
+#~ msgid "Revision history of %1"
+#~ msgstr "Historie verzí pro %1"
+
+#~ msgid "Revisions"
+#~ msgstr "Verze"
+
+#~ msgid "S = Save, C = Cancel"
+#~ msgstr "S = Ulož, C = Ponechej beze změny"
+
+#~ msgid ""
+#~ "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+#~ msgstr ""
+#~ "S = Ulož, Q = Ulož potichu, K = Ulož a pokračuj, P = Náhled, C = Přerušit"
+
+#~ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+#~ msgstr "Toto je oblast kde můžete tvořit bez omezení (tzv Sandbox)."
+
+#~ msgid "Save table"
+#~ msgstr "Ulož tabulku"
+
+#~ msgid "Saved to:"
+#~ msgstr "Uloženo do:"
+
+#~ msgid "Search %1 Web only"
+#~ msgstr "Hledej pouze v rámci webu %1"
+
+#~ msgid "Search all webs"
+#~ msgstr "Prohledej všechny weby"
+
+#~ msgid "Search all webs for topics that link to here"
+#~ msgstr "Prohledej všechny weby pro články, které odkazují sem"
+
+#~ msgid "Search for updates"
+#~ msgstr "Vyhledej aktualizace"
+
+#~ msgid "Search in %1 Web"
+#~ msgstr "Hledej v rámci webu %1"
+
+#~ msgid "Search in all webs"
+#~ msgstr "Hledej ve všech webech"
+
+#~ msgid "Search more topics in this web"
+#~ msgstr "Hledej více článků na tomto webu"
+
+#~ msgid "Search options"
+#~ msgstr "Možnosti prohledávání"
+
+#~ msgid "Search result"
+#~ msgstr "Výsledek hledání"
+
+#~ msgid "Search results"
+#~ msgstr "Výsledky hledání"
+
+#~ msgid "Search string"
+#~ msgstr "Hledej řetězec"
+
+#, fuzzy
+#~ msgid "Search the %1 Web for all children of this topic."
+#~ msgstr "Hledej články ve webu %1 které sem odkazují"
+
+#~ msgid "Search the %1 Web for topics that link to here"
+#~ msgstr "Hledej články ve webu %1 které sem odkazují"
+
+#~ msgid "Search where:"
+#~ msgstr "Kde hledat:"
+
+#~ msgid "Searched:"
+#~ msgstr "Prohledáno:"
+
+#~ msgid "Security Note:"
+#~ msgstr "Bezpečnostní poznámka:"
+
+#~ msgid "See %1 for a list of existing users or register as new user in %2."
+#~ msgstr ""
+#~ "Zkontrolujte %1 v seznamu existujících uživatelů nebo se zaregistrujte "
+#~ "jako nový uživatel v %2."
+
+#~ msgid "See %1 for information about Form Definitions."
+#~ msgstr "Přečtěte si %1 pro informaci o definici formuláře."
+
+#~ msgid "See %MAINWEB%.WikiGroups to see the result."
+#~ msgstr "Výsledek uvidíš na %MAINWEB%.WikiGroups."
+
+#~ msgid "See also the faster %1"
+#~ msgstr "Podívejte se také na rychlejší %1"
+
+#~ msgid "See also the verbose %1."
+#~ msgstr "Podívejte se také na podrobnější %1."
+
+#~ msgid "See also:"
+#~ msgstr "Také:"
+
+#~ msgid "See below for help in editing this page."
+#~ msgstr "Viz nápověda níže pro editaci této stránky."
+
+#~ msgid "See changes since:"
+#~ msgstr "Viz změny od:"
+
+#~ msgid "See the DISABLEDPLUGINS preference setting."
+#~ msgstr "Viz volba nastavení DISABLEDPLUGINS."
+
+#~ msgid "Select"
+#~ msgstr "Vyber"
+
+#~ msgid "Select a new local file to update attachment"
+#~ msgstr "Vyberte nový lokální soubor pro změnu přílohy"
+
+#, fuzzy
+#~ msgid "Select all topics"
+#~ msgstr "Vyber vše"
+
+#~ msgid "Select an earlier (left) and a later (right) revision to compare"
+#~ msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)"
+
+#~ msgid "Select groups to join:"
+#~ msgstr "Vyberte skupiny pro přidání:"
+
+#~ msgid "Select members to remove from this group:"
+#~ msgstr "Vyberte členy, kteří mají být z této skupiny odstraněni:"
+
+#~ msgid "Select the group to join:"
+#~ msgstr "Vyberte skupinu pro přidání:"
+
+#~ msgid "Select topic parent"
+#~ msgstr "Vyberte nadřízený článek"
+
+#~ msgid ""
+#~ "Select, copy and paste your signature text to the bottom of your entry"
+#~ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
+
+#~ msgid "Selections apply to search in \"text body\""
+#~ msgstr "Pro vyhledávání v textu jsou aktivována omezení"
+
+#~ msgid "Self registration is not supported by this site."
+#~ msgstr "Samo registrace není tímto webem podporována."
+
+#~ msgid "Send mail"
+#~ msgstr "Zašli mail"
+
+#~ msgid "Sequential"
+#~ msgstr "Sekvenčně"
+
+#~ msgid "Set all"
+#~ msgstr "Nastav vše"
+
+#~ msgid "Set new parent"
+#~ msgstr "Nastavit nový nadřízený článek"
+
+#~ msgid "Set new topic parent"
+#~ msgstr "Nastavit nový nadřízený článek"
+
+#~ msgid "Show %1 revisions up to revision %2"
+#~ msgstr "Zobraz %1 revizí až do revize %2"
+
+#, fuzzy
+#~ msgid "Show attachments help"
+#~ msgstr "Ukaž přílohy"
+
+#~ msgid "Show help"
+#~ msgstr "Ukaž nápovědu"
+
+#~ msgid "Showing revisions %1 - %2 (out of %3)"
+#~ msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
+
+#~ msgid "Shrink edit box"
+#~ msgstr "Zmenšit editovací oblast"
+
+#~ msgid "Side by side"
+#~ msgstr "Vedle sebe"
+
+#~ msgid "Side-by-side comparison of revisions"
+#~ msgstr "Side-by-side porovnání revizí"
+
+#~ msgid "Size"
+#~ msgstr "Velikost"
+
+#~ msgid "Some add schedule information and vacation notice."
+#~ msgstr "Někdo přidal informace o rozvrhu a poznámky o volnu."
+
+#~ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+#~ msgstr "Některé znaky jako je =&#126;=, =$=, =@=, =%= jsou mazány"
+
+#~ msgid ""
+#~ "Some mail tools have an error that causes them to send the same request "
+#~ "twice when you click on a link. It you did this, it is possible that you "
+#~ "actually *have* registered successfully."
+#~ msgstr ""
+#~ "Některé nástroje pro elektronickou poštu obsahují chybu, která "
+#~ "zapříčiňuje že zašlou ten samý požadavek dvakrát když kliknete na odkaz. "
+#~ "Jestliže se vám toto přihodí, je možné že jste se již úspěšně "
+#~ "*zaregistrovali*."
+
+#~ msgid ""
+#~ "Some people turn it into a personal portal with favorite links, what they "
+#~ "work on, what help they'd like, etc."
+#~ msgstr ""
+#~ "Někteří lidé to změní na svůj personální portál s nejoblíbenějšími "
+#~ "odkazy, na čem pracují, apod."
+
+#~ msgid "Sorry, registration has been temporarily disabled."
+#~ msgstr "Omlouváme se, registrování je dočasně mimo provoz."
+
+#~ msgid "Sorry, the password system is currently read only, please contact %1"
+#~ msgstr ""
+#~ "Omlouváme se, systém pro správu hesel je v současnosti pouze pro čtení. "
+#~ "Prosím kontaktujte %1"
+
+#~ msgid "Sort results by:"
+#~ msgstr "Seřaď výsledky podle:"
+
+#~ msgid "Spaces are replaced by underscores"
+#~ msgstr "Mezery jsou nahrazeny podtržítky"
+
+#~ msgid ""
+#~ "Specify =all= for all webs, or a comma separated list of webs from: %1"
+#~ msgstr ""
+#~ "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
+
+#~ msgid "Start presentation"
+#~ msgstr "Spusť prezentaci"
+
+#~ msgid "Statistics"
+#~ msgstr "Statistiky"
+
+#~ msgid "Submit"
+#~ msgstr "Potvrdit"
+
+#~ msgid "Submitted content:"
+#~ msgstr "Potvrzený obsah:"
+
+#~ msgid "Subscribe"
+#~ msgstr "Přihlásit k odběru"
+
+#~ msgid "Subscribe / Unsubscribe in:"
+#~ msgstr "Příhlásit/ Odhlásit z:"
+
+#~ msgid "Subscribe to this topic"
+#~ msgstr "Přihlásit k odběru tohoto článku"
+
+#~ msgid "Subscribe to this topic (s)"
+#~ msgstr "Přihlásit k odběru tohoto článku (s)"
+
+#~ msgid "Subwebs"
+#~ msgstr "Podweby"
+
+#~ msgid "Success adding members to group"
+#~ msgstr "Ǔspěšné přidání členů do skupiny"
+
+#~ msgid "Success removing members from group"
+#~ msgstr "Ǔspěšné odstranění členů ze skupiny"
+
+#~ msgid "Summaries"
+#~ msgstr "Shrnutí"
+
+#, fuzzy
+#~ msgid "Switch to monotype or proportional font"
+#~ msgstr "Použijte monotype nebo proporcionální font"
+
+#~ msgid "System user list."
+#~ msgstr "Seznam uživatelů."
+
+#~ msgid ""
+#~ "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#~ msgstr ""
+#~ "TIP: pro hledání všech článků, které obsahují =\"SOAP\"=, =\"WSDL\"=, a "
+#~ "literal =\"web service\"=, ale ne =\"shampoo\"=, napište:"
+
+#~ msgid "Template %1 does not exist"
+#~ msgstr "Šablona %1 neexistuje"
+
+#~ msgid "Text body"
+#~ msgstr "Tělo článku"
+
+#~ msgid "Thank you for approving this registration"
+#~ msgstr "Díky za schválení této registrace"
+
+#~ msgid "Thank you for denying this registration"
+#~ msgstr "Děkuji za zamítnutí této registrace"
+
+#~ msgid "Thank you for registering"
+#~ msgstr "Díky za Vaši registraci"
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Please save "
+#~ "this e-mail for future reference."
+#~ msgstr ""
+#~ "Díky za Vaši registraci v této %1 platformě pro spolupráci %1. Prosím "
+#~ "uložte si tento email."
+
+#~ msgid ""
+#~ "Thank you for registering in the %1 collaboration platform. Your "
+#~ "verification code is %2."
+#~ msgstr ""
+#~ "Díky za Vaši registraci v %1 - platformě pro spolupráci. Váš verifikační "
+#~ "kód je %2."
+
+#~ msgid "That user has already been activated"
+#~ msgstr "Tento uživatel již byl aktivován"
+
+#~ msgid "The %1 topic already exists"
+#~ msgstr "Článek %1 už existuje"
+
+#~ msgid "The %1 web does not exist"
+#~ msgstr "Web %1 neexistuje"
+
+#~ msgid ""
+#~ "The %1 web is the sandbox you can use for testing. Everybody is welcome "
+#~ "to add or delete some stuff. It is recommended to walk through the %2 to "
+#~ "get a jumpstart on the %3 tool. A good rule of thumb is to add at the end "
+#~ "of the page and sign and date it with your %4."
+#~ msgstr ""
+#~ "Web %1 je web, který můžete použít pro testování. Každý je vítán přidávat "
+#~ "nebo mazat články. Doporučejeme Vám projít si %2 a získat přehled o "
+#~ "pomůckách %3. Dobrý zvyk je podepsat se na konci stránky spolu s datumem "
+#~ "a %4."
+
+#~ msgid "The %1 web of %2."
+#~ msgstr "%1 web z %2."
+
+#~ msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+#~ msgstr "Web %1 je webem Foswiki - wiki dostupné zdarma a jako Open Source."
+
+#~ msgid "The =%1= script can only be called with POST method."
+#~ msgstr "Skript =%1= může být volán pouze metodou POST."
+
+#~ msgid "The Administrator has disabled new user registration."
+#~ msgstr "Registrace nových uživatelů byla zakázána Administrátorem."
+
+#~ msgid "The Administrator has disabled password changes."
+#~ msgstr "Administrátor vypnul možnost změnit si heslo."
+
+#~ msgid "The Free and Open Source Wiki."
+#~ msgstr "Wiki dostupná zdarma a jako Open Source."
+
+#~ msgid ""
+#~ "The Web/Topic path: '%1' has missing components, or contains invalid "
+#~ "characters."
+#~ msgstr ""
+#~ "Adresa webu nebo článku: '%1' postrádá prvky, a nebo obsahuje nevalidní "
+#~ "znaky."
+
+#~ msgid ""
+#~ "The [[%1][WikiName]] field must be your first and last name written as a "
+#~ "[[%2][WikiWord]], e.g. your capitalized first and last name with spaces "
+#~ "removed."
+#~ msgstr ""
+#~ "Pole [[%1][WikiName]] musí být vaše křestní jméno a příjmení zapsané jako "
+#~ "[[%2][WikiWord]], například vaše Jméno a Příjmení zapsané dohromady a bez "
+#~ "mezer."
+
+#~ msgid ""
+#~ "The [[%1][login username]] (%2) is not allowed for this installation. "
+#~ "Registration rejected."
+#~ msgstr ""
+#~ "[[%1][login username]] (%2) není pro tuto instalaci povolen. Registrace "
+#~ "zamítnuta."
+
+#~ msgid ""
+#~ "The [[%1][login username]] is a required parameter. Registration rejected."
+#~ msgstr "[[%1][login username]] je požadovaným údajem. Registrace zamítnuta."
+
+#~ msgid "The activation code %1 is invalid."
+#~ msgstr "Aktivační kód %1 je neplatný."
+
+#~ msgid "The attachment and any history will be moved to the new topic."
+#~ msgstr "Přiloha a veškerá historie změn budou přesunuty do nového článku."
+
+#~ msgid ""
+#~ "The attachment may be renamed (by appending a number to the name) if an "
+#~ "attachment of that name already exists in the target topic."
+#~ msgstr ""
+#~ "Příloha smí být přejmenována (přidáním čísla ke jménu) jestliže příloha s "
+#~ "tímto jménem již v článku existuje."
+
+#, fuzzy
+#~ msgid ""
+#~ "The attachment may have to be renamed if an attachment called '%1' "
+#~ "already exists in the target topic."
+#~ msgstr ""
+#~ "Příloha musí být přejmenována jestliže příloha s názvem '%FILENAME%' již "
+#~ "existuje."
+
+#~ msgid ""
+#~ "The attacker tries to use your rights to get things, like admin rights "
+#~ "for the site."
+#~ msgstr ""
+#~ "Útočník se pokouší zneužít vašich práv pro získání věcí jako jsou např. "
+#~ "administrátorská oprávnění k tomuto webu."
+
+#~ msgid ""
+#~ "The chances are good that %1 has simply navigated away from the edit page "
+#~ "without saving."
+#~ msgstr "%1 pravděpodobně odešel pryč z editování stránky bez uložení změn."
+
+#~ msgid ""
+#~ "The checkmarked topics will be updated (another form will appear which "
+#~ "will _eventually_ allow you to rename any topics that were locked)"
+#~ msgstr ""
+#~ "Označené články budou změněny (ukáže se další formulář, který Vám "
+#~ "_nakonec_ umožní přejmenovat libovolný článek, který byl zamknut)"
+
+#~ msgid ""
+#~ "The checks performed by Foswiki can sometimes be triggered when you do "
+#~ "something perfectly innocent, for instance if you click the Back button "
+#~ "after saving a page. Foswiki then uses the approach \"better safe than "
+#~ "sorry\"."
+#~ msgstr ""
+#~ "Kontroly prováděné Foswiki mohou být spuštěny i v případě, že provádíte "
+#~ "něco naprosto nevinného - jako např. stisknuté tlačítka Zpět v "
+#~ "prohlížeči. Foswiki se poté chová stylem \"better safe than sorry - lepe "
+#~ "je předcházet problémům\"."
+
+#~ msgid ""
+#~ "The details about REST Handlers are only available to users with Admin "
+#~ "authority."
+#~ msgstr ""
+#~ "Detaily o REST API jsou dostupné pouze uživatelům s administrátorkými "
+#~ "právy."
+
+#~ msgid "The e-mail address for this account has been rejected."
+#~ msgstr "Emailová adresa pro tento účet byla zamítnuta."
+
+#~ msgid ""
+#~ "The e-mail address for this account is already registered to another user."
+#~ msgstr ""
+#~ "Emailová adresa pro tento účet je již registrována jiným uživatelem."
+
+#~ msgid "The e-mail address for this account is not valid."
+#~ msgstr "Emailová adresa pro tento účet není správná."
+
+#~ msgid ""
+#~ "The e-mail address in your user topic is typically left blank. If you "
+#~ "want to reveal an e-mail address to other users, you can manually edit "
+#~ "your user topic to add an address.  It does not have to be the same as "
+#~ "the address used internally by Foswiki."
+#~ msgstr ""
+#~ "Emailová adresa je v článku typicky ponechána prázdná. Jestliže si "
+#~ "přejete ji ostatním uživatelům zobrazit, můžete manuálně editovat název "
+#~ "článku a adresu přidat. Adresa nemusí být stejná jako email, který máte "
+#~ "přiřazen k vašemu uživatelskému účtu na Foswiki."
+
+#~ msgid "The entry for user %1 was missing in the password system."
+#~ msgstr "Záznam pro uživatele %1 chyběl systému."
+
+#~ msgid "The file has been uploaded and attached properly to the %1 topic."
+#~ msgstr "Soubor byl nahrán a v poŕadku připojen ke článku %1."
+
+#~ msgid "The following topics are locked for edit, and cannot be moved:"
+#~ msgstr ""
+#~ "Následující ćlánky jsou zamćeny pro editování a nemohou být přesunuty:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but are being edited:"
+#~ msgstr ""
+#~ "Následující články odkazují na články v tomto webu, ale nyní jsou "
+#~ "editovány:"
+
+#~ msgid ""
+#~ "The following topics refer to topics in this web, but you are denied "
+#~ "access to them:"
+#~ msgstr ""
+#~ "Následující články odkazují na články v tomto webu, ale Vy k nim máte "
+#~ "zakázán přístup:"
+
+#~ msgid "The form should be defined in the topic %1"
+#~ msgstr "Formulář měl být definován ve článku %1"
+
+#~ msgid "The lease on this topic expired %1 ago."
+#~ msgstr "Zámek na tomto článku vypršel před %1."
+
+#~ msgid "The name of the topic (%1) contained invalid characters."
+#~ msgstr "Název článku (%1) obsahoval nepovolené znaky."
+
+#~ msgid "The name of the topic must not be empty."
+#~ msgstr "Název článku nesmí být prázdný."
+
+#~ msgid "The name you log in with"
+#~ msgstr "Jméno, kterým se přihlašujete"
+
+#~ msgid "The new topic chosen must already exist."
+#~ msgstr "Nový vybraný článek už musí existovat."
+
+#~ msgid "The new web has been created"
+#~ msgstr "Nový web byl vytvořen"
+
+#~ msgid "The password you entered in the *old password* field is incorrect."
+#~ msgstr "Heslo, které jste vložil do *předchozího hesla* je nesprávná."
+
+#~ msgid ""
+#~ "The prefix you entered for the deleted user is not valid as a topic name."
+#~ msgstr ""
+#~ "Prefix, který se snažíte smazanému uživateli přiřadit, není povolen."
+
+#~ msgid "The required field %1 was not filled in."
+#~ msgstr "Požadované pole %1 nebylo vyplněno."
+
+#~ msgid "The selected User System does not support new user registration."
+#~ msgstr "Zvolený User System nepodporuje registraci nových uživatelů."
+
+#~ msgid "The topic is in an old format"
+#~ msgstr "Článek je ve starém formátu"
+
+#~ msgid "The two passwords you entered do not match."
+#~ msgstr "Hesla, která jste vložil nesouhlasí."
+
+#~ msgid ""
+#~ "The user %1 has already been activated, and should be able to log in."
+#~ msgstr ""
+#~ "Uživatel %1 byl již aktivován a měl by být schopen se přihlásit do "
+#~ "systému."
+
+#~ msgid "The user has been removed from the Authentication System."
+#~ msgstr "Uživatel byl smazán z autentifikačního systému."
+
+#~ msgid "The user has probably been already verified and/or approved."
+#~ msgstr "Uživatel byl již zřejmě ověřen a povolen."
+
+#~ msgid ""
+#~ "The username is checked for invalid characters using the below filter. "
+#~ "Any characters matching this filter will invalidate the username."
+#~ msgstr ""
+#~ "Uživatelské jméno je kontrolováno na nepovolené znaky s použitím níže "
+#~ "uvedeného filtru. Jakékoli znaky odpovídající tomuto filtru způsobí "
+#~ "zamítnutí tohoto jména."
+
+#~ msgid "The username that identifies you to the signon system. %1"
+#~ msgstr ""
+#~ "Uživatelské jméno, které vás identifikuje k přihlašovacímu systému. %1"
+
+#~ msgid "The value supplied for =%1= has been rejected."
+#~ msgstr "Hodnota dodaná pro =%1= byla zamítnuta."
+
+#~ msgid ""
+#~ "Their intention is to automatically save compromising data by sending a "
+#~ "request to your server, using your browser and your identity."
+#~ msgstr ""
+#~ "Jejich záměrem je automatické ukládání kompromitujících dat za pomoci "
+#~ "odeslání požadavku na server prostřednitvím vašeho prohlížeče a vaší "
+#~ "identity."
+
+#~ msgid "There are problems with renaming this web:"
+#~ msgstr "Problémy s přejmenováním tohoto webu:"
+
+#~ msgid "There has been a problem adding your user id to the Password system."
+#~ msgstr "Objevil se problém v přidání Vašeho účtu do systému."
+
+#~ msgid ""
+#~ "There is a risk that someone may be trying to use your identity to change "
+#~ "content on %1 without your knowledge."
+#~ msgstr ""
+#~ "Existuje riziko, že někdo se může pokoušet změnit obsah %1 bez vašeho "
+#~ "vědomí a navíc za použití vaší identity."
+
+#~ msgid ""
+#~ "There is no _internal admin_ password set.  See [[%1][Installation Guide "
+#~ "section on the internal admin]] for further help."
+#~ msgstr ""
+#~ "_internal admin_ password není nastaveno. Viz [[%1][Installation Guide "
+#~ "section on the internal admin]] pro více informací."
+
+#~ msgid "There should be a line that includes %1, look for %2 (or %3)"
+#~ msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
+
+#~ msgid "There were errors adding to the %2 group. %1 "
+#~ msgstr "Vyskytly se chyby v průběhu přidávání do skupiny %2. %1 "
+
+#~ msgid "There were errors removing %1 from the %2 group."
+#~ msgstr "Došlo k chybám při odstraňování %1 ze skupiny %2."
+
+#~ msgid "These steps may not be applicable to your system."
+#~ msgstr "Tento postup nemusí být aplikovatelný na váš systém."
+
+#~ msgid "This WikiName is already in use."
+#~ msgstr "Toto WikiJméno je již používáno."
+
+#~ msgid "This can be automatically upgraded by:"
+#~ msgstr "Toto může být automaticky upgradováno na:"
+
+#~ msgid "This could be for several reasons:"
+#~ msgstr "Mohlo se stát z několika příčin:"
+
+#~ msgid ""
+#~ "This form is used to change your registered e-mail addresses. Your "
+#~ "registered addresses are used by Foswiki for sending you e-mails, "
+#~ "including notifications of password changes. The addresses you register "
+#~ "via this form are kept secret and will *not* be published anywhere on "
+#~ "this site."
+#~ msgstr ""
+#~ "Tento formulář je použit pro změnu Vašich zaregistrovaných emailových "
+#~ "adres. Vaše zaregistrované emaily jsou použity Foswiki pro zasílání "
+#~ "zpráv, zahrnující upozornění na změny hesla. Adresy, které jste "
+#~ "zaregistrovali přes tento formuláŕ jsou bezpečně uloženy a *nebudou* "
+#~ "publikovány nikde na tomto webu."
+
+#~ msgid "This group should not have members."
+#~ msgstr "Tato skupina by neměla mít žádné členy."
+
+#~ msgid ""
+#~ "This is a subscription service to be automatically notified by e-mail "
+#~ "when topics change in this %1 web. This is a convenient service, so you "
+#~ "do not have to come back and check all the time if something has changed. "
+#~ "To subscribe, please add a bullet with your %2 in alphabetical order to "
+#~ "this list:"
+#~ msgstr ""
+#~ "Toto je služba, kdy jste automaticky upozorněni emailem, pokud se změní "
+#~ "článek v tomto %1 webu. Pro přihlášení, prosím přidejte odrážku s Vaším "
+#~ "%2 v abecedním pořádku do tohoto seznamu:"
+
+#~ msgid ""
+#~ "This is a temporary placeholder for your new comment. Refresh the topic "
+#~ "to see the actual comment."
+#~ msgstr ""
+#~ "Toto je dočasné místo pro váš komentář. Znovunačťete článek pro jeho "
+#~ "zobrazení."
+
+#~ msgid "This is also known as Cross-site Request Forgery, or CSRF."
+#~ msgstr "Toto je také známé pod názvem Cross-site Request Forgery (CSRF)."
+
+#~ msgid "This is an automated e-mail from %1."
+#~ msgstr "Toto je automatický email od %1."
+
+#~ msgid "This is an automated e-mail notification of user registration in %1."
+#~ msgstr "Toto je automatické upozornění na registraci uživatele v %1."
+
+#~ msgid "This is not a valid WikiName."
+#~ msgstr "Toto není platné WikiJméno."
+
+#~ msgid ""
+#~ "This is the Trash. Here you can undelete topics; deleted attachments are "
+#~ "in TrashAttachment."
+#~ msgstr ""
+#~ "Toto je Koš. Zde můžete obnovit články; smazané přílohy jsou v koši "
+#~ "příloh."
+
+#~ msgid "This is why the conversion is disabled:"
+#~ msgstr "Toto je důvod vypnuté konverze:"
+
+#~ msgid ""
+#~ "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
+#~ "[Register]] if you do not have an account yet."
+#~ msgstr ""
+#~ "Toto je vaše jméno zapsané jako !WikiWord, např. !JohnSmith. [[%1]"
+#~ "[Register]] pokud ještě nemáte svůj účet."
+
+#~ msgid "This must be a unique WikiName."
+#~ msgstr "Toto musí být unikátní WikiJméno."
+
+#~ msgid "This must be a valid login username."
+#~ msgstr "Toto musí být platný login uživatele."
+
+#~ msgid ""
+#~ "This name has been chosen so it doesn't conflict with any other topics "
+#~ "already in the %1 web."
+#~ msgstr ""
+#~ "Toto jméno bylo zvoleno tak, aby nekolidovalo s žádným článkem, který už "
+#~ "je na webu %1."
+
+#~ msgid ""
+#~ "This page explains one of the security measures that Foswiki, the "
+#~ "software that runs this site, performs to secure this site from attackers."
+#~ msgstr ""
+#~ "Tato stránka vysvětluje jedno z bezpečnostních opatření jež Foswiki, "
+#~ "software na kterém běží tato stránky, provádí k ochraně před útočníky."
+
+#~ msgid "This page was cached on %1."
+#~ msgstr "Tato stránka byla uložena do cache dne %1."
+
+#~ msgid "This requires the form definition to be present."
+#~ msgstr "Toto vyžaduje aby existovala definice formuláře."
+
+#~ msgid "This site is powered by Foswiki"
+#~ msgstr "Tento web běží na Foswiki"
+
+#~ msgid "This site requires at least %1 character passwords"
+#~ msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
+
+#, fuzzy
+#~ msgid "This system is configured to use usernames."
+#~ msgstr "Tento systém je nakonfigurován k používání uživatelských jmen"
+
+#, fuzzy
+#~ msgid ""
+#~ "This system is not configured to support user login. Return to [[%1]]."
+#~ msgstr "Tento systém je nakonfigurován k používání uživatelských jmen"
+
+#~ msgid "This topic:"
+#~ msgstr "Tento článek:"
+
+#~ msgid "This username is already in use."
+#~ msgstr "Tento uživatel je již registrován."
+
+#~ msgid ""
+#~ "Those changes have been merged with yours to create Rev %1. Text fields "
+#~ "will have been merged, but other data such as form fields may have "
+#~ "overwritten the other users changes. Please inspect the topic to make "
+#~ "sure it is OK, especially if you made any changes to form fields."
+#~ msgstr ""
+#~ "Změny byly spojeny s Vašimi, pro vytvoření revize %1. Textové pole budou "
+#~ "spojeny, ale ostatní data jako jsou pole formulářů mohou být přepsány "
+#~ "změnami ostatních uživatelů. Prosím zkontrolujte článek aby jste se "
+#~ "ujistili, že je vše v pořádku, obzvláště pokud jste udělal změny do polí "
+#~ "formulářů."
+
+#~ msgid ""
+#~ "Though rarely used in common practice, you can use the special =="
+#~ "%<nop>USERSWEB%== [[%1.Macros][macro]] prefix for !WikiNames, for "
+#~ "example, ==%<nop>USERSWEB%.%WIKINAME%==."
+#~ msgstr ""
+#~ "Ačkoli je to využíváno zřídka, můžete použít tento speciáalní prefix =="
+#~ "%<nop>USERSWEB%== [[%1.Macros][macro]] pro !WikiNames, například  =="
+#~ "%<nop>USERSWEB%.%WIKINAME%==."
+
+#~ msgid "To approve this registration, visit %2"
+#~ msgstr "K potvrzení registrace, přejděte na %2"
+
+#~ msgid "To attachment:"
+#~ msgstr "K příloze:"
+
+#, fuzzy
+#~ msgid "To block this registration, visit %2"
+#~ msgstr "K zablokování této registrace, navštivte %2"
+
+#~ msgid ""
+#~ "To display the above search results in a topic, copy-paste the following "
+#~ "markup:"
+#~ msgstr "K zobrazení výsledků hledání okopírujte následující kód:"
+
+#~ msgid "To edit the topic anyway, click "
+#~ msgstr "Pokud chcete článek přesto editovat, stiskněte "
+
+#, fuzzy
+#~ msgid "To login as another user please do so [[%1][here]]."
+#~ msgstr "Pro přihlášení jako jiný uživatel, prosím pokračujte [[%1][zde]]"
+
+#, fuzzy
+#~ msgid ""
+#~ "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
+#~ "click here </a> "
+#~ msgstr "Získejte aktuální verzi <a href='%1' rel='nofollow'>zde</a>."
+
+#~ msgid "To see if %1 has finished editing yet, click "
+#~ msgstr "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte "
+
+#~ msgid "To topic"
+#~ msgstr "Na článek"
+
+#~ msgid "To topic:"
+#~ msgstr "K článku:"
+
+#~ msgid "To web"
+#~ msgstr "Na web"
+
+#~ msgid "To web:"
+#~ msgstr "K webu:"
+
+#~ msgid "Too many recursions parsing template %1"
+#~ msgstr "Příliš mnoho rekurzí při procházení šablony %1"
+
+#~ msgid "Toolbox"
+#~ msgstr "Nástroje"
+
+#~ msgid "Topic %1 does not exist"
+#~ msgstr "Článek %1 neexistuje"
+
+#~ msgid "Topic Save Error"
+#~ msgstr "Chyba při uložení článku"
+
+#~ msgid "Topic attachments"
+#~ msgstr "Přílohy článku"
+
+#~ msgid "Topic can not be upgraded from old style category table"
+#~ msgstr "Článek nemůže být upgradován ze starého stylu tabulky kategorií"
+
+#~ msgid "Topic data"
+#~ msgstr "Data která tvoří článek"
+
+#~ msgid "Topic history"
+#~ msgstr "Historie článku"
+
+#~ msgid "Topic list for %1 Web"
+#~ msgstr "Články na webu %1"
+
+#~ msgid "Topic name"
+#~ msgstr "Jméno článku"
+
+#~ msgid "Topic name:"
+#~ msgstr "Jméno článku:"
+
+#~ msgid "Topic parent:"
+#~ msgstr "Nadřízený článek:"
+
+#~ msgid "Topic revision:"
+#~ msgstr "Revize článku:"
+
+#~ msgid "Topic save error"
+#~ msgstr "Chyba uložení článku"
+
+#~ msgid "Topic templates in %1 Web"
+#~ msgstr "Šablony článku ve webu %1"
+
+#~ msgid "Topic title"
+#~ msgstr "Název článku"
+
+#~ msgid "Topic was merged"
+#~ msgstr "Článek byl spojen"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Článek bude pojmenován: "
+
+#~ msgid "Topics in %1 web:"
+#~ msgstr "Články na webu %1:"
+
+#~ msgid "Topics per web"
+#~ msgstr "Články na web"
+
+#~ msgid ""
+#~ "Topics which are currently being edited by other users in the %1 Web:"
+#~ msgstr ""
+#~ "Články ve webu %1, které jsou v současnosti editovány ostatními uživateli:"
+
+#~ msgid ""
+#~ "Topics which refer to this web and are are currently being edited by "
+#~ "other users:"
+#~ msgstr ""
+#~ "Články které odkazují na tento web a jsou v současnosti editovány "
+#~ "ostatními uživateli:"
+
+#~ msgid ""
+#~ "Topics which refer to this web that you do not have permission to change:"
+#~ msgstr ""
+#~ "Články, které odkazují na tento web, u kterých nemáte právo je změnit:"
+
+#~ msgid "Total matches"
+#~ msgstr "Celkem vyhovuje"
+
+#~ msgid "Try Again"
+#~ msgstr "Zkuste znova"
+
+#~ msgid "Unchanged sections before and after each change"
+#~ msgstr "Části beze změn před a po každé změně"
+
+#~ msgid "Unrecognised user and/or password"
+#~ msgstr "Neznámý účet nebo heslo"
+
+#~ msgid "Unrecognized action command %1"
+#~ msgstr "Nerozeznaný příkaz akce: %1"
+
+#~ msgid ""
+#~ "Unsafe redirect to %1 is denied. The requested host does not match %2, "
+#~ "and is not in {PermittedRedirectHostUrls}."
+#~ msgstr ""
+#~ "Přesměrováni na adresu %1 je nebezpečné a proto zakázáno. Požadovaná "
+#~ "adresa neodpovídá %2, a není v {PermittedRedirectHostUrls}."
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Odhlášení odběru"
+
+#~ msgid "Unsubscribe from this topic"
+#~ msgstr "Odhlášení z odběru tohoto článku"
+
+#~ msgid "Unsubscribe from this topic (s)"
+#~ msgstr "Odhlášení z odběru těchto článků"
+
+#~ msgid "Unsupported [[%1][username]]"
+#~ msgstr "Nepodporované [[%1][username]]"
+
+#~ msgid "Update"
+#~ msgstr "Aktualizuj"
+
+#~ msgid "Update attachment %1 on %2"
+#~ msgstr "Změna přílohy %1 v %2"
+
+#~ msgid "Update links"
+#~ msgstr "Aktualizuj odkazy"
+
+#~ msgid "Upgrade"
+#~ msgstr "Proveď upgrade"
+
+#~ msgid "Upgrade group topic..."
+#~ msgstr "Upgraduj téma skupiny..."
+
+#~ msgid "Upgraded group"
+#~ msgstr "Upgradovaná skupina"
+
+#~ msgid "Upload a file"
+#~ msgstr "Nahraj přílohu"
+
+#~ msgid "Upload file"
+#~ msgstr "Nahraj přílohu"
+
+#~ msgid "Upload multiple attachments in one zip file"
+#~ msgstr "Nahraj více příloh v rámci jednoho ZIP souboru"
+
+#~ msgid "Upload up to %1 KB."
+#~ msgstr "Maximální velikost přílohy je %1 KB."
+
+#~ msgid "Uploaded file %1 exceeds limit of %2 KB"
+#~ msgstr "Velikost přílohy %1 přesáhla limit %2 KB"
+
+#~ msgid "Uploaded file is too big"
+#~ msgstr "Příloha je příliš veliká"
+
+#~ msgid "Use %1 instead."
+#~ msgstr "Použijte spíše %1."
+
+#~ msgid "Use template:"
+#~ msgstr "Použij šablonu:"
+
+#~ msgid ""
+#~ "Use this button to load the content.%BR% *Caution* the content is very "
+#~ "large and loading it will put a high load on your browser. Only load the "
+#~ "content if you are going to print it - otherwise use the "
+#~ "[[ReferenceManual][online reference manual]]."
+#~ msgstr ""
+#~ "Použijte toto tlačítko pro nahrání obsahu. %BR% *Upozornění* obsah je "
+#~ "velmi velký a nahrávání zatíží vysoce prohlížeč. Nahrajte obsah pouze "
+#~ "pokud jej hodláte tisknout - jinak použijte  [[ReferenceManual][online "
+#~ "reference manual]]."
+
+#~ msgid ""
+#~ "Use this button to load the content.%BR% *Caution* the search on this "
+#~ "topic can be very resource intensive. Only load the content if you really "
+#~ "need it, otherwise review the WebChanges topic from each web."
+#~ msgstr ""
+#~ "Použijte toto tlačítko pro nahrání obsahu. %BR% *Výstraha* prohledávání "
+#~ "může být velmi náročné na systémové prostředky. Obsah nahrajte pouze "
+#~ "pokud jej skutečně potřebujete, jinak si prohlédněte změny webu na každém "
+#~ "z nich."
+
+#~ msgid "User %1 does not have CHANGE permission on %2."
+#~ msgstr "Uživatel %1 nemá právo měnit %2."
+
+#~ msgid "User %1 not in group, cannot be removed"
+#~ msgstr "Uživatel %1 není v žádné skupině, a nemůže být proto vyjmut"
+
+#~ msgid "User Account %1 Deleted"
+#~ msgstr "Účet %1 byl vymazán"
+
+#~ msgid "User Account was not supplied"
+#~ msgstr "Účet uživatele nebyl dodán"
+
+#~ msgid "User Reference"
+#~ msgstr "Uživatelské reference"
+
+#~ msgid "User Registration"
+#~ msgstr "Registrace uživatele"
+
+#~ msgid ""
+#~ "User exists in the Password Manager,  and the password you provided is "
+#~ "different from the users current password.   You cannot add a user and "
+#~ "change the password at the same time."
+#~ msgstr ""
+#~ "Uživatel je registrován v Password Manageru, a heslo vámi zadané je "
+#~ "rozdílné od uživatelova aktuálního hesla. Nemůžete přidat uživatele a "
+#~ "změnit heslo zárověň."
+
+#~ msgid "Username"
+#~ msgstr "Váš účet"
+
+#~ msgid "Username %1."
+#~ msgstr "Uživatelské jméno %1."
+
+#~ msgid "Username or email address"
+#~ msgstr "Uživatelské jméno nebo emailová adresa"
+
+#~ msgid "Users"
+#~ msgstr "Uživatelé"
+
+#~ msgid "Users cannot be added to %1"
+#~ msgstr "Uživatelé nemohou být přidáni do %1"
+
+#~ msgid "Users cannot be removed from %1"
+#~ msgstr "Uživatelé nemohou být odebráni z %1"
+
+#~ msgid ""
+#~ "Users with automatically generated passwords should proceed immediately "
+#~ "to [[%1][change password]] to change their password to something "
+#~ "memorable."
+#~ msgstr ""
+#~ "Uživatelé s automaticky generovanými hesly by měli pokračovat do [[%1]"
+#~ "[změň heslo]] a změnit své heslo na něco zapamatovatelného."
+
+#~ msgid "Version"
+#~ msgstr "Verze"
+
+#~ msgid "Version history"
+#~ msgstr "Historie verzí"
+
+#~ msgid "Version history of %1"
+#~ msgstr "Historické verze %1"
+
+#~ msgid "View"
+#~ msgstr "Náhled"
+
+#~ msgid "View complete topic history"
+#~ msgstr "Zobraz celou historii článku"
+
+#~ msgid "View difference"
+#~ msgstr "Zobraz rozdíly"
+
+#~ msgid "View differences"
+#~ msgstr "Zobraz rozdíly"
+
+#~ msgid "View earlier"
+#~ msgstr "Zobraz dřívější"
+
+#~ msgid "View later"
+#~ msgstr "Zobraz pozdější"
+
+#~ msgid "View previous topic revision"
+#~ msgstr "Prohlédni předchozí revize článku"
+
+#~ msgid "View raw text without formatting"
+#~ msgstr "Prohlédni nepracovaný text (bez formátování)"
+
+#~ msgid "View revision"
+#~ msgstr "Zobraz revize"
+
+#~ msgid "View revision:"
+#~ msgstr "Zobraz revize:"
+
+#~ msgid "View sequential topic history"
+#~ msgstr "Zobraz celou historii článku tak jak šla za sebou"
+
+#~ msgid "View templates"
+#~ msgstr "Zobraz šablony"
+
+#~ msgid "View topic"
+#~ msgstr "Ukaž článek"
+
+#~ msgid "View total topic history"
+#~ msgstr "Ukaž celou historii článku"
+
+#~ msgid "View without formatting (v)"
+#~ msgstr "Zobraz neformátovaný text (v)"
+
+#~ msgid "Warning! Confirmation required"
+#~ msgstr "Varování! Je vyžadováno potvrzení"
+
+#~ msgid "Warning: 'include' topic does not exist!"
+#~ msgstr "Varování: 'include' článek ještě neexistuje!"
+
+#~ msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+#~ msgstr ""
+#~ "Varování: INCLUDE %1 nelze provést opakovaně, článek je už zahrnut. %2"
+
+#~ msgid ""
+#~ "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#~ msgstr ""
+#~ "Varování: Nemohu provést INCLUDE '%1', cesta je prázdná nebo obsahuje "
+#~ "nepovolené znaky."
+
+#~ msgid "Warning: Can't find named section %3 in topic %1.%2"
+#~ msgstr "Varování: Nemohu najít sekci %3 v článku %1.%2"
+
+#~ msgid "Warning: Can't find topic %1.%2"
+#~ msgstr "Varování: Nemohu najít článek %1.%2"
+
+#~ msgid "Warning: Can't find web %1 for topic %2"
+#~ msgstr "Varování: Nemohu najít web %1 pro článek %2"
+
+#~ msgid "Warning: Could not send confirmation email"
+#~ msgstr "Varování: Nemohu odeslat potvrzovací email"
+
+#~ msgid "Warning: Could not send confirmation email, email has been disabled"
+#~ msgstr ""
+#~ "Varování: Nemohu zaslat potvrzovací email, zasílání emailů je vypnuté"
+
+#~ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+#~ msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
+
+#~ msgid "Warning: Updates found for %1 extension(s)."
+#~ msgstr "Varování: Nalezeny aktualizace pro %1 rozšíření."
+
+#~ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+#~ msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
+
+#, fuzzy
+#~ msgid "Warning: \\'include\\' topic does not exist!"
+#~ msgstr "Varování: 'include' článek ještě neexistuje!"
+
+#~ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
+#~ msgstr "Varování: definice tabulky v \\'include\\' článku %1 neexistuje!"
+
+#, fuzzy
+#~ msgid ""
+#~ "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
+#~ "you wish to register."
+#~ msgstr ""
+#~ "Všimli jsme si, že máte vypnutý Javascript. Pokud se chcete "
+#~ "zaregistrovat, prosím povolte jej."
+
+#~ msgid ""
+#~ "We noticed you have disabled cookies. Please enable cookies if you wish "
+#~ "to register."
+#~ msgstr ""
+#~ "Všimli jsme si, že máte vypnuté cookies. Prosím povolte je, pokud si "
+#~ "přejete zaregistrovat."
+
+#~ msgid "Web Changes notification service"
+#~ msgstr "Služba upozornění o změnách na webu"
+
+#~ msgid "Webs"
+#~ msgstr "Weby"
+
+#~ msgid "Webserver <em>running Foswiki</em>"
+#~ msgstr "Webový server <em>na kterém běží Foswiki</em>"
+
+#~ msgid "Welcome to %1 ... meet people on this site"
+#~ msgstr "Vítejte na %1 ... potkejte zde lidi"
+
+#~ msgid "Welcome to the %1 web"
+#~ msgstr "Vítejte do %1 webu"
+
+#~ msgid "While attempting to email <noautolink>%1</noautolink>."
+#~ msgstr "Zatímco přistupuji k emailu <noautolink>%1</noautolink>."
+
+#~ msgid "Who"
+#~ msgstr "Kdo"
+
+#~ msgid "Who is requesting this, actually?"
+#~ msgstr "Kdo toto vlastně požaduje?"
+
+#~ msgid "Whole page"
+#~ msgstr "Celá stránka"
+
+#~ msgid "Why am I being asked to confirm?"
+#~ msgstr "Proč jsem stále dotazován na potvrzení?"
+
+#~ msgid ""
+#~ "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
+#~ "Foswiki.org]]."
+#~ msgstr ""
+#~ "Wiki administrátoři by si měli přečíst o [[%1][SecurityFeatures topic on "
+#~ "Foswiki.org]]."
+
+#~ msgid "Word search"
+#~ msgstr "Hledání slov"
+
+#~ msgid "Would you like to go to:"
+#~ msgstr "Chcete jít na:"
+
+#~ msgid "Yes"
+#~ msgstr "Ano"
+
+#~ msgid "You"
+#~ msgstr "Ty"
+
+#, fuzzy
+#~ msgid ""
+#~ "You *must* have at least one valid registered e-mail to be able to reset "
+#~ "your password. If none of your registered e-mail addresses is valid, and "
+#~ "you have forgotten your password, contact %1."
+#~ msgstr ""
+#~ "*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl "
+#~ "schopen resetovat Vaše heslo. Pokud žádná z Vašich registrovaných "
+#~ "emailových adres není validní a Vy jste zapomněl Vaše heslo, kontaktujte "
+#~ "%1"
+
+#~ msgid "You are already registered."
+#~ msgstr "Už jste registrován."
+
+#~ msgid "You are also listed in the %1 topic"
+#~ msgstr "Také jste uveden v článku %1"
+
+#~ msgid "You are denied access to the following topics in the web:"
+#~ msgstr "Nemáte přístup k tomuto článku:"
+
+#~ msgid ""
+#~ "You are encouraged to go ahead and edit - unless you intend to change "
+#~ "data in a form attached to the topic. If %1 actually _does_ save while "
+#~ "you are editing, your changes will be merged, and nothing will be lost. "
+#~ "Form data cannot easily be merged though, so in this case you are "
+#~ "recommended to check with %1 first."
+#~ msgstr ""
+#~ "Povzbuzujeme Vás k editaci článků - pokud nechcete změnit data ve "
+#~ "formuláři připojenému ke článku. Pokud %1 nakonec uloží článek pokud vy "
+#~ "editujete, Vaše změny budou spojeny a nic se neztratí. Data formulářů "
+#~ "nemohou být tak lehce spojena, proto v tomto případě Vám doporučujeme "
+#~ "nejdříve kontaktovat %1."
+
+#~ msgid "You are here:"
+#~ msgstr "Jste zde:"
+
+#~ msgid ""
+#~ "You are recommended to choose short names, preferably less than 10 "
+#~ "characters, starting with an upper-case alphabetic character and using "
+#~ "only alphanumeric characters. If you want to create a template web (a web "
+#~ "just used as a base to create new webs) choose a name that starts with an "
+#~ "underscore and has only alphanumeric characters."
+#~ msgstr ""
+#~ "Doporučujeme Vám vybrat krátké jméno, nejlépe kratší než 10 znaků, "
+#~ "začínající velkým písmenem a použít pouze písmena a číslice. Pokud chcete "
+#~ "vytvořit vzorový web (web použitý pouze jako základ pro vytvoření nových "
+#~ "webů), vyberte jméno, které  začíná podtržitkem a obsahuje pouze "
+#~ "alfanumerické znaky."
+
+#~ msgid "You are trying to access an attachment that does not exist."
+#~ msgstr "Zkoušíte otevřít přílohu, která neexistuje."
+
+#~ msgid ""
+#~ "You are trying to create a topic from a template that does not exist."
+#~ msgstr "Pokoušíte se vytvořit článek ze šablony která neexistuje."
+
+#~ msgid ""
+#~ "You are trying to perform an action on a topic that does not exist "
+#~ "(action '%1')."
+#~ msgstr "Pokoušíte se provést akci '%1' článkem který neexistuje."
+
+#~ msgid "You are trying to rename a topic that does not exist."
+#~ msgstr "Zkoušíte přejmenovat článek který neexistuje."
+
+#~ msgid ""
+#~ "You can [[%1][create a new web]] if you have permission. Contact %2 if "
+#~ "you have any questions."
+#~ msgstr ""
+#~ "Můžete [[%1][vytvoř nový web]] pokud k tomu máte práva. Kontaktujte %2, "
+#~ "pokud máte nějaké otázky."
+
+#~ msgid ""
+#~ "You can also use the names of the standard HTML colors (black, silver, "
+#~ "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, "
+#~ "navy, blue, teal, or aqua)"
+#~ msgstr ""
+#~ "Můžete také použít jména standardních HTML barev  (black, silver, gray, "
+#~ "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
+#~ "blue, teal, or aqua)"
+
+#~ msgid "You can change your password at via %1"
+#~ msgstr "Můžete změnit Vaše heslo přes %1"
+
+#~ msgid "You can give this web a different name."
+#~ msgstr "Webu můžete dát jiné jméno."
+
+#~ msgid ""
+#~ "You cannot add users to a missing group unless the create option is set."
+#~ msgstr ""
+#~ "Nemůžete přidat uživatele do chybějící skupiny, pokud volba pro její "
+#~ "vytvoření není nastavena."
+
+#~ msgid ""
+#~ "You cannot alter your username: you have to get the administrator to do "
+#~ "this for you."
+#~ msgstr ""
+#~ "Nemůžete změnit vaše uživatelské jméno: za tímto účelem můsíte "
+#~ "kontaktovat administrátora."
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot proceed because either Cookies or !JavaScript are disabled in "
+#~ "your browser."
+#~ msgstr ""
+#~ "Nemůžete pokračovat, protože buď Cookies nebo Javascript jsou ve vašem "
+#~ "prohlížeči zakázány."
+
+#~ msgid "You cannot register twice, the name %1 is already registered."
+#~ msgstr "Nemůžete se registrovat dvakrát, účet %1 už je zaregistrováno."
+
+#~ msgid ""
+#~ "You change your email address by setting the form field called Email in "
+#~ "your user topic. If this form field does not exist it will look for a "
+#~ "line like this:"
+#~ msgstr ""
+#~ "Vaši emailovou adresu změníte v poli Email na vaší osobní stránce. "
+#~ "Jestliže toto pole neexistuje podívejte se po řádce jako je tato:"
+
+#~ msgid "You have *not* been registered."
+#~ msgstr "Ještě jste *ne*byl registrován."
+
+#~ msgid ""
+#~ "You may be able to get your Wiki administrator to change the settings if "
+#~ "they are inappropriate for your environment."
+#~ msgstr ""
+#~ "Váš Wiki administrátor může změnit nastavení, pokud jsou nevhodné pro "
+#~ "Vaše prostředí."
+
+#~ msgid ""
+#~ "You may have clicked a registration verification link that you had "
+#~ "already visited."
+#~ msgstr ""
+#~ "Možná jste klikli na registrační verifikační link, který jste již jednou "
+#~ "použili."
+
+#~ msgid "You may need to close your browser to make this change take effect."
+#~ msgstr "Musíte zavřít Váš prohlížeč, aby se změny projevily."
+
+#~ msgid "You must pass a topic name."
+#~ msgstr "Musíte zadat název stránky."
+
+#~ msgid "You need to specify a valid group name to add members to a group."
+#~ msgstr ""
+#~ "Pro přidání uživatelů do skupiny musíte zadat validní jméno skupiny."
+
+#~ msgid ""
+#~ "You need to specify a valid group name to remove members from a group."
+#~ msgstr ""
+#~ "Pro odebrání uživatelů ze skupiny musíte zadat validní jméno skupiny."
+
+#~ msgid "You need to specify a valid member to add to a group."
+#~ msgstr "Pro přidání do skupiny musíte zadat existujícího uživatele."
+
+#~ msgid "You need to specify a valid member to remove from a group."
+#~ msgstr "Pro odebrání za skupiny musíte zadat existujícího uživatele."
+
+#~ msgid ""
+#~ "You now need to verify your e-mail address. You can do so by entering %1 "
+#~ "in the form presented to you when this e-mail was sent, or by visiting %2"
+#~ msgstr ""
+#~ "Nyní je potřeba ověřit Vaši emailovou adresu. To můžete provést vložením "
+#~ "%1 do formuláře, který se Vám zobrazil, když tento email byl odeslán nebo "
+#~ "navštívením %2"
+
+#~ msgid "You will probably have to ask your administrator, %1, to do this."
+#~ msgstr ""
+#~ "Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
+#~ "toto mohl udělat."
+
+#~ msgid "You will receive an e-mail when your registration has been approved."
+#~ msgstr "Poté co bude vaše registrace potvrzena, obdržíte email."
+
+#~ msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
+#~ msgstr "Vaše [[%1][Wikiname]] je %2 a vaše uživatelské jméno je =%3=."
+
+#~ msgid "Your [[%1][username]]:"
+#~ msgstr "Vaše [[%1][uživatelské jméno]]:"
+
+#~ msgid ""
+#~ "Your activation code has been sent to %1.  Either click on the link in "
+#~ "your e-mail or enter the code in the box below to activate your "
+#~ "membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
+#~ msgstr ""
+#~ "Váš aktivační kód byl odeslán do %1. Buď klikněte na odkaz ve Vašem "
+#~ "emailu nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. "
+#~ "(Tento kód je ve formě \"VašeJméno.xxxxxxxxxx\")"
+
+#~ msgid "Your email address will be kept confidential."
+#~ msgstr "Vaše emailová adresa bude vedena v tajnosti."
+
+#, fuzzy
+#~ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
+#~ msgstr "Vaše heslo bylo změnéno na %1."
+
+#, fuzzy
+#~ msgid "Your name as displayed by %1."
+#~ msgstr "Vaše jméno je zobrazeno %1. %2"
+
+#~ msgid ""
+#~ "Your name, usually your first and last name connected without a space."
+#~ msgstr ""
+#~ "Vaše jméno, obyčejně vaše křestní jméno a příjmení spojeno dohromady bez "
+#~ "mezery."
+
+#~ msgid "Your password has been changed to %1."
+#~ msgstr "Vaše heslo bylo změnéno na %1."
+
+#~ msgid "Your password has not been changed."
+#~ msgstr "Vaše heslo nebylo změnéno."
+
+#~ msgid "Your password must be at least %1 characters long."
+#~ msgstr "Vaše heslo musí být nejméně %1 znaků dlouhé."
+
+#~ msgid "Your password:"
+#~ msgstr "Vaše heslo:"
+
+#~ msgid ""
+#~ "Your personal %1 topic is located at %2. You can customize it as you like:"
+#~ msgstr "Váš osobní článek %1 je umístěn v %2. Můžete ho změnit, jak chcete:"
+
+#~ msgid "Your personal Foswiki topic %1 has been created"
+#~ msgstr "Váše osobní stránka %1 byla vytvořena"
+
+#~ msgid ""
+#~ "Your registered e-mail address(es) are updated to: <noautolink>%1</"
+#~ "noautolink>."
+#~ msgstr ""
+#~ "Vaše zaregistrované adresy(a) jsou změněny na: <noautolink>%1</"
+#~ "noautolink>."
+
+#~ msgid ""
+#~ "Your registered e-mails are used by Foswiki for sending you e-mails, "
+#~ "include notifications of password changes."
+#~ msgstr ""
+#~ "Vaše registrované emaily používá Foswiki pro zasílání informací včetně "
+#~ "notifikace o změně hesla."
+
+#~ msgid "Your registration is pending approval by the system administrators."
+#~ msgstr "Vaše registrace čeká na schválení administrátorem."
+
+#~ msgid ""
+#~ "Your registration verification email has either failed, or is queued in "
+#~ "the mail system."
+#~ msgstr ""
+#~ "Váš registrační verifikační email buď nebyl odeslán, nebo teprve čeká na "
+#~ "odeslání."
+
+#~ msgid "Your signature to copy/paste"
+#~ msgstr "Váš podpis pro kopírování/vložení"
+
+#~ msgid "Your signature to copy/paste:"
+#~ msgstr "Vaše značka pro kopírování/vložení:"
+
+#~ msgid ""
+#~ "Your system may not support changing passwords through Foswiki. Check "
+#~ "with your Wiki administrator."
+#~ msgstr ""
+#~ "Váš systém možná nepodporuje změnu hesel pomocí Foswiki. Zkontrolujte to "
+#~ "se svým administrátorem."
+
+#~ msgid ""
+#~ "Your user registration failed because it did not pass the validation "
+#~ "tests."
+#~ msgstr "Vaše registrace nebyla úspěšná, protože neprošla validačními testy."
+
+#, fuzzy
+#~ msgid ""
+#~ "[[%1][Click here]] for guidance on creating a valid username for this "
+#~ "site."
+#~ msgstr ""
+#~ "[[%1][Click here]] pro průvodce vytvářením validního uživatelského jména "
+#~ "pro tento web"
+
+#~ msgid "[[%1][Debug topic text]]."
+#~ msgstr "Klikni na [[%1][Odstranění chyb v textu stránky]]."
+
+#~ msgid "[[%1][username]]:"
+#~ msgstr "[[%1][uživatelské jméno]]:"
+
+#~ msgid "_language_name"
+#~ msgstr "Čeština"
+
+#~ msgid "access denied on root"
+#~ msgstr "přístup na root není povolen"
+
+#~ msgid "access denied on topic"
+#~ msgstr "přístup ke článku nepovolen"
+
+#~ msgid "access denied on web"
+#~ msgstr "přístup k webu nepovolen"
+
+#~ msgid "access not allowed on root"
+#~ msgstr "přístup na root není povolen"
+
+#~ msgid "access not allowed on topic"
+#~ msgstr "přístup ke článku nepovolen"
+
+#~ msgid "access not allowed on web"
+#~ msgstr "přístup k webu není povolen"
+
+#~ msgid "accesskey='c'"
+#~ msgstr "přístupový klíč='c'"
+
+#~ msgid "and"
+#~ msgstr "a"
+
+#~ msgid "by %1 "
+#~ msgstr "za pomoci %1 "
+
+#~ msgid "change display options"
+#~ msgstr "změň nastavení pro zobrazení"
+
+#~ msgid "change, update, previous revisions, move, delete..."
+#~ msgstr "změnit, aktualizovat, předchozí revize, přesunout, vymazat..."
+
+#~ msgid "close display options"
+#~ msgstr "zavři nastavení pro zobrazení"
+
+#~ msgid "diff"
+#~ msgstr "rozdíl"
+
+#~ msgid "don't forget to check your Topic Settings"
+#~ msgstr "nezapomeň zkontrolovat nastavení článku (Topic Settings)"
+
+#~ msgid "earlyInitPlugin failed.  See errors below."
+#~ msgstr "earlyInitPlugin zhavaroval. Více chyby uvedené níže."
+
+#~ msgid "fields are required."
+#~ msgstr "pole jsou povinná."
+
+#~ msgid "help"
+#~ msgstr "nápověda"
+
+#, fuzzy
+#~ msgid "hide form"
+#~ msgstr "Přidej formulář"
+
+#~ msgid "hints on good style"
+#~ msgstr "nápověda k dobrému stylu"
+
+#~ msgid "in raw text format"
+#~ msgstr "v neupraveném textovém formátu"
+
+#~ msgid "initPlugin was not defined. See errors below."
+#~ msgstr "initPlugin nebyl definován. Více viz chyby uvedené níže."
+
+#~ msgid "last change"
+#~ msgstr "poslední změna"
+
+#~ msgid "manage"
+#~ msgstr "řídit"
+
+#~ msgid "more..."
+#~ msgstr "více..."
+
+#~ msgid "now %1"
+#~ msgstr "nyní je %1"
+
+#~ msgid "or"
+#~ msgstr "nebo"
+
+#~ msgid "preview"
+#~ msgstr "náhled"
+
+#~ msgid "retrieved at %1"
+#~ msgstr "nalezeno v %1"
+
+#~ msgid "revision %1"
+#~ msgstr "revize %1"
+
+#~ msgid "set preferences"
+#~ msgstr "nastavit předvolby"
+
+#~ msgid "the beginning"
+#~ msgstr "počátek"
+
+#~ msgid ""
+#~ "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+#~ msgstr ""
+#~ "title='Připoj obrázek nebo soubor k tomuto ćlánku' accesskey='a'>&Vlož "
+#~ "přílohu"
+
+#~ msgid "title='Attach an image or document to this topic'>Attach"
+#~ msgstr "nadpis='Připoj obrázek nebo soubor k tomuto ćlánku'>Připoj"
+
+#~ msgid "title='Create new topic' accesskey='c'>&Create"
+#~ msgstr "title='Vytvoř nový článek' accesskey='c'>&Vytvoř"
+
+#~ msgid ""
+#~ "title='Delete or rename this topic; set parent topic; view and compare "
+#~ "revisions' accesskey='m'>&More topic actions"
+#~ msgstr ""
+#~ "title='Smazat nebo přejmenovat tento článek; nastavit nadřízený článek; "
+#~ "ukaž a porovnej revize' accesskey='m'>&Další akce"
+
+#~ msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+#~ msgstr "nadpis='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
+
+#~ msgid "title='Edit this topic text' >Edit"
+#~ msgstr "title='Edituj text tohoto článku' >Edit"
+
+#~ msgid "title='Edit this topic text' accesskey='e'>&Edit"
+#~ msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
+
+#~ msgid "title='Interwoven' accesskey='i'>&interwoven"
+#~ msgstr "nadpis='Proložený' klávesová zkratka='i'>&interwoven"
+
+#~ msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+#~ msgstr "title='Verze pro tisk' accesskey='p'>&Print version"
+
+#~ msgid ""
+#~ "title='Search all webs for topics that link to here' accesskey='l'>A&ll "
+#~ "Webs"
+#~ msgstr ""
+#~ "title='Prohledej všechny weby na články které odkazují sem' "
+#~ "accesskey='V'>&Všechny weby"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' "
+#~ "accesskey='b'>&Backlinks"
+#~ msgstr ""
+#~ "title='Hledej články ve webu %1 které sem odkazují' "
+#~ "accesskey='b'>&Backlinks"
+
+#~ msgid ""
+#~ "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+#~ msgstr ""
+#~ "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We&b"
+
+#~ msgid "title='Side by side' accesskey='s'>&side by side"
+#~ msgstr "nadpis='Vedle sebe' klávesová zkratka='s'>&side by side"
+
+#~ msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+#~ msgstr "title='Přihlaš se k odběru tohoto článku' accesskey='s'>&Subscribe"
+
+#~ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+#~ msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
+
+#~ msgid "title='View complete topic history' accesskey='h'>&History"
+#~ msgstr "title='Ukaž celou historii článku' accesskey='h'>&History"
+
+#~ msgid "title='View topic' accesskey='v'>&View topic"
+#~ msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
+
+#~ msgid "title='View without formatting' accesskey='v'>&View wiki text"
+#~ msgstr ""
+#~ "title='Zobraz zdrojový text (bez formátování)' accesskey='v'>&View wiki "
+#~ "text"
+
+#~ msgid "user list truncated"
+#~ msgstr "neúplný uživatelský seznam"
+
+#~ msgid "value='Cancel' accesskey='c'"
+#~ msgstr "value='Přerušit' accesskey='c'"
+
+#~ msgid "value='Discard' accesskey='d'"
+#~ msgstr "value='Zruš' accesskey='d'"
+
+#~ msgid "value='Preview' accesskey='p'"
+#~ msgstr "value='Ukázka' accesskey='p'"
+
+#~ msgid "value='Quiet save' accesskey='q'"
+#~ msgstr "value='Ulož bez propagování do RSS a pokračuj' accesskey='q'"
+
+#~ msgid "value='Save and Continue' accesskey='k'"
+#~ msgstr "value='Ulož a pokračuj' accesskey='k'"
+
+#~ msgid "value='Save' accesskey='s'"
+#~ msgstr "value='Ulož' accesskey='s'"
+
+#~ msgid "view"
+#~ msgstr "náhled"
+
+#~ msgid "why you are being asked to confirm"
+#~ msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 byl schválen a zaregistrován s e-mailem %2"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Návrat k [_0]"
+
+#~ msgid ""
+#~ "International (8-bit) characters are removed (replaced by US-ASCII "
+#~ "equivalents for Latin-1)"
+#~ msgstr ""
+#~ "Mazinárodní (8-bit) znaky byly odstraněny (nahrazeny US-ASCII ekvivalenty "
+#~ "pro Latin-1)"
+
+#~ msgid "Notes:"
+#~ msgstr "Poznámky:"
+
+#~ msgid ""
+#~ "Your language will be changed to %1 from the next screen. You will be "
+#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
+#~ msgstr ""
+#~ "Váš jazyk bude od další obrazovky změněn na %1. Nyní tam budete "
+#~ "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
+
+#, fuzzy
+#~ msgid "Move or Delete %1:"
+#~ msgstr "Přesun nebo smazání přílohy"
+
+#~ msgid "Attachments help"
+#~ msgstr "Pomoc k přílohám"
+
+#~ msgid "checkboxes of referenced topics"
+#~ msgstr "zatržení u odkazovaných článků"
+
+#~ msgid "Choose files"
+#~ msgstr "Vyber soubory"
+
+#~ msgid "Drag files here"
+#~ msgstr "Přetáhněte soubory sem"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Nahraj přílohu"
+
+#~ msgid "Pick from a list"
+#~ msgstr "Vybrat ze seznamu"
+
+#~ msgid "%1.LoginName:"
+#~ msgstr "%1.PřihlašovacíJméno:"
+
+#~ msgid "Login name %1"
+#~ msgstr "Přihlášen %1"
+
+#, fuzzy
+#~ msgid "Your %1.LoginName:"
+#~ msgstr "Vaše %1.PřihlašovacíJméno"
+
+#~ msgid "Incorrect %1"
+#~ msgstr "Chybné %1"
+
+#~ msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+#~ msgstr "Pole %1 musí souhlasit s filtrem {LoginNameFilterIn} pro tento web"
+
+#~ msgid "Click here"
+#~ msgstr "Klikni zde"
+
+#, fuzzy
+#~ msgid ":firstName"
+#~ msgstr "Křestní jméno:"
+
+#, fuzzy
+#~ msgid ":name"
+#~ msgstr "Přejmenovat"
+
+#, fuzzy
+#~ msgid ":nickname"
+#~ msgstr "Jméno článku"
+
+#, fuzzy
+#~ msgid ":selection"
+#~ msgstr "Akce"
+
+#, fuzzy
+#~ msgid ":topic"
+#~ msgstr "K článku:"
+
+#~ msgid "Hello %1"
+#~ msgstr "Vítejte %1"
+
+#, fuzzy
+#~ msgid "for"
+#~ msgstr "nebo"
+
+#, fuzzy
+#~ msgid "if nickname"
+#~ msgstr "Jméno článku"
+
+#, fuzzy
+#~ msgid "TextFormatting"
+#~ msgstr "*Nápověda k formátování:*"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Editovat text"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr "Rozšířený výpis změn je dostupný přes odkaz [[%1][Současné změny]]."
+
+#~ msgid "Bathing problem"
+#~ msgstr "Plážový problém (just a test string within the documentation)"
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Vytvořit článek"
+
+#~ msgid "Current parent:"
+#~ msgstr "Současný nadřízený:"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Změňte vaše osobní údaje"
+
+#~ msgid "Edit text"
+#~ msgstr "Změňte text"
+
+#~ msgid "Error: %1"
+#~ msgstr "Chyba: %1"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Pokud Váš osobní článek není chráněn před změnamiod ostatních lidí a vy "
+#~ "jste nezaregistroval Váš email pomocí tohoto formuláře, potom by Váš účet "
+#~ "mohl být převzat někým jiným."
+
+#, fuzzy
+#~ msgid "Log on with your username and password"
+#~ msgstr "Zadejte prosím Váš účet a heslo:"
+
+#~ msgid "Problem filling bath"
+#~ msgstr ""
+#~ "Problém vyplňování lázně (just a test string within the documentation)"
+
+#, fuzzy
+#~ msgid "Show"
+#~ msgstr "Ukaž nápovědu"
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "Použijte jméno článku ve tvaru System.JmenoClanku"
+
+#~ msgid "Warning"
+#~ msgstr "Varování"
+
+#, fuzzy
+#~ msgid "You cannot register on this site."
+#~ msgstr "Nemůžete se registrovat dvakrát, účet %1 už je zaregistrováno."
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Opravdu by jste měl zaregistrovat pravou emailovou adresu. Pokud Foswiki "
+#~ "nebude moci najít Váš email ve své databázi, vyhledá ve Vašem osobním "
+#~ "článku ŕádek jako je tento:"
+
+#~ msgid ""
+#~ "Your user topic has not been renamed. Please e-mail %1 to request this."
+#~ msgstr ""
+#~ "Váš osobní článek nebyl pŕejmenován. Prosím pošlete email %1 s tímto "
+#~ "požadavkem."
+
+#, fuzzy
+#~ msgid "later"
+#~ msgstr "Datum"
+
+#, fuzzy
+#~ msgid "revisions up to"
+#~ msgstr "Verze"
+
+#, fuzzy
+#~ msgid "Attachment metadata"
+#~ msgstr "Přesun přílohy selhal"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Získejte nápovědu pro <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Nastavení preferencí článku</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Nápověda pro <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Přejmenování a přesnutí článků</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Nápověda pro <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Přejmenování a přesunutí webů</a>."
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Přečtěte si nápovědu k nové revizi v novém okně"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr "S = Ulož, Q = Ulož potichu, K = Ulož a pokračuj, D = Neukládej"
+
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - kompletní dokumentace, od přehledu k podrobné referenci"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - pouze pro mne"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "1 - výchozí místa ve Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - vyzkoušejte si Foswiki sami"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - prohlédněte si krátkou prezentaci na Foswiki pro začátečníky"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 pro změnu Vaší elektronické adresy"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 pro změnu Vašeho hesla"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 je seznamem uživatelské dokumentace"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 ukáže všechny uživatelské nástroje"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(jak jste se přihlásil) Účet:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(identifikuje Vás ostatním) WikiName:"
+
+#~ msgid "(optional)"
+#~ msgstr "(volitelně)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(doporučené)"
+
+#~ msgid "(search results)"
+#~ msgstr "(výsledky hledání)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "Přidejte Vaše jméno do seznamu uživatelů ve článku %1 na webu %2."
+
+#~ msgid "Advanced Search"
+#~ msgstr "Rozšířené hledání"
+
+#~ msgid "Comments:"
+#~ msgstr "Komentáře:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr ""
+#~ "Kopíruj text a data formuláře do nového článku (nicméně přílohy nebudou "
+#~ "zkopírovány)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Vytvořit <nop>TestTopic###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Vytvořit nový automaticky očíslovaný testovací článek:"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Nový dokument pod jménem:"
+
+#~ msgid "Create by Name"
+#~ msgstr "Vytvořit pod jménem"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Vytvořte Váš osobní %1 článek použitím Vašeho WikiName jako jména článku,"
+#~ "a přidejte data které jste odeslali do článku."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Dokončete vytvoření Vašeho úćtu, tak, aby jste mohl začít měnit stránkys "
+#~ "pouźitím Vašeho WikiName."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Uživatelské rozhraní Foswiki je dostupné v několika jazycích. Pokud "
+#~ "chcete změnit jazyk tohoto sezení, vyberte jeden z následujících a "
+#~ "stiskněte  \"Změň jazyk\". Jinak stiskněte odkaz \"Přerušit\" dole na "
+#~ "stránce, aby jste se vrátil na předchozí článek."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Jestliže znáte název článku, vložte název článku do [[%1][Jump box]] "
+#~ "nahoře"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "Všechny články v %1 podle abecedy"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr ""
+#~ "Místní úpravy preferencí převzatých z globálních \"site preferencí\"."
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Přesun přílohy do:"
+
+#~ msgid "Organisation URL:"
+#~ msgstr "URL organizace:"
+
+#~ msgid "Other Country"
+#~ msgstr "Ostatní země"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr "Jinak použijte tento formulář aby jste dostal nový emailem."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Osobní preference"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Rychlá editace existujících vlastností (edituj text článku pro nastavení "
+#~ "nových preferencí)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Editovat zdrojový text"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Registrovaní uživatelé mohou [[%1][změnit]] a [[%2][znovunastavit]] "
+#~ "jejich hesla."
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Přejmenovat/přesunout článek..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Přejmenovat/přesunout/smazat web..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Zopakujte Vaše heslo:"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Odešle Vám potvrzení o Vaší registraci emailem."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr ""
+#~ "Ukazovat krátký popis při přejetí myší přes odkaz %1, zapnout nebo "
+#~ "vypnout:"
+
+#~ msgid "Simple search"
+#~ msgstr "Hledej"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Nastavení na úrovni site-level jsou umístěny v %1, avšak tento %2 "
+#~ "konfigurační článek přepisuje tato nastavení a měl by být použit pro "
+#~ "lokální uživatelská nastavení. Toto dovoluje snadněji upgradovat a "
+#~ "nemusíte se tak obávat o přepsání vašich nastavení. Je snazší používat "
+#~ "tento přístup a přepisovat pouze nastavení která potřebujete změnit. "
+
+#~ msgid "Test Topics"
+#~ msgstr "Testovací články"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "Web %1 je webem Foswiki. Foswiki je dostupná zdarma a jako Open Source."
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "Tato Foswiki _nepodporuje registraci nových uživatelů."
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "Pro editování stránek na tomto webu musíte mít registrované uživatelské "
+#~ "jméno a heslo."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr ""
+#~ "Pro zaregistrování jako nový uživatel, jednoduše vyplňte tento formulář:"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Odkomentujte preferenční proměnné aby jste je aktivovali(odeberte značku "
+#~ "#). Nápověda a detaily o preferenčních proměnných jsou dostupné v %1."
+
+#~ msgid "Web Search"
+#~ msgstr "Hledání ve webu"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Když %1 obdrží formulář, odešle aktivační kód účtu na emailovou adresu, "
+#~ "kterou jste zadal výše. Vložte tento aktivační kód na následující "
+#~ "obrazovku nebo klikněte na odkaz v emailu, aby jste aktivoval váš účet. "
+#~ "Jakmile je Váš úćet aktivován, %1 provede:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Váš jazyk můžete permanentně nastavit nastavením proměnné %1 ve Vašem "
+#~ "osobním článku."
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr ""
+#~ "Před uložením si budete moci prohlédnout náhled kopírovaného článku."
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Před uložením nové verze článku si budete moci prohlédnout jeho náhled."
+
+#~ msgid "advanced search"
+#~ msgstr "pokročilé hledání"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "hledám odkazy ve _všech veřejných webech_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "hledá odkazy pouze v _%1 webu_"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "Hledá odkazy ve _všech veřejných webech_"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr "title='Edituj zdrojový kód stránky' accesskey='w'>Ra&w edit"
+
+#~ msgid "%1 Web Home"
+#~ msgstr "%1 Domů"
+
+#~ msgid "(oops)"
+#~ msgstr "(Ou)"
+
+#~ msgid "(semicolon =;= for and)"
+#~ msgstr "(středník =;= pro *a*)"
+
+#, fuzzy
+#~ msgid "Create '%1'"
+#~ msgstr "Vy&tvořit"
+
+#~ msgid "Do show:"
+#~ msgstr "Ukaž:"
+
+#, fuzzy
+#~ msgid "Do you wish to create the topic %1?"
+#~ msgstr "Pokud chcete vytvořit článek"
+
+#, fuzzy
+#~ msgid "List more similar topic in this web"
+#~ msgstr "Podobné články v tomto webu (jestli jsou)"
+
+#, fuzzy
+#~ msgid "Note: This topic does not exist"
+#~ msgstr "POZNÁMKA: Tento článek ještě neexistuje"
+
+#~ msgid "Opens page in new window"
+#~ msgstr "Otevře stránku v nvém okně"
+
+#~ msgid "Similar topics in this web (if any):"
+#~ msgstr "Podobné články v tomto webu (jestli jsou)"
+
+#~ msgid ""
+#~ "The %1 web of TWiki. TWiki is a Web-Based Collaboration Platform for the "
+#~ "Enterprise."
+#~ msgstr ""
+#~ "Web %1 vytvořený ve TWiki. TWiki je webově založená platforma pro "
+#~ "spolupráci pro libovolné prostředí."
+
+#, fuzzy
+#~ msgid "The topic %1 you are trying to access does not exist, yet."
+#~ msgstr "Zkoušíte %1 k článku, který neexistuje."
+
+#~ msgid ""
+#~ "This topic name is not recommended because it will not be linked "
+#~ "automatically. See %1 for details"
+#~ msgstr ""
+#~ "Takovéto jméno článku není doporučeno, protože nebude automaticky "
+#~ "spojováno. Podívejte se na %1 na detaily"
+
+#~ msgid "WARNING:"
+#~ msgstr "VAROVÁNÍ"
+
+#~ msgid "about !BookView"
+#~ msgstr "o !BookView"
+
+#~ msgid "about regular expression search"
+#~ msgstr "o hledání pomocí regulárních výrazů"
+
+#~ msgid "looking for references in _%1 web_ only"
+#~ msgstr "hledám odkazy pouze v _%1 webu_"
+
+#~ msgid "All topics in %1"
+#~ msgstr "Všechny články v %1"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a <a target='WikiWord' onclick="
+#~ "\"launchWindow('%1','WikiWord'); return false;\" href='%2' "
+#~ "rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
+#~ "linking may not work. Characters not allowed in topic names, such as "
+#~ "spaces will automatically be removed."
+#~ msgstr ""
+#~ "Obvykle je nejlépe vybrat <a target='WikiWord' onclick=\"return "
+#~ "launchWindow('%1','WikiWord')\" href='%1' rel='nofollow'>WikiWord</a> pro "
+#~ "nové jméno článku, jinak nebude fungovat automatické odkazování. Písmena "
+#~ "nepovolená ve jménu článku, jako jsou mezery budou automaticky odstraněna."
+
+#, fuzzy
+#~ msgid "or [[%1][log in as administrator]]"
+#~ msgstr "Poznámka administrátoru"
+
+#, fuzzy
+#~ msgid "or %1"
+#~ msgstr "nyní je %1"
+
+#~ msgid "&WYSIWYG"
+#~ msgstr "&Editovat(WYSIWYG)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Please see <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
+#~ "files."
+#~ msgstr ""
+#~ "*Nápověda:* Podívejte se na  <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' rel='nofollow'>Přílohy</a> "
+#~ "pro více informací o připojených souborech."
+
+#~ msgid "WYSIWYG"
+#~ msgstr "WYSIWIG"
+
+#~ msgid "value='Checkpoint' accesskey='k'"
+#~ msgstr "value='Kontrolní bod' accesskey='k'"
+
+#~ msgid "%1 has a list of other TWiki users."
+#~ msgstr "%1 má seznam ostatních uživatelů TWiki."
+
+#~ msgid ""
+#~ "During save of file %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "Během ukládání souboru %1 se objevila chyba u version control systému. "
+#~ "Prosím uvědomte %2 - administrátora."
+
+#, fuzzy
+#~ msgid "Hello %1!</strong>"
+#~ msgstr "Vítejte %1"
+
+#~ msgid ""
+#~ "Once you have created the topic, consider adding links in related topics "
+#~ "to the new topic so that there are more ways people can discover it."
+#~ msgstr ""
+#~ "Hned jak vytvoříte článek, pouvažujte o přidání odkazů v podobných "
+#~ "článcích na nový článek, tak aby bylo více cest jak mohou lidé článek "
+#~ "najít."
+
+#~ msgid "See %1 for more information."
+#~ msgstr "Přečtěte si %1 pro více informací."
+
+#~ msgid ""
+#~ "This form applies only if TWiki uses a {PasswordManager} that supports "
+#~ "changing passwords. Otherwise replace this topic with a note describing "
+#~ "how to change the password in your organization."
+#~ msgstr ""
+#~ "Tento formulář se uplatní pouze pokud TWiki užívá {PasswordManager}, "
+#~ "který podporujezměny hesel. Jinak nahraďte tento článek postupem jak "
+#~ "změnit heslo ve Vaší organizaci."
+
+#~ msgid ""
+#~ "*Bug:* Internet Explorer 4.0 or earlier: If you get an \"Internal Server "
+#~ "Error\" message when you upload a file, you need to try again. It should "
+#~ "work the second time."
+#~ msgstr ""
+#~ "*Chyba:* Internet Explorer 4.0 nebo dřívější: Pokud se ukáže chyba "
+#~ "\"Internal Server Error\" při nahrávání přílohy, zkuste to znova. Mělo by "
+#~ "to pracovat."
+
+#~ msgid ""
+#~ "<a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
+#~ "managing webs</a>"
+#~ msgstr ""
+#~ "<a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Nápověda k "
+#~ "řízení webů</a>"
+
+#~ msgid "Deleted"
+#~ msgstr "Vymazáno"
+
+#~ msgid "Existing form data will be lost! (still available in old version)"
+#~ msgstr ""
+#~ "Existující data formulaře budou ztracena! (stále jsou dostupná ve starší "
+#~ "verzi)"
+
+#~ msgid "Hide attachments"
+#~ msgstr "Skryj přílohy"
+
+#~ msgid "History:"
+#~ msgstr "Historie"
+
+#~ msgid "Language Changed"
+#~ msgstr "Změna jazyka"
+
+#~ msgid "Not recommended when deleting a web."
+#~ msgstr "Nedoporučeno při mazání webu"
+
+#~ msgid "Notices:"
+#~ msgstr "Upozornění:"
+
+#~ msgid "Revision:"
+#~ msgstr "Revize:"
+
+#~ msgid ""
+#~ "Step 2: Continue to <input type='submit' class='twikiButton' "
+#~ "value='Edit' /> and save %1 to activate the new parent"
+#~ msgstr ""
+#~ "Krok 2: Pokračujte <input type='submit' class='twikiButton' "
+#~ "value='Editovat' /> a uložit %1 pro aktivaci nového nadřízeného článku"
+
+#~ msgid "Subwebs must be enabled."
+#~ msgstr "Podweby musí být povoleny."
+
+#, fuzzy
+#~ msgid "The checkmarked topics will be updated."
+#~ msgstr "Označené články budou změněny"
+
+#~ msgid "There is no size limit for uploaded files."
+#~ msgstr "Pro nahrávané soubory není stanoven žádný limit ve velikosti."
+
+#~ msgid "To *cancel* and discard any changes: Press the [Discard] button."
+#~ msgstr ""
+#~ "Pro *zrušení* a zahození jakýchkoliv změn: Stiskněte [Zahoď] tlačítko."
+
+#~ msgid "To *save* changes: Press the [Save Changes] button."
+#~ msgstr "Pro *uložení* změn: Stiskněte [Ulož změny] tlaćítko."
+
+#~ msgid ""
+#~ "To delete this web: move this web to the Trash web by renaming it to %1."
+#~ msgstr ""
+#~ "Pro smazání tohoto webu: přesuňte tento web do Koše, přejmenováním na %1."
+
+#~ msgid "To edit the topic anyway, hit 'Edit Anyway'."
+#~ msgstr "Pokud chcete článek přesto editovat, stiskněte 'Přesto editovat'."
+
+#~ msgid "To make *more changes*: Go back in your browser."
+#~ msgstr "Aby jste udělal *více změn*: Jděte zpět ve Vašem prohlížeči."
+
+#~ msgid "To see if %1 has finished editing yet, click 'Try Again'."
+#~ msgstr ""
+#~ "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte 'Zkuste znova'."
+
+#~ msgid "Use monospace font"
+#~ msgstr "Použijte neproporcionální font"
+
+#~ msgid "Use proportional spaced font"
+#~ msgstr "Použije proporcionální font"
+
+#~ msgid "You can move the topic to a different web."
+#~ msgstr "Můžete přesunout článek na jiný web."
+
+#~ msgid "You can review your changes in your personal TWiki topic %1"
+#~ msgstr "Můžete zkontrolovat Vaše změny ve Vašem osobním TWiki článku %1"
+
+#~ msgid "to edit the topic anyway."
+#~ msgstr "přesto editovat článek"
+
+#~ msgid "to see if %1 has finished editing yet."
+#~ msgstr "zjistit, zda %1 už ukončil editování"
+
+#~ msgid "&Attach"
+#~ msgstr "&Přílohy"
+
+#~ msgid "&Edit"
+#~ msgstr "&Editovat"
+
+#~ msgid "&Printable"
+#~ msgstr "&Pro tisk"
+
+#~ msgid "&View topic"
+#~ msgstr "Ukaž článek"
+
+#~ msgid "(More options in WebSearch)"
+#~ msgstr "(Více možností při hledání)"
+
+#~ msgid "A&ll Webs"
+#~ msgstr "Vš&echny weby"
+
+#~ msgid ""
+#~ "Checked topics will be updated to point to the new attachment location."
+#~ msgstr ""
+#~ "Označené články budou aktualizovány do bodu do nového umístění příloh."
+
+#~ msgid "Create (&WYSIWYG)"
+#~ msgstr "Vytvořit (&WISIWIG)"
+
+#~ msgid "Hide formatting help"
+#~ msgstr "Skryj nápovědu k formátování"
+
+#~ msgid "Horizontal size of text edit box:"
+#~ msgstr "Horizontální velikost editovacího pole:"
+
+#~ msgid "If you intend to do a full text search:"
+#~ msgstr "Pokud zamýšlíte hledat v textu:"
+
+#~ msgid "If you used the \"Jump\" feature to jump to this page:"
+#~ msgstr "Pokud jste použil \"Přejdi na\" pro skok na tuto stránku:"
+
+#~ msgid "If you would like to create this page:"
+#~ msgstr "Pokud chcete vytvořít tuto stránku:"
+
+#~ msgid "Not recommended when deleting an attachment."
+#~ msgstr "Nedoporučeno při mazání přilohy"
+
+#~ msgid ""
+#~ "See <a href='%1'>100</a>, <a href='%2'>200</a>, <a href='%3'>400</a>, <a "
+#~ "href='%4'>800</a> most recent changes"
+#~ msgstr ""
+#~ "Prohlédněte si <a href='%1'>100</a>, <a href='%2'>200</a>, <a "
+#~ "href='%3'>400</a>, <a href='%4'>800</a> posledních změn"
+
+#~ msgid "See <a href='%1'>all</a> changes"
+#~ msgstr "Prohlédněte si <a href='%1'>všechny</a> změny"
+
+#~ msgid "Show formatting help"
+#~ msgstr "Ukaž nápovědu k formátování"
+
+#~ msgid ""
+#~ "Style of text edit box. =width: 99%= for full window width (default), "
+#~ "=width: auto= to disable."
+#~ msgstr ""
+#~ "Styl editovací oblasti. =šířka: 99%= pro celé okno (standardní), =šířka: "
+#~ "auto= nepoužít."
+
+#~ msgid ""
+#~ "Use the [[WebSearch][Search]] link on top of this page, or do a simple"
+#~ msgstr "Použijte [[WebSearch][Hledej]] na vrcholu stránky nebo jednoduše"
+
+#~ msgid "Vertical size of text edit box:"
+#~ msgstr "Vertikální velikost textového editovacího okna:"
+
+#~ msgid "We&b"
+#~ msgstr "We&b"
+
+#~ msgid "Write protect your home page: (set it to your %1)"
+#~ msgstr "Zamkněte Vaši stránku proti změnám: (nastavte ji na Váš %1)"
