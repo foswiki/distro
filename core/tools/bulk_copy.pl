@@ -53,11 +53,12 @@ our $session;
 
 # Trace constants
 use constant {
-    ERROR    => 0,
-    WEBS     => 1,
-    TOPICS   => 2,
-    VERSIONS => 4,
-    ALL      => 15
+    ERROR   => 0,
+    WEBSCAN => 1,
+    TOPSCAN => 2,
+    VERSCAN => 4,
+    COPY    => 8,
+    ALL     => 15
 };
 
 our @arg_iweb;      # List of webs to include (empty implies all webs)
@@ -67,15 +68,14 @@ our @arg_xtopic;    # List of topics to exclude
 our @arg_latest;    # List of topics for which only the latest is to be copied
 our $arg_trace = 0; # shhhh
 our $arg_check = 0; # If true, don't copy, just check
+our $arg_deep  = 1; # If true, recurse into existing webs/topics to check
 
 # All comms between sender and receiver are done using unicode. For
 # Foswiki versions >= 2 (indicated by $Foswiki::UNICODE), this is a
 # no-brainer as unicode is used internally so no encoding is
 # required. But for a sender/receiver using an older version of
 # Foswiki, strings have to be transformed between unicode and the
-# {Site}{CharSet}.  This function recurses into arrays and hashes. To
-# support binary data, it maps references to scalars to the
-# *unconverted* scalar.
+# {Site}{CharSet}.  This function recurses into arrays and hashes.
 # $item - the thing to encode/decode
 # \&action - address of a function to do the encoding/decoding
 sub _convert {
@@ -94,14 +94,7 @@ sub _convert {
             push( @$res, _convert( $e, $action ) );
         }
     }
-    elsif ( ref($item) eq 'SCALAR' ) {
-
-        # reference to scalar
-        $res = $$item;
-    }
     elsif ( ref($item) ) {
-
-        # CODE, REF, GLOB, LVALUE, FORMAT, IO, VSTRING, Regexp
         die "Don't know how to convert a " . ref($item);
     }
     else {
@@ -113,23 +106,27 @@ sub _convert {
 #######################################################################
 # Sender
 
+our $indent = 0;
+
 sub announce {
     my $level = shift;
-    if ( !$level || ( $level & $arg_trace ) != 0 ) {
-        unshift @_, ( ' ' x $level ) if $level && $level < ALL;
+    if ( $level == ERROR ) {
+        print STDERR @_, "\n";
+    }
+    elsif ( ( $level & $arg_trace ) != 0 ) {
+        print( ' ' x $indent ) if $level && $level < ALL;
         print @_, "\n";
     }
 }
 
-# RPC to a function in the receiver.
+# RPC to a function in the receiver. Parameters are automatically
+# encoded unless they are passed as SCALAR refs.
 sub call {
-    my $p = \@_;
-
-    # Decode from {Site}{CharSet} to unicode, if necessary
-    site2unicode($p);
+    my $act = shift;
+    my @p = ( $act, map { ref($_) eq 'SCALAR' ? $$_ : site2unicode($_) } @_ );
 
     # Encode to utf8-encoded JSON
-    my $json_text = $json->encode($p);
+    my $json_text = $json->encode( \@p );
 
     print TO_B "$json_text\n";
 
@@ -159,32 +156,29 @@ sub copy_webs {
     if (   !grep( $Foswiki::cfg{SystemWebName} =~ /^$_([\/.]|$)/, @arg_iweb )
         && !grep( $Foswiki::cfg{SystemWebName} =~ /^$_([\/.]|$)/, @arg_xweb ) )
     {
-        announce ALL,
-          "Adding $Foswiki::cfg{SystemWebName} to list of excluded webs";
+        announce( ALL,
+            "Adding $Foswiki::cfg{SystemWebName} to list of excluded webs" );
         push @arg_xweb, $Foswiki::cfg{SystemWebName};
     }
     while ( $wit->hasNext() ) {
         my $web    = $wit->next();
         my $forced = scalar(@arg_iweb);
         if ( $forced && !grep( $web =~ /^$_([\/.]|$)/, @arg_iweb ) ) {
-            announce WEBS, "Skipping not-iweb $web";
+            announce( WEBSCAN, 'Skipping not-iweb ', $web );
             next;
         }
 
         # Are we skipping this web?
         if ( grep( $web =~ /^$_([\/.]|$)/, @arg_xweb ) ) {
-            announce WEBS, "Skipping xweb $web";
+            announce( WEBSCAN, 'Skipping xweb ', $web );
             next;
         }
 
-        my $exists = call( "webExists", $web );
-        if ($exists) {
-            announce WEBS, "Web '$web' already exists in target";
-            if ( !$forced && !$arg_check ) {
-                next;
-            }
-            announce WEBS, " will copy missing topics";
+        if ( !$arg_deep && call( "webExists", $web ) ) {
+            announce( WEBSCAN, 'Web ', $web, ' already exists in target' );
+            next;
         }
+
         announce( ERROR,
 "*** CAUTION *** Copying $Foswiki::cfg{SystemWebName} web - this is NOT recommended."
         ) if ( $web eq $Foswiki::cfg{SystemWebName} );
@@ -197,17 +191,19 @@ sub copy_web {
     my ($web) = @_;
 
     # Copy the web
-    announce WEBS, "Copy web $web";
+    announce WEBSCAN, "Web $web";
     my $webMO = Foswiki::Meta->new( $session, $web );
 
     # saveWeb returns the name of the WebPreferences topic,
-    # iff it was created
+    # iff it needed to be created
     my $wpt = call( 'saveWeb', $web );
+    announce( COPY, "Copied web ", $webMO->getPath() ) if $wpt;
     my $tit = $webMO->eachTopic();
+    $indent++;
     while ( $tit->hasNext() ) {
         my $topic = $tit->next();
         if ( grep { $topic =~ /(^|[\/.])$_$/ } @arg_xtopic ) {
-            announce TOPICS, "Skipping xtopic $web.$topic";
+            announce TOPSCAN, "Skipping xtopic $web.$topic";
             next;
         }
 
@@ -217,17 +213,17 @@ sub copy_web {
             if ( $forced
                 && !grep { $topic =~ /(^|[\/.])$_$/ } @arg_itopic )
             {
-                announce TOPICS, "Skipping not-itopic $web.$topic";
+                announce TOPSCAN, "Skipping not-itopic $web.$topic";
                 next;
             }
-            my $exists = call( "topicExists", $web, $topic );
-            if ($exists) {
-                announce TOPICS, "Topic $web.$topic already exists in target";
+            if ( !$arg_deep && call( "topicExists", $web, $topic ) ) {
+                announce TOPSCAN, "Topic $web.$topic already exists in target";
                 next;
             }
         }
         copy_topic( $web, $topic );
     }
+    $indent--;
 }
 
 # Copy a single topic and all it's attachments.
@@ -255,7 +251,7 @@ sub copy_web {
 sub copy_topic {
     my ( $web, $topic ) = @_;
 
-    announce TOPICS, "Copy topic $web.$topic";
+    announce TOPSCAN, "Topic $web.$topic";
     my $topicMO = Foswiki::Meta->new( $session, $web, $topic );
 
     # Revision list is sorted starting with the most recent revision
@@ -263,7 +259,7 @@ sub copy_topic {
 
     # See if topic is in the "only latest" list
     if ( grep { "$web.$topic" =~ /^$_$/ } @arg_latest ) {
-        announce TOPICS, " - only latest";
+        announce TOPSCAN, " - only latest";
 
         # Only do latest rev
         @rev_list = ( shift @rev_list );
@@ -273,7 +269,8 @@ sub copy_topic {
     # topic and attachment versions.
     my $info = call( 'getVersionInfo', $web, $topic );
 
-    announce( VERSIONS, "Versions 1..$info->{topic} have already been copied" )
+    $indent++;
+    announce( VERSCAN, "Versions 1..$info->{topic} already copied" )
       if ( $info->{topic} > 0 );
 
     # Replay history, *oldest* rev first
@@ -300,23 +297,24 @@ sub copy_topic {
         # If this is the max rev transferred so far, we only tx
         # attachments. The topic text is already transferred but
         # we can't be sure we got all the attachments.
-        if ( $tv == $info->{topic} ) {
-            announce TOPICS, "Attachments for $tv";
-        }
-        else {
+        my $spoken = 0;
+        unless ( $tv == $info->{topic} ) {
+
             # Serialise it
             my $data = $topicMO->getEmbeddedStoreForm();
 
-            announce VERSIONS, "Sending version $tv";
-
             # NOTE: this 'trusts' the TOPICINFO that the store
             # embeds in $data, which may not be wise.
-            call( 'saveTopicRev', $web, $topic, $data );
+            my $sas = call( 'saveTopicRev', $web, $topic, $data );
+            announce( COPY, 'Copied ', $topicMO->getPath(), ' @', $tv,
+                ' as version ', $sas );
+            $spoken = 1;
         }
 
         # Transfer attachments.
 
         my $att_it = $topicMO->eachAttachment();
+        $indent++;
         while ( $att_it->hasNext() ) {
             my $att_name = $att_it->next();
             $info->{att}->{$att_name} //= 0;
@@ -327,22 +325,28 @@ sub copy_topic {
             my $att_info = $topicMO->get( 'FILEATTACHMENT', $att_name );
             next unless ($att_info);
 
+            unless ($spoken) {
+                announce TOPSCAN, "Attachments for $topic v$tv";
+                $spoken = 1;
+            }
+
             $info->{have_meta}->{$att_name} = 1;
 
             my $att_version = $att_info->{version};
             unless ($att_version) {
-                announce ERROR, "Attachment $att_name has corrupt meta-data";
+                announce ERROR,
+                  "Attachment $web.$topic:$att_name has corrupt meta-data";
                 next;
             }
 
             # Check if the attachment history is already there
             if ( $att_version <= $info->{att}->{$att_name} ) {
-                announce VERSIONS, "Attachment $att_name is up to date";
+                announce TOPSCAN, "Attachment $att_name is up to date";
                 next;
             }
 
-            announce TOPICS, "Attachment $att_name";
-            announce VERSIONS,
+            announce TOPSCAN, "Attachment $att_name";
+            announce VERSCAN,
               "Versions 1..$info->{att}->{$att_name} have already been copied"
               if ( $info->{att}->{$att_name} );
 
@@ -357,10 +361,10 @@ sub copy_topic {
             while ( $info->{att}->{$att_name} < $att_version ) {
                 $info->{att}->{$att_name}++;
                 $att_info->{version} = $info->{att}->{$att_name};
-                announce VERSIONS, "Copy version $att_version";
                 copy_attachment_version( $topicMO, $att_info );
             }
         }
+        $indent--;
     }
 
     # Any attachments that are seen by the store but haven't been
@@ -376,11 +380,11 @@ sub copy_topic {
         );
         my @revs = $topicMO->getRevisionHistory($att_name)->all();
         if ( $revs[$#revs] <= $info->{att}->{$att_name} ) {
-            announce TOPICS, "Hidden attachment $att_name is up to date";
+            announce TOPSCAN, "Hidden attachment $att_name is up to date";
             next;
         }
-        announce TOPICS, "Hidden attachment $att_name";
-        announce VERSIONS,
+        announce TOPSCAN, "Hidden attachment $att_name";
+        announce VERSCAN,
           "Versions 1..$info->{att}->{$att_name} have already been copied"
           if ( $info->{att}->{$att_name} );
 
@@ -388,10 +392,10 @@ sub copy_topic {
             next if ( $rev <= $info->{att}->{$att_name} );
 
             $att_info{version} = $rev;
-            announce VERSIONS, "Copy version $rev";
             copy_attachment_version( $topicMO, \%att_info );
         }
     }
+    $indent--;
 }
 
 sub copy_attachment_version {
@@ -408,15 +412,21 @@ sub copy_attachment_version {
     binmode $tfh;
     local $/ = undef;
     my $data = <$fh>;
-    announce TOPICS, "Attachment $att_name is empty" unless length($data);
-    print $tfh $data if length($data);
+    if ( length($data) ) {
+        print $tfh $data;
+    }
+    else {
+        # Empty attachments can't be saved
+        announce( ERROR, $meta->getPath(), ':', $att_name,
+            ' @', $att_info->{version}, ' is empty' );
+    }
     close($tfh);
     my $tfn = $tfh->filename();
 
-    # $tfn passed by reference to block encoding
-    my $rev =
+    my $sas =
       call( 'saveAttachmentRev', $meta->web, $meta->topic, $att_info, \$tfn );
-    announce VERSIONS, "Attached $att_ver as $rev";
+    announce( COPY, 'Copied ', $meta->getPath(), ':', $att_name,
+        ' @', $att_info->{version}, ' as version ', $sas );
 }
 
 #######################################################################
@@ -455,8 +465,6 @@ sub dispatch {
     site2unicode($response);
 
     $response = $json->encode($response);
-
-    #announce ALL, "$fn(", join( ', ', @$data ), ") -> $response";
 
     # JSON encode and print
     print TO_A "$status:$response\n";
@@ -504,6 +512,7 @@ sub getVersionInfo {
         next unless $att_info;
         $info->{att}->{$att_name} = $att_info->{version};
     }
+    return $info;
 }
 
 # Create a new web iff it doesn't already exist. If it is created, return
@@ -511,9 +520,8 @@ sub getVersionInfo {
 # identify a web)
 sub saveWeb {
     my $web = shift;
-    return '' if $session->webExists($web);
+    return '' if ( $arg_check || $session->webExists($web) );
     my $mo = Foswiki::Meta->new( $session, $web );
-    return '' if $arg_check;
     $mo->populateNewWeb();
 
     # Return the name of the web preferences topic, as it was just created
@@ -530,19 +538,21 @@ sub saveTopicRev {
 
     my $info = $mo->get('TOPICINFO');
 
-# announce ALL, "SAVE $web.$topic author $info->{author} rev $info->{version}\n$data\n";
-    return 0 if $arg_check;
+    if ($arg_check) {
+        return -1;
+    }
+    else {
+        return $mo->save(
+            author           => $info->{author},
+            forcenewrevision => 1,
+            forcedate        => $info->{date},
+            dontlog          => 1,
+            minor            => 1,
 
-    return $mo->save(
-        author           => $info->{author},
-        forcenewrevision => 1,
-        forcedate        => $info->{date},
-        dontlog          => 1,
-        minor            => 1,
-
-        # Don't call handlers (works on 2+ only)
-        nohandlers => 1
-    );
+            # Don't call handlers (works on 2+ only)
+            nohandlers => 1
+        );
+    }
 }
 
 # Given revision info and data for the attachment
@@ -550,7 +560,7 @@ sub saveTopicRev {
 sub saveAttachmentRev {
     my ( $web, $topic, $info, $fname ) = @_;
     my $mo = Foswiki::Meta->new( $session, $web, $topic );
-    my $rev = $info->{version};
+    my $rev = -1;
     unless ($arg_check) {
 
         # Can't use $mo->attach because it updates the FILEATTACHMENT
@@ -591,6 +601,51 @@ sub wildcard2regex {
     }
 }
 
+sub set_up_unicode {
+
+    announce ALL,
+"$_[0] is $Foswiki::VERSION, Unicode, Store $Foswiki::cfg{Store}{Implementation}";
+
+    binmode( STDOUT, ':utf8' );
+    binmode( STDERR, ':utf8' );
+
+    # NOOP
+    *site2unicode = sub { return $_[0] };
+    *unicode2site = sub { return $_[0] };
+}
+
+sub set_up_site_charset {
+
+    # Conversion required
+    my $site_charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
+
+    announce ALL,
+"$_[0] is $Foswiki::VERSION, $site_charset, Store $Foswiki::cfg{Store}{Implementation}";
+
+    require Encode;
+    *site2unicode = sub {
+
+        # Encoding in a site charset that may not support the
+        # source character. Map to HTML entities, as that is the
+        # most appropriate for .txt
+        $_[0] = _convert(
+            $_[0],
+            sub {
+                return Encode::encode( $site_charset, $_[0],
+                    Encode::FB_HTMLCREF );
+            }
+        );
+    };
+    *unicode2site = sub {
+        $_[0] = _convert(
+            $_[0],
+            sub {
+                return Encode::decode( $site_charset, $_[0], Encode::FB_CROAK );
+            }
+        );
+    };
+}
+
 my $to   = pop(@ARGV);
 my $from = pop(@ARGV);
 
@@ -625,7 +680,9 @@ Getopt::Long::GetOptions(
     'itopic=s@' => \@arg_itopic,
     'xtopic=s@' => \@arg_xtopic,
     'latest=s@' => \@arg_latest,
+    'quietly'   => sub { $arg_trace = 0; },
     'trace=o'   => \$arg_trace,
+    'deep'      => \$arg_deep,
     'check'     => \$arg_check,
     'help'      => sub {
         Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
@@ -636,7 +693,7 @@ Getopt::Long::GetOptions(
     }
 );
 
-announce "Running in check mode, no data will be copied" if ($arg_check);
+announce ALL, "Running in check mode, no data will be copied" if ($arg_check);
 announce ALL, "iweb: " . join( ',', @arg_iweb ) if ( scalar(@arg_iweb) );
 announce ALL, "xweb: " . join( ',', @arg_xweb ) if ( scalar(@arg_xweb) );
 announce ALL, "itopic: " . join( ',', @arg_itopic ) if ( scalar(@arg_itopic) );
@@ -658,40 +715,6 @@ select(TO_B);
 $| = 1;
 select($cfh);
 
-if ($Foswiki::UNICODE) {
-
-    # NOOP
-    *site2unicode = sub { };
-    *unicode2site = sub { };
-}
-else {
-    # Conversion required
-    my $site_charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
-
-    require Encode;
-    *site2unicode = sub {
-
-        # Encoding in a site charset that may not support the
-        # source character. Map to HTML entities, as that is the
-        # most appropriate for .txt
-        $_[0] = _convert(
-            $_[0],
-            sub {
-                return Encode::encode( $site_charset, $_[0],
-                    Encode::FB_HTMLCREF );
-            }
-        );
-    };
-    *unicode2site = sub {
-        $_[0] = _convert(
-            $_[0],
-            sub {
-                return Encode::decode( $site_charset, $_[0], Encode::FB_CROAK );
-            }
-        );
-    };
-}
-
 if ( my $pid = fork() ) {
 
     # This is process A, the sender
@@ -706,10 +729,12 @@ if ( my $pid = fork() ) {
     require Foswiki;
     die $@ if $@;
 
-    binmode( STDOUT, ':utf8' ) if $Foswiki::UNICODE;
-
-    announce ALL,
-      "Copying from $Foswiki::VERSION ($Foswiki::cfg{Store}{Implementation})";
+    if ($Foswiki::UNICODE) {
+        set_up_unicode('Sender');
+    }
+    else {
+        set_up_site_charset('Sender');
+    }
 
     $session = Foswiki->new();
 
@@ -734,7 +759,12 @@ else {
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
     require Foswiki;
 
-    binmode( STDOUT, ':utf8' ) if $Foswiki::UNICODE;
+    if ($Foswiki::UNICODE) {
+        set_up_unicode('Receiver');
+    }
+    else {
+        set_up_site_charset('Receiver');
+    }
 
     # SMELL: RcsWrap is unable to copy WebPreferences topics.  This
     # topic gets created when the target web is created. RCS "ci"
@@ -747,9 +777,6 @@ else {
         announce ALL, "Overriding target Store Implementation to 'RcsLite'";
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
     }
-
-    announce ALL,
-      "Copying to $Foswiki::VERSION ($Foswiki::cfg{Store}{Implementation})";
 
     $session = Foswiki->new();
 
@@ -896,18 +923,29 @@ histories for attachments.
 
 =over
 
-=item B<--trace> bitmask
-
-    Turn on tracing/progress options.
-    1 will report webs only,
-    3 will trace webs and topics, but not versions
-    7 will trace webs, topics and versions
-
 =item B<--check>
 
     Disables the copy operations and simply runs through the two
-    installations looking for cases where a topic or attachment
-    already exists in both.
+    installations looking for cases where a copy is needed.
+
+=item B<--no-deep>
+
+    If no-deep, checks if a web or topic already exists on the target.
+    If it does, then the topics in the web, or versions and
+    attachments for the topic, will be skipped. This options can
+    significantly speed the script up, but is inherently dangerous as
+    it risks leaving versions uncopied.
+
+=item B<--trace> bitmask
+
+    Turn on tracing/progress options. Set different bits to enable
+    traces:
+    bit 0 for web scans,
+    bit 1 for topic scans, but not individual versions
+    bit 2 for version scans
+    bit 3 for copy actions
+
+    thus --trace 15 will trace webs, topics and versions and copies
 
 =item B<--help>
 

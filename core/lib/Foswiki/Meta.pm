@@ -1937,10 +1937,12 @@ sub haveAccess {
 
 =begin TML
 
----++ ObjectMethod save( %options  )
+---++ ObjectMethod save( %options  ) -> $rev
 
 Save the current object, invoking appropriate plugin handlers
    * =%options= - Hash of options, see saveAs for list of keys
+
+Returns the new revision number.
 
 =cut
 
