@@ -4,7 +4,7 @@
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2014-2017 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
@@ -19,9 +19,10 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 # As per the GPL, removal of this notice is prohibited.
+
 #
 # Script for bulk copying of topics, complete with histories, between
-# any two local Foswiki installations.
+# any two *local* Foswiki installations (hosted on the same machine)
 #
 # The script forks itself to operate as two processes; the "sender", which
 # is the source of the topics, and the "receiver", which is the target.
@@ -44,7 +45,7 @@ use Error;
 $Error::Debug = 1;    # verbose stack traces, please
 
 use version;
-our $VERSION = version->declare("v1.0");
+our $VERSION = version->declare("v2.0");
 
 # JSON is used for communication between two peer processes, sender
 # and receiver.
@@ -799,9 +800,9 @@ __END__
 =head1 tools/bulk_copy.pl
 
 Copies all content (topics and attachments), complete with histories,
-from one local installation to another local installation on the same
-machine. The main purpose is to transfer Foswiki database contents
-between different store implementations.
+from one Foswiki installation to another Foswiki installation on the
+same machine. The main purpose is to transfer Foswiki database
+contents between different store implementations.
 
 It is assumed that:
 
@@ -827,8 +828,7 @@ The script is a literal copy of topics, attachments and their
 histories from one installation to another. No attempt is made to map
 users (it is assumed that the same set of users exists in both
 stores), and there is no mapping of URLs or other modification of
-content. The two installations may use different store implementations
-(in fact, this is the main motivation).
+content.
 
 The script is re-entrant - in the event of it failing to complete you
 can restart and it should pick up where it left off.
@@ -940,12 +940,12 @@ histories for attachments.
 
     Turn on tracing/progress options. Set different bits to enable
     traces:
-    bit 0 for web scans,
-    bit 1 for topic scans, but not individual versions
-    bit 2 for version scans
-    bit 3 for copy actions
+    bit 0 (1) for web scans,
+    bit 1 (2) for topic scans, but not individual versions
+    bit 2 (4) for version scans
+    bit 3 (8) for copy actions
 
-    thus --trace 15 will trace webs, topics and versions and copies
+    thus --trace 9 will trace web scans and copy actions
 
 =item B<--help>
 
