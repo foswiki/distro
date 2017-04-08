@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1480189276" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1491685944" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -216,6 +216,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %$DEPENDENCIES%
 
 ---++ Change History
+|  08 Apr 2017: (2.28) | Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp. |
 |  26 Nov 2016: (2.27) | Released with Foswiki 2.1.3.<br>\
                          Foswikitask:Item14204: redirectto incorrectly encodes Anchors. |
 |  04 Apr 2016: (2.26) | Foswikitask:Item14025: Fix issues with JSON::XS 3.02 in some environments. |
