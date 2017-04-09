@@ -6,9 +6,15 @@ use warnings;
 use File::Spec;
 
 BEGIN {
+    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
+    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
+    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
+    require $setlib;
+
     if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-        use CGI::Carp qw(fatalsToBrowser);
+        require CGI::Carp;
+        CGI::Carp->import(qw(fatalsToBrowser));
         $SIG{__DIE__} = \&CGI::Carp::confess;
     }
     else {
@@ -16,10 +22,6 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
-    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
-    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
-    require $setlib;
     $action =~ s/\..*$//;    # Remove eventual file extension
     $ENV{FOSWIKI_ACTION} = $action;
 }
