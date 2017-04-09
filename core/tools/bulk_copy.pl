@@ -42,6 +42,7 @@ use File::Spec   ();
 use JSON         ();
 use Encode       ();
 use Error;
+
 $Error::Debug = 1;    # verbose stack traces, please
 
 use version;
@@ -64,12 +65,15 @@ use constant {
 
 our @arg_iweb;      # List of webs to include (empty implies all webs)
 our @arg_xweb;      # List of webs to exclude
+our @arg_mapweb;    # List of webs to rename
 our @arg_itopic;    # List of topics to include (empty implies all topics)
 our @arg_xtopic;    # List of topics to exclude
 our @arg_latest;    # List of topics for which only the latest is to be copied
 our $arg_trace = 0; # shhhh
 our $arg_check = 0; # If true, don't copy, just check
 our $arg_deep  = 1; # If true, recurse into existing webs/topics to check
+
+our %map_web;
 
 # All comms between sender and receiver are done using unicode. For
 # Foswiki versions >= 2 (indicated by $Foswiki::UNICODE), this is a
@@ -102,6 +106,16 @@ sub _convert {
         $res = &$action($item);
     }
     return $res;
+}
+
+#use Devel::Cycle;
+
+sub cleanup_meta {
+    my $mo = shift;
+
+    #    undef $mo->{_session};
+    #    find_cycle($mo);
+    $mo->finish();
 }
 
 #######################################################################
@@ -185,6 +199,7 @@ sub copy_webs {
         ) if ( $web eq $Foswiki::cfg{SystemWebName} );
         copy_web($web);
     }
+    cleanup_meta($rootMO);
 }
 
 # Copy all the topics in a web.
@@ -197,8 +212,10 @@ sub copy_web {
 
     # saveWeb returns the name of the WebPreferences topic,
     # iff it needed to be created
-    my $wpt = call( 'saveWeb', $web );
-    announce( COPY, "Copied web ", $webMO->getPath() ) if $wpt;
+    my $toweb = $map_web{$web} // $web;
+    my $wpt = call( 'saveWeb', $toweb );
+    announce( COPY, "Copied web ", $webMO->getPath(), " to ", $toweb )
+      if $wpt;
     my $tit = $webMO->eachTopic();
     $indent++;
     while ( $tit->hasNext() ) {
@@ -217,13 +234,15 @@ sub copy_web {
                 announce TOPSCAN, "Skipping not-itopic $web.$topic";
                 next;
             }
-            if ( !$arg_deep && call( "topicExists", $web, $topic ) ) {
-                announce TOPSCAN, "Topic $web.$topic already exists in target";
+            if ( !$arg_deep && call( "topicExists", $toweb, $topic ) ) {
+                announce TOPSCAN,
+                  "Topic $toweb.$topic already exists in target";
                 next;
             }
         }
-        copy_topic( $web, $topic );
+        copy_topic( $web, $toweb, $topic );
     }
+    cleanup_meta($webMO);
     $indent--;
 }
 
@@ -250,7 +269,7 @@ sub copy_web {
 #    Topic rev 2 reference attachment rev 1
 # 3. Attachments may not be referenced in topics at all.
 sub copy_topic {
-    my ( $web, $topic ) = @_;
+    my ( $web, $toweb, $topic ) = @_;
 
     announce TOPSCAN, "Topic $web.$topic";
     my $topicMO = Foswiki::Meta->new( $session, $web, $topic );
@@ -268,7 +287,7 @@ sub copy_topic {
 
     # Get version info from the receiver. This tells us the already-copied
     # topic and attachment versions.
-    my $info = call( 'getVersionInfo', $web, $topic );
+    my $info = call( 'getVersionInfo', $toweb, $topic );
 
     $indent++;
     announce( VERSCAN, "Versions 1..$info->{topic} already copied" )
@@ -306,7 +325,7 @@ sub copy_topic {
 
             # NOTE: this 'trusts' the TOPICINFO that the store
             # embeds in $data, which may not be wise.
-            my $sas = call( 'saveTopicRev', $web, $topic, $data );
+            my $sas = call( 'saveTopicRev', $toweb, $topic, $data );
             announce( COPY, 'Copied ', $topicMO->getPath(), ' @', $tv,
                 ' as version ', $sas );
             $spoken = 1;
@@ -362,7 +381,7 @@ sub copy_topic {
             while ( $info->{att}->{$att_name} < $att_version ) {
                 $info->{att}->{$att_name}++;
                 $att_info->{version} = $info->{att}->{$att_name};
-                copy_attachment_version( $topicMO, $att_info );
+                copy_attachment_version( $topicMO, $toweb, $att_info );
             }
         }
         $indent--;
@@ -380,6 +399,7 @@ sub copy_topic {
             date => 0
         );
         my @revs = $topicMO->getRevisionHistory($att_name)->all();
+        $info->{att}->{$att_name} //= 0;
         if ( $revs[$#revs] <= $info->{att}->{$att_name} ) {
             announce TOPSCAN, "Hidden attachment $att_name is up to date";
             next;
@@ -393,14 +413,15 @@ sub copy_topic {
             next if ( $rev <= $info->{att}->{$att_name} );
 
             $att_info{version} = $rev;
-            copy_attachment_version( $topicMO, \%att_info );
+            copy_attachment_version( $topicMO, $toweb, \%att_info );
         }
     }
+    cleanup_meta($topicMO);
     $indent--;
 }
 
 sub copy_attachment_version {
-    my ( $meta, $att_info ) = @_;
+    my ( $meta, $toweb, $att_info ) = @_;
     my $att_name = $att_info->{name};
     my $att_ver  = $att_info->{version};
 
@@ -425,7 +446,7 @@ sub copy_attachment_version {
     my $tfn = $tfh->filename();
 
     my $sas =
-      call( 'saveAttachmentRev', $meta->web, $meta->topic, $att_info, \$tfn );
+      call( 'saveAttachmentRev', $toweb, $meta->topic, $att_info, \$tfn );
     announce( COPY, 'Copied ', $meta->getPath(), ':', $att_name,
         ' @', $att_info->{version}, ' as version ', $sas );
 }
@@ -513,6 +534,7 @@ sub getVersionInfo {
         next unless $att_info;
         $info->{att}->{$att_name} = $att_info->{version};
     }
+    cleanup_meta($mo);
     return $info;
 }
 
@@ -524,6 +546,7 @@ sub saveWeb {
     return '' if ( $arg_check || $session->webExists($web) );
     my $mo = Foswiki::Meta->new( $session, $web );
     $mo->populateNewWeb();
+    cleanup_meta($mo);
 
     # Return the name of the web preferences topic, as it was just created
     return $Foswiki::cfg{WebPrefsTopicName};
@@ -539,11 +562,9 @@ sub saveTopicRev {
 
     my $info = $mo->get('TOPICINFO');
 
-    if ($arg_check) {
-        return -1;
-    }
-    else {
-        return $mo->save(
+    my $res = -1;
+    unless ($arg_check) {
+        $res = $mo->save(
             author           => $info->{author},
             forcenewrevision => 1,
             forcedate        => $info->{date},
@@ -554,6 +575,8 @@ sub saveTopicRev {
             nohandlers => 1
         );
     }
+    cleanup_meta($mo);
+    return $res;
 }
 
 # Given revision info and data for the attachment
@@ -584,6 +607,7 @@ sub saveAttachmentRev {
         close($fh);
     }
     unlink($fname);
+    cleanup_meta($mo);
     return $rev;
 }
 
@@ -604,8 +628,16 @@ sub wildcard2regex {
 
 sub set_up_unicode {
 
-    announce ALL,
-"$_[0] is $Foswiki::VERSION, Unicode, Store $Foswiki::cfg{Store}{Implementation}";
+    announce( ALL,
+        $_[0],
+        ' is ',
+        $Foswiki::VERSION,
+        ' Store ',
+        $Foswiki::cfg{Store}{Implementation},
+        defined $Foswiki::cfg{Store}{Encoding}
+        ? " encoding $Foswiki::cfg{Store}{Encoding}"
+        : ''
+    );
 
     binmode( STDOUT, ':utf8' );
     binmode( STDERR, ':utf8' );
@@ -678,6 +710,7 @@ unless ( -e $to_setlib ) {
 Getopt::Long::GetOptions(
     'iweb=s@'   => \@arg_iweb,
     'xweb=s@'   => \@arg_xweb,
+    'mapweb=s@' => \@arg_mapweb,
     'itopic=s@' => \@arg_itopic,
     'xtopic=s@' => \@arg_xtopic,
     'latest=s@' => \@arg_latest,
@@ -694,14 +727,20 @@ Getopt::Long::GetOptions(
     }
 );
 
-announce ALL, "Running in check mode, no data will be copied" if ($arg_check);
-announce ALL, "iweb: " . join( ',', @arg_iweb ) if ( scalar(@arg_iweb) );
-announce ALL, "xweb: " . join( ',', @arg_xweb ) if ( scalar(@arg_xweb) );
-announce ALL, "itopic: " . join( ',', @arg_itopic ) if ( scalar(@arg_itopic) );
-announce ALL, "xtopic: " . join( ',', @arg_xtopic ) if ( scalar(@arg_xtopic) );
-announce ALL, "latest: " . join( ',', @arg_latest ) if ( scalar(@arg_latest) );
+%map_web = map { $_ =~ /^(.*?)=(.*)$/; ( $1 => $2 ) } @arg_mapweb;
 
-# Convert latest to regex
+announce( ALL, "Running in check mode, no data will be copied" )
+  if ($arg_check);
+announce( ALL, "iweb: ",   join( ',', @arg_iweb ) )   if scalar(@arg_iweb);
+announce( ALL, "xweb: ",   join( ',', @arg_xweb ) )   if scalar(@arg_xweb);
+announce( ALL, "itopic: ", join( ',', @arg_itopic ) ) if scalar(@arg_itopic);
+announce( ALL, "xtopic: ", join( ',', @arg_xtopic ) ) if scalar(@arg_xtopic);
+announce( ALL, "latest: ", join( ',', @arg_latest ) ) if scalar(@arg_latest);
+announce( ALL, "mapweb: ",
+    join( ',', map { "$_ to $map_web{$_}" } keys %map_web ) )
+  if scalar(@arg_mapweb);
+
+# Convert wildcards to regexes
 wildcard2regex( \@arg_latest );
 wildcard2regex( \@arg_iweb );
 wildcard2regex( \@arg_xweb );
@@ -740,6 +779,8 @@ if ( my $pid = fork() ) {
     $session = Foswiki->new();
 
     copy_webs();
+
+    $session->finish();
 
     print TO_B "0\n";
 
@@ -786,6 +827,8 @@ else {
         last unless dispatch($message);
         $/ = "\n";
     }
+
+    $session->finish();
 
     close FROM_A;
     close TO_A;
@@ -916,6 +959,13 @@ histories for attachments.
     excess working, you are recommended to -latest '*.WebStatistics'
     (and any other file that has many auto-generated versions that
     don't really need to be kept.)
+
+=item B<--mapweb> oldweb=newweb
+
+    Copy oldweb to a new web called newweb in the target. This feature
+    can be used (for example) to clone a web within a single
+    installation.  Note that newweb simply receives the content from
+    oldweb. Any pre-existing content in newweb is preserved.
 
 =back
 
