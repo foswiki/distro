@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491355273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1491685944" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,7 +42,8 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
-|  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page. |
+|  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page.<br/>\
+                         Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp |
 |  23 Jan 2017: | (1.07) Foswikitask:Item14287: Configure needs to encode reported configuration values. |
 |  28 Nov 2016: | (1.06) Foswikitask:Item13206: Upgrade to latest jquery-ui |
 |  11 Apr 2016: | (1.05) Foswikitask:Item14049: fixed jsonrpc endpoint |

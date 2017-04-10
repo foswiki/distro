@@ -21,8 +21,8 @@ BEGIN {
 
 =cut
 
-our $VERSION           = '2.27';
-our $RELEASE           = '26 Nov 2016';
+our $VERSION           = '2.28';
+our $RELEASE           = '08 Apr 2017';
 our $SHORTDESCRIPTION  = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;
@@ -49,7 +49,7 @@ sub getServer {
 __END__
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JsonRpcContrib is Copyright (C) 2011-2016 Michael Daum http://michaeldaumconsulting.com
+# JsonRpcContrib is Copyright (C) 2011-2017 Michael Daum http://michaeldaumconsulting.com
 # and Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
