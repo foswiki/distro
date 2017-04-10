@@ -51,7 +51,7 @@
 <input type="hidden" name="editaction" value="%IF{"$'action'='form'" then="form" else=""}%" />
 <input type="hidden" name="action_save" value="" />%TMPL:END%
 
-%TMPL:DEF{"textarea"}%<textarea id="topic" rows="25" cols="80" style='width:100%' class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
+%TMPL:DEF{"textarea"}%<textarea id="topic" rows="25" cols="80" style='width:100%' class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" data-show-fullscreen="true" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
 
 %TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 

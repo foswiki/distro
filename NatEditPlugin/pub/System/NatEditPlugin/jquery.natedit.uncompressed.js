@@ -296,6 +296,12 @@ $.NatEditor.prototype.initToolbar = function() {
       topic: self.opts.topic
     }));
 
+    if (self.opts.showFullscreen) {
+      self.toolbar.find(".ui-natedit-fullscreen-button").show();
+    } else {
+      self.toolbar.find(".ui-natedit-fullscreen-button").hide();
+    }
+
     self.container.prepend(self.toolbar);
 
     // buttonsets
@@ -1128,7 +1134,7 @@ $.NatEditor.prototype.handleFullscreen = function(/*ev, elem*/) {
       self.autoMaxExpand();
     } else {
       $(window).off("resize.natedit");
-      self.engine.setSize(undefined, undefined);
+      self.setSize(undefined, undefined);
     }
   }
 };
@@ -1213,7 +1219,8 @@ $.NatEditor.prototype.fixHeight = function() {
     bottomHeight = self.bottomHeight; 
   }
 
-  newHeight = windowHeight - elem.position().top - bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
+  //console.log("windowHeight=",windowHeight,"elem=",elem[0],"top=",elem.offset().top,"bottomHeight=",bottomHeight);
+  newHeight = windowHeight - elem.offset().top - bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
@@ -1225,9 +1232,20 @@ $.NatEditor.prototype.fixHeight = function() {
 
   if (elem.is(":visible")) {
     //console.log("NATEDIT: fixHeight height=",newHeight);
-    self.engine.setSize(undefined, newHeight);
+    self.setSize(undefined, newHeight);
   } else {
     //console.log("NATEDIT: not fixHeight elem not yet visible");
+  }
+};
+
+/*************************************************************************
+ * set the size of the editor, basically forwarding it to the engine if present
+ */
+$.NatEditor.prototype.setSize = function(width, height) {
+  var self = this;
+
+  if (self.engine) {
+    self.engine.setSize(width, height);
   }
 };
 
@@ -1985,7 +2003,8 @@ $.NatEditor.defaults = {
   autoResize:false,
   resizable:false,
   engine: 'raw',
-  showToolbar: true
+  showToolbar: true,
+  showFullscreen: false
 };
 
 /***************************************************************************

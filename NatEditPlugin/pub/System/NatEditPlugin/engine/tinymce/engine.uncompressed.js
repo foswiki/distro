@@ -559,7 +559,7 @@ TinyMCEEngine.prototype.setSize = function(width, height) {
   height = height || 'auto';
 
   if (elem) {
-    elem.height(height);
+    elem.width(width).height(height);
   }
 };
 
