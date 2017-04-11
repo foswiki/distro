@@ -174,8 +174,8 @@ sub _readKeyValues {
     my %res;
 
     # Format of data is name='value' name1='value1' [...]
-    $args =~ s/\s*([^=]+)="([^"]*)"/
-      $res{$1} = Foswiki::Meta::dataDecode( $2 ), ''/ge;
+    $args =~ s/\s*(\w+)="([^"]*)"/
+      $res{$1} = Foswiki::Meta::dataDecode( $2 ), ''/ige;
 
     return \%res;
 }
