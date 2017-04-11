@@ -1,5 +1,10 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Exception::_expandStr::UndefVal {
+    use Foswiki::Class;
+    extends qw(Foswiki::Exception::Harmless);
+}
+
 package Foswiki::Config;
 
 =begin TML
@@ -33,7 +38,9 @@ use constant TRAUTO => 1;
 # This should be the one place in Foswiki that knows the syntax of valid
 # configuration item keys. Only simple scalar hash keys are supported.
 #
-our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
+our $ITEMREGEX =
+  qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_\.]+)\})+/;
+our $KEYMACROREGEX = qr/\$(?:(?<key>(?:\{\w+\})+)|\{(?<key>[\w\.]+)\})/;
 
 # Generic booleans, used in some older LSC's
 our $TRUE  = 1;
@@ -656,6 +663,150 @@ sub _handleExpand {
     return '';
 }
 
+sub _doExpandStr {
+    my $this   = shift;
+    my $str    = shift;
+    my %params = @_;
+
+    local $params{__expLevel} = $params{__expLevel} + 1;
+
+    # Reset pos
+    $str =~ /^/gs;
+
+    my $expStr = "";
+
+    try {
+        while ($str =~ /(?<txt>.*?)\\(?<chr>.)/gsc
+            || $str =~ /(?<txt>.*?)$KEYMACROREGEX/gsc )
+        {
+            $expStr .= $+{txt};
+            if ( defined $+{chr} ) {
+
+                # Expand \ escaping
+                $expStr .= $+{chr};
+            }
+            else {
+                my $key    = $+{key};
+                my $keyVal = $this->get($key);
+                if ( defined $keyVal ) {
+                    $expStr .= $this->_expandStr( $keyVal, %params );
+                }
+                else {
+                    if ( $params{undefFail} ) {
+                        Foswiki::Exception::Fatal->throw(
+                                text => "Failed to expand string '"
+                              . $str
+                              . "': key "
+                              . $key
+                              . " value is undefined" );
+                    }
+                    Foswiki::Exception::_expandStr::UndefVal->throw(
+                        text => $key )
+                      unless defined $params{undef};
+                    $expStr .= $params{undef};
+                }
+            }
+        }
+
+        $str =~ /\G(?<txt>.*)$/;
+        $expStr .= $+{txt};
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        #if ( $e->isa('Foswiki::Exception::_expandStr::UndefVal') ) {
+        #    $expStr = undef;
+        #}
+        #else {
+        $e->rethrow;
+
+        #}
+    };
+
+    return $expStr;
+}
+
+sub _expandStr {
+    my $this   = shift;
+    my $str    = shift;
+    my %params = @_;
+    my $expStr;
+
+    $params{__expLevel} //= 0;
+
+    try {
+        $expStr = $this->_doExpandStr( $str, %params );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if (  !$params{__expLevel}
+            && $e->isa('Foswiki::Exception::_expandStr::UndefVal') )
+        {
+            $expStr = undef;
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+    return $expStr;
+}
+
+# Expand a string possibly containing config value macro ${Key}
+# Profile keys:
+# str – a string to expand or an arrayref of strings.
+# key – a config key to expand it's value or an array ref of keys.
+# undef - what to replace undef value with
+# undefFail - true if undef must cause an exception.
+#
+# Returns a scalar only if has been called in a scalar context and only one
+# value was expanded. Note that if both str and key keys are passed it means at
+# least two strings are expanded.
+# If more than one string have been expanded then returns an array ref in scalar
+# context or a list.
+pluggable expandStr => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my ( @strs, @estrs );
+
+    # $isList is true if a list is requested; i.e. any of str or key are passed
+    # in with an array ref.
+    my $isList;
+
+    if ( $params{str} ) {
+        if ( my $rt = ref( $params{str} ) ) {
+            Foswiki::Exception::Fatal->throw(
+                "expandStr method's str parameter cannot be " . $rt . " ref" )
+              unless $rt eq 'ARRAY';
+            push @strs, @{ $params{str} };
+            $isList = 1;
+        }
+        else {
+            push @strs, $params{str};
+        }
+        delete $params{str};
+    }
+
+    if ( $params{key} ) {
+        if ( my $rt = ref( $params{key} ) ) {
+            Foswiki::Exception::Fatal->throw(
+                "expandStr method's key parameter cannot be " . $rt . " ref" )
+              unless $rt eq 'ARRAY';
+            push @strs, $this->get($_) foreach @{ $params{key} };
+            $isList = 1;
+        }
+        else {
+            push @strs, $this->get( $params{key} );
+        }
+        delete $params{key};
+    }
+
+    push @estrs, $this->_expandStr( $_, %params ) foreach @strs;
+
+    return (
+        wantarray ? @estrs : ( @estrs > 1 || $isList ? [@estrs] : $estrs[0] ) );
+};
+
 =begin TML
 ---++ ObjectMethod bootstrapSystemSettings()
 
@@ -1233,8 +1384,8 @@ sub parseKeys {
             ) unless ref( $path[0] ) eq 'ARRAY';
             @keys = $this->parseKeys( @{ $path[0] } );
         }
-        elsif ( $path[0] =~ /^(?:{[^{}]+})+$/ ) {
-            @keys = $path[0] =~ /{([^{}]+)}/g;
+        elsif ( $path[0] =~ /^(?:\{[^\{\}]+\})+$/ ) {
+            @keys = $path[0] =~ /\{([^\{\}]+)\}/g;
         }
         else {
             @keys = split /\./, $path[0];
@@ -2781,7 +2932,7 @@ sub _specCfgKey {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

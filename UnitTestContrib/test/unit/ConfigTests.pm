@@ -588,4 +588,114 @@ sub test_enhanceNonExisting {
     );
 }
 
+sub test_expand {
+    my $this = shift;
+
+    my $cfg     = $this->app->cfg;
+    my $cfgData = $cfg->data;
+
+    $cfgData->{ExpTest} = {
+        Key1 => {
+            SubKey   => "{subkey}",
+            TestKeys => {
+                Test1 => "{test1}",
+                Test2 => '{test2 and ${ExpTest.Key1.TestKeys.Test1}}',
+            },
+            UndefKey => undef,
+        },
+        Key2 => {
+            Key2_1 => '{expanding ${ExpTest.Key1.SubKey}}',
+            Key2_2 => '{ref to undef ${ExpTest.Key1.UndefKey}}',
+        },
+
+        Exps => {
+            Exp1     => 'Expanding ExpTest.Key2.Key2_1: ${ExpTest.Key2.Key2_1}',
+            NoExp1   => 'Must not expand \${ExpTest.Key2.Key2_1}',
+            ExpUndef => 'Undef: "${ExpTest.Key2.Key2_2}"',
+        },
+    };
+
+    my $estr = $cfg->expandStr( str => 'str:${ExpTest.Exps.Exp1}', );
+    $this->assert_equals(
+        "str:Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}", $estr );
+
+    my @estrs = $cfg->expandStr(
+        str => [ 'str1:${ExpTest.Exps.Exp1}', 'str2:${ExpTest.Exps.NoExp1}', ],
+    );
+    $this->assert_deep_equals(
+        [
+            "str1:Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}",
+            'str2:Must not expand ${ExpTest.Key2.Key2_1}'
+        ],
+        \@estrs,
+        "Multi-valued str key"
+    );
+
+    $estr = $cfg->expandStr(
+        str => [ 'str1:${ExpTest.Exps.Exp1}', 'str2:${ExpTest.Exps.NoExp1}', ],
+    );
+    $this->assert_deep_equals(
+        [
+            "str1:Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}",
+            'str2:Must not expand ${ExpTest.Key2.Key2_1}'
+        ],
+        $estr,
+        "Multi-valued str key in scalar context"
+    );
+
+    @estrs = $cfg->expandStr(
+        str => 'str1:${ExpTest.Exps.Exp1}',
+        key => 'ExpTest.Exps.NoExp1',
+    );
+    $this->assert_deep_equals(
+        [
+            "str1:Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}",
+            'Must not expand ${ExpTest.Key2.Key2_1}'
+        ],
+        \@estrs,
+        "Single-valued str and key"
+    );
+
+    @estrs =
+      $cfg->expandStr( key => [ 'ExpTest.Exps.Exp1', 'ExpTest.Exps.NoExp1', ],
+      );
+    $this->assert_deep_equals(
+        [
+            "Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}",
+            'Must not expand ${ExpTest.Key2.Key2_1}'
+        ],
+        \@estrs,
+        "Multi-valued key"
+    );
+
+    $estr = $cfg->expandStr( key => 'ExpTest.Exps.Exp1' );
+    $this->assert_equals( "Expanding ExpTest.Key2.Key2_1: {expanding {subkey}}",
+        $estr );
+
+    $estr = $cfg->expandStr( key => 'ExpTest.Exps.NoExp1' );
+    $this->assert_equals( 'Must not expand ${ExpTest.Key2.Key2_1}', $estr );
+
+    $estr =
+      $cfg->expandStr( key => 'ExpTest.Exps.ExpUndef', undef => '*undef*', );
+    $this->assert_equals( 'Undef: "{ref to undef *undef*}"', $estr );
+
+    $estr = $cfg->expandStr( key => 'ExpTest.Exps.ExpUndef', undef => undef, );
+    $this->assert_equals( undef, $estr );
+
+    try {
+        $estr =
+          $cfg->expandStr( key => 'ExpTest.Exps.ExpUndef', undefFail => 1, );
+        Foswiki::Exception::Fatal->throw(
+            text => "Expansion of an undef value must have failed" );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        $this->assert_matches(
+qr/Failed to expand string '.*?': key ExpTest.Key1.UndefKey value is undefined/,
+            $e->text
+        );
+    };
+}
+
 1;
