@@ -166,7 +166,7 @@ my %types = (
 
 # Resets only if leafState is undef. This will enforce re-check for the
 # attribute.
-sub _reset_leafState {
+sub _recheck_leafState {
     my $this = shift;
     $this->clear_leafState
       unless $this->has_leafState && defined $this->leafState;
@@ -188,7 +188,7 @@ sub setLeafState {
         $this->leafState( $state ? LEAF : BRANCH );
     }
     else {
-        $this->_reset_leafState;
+        $this->_recheck_leafState;
     }
 }
 
@@ -202,7 +202,7 @@ Returns true if node is a leaf.
 
 sub isLeaf {
     my $this = shift;
-    $this->_reset_leafState;
+    $this->_recheck_leafState;
     return defined $this->leafState && $this->leafState == LEAF;
 }
 
@@ -216,7 +216,7 @@ Returns true if node is a branch.
 
 sub isBranch {
     my $this = shift;
-    $this->_reset_leafState;
+    $this->_recheck_leafState;
     return defined $this->leafState && $this->leafState == BRANCH;
 }
 
@@ -254,7 +254,7 @@ sub setOpt_type {
     my ( $opt, $val ) = @_;
 
     Foswiki::Exception::Config::BadSpecData->throw(
-        text       => "Node type is not defined",
+        text       => "Node type can not be undefined",
         nodeObject => $this,
     ) unless defined $val;
 

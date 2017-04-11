@@ -163,8 +163,8 @@ pluggable parse => sub {
                 # We'd rather ignore any caching error. If specs cannot be
                 # cached then go away with it and recall the parser for every
                 # invocation.
-                # SMELL Replace warn with bufferizing messaging when it's ready.
-                warn "Cannot clone specs for caching: " . $e;
+                # SMELL Replace warn with bufferized messaging when it's ready.
+                warn "Cannot cache specs: " . $e;
             };
         }
 
