@@ -30,6 +30,16 @@ has list => (
     builder => 'prepareList',
 );
 
+has mainSpec => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS(
+        'mainSpec', 'Foswiki::Config::Spec::File', noUndef => 1,
+    ),
+    builder => 'prepareMainSpec',
+);
+
 sub _scanDir {
     my $this = shift;
     my $dir  = shift;
@@ -79,12 +89,7 @@ sub collectSpecFiles {
 
     my $baseDir = $this->baseDir;
 
-    push @specFileList,
-      $this->create(
-        'Foswiki::Config::Spec::File',
-        path => File::Spec->catfile( $baseDir, 'Foswiki.spec' ),
-        cfg  => $this->cfg,
-      );
+    push @specFileList, $this->mainSpec;
 
     foreach my $subDir (@subDirs) {
         my $specDir = File::Spec->catdir( $baseDir, 'Foswiki', $subDir );
@@ -92,6 +97,18 @@ sub collectSpecFiles {
     }
 
     return @specFileList;
+}
+
+sub prepareMainSpec {
+    my $this = shift;
+
+    #say STDERR "Creating a new file object for Foswiki.spec";
+    my $msf = $this->create(
+        'Foswiki::Config::Spec::File',
+        path => File::Spec->catfile( $this->baseDir, 'Foswiki.spec' ),
+        cfg  => $this->cfg,
+    );
+    return $msf;
 }
 
 sub prepareList {
