@@ -271,8 +271,11 @@ sub _loadFromSubDir {
             # We don't really fail upon extension load because this isn't fatal
             # in neither way. What bad could unloaded extension cause?
             push @{ $this->_errors },
-              Foswiki::Exception::Ext::Load->transmute( $_, 1,
-                extension => $extModule );
+              Foswiki::Exception::Ext::Load->transmute(
+                $_, 1,
+                extension => $extModule,
+                reason    => Foswiki::Exception::errorStr($_),
+              );
             say STDERR "Extension $extModule problem: \n",
               Foswiki::Exception::errorStr( $this->_errors->[-1] );
         };
