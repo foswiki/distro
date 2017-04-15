@@ -1107,9 +1107,9 @@ sub parse {
 
     my (@specs);
 
-    # It seems as it was initially thought to make some items optional. Though
-    # it's never made its way into the final implementation (look for $optional
-    # use in LoadSpec.pm – it's not used) but commented out defaults are not
+    # Looks like it was initially thought to make some items optional. Though it
+    # never made its way into the final implementation (look for $optional use
+    # in LoadSpec.pm – it's not been used) but commented out defaults are not
     # ignored. For this purpose we simply remove single comment char in front of
     # $Foswiki::cfg declarations. To make them real comments one must double the
     # sharp symbol.
