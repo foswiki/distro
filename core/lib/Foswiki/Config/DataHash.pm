@@ -213,7 +213,11 @@ sub STORE {
     # operations too.
     if ( !$node->isLeaf && ref($value) eq 'HASH' && !tied(%$value) ) {
 
-        $this->tieNode($key);
+        # Check if the node value is a tied hash already.
+        my $nVal = $node->value;
+        unless ( defined($nVal) && ref($nVal) eq 'HASH' && tied(%$nVal) ) {
+            $this->tieNode($key);
+        }
 
         my $newHash = $node->value;
 
@@ -227,6 +231,9 @@ sub STORE {
     }
     else {
         $node->value($value);
+
+        # Mark node as leaf if
+        $node->setLeafState(1) if $node->isVague;
     }
 }
 
@@ -339,7 +346,7 @@ sub getKeyObject {
             # here because this is what this method is supposed to do.
             $node = $keyObj->makeNode(
                 key         => $key,
-                nodeProfile => { isLeaf => 0, },
+                nodeProfile => { leafState => 0, },
             );
 
             Foswiki::Exception::Fatal->throw(
@@ -461,7 +468,7 @@ sub tieNode {
     $node->value( \%newHash );
 
     # Tieing of a node makes it non-leaf implcitly.
-    $node->isLeaf(0);
+    $node->leafState(0);
 
     return $node;
 }

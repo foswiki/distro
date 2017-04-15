@@ -459,10 +459,10 @@ sub prepareLeafState {
     my $this = shift;
 
     foreach my $opt ( keys %{ $this->options } ) {
-        return 1 if $this->_leafOnlyOpts->{$opt};
+        return LEAF if $this->_leafOnlyOpts->{$opt};
     }
 
-    return NOSTATE;
+    return undef;
 }
 
 =begin TML
