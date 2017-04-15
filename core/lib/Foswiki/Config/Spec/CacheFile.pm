@@ -51,7 +51,7 @@ sub storeNodes {
 
     my @entries;
     foreach my $node (@_) {
-        push @entries, { $node->fullName => $node->default };
+        push @entries, [ $node->fullName => $node->default ];
     }
 
     $this->entries( \@entries );
@@ -79,6 +79,7 @@ around flush => sub {
 sub _prepareCached {
     my $this = shift;
 
+    $this->invalidate;
     my $content = $this->content;
 
     return {} unless $content;
