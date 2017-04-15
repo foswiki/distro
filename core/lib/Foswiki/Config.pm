@@ -115,10 +115,9 @@ sources (in the order from hight priority to lower):
 =cut
 
 has lscFile => (
-    is   => 'rwp',
-    lazy => 1,
-    default =>
-      sub { return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg'; },
+    is      => 'rwp',
+    lazy    => 1,
+    builder => 'prepareLscFile',
 );
 
 =begin TML
@@ -447,7 +446,7 @@ In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
 replaced by custom code which sets the configuration hash.  To prevent us from
 overriding the custom code again, we use an "unconfigurable" key
-=$cfg{ConfigurationFinished}= as an indicator.
+=$cfg->data->{ConfigurationFinished}= as an indicator.
 
 Note that this method is called by Foswiki and configure, and normally reads
 =Foswiki.spec= to get defaults. Other spec files (those for extensions) are
@@ -561,10 +560,10 @@ GOLLYGOSH
     foreach my $el ( keys %remap ) {
 
         # Only remap if the old key extsts, and the new key does NOT exist
-        if ( ( eval("exists \$this->data->$el") ) ) {
+        if ( ( eval("exists \$this->data->{$el}") ) ) {
             eval( <<CODE );
-\$this->data->$remap{$el}=\$this->data->$el unless ( exists \$this->data->$remap{$el} );
-delete \$this->data->$el;
+\$this->data->{$remap{$el}}=\$this->data->{$el} unless ( exists \$this->data->{$remap{$el}} );
+delete \$this->data->{$el};
 CODE
             print STDERR "REMAP failed $@" if ($@);
         }
@@ -595,6 +594,39 @@ CODE
     # Explicit return true if we've completed the load
     return $validLSC;
 }
+
+# SMELL Docs missing
+pluggable read => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $cfgData = $this->data;
+};
+
+# SMELL Docs missing
+pluggable write => sub {
+    my $this = shift;
+
+    my $lscFile = $this->lscFile . ".new";
+
+    $this->specsMode;
+
+    my $root = $this->getKeyObject;
+    my @cfgKeys = map { $_->fullName } $root->getLeafNodes;
+
+    my %specKeys;
+
+    foreach my $sf ( @{ $this->specFiles->list } ) {
+        say STDERR ">>>> ", $sf->path;
+        say STDERR $sf->cacheFile->entries;
+        $specKeys{ $_->[0] } = 1 foreach @{ $sf->cacheFile->entries };
+    }
+
+    foreach my $cfKey (@cfgKeys) {
+        say STDERR "Key $cfKey is not defined in specs"
+          unless $specKeys{$cfKey};
+    }
+};
 
 =begin TML
 
@@ -675,53 +707,39 @@ sub _doExpandStr {
 
     my $expStr = "";
 
-    try {
-        while ($str =~ /(?<txt>.*?)\\(?<chr>.)/gsc
-            || $str =~ /(?<txt>.*?)$KEYMACROREGEX/gsc )
-        {
-            $expStr .= $+{txt};
-            if ( defined $+{chr} ) {
+    while ($str =~ /(?<txt>.*?)\\(?<chr>.)/gsc
+        || $str =~ /(?<txt>.*?)$KEYMACROREGEX/gsc )
+    {
+        $expStr .= $+{txt};
+        if ( defined $+{chr} ) {
 
-                # Expand \ escaping
-                $expStr .= $+{chr};
+            # Expand \ escaping
+            $expStr .= $+{chr};
+        }
+        else {
+            my $key    = $+{key};
+            my $keyVal = $this->get($key);
+            if ( defined $keyVal ) {
+                $expStr .= $this->_expandStr( $keyVal, %params );
             }
             else {
-                my $key    = $+{key};
-                my $keyVal = $this->get($key);
-                if ( defined $keyVal ) {
-                    $expStr .= $this->_expandStr( $keyVal, %params );
+                if ( $params{undefFail} ) {
+                    Foswiki::Exception::Fatal->throw(
+                            text => "Failed to expand string '"
+                          . $str
+                          . "': key "
+                          . $key
+                          . " value is undefined" );
                 }
-                else {
-                    if ( $params{undefFail} ) {
-                        Foswiki::Exception::Fatal->throw(
-                                text => "Failed to expand string '"
-                              . $str
-                              . "': key "
-                              . $key
-                              . " value is undefined" );
-                    }
-                    Foswiki::Exception::_expandStr::UndefVal->throw(
-                        text => $key )
-                      unless defined $params{undef};
-                    $expStr .= $params{undef};
-                }
+                Foswiki::Exception::_expandStr::UndefVal->throw( text => $key )
+                  unless defined $params{undef};
+                $expStr .= $params{undef};
             }
         }
-
-        $str =~ /\G(?<txt>.*)$/;
-        $expStr .= $+{txt};
     }
-    catch {
-        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
-        #if ( $e->isa('Foswiki::Exception::_expandStr::UndefVal') ) {
-        #    $expStr = undef;
-        #}
-        #else {
-        $e->rethrow;
-
-        #}
-    };
+    $str =~ /\G(?<txt>.*)$/;
+    $expStr .= $+{txt};
 
     return $expStr;
 }
@@ -2305,7 +2323,22 @@ sub specsMode {
         $specFile->parse;
     }
 
-    %{$newData} = %{ $this->data };
+    my $ndo = tied %$newData;
+    my %spLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
+    say STDERR "Got leafs: ", scalar( keys %spLeafs );
+    my $cfgData = $this->data;
+
+    # Do key assignment one-by-one to avoid clearing the $newData hash if we
+    # attempt to perform %{$newData} assignment.
+    $newData->{$_} = $cfgData->{$_} foreach keys %$cfgData;
+    my %dLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
+    say STDERR "Leafs after data assign: ", scalar( keys %dLeafs );
+    foreach my $l ( keys %dLeafs ) {
+        say STDERR "New leaf node: ", $l unless $spLeafs{$l};
+    }
+    foreach my $l ( keys %spLeafs ) {
+        say STDERR "Lost leaf node: ", $l unless $dLeafs{$l};
+    }
 
     $this->data($newData);
 }
@@ -2519,6 +2552,10 @@ sub prepareSpecFiles {
     my $this = shift;
 
     return $this->create( 'Foswiki::Config::Spec::Files', cfg => $this, );
+}
+
+sub prepareLscFile {
+    return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg';
 }
 
 sub _prepareSpecParsers {
