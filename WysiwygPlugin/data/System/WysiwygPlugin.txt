@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1491354107" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1492704403" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -187,7 +187,13 @@ Many thanks to the following sponsors for supporting this work:
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
                &copy; 2008-2015 Foswiki Contributors |
 |  Change History: | |  
-|  1.35   (04 Apr 2017) | Foswikitask:Item14324: Unescaped left brace - Perl 5.25.10. |
+|  1.35   (04 Apr 2017) | Foswikitask:Item2489: WysiwygPlugin Constants should use export instead of aliasing it to some WC module <br/>\
+                          Foswikitask:Item9651: wysiwyg converts bold table content to table heads - Waiting for Release <br/>\
+                          Foswikitask:Item10239: Class Attribute is missing after Wysiwyg Transfer of Table Nodes <br/>\
+                          Foswikitask:Item12388: HTML2TML relies on XML-specific <code>&amp;apos;</code> entity <br/>\
+                          Foswikitask:Item13344: Wysiwyg corrupts markup with mixed indent (:) and list markup <br/>\
+                          Foswikitask:Item14323: Update to latest TinyMCE version <br/>\
+                          Foswikitask:Item14324: Unescaped left brace caught by Perl 5.25.10.|
 |  1.34   (26 Nov 2016) | Released with Foswiki 2.1.3 Foswikitask:Item14078: Wysiwyg merges horizontal rules (---) into a preceeding list and looses the TML markup.<br />\
                           Foswikitask:Item14253: WysiwygPlugin inserts extra spaces in front of square bracket links. |
 |  1.33   (08 Apr 2016) | Released with Foswiki 2.1.1 Foswikitask:Item13960: Editor fails to preserve alignment of cells containing "0".<br/>\
@@ -281,4 +287,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1491354107" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1492704403" size="1343" user="ProjectContributor" version="1"}%
