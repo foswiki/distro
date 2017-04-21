@@ -96,9 +96,17 @@ sub test_specRegister {
     my $holder = $cfg->localize;
     $cfg->clear_data;
 
+    my $data    = $cfg->makeSpecsHash;
+    my $dataObj = tied %$data;
+    my $rootSection =
+      $this->create( 'Foswiki::Config::Section', name => 'Root', );
+
     $cfg->spec(
-        source => __FILE__,
-        specs  => [
+        source    => __FILE__,
+        dataObj   => $dataObj,
+        localData => 1,
+        section   => $rootSection,
+        specs     => [
             -section => Extensions => [
                 -text    => "Just extensions",
                 -section => TestExt => [
@@ -170,10 +178,10 @@ sub test_specRegister {
         },
     };
 
-    $this->assert_deep_equals( $expectedData, $cfg->data,
+    $this->assert_deep_equals( $expectedData, $data,
         "Config structure mismatch with specs definition" );
 
-    my $sec = $cfg->rootSection->sections->[0];
+    my $sec = $rootSection->sections->[0];
     $this->assert_equals( "Extensions",      $sec->name );
     $this->assert_equals( "Just extensions", $sec->getOpt('text') );
     $this->assert_equals( "TestExt",         $sec->sections->[0]->name );
@@ -183,12 +191,14 @@ sub test_specRegister {
     $this->assert_equals( "Sample extension",
         $sec->sections->[1]->getOpt('text') );
 
-    my $strKey = $cfg->getKeyNode('Extensions.TestExt.StrKey');
+    my $strKey =
+      $dataObj->getKeyObject(qw(Extensions TestExt))->nodes->{StrKey};
 
     $this->assert_equals( "STRING", $strKey->getOpt('type') );
     $this->assert_equals( 32,       $strKey->getOpt('size') );
 
-    my $expertKey = $cfg->getKeyNode('Extensions.SampleExt.Setting');
+    my $expertKey =
+      $dataObj->getKeyObject(qw(Extensions SampleExt))->nodes->{Setting};
 
     $this->assert( $expertKey->getOpt('expert'),
         "Extensions.SampleExt.Setting must have 'expert' option set" );
@@ -212,7 +222,7 @@ sub test_specOnLocalData {
 
     $cfg->spec(
         source  => __FILE__,
-        data    => $dataObj,
+        dataObj => $dataObj,
         section => $section,
         specs   => [
             -section => Section => [
@@ -577,7 +587,7 @@ sub test_enhanceNonExisting {
     # This call must just pass.
     $cfg->spec(
         source  => __FILE__,
-        data    => $dataObj,
+        dataObj => $dataObj,
         section => $section,
         specs   => [
             -section => "Test enhancing" => [
@@ -696,6 +706,21 @@ qr/Failed to expand string '.*?': key ExpTest.Key1.UndefKey value is undefined/,
             $e->text
         );
     };
+}
+
+sub test_ReadWriteLSC {
+    my $this = shift;
+
+    $this->app->cfg->data->{ThisKey}{Is}{Not}{From}{Specs} =
+      "But we will have it in the LSC";
+
+    my $lscFile = "./TestLocalSite.cfg";
+    $this->app->cfg->writeLSC( lscFile => $lscFile, );
+    my %data;
+    $this->app->cfg->readLSC( lscFile => $lscFile, data => \%data, );
+
+    #unlink $lscFile;
+    return;
 }
 
 1;

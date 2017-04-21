@@ -316,7 +316,7 @@ _JQueryPlugin.Plugins.BlockUI_ but will return undefined value for
 _JQueryPlugin.Plugins.BlockUI.Enabled_ because _Enabled_ is a leaf and it's
 =value= attribute is a boolean, not a tied hash ref.
 
-If say key _JQueryPlugin_ already exists and _Plugins_ doesn't then the latter
+If say key _JQueryPlugin_ already exists while _Plugins_ doesn't then the latter
 and _BlockUI_ will be auto-vivified and their type will be set to branch. This
 is because this method is expected to do it's best to return a container object.
 This behaivor may has a side-effect in case the full path including _Enabled_ is

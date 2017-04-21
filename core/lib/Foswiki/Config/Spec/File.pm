@@ -149,7 +149,7 @@ pluggable parse => sub {
                 my $localDataObj = tied %$data;
                 $cfg->spec(
                     source    => $this,
-                    data      => $localDataObj,
+                    dataObj   => $localDataObj,
                     localData => 1,
                     section   => $this->section,
                     specs     => \@specs,
@@ -170,7 +170,7 @@ pluggable parse => sub {
 
         $cfg->spec(
             source    => $this,
-            data      => $dataObj,
+            dataObj   => $dataObj,
             localData => $this->localData,
             section   => $this->section,
             specs     => \@specs,

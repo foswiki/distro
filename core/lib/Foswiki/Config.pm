@@ -40,7 +40,12 @@ use constant TRAUTO => 1;
 #
 our $ITEMREGEX =
   qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_\.]+)\})+/;
-our $KEYMACROREGEX = qr/\$(?:(?<key>(?:\{\w+\})+)|\{(?<key>[\w\.]+)\})/;
+
+our $KeyNameREGEX = '\w[^\.=\{\}]*';
+our $KeyPathREGEX =
+  "(?<key>(?:\{$KeyNameREGEX\})+)|(?<key>$KeyNameREGEX(?:\.$KeyNameREGEX)*)";
+our $KeyMacroREGEX =
+"\\\$(?:(?<key>(?:\{$KeyNameREGEX\})+)|\{(?<key>$KeyNameREGEX(?:\.$KeyNameREGEX)*)\})";
 
 # Generic booleans, used in some older LSC's
 our $TRUE  = 1;
@@ -118,6 +123,19 @@ has lscFile => (
     is      => 'rwp',
     lazy    => 1,
     builder => 'prepareLscFile',
+);
+
+=begin TML
+
+---++ ObjectAttribute lscHeader
+
+Default header to be put at the beginning of LSC file.
+=cut
+
+has lscHeader => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareLscHeader',
 );
 
 =begin TML
@@ -476,7 +494,7 @@ sub readConfig {
 
     # BEGIN of new specs code
     # SMELL It's here for testing only.
-    $this->specsMode;
+    #$this->specsMode;
 
     # END of new specs code
 
@@ -596,23 +614,130 @@ CODE
 }
 
 # SMELL Docs missing
-pluggable read => sub {
+pluggable readLSC => sub {
     my $this   = shift;
     my %params = @_;
 
-    my $cfgData = $this->data;
+    my $lscFile = $params{lscFile}
+      // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
+
+    my $cfgData = $params{data} // $this->data;
+
+    my $cfFile = $this->create(
+        'Foswiki::File',
+        path      => $lscFile,
+        autoWrite => 0
+        , # Prevent occasional overwriting of the LSC if a bug would sneak into the code.
+    );
+
+    my $lnum = 0;
+    my ( $hereDoc, $hereKey, $hereVal );
+    foreach my $line ( split /\n/, $cfFile->content ) {
+        my ( $keyPath, $keyVal );
+        $lnum++;
+        chomp $line;
+        next if !$hereDoc && $line =~ /^\s*(?:#|\z)/;
+        my $doEval = 0;
+        if ($hereDoc) {
+            if ( $line =~ /^$hereDoc\s*$/ ) {
+                $keyVal  = $hereVal;
+                $keyPath = $hereKey;
+                $doEval  = 1;
+                undef $hereDoc;
+                undef $hereKey;
+                undef $hereVal;
+            }
+            else {
+                $hereVal .= "\n$line";
+            }
+        }
+        elsif ( $line =~ /^\s*(?<keyPath>$KeyPathREGEX)\s*=\s*(?<keyVal>.+)?$/ )
+        {
+            ( $keyPath, $keyVal ) = @+{qw(keyPath keyVal)};
+            if ( defined($keyVal) && length($keyVal) ) {
+                if ( $keyVal =~ s/^\<\<// ) {
+                    $hereDoc = $keyVal;
+                    $hereKey = $keyPath;
+
+                    # Reset to avoid preliminary setting of the key.
+                    undef $keyPath;
+
+                    if ( length($hereDoc) == 0 ) {
+                        warn
+"Bad here-document at $lscFile($lnum): must have signature";
+                        return 0;
+                    }
+                }
+                else {
+                    $doEval = 1;
+                }
+            }
+            else {
+                $keyVal = undef;
+            }
+        }
+        else {
+            say STDERR "^\\s*(?<keyPath>$KeyPathREGEX)\\s*=\\s*(?<keyVal>.+)\$";
+            warn
+"Failed to read $lscFile($lnum): unrecorgnized format of line '$line'";
+            return 0;
+        }
+
+        if ($keyPath) {
+            if ($doEval) {
+                my $interp = eval $keyVal;
+                if ($@) {
+                    warn "Syntax error in $lscFile($lnum), value '$keyVal': $@";
+                    return 0;
+                }
+                $keyVal = $interp;
+            }
+            $this->set( $keyPath, $keyVal, data => $cfgData );
+        }
+    }
+
+    if ($hereDoc) {
+        warn "Unclosed here-doc labeled $hereDoc in $lscFile";
+        return 0;
+    }
+
+    return 1;
 };
 
-# SMELL Docs missing
-pluggable write => sub {
+sub _genLSCHereDoc {
     my $this = shift;
+    my $val  = shift;
 
-    my $lscFile = $this->lscFile . ".new";
+    my $endMark;
+    my @a = ( 'A' .. 'Z' );
 
-    $this->specsMode;
+    # End-mark must not be contained in the value string. So, repeat generation
+    # until we get a unique one.
+    do {
+        $endMark = 'CF_';
+        for ( 1 .. 4 ) {
+            $endMark .= $a[ int( rand( scalar(@a) ) ) ];
+        }
+    } while ( $val =~ /$endMark/ );
 
-    my $root = $this->getKeyObject;
-    my @cfgKeys = map { $_->fullName } $root->getLeafNodes;
+    return "<<$endMark\n$val\n$endMark";
+}
+
+# SMELL Docs missing
+# This is the most basic write operation which only gets a data hash and writes
+# it to the destination file.
+pluggable writeLSC => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $lscFile = $params{lscFile}
+      // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
+
+    my $cfgData =
+      $this->specsMode( setAttr => 0, data => $params{data} // $this->data, );
+
+    my $root = tied %$cfgData;
+    my @cfgKeys = sort map { $_->fullName } $root->getLeafNodes;
 
     my %specKeys;
 
@@ -622,10 +747,44 @@ pluggable write => sub {
         $specKeys{ $_->[0] } = 1 foreach @{ $sf->cacheFile->entries };
     }
 
+    local $Data::Dumper::Terse    = 1;
+    local $Data::Dumper::Deepcopy = 1;
+
+    my @lscText = ( $this->lscHeader );
     foreach my $cfKey (@cfgKeys) {
-        say STDERR "Key $cfKey is not defined in specs"
-          unless $specKeys{$cfKey};
+        unless ( $specKeys{$cfKey} ) {
+            push @lscText, '# This key is not defined in a spec file';
+            say STDERR "Key $cfKey is not defined in specs";
+        }
+
+        my @keys      = $this->parseKeys($cfKey);
+        my $leafKey   = pop @keys;
+        my $keyObject = $root->getKeyObject(@keys);
+        my $val;
+
+        if ( defined $keyObject ) {
+            $val = $keyObject->nodes->{$leafKey}->getValue;
+        }
+
+        if ( defined $val ) {
+            $val = Data::Dumper->Dump( [$val] );
+            chomp $val;
+            if ( $val =~ /\n/ ) {
+
+                # Special notion for multiline values.
+                $val = $this->_genLSCHereDoc($val);
+            }
+        }
+        else {
+            $val = '';
+        }
+
+        push @lscText, "$cfKey=$val";
     }
+
+    my $cfFile = $this->create( 'Foswiki::File', path => $lscFile, );
+    $cfFile->content( join( "\n", @lscText ) );
+    return;
 };
 
 =begin TML
@@ -708,7 +867,7 @@ sub _doExpandStr {
     my $expStr = "";
 
     while ($str =~ /(?<txt>.*?)\\(?<chr>.)/gsc
-        || $str =~ /(?<txt>.*?)$KEYMACROREGEX/gsc )
+        || $str =~ /(?<txt>.*?)$KeyMacroREGEX/gsc )
     {
         $expStr .= $+{txt};
         if ( defined $+{chr} ) {
@@ -1539,6 +1698,8 @@ sub get {
 
     my ( $subHash, $leafName ) = $this->getSubHash( \@_ );
 
+    return undef unless defined $subHash;
+
     return $subHash->{$leafName};
 }
 
@@ -1554,10 +1715,12 @@ $app->cfg->set("{Root}{Branch}{Leaf}", $value);
 
 sub set {
     my $this = shift;
-    my ( $cfgPath, $value ) = @_;
+    my ( $cfgPath, $value, %params ) = @_;
+
+    my $data = $params{data} // $this->data;
 
     my ( $subHash, $leafName ) =
-      $this->getSubHash( $cfgPath, autoVivify => 1, );
+      $this->getSubHash( $cfgPath, autoVivify => 1, data => $data, );
 
     $subHash->{$leafName} = $value;
 }
@@ -2292,6 +2455,8 @@ sub makeSpecsHash {
       _trace => 0,
       ;
 
+    # SMELL Test and throw an exception if tie failed.
+
     %newData = %{ $params{data} } if $params{data};
 
     return \%newData;
@@ -2299,10 +2464,21 @@ sub makeSpecsHash {
 
 =begin TML
 
----++ ObjectMethod specsMode
+---++ ObjectMethod specsMode( %params ) -> \%cfgData
 
 Converts =data= attribute from plain data hash into specs mode by tieing it
 to =Foswiki::Config::DataHash=. The original data is preserved.
+
+The =%params= keys are:
+
+| *Key* | *Description* | *Default* |
+| =data= | Reference to config data to be copied into the tied hash | =$app->cfg->data= |
+| =setAttr= | True if =$app->cfg->data= has to be set to the new tied hash | _true_ unless =data= key is defined |
+
+The method does nothing if =setAttr= attribute is true and =$app->cfg->data= is
+a tied hash already.
+
+Returns a reference to the newly created tied hash. 
 
 *NOTE* Current implementation is incomplete as before restoring the original
 data specs must be re-read from the disk. Otherwise this operation may result in
@@ -2311,9 +2487,17 @@ inconsistent data not complying with specs requirements.
 =cut
 
 sub specsMode {
-    my $this = shift;
+    my $this   = shift;
+    my %params = @_;
 
-    return if tied %{ $this->data };
+    my $cfgData = $params{data} // $this->data;
+
+    # A flag to indicate wether to set object data attribute to the newly
+    # created tied hash. If corresponding method parameter setAttr is not set
+    # then setAttr would be false if data parameter is there.
+    my $setAttr = $params{setAttr} // !defined( $params{data} );
+
+    return if $setAttr && tied %{ $this->data };
 
     my $newData = $this->makeSpecsHash;
 
@@ -2324,23 +2508,26 @@ sub specsMode {
     }
 
     my $ndo = tied %$newData;
-    my %spLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
-    say STDERR "Got leafs: ", scalar( keys %spLeafs );
-    my $cfgData = $this->data;
+
+    #my %spLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
+    #say STDERR "Got leafs: ", scalar( keys %spLeafs );
 
     # Do key assignment one-by-one to avoid clearing the $newData hash if we
     # attempt to perform %{$newData} assignment.
     $newData->{$_} = $cfgData->{$_} foreach keys %$cfgData;
-    my %dLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
-    say STDERR "Leafs after data assign: ", scalar( keys %dLeafs );
-    foreach my $l ( keys %dLeafs ) {
-        say STDERR "New leaf node: ", $l unless $spLeafs{$l};
-    }
-    foreach my $l ( keys %spLeafs ) {
-        say STDERR "Lost leaf node: ", $l unless $dLeafs{$l};
-    }
 
-    $this->data($newData);
+    #my %dLeafs = map { $_->fullName => 1 } $ndo->getLeafNodes;
+    #say STDERR "Leafs after data assign: ", scalar( keys %dLeafs );
+    #foreach my $l ( keys %dLeafs ) {
+    #    say STDERR "New leaf node: ", $l unless $spLeafs{$l};
+    #}
+    #foreach my $l ( keys %spLeafs ) {
+    #    say STDERR "Lost leaf node: ", $l unless $dLeafs{$l};
+    #}
+
+    $this->data($newData) if $setAttr;
+
+    return $newData;
 }
 
 =begin TML
@@ -2438,10 +2625,11 @@ sub spec {
 
     my ( $data, $section, $localData );
 
-    if ( $params{data} ) {
-        Foswiki::Exception::Fatal->throw(
-            text => "The data key must be a Foswiki::Config::DataHash instance",
-        ) unless UNIVERSAL::isa( $params{data}, 'Foswiki::Config::DataHash' );
+    if ( $params{dataObj} ) {
+        Foswiki::Exception::Fatal->throw( text =>
+              "The dataObj key must be a Foswiki::Config::DataHash instance", )
+          unless UNIVERSAL::isa( $params{dataObj},
+            'Foswiki::Config::DataHash' );
 
         Foswiki::Exception::Fatal->throw(
             text => "The section key must be defined when data key is used", )
@@ -2451,7 +2639,7 @@ sub spec {
               "The section key must be a Foswiki::Config::Section instance", )
           unless UNIVERSAL::isa( $params{section}, 'Foswiki::Config::Section' );
 
-        $data    = $params{data};
+        $data    = $params{dataObj};
         $section = $params{section};
 
         # If no localData parameter is given then try to guess it by comparing
@@ -2477,7 +2665,7 @@ sub spec {
         specDef   => $params{specs},
         source    => $params{source},
         section   => $section,
-        data      => $data,
+        dataObj   => $data,
         localData => $localData,
     );
     try {
@@ -2556,6 +2744,17 @@ sub prepareSpecFiles {
 
 sub prepareLscFile {
     return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg';
+}
+
+sub prepareLscHeader {
+    return <<'EOH';
+#!fwconfig
+# Local site settings for Foswiki. This file is managed by the 'configure'
+# CGI script, though you can also make (careful!) manual changes with a
+# text editor.  See the Foswiki.spec file in this directory for documentation
+# Extensions are documented in the Config.spec file in the Plugins/<extension>
+# or Contrib/<extension> directories  (Do not remove the following blank line.)
+EOH
 }
 
 sub _prepareSpecParsers {
@@ -2762,7 +2961,7 @@ sub _specCfgKey {
 
     my $specs   = $params{specs};
     my $section = $specs->section;
-    my $data    = $specs->data || $this->data;
+    my $data    = $specs->dataObj || tied %{ $this->data };
 
     my $arity = $this->_keyOptArity;
 

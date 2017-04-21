@@ -87,20 +87,20 @@ has keyPath => (
 
 =begin TML
 
----+++ ObjectAttribute data
+---+++ ObjectAttribute dataObj
 
 An instance of =Foswiki::Config::DataHash= class.
 
 =cut
 
-has data => ( is => 'rw', );
+has dataObj => ( is => 'rw', );
 
 =begin TML
 
 ---+++ ObjectAttribute localData
 
-Boolean, true if the =data= attribute of the object is local; i.e. it's not the
-same as application config data.
+Boolean, true if the =dataObj= attribute of the object is local; i.e. it doesn't
+represent application's config object data.
 
 =cut
 
@@ -218,9 +218,9 @@ sub subSpecs {
       unless ( $profile{section} );
 
     push @subProfile,
-      data      => $this->data,
+      dataObj   => $this->dataObj,
       localData => $this->localData,
-      if $this->data;
+      if $this->dataObj;
 
     my $subSpecs = ref($this)->new(
         source => $this->source,
