@@ -4,7 +4,7 @@ use v5.14;
 use Cwd;
 use File::Spec;
 
-my ( $rootDir, $scriptDir );
+my ( $rootDir, $libDir, $scriptDir );
 
 BEGIN {
     $rootDir   = $ENV{FOSWIKI_HOME};
@@ -29,7 +29,8 @@ BEGIN {
         $rootDir = File::Spec->catdir( $scriptDir, File::Spec->updir );
     }
 
-    push @INC, File::Spec->catdir( $rootDir, "lib" );
+    $libDir = File::Spec->catdir( $rootDir, "lib" );
+    push @INC, $libDir;
 }
 
 use Plack::Builder;
@@ -39,6 +40,7 @@ my $app = sub {
     my $env = shift;
 
     $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
+    $env->{FOSWIKI_LIBS} = $libDir unless $env->{FOSWIKI_LIBS};
 
     return Foswiki::App->run( env => $env, );
 };

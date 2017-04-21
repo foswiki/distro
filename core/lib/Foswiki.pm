@@ -943,6 +943,43 @@ sub fetchGlobal {
     return $sigilSub->{$sigil}->( $ns->{$symbol} );
 }
 
+=begin TML
+
+---++ StaticMethod guessLibDir => $libDir
+
+If =FOSWIKI_LIBS= environment variable is defined then its value is returned.
+Otherwise tries to guess where %WIKITOOLNAME% libraries are located.
+
+=cut
+
+sub guessLibDir {
+    return $ENV{FOSWIKI_LIBS} if $ENV{FOSWIKI_LIBS};
+
+    my ( $v, $d, $f ) = File::Spec->splitpath(__FILE__);
+
+    return File::Spec->canonpath( File::Spec->catpath( $v, $d ) );
+}
+
+=begin TML
+
+---++ StaticMethod guessHomeDir => $homeDir
+
+If =FOSWIKI_HOME= environment variable is defined then its value is returned.
+Otherwise tries to guess where %WIKITOOLNAME% is located.
+
+=cut
+
+sub guessHomeDir {
+    return $ENV{FOSWIKI_HOME} if $ENV{FOSWIKI_HOME};
+
+    my $libDir = guessLibDir;
+
+    my ( $v, $d, $f ) = File::Spec->splitpath( $libDir, 1 );
+    my @d = File::Spec->splitdir( File::Spec->canonpath($d) );
+    pop @d;
+    return File::Spec->catpath( $v, File::Spec->catdir(@d) );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
