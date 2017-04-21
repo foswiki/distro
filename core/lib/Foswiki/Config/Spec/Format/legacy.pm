@@ -10,6 +10,11 @@ use Foswiki;
 use Foswiki::Class;
 extends qw(Foswiki::Object);
 
+# We took this here because it is expected to be gone from Foswiki::Config as
+# obsolete. The legacy format is to be obsoleted, this is why...
+our $ITEMREGEX =
+  qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_\.]+)\})+/;
+
 has data => (
     is      => 'ro',
     lazy    => 1,
@@ -829,6 +834,30 @@ sub _isSectionItem {
       ->isa('Foswiki::Config::Spec::Format::legacy::Section');
 }
 
+# Converts key path in legacy form (which is a list of keys enclosed in curly
+# braces) into an arrayref which is the new form.
+sub _purifyKeyPath {
+    my $this    = shift;
+    my $keyPath = shift;
+
+    my ( $h, @keyPath );
+
+    eval "\$h->$keyPath=1";
+
+    while ( ref $h ) {
+        my $key = ( keys %$h )[0];
+        Foswiki::Exception::Config::BadSpecSrc->throw(
+            srcFile => $this->_specFile,
+            secLine => $this->nextLine,
+            text    => "Key name '$key' cannot contain a dot",
+        ) if $key =~ /\./;
+        push @keyPath, $key;
+        $h = $h->{$key};
+    }
+
+    return \@keyPath;
+}
+
 sub _sectionParse {
     my $this   = shift;
     my %params = @_;
@@ -927,7 +956,7 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
             {
                 my ( $keyPath, $optional ) = @+{qw(keyPath optional)};
 
-                unless ( $keyPath =~ /$Foswiki::Config::ITEMREGEX/ ) {
+                unless ( $keyPath =~ /$ITEMREGEX/ ) {
 
                     # XXX TODO report error here when bufferized messaging is in
                     # place.
@@ -935,6 +964,8 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                     Foswiki::Exception::Config::Spec::Format::legacy::Repeat
                       ->throw;
                 }
+
+                $keyPath = $this->_purifyKeyPath($keyPath);
 
                 # Push section on specs list if we're in section declaration
                 # now.
