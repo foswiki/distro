@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485233581" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1484931182" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -54,7 +54,7 @@ is sufficient.
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-|  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2017 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
 |  20 Jan 2017 | Foswikitask:Item14265: NatEdit plugin leaves UI blocked after some save errors<br/>\
                  Foswikitask:Item14285: fixed error clicking on disabled toolbar buttons |
@@ -181,4 +181,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485233581" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1484931182" size="64487" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489544864" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1491868579" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.2.0
 
@@ -107,6 +107,9 @@ changed to:
 </verbatim>
 
 If you don't escape the macros, they will be expanded when the link is initially created which will impact the ability to rename topics.
+
+<div class='foswikiHelp'>%X% *ACTION REQUIRED* Verify the setting of the
+=ATTACHEDFILELINKFORMAT= and =ATTACHEDIMAGEFORMAT= settings and adjust per the above examples.</div>
 
 ---++ Important changes in Foswiki 2.1
 
