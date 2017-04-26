@@ -1204,23 +1204,18 @@ $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem = self.engine.getWrapperElement(),
     windowHeight = $(window).height() || window.innerHeight,
-    newHeight, bottomHeight;
+    tabElem = $(".jqTabContents"),
+    newHeight;
 
   if (!elem || !elem.length) {
     return;
   }
 
-  if (self.container.is(".ui-natedit-fullscreen")) {
-    bottomHeight = parseInt(self.container.css('padding-bottom'), 10) * 2;
-  } else {
-    if (typeof(self.bottomHeight) === 'undefined') {
-      self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
-    }
-    bottomHeight = self.bottomHeight; 
-  }
-
-  //console.log("windowHeight=",windowHeight,"elem=",elem[0],"top=",elem.offset().top,"bottomHeight=",bottomHeight);
-  newHeight = windowHeight - elem.offset().top - bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
+  newHeight = windowHeight 
+    - elem.offset().top 
+    - $('.natEditBottomBar').outerHeight(true) 
+    - (tabElem.outerHeight(true) - tabElem.height())
+    - 2;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
