@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1488191908" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1493186548" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %FORMFIELD{"Description"}%
 
@@ -180,4 +180,4 @@ is sufficient.
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1488191908" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1493186548" size="64487" user="ProjectContributor" version="1"}%
