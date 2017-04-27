@@ -45,7 +45,7 @@ our $KeyNameREGEX = '\w[^\.=\{\}]*';
 our $KeyPathREGEX =
   "(?<key>(?:\{$KeyNameREGEX\})+)|(?<key>$KeyNameREGEX(?:\.$KeyNameREGEX)*)";
 our $KeyMacroREGEX =
-"\\\$(?:(?<key>(?:\{$KeyNameREGEX\})+)|\{(?<key>$KeyNameREGEX(?:\.$KeyNameREGEX)*)\})";
+"\\\$(?:\{(?<key>$KeyNameREGEX(?:\.$KeyNameREGEX)*)\}|(?<key>(?:\{$KeyNameREGEX\})+))";
 
 # Generic booleans, used in some older LSC's
 our $TRUE  = 1;
@@ -250,6 +250,7 @@ has specFiles => (
     builder => 'prepareSpecFiles',
 );
 
+# Class name used to create tied data hash.
 has dataHashClass => (
     is      => 'ro',
     lazy    => 1,
@@ -306,9 +307,23 @@ sub BUILD {
     $this->_populatePresets;
     $this->_guessDefaults;
 
-    $this->data->{isVALID} =
-      $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
-        $this->noLocal, );
+    #$this->data->{isVALID} =
+    #  $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
+    #    $this->noLocal, );
+
+    try {
+        $this->read(
+            noExpand   => $this->noExpand,
+            noDefaults => $this->noSpec,
+            onlyMain   => !$this->configSpec,
+            noLocal    => $this->noLocal,
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        warn $e->stringify;
+        $this->data->{isVALID} = 0;
+    };
 
     $this->_setupGlobals;
 
@@ -429,9 +444,10 @@ sub getSpecParser {
     return unless $parser;
 }
 
-# Fetch keys defaults values from specs cache. Recache if necessary.
+# Fetch keys default values from specs cache. Recache if necessary.
 sub fetchDefaults {
-    my $this = shift;
+    my $this   = shift;
+    my %params = @_;
 
     state $called = 0;
 
@@ -444,12 +460,18 @@ sub fetchDefaults {
 
     $called = 1;
 
-    foreach my $specFile ( @{ $this->specFiles->list } ) {
-        say STDERR "Checking cache of ", $specFile->path;
+    my $specFiles = $this->specFiles;
+    my @setParams = defined $params{data} ? ( data => $params{data} ) : ();
+    my @flist =
+      $params{onlyMain} ? ( $specFiles->mainSpec ) : @{ $specFiles->list };
+
+    foreach my $specFile (@flist) {
+
+        #say STDERR "Checking cache of ", $specFile->path;
         $specFile->refreshCache;
 
         foreach my $pair ( @{ $specFile->cacheFile->entries } ) {
-            $this->set(%$pair);
+            $this->set( @$pair, @setParams );
         }
     }
 
@@ -613,13 +635,141 @@ CODE
     return $validLSC;
 }
 
+sub _expandAll {
+    my $this   = shift;
+    my %params = @_[ 1 .. $#_ ];
+
+    if ( ref( $_[0] ) ) {
+        if ( ref( $_[0] ) eq 'HASH' ) {
+            foreach my $key ( keys %{ $_[0] } ) {
+                $this->_expandAll( $_[0]->{$key}, %params, );
+            }
+        }
+        elsif ( ref( $_[0] ) eq 'ARRAY' ) {
+            foreach my $val ( @{ $_[0] } ) {
+                $this->_expandAll( $val, %params, );
+            }
+        }
+
+        # Ignore any other ref types.
+    }
+    elsif ( defined $_[0] && $_[0] =~ /$KeyMacroREGEX/ ) {
+        $_[0] = $this->expandStr( %params, str => $_[0], );
+    }
+}
+
+# SMELL Docs missing
+sub expandAll {
+    my $this   = shift;
+    my %params = @_;
+
+    $params{undef}     = 'undef' unless exists $params{undef};
+    $params{undefFail} = 0       unless exists $params{undefFail};
+
+    my $data = defined $params{data} ? $params{data} : $this->data;
+
+    Foswiki::Exception::Fatal->throw(
+        text => "data key must be a hashref in call to expandAll() method", )
+      unless ref($data) eq 'HASH';
+
+    $this->_expandAll( $data, %params );
+}
+
+# SMELL Docs missing
+pluggable read => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $data;
+    my ( @dataParam, @lscFileParam );
+
+    if ( $params{data} ) {
+        $data = $params{data};
+        push @dataParam, data => $data;
+    }
+    else {
+        $data = $this->data;
+    }
+
+    return if $data->{ConfigurationFinished};
+
+    my $stage = $params{_stage} // $this->app->initStage;
+
+    # Similar to the old readConfig() noSpec set to true.
+    my $noDefaults = exists $params{noDefaults} ? $params{noDefaults} : 0;
+
+    # Similar to the old readConfig() when both noSpec and configSpec are false.
+    # Reads only defaults from the main spec file (Foswiki.spec for the moment).
+    # Taken into account only when noDefaults is false.
+    my $onlyMain = exists $params{onlyMain} ? $params{onlyMain} : 0;
+
+    # Don't read LSC
+    my $noLocal = exists $params{noLocal} ? $params{noLocal} : 0;
+
+    # Don't expand macros in the final data hash.
+    my $noExpand = exists $params{noExpand} ? $params{noExpand} : 0;
+
+    unless ($noDefaults) {
+        $this->fetchDefaults(
+            onlyMain => $onlyMain,
+            data     => $data,
+            _stage   => $stage,
+        );
+    }
+
+    $data->{isVALID} = 0;
+
+    unless ($noLocal) {
+        push @lscFileParam, lscFile => $params{lscFile}
+          if defined $params{lscFile};
+        $data->{isVALID} =
+          $this->readLSC( @dataParam, @lscFileParam, _stage => $stage, );
+    }
+
+    unless ($noExpand) {
+        $this->expandAll( @dataParam, _stage => $stage, );
+    }
+
+    # Make all path conformant to the OS we running under.
+    foreach my $dirKey (
+        qw(PubDir DataDir ToolsDir ScriptDir TemplateDir LocalesDir WorkingDir))
+    {
+        my ( $v, $d, $f ) = File::Spec->splitpath( $data->{$dirKey} );
+        my @d = File::Spec->splitdir($d);
+        $data->{$dirKey} =
+          File::Spec->canonpath(
+            File::Spec->catpath( $v, File::Spec->catdir(@d), $f ) );
+    }
+
+    # Add explicit {Site}{CharSet} for older extensions. Default to utf-8.
+    # Explanation is in http://foswiki.org/Tasks/Item13435
+    $data->{Site}{CharSet} = 'utf-8' unless defined $data->{Site}{CharSet};
+
+    $data->{ConfigurationFinished} = 1;
+
+    return $data;
+};
+
 # SMELL Docs missing
 pluggable readLSC => sub {
     my $this   = shift;
     my %params = @_;
 
+ # Avoid dying of warnings here – at least until bufferized error reporting is
+ # in place. Otherwise we wouldn't even be able to test bootstrap.
+    local $SIG{__WARN__};
+
     my $lscFile = $params{lscFile}
       // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
+
+    unless ( -r $lscFile ) {
+        warn "$lscFile is not readable";
+        return 0;
+    }
+    unless ( -f $lscFile ) {
+        warn "$lscFile is not a plain file";
+        return 0;
+    }
 
     my $cfgData = $params{data} // $this->data;
 
@@ -725,7 +875,9 @@ sub _genLSCHereDoc {
 
 # SMELL Docs missing
 # This is the most basic write operation which only gets a data hash and writes
-# it to the destination file.
+# it to the destination file. The final config may contain more keys than passed
+# in the data because specs are being fetched in and defaults are added to the
+# data.
 pluggable writeLSC => sub {
     my $this   = shift;
     my %params = @_;
@@ -866,7 +1018,12 @@ sub _doExpandStr {
 
     my $expStr = "";
 
-    while ($str =~ /(?<txt>.*?)\\(?<chr>.)/gsc
+    my @dataParam = $params{data} ? ( data => $params{data} ) : ();
+
+    # Construct like ${<chr>} is being expanded into just <chr>. This is how
+    # escaping is implemented. Note that this works for non-word chars only. Any
+    # ${<word-chr>.*} is commonly considered a macro.
+    while ($str =~ /(?<txt>.*?)\$\{(?<chr>\W)\}/gsc
         || $str =~ /(?<txt>.*?)$KeyMacroREGEX/gsc )
     {
         $expStr .= $+{txt};
@@ -876,8 +1033,8 @@ sub _doExpandStr {
             $expStr .= $+{chr};
         }
         else {
-            my $key    = $+{key};
-            my $keyVal = $this->get($key);
+            my $key = $+{key};
+            my $keyVal = $this->get( $key, @dataParam );
             if ( defined $keyVal ) {
                 $expStr .= $this->_expandStr( $keyVal, %params );
             }
@@ -953,7 +1110,9 @@ pluggable expandStr => sub {
     if ( $params{str} ) {
         if ( my $rt = ref( $params{str} ) ) {
             Foswiki::Exception::Fatal->throw(
-                "expandStr method's str parameter cannot be " . $rt . " ref" )
+                    text => "expandStr method's str parameter cannot be "
+                  . $rt
+                  . " ref" )
               unless $rt eq 'ARRAY';
             push @strs, @{ $params{str} };
             $isList = 1;
@@ -1074,7 +1233,7 @@ sub bootstrapSystemSettings {
 
     # Note that we don't resolve x/../y to y, as this might
     # confuse soft links
-    my $root = File::Spec->catdir( $bin, File::Spec->updir() );
+    my $root = Foswiki::guessHomeDir;
     $root =~ s{\\}{/}g;
     my $fatal = '';
     my $warn  = '';
@@ -1686,7 +1845,6 @@ sub getSubHash {
 
 ---++ ObjectMethod get()
 
-$app->cfg->get(Root => Branch => Leaf =>);
 $app->cfg->get([qw(Root Branch Leaf)]);
 $app->cfg->get("Root.Branch.Leaf");
 $app->cfg->get("{Root}{Branch}{Leaf}");
@@ -1696,7 +1854,7 @@ $app->cfg->get("{Root}{Branch}{Leaf}");
 sub get {
     my $this = shift;
 
-    my ( $subHash, $leafName ) = $this->getSubHash( \@_ );
+    my ( $subHash, $leafName ) = $this->getSubHash(@_);
 
     return undef unless defined $subHash;
 
@@ -2740,6 +2898,11 @@ sub prepareSpecFiles {
     my $this = shift;
 
     return $this->create( 'Foswiki::Config::Spec::Files', cfg => $this, );
+}
+
+sub prepareStage {
+    my $this = shift;
+    return $this->app->initStage;
 }
 
 sub prepareLscFile {

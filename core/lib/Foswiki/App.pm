@@ -102,6 +102,7 @@ has cfg => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
+    clearer   => 1,
     builder   => 'prepareCfg',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
@@ -324,6 +325,9 @@ has inUnitTestMode => (
     },
 );
 
+# App init stage.
+has initStage => ( is => 'rw', );
+
 =begin TML
 
 ---++ ClassMethod new([%parameters])
@@ -341,11 +345,25 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
-    $this->extensions->initialize;
+    $this->initStage('initConfig');
 
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
     }
+
+    $this->initStage('extLoad');
+
+    $this->extensions->initialize;
+
+    $this->clear_cfg;
+
+    $this->initStage('reConfig');
+
+    unless ( $this->cfg->data->{isVALID} ) {
+        $this->cfg->bootstrapSystemSettings;
+    }
+
+    $this->initStage('postConfig');
 
     $this->callback('postConfig');
 
@@ -1575,7 +1593,7 @@ sub prepareUser {
 sub prepareExtensions {
     my $this = shift;
 
-    # Don't use create() here because the latter depends on extensions.
+    # Don't use create() here because the method depends on extensions.
     return Foswiki::Extensions->new( app => $this );
 }
 
