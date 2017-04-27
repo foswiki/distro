@@ -957,7 +957,7 @@ sub guessLibDir {
 
     my ( $v, $d, $f ) = File::Spec->splitpath(__FILE__);
 
-    return File::Spec->canonpath( File::Spec->catpath( $v, $d ) );
+    return File::Spec->canonpath( File::Spec->catpath( $v, $d, '' ) );
 }
 
 =begin TML
