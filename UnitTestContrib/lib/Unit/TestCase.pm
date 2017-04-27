@@ -508,7 +508,7 @@ sub assert_deep_equals {
         }
     }
     elsif ( UNIVERSAL::isa( $expected, 'HASH' ) ) {
-        $this->assert( UNIVERSAL::isa( $got, 'HASH' ) );
+        $this->assert( UNIVERSAL::isa( $got, 'HASH' ), $mess );
         my $isFoswikiObj = UNIVERSAL::isa( $expected, 'Foswiki::Object' )
           || UNIVERSAL::isa( $got, 'Foswiki::Object' );
         my %matched;
