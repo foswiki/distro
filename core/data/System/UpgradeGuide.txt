@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1482207308" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1493146093" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -250,7 +250,7 @@ This is the most common data that should be copied. Review other non-default ext
 
 ---+++ Migrate =.htpasswd= file
 
-If used, *the =.htpasswd= file may require conversion*.  If users have registered using "high ascii" characters in their !WikiNames (e.g.  Ä, ä, Ë, ë, Ï, ï, Ö, ö, Ü, ü) then conversion will be
+If used, *the =.htpasswd= file may require conversion*.  If users have registered using "high ascii" characters in their !WikiNames (e.g.  &Auml;, &auml;, &Euml;, &euml;, &Iuml;, &iuml;, &Ouml;, &ouml;, &Uuml;, &uuml;) then conversion will be
 required.  Foswiki does not provide a tool to convert =.htpasswd=.  Consider command line tools such as =iconv= or =recode=.  See
 [[http://stackoverflow.com/questions/64860/best-way-to-convert-text-files-between-character-sets][this StackOverflow article]] for more details.
 
