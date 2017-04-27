@@ -3,10 +3,10 @@ package FoswikiPmFunctionsTests;
 use v5.14;
 
 use diagnostics -verbose;
-use Foswiki();
+use Foswiki    ();
+use File::Spec ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 sub TRACE { return 0; }
@@ -57,6 +57,22 @@ sub test_isValidTopicName_Aa_onlywikiname {
     $this->assert( $result eq $expected );
 
     return;
+}
+
+sub test_guessLibDir {
+    my $this = shift;
+
+    local $ENV{FOSWIKI_LIBS};
+
+    my ( $v, $d, $f ) = File::Spec->splitpath(__FILE__);
+    my $updir = File::Spec->updir;
+    my @d     = File::Spec->splitdir($d);
+    splice( @d, -3, 2, 'lib' );
+    my $myguess =
+      File::Spec->canonpath(
+        File::Spec->catpath( $v, File::Spec->catdir(@d), '' ) );
+    my $libDir = Foswiki::guessLibDir;
+    $this->assert_equals( $myguess, $libDir );
 }
 
 1;

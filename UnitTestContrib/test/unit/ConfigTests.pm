@@ -620,7 +620,8 @@ sub test_expand {
 
         Exps => {
             Exp1     => 'Expanding ExpTest.Key2.Key2_1: ${ExpTest.Key2.Key2_1}',
-            NoExp1   => 'Must not expand \${ExpTest.Key2.Key2_1}',
+            NoExp1   => 'Must not expand ${$}{ExpTest.Key2.Key2_1}',
+            NoExp2   => 'Must not expand too: ${ExpTest.Key2.Key2_1${}} -',
             ExpUndef => 'Undef: "${ExpTest.Key2.Key2_2}"',
         },
     };
@@ -666,6 +667,11 @@ sub test_expand {
         "Single-valued str and key"
     );
 
+    @estrs = $cfg->expandStr( key => 'ExpTest.Exps.NoExp2', );
+    $this->assert_deep_equals(
+        ['Must not expand too: ${ExpTest.Key2.Key2_1} -'],
+        \@estrs, "Quoted finishing } must prevent expanding" );
+
     @estrs =
       $cfg->expandStr( key => [ 'ExpTest.Exps.Exp1', 'ExpTest.Exps.NoExp1', ],
       );
@@ -706,6 +712,42 @@ qr/Failed to expand string '.*?': key ExpTest.Key1.UndefKey value is undefined/,
             $e->text
         );
     };
+}
+
+sub test_expandAll {
+    my $this = shift;
+
+    my $data = {
+        IntKey  => 0,
+        SomeVal => "!!!",
+        Undef   => undef,
+        List    => [
+            'This is with IntKey=${IntKey}.',
+            {
+                A => 'A complex structure${SomeVal}',
+                U => 'With ${Undef} value',
+            },
+        ],
+    };
+
+    $this->app->cfg->expandAll( data => $data, );
+
+    $this->assert_deep_equals(
+        {
+            'IntKey' => 0,
+            'List'   => [
+                'This is with IntKey=0.',
+                {
+                    'A' => 'A complex structure!!!',
+                    'U' => 'With undef value'
+                }
+            ],
+            'Undef'   => undef,
+            'SomeVal' => '!!!'
+        },
+        $data,
+        "Expanded structure doesn't match"
+    );
 }
 
 sub test_ReadWriteLSC {
