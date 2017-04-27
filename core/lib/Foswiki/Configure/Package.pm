@@ -1026,7 +1026,7 @@ sub _install {
 
         # Pick up all Config.spec's
         if ( $file =~ m/\/Config.spec$/ && !$this->option('SIMULATE') ) {
-            Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter );
+            Foswiki::Configure::LoadSpec::parse( $target, $spec, $reporter, 1 );
             if ($rootspec) {
 
                 # Also load it into the rootspec, so the caller has

@@ -235,15 +235,17 @@ sub _getValueObject {
 
 =begin TML
 
----++ StaticMethod parse($file, $root, $reporter)
+---++ StaticMethod parse($file, $root, $reporter [, $cant_enhance])
 
-Parse the config declaration file and add it to a root node for the
-configuration it describes
+Parse the config declaration $file and add it to a $root node for the
+configuration it describes. If $cant_enhance, don't report ENHANCE
+failures (which may be due to a missing root spec; which is OK when
+installing a package)
 
 =cut
 
 sub parse {
-    my ( $file, $root, $reporter ) = @_;
+    my ( $file, $root, $reporter, $cant_enhance ) = @_;
     my $fh;
 
     unless ( open( $fh, '<', $file ) ) {
@@ -297,8 +299,9 @@ sub parse {
 
                 # Enhance an existing value
                 $open = $root->getValueObject($2);
-                $reporter->ERROR("$context: No such value $2")
-                  unless $open;
+                unless ( $open || $cant_enhance ) {
+                    $reporter->ERROR("$context: No such value $2");
+                }
                 $isEnhancing = $open ? 1 : 0;
                 $reporter->NOTE("\tEnhancing $open->{keys}")
                   if TRACE && $open;
