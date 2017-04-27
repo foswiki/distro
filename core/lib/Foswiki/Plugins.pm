@@ -379,7 +379,7 @@ sub dispatch {
 
         # apply handler on the remaining list of args
         no strict 'refs';
-        my $status = $plugin->invoke( $handlerName, @_ );
+        my $status = $plugin->invoke( $handlerName, @_ ) if defined $plugin;
         use strict 'refs';
         if ( $status && $onlyOnceHandlers{$handlerName} ) {
             return $status;
