@@ -5,7 +5,7 @@ use Cwd;
 use File::Spec;
 use Data::Dumper;
 
-my ( $rootDir,       $scriptDir );
+my ( $rootDir, $libDir, $scriptDir );
 my ( $checkpointSub, $statusSub );
 
 BEGIN {
@@ -31,18 +31,20 @@ BEGIN {
         $rootDir = File::Spec->catdir( $scriptDir, File::Spec->updir );
     }
 
-    push @INC, File::Spec->catdir( $rootDir, "lib" );
+    $libDir = File::Spec->catdir( $rootDir, "lib" );
+    push @INC, $libDir;
 }
 use Plack::Builder;
 use Foswiki::App;
-use Devel::Leak;
-use Devel::Leak::Object;
+#use Devel::Leak;
+#use Devel::Leak::Object;
 
 use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 0;
 
 BEGIN {
     if (CHECKLEAK) {
         foreach my $class (qw(Unit::Leak::Object Devel::Leak::Object)) {
+            say STDERR "Using $class";
             eval "use $class qw{ GLOBAL_bless };";
             if ($@) {
                 say STDERR "!!! Failed to load $class\n", $@;
@@ -65,6 +67,7 @@ my $app = sub {
     &$checkpointSub if CHECKLEAK;
 
     $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
+    $env->{FOSWIKI_LIBS} = $libDir unless $env->{FOSWIKI_LIBS};
 
     my $rc = Foswiki::App->run( env => $env, );
 
