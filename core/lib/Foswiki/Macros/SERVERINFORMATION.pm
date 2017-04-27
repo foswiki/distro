@@ -157,7 +157,7 @@ DONE
         "| File System | Case "
       . ( ( File::Spec->case_tolerant() ) ? 'Insensitive' : 'Sensitive' )
       . " |\n";
-    $report .= "| Engine | =$app->cfg->data->{Engine}=  |\n";
+    $report .= "| Engine | =" . $app->cfg->data->{Engine} . "=  |\n";
     $report .= '</noautolink>';
 
     return $report;
