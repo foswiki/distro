@@ -121,10 +121,9 @@ sub prepareBaseDir {
     my $this = shift;
 
     # Even in case we get extensions modules spread acroos the filesystem at
-    # some point the spec files are expected to be located where Foswiki.pm is.
-    my ( $vol, $dir ) = File::Spec->splitpath( $INC{'Foswiki.pm'} );
-
-    return File::Spec->catpath( $vol, $dir );
+    # some point the spec files are expected to be located where Foswiki.pm is -
+    # i.e. in lib/ dir.
+    return Foswiki::guessLibDir;
 }
 
 sub prepareCacheDir {
