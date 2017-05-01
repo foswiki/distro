@@ -1105,8 +1105,9 @@ sub generateHTTPHeaders {
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
 
-    $hopts->{'X-FoswikiAction'} = $this->{request}->action;
-    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri;
+    # These headers don't appear to be used, and can leak stuff.
+    $hopts->{'X-FoswikiAction'} = $this->{request}->action if DEBUG;
+    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri    if DEBUG;
 
     # Turn off XSS protection in DEBUG so it doesn't mask problems
     $hopts->{'X-XSS-Protection'} = 0 if DEBUG;

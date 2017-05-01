@@ -151,7 +151,9 @@ sub preparePath {
         $pathInfo = '/' . $action . $pathInfo;
     }
     $req->pathInfo($pathInfo);
-    my $uri = $this->{r}->uri;
+
+    #SMELL: CGI and FastCGI leave the URI encoded, mod_perl decodes it.
+    my $uri = Foswiki::urlEncode( $this->{r}->uri );
     my $qs  = $this->{r}->args;
     $uri .= '?' . $qs if $qs;
     $req->uri($uri);
