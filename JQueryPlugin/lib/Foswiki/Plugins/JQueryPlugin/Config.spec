@@ -205,6 +205,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Datepicker'}{Enabled} = 1;
 # **BOOLEAN LABEL="UI::Dialog"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Dialog'}{Enabled} = 1;
 
+# **BOOLEAN LABEL="UI::Draggable"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Draggable'}{Enabled} = 1;
+
 # **BOOLEAN LABEL="UI::Progressbar"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Progressbar'}{Enabled} = 1;
 
