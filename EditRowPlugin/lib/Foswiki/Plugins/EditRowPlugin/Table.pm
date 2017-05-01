@@ -340,17 +340,8 @@ sub render {
         if ( $this->{attrs}->{disable} !~ /full/ ) {
 
             # Full table editing is not disabled
-            my $title  = "Edit full table";
-            my $button = Foswiki::Render::html(
-                'button',
-                {
-                    type  => 'button',
-                    name  => "erp_edit_${id}",
-                    class => 'erp-edittable',
-                    title => $title
-                }
-            );
-            my $url = Foswiki::Func::getScriptUrl(
+            my $title = "Edit full table";
+            my $url   = Foswiki::Func::getScriptUrl(
                 $this->getWeb(), $this->getTopic(), 'view',
                 erp_topic => $active_topic,
                 erp_table => $id,
@@ -360,8 +351,16 @@ sub render {
             push(
                 @out,
                 Foswiki::Render::html( 'a', { name => "erp_${id}" } )
-                  . Foswiki::Render::html( 'a',
-                    { href => $url, title => $title }, $button )
+                  . Foswiki::Render::html(
+                    'a',
+                    {
+                        href  => $url,
+                        name  => "erp_edit_${id}",
+                        class => 'erp-edittable foswikiButton',
+                        title => $title
+                    },
+                    ''
+                  )
                   . '<br />'
             );
         }
