@@ -504,12 +504,9 @@ sub _readTemplateFile {
             push(
                 @candidates,
                 {
-                    primary   => $isSkinned,
-                    secondary => $idx,
-                    tertiary  => $templateixd,
-                    file      => $file,
-                    userdir   => $userdir,
-                    skin      => $skin,
+                    file    => $file,
+                    userdir => $userdir,
+                    skin    => $skin,
                     order => $isSkinned * 1000000 + $idx * 1000 + $templateixd,
                 }
             );
