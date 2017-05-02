@@ -226,23 +226,22 @@ sub test_templateTopicWithAttachments {
     return;
 }
 
-sub test_templateTopicWithMacros {
-    my $this  = shift;
+sub test_templateTopicWithEOTCMacros {
+    my $this = shift;
+    $Foswiki::cfg{DisableEOTC} = 0;
     my $query = Unit::Request->new(
         {
             text => [<<'TEXT'],
+   * NOP: No%NOP%Link
    * DATE: %DATE%
-   * TMPL:DATE: %TMPL:DATE%
+   * CREATE:DATE: %CREATE:DATE%
    * GMTIME: %GMTIME%
    * SERVERTIME: %SERVERTIME%
    * USERNAME: %USERNAME%
-   * TMPL:USERNAME: %TMPL:USERNAME%
    * URLPARAM: %URLPARAM{"purple"}%
    * WIKINAME: %WIKINAME%
    * WIKIUSERNAME: %WIKIUSERNAME%
-   * TMPL:IF: %TMPL:IF{"1=1" then="OK" else="BAD"}%
-   * TMPL:P:%TMPL:P{"sep"}%
-   * NOP: No%NOP%Link
+   * COMMENT: #{ ... comment }#
 %STARTSECTION{type="templateonly"}%
 Mither me not
 %ENDSECTION{type="templateonly"}%
@@ -268,25 +267,85 @@ TEXT
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $responseText, $result, $stdout, $stderr ) =
       $this->captureWithKey( save => $UI_FN, $this->{session} );
-
+    print STDERR $stderr;
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, 'TemplatedTopic' );
     my $text = $meta->text;
     $this->assert( $text =~ s/^\s*\* DATE: \d+ \w+ \d+$//m,             $text );
-    $this->assert( $text =~ s/^\s*\* TMPL:DATE: \d+ \w+ \d+$//m,        $text );
+    $this->assert( $text =~ s/^\s*\* CREATE:DATE: \d+ \w+ \d+$//m,      $text );
     $this->assert( $text =~ s/^\s*\* GMTIME: \d+ \w+ \d+ - \d+:\d+$//m, $text );
     $this->assert( $text =~ s/^\s*\* SERVERTIME: \d+ \w+ \d+ - \d+:\d+$//m,
         $text );
     $this->assert( $text =~ s/^\s*\* USERNAME: scum$//m,             $text );
-    $this->assert( $text =~ s/^\s*\* TMPL:USERNAME: scum$//m,        $text );
     $this->assert( $text =~ s/^\s*\* WIKINAME: ScumBag$//m,          $text );
     $this->assert( $text =~ s/^\s*\* WIKIUSERNAME: \w+\.ScumBag$//m, $text );
     $this->assert( $text =~ s/^\s*\* URLPARAM: ok$//m,               $text );
     $this->assert( $text =~ s/^\s*\* NOP: NoLink$//m,                $text );
-    $this->assert( $text =~ s/^\s*\* TMPL:IF: OK$//m,                $text );
-    $this->assert( $text =~ s/^\s*\* TMPL:P: \| $//m,                $text );
+    $this->assert( $text =~ s/^\s*\* COMMENT: $//m,                  $text );
     $this->assert( $text =~ s/^TemplatedTopic$//m,                   $text );
     $this->assert( $text =~ s/^%TOPIC%$//m,                          $text );
+    $this->assert( $text !~ /Mither me not/s, $text );
+    $text =~ s/\s+//gs;
+    $this->assert_equals( "", $text );
+    $meta->finish();
+
+    return;
+}
+
+sub test_templateTopicWithCREATEMacros {
+    my $this = shift;
+    $Foswiki::cfg{DisableEOTC} = 1;
+    my $query = Unit::Request->new(
+        {
+            text => [<<'TEXT'],
+   * NOP: No%NOP%Link
+   * DATE: %DATE%
+   * CREATE:DATE: %CREATE:DATE%
+   * CREATE:USERNAME: %CREATE:USERNAME%
+   * CREATE:URLPARAM: %CREATE:URLPARAM{"purple"}%
+   * URLPARAM: %URLPARAM{"purple"}%
+   * COMMENT: %{ ... comment }%
+   * CREATE:IF: %CREATE:IF{"1=1" then="OK" else="BAD"}%
+%STARTSECTION{type="templateonly"}%
+Mither me not
+%ENDSECTION{type="templateonly"}%
+%STARTSECTION{type="expandvariables"}%
+%TOPIC%
+%ENDSECTION{type="expandvariables"}%
+%TOPIC%
+TEXT
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.TemplateTopic' ]
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $query = Unit::Request->new(
+        {
+            templatetopic => ['TemplateTopic'],
+            action        => ['save'],
+            purple        => ['ok'],
+            topic         => [ $this->{test_web} . '.TemplatedTopic' ]
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $responseText, $result, $stdout, $stderr ) =
+      $this->captureWithKey( save => $UI_FN, $this->{session} );
+    print STDERR $stderr;
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TemplatedTopic' );
+    my $text = $meta->text;
+    $this->assert( $text =~ s/^\s*\* DATE: %DATE%$//m,             $text );
+    $this->assert( $text =~ s/^\s*\* CREATE:DATE: \d+ \w+ \d+$//m, $text );
+    $this->assert( $text =~ s/^\s*\* CREATE:USERNAME: scum$//m,    $text );
+    $this->assert( $text =~ s/^\s*\* CREATE:URLPARAM: ok$//m,      $text );
+    $this->assert( $text =~ s/^\s*\* URLPARAM: %URLPARAM\{"purple"\}%$//m,
+        $text );
+    $this->assert( $text =~ s/^\s*\* NOP: NoLink$//m,                  $text );
+    $this->assert( $text =~ s/^\s*\* CREATE:IF: OK$//m,                $text );
+    $this->assert( $text =~ s/^\s*\* COMMENT: %\{ ... comment \}%$//m, $text );
+    $this->assert( $text =~ s/^TemplatedTopic$//m,                     $text );
+    $this->assert( $text =~ s/^%TOPIC%$//m,                            $text );
     $this->assert( $text !~ /Mither me not/s, $text );
     $text =~ s/\s+//gs;
     $this->assert_equals( "", $text );

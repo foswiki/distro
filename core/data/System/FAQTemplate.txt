@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452261257" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487619523" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 The answer is...
 
--- %TMPL:WIKIUSERNAME% - %TMPL:DATE% <br />
+-- %CREATE:WIKIUSERNAME% - %CREATE:DATE% <br />
 %META:FORM{name="FAQForm"}%

@@ -784,6 +784,13 @@ required
 ---++!! offset was 1, so offset is now 0
 </td>
 </tr>
+<tr>
+<td>
+=#<nop>{ ... comment ... }<nop>#=
+</td><td>
+*Comments:* %BR%
+Comments will be removed from content before the topic is displayed.
+</td>
 </table>
 <!-- %JQREQUIRE{"chili"}% -->
 

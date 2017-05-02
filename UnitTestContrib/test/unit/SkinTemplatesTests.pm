@@ -742,4 +742,22 @@ sub test_TMPL_PREV {
     return;
 }
 
+sub test_comments {
+    my $this = shift;
+    my $data;
+
+    write_template(
+        'yview', '%TMPL:%{goway}%DEF{"junk"}%A
+
+%{die}%
+
+B%TMPL:END%%TMPL:P{junk}%-%TMPL:%{goway}%DEF{"clunk"}%C #{die}# D%TMPL:END%%TMPL:P{clunk}%'
+    );
+
+    $data = $tmpls->readTemplate('yview');
+    $this->assert_str_equals( 'AB-C  D', $data );
+
+    return;
+}
+
 1;
