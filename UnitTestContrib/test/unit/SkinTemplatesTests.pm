@@ -2,7 +2,7 @@
 # Unit tests for Foswiki::Templates
 #
 
-package TemplatesTests;
+package SkinTemplatesTests;
 use strict;
 use warnings;
 use utf8;

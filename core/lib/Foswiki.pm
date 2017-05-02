@@ -257,20 +257,23 @@ BEGIN {
 
           #deprecated functionality, now implemented using %ENV%
           sub { $_[0]->{request}->header('Host') || '' },
-        HTTP                 => undef,
-        HTTPS                => undef,
-        ICON                 => undef,
-        ICONURL              => undef,
-        ICONURLPATH          => undef,
-        IF                   => undef,
-        INCLUDE              => undef,
-        INTURLENCODE         => undef,
-        LANGUAGE             => sub { $_[0]->i18n->language(); },
-        LANGUAGES            => undef,
-        MAKETEXT             => undef,
-        META                 => undef,                              # deprecated
-        METASEARCH           => undef,                              # deprecated
-        NONCE                => undef,
+        HTTP         => undef,
+        HTTPS        => undef,
+        ICON         => undef,
+        ICONURL      => undef,
+        ICONURLPATH  => undef,
+        IF           => undef,
+        INCLUDE      => undef,
+        INTURLENCODE => undef,
+        LANGUAGE     => sub { $_[0]->i18n->language(); },
+        LANGUAGES    => undef,
+        MAKETEXT     => undef,
+        META         => undef,                              # deprecated
+        METASEARCH   => undef,                              # deprecated
+        NONCE        => undef,
+
+        # Can't do this, because %P% means 'pencil'
+        #P                    => sub { $_[0]->templates->tmplP( $_[1] ) },
         PARENTTOPIC          => undef,
         PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
@@ -521,10 +524,10 @@ BEGIN {
     $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
     $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
+    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/o;
 
     $regex{topicNameRegex} =
-      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
+      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
@@ -577,8 +580,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # See RobustnessTests::test_sanitizeAttachmentName
     #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/;
+    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/o;
+    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/o;
 
     # Multi-character alpha-based regexes
     $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
@@ -3388,7 +3391,8 @@ sub _expandMacroOnTopicCreation {
     # tags expanded here.
     return
       unless $_[0] =~
-m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
+m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO|TMPL:P)$/
+      || $_[0] =~ s/^TMPL://;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }

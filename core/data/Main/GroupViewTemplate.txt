@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1458094641" format="1.1" version="1"}%
+%{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">

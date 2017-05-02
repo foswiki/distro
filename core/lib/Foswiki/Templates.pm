@@ -63,7 +63,9 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    $this->{VARS}                = {};
+    $this->{VARS} = {};
+
+    # The only default DEF, used by %SEP% and by unit tests (hack)
     $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
     $this->{templateFiles}       = {};
