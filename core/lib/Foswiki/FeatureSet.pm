@@ -70,6 +70,13 @@ Feature sets has two most typica use cases:
       
 Of course, these are not the only possible uses.
 
+---+++ Versioning caveats
+
+One must remember that %WIKITOOLNAME% version is defined with
+=version::declare()= method (see =doc:Foswiki= and =CPAN:version=) which creates
+a dotted-decimal form. For this reason feature sets code internally works only
+with dotted-decimal form too.
+
 ---++ Feature meta data.
 
 While verion triplet is mandatory for a feature entry, additional meta data
@@ -318,7 +325,7 @@ sub featureMeta {
 
 =begin TML
 
----+++ StaticMethod featureVersions($feature [, -namespace => $ns]) => [ $introduced, $deprecated, $obsoleted ]
+---+++ StaticMethod featureVersions($feature [, -namespace =&gt; $ns]) -> [ $introduced, $deprecated, $obsoleted ]
 
 Returns feature's version triplet or _undef_ for a missing namespace or feature.
 
@@ -479,9 +486,9 @@ sub isDeprecatedVersion {
 
 ---+++ StaticMethod featuresComply(%options) => $bool
 
-This function checks if a set of required features complies with
-a set active features. The check could be performed for a specific
-version and a specific namespace.
+This function checks if a set of required features complies with the active
+features. The check could be performed for a specific version and a specific
+namespace.
 
 The =%options= hash can have the following keys:
 
@@ -489,25 +496,34 @@ The =%options= hash can have the following keys:
 | =-version= | The version we check for | =$Foswiki::VERSION= |
 | =-features= | A list of required features | |
 | =-namespace= | A namespace names | _the default namespace_ |
+| =-inactive= | User specified array ref to store a list of non-complying features. | |
 
 Returns true if all features from the =-features= list exist and active in
 version =-version=.
+
+If =-inactive= contains anything else but an arrayref then it is silently
+ignored.
 
 =cut
 
 sub featuresComply {
     my %params = @_;
 
-    my $version = $params{-version};
-    my @fsList  = @{ $params{-features} };
+    my $version  = $params{-version};
+    my @fsList   = @{ $params{-features} };
+    my $inactive = $params{-inactive};
+
+    undef $inactive unless defined($inactive) && ref($inactive) eq 'ARRAY';
 
     delete @params{qw(-version -features)};
 
     my $comply = ( @fsList > 0 );
 
-    while ( $comply && @fsList ) {
+    while ( ( $inactive || $comply ) && @fsList ) {
         my $feature = shift @fsList;
-        $comply &&= isActiveFeature( $feature, $version, %params );
+        my $featActive = isActiveFeature( $feature, $version, %params );
+        $comply &&= $featActive;
+        push @$inactive, $feature if $inactive && !$featActive;
     }
 
     return $comply;
@@ -696,11 +712,16 @@ sub _normalizeVersion {
 
     $version //= $Foswiki::VERSION;
 
-    Foswiki::Exception::Fatal->throw(
-        text => "Invalid version string " . $version )
-      unless version::is_lax($version);
+    if ( UNIVERSAL::isa( $version, "version" ) ) {
+        $version = $version->normal;
+    }
+    else {
+        Foswiki::Exception::Fatal->throw(
+            text => "Invalid version string " . $version )
+          unless version::is_lax($version);
+    }
 
-    return version->parse($version);
+    return version->declare($version);
 }
 
 =begin TML
