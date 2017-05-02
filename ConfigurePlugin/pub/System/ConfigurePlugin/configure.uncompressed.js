@@ -487,6 +487,7 @@ function _id_ify(id) {
 
         $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
+        $dlg.css('cursor','default');
         $dlg.dialog({
             title: "Validation",
             width: 'auto',

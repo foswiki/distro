@@ -271,52 +271,53 @@ sub _get_extensions {
         $reporter->NOTE("> *Found $uninstalledCount Uninstalled extensions* ");
     }
 
-    $reporter->NOTE(
-        $reporter->WIZARD(
-            'Report',
-            {
-                wizard => 'InstallExtensions',
-                method => 'depreport',
-                form   => "#${set}_extensions_list",
-                args   => {
+    my $buttons = $reporter->WIZARD(
+        'Report on',
+        {
+            wizard => 'InstallExtensions',
+            method => 'depreport',
+            form   => "#${set}_extensions_list",
+            args   => {
 
-                    # will be extended by the #extensions_list form
-                    # SIMULATE =>
-                    # NODEPS =>
-                    # USELOCAL =>
-                }
+                # will be extended by the #extensions_list form
+                # SIMULATE =>
+                # NODEPS =>
+                # USELOCAL =>
             }
-          )
-          . $reporter->WIZARD(
-            ( $set eq 'Installed' ? 'Upgrade' : 'Install' ),
-            {
-                wizard => 'InstallExtensions',
-                method => 'add',
-                form   => "#${set}_extensions_list",
-                args   => {
+        }
+      )
+      . $reporter->WIZARD(
+        ( $set eq 'Installed' ? 'Upgrade' : 'Install' ),
+        {
+            wizard => 'InstallExtensions',
+            method => 'add',
+            form   => "#${set}_extensions_list",
+            args   => {
 
-                    # will be extended by the #extensions_list form
-                    # SIMULATE =>
-                    # NODEPS =>
-                    # USELOCAL =>
-                }
+                # will be extended by the #extensions_list form
+                # SIMULATE =>
+                # NODEPS =>
+                # USELOCAL =>
             }
-          )
-          . $reporter->WIZARD(
-            'Remove',
-            {
-                wizard => 'InstallExtensions',
-                method => 'remove',
-                form   => "#${set}_extensions_list",
-                args   => {
+        }
+      )
+      . $reporter->WIZARD(
+        'Remove',
+        {
+            wizard => 'InstallExtensions',
+            method => 'remove',
+            form   => "#${set}_extensions_list",
+            args   => {
 
-                    # will be extended by the #extensions_list form
-                    # SIMULATE =>
-                    # NODEPS =>
-                    # USELOCAL =>
-                }
+                # will be extended by the #extensions_list form
+                # SIMULATE =>
+                # NODEPS =>
+                # USELOCAL =>
             }
-          )
+        }
+      ) . ' selected';
+
+    $reporter->NOTE( $buttons
           . "<div class='extensions_table'><form id='${set}_extensions_list'>"
     );
 
@@ -324,7 +325,9 @@ sub _get_extensions {
 <input type='checkbox' class="wizard_checkbox" id="simulate" name='SIMULATE' value='1' title="Check to get a detailed report on what will happen during installation, without actually installing." />
 <label for="simulate">Simulated install</label>
 <input type='checkbox' class="wizard_checkbox" id="nodeps" name='NODEPS' value='1' title="If this is unchecked, any required dependencies will automatically be installed. Check to install ONLY the extensions, IGNORING any dependencies." />
-<label for="nodeps">Don't install dependencies</label>
+<label for="nodeps">Don't install dependencies</label><br>
+<button class="ui-button ui-corner-all ui-widget" onclick="jQuery('.wizard_picker').prop('checked',true);return false">Select all</button>
+<button class="ui-button ui-corner-all ui-widget" onclick="jQuery('.wizard_picker').prop('checked',false);return false">Clear all</button>
 CHECKBOXES
 
     # Table heads
@@ -386,7 +389,7 @@ CHECKBOXES
         # is the value we give them here i.e. the repo
         my $thd =
             "<input type='checkbox'"
-          . " class='wizard_checkbox'"
+          . " class='wizard_checkbox wizard_picker'"
           . " name='$ext->{name}'"
           . " value='$ext->{repository}'/> ";
 
@@ -412,7 +415,7 @@ CHECKBOXES
         $cols[0] = "$thd <br /> $cols[0]";
         $reporter->NOTE( '|' . join( '|', map { " $_ " } @cols ) . '|' );
     }
-    $reporter->NOTE("</form></div>");
+    $reporter->NOTE( "</form></div>" . $buttons );
 }
 
 =begin TML
