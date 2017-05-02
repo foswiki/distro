@@ -257,20 +257,23 @@ BEGIN {
 
           #deprecated functionality, now implemented using %ENV%
           sub { $_[0]->{request}->header('Host') || '' },
-        HTTP                 => undef,
-        HTTPS                => undef,
-        ICON                 => undef,
-        ICONURL              => undef,
-        ICONURLPATH          => undef,
-        IF                   => undef,
-        INCLUDE              => undef,
-        INTURLENCODE         => undef,
-        LANGUAGE             => sub { $_[0]->i18n->language(); },
-        LANGUAGES            => undef,
-        MAKETEXT             => undef,
-        META                 => undef,                              # deprecated
-        METASEARCH           => undef,                              # deprecated
-        NONCE                => undef,
+        HTTP         => undef,
+        HTTPS        => undef,
+        ICON         => undef,
+        ICONURL      => undef,
+        ICONURLPATH  => undef,
+        IF           => undef,
+        INCLUDE      => undef,
+        INTURLENCODE => undef,
+        LANGUAGE     => sub { $_[0]->i18n->language(); },
+        LANGUAGES    => undef,
+        MAKETEXT     => undef,
+        META         => undef,                              # deprecated
+        METASEARCH   => undef,                              # deprecated
+        NONCE        => undef,
+
+        # Can't do this, because %P% means 'pencil'
+        #P                    => sub { $_[0]->templates->tmplP( $_[1] ) },
         PARENTTOPIC          => undef,
         PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
@@ -521,10 +524,10 @@ BEGIN {
     $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
     $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
+    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/o;
 
     $regex{topicNameRegex} =
-      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
+      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
@@ -577,8 +580,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # See RobustnessTests::test_sanitizeAttachmentName
     #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/;
+    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/o;
+    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/o;
 
     # Multi-character alpha-based regexes
     $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
@@ -1107,8 +1110,9 @@ sub generateHTTPHeaders {
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
 
-    $hopts->{'X-FoswikiAction'} = $this->{request}->action;
-    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri;
+    # These headers don't appear to be used, and can leak stuff.
+    $hopts->{'X-FoswikiAction'} = $this->{request}->action if DEBUG;
+    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri    if DEBUG;
 
     # Turn off XSS protection in DEBUG so it doesn't mask problems
     $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
@@ -3145,13 +3149,14 @@ sub putBackBlocks {
 # can be performed on expanded tags.
 sub _processMacros {
     my ( $this, $text, $tagf, $topicObject, $depth ) = @_;
-    my $tell = 0;
 
     return '' if ( ( !defined($text) )
         || ( $text eq '' ) );
 
     #no tags to process
     return $text unless ( $text =~ m/%/ );
+
+    #my $grunt = 1; uncomment lines mentioning $grunt for tracing
 
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
@@ -3166,6 +3171,9 @@ sub _processMacros {
     my $verbatim = {};
     $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
+    # Remove comments
+    $text =~ s/#\{.*?\}#//gs;
+
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
       if $topicObject->isCacheable();
@@ -3178,16 +3186,16 @@ sub _processMacros {
 
     while ( scalar(@queue) ) {
 
-        #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
+  #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n" if $grunt;
         my $token = shift(@queue);
 
-        #print STDERR ' ' x $tell,"PROCESSING $token \n";
+        #print STDERR "UNQUEUE $token \n" if $grunt;
 
         # each % sign either closes an existing stacked context, or
         # opens a new context.
         if ( $token eq '%' ) {
 
-            #print STDERR ' ' x $tell,"CONSIDER $stackTop\n";
+            #print STDERR " STACKTOP $stackTop\n" if $grunt;
             # If this is a closing }%, try to rejoin the previous
             # tokens until we get to a valid tag construct. This is
             # a bit of a hack, but it's hard to think of a better
@@ -3199,78 +3207,75 @@ sub _processMacros {
                 {
                     my $top = $stackTop;
 
-                    #print STDERR ' ' x $tell,"COLLAPSE $top \n";
+                    #print STDERR " COLLAPSE $top \n" if $grunt;
                     $stackTop = pop(@stack) . $top;
                 }
             }
 
             # /s so you can have newlines in parameters
-            if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
+            if ( $stackTop !~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
 
-                # SMELL: unchecked implicit untaint?
-                my ( $expr, $tag, $args ) = ( $1, $2, $3 );
-
-                #Foswiki::Func::writeDebug("POP $tag") if $tracing;
-                #Monitor::MARK("Before $tag");
-                my $e = &$tagf( $this, $tag, $args, $topicObject );
-
-                #Monitor::MARK("After $tag");
-
-                if ( defined($e) ) {
-
-                  #Foswiki::Func::writeDebug("EXPANDED $tag -> $e") if $tracing;
-                    $stackTop = pop(@stack);
-
-                    # Don't bother recursively expanding unless there are
-                    # unexpanded tags in the result.
-                    unless ( $e =~ m/%$regex{tagNameRegex}(?:{.*})?%/s ) {
-                        $stackTop .= $e;
-                        next;
-                    }
-
-                    # Recursively expand tags in the expansion of $tag
-                    $stackTop .=
-                      $this->_processMacros( $e, $tagf, $topicObject,
-                        $depth - 1 );
-                }
-                else {
-
-                   #Foswiki::Func::writeDebug("EXPAND $tag FAILED") if $tracing;
-                   # To handle %NOP
-                   # correctly, we have to handle the %VAR% case differently
-                   # to the %VAR{}% case when a variable expansion fails.
-                   # This is so that recursively define variables e.g.
-                   # %A%B%D% expand correctly, but at the same time we ensure
-                   # that a mismatched }% can't accidentally close a context
-                   # that was left open when a tag expansion failed.
-                   # However TWiki didn't do this, so for compatibility
-                   # we have to accept that %NOP can never be fixed. if it
-                   # could, then we could uncomment the following:
-
-                    #if( $stackTop =~ m/}$/ ) {
-                    #    # %VAR{...}% case
-                    #    # We need to push the unexpanded expression back
-                    #    # onto the stack, but we don't want it to match the
-                    #    # tag expression again. So we protect the %'s
-                    #    $stackTop = "&#37;$expr&#37;";
-                    #} else
-                    #{
-
-                    # %VAR% case.
-                    # In this case we *do* want to match the tag expression
-                    # again, as an embedded %VAR% may have expanded to
-                    # create a valid outer expression. This is directly
-                    # at odds with the %VAR{...}% case.
-                    push( @stack, $stackTop );
-                    $stackTop = '%';    # open new context
-                                        #}
-                }
-            }
-            else {
+                # Not a valid tag expr
                 push( @stack, $stackTop );
-                $stackTop = '%';        # push a new context
-                                        #$tell++;
+                $stackTop = '%';    # push a new context
+                next;               # token
             }
+
+            # SMELL: unchecked implicit untaint?
+            my ( $expr, $tag, $args ) = ( $1, $2, $3 );
+
+            #print STDERR " POP $tag\n" if $grunt;
+            my $e = &$tagf( $this, $tag, $args, $topicObject );
+
+            #Monitor::MARK("After $tag");
+
+            if ( defined($e) ) {
+
+                #print STDERR " EXPANDED $tag -> $e\n" if $grunt;
+                $stackTop = pop(@stack);
+
+                # Don't bother recursively expanding unless there are
+                # unexpanded tags in the result.
+                unless ( $e =~ m/%($regex{tagNameRegex})(?:{.*})?%/s ) {
+                    $stackTop .= $e;
+                    next;
+                }
+
+                # Recursively expand tags in the expansion of $tag
+                $stackTop .=
+                  $this->_processMacros( $e, $tagf, $topicObject, $depth - 1 );
+                next;    # token
+            }
+
+            #print STDERR " EXPAND $tag FAILED\n" if $grunt;
+            # To handle %NOP
+            # correctly, we have to handle the %VAR% case differently
+            # to the %VAR{}% case when a variable expansion fails.
+            # This is so that recursively define variables e.g.
+            # %A%B%D% expand correctly, but at the same time we ensure
+            # that a mismatched }% can't accidentally close a context
+            # that was left open when a tag expansion failed.
+            # However TWiki didn't do this, so for compatibility
+            # we have to accept that %NOP can never be fixed. if it
+            # could, then we could uncomment the following:
+
+            #if( $stackTop =~ m/}$/ ) {
+            #    # %VAR{...}% case
+            #    # We need to push the unexpanded expression back
+            #    # onto the stack, but we don't want it to match the
+            #    # tag expression again. So we protect the %'s
+            #    $stackTop = "&#37;$expr&#37;";
+            #} else
+            #{
+
+            # %VAR% case.
+            # In this case we *do* want to match the tag expression
+            # again, as an embedded %VAR% may have expanded to
+            # create a valid outer expression. This is directly
+            # at odds with the %VAR{...}% case.
+            push( @stack, $stackTop );
+            $stackTop = '%';    # open new context
+                                #}
         }
         else {
             $stackTop .= $token;
@@ -3289,7 +3294,7 @@ sub _processMacros {
 
     putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
-    #print STDERR "FINAL $stackTop\n";
+    #print STDERR "FINAL $stackTop\n" if $grunt;
 
     return $stackTop;
 }
@@ -3386,8 +3391,11 @@ sub _expandMacroOnTopicCreation {
     # correctly, but you need to think about this if you extend the set of
     # tags expanded here.
     return
-      unless $_[0] =~
-m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
+      unless ( !$Foswiki::cfg{DisableEOTC}
+        && $_[0] =~
+m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/
+      )
+      || $_[0] =~ s/^CREATE://;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }

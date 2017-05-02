@@ -2,7 +2,7 @@
 # Unit tests for Foswiki::Templates
 #
 
-package TemplatesTests;
+package SkinTemplatesTests;
 use strict;
 use warnings;
 use utf8;
@@ -738,6 +738,24 @@ sub test_TMPL_PREV {
     $data = $tmpls->readTemplate( 'yview', skins => 'skin3,skin2,skin1' );
     $this->assert_str_equals( 'spellchecker,format,style,body,footbar,',
         $data );
+
+    return;
+}
+
+sub test_comments {
+    my $this = shift;
+    my $data;
+
+    write_template(
+        'yview', '%TMPL:%{goway}%DEF{"junk"}%A
+
+%{die}%
+
+B%TMPL:END%%TMPL:P{junk}%-%TMPL:%{goway}%DEF{"clunk"}%C #{die}# D%TMPL:END%%TMPL:P{clunk}%'
+    );
+
+    $data = $tmpls->readTemplate('yview');
+    $this->assert_str_equals( 'AB-C  D', $data );
 
     return;
 }

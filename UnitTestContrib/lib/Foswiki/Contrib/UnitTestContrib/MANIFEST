@@ -105,13 +105,14 @@ test/unit/SecurityTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
 test/unit/SerialiseTests.pm 0644
+test/unit/SkinTemplatesTests.pm 0644
 test/unit/StoreImplementationTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TableParserTests.pm 0644
 test/unit/TableReaderTests.pm 0644
 test/unit/TableTests.pm 0644
 test/unit/TOCTests.pm 0644
-test/unit/TemplatesTests.pm 0644
+test/unit/TopicTemplatesTests.pm 0644
 test/unit/TimeTests.pm 0644
 test/unit/UIFnCompileTests.pm 0644
 test/unit/UTF8Tests.pm 0644

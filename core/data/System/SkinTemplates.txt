@@ -45,9 +45,10 @@ Template directives look a lot like standard [[macros]].
    * =%<nop>TMPL:END%= ends a block definition.
    * =%<nop>TMPL:PREV%=: returns the previous definition of the block being defined.
    * =%<nop>TMPL:P{"name"}%= includes a previously defined block.
-   * =%<nop>{...}%= is a comment. Whitespace either side of the comment
+   * =#<nop>{...}#= is a comment. Whitespace either side of the comment
      (newlines, spaces, tabs etc) is treated as part of the comment, and
-     removed when the comment is removed.
+     removed when the comment is removed. An alternate syntax =%<nop>{...}%=
+     is also supported - see #Comments below for why.
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
@@ -95,14 +96,10 @@ then
 </verbatim>
 will expand to =x1000z=.
 
-
 ---++++ Naming
 Any alphanumeric characters can be used in parameter names. =TMPL:P= parameters
 override any other possible definition of the name, so you should not use
 parameter names that might clash with [[Macros]].
-
-
-
 
 ---+++ Conditional expansion
 ---++++ Using context identifiers
@@ -162,9 +159,32 @@ and then =* Set SKIN=crumbless,pattern=
 Remember: the template path contains the most specific template first.
 
 ---+++ Comments
-Comments =%{...}%= are removed from the templates as soon as the file is
-read, before any other template macros are evaluated. Whitespace either side
-of the comment (newlines, spaces, tabs etc) is also removed.
+Comments delimited by =#{...}#= are removed from the templates as soon as
+the file is read, before any other template macros are evaluated. 
+
+An alternative comment type =#{...}#= will automatically absorb whitespace
+either side of the comment (newlines, spaces, tabs etc). This type of comment
+only works in templates.
+
+The alternative comment type becomes really useful when we have skin templates defined in topics, because we can now use it to delimit content that should be _displayed when the topic is viewed normally_, but _removed when the templates are instantiated_.
+
+or example, we might have templates in a topic like this:
+<verbatim class="tml">
+%TMPL:DEF{"example"}%
+#{ This comment will always be removed }%
+%{ This comment will be removed when the template is instantiated }%
+Example
+%TMPL:END%
+</verbatim>
+
+When we view the topic, we'll see:
+
+%<nop>TMPL:DEF{"example"}%
+#{ This comment will always be removed }%
+%{ This comment will be removed when the template is instantiated }%
+Example
+%<nop>TMPL:END%
+but all comments will be removed when the template is actually used.
 
 #FindingTemplates
 ---++ Finding Skin Templates
@@ -253,6 +273,12 @@ found before those in topics. You can do this by simply moving rules
 Note that topics containing templates are checked for VIEW access using the
 normal [[AccessControl][Foswiki access controls]]. Any access control failure
 is silently ignored, and the template path expansion continues.
+
+---++ Predefined templates
+Most predefined templates are stored in =.tmpl= files. There are also a
+couple of standard topics that contain skin templates:
+    * WebCreateNewTopicTemplate - Page shown when you click on a %ICON{newtopic}% *Create New Topic* link. It provides a form requesting the necessary information to create a new, nonexistent topic.
+   * TopicDoesNotExistViewTemplate - Alert page shown when you try to view a nonexistent topic and usually used as a prompt to help you create this new topic. For this reason, the form of the WebCreateNewTopicTemplate is included and therefore shown, too.
 
 ---++ Developing new templates
 ---+++ Debugging

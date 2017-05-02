@@ -161,6 +161,18 @@ function _id_ify(id) {
     // on the given tab
     function forget_checker_reports($tab, level, id) {
         $tab.removeClass(level + id);
+
+        // See if any other reports at the same level are extant,
+        // otherwise remove the level class e.g. 'errors' or 'warnings'
+        // This will remove th icon
+        var i, cls = $tab.attr("class").split(/ +/);
+        for (i = 0; i < cls.length; i++) {
+            if (cls[i].startsWith(level + 'i-'))
+                break;
+        }
+        if (i == cls.length)
+            $tab.removeClass(level);
+
         var report_data = $tab.data('reports');
         report_data[level][id]--;
         if (report_data[level][id]) {
@@ -257,7 +269,7 @@ function _id_ify(id) {
                 return;
             }
 
-            // Remove all existing reports related to these keys
+            // Remove all existing reports related to this path
             id = _id_ify(r.keys);
             $('.' + id + '_report').remove();
             $('.errors' + id).each(function() {
@@ -475,6 +487,7 @@ function _id_ify(id) {
 
         $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
+        $dlg.css('cursor','default');
         $dlg.dialog({
             title: "Validation",
             width: 'auto',

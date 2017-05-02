@@ -515,6 +515,9 @@ This gives:
   header+="|"
   format+="|"
 }%
+---++ Comments
+
+You can add comments anywhere in macros (and outside them) using the standard =#<nop>{...}<nop>#= comment delimiters. Comments are removed *before* any macros are processed, so you can't use macros to generate comments. Any macros inside comments will be ignored.
 
 %STOPINCLUDE%
 

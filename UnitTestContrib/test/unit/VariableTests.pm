@@ -70,26 +70,27 @@ sub test_embeddedExpansions {
     return;
 }
 
+# SMELL: this duplicates TopicTemplatesTests
 sub test_topicCreationExpansions {
     my $this = shift;
 
     my $text = <<'END';
-%USERNAME%
+%CREATE:USERNAME%
 %STARTSECTION{type="templateonly"}%
 Kill me
 %ENDSECTION{type="templateonly"}%
-%WIKINAME%
-%WIKIUSERNAME%
+%CREATE:WIKINAME%
+%CREATE:WIKIUSERNAME%
 %WEBCOLOR%
 %STARTSECTION{name="fred" type="section"}%
-%USERINFO%
-%USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
+%CREATE:USERINFO%
+%CREATE:USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %USER%NOP%INFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->{test_topicObject}->text($text);
     $this->{test_topicObject}
-      ->put( 'PREFERENCE', { name => "BLAH", value => "%WIKINAME%" } );
+      ->put( 'PREFERENCE', { name => "BLAH", value => "%CREATE:WIKINAME%" } );
     $this->{test_topicObject}->expandNewTopic();
 
     my $xpect = <<"END";
@@ -146,22 +147,24 @@ sub test_macroParams {
     # Check default given, given but null, not given
     # Check quotes and other standard expansions
     # Check override of standard macros
+    # Check comment #{...}# expansion in difficult sites
     $this->{session}->{prefs}->setSessionPreferences(
         ARFLE => '%BARFLE{default="gloop"}%',
         TING  => '%DEFAULT% %DEFAULT{default="tong"}%',
-        ALING => '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
+        ALING => '\'%DEF#{i}#AULT%\' \'%DEFAULT{#{i}#default="tong"}%\'',
         TOOT  => '\'%NOP%\'',
         WOOF  => '%MIAOW{default="$quot$percent$quot"}%',
         Test  => '"%arg{default="%DEFAULT{default="Y"}%"}%"'
     );
     my $input = <<'INPUT';
-| gloop | %BARFLE{default="gloop"}% |
+| C | #{ ignore me }# |#{i}#
+| gloop | %BARFLE{def#{i}#ault="gloop"}% |
 | mong | %ARFLE{BARFLE="mong"}% |
 | %DEFAULT% tong | %TING% |
 | ding ding | %TING{"ding"}% |
 | '' '' | %ALING{""}% |
 | 'sweet' | %TOOT{NOP="sweet"}% |
-| "%" | %WOOF% |
+| "%" | %#{i}#WOOF#{i}#% |
 | p"r"r | %WOOF{MIAOW="p$quot()r$quot()r"}% |
 | Test | %Test% |
 | Test{"X"} | %Test{"X"}% |
@@ -172,6 +175,7 @@ INPUT
     $topicObject->text($input);
     my $result   = $topicObject->expandMacros($input);
     my $expected = <<'EXPECTED';
+| C |  |
 | gloop | gloop |
 | mong | mong |
 | %DEFAULT% tong | %DEFAULT% tong |

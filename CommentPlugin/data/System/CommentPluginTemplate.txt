@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1493698648" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -48,7 +48,7 @@ Generic prompt box used by other templates
 
 Short comment, signed and dated
 <verbatim>
-%TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="$encodeguest"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
+%TMPL:DEF{outputoneliner}%   * %CREATE:URLPARAM{"comment" encode="$encodeguest"}% -- %CREATE:WIKIUSERNAME% - %CREATE:GMTIME{"$day $month $year"}%%TMPL:END%
 </verbatim>
 
 %ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#Default][Default]]
@@ -112,7 +112,7 @@ Bullet item added immediately before anchor. The input field width is passed wit
 %TMPL:DEF{PROMPT:bulletabove}%<input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item" type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%" />&nbsp;<input %DISABLED% type="button" value="%button|Add item%" class="foswikiButton %TMPL:P{ajax}%" />%TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:bulletabove}%   * %URLPARAM{"bullet_above_item" encode="$encodeguest"}%%POS:BEFORE%
+%TMPL:DEF{OUTPUT:bulletabove}%   * %CREATE:URLPARAM{"bullet_above_item" encode="$encodeguest"}%%POS:BEFORE%
 %TMPL:END%
 </verbatim>
 
@@ -129,9 +129,9 @@ Wiki thread mode comment, signed and dated
 <verbatim>
 %TMPL:DEF{OUTPUT:threadmode}%%POS:BEFORE%
 
-%URLPARAM{"comment" encode="$encodeguest"}%
+%CREATE:URLPARAM{"comment" encode="$encodeguest"}%
 
--- %WIKIUSERNAME% - %DATE%
+-- %CREATE:WIKIUSERNAME% - %CREATE:DATE%
 %TMPL:END%
 </verbatim>
 
@@ -148,7 +148,7 @@ Comments, signed and dated, added recurse after comment box.
 </verbatim>
 <verbatim>
 %TMPL:DEF{OUTPUT:belowthreadmode}%%POS:AFTER%
----++++ %WIKIUSERNAME% - %SERVERTIME%
+---++++ %CREATE:WIKIUSERNAME% - %CREATE:SERVERTIME%
 
 %URLPARAM{"comment" encode="$encodeguest"}%
 
@@ -182,7 +182,7 @@ anchor/location/COMMENT
 %TMPL:DEF{PROMPT:tableprepend}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:tableprepend}%%POS:AFTER%| %URLPARAM{"comment" newline="<br />" encode="$encodeguest"}% | %WIKIUSERNAME% | %SERVERTIME% |
+%TMPL:DEF{OUTPUT:tableprepend}%%POS:AFTER%| %CREATE:URLPARAM{"comment" newline="<br />" encode="$encodeguest"}% | %CREATE:WIKIUSERNAME% | %CREATE:SERVERTIME% |
 %TMPL:END%
 </verbatim>
 
@@ -197,7 +197,7 @@ Comments, signed and dated, added at end of table above the anchor/location/COMM
 %TMPL:DEF{PROMPT:tableappend}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:tableappend}%%POS:BEFORE%| %URLPARAM{"comment" newline="<br />" encode="$encodeguest"}% | %WIKIUSERNAME% | %SERVERTIME% |
+%TMPL:DEF{OUTPUT:tableappend}%%POS:BEFORE%| %CREATE:URLPARAM{"comment" newline="<br />" encode="$encodeguest"}% | %CREATE:WIKIUSERNAME% | %CREATE:SERVERTIME% |
 %TMPL:END%
 </verbatim>
 
@@ -234,7 +234,7 @@ Action added to action table directly above comment box
 %TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:action}%%POS:BEFORE%%AC%NOP%TION{who="%URLPARAM{"action_who" encode="$encodeguest"}%" due="%URLPARAM{"action_due" encode="$encodeguest"}%"}% %URLPARAM{"action_comment" encode="$encodeguest"}%<br />- Created by %WIKIUSERNAME%, %SERVERTIME%%ENDACTION%
+%TMPL:DEF{OUTPUT:action}%%POS:BEFORE%%AC%NOP%TION{who="%CREATE:URLPARAM{"action_who" encode="$encodeguest"}%" due="%CREATE:URLPARAM{"action_due" encode="$encodeguest"}%"}% %CREATE:URLPARAM{"action_comment" encode="$encodeguest"}%<br />- Created by %CREATE:WIKIUSERNAME%, %CREATE:SERVERTIME%%ENDACTION%
 %TMPL:END%
 </verbatim>
 
@@ -254,7 +254,7 @@ Tablerows adding on end
 %TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:table}%%POS:BEFORE%| %URLPARAM{"comment_date" encode="$encodeguest"}% | %WIKIUSERNAME% | %URLPARAM{"comment_city" encode="$encodeguest"}% |
+%TMPL:DEF{OUTPUT:table}%%POS:BEFORE%| %CREATE:URLPARAM{"comment_date" encode="$encodeguest"}% | %CREATE:WIKIUSERNAME% | %CREATE:URLPARAM{"comment_city" encode="$encodeguest"}% |
 %TMPL:END%
 </verbatim>
 
@@ -275,8 +275,8 @@ Talk using TOC adding on end
 </verbatim>
 <verbatim>
 %TMPL:DEF{OUTPUT:toctalk}%
-%POS:BEFORE%---++++ %SERVERTIME% %WIKIUSERNAME%: %URLPARAM{"comment_summary" encode="$encodeguest"}%
-%POS:BEFORE%%URLPARAM{"toctalk_comment_text" encode="$encodeguest"}%
+%POS:BEFORE%---++++ %CREATE:SERVERTIME% %CREATE:WIKIUSERNAME%: %CREATE:URLPARAM{"comment_summary" encode="$encodeguest"}%
+%POS:BEFORE%%CREATE:URLPARAM{"toctalk_comment_text" encode="$encodeguest"}%
 %POS:BEFORE%
 %TMPL:END%
 </verbatim>
@@ -298,7 +298,7 @@ Create a list of annotated bookmarks
 %TMPL:END%
 </verbatim>
 <verbatim>
-%TMPL:DEF{OUTPUT:bookmark}%%POS:BEFORE%   * [[%URLPARAM{"comment_url" encode="entity"}%][%URLPARAM{"comment_link" encode="entity"}%]] %IF{" '%URLPARAM{"bookmark_comment_text" encode="entity"}%' = '' " then="" else="- "}%%URLPARAM{"bookmark_comment_text" encode="entity"}%
+%TMPL:DEF{OUTPUT:bookmark}%%POS:BEFORE%   * [[%CREATE:URLPARAM{"comment_url" encode="entity"}%][%CREATE:URLPARAM{"comment_link" encode="entity"}%]] %IF{" '%CREATE:URLPARAM{"bookmark_comment_text" encode="entity"}%' = '' " then="" else="- "}%CREATE:%URLPARAM{"bookmark_comment_text" encode="entity"}%
 %TMPL:END%
 </verbatim>
 
