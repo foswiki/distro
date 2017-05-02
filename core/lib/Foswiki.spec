@@ -332,17 +332,6 @@ $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 # anchored at the end, so that it matches any topic name ending in "Registration".
 $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} = '(Registration|ResetPassword)$';
 
-# **BOOLEAN LABEL="Map IP to Session ID" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
-# For compatibility with older versions, Foswiki supports the mapping of the
-# clients IP address to a session ID. You can only use this if all
-# client IP addresses are known to be unique.
-# If this option is enabled, Foswiki will *not* store cookies in the
-# browser.
-# The mapping is held in the file =$Foswiki::cfg{WorkingDir}/tmp/ip2sid=.
-# If you turn this option on, you can safely turn {Sessions}{IDsInURLs}
-# _off_.
-$Foswiki::cfg{Sessions}{MapIP2SID} = 0;
-
 # **OCTAL LABEL="Session-File Permission" CHECK="min:000 max:777" EXPERT**
 # File security for new session objects created by the login manager.
 # You may have to adjust these permissions to allow (or deny) users other
@@ -460,13 +449,6 @@ $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 # password, but only from POST requests. In order to add support for the
 # =rest= and =restauth>> scripts, specify =/^(view|rest)(auth)?$/=
 $Foswiki::cfg{Session}{AcceptUserPwParam} = '^view(auth)?$';
-
-# **BOOLEAN LABEL="Accept User Password on GET" EXPERT**
-# For backwards compatibility, enable this setting if you want
-# =username= and =password= parameters to be accepted on a GET request when
-# provided as part of the query string.  It is more secure to restrict login
-#  operations to POST requests only.
-$Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
 
 # **BOOLEAN LABEL="Prevent from Remembering the User Password" EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**
 # Browsers typically remember your login and passwords to make authentication
@@ -1114,7 +1096,7 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # emails is not a risk for you (for example, you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users, then you
 # can disable this option. If you prefer to store email addresses directly
-# in user topics, see the TopicUserMapping expert settings under the
+# in user topics, see the TopicUserMapping expert option under the
 # UserMapping tab.
 # 
 # Note that if this option is set, then the =%USERINFO= macro will only expand
@@ -1472,7 +1454,7 @@ $Foswiki::cfg{Store}{FgrepCmd} =
 # which will block the application of the file and directory permissions.
 # If mod_suexec is enabled, the Apache umask directive will also be ignored.
 # Enable this setting if the checker reports that the umask is in conflict with
-# the permissions, or adust the expert settings {Store}{dirPermission} and
+# the permissions, or adust the expert options {Store}{dirPermission} and
 # {Store}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{Store}{overrideUmask} = $FALSE;
 
@@ -1824,7 +1806,7 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 #         FEEDBACK="icon='ui-icon-mail-closed';label='Send Test Email';wizard='SendTestEmail'; method='send'"**
 # Wiki administrator (webmaster) e-mail address.  It's used as the "Contact" address on web pages and
 # is also optionally used as the sender address in emails sent by Foswiki. For example =webmaster@example.com=
-# If the Expert setting. ={WikiAgentEmail} is configured, it will be used as the From: address.
+# If the Expert option ={WikiAgentEmail} is configured, it will be used as the From: address.
 # Must be a single valid email address. This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
 # <br/>
 # If your server is already configured to send email, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
@@ -2125,7 +2107,7 @@ $Foswiki::cfg{Email}{SmimeCertO} = '';
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
 
 #---+ Miscellaneous
-# Miscellaneous expert options.
+# Miscellaneous options. Enable expert options to see the full list.
 
 #---++ Rendering control
 # **STRING 70x10 LABEL="Template Path" NOSPELLCHECK EXPERT**
@@ -2159,17 +2141,6 @@ $Foswiki::cfg{LinkProtocolPattern} =
 # Length of linking acronyms.  Minimum number of consecutive upper case
 # characters required to be linked as an acronym.
 $Foswiki::cfg{AcronymLength} = 3;
-
-# **BOOLEAN LABEL="Require Compatible Anchors" EXPERT**
-# 'Anchors' are positions within a Foswiki page that can be targeted in
-# a URL using the =#anchor= syntax. The format of these anchors has
-# changed several times. If this option is set, Foswiki will generate extra
-# redundant anchors that are compatible with the old formats. If it is not
-# set, the links will still work but will go to the head of the target page.
-# There is a small performance cost for enabling this option. Set it if
-# your site has been around for a long time, and you want existing external
-# links to the internals of pages to continue to work.
-$Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
 # **NUMBER LABEL="Number of Revisions" CHECK="min:0" **
 # How many links to other revisions to show in the bottom bar. 0 for all
@@ -2321,14 +2292,46 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # use Foswiki to manually rename the topic in all existing webs*
 $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
-# **BOOLEAN EXPERT LABEL="Disable automatic macros on template expand"**
-# Disable the automatic expansion of certain macros in topic templates, when
-# they are used to create a new topic.
-# This feature is disabled by default for new installations, but may be
-# required for existing installations.
-# The affected macros are DATE, GMTIME, SERVERTIME, USERNAME, URLPARAM,
-# WIKINAME, and WIKIUSERNAME.
-$Foswiki::cfg{DisableEOTC} = $TRUE;
+#---++ Compatibility
+# This section contains options that you can use to enforce compatibility
+# with older releases of Foswiki.
+
+# **BOOLEAN EXPERT LABEL="Require Compatible Anchors"**
+# 'Anchors' are positions within a Foswiki page that can be targeted in
+# a URL using the =#anchor= syntax. The format of these anchors has
+# changed several times. If this option is set, Foswiki will generate extra
+# redundant anchors that are compatible with the old formats. If it is not
+# set, the links will still work but will go to the head of the target page.
+# There is a small performance cost for enabling this option. Set it if
+# your site has been around for a long time, and you want existing external
+# links to the internals of pages to continue to work.
+$Foswiki::cfg{RequireCompatibleAnchors} = $FALSE;
+
+# **BOOLEAN EXPERT LABEL="Accept User Password on GET"**
+# Enable this setting if you want
+# =username= and =password= parameters to be accepted on a GET request when
+# provided as part of the query string.  It is more secure to restrict login
+#  operations to POST requests only.
+$Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
+
+# **BOOLEAN EXPERT LABEL="Map IP to Session ID" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# For compatibility with older versions, Foswiki supports the mapping of the
+# clients IP address to a session ID. You can only use this if all
+# client IP addresses are known to be unique.
+# If this option is enabled, Foswiki will *not* store cookies in the
+# browser.
+# The mapping is held in the file =$Foswiki::cfg{WorkingDir}/tmp/ip2sid=.
+# If you turn this option on, you can safely turn {Sessions}{IDsInURLs}
+# _off_.
+$Foswiki::cfg{Sessions}{MapIP2SID} = $FALSE;
+
+# **BOOLEAN EXPERT LABEL="Disable automatic macros on topic template expansion"**
+# In Foswiki version 2.1 and earlier, the macros =DATE=, =GMTIME=, =SERVERTIME=,
+# =USERNAME=, =URLPARAM=, =WIKINAME=, and =WIKIUSERNAME= were automatically expanded
+# on template creation. This has been disabled by default, as the =CREATE:=
+# prefix in topic templates serves the same function much more cleanly.
+# You can re-enable the old behaviour here.
+$Foswiki::cfg{ExpandSomeMacrosOnTopicCreation} = $FALSE;
 
 #############################################################################
 #---+ Extensions
