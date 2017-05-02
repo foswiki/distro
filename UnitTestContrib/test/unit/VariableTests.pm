@@ -75,22 +75,22 @@ sub test_topicCreationExpansions {
     my $this = shift;
 
     my $text = <<'END';
-%USERNAME%
+%CREATE:USERNAME%
 %STARTSECTION{type="templateonly"}%
 Kill me
 %ENDSECTION{type="templateonly"}%
-%WIKINAME%
-%WIKIUSERNAME%
+%CREATE:WIKINAME%
+%CREATE:WIKIUSERNAME%
 %WEBCOLOR%
 %STARTSECTION{name="fred" type="section"}%
-%USERINFO%
-%USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
+%CREATE:USERINFO%
+%CREATE:USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %USER%NOP%INFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->{test_topicObject}->text($text);
     $this->{test_topicObject}
-      ->put( 'PREFERENCE', { name => "BLAH", value => "%WIKINAME%" } );
+      ->put( 'PREFERENCE', { name => "BLAH", value => "%CREATE:WIKINAME%" } );
     $this->{test_topicObject}->expandNewTopic();
 
     my $xpect = <<"END";
