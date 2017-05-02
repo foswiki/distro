@@ -21,6 +21,7 @@ use Assert;
 use Try::Tiny;
 use Data::Dumper;
 use Foswiki::Exception;
+use Foswiki::FeatureSet qw(featuresComply);
 
 # Constants for topological sorting.
 use constant NODE_TEMP_MARK => 0;
@@ -191,28 +192,110 @@ sub isBadVersion {
       unless $extName->isa('Foswiki::Extension');
 
     my @apiScalar = grep { /::API_VERSION$/ } Devel::Symdump->scalars($extName);
+    my @featArray = grep { /::FS_REQUIRED$/ } Devel::Symdump->arrays($extName);
+    my $checkAPI  = 1;
 
-    return "No \$API_VERSION scalar defined in $extName"
-      unless @apiScalar;
+    unless ( @apiScalar || @featArray ) {
+        return
+          "Neither \$API_VERSION nor \@FS_REQUIRED are defined in $extName";
+    }
 
-    my $api_ver = Foswiki::fetchGlobal( '$' . $apiScalar[0] );
+    if (@featArray) {
 
-    return "Failed to fetch \$API_VERSION"
-      unless defined $api_ver;
+        # When @FS_REQUIRED is present we don't check API_VERSION as demand of
+        # features is more specific and more precise.
+        my @fs_required = Foswiki::fetchGlobal( '@' . $featArray[0] );
 
-    return
-        "Declared API version "
-      . $api_ver
-      . " is lower than supported "
-      . $MIN_VERSION
-      if $api_ver < $MIN_VERSION;
+        if (@fs_required) {
 
-    return
-        "Declared API version "
-      . $api_ver
-      . " is higher than supported "
-      . $VERSION
-      if $api_ver > $VERSION;
+            # As we have a list of required features API check can be skipped.
+            $checkAPI = 0;
+
+            my (
+                @nameSpaceParam, @fList, @nonComplyList,
+                $errMsg,         $failOnEmptyList
+            );
+            my $comply = 1;
+
+            # Closure with all its access to internals is better solution than a
+            # separate sub.
+            my $checkFList = sub {
+                if (@fList) {
+                    $comply = featuresComply(
+                        -features => \@fList,
+                        -inactive => \@nonComplyList,
+                        @nameSpaceParam
+                    );
+                    unless ($comply) {
+                        $errMsg =
+                            "Inactive or missing features: "
+                          . join( ", ", @nonComplyList )
+                          . (
+                            @nameSpaceParam
+                            ? " from namespace $nameSpaceParam[1]"
+                            : ""
+                          );
+                    }
+                    @fList = ();
+                }
+                elsif ($failOnEmptyList) {
+                    $comply = 0;
+                    $errMsg =
+                      "Incomplete \@FS_REQUIRED: empty list of features";
+                    if (@nameSpaceParam) {
+                        $errMsg .= " for -namespace $nameSpaceParam[1]";
+                    }
+                }
+
+                return $comply;
+            };
+
+            while ( $comply && @fs_required ) {
+                my $item = shift @fs_required;
+                if ( $item =~ /^-namespace$/ ) {
+                    ( $comply = $checkFList->() ) or next;
+                    unless (@fs_required) {
+                        $errMsg =
+"Incomplete \@FS_REQUIRED: no name defined for the last -namespace";
+                        $comply = 0;
+                        next;
+                    }
+                    @nameSpaceParam = ( -namespace => shift @fs_required );
+                    $failOnEmptyList = 1;
+                }
+                else {
+                    push @fList, $item;
+                }
+            }
+
+            # Check features of the last -namespace unless already failed.
+            $comply &&= $checkFList->();
+
+            return $errMsg unless $comply;
+        }
+    }
+
+    if ( $checkAPI && @apiScalar ) {
+        my $api_ver = Foswiki::fetchGlobal( '$' . $apiScalar[0] );
+
+        return "Failed to fetch \$API_VERSION"
+          unless defined $api_ver;
+
+        return
+            "Declared API version "
+          . $api_ver
+          . " is lower than supported "
+          . $MIN_VERSION
+          if $api_ver < $MIN_VERSION;
+
+        return
+            "Declared API version "
+          . $api_ver
+          . " is higher than supported "
+          . $VERSION
+          if $api_ver > $VERSION;
+    }
+
     return '';
 }
 
