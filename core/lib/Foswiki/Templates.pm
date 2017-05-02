@@ -509,25 +509,15 @@ sub _readTemplateFile {
                     tertiary  => $templateixd,
                     file      => $file,
                     userdir   => $userdir,
-                    skin      => $skin
+                    skin      => $skin,
+                    order => $isSkinned * 1000000 + $idx * 1000 + $templateixd,
                 }
             );
         }
     }
 
     # sort
-    @candidates = sort {
-        foreach my $i (qw/primary secondary tertiary/)
-        {
-            if ( $a->{$i} < $b->{$i} ) {
-                return -1;
-            }
-            elsif ( $a->{$i} > $b->{$i} ) {
-                return 1;
-            }
-        }
-        return 0;
-    } @candidates;
+    @candidates = sort { $a->{order} <=> $b->{order} } @candidates;
 
     foreach my $candidate (@candidates) {
         my $file = $candidate->{file};
