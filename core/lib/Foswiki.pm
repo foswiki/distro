@@ -3391,7 +3391,7 @@ sub _expandMacroOnTopicCreation {
     # correctly, but you need to think about this if you extend the set of
     # tags expanded here.
     return
-      unless ( !$Foswiki::cfg{DisableEOTC}
+      unless ( $Foswiki::cfg{ExpandSomeMacrosOnTopicCreation}
         && $_[0] =~
 m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/
       )

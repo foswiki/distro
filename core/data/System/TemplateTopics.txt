@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1487617858" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1493715966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 #TemplateTopics
 ---+ Template topics
@@ -32,7 +32,7 @@ When the following macros are used in a template topic, they automatically get e
 
 All other macros - including macros defined by plugins - can be expanded when creating a new topic by prefixing =CREATE:= to the macro name. For example, =%<nop>CREATE:DATE{...}<nop>%=.
 
-*NOTE* For compatibility with earlier Foswiki versions, the site administrator can enable the automatic expansion of a subset of macros when a new topic is created from a template _even without CREATE_. The affected macros are =DATE, GMTIME, SERVERTIME, USERNAME, URLPARAM, WIKINAME, and WIKIUSERNAME=.
+*NOTE* For compatibility with earlier Foswiki versions, the site administrator can enable the automatic expansion of a subset of macros when a new topic is created from a template _even without CREATE_. The affected macros are =DATE, GMTIME, SERVERTIME, USERNAME, URLPARAM, WIKINAME, and WIKIUSERNAME=. The relevant setting in =configure= is =ExpandSomeMacrosOnTopicCreation=, in the =Miscellaneous/Compatibility= expert options section.
 
 ---+++ Macro notes:
 <pre class="tml">%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%</pre> markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
