@@ -24,6 +24,8 @@ package ExtensionsTests;
 use Assert;
 use Foswiki::Exception ();
 
+use Foswiki::FeatureSet;
+
 use version 0.77;
 
 use Foswiki::Class;
@@ -249,8 +251,12 @@ sub test_pluggable_methods {
     my $this = shift;
 
     $this->_disableAllCurrentExtensions;
+
+    # Generate 3 extensions.
     my @ext = $this->_genExtModules(
         3,
+
+        # First extension body
         <<'EXT1',
 plugBefore 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
     my $this = shift;
@@ -260,6 +266,8 @@ plugBefore 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
     $params->{args}[1] = "ext1ArgFromBefore";
 };
 EXT1
+
+        # Second extension body
         <<'EXT2',
 plugAround 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
     my $this = shift;
@@ -285,6 +293,8 @@ plugAround 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
 };
 
 EXT2
+
+        # Third extension body
         <<'EXT3',
 plugBefore 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
     my $this = shift;
@@ -394,6 +404,108 @@ sub test_API_VERSION {
           . Foswiki::fetchGlobal("\$$ext[1]::API_VERSION")
           . " must have been enabled but it's not"
     );
+}
+
+sub test_FS_REQUIRED {
+    my $this = shift;
+
+    $this->_disableAllCurrentExtensions;
+
+    features_provided
+      GLOBAL_TEST => [ undef, undef, undef ],
+      -namespace  => "ExtensionsTests",
+      TEST1       => [ undef, undef, undef ],
+      TEST2       => [ 2.0,   2.99,  4.0 ],
+      TEST3       => [ 3.1,   undef, undef ],
+      ;
+
+    my @ext = $this->_genExtModules(
+        8,
+
+        # First extension body
+        <<'EXT1',
+# This will pass
+our @FS_REQUIRED = qw(MOO UNICODE);
+EXT1
+
+        # Second extension
+        <<'EXT2',
+# This must fail
+our @FS_REQUIRED = qw(MOO MISSING_FEATURE);
+EXT2
+
+        # Third extension
+        <<'EXT3',
+# Must pass
+our @FS_REQUIRED = qw(MOO -namespace ExtensionsTests TEST1 TEST2);
+EXT3
+
+        # Fourth extension
+        <<'EXT4',
+# Must fail
+our @FS_REQUIRED = qw(-namespace ExtensionsTests TEST1 TEST3);
+EXT4
+
+        # Fifth extension
+        <<'EXT5',
+# Must fail due to missing namespace name
+our @FS_REQUIRED = qw(MOO UNICODE -namespace);
+EXT5
+
+        # Sixth extension
+        <<'EXT6',
+# Must fail due to no features in namespace
+our @FS_REQUIRED = qw(MOO UNICODE -namespace ExtensionsTests);
+EXT6
+
+        # Seventh extension
+        <<'EXT7',
+# No @FS_REQUIRED, must pass
+EXT7
+
+        # Eighth extension
+        <<'EXT8',
+# Empty @FS_REQUIRED, must pass
+our @FS_REQUIRED = ();
+EXT8
+    );
+
+    my @expect = (
+        undef,
+        "Inactive or missing features: MISSING_FEATURE",
+        undef,
+        "Inactive or missing features: TEST3 from namespace ExtensionsTests",
+        'Incomplete @FS_REQUIRED: no name defined for the last -namespace',
+'Incomplete @FS_REQUIRED: empty list of features for -namespace ExtensionsTests',
+        undef,
+        undef,
+    );
+
+    $this->reCreateFoswikiApp;
+
+    my $exts = $this->app->extensions;
+
+    foreach my $i ( 0 .. 7 ) {
+        my $expect = defined( $expect[$i] )        ? "disabled" : "enabled";
+        my $got    = $exts->extEnabled( $ext[$i] ) ? "enabled"  : "disabled";
+        $this->assert_equals( $expect, $got,
+                "Module #"
+              . ( $i + 1 ) . " is "
+              . $got
+              . " but expected to be "
+              . $expect );
+        if ( $expect[$i] ) {
+            my $reason = $exts->disabledExtensions->{ $ext[$i] };
+            $this->assert_equals( $expect[$i], $reason,
+                    "Module #"
+                  . ( $i + 1 )
+                  . " has failed as expected but with wrong reason:"
+                  . "\n  * Expected: "
+                  . $expect[$i]
+                  . "\n  * Got     : "
+                  . $reason );
+        }
+    }
 }
 
 sub test_subClassing {
