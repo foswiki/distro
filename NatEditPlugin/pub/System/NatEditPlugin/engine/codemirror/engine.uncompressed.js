@@ -81,6 +81,7 @@ CodemirrorEngine.prototype.init = function() {
       self.shell.getScript(editorPath+"/addon/search/searchcursor.js"),
       self.shell.getScript(editorPath+"/addon/scroll/annotatescrollbar.js"),
       self.shell.getScript(editorPath+"/addon/search/matchesonscrollbar.js"),
+      self.shell.getScript(editorPath+"/addon/edit/matchbrackets.js"),
       self.shell.getScript(editorPath+"/addon/dialog/dialog.js"),
       self.shell.getScript(editorPath+"/widgets/widgets.js"),
       self.shell.getScript(editorPath+"/keymap/vim.js"),
@@ -593,8 +594,9 @@ CodemirrorEngine.defaults = {
     "Enter": "newlineAndIndentContinueFoswikiList",
     "Tab": "insertSoftTab",
     "Ctrl-Q": "toggleFold"
-  }
-  //matchBrackets: false, 
+  },
+  matchBrackets: true,
+  //bracketRegex: new RegExp('[(){}\[\]<>')
   //enterMode: "keep", 
   //tabMode: "shift" 
 };

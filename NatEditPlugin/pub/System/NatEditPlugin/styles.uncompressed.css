@@ -1,6 +1,6 @@
 /* natedit base styles */
 .ui-natedit {
-  margin:0;
+  margin:0 0 1em;
   background-color:#fff;
 }
 
@@ -10,7 +10,7 @@
   left:0;
   width:100%;
   height:100%;
-  padding:0.5em 1em;
+  padding:1em;
   box-sizing:border-box;
   z-index:99;
 }

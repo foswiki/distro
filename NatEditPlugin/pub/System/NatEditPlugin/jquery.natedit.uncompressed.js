@@ -34,7 +34,6 @@ $.NatEditor = function(txtarea, opts) {
   self.container.attr("id", self.id);
   self.container.data("natedit", self);
 
-
   if (self.opts.hidden || $txtarea.is(".foswikiHidden")) {
     // just init the shell, not any engine
     self.initGui();
@@ -1203,19 +1202,19 @@ $.NatEditor.prototype.autoMaxExpand = function() {
 $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem = self.engine.getWrapperElement(),
-    windowHeight = $(window).height() || window.innerHeight,
-    tabElem = $(".jqTabContents"),
+    bottomBar = self.form.find(".natEditBottomBar"),
     newHeight;
 
   if (!elem || !elem.length) {
     return;
   }
 
-  newHeight = windowHeight 
-    - elem.offset().top 
-    - $('.natEditBottomBar').outerHeight(true) 
-    - (tabElem.outerHeight(true) - tabElem.height())
-    - 2;
+  newHeight = 
+    (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
+    - elem.position().top // editor's top position
+    - (elem.outerHeight(true) - elem.outerHeight()) // editor's padding
+    - (self.container.outerHeight(true) - self.container.outerHeight()) // container's padding
+    - 2; // ... and a bit of nothing
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
@@ -1226,7 +1225,7 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
-    //console.log("NATEDIT: fixHeight height=",newHeight);
+    //console.log("NATEDIT: fixHeight height=",newHeight,"container.height=",self.container.height());
     self.setSize(undefined, newHeight);
   } else {
     //console.log("NATEDIT: not fixHeight elem not yet visible");
