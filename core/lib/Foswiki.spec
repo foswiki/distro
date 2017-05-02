@@ -563,7 +563,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # Topic level override Web level access control.  If this feature is enabled,
 # the "+" plus sign can be used at the Topic level to add to the Web ACLs.
 #
-# If the Web ACL specifies _"ALLOWTOPICVIEW = JoeUser"_,  then a Topic ACL of
+# If the Web ACL specifies _"ALLOWWEBVIEW = JoeUser"_,  then a Topic ACL of
 # _"ALLOWTOPICVIEW = + FredUser"_ will allow both JoeUser and FredUser
 # to view the topic.
 $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = $FALSE;
