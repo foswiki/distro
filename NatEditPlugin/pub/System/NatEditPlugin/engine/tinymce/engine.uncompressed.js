@@ -55,7 +55,7 @@ TinyMCEEngine.prototype.init = function() {
 
     self.opts.tinymce.init_instance_callback = function(editor) {
 
-      //self.log("tinymce instance", editor);
+      //self.shell.log("tinymce instance", editor);
 
       self.editor = editor;
 
@@ -274,7 +274,7 @@ TinyMCEEngine.prototype.html2tml = function(html) {
   var /*self = this,*/
       url = foswiki.getScriptUrl("rest", "WysiwygPlugin", "html2tml");
 
-  //self.log("called html2tml", tml);
+  //self.shell.log("called html2tml", tml);
 
   return $.post(url, {
     topic: foswiki.getPreference("WEB")+"."+foswiki.getPreference("TOPIC"),
@@ -334,7 +334,7 @@ TinyMCEEngine.prototype.getSelectionLines = function() {
     end = text.length - 1;
   }
 
-//console.log("start=",start,"end=",end,"range=",range,"text=",text,"len=",text.length);
+//self.shell.log("start=",start,"end=",end,"range=",range,"text=",text,"len=",text.length);
 
   range.setStart(node, start);
   //range.setEnd(node, end);
@@ -395,7 +395,7 @@ TinyMCEEngine.prototype.insertLineTag = function(markup) {
       selection = self.getSelectionLines() || markup[1],
       tagClose = markup[2];
 
-  self.log("selection=",selection);
+  self.shell.log("selection=",selection);
 
   self.editor.selection.setContent(tagOpen+selection+tagClose);
 };

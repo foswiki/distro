@@ -366,7 +366,7 @@ RawEngine.prototype.getSelectionRange = function() {
   var self = this, text, c, range, rangeCopy, pos, selection,
       txtarea = self.shell.txtarea;
 
-  //self.log("NATEDIT: called getSelectionRange()");
+  //self.shell.log("called getSelectionRange()");
   //$(txtarea).focus();
 
   if (self.oldIE) {
@@ -434,7 +434,7 @@ RawEngine.prototype.getSelectionLines = function() {
     end++;
   }
 
-  //self.log("start=",start,"end=",end);
+  //self.shell.log("start=",start,"end=",end);
 
   self.setSelectionRange(start, end);
 
@@ -448,7 +448,7 @@ RawEngine.prototype.setSelectionRange = function(start, end) {
   var self = this, lineFeeds, range,
       txtarea = self.shell.txtarea;
 
-  //self.log("setSelectionRange("+txtarea+", "+start+", "+end+")");
+  //self.shell.log("setSelectionRange("+txtarea+", "+start+", "+end+")");
 
   //$(txtarea).focus();
   if (typeof(txtarea.createTextRange) !== 'undefined' && !$.browser.opera) {
@@ -471,7 +471,7 @@ RawEngine.prototype.setSelectionRange = function(start, end) {
 RawEngine.prototype.setCaretPosition = function(caretPos) {
   var self = this;
 
-  //self.log("NATEDIT: setCaretPosition("+caretPos+")");
+  //self.shell.log("setCaretPosition("+caretPos+")");
   self.setSelectionRange(caretPos, caretPos);
 };
 
@@ -618,7 +618,7 @@ RawEngine.prototype.insertLineTag = function(markup) {
       nrSpaces = 0,
       txtarea = self.shell.txtarea;
 
-  //self.log("called insertLineTag(..., ",markup,")");
+  //self.shell.log("called insertLineTag(..., ",markup,")");
 
   theSelection = self.getSelectionLines();
   startPos = txtarea.selectionStart;
@@ -673,7 +673,7 @@ RawEngine.prototype.insertLineTag = function(markup) {
     endPos = nrSpaces + startPos + modifiedSelection.length + 1;
   }
 
-  //self.log("finally, startPos="+startPos+" endPos="+endPos);
+  //self.shell.log("finally, startPos="+startPos+" endPos="+endPos);
 
   self.setSelectionRange(startPos, endPos);
   txtarea.scrollTop = scrollTop;
@@ -693,7 +693,7 @@ RawEngine.prototype.insertTag = function(markup) {
       text, scrollTop, theSelection,
       subst, txtarea = self.shell.txtarea;
 
-  //self.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
+  //self.shell.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
     
   self.getSelectionRange();
   startPos = txtarea.selectionStart;
@@ -702,7 +702,7 @@ RawEngine.prototype.insertTag = function(markup) {
   scrollTop = txtarea.scrollTop;
   theSelection = text.substring(startPos, endPos) || sampleText;
 
-  //self.log("startPos="+startPos+" endPos="+endPos);
+  //self.shell.log("startPos="+startPos+" endPos="+endPos);
 
   subst = tagOpen + theSelection.replace(/(\s*)$/, tagClose + "$1");
 
@@ -749,10 +749,10 @@ RawEngine.prototype.searchReplace = function(search, replace, ignoreCase) {
     pos = copy.indexOf(search, pos + replace.length);
   }
 
-  //self.log("NATEDIT: result=",text);
+  //self.shell.log("result=",text);
   if (count) {
     txtarea.value = text;
-    //self.log("caretPos=",caretPos,"scrollTop=",scrollTop);
+    //self.shell.log("caretPos=",caretPos,"scrollTop=",scrollTop);
     self.setCaretPosition(caretPos);
     txtarea.scrollTop = scrollTop;
 

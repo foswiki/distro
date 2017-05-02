@@ -24,7 +24,6 @@ BaseEngine = function() {
   if (typeof(self.opts) === 'undefined') {
     self.opts = {};
   }
-  self.log("BaseEngine::constructor");
 };
 
 
@@ -34,7 +33,7 @@ BaseEngine = function() {
 BaseEngine.prototype.init = function() {
   var self = this;
 
-  //self.log("BaseEngine::init");
+  //self.shell.log("init");
 
   return $.Deferred().resolve(self).promise();
 };
@@ -96,17 +95,6 @@ BaseEngine.prototype.setValue = function(val) {
       elem = self.getWrapperElement();
 
   elem.val(val);
-};
-
-/*************************************************************************
- * debug logging 
- */
-BaseEngine.prototype.log = function() {
-  var self = this;
-
-  if (console && self.opts.debug) {
-    console && console.log.apply(console, arguments); // eslint-disable-line no-console
-  }
 };
 
 /*************************************************************************
@@ -277,7 +265,7 @@ BaseEngine.prototype.insertTable = function(opts) {
 BaseEngine.prototype.insertLink = function(opts) {
   var self = this, markup;
 
-console.log("insertLink opts=",opts);
+//console.log("insertLink opts=",opts);
 
   if (typeof(opts.url) !== 'undefined') {
     // external link

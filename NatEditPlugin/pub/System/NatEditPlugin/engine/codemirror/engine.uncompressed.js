@@ -435,6 +435,7 @@ CodemirrorEngine.prototype.openSearchDialog = function() {
   var self = this;
 
   if (self._searchDialogOpen) {
+    self.shell.log("dialog is open");
     return;
   }
 
@@ -559,7 +560,6 @@ CodemirrorEngine.prototype.setValue = function(val) {
  */
 CodemirrorEngine.defaults = {
   //value
-  debug: true,
   mode: 'foswiki',
   theme: 'foswiki',
   indentUnit: 3, 
