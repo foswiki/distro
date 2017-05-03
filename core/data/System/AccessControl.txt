@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489521912" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -212,6 +212,25 @@ For example if you want completely open access to a topic __for logged in users_
 </div>
 
 See "How Foswiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
+
+---++++ Additive ALLOWTOPIC rules
+
+An optional EXPERT level configuration parameter is avalable to enable Additive ALLOWTOPIC ACLs.   As described above, ALLOWTOPIC* rules will
+override the corresponding ALLOWWEB* settings.  If {AccessControlACL}{EnableAdditiveRules} is enabled, then ALLOWTOPIC settings can be defined
+as additive by beginning the setting with the plus symbol (+).
+
+%IF{"{AccessControlACL}{EnableAdditiveRules}" then=""
+  else="<div class='foswikiHelp'>Additive Access Control Rules are *not* enabled on this system.</div>"
+}%
+
+   * #Set ALLOWWEBVIEW = !SomeUser
+   * #Set ALLOWTOPICVIEW = + !AnotherUser !AThirdUser
+
+With the setting enabled, the TOPIC level settings _add_ to the Web level settings resulting in the equivalent:
+   * #Set ALLOWTOPICVIEW = !SomeUser !AnotherUser !AThirdUser
+
+Note that Additive ACLS only apply to ALLOWTOPIC* settings.
+
 
 ---+++ Controlling access to attachments
 

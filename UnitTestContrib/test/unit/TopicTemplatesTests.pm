@@ -228,7 +228,7 @@ sub test_templateTopicWithAttachments {
 
 sub test_templateTopicWithEOTCMacros {
     my $this = shift;
-    $Foswiki::cfg{DisableEOTC} = 0;
+    $Foswiki::cfg{ExpandSomeMacrosOnTopicCreation} = 1;
     my $query = Unit::Request->new(
         {
             text => [<<'TEXT'],
