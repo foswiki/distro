@@ -482,7 +482,11 @@ $.NatEditor.prototype.initGui = function() {
     onDeselect: updateDetails,
     onClear: updateDetails,
     onReset: updateDetails,
-    autocomplete: self.opts.scriptUrl + "/view/" + self.opts.systemWeb + "/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json"
+    autocomplete: foswiki.getScriptUrl('view', self.opts.systemWeb, 'JQueryAjaxHelper', {
+        section: 'user',
+        skin:    'text',
+        contenttype: 'application/json'
+    })
   });
 
   function setPermissionSet(data) {
@@ -533,7 +537,10 @@ $.NatEditor.prototype.switchToWYSIWYG = function(ev) {
 $.NatEditor.prototype.initToolbar = function() {
   var self = this, 
       $txtarea = $(self.txtarea),
-      url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load="+self.opts.toolbar;
+      url = foswiki.getScriptUrl('rest', "JQueryPlugin", "tmpl", {
+       topic: self.opts.web+"."+self.opts.topic,
+       load:  self.opts.toolbar
+       });
 
   // load toolbar
   $.loadTemplate({
@@ -910,7 +917,7 @@ $.NatEditor.prototype.initForm = function() {
             self.form.submit();
           } else {
             self.form.ajaxSubmit({
-              url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+              url: foswiki.getScriptUrl( 'rest', 'NatEditPlugin', 'save'),  // SMELL: use this one for REST as long as the normal save can't cope with REST
               beforeSubmit: function() {
                 self.hideMessages();
                 document.title = "Saving ...";
@@ -961,7 +968,7 @@ $.NatEditor.prototype.initForm = function() {
       self.beforeSubmit("preview");
 
       self.form.ajaxSubmit({
-        url: self.opts.scriptUrl + '/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+        url: foswiki.getScriptUrl( 'rest', 'NatEditPlugin', 'save'),  // SMELL: use this one for REST as long as the normal save can't cope with REST
         beforeSubmit: function() {
           self.hideMessages();
           $.blockUI({
@@ -1849,7 +1856,12 @@ $.NatEditor.prototype.dialog = function(opts) {
   }
 
   if (typeof(opts.url) === 'undefined' && typeof(opts.name) !== 'undefined') {
-    opts.url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load=editdialog&name="+opts.name;
+    opts.url = foswiki.getScriptUrl( 'rest', 'JQueryPlugin', 'tmpl', {
+        topic: self.opts.web+"."+self.opts.topic,
+        load:  'editdialog',
+        name:  opts.name
+    });
+
   }
 
   opts = $.extend({}, defaults, opts);
@@ -2280,7 +2292,11 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
 
   $dialog.find("input[name='web']").each(function() {
     $(this).autocomplete({
-      source: self.opts.scriptUrl+"/view/"+self.opts.systemWeb+"/JQueryAjaxHelper?section=web&skin=text&contenttype=application/json"
+      source: foswiki.getScriptUrl('view', self.opts.systemWeb, 'JQueryAjaxHelper', {
+         section:     'web',
+         skin:        'text',
+         contenttype: 'application/json'
+      })
     });
   });
 
@@ -2291,7 +2307,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           xhr.abort();
         }
         xhr = $.ajax({
-          url: self.opts.scriptUrl+"/view/"+self.opts.systemWeb+"/JQueryAjaxHelper",
+          url: foswiki.getScriptUrl('view', self.opts.systemWeb, 'JQueryAjaxHelper'),
           data: $.extend(request, {
             section: 'topic',
             skin: 'text',
@@ -2324,9 +2340,10 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           xhr.abort();
         }
         xhr = $.ajax({
-          url: self.opts.scriptUrl+"/rest/NatEditPlugin/attachments",
+          url: foswiki.getScriptUrl('rest', 'NatEditPlugin', 'attachments'),
           data: $.extend(request, {
-            topic: $container.find("input[name='web']").val()+'.'+$container.find("input[name='topic']").val()
+            // The topic autocomplete actually returns the Web.Topic
+            topic: $container.find("input[name='topic']").val()
           }),
           dataType: "json",
           autocompleteRequest: ++requestIndex,
@@ -2365,7 +2382,6 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
       }
     };
   });
-  
 
   if (typeof(data.type) !== 'undefined') {
     tabId = $dialog.find(".jqTab."+data.type).attr("id");
