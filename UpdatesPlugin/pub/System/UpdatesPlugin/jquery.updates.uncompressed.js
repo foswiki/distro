@@ -109,6 +109,7 @@
           success: function(data, status, xhr) {
             //console.log("success: data=",data);
             self.numberOutdatedPlugins = data.length;
+            self.pluginList = data.sort();
             // remember findings: sets cookie to the number of outdated plugins. setting it to
             // zero explicitly can either mean: everything up-to-date or ignore pending updates
             $.cookie(self.options.cookieName, self.numberOutdatedPlugins, {
@@ -150,6 +151,7 @@
     // ... and add a new one
     elem = $("#foswikiUpdatesTmpl").render([{
       nrPlugins:self.numberOutdatedPlugins,
+      pluginList:self.pluginList,
       cookieExpires:self.options.cookieExpires,
       configureUrl:self.options.configureUrl
     }]);

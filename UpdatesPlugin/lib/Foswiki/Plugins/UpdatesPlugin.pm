@@ -20,8 +20,8 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION           = '1.02';
-our $RELEASE           = '23 Jan 2017';
+our $VERSION           = '1.03';
+our $RELEASE           = '03 May 2017';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
