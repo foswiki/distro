@@ -1179,6 +1179,14 @@ sub build {
 __DATA__
 You do not need to install anything in the browser to use this extension. The following instructions are for the administrator who installs the extension on the server.
 
-Open configure, and open the "Extensions" section. Use "Find More Extensions" to get a list of available extensions. Select "Install".
+Open configure, and open the "Extensions" section. "Extensions Operation and Maintenance" Tab -&gt; "Install, Update or Remove extensions" Tab.  Click the "Search for Extensions" button.  
+Enter part of the extension name or description and press search.   Select the desired extension(s) and click install. If an extension is already installed, it will *not* show up in the
+search results.
 
-If you have any problems, or if the extension isn't available in =configure=, then you can still install manually from the command-line. See http://foswiki.org/Support/ManuallyInstallingExtensions for more help.
+You can also install from the shell by running the extension installer as the web server user: (Be sure to run as the webserver user, not as root!)
+<verbatim>
+cd /path/to/foswiki
+perl tools/extension_installer <NameOfExtension> install
+</verbatim>
+
+If you have any problems, or if the extension isn't available in =configure=, then you can still install manually from the command-line. See https://foswiki.org/Support/ManuallyInstallingExtensions for more help.
