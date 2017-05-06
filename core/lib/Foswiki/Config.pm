@@ -297,9 +297,7 @@ has _lscRecords => (
 );
 
 # Current position in _lscRecords list.
-has _lscRecPos => (
-    is      => 'rw',
-);
+has _lscRecPos => ( is => 'rw', );
 
 # Configuration shortcut attributes.
 
@@ -772,7 +770,7 @@ pluggable read => sub {
 
 # SMELL Docs missing
 pluggable readLSCStart => sub {
-    my $this = shift;
+    my $this   = shift;
     my %params = @_;
 
     $this->_clear_lscRecords;

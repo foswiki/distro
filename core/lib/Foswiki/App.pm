@@ -47,6 +47,11 @@ features_provided
   PREF_SET_URLS => [ undef, undef, undef ],
   PSGI          => [ 2.99,  undef, undef, -desc => 'PSGI support', ],
   UNICODE       => [ 2.0,   undef, undef, -desc => 'Unicode core', ],
+  OOSPECS => [
+    2.99, undef, undef,
+    -desc     => "Perl Specs",
+    -proposal => "OOConfigSpecsFormat",
+  ],
   ;
 
 has access => (
@@ -114,6 +119,7 @@ has extensions => (
     is        => 'ro',
     lazy      => 1,
     predicate => 1,
+    clearer   => 1,
     builder   => 'prepareExtensions',
 );
 has forms => (
@@ -345,22 +351,17 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
-    $this->initStage('initConfig');
+    for my $stNum ( 1 .. 2 ) {
+        $this->clear_cfg;
+        $this->initStage( 'readConfig' . $stNum );
+        unless ( $this->cfg->data->{isVALID} ) {
+            $this->cfg->bootstrapSystemSettings;
+        }
+        $this->initStage( 'loadExtensions' . $stNum );
 
-    unless ( $this->cfg->data->{isVALID} ) {
-        $this->cfg->bootstrapSystemSettings;
-    }
-
-    $this->initStage('extLoad');
-
-    $this->extensions->initialize;
-
-    $this->clear_cfg;
-
-    $this->initStage('reConfig');
-
-    unless ( $this->cfg->data->{isVALID} ) {
-        $this->cfg->bootstrapSystemSettings;
+        # Reload extensions based on the configuration information.
+        $this->clear_extensions;
+        $this->extensions->initialize;
     }
 
     $this->initStage('postConfig');
@@ -658,7 +659,12 @@ sub create {
 
     Foswiki::load_class($class);
 
-    $class = $this->extensions->mapClass($class);
+    if ( $this->has_extensions ) {
+
+        # Avoid referring to extensions if we're on very early stages of the app
+        # existance.
+        $class = $this->extensions->mapClass($class);
+    }
 
     my $object;
 
