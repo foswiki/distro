@@ -1,0 +1,4 @@
+!noci
+data/System/DBConfigExtension.txt 0644 Documentation Page
+lib/Foswiki/Extension/DBConfig.pm 0444 Perl module
+lib/Foswiki/Extension/DBConfigExtension/Spec.data 0444 Perl module

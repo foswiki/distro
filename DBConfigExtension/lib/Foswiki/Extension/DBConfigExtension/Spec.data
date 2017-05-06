@@ -1,0 +1,51 @@
+#
+-section => "Extensions" => [
+    -section => "DBConfigExtension" => [
+        -text => <<EOT,
+Database storage backend for LSC
+EOT
+        Connection => [
+            Host => STRING => [
+                -default => 'localhost',
+                -label   => 'Database host',
+                -text    => 'Where the database server is located',
+            ],
+            Port => NUMBER => [
+                -default => undef,
+                -label   => 'Database port',
+                -text    => 'Port number where database server is listening',
+            ],
+            Driver => STRING => [
+                -default => 'mysql',
+                -label   => "DBD driver name",
+                -text    => "Your preferred type of database",
+            ],
+            User => STRING => [
+                -default => "dbuser",
+                -label   => "Databse username",
+            ],
+            Password => PASSWORD => [
+                -default => "dbpassword",
+                -label   => "Database password",
+            ],
+            Database => STRING => [
+                -default => "fw_config",
+                -label   => "Database name",
+            ],
+            Table => STRING => [
+                -default => "LSC",
+                -label => "Table name",
+            ],
+            DSN => STRING => [
+                -default => "",
+                -label   => "DSN",
+            ],
+            EnableSSL => BOOLEAN => [
+                -default => 1,
+                -label   => "DSN",
+            ],
+        ],
+    ],
+  ],
+
+# vim: ft=perl
