@@ -281,6 +281,26 @@ has _secOptArity => (
     builder => '_prepareSecOptArity',
 );
 
+# LSC file object of Foswiki::File class. A temporary storage for read/write
+# methods, doesn't utilize prepare method because it is always externally
+# initialized.
+has _lscFileObj => (
+    is      => 'rw',
+    clearer => 1,
+);
+
+# List of key/value pairs. Used by both LSC read and write methods.
+has _lscRecords => (
+    is      => 'rw',
+    clearer => 1,
+    builder => '_prepareLscRecords',
+);
+
+# Current position in _lscRecords list.
+has _lscRecPos => (
+    is      => 'rw',
+);
+
 # Configuration shortcut attributes.
 
 =begin TML
@@ -751,13 +771,12 @@ pluggable read => sub {
 };
 
 # SMELL Docs missing
-pluggable readLSC => sub {
-    my $this   = shift;
+pluggable readLSCStart => sub {
+    my $this = shift;
     my %params = @_;
 
- # Avoid dying of warnings here – at least until bufferized error reporting is
- # in place. Otherwise we wouldn't even be able to test bootstrap.
-    local $SIG{__WARN__};
+    $this->_clear_lscRecords;
+    $this->_clear_lscFileObj;
 
     my $lscFile = $params{lscFile}
       // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
@@ -771,17 +790,17 @@ pluggable readLSC => sub {
         return 0;
     }
 
-    my $cfgData = $params{data} // $this->data;
-
     my $cfFile = $this->create(
         'Foswiki::File',
-        path      => $lscFile,
-        autoWrite => 0
-        , # Prevent occasional overwriting of the LSC if a bug would sneak into the code.
+        path => $lscFile,
+
+        # Prevent occasional overwriting of the LSC would a bug sneak into the
+        # code.
+        autoWrite => 0,
     );
 
     my $lnum = 0;
-    my ( $hereDoc, $hereKey, $hereVal );
+    my ( $hereDoc, $hereKey, $hereVal, @lscRecords );
     foreach my $line ( split /\n/, $cfFile->content ) {
         my ( $keyPath, $keyVal );
         $lnum++;
@@ -842,7 +861,7 @@ pluggable readLSC => sub {
                 }
                 $keyVal = $interp;
             }
-            $this->set( $keyPath, $keyVal, data => $cfgData );
+            push @lscRecords, [ $keyPath, $keyVal ];
         }
     }
 
@@ -851,7 +870,65 @@ pluggable readLSC => sub {
         return 0;
     }
 
+    $this->_lscRecords( \@lscRecords );
+    $this->_lscRecPos(0);
+
     return 1;
+};
+
+# SMELL Docs missing
+# Returns ($rc, $keyPath, $keyVal). If $rc is not true then record reading
+# failed. If $rc is true but $keyPath is undef then end of list is reached.
+pluggable readLSCRecord => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $curPos = $this->_lscRecPos;
+
+    $this->_lscRecPos( $curPos + 1 );
+
+    return ( 1, undef, undef ) if $curPos >= scalar( @{ $this->_lscRecords } );
+
+    return ( 1, @{ $this->_lscRecords->[$curPos] } );
+};
+
+# SMELL Docs missing
+pluggable readLSCFinalize => sub {
+    my $this = shift;
+
+    $this->_clear_lscFileObj;
+    $this->_clear_lscRecords;
+    $this->_lscRecPos(0);
+
+    return 1;
+};
+
+# SMELL Docs missing
+pluggable readLSC => sub {
+    my $this   = shift;
+    my %params = @_;
+
+ # Avoid dying of warnings here – at least until bufferized error reporting is
+ # in place. Otherwise we wouldn't even be able to test bootstrap.
+    local $SIG{__WARN__};
+
+    my $cfgData = $params{data} // $this->data;
+
+    return 0 unless $this->readLSCStart( @_, data => $cfgData, );
+
+    my ( $rc, $keyPath, $keyVal );
+    do {
+        ( $rc, $keyPath, $keyVal ) = $this->readLSCRecord( data => $cfgData );
+        if ( $rc && defined $keyPath ) {
+            $this->set( $keyPath, $keyVal, data => $cfgData );
+        }
+    } while ( $rc && defined $keyPath );
+
+    # Avoid possible optimization, call and get finalize return value
+    # explicitly.
+    my $finalRc = $this->readLSCFinalize( data => $cfgData );
+
+    return ( $rc && $finalRc );
 };
 
 sub _genLSCHereDoc {
@@ -874,6 +951,79 @@ sub _genLSCHereDoc {
 }
 
 # SMELL Docs missing
+pluggable writeLSCStart => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $lscFile = $params{lscFile}
+      // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
+
+    $this->_lscFileObj(
+        $this->create(
+            'Foswiki::File',
+            path       => $lscFile,
+            autoWrite  => 1,
+            autoCreate => 1,
+        )
+    );
+};
+
+# SMELL Docs missing
+# This method is for low-level writing of a single key/value pair into LSC.
+pluggable writeLSCRecord => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    # Support for extensions. If an extension doesn't want a record to be stored
+    # in a standard location it could simply delete 'key' item from the params.
+    return unless defined $params{key};
+
+    my $comment =
+      defined $params{comment}
+      ? join( "\n", map { "# $_" } split /\n/, $params{comment} )
+      : undef;
+    push @{ $this->_lscRecords },
+      {
+        key     => $params{key},
+        value   => $params{value},
+        comment => $params{comment},
+      };
+};
+
+# SMELL Docs missing
+# Called when all LSC records are stored.
+pluggable writeLSCFinalize => sub {
+    my $this   = shift;
+    my %params = @_;
+
+    my $_lscFileObj = $this->_lscFileObj;
+
+    $_lscFileObj->autoWrite(0);
+
+    $_lscFileObj->content( $_lscFileObj->content . "\n" );
+
+    foreach my $rec ( @{ $this->_lscRecords } ) {
+        my $key     = $rec->{key};
+        my $val     = $rec->{value} // '';
+        my $comment = $rec->{comment};
+
+        if ( $val =~ /\n/ ) {
+
+            # Special notion for multiline values.
+            $val = $this->_genLSCHereDoc($val);
+        }
+
+        $_lscFileObj->content( $_lscFileObj->content
+              . ( $comment ? "$comment\n" : '' )
+              . "$key=$val\n" );
+    }
+
+    $_lscFileObj->autoWrite(1);
+    $this->_clear_lscFileObj;
+    $this->_clear_lscRecords;
+};
+
+# SMELL Docs missing
 # This is the most basic write operation which only gets a data hash and writes
 # it to the destination file. The final config may contain more keys than passed
 # in the data because specs are being fetched in and defaults are added to the
@@ -882,11 +1032,10 @@ pluggable writeLSC => sub {
     my $this   = shift;
     my %params = @_;
 
-    my $lscFile = $params{lscFile}
-      // File::Spec->catfile( Foswiki::guessLibDir, $this->lscFile . ".new" );
-
     my $cfgData =
       $this->specsMode( setAttr => 0, data => $params{data} // $this->data, );
+
+    $this->writeLSCStart( @_, data => $cfgData );
 
     my $root = tied %$cfgData;
     my @cfgKeys = sort map { $_->fullName } $root->getLeafNodes;
@@ -902,11 +1051,12 @@ pluggable writeLSC => sub {
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Deepcopy = 1;
 
-    my @lscText = ( $this->lscHeader );
+    my $comment = $this->lscHeader . "\n";
     foreach my $cfKey (@cfgKeys) {
         unless ( $specKeys{$cfKey} ) {
-            push @lscText, '# This key is not defined in a spec file';
-            say STDERR "Key $cfKey is not defined in specs";
+            $comment .= "# This key is not defined in a spec file\n";
+
+            #say STDERR "Key $cfKey is not defined in specs";
         }
 
         my @keys      = $this->parseKeys($cfKey);
@@ -921,21 +1071,19 @@ pluggable writeLSC => sub {
         if ( defined $val ) {
             $val = Data::Dumper->Dump( [$val] );
             chomp $val;
-            if ( $val =~ /\n/ ) {
-
-                # Special notion for multiline values.
-                $val = $this->_genLSCHereDoc($val);
-            }
-        }
-        else {
-            $val = '';
         }
 
-        push @lscText, "$cfKey=$val";
+        $this->writeLSCRecord(
+            key     => $cfKey,
+            value   => $val,
+            comment => $comment,
+            data    => $cfgData,
+        );
+
+        undef $comment;
     }
 
-    my $cfFile = $this->create( 'Foswiki::File', path => $lscFile, );
-    $cfFile->content( join( "\n", @lscText ) );
+    $this->writeLSCFinalize( data => $cfgData, );
     return;
 };
 
@@ -2949,6 +3097,10 @@ sub _prepareSecOptArity {
     my $this = shift;
 
     return { Foswiki::Config::Section->optArities };
+}
+
+sub _prepareLscRecords {
+    return [];
 }
 
 sub _specSectionBody {
