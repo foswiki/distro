@@ -50,6 +50,16 @@ has autoWrite => (
     builder => 'prepareAutoWrite',
 );
 
+has autoCreate => (
+    is      => 'rw',
+    builder => 'prepareAutoCreate',
+);
+
+has modified => (
+    is      => 'rw',
+    builder => 'prepareModified',
+);
+
 has exception => (
     is      => 'rw',
     clearer => 1,
@@ -58,6 +68,12 @@ has exception => (
 );
 
 stubMethods qw(prepareException);
+
+sub DEMOLISH {
+    my $this = shift;
+
+    $this->flush if $this->modified && $this->autoWrite;
+}
 
 sub _createException {
     my $this    = shift;
@@ -116,6 +132,14 @@ sub prepareAutoWrite {
     return 1;
 }
 
+sub prepareAutoCreate {
+    return 0;
+}
+
+sub prepareModified {
+    return 0;
+}
+
 sub _trigger_exception {
     my $this = shift;
     my ($excpt) = @_;
@@ -125,6 +149,7 @@ sub _trigger_exception {
 
 sub _trigger_content {
     my $this = shift;
+    $this->modified(1);
     $this->flush if $this->autoWrite;
 }
 
@@ -140,6 +165,8 @@ sub slurp {
 
     my ( $fh, $content );
 
+    return '' if ( !-e $this->path ) && $this->autoCreate;
+
     try {
         open( $fh, $this->_openmode("<"), $this->path )
           or $this->throwFileOp( op => "open", );
@@ -151,6 +178,8 @@ sub slurp {
         $content = <$fh>;
 
         $this->throwFileOp( op => 'read', ) unless defined $content;
+
+        $this->modified(0);
     }
     catch {
         $this->exception( Foswiki::Exception::Fatal->transmute( $_, 0 ) );
@@ -175,6 +204,8 @@ sub flush {
 
         print $fh $this->content
           or $this->throwFileOp( op => "write", );
+
+        $this->modified(0);
     }
     catch {
         $this->exception( Foswiki::Exception::Fatal->transmute( $_, 0 ) );
