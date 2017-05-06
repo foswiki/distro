@@ -276,7 +276,7 @@ is mandatory to create objects of this class using =Foswiki::App= or
 ---++++ plugBefore, plugAround, plugAfter
 
 In terms of =Moo= these subroutines are modifiers. But contrary to =Moo='s
-implementation where, say, a _before_ modifier may not be called under cetain
+implementation where, say, a _before_ modifier might not be called under cetain
 conditions, all registered =plug*= modifiers are guaranteed to be executed
 unless the execution flow gets interrupted by a modifier code. Those nuances
 will be explained later in this documentation.
@@ -296,19 +296,19 @@ object is passed as a key =object= of parameters hashref in the second argument.
 All keys of the hashref are in the followin table:
 
 | *Key* | *Type* | *Description* |
-| =object= | blessed ref | The object on which the method is called. |
+| =object= | blessed ref | The object the method is being called upon. |
 | =class= | string | The class which has registered the pluggable method. Might be different from the above object's class if object was created using a subclass. |
-| =method= | string | Name of the pluggable method registered by the class above. Can useful for cases when same extension method is used to handle few different pluggable methods. |
+| =method= | string | Name of the pluggable method registered by the class above. Could be useful for cases when same extension method is used to handle few different pluggable methods. |
 | =stage= | string | _before_, _around_, or _after_. |
-| =args= | array ref | Reference to arguments array =@_= passed to the pluggable method. The array content can be changed by extension methods but the ref itself must remain the same. If a method changes it the extensions framework will restore the original value discarding all changes done by the method. Because this key points to =@_= then modification of =$n='th element has the same effect as modification of =$_[$n]=. |
+| =args= | array ref | Reference to arguments array =@_= passed to the pluggable method. The array content can be changed by extension methods but the ref itself has to be left untouched. If a method changes it the extensions framework will restore the original value discarding all changes done by the method. Because this key points to =@_= then modification of =$n='th element has the same effect as modification of =$_[$n]=. |
 | =wantarray= | scalar | =wantarray= function value for the pluggable method. |
 | =rc= | anything | Pluggable method's return value. The original pluggable method won't be executed if any of _around_ methods sets this key to whatever (including =undef=) value. It's not allowed to be set by a _before_ method; if set then the framework will clean it up. |
 
 Methods can use the parameters hashref to communicate to each other by storing
-necessary information in it using a unique key names. Generally it is
-recommended for an extension to take measures as to avoid clashing with other
-extensions. Not being the most handy but the most reliable method would be to
-use extension's name as a key where all extension-specific data is stored.
+necessary information in it using unique key names. Generally it is recommended
+for an extension to take measures as to avoid clashing with other extensions.
+Though not being the most handy but the most reliable method would be to use
+extension's name as the key where all extension-specific data is stored.
 
 ---++++ Execution flow control
 

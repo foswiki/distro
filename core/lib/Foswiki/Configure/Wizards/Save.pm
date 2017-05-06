@@ -324,8 +324,11 @@ sub save {
             die "***INTERNAL ERROR*** COULD NOT REREAD NEW LSC\n$@" if $@;
         }
 
-   # umask is used when creating a new config file. Permissions of existing
-   # files are not changed. chmod changes on existing LocalSite.cfg will "stick"
+        $Foswiki::app->cfg->writeLSC;
+
+        # umask is used when creating a new config file. Permissions of existing
+        # files are not changed. chmod changes on existing LocalSite.cfg will
+        # "stick"
         my $um =
           umask(077);    # Contains passwords, no world/group access to new file
         open( F, '>:encoding(utf-8)', $lsc )
