@@ -401,7 +401,7 @@ sub initialize {
 }
 
 sub _cbDispatch {
-    my $cbObj  = shift;    # The object initiated the callback.
+    my $cbObj  = shift;    # The object which initiated the callback.
     my %params = @_;
 
     my $app    = $params{data}{app};
@@ -779,10 +779,11 @@ sub _execMethodList {
     # Remember the original argument list pointer to avoid plugin modification.
     # SMELL Shouldn't it be a list of protected keys?
     my $origArgs = $callParams->{args};
+    my $app      = $this->app;
 
     # SMELL Use of the logger may cause issues if logger declares a pluggable
     # method or methods.
-    my $logger     = $this->app->logger;
+    my $logger = $app->logger if $app->has_logger;
     my $extensions = $this->extensions;
 
     my $restart;
@@ -796,11 +797,14 @@ sub _execMethodList {
                 $mEntry->{code}
                   ->( $extensions->{ $mEntry->{extension} }, $callParams );
                 if ( $callParams->{args} != $origArgs ) {
+
+                    # Warnings will be suppressed at early stages of application
+                    # life until the configuration object is built and ready.
                     $logger->warn(
                         "Extension ",
                         $mEntry->{extension},
 " attempted to replace argument list in parameters hash."
-                    );
+                    ) if $logger;
                     $callParams->{args} = $origArgs;
                 }
             }
@@ -992,7 +996,8 @@ sub registerPluggable {
         sub {
             my $obj = shift;
 
-            if ( $obj->_has__appObj ) {
+            # Avoid autovivification of the extensions object.
+            if ( $obj->_has__appObj && $obj->__appObj->has_extensions ) {
                 return $obj->__appObj->extensions->_callPluggable(
                     $target,
                     $method,
