@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494206626" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -22,15 +22,16 @@
 ---++ Access control
 
 Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.  Empty settings are not meaningful.
-Use ==*== to indicate everyone including the guest users.   DENY the WikiGuest user to restrict an action to authenticated (logged-in) users.
+Remove the comment ==#== character to enable a settting.
+Use ==*== to indicate everyone including the guest users.   DENY the %USERSWEB%.WikiGuest user to restrict an action to authenticated (logged-in) users.
 If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationAgent= to the =ALLOWWEBCHANGE= setting.
 
-   * Set DENYWEBVIEW = 
-   * Set ALLOWWEBVIEW = 
+   * #Set DENYWEBVIEW = 
+   * #Set ALLOWWEBVIEW = 
    * Set DENYWEBCHANGE = %USERSWEB%.WikiGuest
-   * Set ALLOWWEBCHANGE = 
+   * #Set ALLOWWEBCHANGE = 
    * Set DENYWEBRENAME = %USERSWEB%.WikiGuest
-   * Set ALLOWWEBRENAME = 
+   * #Set ALLOWWEBRENAME = 
 
 If ={FeatureAccess}{AllowRaw}= is set to =acl= in configure, then the following rules can also be used: 
    * #Set DENYWEBHISTORY = %USERSWEB%.WikiGuest
