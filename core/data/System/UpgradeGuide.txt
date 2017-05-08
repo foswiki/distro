@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1494199312" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494206626" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -412,6 +412,18 @@ In your new installation, default copies of the following topics were installed:
    * =[[%SYSTEMWEB%.ChangeEmailAddress]]=
 
 If you customized these topics in your old installation, transfer the changes to these topics in the new installation. Use the corresponding files in the =&lt;oldwiki&gt;/&lt;old_system_web&gt;/= directory as a reference.
+
+---+++ Check your configuration and installation
+Configure provides some tools to validate your installation.  They should be
+run as the web server userid:
+<verbatim>
+cd <path-to-foswiki-installation>
+sudo -u www-data tools/configure -check
+sudo -u www-data perl tools/configure -check {DataDir} -method validate_permissions
+sudo -u www-data perl tools/configure -check {PubDir} -method validate_permissions
+ ...  also can be run on: 
+    {LocalesDir} {ScriptDir}  {TemplateDir} {ToolsDir} {WorkingDir}
+</verbatim>
 
 ---+++ Validate your Wiki applications and other key functionality
 
