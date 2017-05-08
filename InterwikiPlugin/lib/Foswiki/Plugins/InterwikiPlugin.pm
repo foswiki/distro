@@ -99,7 +99,8 @@ sub initPlugin {
                   ([^\|\n]+)       # Not a separator or end of line
               )?
               \s*\|.*?           # Last column separator
-            /_map($1,$2,$3,$4)/megx;
+            /_map($1,$2,$3,$4)/megx
+          if ( length($text) );
 
     }
 
