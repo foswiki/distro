@@ -558,6 +558,16 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 # for access permission, then it will not get blocked by these controls.
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
+# **BOOLEAN LABEL="Enable Additive Topic ACLs" EXPERT **
+# Optionally support Addititive Topic ACLs.  Normally ACLs specified at the
+# Topic level override Web level access control.  If this feature is enabled,
+# the "+" plus sign can be used at the Topic level to add to the Web ACLs.
+#
+# If the Web ACL specifies _"ALLOWWEBVIEW = JoeUser"_,  then a Topic ACL of
+# _"ALLOWTOPICVIEW = + FredUser"_ will allow both JoeUser and FredUser
+# to view the topic.
+$Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = $FALSE;
+
 # **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
 # If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
@@ -869,6 +879,7 @@ $Foswiki::cfg{Register}{EmailFilter} = '';
 # items are quite innocent, it's better to be a bit paranoid.
 $Foswiki::cfg{AccessibleCFG} = [
     '{AccessControlACL}{EnableDeprecatedEmptyDeny}',
+    '{AccessControlACL}{EnableAdditiveRules}',
     '{AccessibleCFG}',
     '{AdminUserLogin}',
     '{AdminUserWikiName}',

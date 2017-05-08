@@ -3,12 +3,14 @@
 %JQICON{"error"}%
 %TMPL:P{"messagetmpl::text"}%
 <a href="%SCRIPTURLPATH{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
-<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a>
+<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a><br/>
+%TMPL:P{"messagetmpl::list"}%
 %CLEAR%
 </div>
 </script>%TMPL:END%
 
 %TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s)." args="{{:nrPlugins}}"}%%TMPL:END%
+%TMPL:DEF{"messagetmpl::list"}%({{:pluginList}})%TMPL:END%
 
 %TMPL:DEF{"css"}%<style type="text/css">
 .foswikiBroadcastMessage.foswikiUpdatesMessage {

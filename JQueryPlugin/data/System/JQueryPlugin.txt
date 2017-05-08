@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1486607275" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1493947845" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
 |   8 Feb 2017: | (7.22) - Item14312: don't destroy dialogs on close. |
 |  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
 |  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. \
