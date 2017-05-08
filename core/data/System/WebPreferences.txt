@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494206626" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -35,8 +35,11 @@
 
 ---++ Access control
 
-Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web. Public sites should consider denying %USERSWEB%.WikiGuest
+view access on the System web to minimize search bot activity.  Remove the comment ==#== character to enable a settting. Use ==*== to indicate everyone including the guest users.
 
+   * #Set DENYWEBVIEW =  %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBVIEW = 
    * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
    * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
 
