@@ -373,8 +373,8 @@ sub readTemplate {
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
-    $this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
-      if (TRACE);
+    #$this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
+    #  if (TRACE);
     return $result;
 }
 
@@ -392,8 +392,9 @@ sub _readTemplateFile {
         my $text =
           _decomment(
             _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
-        $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-          if (TRACE);
+
+        #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+        #  if (TRACE);
         return $text;
     }
 
@@ -426,8 +427,9 @@ sub _readTemplateFile {
               if (TRACE);
 
             $text = _decomment($text);
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
             return $text;
         }
     }
@@ -548,9 +550,9 @@ sub _readTemplateFile {
                   if (TRACE);
 
                 $text = _decomment($text);
-                $this->saveTemplateToCache( '_cache', $name, $skins, $web,
-                    $text )
-                  if (TRACE);
+
+                #$this->saveTemplateToCache( '_cache', $name, $skins, $web,
+                #    $text ) if (TRACE);
                 return $text;
             }
         }
@@ -561,8 +563,9 @@ sub _readTemplateFile {
             $this->{files}->{$file} = 1;
 
             my $text = _decomment( _readFile( $session, $file ) );
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
             return $text;
         }
     }
