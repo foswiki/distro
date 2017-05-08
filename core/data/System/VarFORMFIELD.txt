@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494259870" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ FORMFIELD -- renders a field in the form attached to some topic
 ---++ Parameters
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
-     | ="name"= | The name of a [[DataForms][Data form]] field | |
+     | ="name"= | The name of a [[DataForms][data form]] field (without spaces or other characters). If double-bracket link format is used in the form definition, then use the value in the left-hand bracket. | |
      | =topic="..."= | Topic where form data is located. May be of the form =Web.<nop>TopicName= | Current topic |
      | =format= | Format string. See Tokens expanded in =format= below. | =$value= |
      | =default= | Text shown if the field is defined in the topic, but the field value is empty. For example, a text field for which all the content has been deleted. | |
