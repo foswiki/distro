@@ -1,32 +1,56 @@
 %META:TOPICINFO{author="ProjectContributor" date="1494032249" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Database Config Extension
-%FORMFIELD{"Description"}%
+
+This extension purpose is to make possible use of a database to store
+%WIKITOOLNAME% configuration.
 
 %TOC%
 
-Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
-Documentation for Plugin API is in [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Plugins::EmptyPlugin][PerlDoc for EmptyPlugin.pm]].
+Database Config Extension extends =Foswiki::Config= class low-level
+read/write routines to store all configuration keys in a user-defined
+database. The extension doesn't override the class' own read/write methods
+but only extends them to add database backed storage to the file-based one.
 
-<div class="foswikiHelp">%T% Note that EmptyPlugin is documentation only.  Its
-settings are ignored by =configure= and it cannot be enabled.</div>
+One possible purpose for the extension is to be used in a distributed
+environment where single overloaded wiki is been backed by a load-balanced
+set of servers. In this case each server would only have a minimal set of
+settings in its local site configuration file enough to perform basic
+startup and extension loading. After that this extension would step in,
+fetch common site configuration from a DB and – voilà! – the server is
+configured exactly as others in its farm.
+
+Sure, this is not enough to get a fully distributed system because in
+addition to the configuration the topics must be backed by a DB storage
+too. But this is a job for another extension.
+
+Another purpose of this extension is to serve as a demo of capabilities for
+the new extensions framework.
 
 ---++ Preferences
 
 Plugin preferences should be set using =configure=, as described in
 %SYSTEMWEB%.DevelopingPlugins.
 
-You can also use [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
-to define any user-controllable configuration. You are strongly advised
-to use the name of the plugin as a prefix, to avoid the risk of namespace
-clashes with other extensions that may try to use the same name.
+The extension receives its initial configuration from a locally stored file
+by means of =Foswiki::Config::readLSC= method. The following keys are
+defining necessary parameters to connect to a database and are stored under
+_Extensions.DBConfigExtension.Connection_ branch.
 
-*BAD*
-   * Set EXAMPLE = Example setting
-   * Set FORMAT  = %d-%m-%y
-*Good*
-   * Set EMPTYPLUGIN_EXAMPLE = Example setting
-   * Set EMPTYPLUGIN_FORMAT  = %d-%m-%y
+| *Key* | *Description* | *Default value* |
+| =Host= | Host name of the DB server | _localhost_ |
+| =Port= | Port number | =undef= |
+| =Drvier= | DBI driver to use | _mysql_ |
+| =Database= | Database name | _fw_config_ |
+| =Table= | Table name | _LSC_ |
+| =User= | DB server account name | _dbuser_ |
+| =Password= | DB server account password | _dbpassword_ |
+| =DSN= | DBI Data Source Name string | an empty string |
+| =EnableSSL= | Allow connection over SSL (currently not used) | =TRUE= |
+
+---++ Demo Code
+
+See [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Extension::DBConfig][Foswiki::Extension::DBConfig]].
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -39,7 +63,7 @@ clashes with other extensions that may try to use the same name.
 | | |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="%25$CREATED_AUTHOR%25"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
