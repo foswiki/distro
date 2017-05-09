@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460213988" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494299493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -129,14 +129,17 @@ Install apache2, rcs, and perl-CPAN
 | JSON | =perl-JSON= | |
 | Locale::Language | =perl-Locale-Codes= |  |
 | Locale::Maketext | =perl-Locale-Maketext= |  |
-| Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
-| Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization |
+| Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization ** |
+| Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization ** |
 | LWP | =perl-libwww-perl= | |
-| LWP::Protocol::https | =perl-liblwp-protocol-https= | |
+| LWP::Protocol::https | =perl-LWP-Protocol-https= | |
 | URI | =perl-URI= | |
-| version | =perl-Perl-Version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
+| version | =perl-version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
 ---+++++!! To install the above packages on CentOS
+Note, =Locale::Maketext::Lexicon= and =Locale::Msgfmt= are not available on
+Centos. Install using CPAN if Internationalization is required.
+
 First add the appropriate perl module repository, and then install the packages.
 <blockquote>
 =yum install -y epel-release= %BR%
