@@ -136,8 +136,9 @@ sub readConfig {
                 warn "couldn't parse $file: $@" if $@;
             }
 
-            # Survive an unparseable Config.spec unless DBEUG is enabled
-            next if ( !DEBUG || $file =~ m/Config\.spec$/ );
+            # Survive an unparseable Config.spec. It has been warned above.
+            next unless $file eq 'LocalSite.cfg';
+
             if ( not defined $return ) {
 
                 # Non-existant LocalSite.cfg is OK
