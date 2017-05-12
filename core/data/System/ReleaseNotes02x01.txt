@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1493948714" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494553001" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.4-RC1
 
@@ -502,10 +502,13 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14366][Item14366]] | =use CGI::Carp= in bin scripts BEGIN block cannot be found via LocalLib.cfg override. |
 | [[%BUGS%/Item14368][Item14368]] | Failure to handle edge cases leads to obscure bug in RCS. |
 | [[%BUGS%/Item14369][Item14369]] | Document parameters for USERNAME, WIKINAME and WIKIUSERNAME macros. |
+| [[%BUGS%/Item14370][Item14370]] | Foswiki::Func::removeUserFromGroup docmentation is incorrect. |
 | [[%BUGS%/Item14372][Item14372]] | JQueryPlugin ui-draggable got dropped from  Config.spec. |
 | [[%BUGS%/Item14377][Item14377]] | Error message requires some encoding. |
 | [[%BUGS%/Item14381][Item14381]] | mod_perl unexpectedly decodes the URI, and X-FoswikiURI header should be debug only. |
 | [[%BUGS%/Item14388][Item14388]] | NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs. |
+| [[%BUGS%/Item14392][Item14392]] | WebPreferences topics contain empty DENY rules that would be honored if ={AccessControlACL}{EnableDeprecatedEmptyDeny}= is enabled. |
+| [[%BUGS%/Item14396][Item14396]] | Don't redirect to relative paths. 302 redirects should be absolute Locations. |
 
 </noautolink>
 
