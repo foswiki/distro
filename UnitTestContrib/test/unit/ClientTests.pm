@@ -213,8 +213,10 @@ sub verify_sudo_login {
       $this->{session}
       ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );
     $this->assert_matches( qr/^302/, $this->{session}->{response}->status() );
-    $this->assert_matches( qr/^$surly/,
-        $this->{session}->{response}->headers()->{Location} );
+    $this->assert_matches(
+        qr/^$Foswiki::cfg{DefaultUrlHost}$surly/,
+        $this->{session}->{response}->headers()->{Location}
+    );
 
     # Verify that old crypted password works
     $crypted = crypt( $secret, "12" );
@@ -240,8 +242,10 @@ sub verify_sudo_login {
       $this->{session}
       ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );
     $this->assert_matches( qr/^302/, $this->{session}->{response}->status() );
-    $this->assert_matches( qr/^$surly/,
-        $this->{session}->{response}->headers()->{Location} );
+    $this->assert_matches(
+        qr/^$Foswiki::cfg{DefaultUrlHost}$surly/,
+        $this->{session}->{response}->headers()->{Location}
+    );
 
     return;
 }
