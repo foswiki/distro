@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491868579" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494776564" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.2.0
 
@@ -110,6 +110,16 @@ If you don't escape the macros, they will be expanded when the link is initially
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* Verify the setting of the
 =ATTACHEDFILELINKFORMAT= and =ATTACHEDIMAGEFORMAT= settings and adjust per the above examples.</div>
+
+---+++ Additional support for Proxy configurations.
+
+Foswiki has a new option under bin/configure -&gt; Security and Authentication -&gt; Proxies: ={PROXY}{UseForwardedForHeader}=.  Enable this setting
+if the Foswiki is accessed through a reverse proxy. Foswiki will the use the =X-Forwarded-For= header to determine the Client IP address.  This has several effects:
+   * Foswiki will log the real Client IP address instead of the address of the reverse proxy server.
+   * Session IP matching will use the real client IP when determining if the CGI Session is for the correct client.
+   * Plugins that perform security functions based upon the IP address will see the real client IP address.
+This setting should only be enabled if the majority of the clients access the server via the reverse proxy.  It is possible for clients to spoof the
+=X-Forwarded-For= header, so only enable this setting when appropriate to avoid client IP Address spoofing.
 
 ---++ Important changes in Foswiki 2.1
 
