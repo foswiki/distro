@@ -106,6 +106,13 @@ sub prepareConnection {
     my ( $this, $req ) = @_;
 
     $req->remoteAddress( $ENV{REMOTE_ADDR} );
+    if ( $Foswiki::cfg{PROXY}{UseForwardedForHeader}
+        && defined $ENV{HTTP_X_FORWARDED_FOR} )
+    {
+        my @addrs = split /,\s?/, $ENV{HTTP_X_FORWARDED_FOR};
+        $req->remoteAddress( $addrs[0] );
+    }
+
     $req->method( $ENV{REQUEST_METHOD} );
 
     if ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) {
