@@ -360,7 +360,9 @@ BEGIN {
         STOPINCLUDE  => sub { '' },
         ENDINCLUDE   => sub { '' },
     );
-    $contextFreeSyntax{IF} = 1;
+    $contextFreeSyntax{IF}            = 1;
+    $contextFreeSyntax{SCRIPTURLPATH} = 0;
+    $contextFreeSyntax{PUBURLPATH}    = 0;
 
     # Load LocalSite.cfg
     if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
@@ -2553,6 +2555,7 @@ sub parseSections {
 
     return ( '', [] ) unless defined $text;
 
+    my $friendlyParser = ( $Foswiki::cfg{UseLegacyMacroParser} ) ? 0 : 1;
     my %sections;
     my @list = ();
 
@@ -2566,7 +2569,7 @@ sub parseSections {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
-            my $attrs = new Foswiki::Attrs($1);
+            my $attrs = new Foswiki::Attrs( $1, $friendlyParser );
             $attrs->{type} ||= 'section';
             $attrs->{name} =
                  $attrs->{_DEFAULT}
@@ -2598,7 +2601,7 @@ sub parseSections {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
-            my $attrs = new Foswiki::Attrs($1);
+            my $attrs = new Foswiki::Attrs( $1, $friendlyParser );
             $attrs->{type} ||= 'section';
             $attrs->{name} = $attrs->{_DEFAULT} || $attrs->{name} || '';
             delete $attrs->{_DEFAULT};
@@ -3308,18 +3311,19 @@ sub _expandMacroOnTopicRendering {
     my ( $this, $tag, $args, $topicObject ) = @_;
 
     require Foswiki::Attrs;
+    my $friendlyParser = ( $Foswiki::cfg{UseLegacyMacroParser} ) ? 0 : 1;
 
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
         if ( $args && $args =~ m/\S/ ) {
-            my $attrs = new Foswiki::Attrs( $args, 0 );
+            my $attrs = new Foswiki::Attrs( $args, $friendlyParser );
 
             $e = $this->_processMacros(
                 $e,
                 sub {
                     # Expand %DEFAULT and any parameter tags
                     my ( $this, $tag, $args, $topicObject ) = @_;
-                    my $tattrs = new Foswiki::Attrs($args);
+                    my $tattrs = new Foswiki::Attrs( $args, $friendlyParser );
 
                     if ( $tag eq 'DEFAULT' ) {
 
@@ -3352,6 +3356,9 @@ sub _expandMacroOnTopicRendering {
             die $@ if $@;
             $macros{$tag} = eval "\\&$tag";
             die $@ if $@;
+            unless ( defined $contextFreeSyntax{$tag} ) {
+                $contextFreeSyntax{$tag} = $friendlyParser;
+            }
         }
 
         my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
@@ -3361,7 +3368,7 @@ sub _expandMacroOnTopicRendering {
 
         # Arbitrary %SOMESTRING{default="xxx"}% will expand to xxx
         # in the absence of any definition.
-        my $attrs = new Foswiki::Attrs($args);
+        my $attrs = new Foswiki::Attrs( $args, $friendlyParser );
         if ( defined $attrs->{default} ) {
             $e = expandStandardEscapes( $attrs->{default} );
         }
@@ -3490,8 +3497,17 @@ The syntax isn't vastly different from what's there; the differences are:
 sub registerTagHandler {
     my ( $tag, $fnref, $syntax ) = @_;
     $macros{$tag} = $fnref;
-    if ( $syntax && $syntax eq 'context-free' ) {
-        $contextFreeSyntax{$tag} = 1;
+    $contextFreeSyntax{$tag} = ( $Foswiki::cfg{UseLegacyMacroParser} ) ? 0 : 1;
+    if ($syntax) {
+        if ( $syntax eq 'context-free' ) {
+            $contextFreeSyntax{$tag} = 1;
+        }
+        elsif ( $syntax eq 'classic' ) {
+            $contextFreeSyntax{$tag} = 0;
+        }
+        elsif (DEBUG) {
+            ASSERT("Incorrect syntax requested in macro $tag");
+        }
     }
 }
 

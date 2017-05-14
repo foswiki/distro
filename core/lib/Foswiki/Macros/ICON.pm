@@ -11,6 +11,9 @@ BEGIN {
     }
 }
 
+# Macro takes unquoted default parameter - context-free not supported.
+$Foswiki::contextFreeSyntax{ICON} = 0;
+
 # Uses:
 # _ICONSPACE to reference the meta object of the %ICONTOPIC%,
 # _EXT2ICON to record the mapping of file extensions to icon names

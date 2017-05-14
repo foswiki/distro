@@ -174,13 +174,15 @@ sub _processDiff {
 sub initPlugin {
     ( $topic, $web ) = @_;
 
-    Foswiki::Func::registerTagHandler( 'STRICTTAG', \&_STRICTTAG );
+    Foswiki::Func::registerTagHandler( 'STRICTTAG', \&_STRICTTAG, 'classic' );
+    Foswiki::Func::registerTagHandler( 'FRIENDLYTAG', \&_FRIENDLYTAG,
+        'context-free' );
 
     return 1;
 }
 
 sub commonTagsHandler {
-    $_[0] =~ s/%FRIENDLYTAG\{(.*?)\}%/&_extractParams($1)/ge;
+    $_[0] =~ s/%COMMONTAG\{(.*?)\}%/&_extractParams($1)/ge;
 }
 
 sub _extractParams {
@@ -189,6 +191,12 @@ sub _extractParams {
 }
 
 sub _STRICTTAG {
+    my ( $session, $params ) = @_;
+
+    return $params->stringify();
+}
+
+sub _FRIENDLYTAG {
     my ( $session, $params ) = @_;
 
     return $params->stringify();

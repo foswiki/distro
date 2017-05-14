@@ -992,11 +992,11 @@ sub test_LOG {
 
 sub test_LOWER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LOWER(lowercase)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(LOWERCASE)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(lOwErCaSe)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER()')                     eq '' );
-    $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:"<>?)') eq
+    $this->assert( $this->CALC('$LOWER(lowercase)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(LOWERCASE)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(lOwErCaSe)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER()')          eq '' );
+    $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:\"<>?)') eq
           q(`~!@#$%^&*_+{}|:"&lt;&gt;?) );
 }
 
@@ -1596,11 +1596,11 @@ sub test_unknown {
 
 sub test_UPPER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$UPPER(uppercase)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(UPPERCASE)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(uPpErCaSe)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER()')                     eq '' );
-    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"?<>)') eq
+    $this->assert( $this->CALC('$UPPER(uppercase)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(UPPERCASE)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(uPpErCaSe)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER()')          eq '' );
+    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:\"?<>)') eq
           q(`~!@#$%^&*_+{}|:"?&lt;&gt;) );
 }
 

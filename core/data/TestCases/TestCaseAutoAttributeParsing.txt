@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494802437" format="1.1" version="1"}%
 
 Description: ensure attribute parsing provides expected outcome
 
@@ -8,13 +8,14 @@ Designed by: Crawford Currie
 
 Expected outcome in each case is defined as the results of =extractParameters=, the Cairo equivalent to the attribute parser.
 
-This test uses the =STRICTTAG= feature of the !TestFixturePlugin, that simply creates a Foswiki::Attrs from the parameter and then outputs it using =stringify()=
+This test uses the =STRICTTAG= and =FRIENDLYTAG= feature of the !TestFixturePlugin, that simply creates a Foswiki::Attrs from the parameter and then outputs it using =stringify()=
 
 <table border=1>
 <tr><th>Input string</th>
 <th>Expected</th>
 <th>Strict</th>
 <th>Friendly</th>
+<th>Common</th>
 </tr>
 <tr><td>
 def="m\"no" pqr=" stu="vwx""
@@ -28,6 +29,8 @@ def="m\"no" pqr=" stu="
 <!-- /actual -->
 </td><td>
 %FRIENDLYTAG{ def="m\"no" pqr=" stu="vwx""}%
+</td><td>
+%COMMONTAG{ def="m\"no" pqr=" stu="vwx""}%
 </td></tr>
 <tr><td>
 </td><td>
@@ -40,6 +43,8 @@ def="m\"no" pqr=" stu="
 <!-- /actual -->
 </td><td>
 %FRIENDLYTAG{  }%
+</td><td>
+%COMMONTAG{  }%
 </td></tr>
 <tr><td>
 bloody " hell
@@ -53,6 +58,8 @@ bloody " hell
 <!-- /actual -->
 </td><td>
 %FRIENDLYTAG{ bloody " hell}%
+</td><td>
+%COMMONTAG{ bloody " hell}%
 </td></tr>
 <tr><td>
 "abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""
@@ -66,6 +73,8 @@ bloody " hell
 <!-- /actual -->
 </td><td>
 %FRIENDLYTAG{ "abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""}%
+</td><td>
+%COMMONTAG{ "abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""}%
 </td></tr>
 </table>
 

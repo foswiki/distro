@@ -6,6 +6,9 @@ use warnings;
 
 use Foswiki::Macros::ICON ();
 
+# Macro takes unquoted default parameter - context-free not supported.
+$Foswiki::contextFreeSyntax{ICONURLPATH} = 0;
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;

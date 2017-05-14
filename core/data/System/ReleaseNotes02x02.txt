@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494776564" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494802437" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.2.0
 
@@ -120,6 +120,28 @@ if the Foswiki is accessed through a reverse proxy. Foswiki will the use the =X-
    * Plugins that perform security functions based upon the IP address will see the real client IP address.
 This setting should only be enabled if the majority of the clients access the server via the reverse proxy.  It is possible for clients to spoof the
 =X-Forwarded-For= header, so only enable this setting when appropriate to avoid client IP Address spoofing.
+
+---+++ Friendlly Macro parser is now the default.
+
+In Foswiki 2.1 and earlier, there was an optional "Friendly" macro parser which could be enabled when a plugin registered a Tag.  All other macros used
+the classic restricted parser.   This change makes the new "Friendly" parser the default parser, and adds configuration parameters to restore the Legacy
+behaviour.   With the new Friendly parser:
+   * Parameters may be any mixture of:
+      * single-quoted, ex: =%SOMEMACRO{'default value', parm1='foo bar'}%=
+      * double-quoted, ex: =%SOMEMACRO{"default value", parm1="foo bar"}%=
+      * or unquoted spaceless values, ex: =%SOMEMACRO{defaultvalue" parm1 = foobar}%=
+   * Spaces may be used around the = signs,
+   * Parameters may be comma or space separated.
+
+If this proves incompatible with legacy topics or macros, the old behaviour can
+be enabled in the configure -&gt; Miscellaneous tab.  Enable the ={UseLegacyMacroParser}= setting.
+The SpreadsheetPlugin can also be configured to use the Legacy parser for the =%<nop>CALCULATE%= macro:  Enable
+the =SPREADSHEETPLUGIN_LEGACYPARSER= setting in a Site, Web, or Topic preferences.
+
+Plugins can specify the "classic" parser when registering a tag.  Specify
+='classic'= or ='context-free'= as the 3rd argument to the registerTag call.
+In Foswiki 2.2, the default is ='context-free'= unless overridden in the
+configuration.
 
 ---++ Important changes in Foswiki 2.1
 

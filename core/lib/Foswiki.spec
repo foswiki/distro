@@ -2316,9 +2316,9 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 #---++ Compatibility
 # This section contains options that you can use to enforce compatibility
-# with older releases of Foswiki.
+# with older releases of Foswiki or TWiki.
 
-# **BOOLEAN EXPERT LABEL="Require Compatible Anchors"**
+# **BOOLEAN LABEL="Require Compatible Anchors"**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
 # a URL using the =#anchor= syntax. The format of these anchors has
 # changed several times. If this option is set, Foswiki will generate extra
@@ -2329,14 +2329,14 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # links to the internals of pages to continue to work.
 $Foswiki::cfg{RequireCompatibleAnchors} = $FALSE;
 
-# **BOOLEAN EXPERT LABEL="Accept User Password on GET"**
+# **BOOLEAN LABEL="Accept User Password on GET"**
 # Enable this setting if you want
 # =username= and =password= parameters to be accepted on a GET request when
 # provided as part of the query string.  It is more secure to restrict login
 #  operations to POST requests only.
 $Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
 
-# **BOOLEAN EXPERT LABEL="Map IP to Session ID" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Map IP to Session ID" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
 # clients IP address to a session ID. You can only use this if all
 # client IP addresses are known to be unique.
@@ -2347,13 +2347,21 @@ $Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
 # _off_.
 $Foswiki::cfg{Sessions}{MapIP2SID} = $FALSE;
 
-# **BOOLEAN EXPERT LABEL="Disable automatic macros on topic template expansion"**
+# **BOOLEAN LABEL="Enable automatic macros on topic template expansion"**
 # In Foswiki version 2.1 and earlier, the macros =DATE=, =GMTIME=, =SERVERTIME=,
 # =USERNAME=, =URLPARAM=, =WIKINAME=, and =WIKIUSERNAME= were automatically expanded
 # on template creation. This has been disabled by default, as the =CREATE:=
 # prefix in topic templates serves the same function much more cleanly.
 # You can re-enable the old behaviour here.
 $Foswiki::cfg{ExpandSomeMacrosOnTopicCreation} = $FALSE;
+
+# **BOOLEAN LABEL="Use Legacy Macro Parser" **
+# In Foswiki version 2.1 and earlier, the macro parser used a restricted format
+# where parameter values must all be double-quoted.  The new Parser 
+# also parses single-quoted values, unquoted spaceless values, spaces around the =,
+# and commas as well as spaces separating values.
+# Enable this option to restrict macro parsing to the legacy double-quoted syntax.
+$Foswiki::cfg{UseLegacyMacroParser} = $FALSE;
 
 #############################################################################
 #---+ Extensions

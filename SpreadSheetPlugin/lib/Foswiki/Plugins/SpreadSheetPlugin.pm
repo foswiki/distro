@@ -34,6 +34,12 @@ sub initPlugin {
     # Get plugin debug flag
     $debug = Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_DEBUG") || 0;
 
+    my $legacyParser =
+      Foswiki::Func::isTrue(
+        Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_LEGACYPARSER") )
+      || $Foswiki::cfg{UseLegacyMacroParser}
+      || '0';
+
     # Following code is for a registered tag handler that does the same as
     # CALC but in a tag handler instead of in commonTagsHandler. That means
     # you can't use table references, but you can rely on the execution order
@@ -47,7 +53,8 @@ sub initPlugin {
             $Foswiki::Plugins::SpreadSheetPlugin::Calc::cPos = 0;
             return Foswiki::Plugins::SpreadSheetPlugin::Calc::_doCalc(
                 $attributes->{_DEFAULT} );
-        }
+        },
+        ($legacyParser) ? 'classic' : 'context-free'
     );
 
     # Flag to skip calc if in include
