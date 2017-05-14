@@ -299,7 +299,7 @@ $Foswiki::cfg{Sessions}{CookiePath} = '/';
 # If empty, no prefix is added.
 $Foswiki::cfg{Sessions}{CookieNamePrefix} = '';
 
-# **BOOLEAN LABEL="Use IP Matching" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Use IP Matching" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" **
 # Enable this option to prevent a session from being accessed by
 # more than one IP Address. This gives some protection against session
 # hijack attacks.
@@ -316,11 +316,11 @@ $Foswiki::cfg{Sessions}{CookieNamePrefix} = '';
 # IP Matching for security purposes, so it is now enabled by default.
 $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 
-# **BOOLEAN LABEL="Enable Guest Sessions" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
+# **BOOLEAN LABEL="Enable Guest Sessions" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" **
 # On prior versions of Foswiki, every user is given their own CGI Session.
 # Disable this setting to block creation of session for guest users.
 #
-# This is EXPERIMENTAL.  Some parts of Foswiki will not function without a
+# Note: Some parts of Foswiki will not function without a
 # CGI Session.  This includes scripts that update, and any wiki applications
 # that make use of session variables.
 $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
