@@ -218,7 +218,8 @@ sub expandVariables {
 
     # URL-encode topic names for use of I18N topic names in plain text
     # DEPRECATED! DO NOT USE!
-    $template =~ s#%URL%#%SCRIPTURL{view}%/%ENCODE{%WEB%}%/%ENCODE{%TOPIC%}%#g;
+    $template =~
+      s#%URL%#%SCRIPTURL{"view"}%/%ENCODE{"%WEB%"}%/%ENCODE{"%TOPIC%"}%#g;
 
     $template =~ s/%AUTHOR%/$this->{AUTHOR}/g;
     $template =~ s/%BASE_REV%/$this->{BASE_REV}/g;

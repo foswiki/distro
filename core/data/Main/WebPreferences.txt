@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494206626" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494874118" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -48,4 +48,4 @@ Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%U
 
 ---
 
-%INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
+%INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%

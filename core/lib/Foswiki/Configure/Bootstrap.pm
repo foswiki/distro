@@ -640,7 +640,7 @@ out by detecting the layout of the installation.
 To complete the bootstrap process you should either:
    * Restore the missing !LocalSite.cfg from a backup, *or*
    * Complete the new Foswiki installation:
-      * visit [[%SCRIPTURL{configure}%$vp][configure]] and save a new configuration.
+      * visit [[%SCRIPTURL{"configure"}%$vp][configure]] and save a new configuration.
       * Register a user and add it to the %USERSWEB%.AdminGroup
 %BR% *You have been logged in as a temporary administrator.*
 Any requests made to this Foswiki will be treated as requests made by an administrator with full rights

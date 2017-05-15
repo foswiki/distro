@@ -297,7 +297,7 @@ Creates an exception when the topic name is not valid; the topic name does not h
 WikiWord if parameter 'onlywikiname' is set to 'off'. Redirects to the edit screen.
 
 Copy an existing topic using:
-	<form action="%SCRIPTURL{manage}%/%WEB%/">
+	<form action="%SCRIPTURL{"manage"}%/%WEB%/">
 	<input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
 	<input type="hidden" name="action" value="create" />
 	<input type="hidden" name="templatetopic" value="%TOPIC%" />

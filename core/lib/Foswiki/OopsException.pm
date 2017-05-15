@@ -44,7 +44,7 @@ The =oopsbathplugin.tmpl= might contain:
 %TMPL:DEF{"titleaction"}% %<nop>MAKETEXT{"Bathing problem"}% %TMPL:END%
 %TMPL:DEF{"heading"}%%<nop>MAKETEXT{"Problem filling bath"}%%TMPL:END%
 %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"oktopicaction"}%%TMPL:END%
-%TMPL:DEF{"script"}%<meta http-equiv="refresh" content="0;url=%SCRIPTURL{view}%/%WEB%/%TOPIC%" />%TMPL:END%
+%TMPL:DEF{"script"}%<meta http-equiv="refresh" content="0;url=%SCRIPTURL{"view"}%/%WEB%/%TOPIC%" />%TMPL:END%
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
 %TMPL:DEF{"webaction"}% *%<nop>MAKETEXT{"Warning"}%* %TMPL:END%
 %TMPL:DEF{"message"}%

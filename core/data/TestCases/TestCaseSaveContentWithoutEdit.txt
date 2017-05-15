@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="LynnwoodBrown" date="1124300292" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494874118" format="1.1" version="1.2"}%
 
 ---+!! %TOPIC%
 
@@ -22,13 +22,13 @@ The other form fields should be unchanged. i.e.:
 ---
 The actual content is:
 ---
-%INCLUDE{SavedContentExistingTopic}%
+%INCLUDE{"SavedContentExistingTopic"}%
 ---
 *if the content is different, you need to delete SavedContentExistingTopic and "svn update" again*.
 
 ---++++ Test #1: Passing URL Params to update fields in an existing topic
 
-If SavedContentExistingTopic %REVINFO{topic="SavedContentExistingTopic" format="r$rev"}% is not =r1=, <form name="save5" action="%SCRIPTURLPATH{save}%/TestCases/SavedContentExistingTopic" method="post">
+If SavedContentExistingTopic %REVINFO{topic="SavedContentExistingTopic" format="r$rev"}% is not =r1=, <form name="save5" action="%SCRIPTURLPATH{"save"}%/TestCases/SavedContentExistingTopic" method="post">
   <input type="hidden" name="action" value="quietsave">
   <input type="hidden" name="cmd" value="delRev">
   <input type="hidden" name="text" value="delRev test FAILED">
@@ -36,7 +36,7 @@ If SavedContentExistingTopic %REVINFO{topic="SavedContentExistingTopic" format="
   <input type="submit" class="foswikiSubmit" value="Revert it" /></form>
 
 
-<form name="save1" action="%SCRIPTURLPATH{save}%/TestCases" method="post">
+<form name="save1" action="%SCRIPTURLPATH{"save"}%/TestCases" method="post">
   <input type="hidden" name="action" value="save">
   <input type="hidden" name="topic" value="SavedContentExistingTopic">
   <input type="hidden" name="Rubaduba" value="%GMTIME%">
@@ -54,7 +54,7 @@ If SavedContentExistingTopic %REVINFO{topic="SavedContentExistingTopic" format="
 
 ---++++ Test #2: Passing URL Params to new topic with =templatetopic= specified
 
-Before running this test, check if SavedNewTopicNoEdit exist and, if so,<form name="del" action="%SCRIPTURLPATH{rename}%/TestCases/SavedNewTopicNoEdit" method="post">
+Before running this test, check if SavedNewTopicNoEdit exist and, if so,<form name="del" action="%SCRIPTURLPATH{"rename"}%/TestCases/SavedNewTopicNoEdit" method="post">
   <input type="hidden" name="action" value="renameother">
   <input type="hidden" name="newweb" value="%TRASHWEB%">
   <input type="hidden" name="newtopic" value="SaveNewTopicNoEdit%GMTIME{"$epoch"}%">
@@ -64,7 +64,7 @@ Before running this test, check if SavedNewTopicNoEdit exist and, if so,<form na
   <input type="submit" class="foswikiSubmit" value="delete it" /></form>
 
 
-<form name="save2" action="%SCRIPTURLPATH{save}%/TestCases" method="post">
+<form name="save2" action="%SCRIPTURLPATH{"save"}%/TestCases" method="post">
   <input type="hidden" name="action" value="save">
   <input type="hidden" name="topic" value="SavedNewTopicNoEdit">
   <input type="hidden" name="templatetopic" value="TopicTemplateWithUrlParamFixture">
@@ -83,7 +83,7 @@ Before running this test, check if SavedNewTopicNoEdit exist and, if so,<form na
 
 ---++++ Test #3: Passing URL Params to new topic with =formtemplate= specified
 
-Before running this test, check if SavedNewTopicNoEdit exists and, if so, <form name="del" action="%SCRIPTURLPATH{rename}%/TestCases/SavedNewTopicNoEdit" method="post">
+Before running this test, check if SavedNewTopicNoEdit exists and, if so, <form name="del" action="%SCRIPTURLPATH{"rename"}%/TestCases/SavedNewTopicNoEdit" method="post">
   <input type="hidden" name="action" value="renameother">
   <input type="hidden" name="newweb" value="%TRASHWEB%">
   <input type="hidden" name="newtopic" value="SaveNewTopicNoEdit%GMTIME{"$epoch"}%">
@@ -92,7 +92,7 @@ Before running this test, check if SavedNewTopicNoEdit exists and, if so, <form 
   <input type="hidden" name="redirectto" value="TestCaseSaveContentWithoutEdit">
   <input type="submit" class="foswikiSubmit" value="delete it" /></form>
 
-<form name="save3" action="%SCRIPTURLPATH{save}%/TestCases" method="post">
+<form name="save3" action="%SCRIPTURLPATH{"save"}%/TestCases" method="post">
   <input type="hidden" name="action" value="save">
   <input type="hidden" name="topic" value="SavedNewTopicNoEdit">
   <input type="hidden" name="formtemplate" value="ThisForm">

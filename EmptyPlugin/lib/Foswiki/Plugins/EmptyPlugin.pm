@@ -26,7 +26,7 @@ webserver error log.  The ENVironment setting =$ENV{FOSWIKI_ASSERTS}= setting ma
 Foswiki less tolerant of errors, and it is recommended to set it during
 development.  It can be set by editing =bin/LocalLib.cfg=, (If missing, see =bin/LocalLib.cfg.txt=)
 Most handlers can also throw exceptions (e.g.
-[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]])
+[[%SCRIPTURL{"view"}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]])
 
 For increased performance, all handler functions except =initPlugin= are
 commented out below. *To enable a handler* remove the leading =#= from

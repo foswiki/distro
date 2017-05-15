@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494874118" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -36,7 +36,7 @@
 
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="tabs"}%<noautolink>
 <div class='foswikiWebSearchForm'>
-<form name='WebSearchForm' action='%SCRIPTURLPATH{view}%/%BASEWEB%/%TOPIC%'>
+<form name='WebSearchForm' action='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%TOPIC%'>
 <input type='hidden' name='tab' value='%URLPARAM{"tab" default="search"}%' />
 <div class='foswikiFormSteps'>
 <div class='foswikiFormStep'>
@@ -80,16 +80,16 @@
 		<li%IF{
 			"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'"
 			then=" class='foswikiActiveTab'"
-		}%><a href='%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search'>%MAKETEXT{"Search"}%</a></li>
+		}%><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search'>%MAKETEXT{"Search"}%</a></li>
 		<li%IF{
 			"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"
-		}%><a href='%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced'>%MAKETEXT{"Advanced search"}%</a></li>
+		}%><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced'>%MAKETEXT{"Advanced search"}%</a></li>
 		<li%IF{
 			"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"
-		}%><a href='%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az'>%MAKETEXT{"A-Z"}%</a></li>
+		}%><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az'>%MAKETEXT{"A-Z"}%</a></li>
 		<li%IF{
 			"$'URLPARAM{tab}'='help'" then=" class='foswikiActiveTab'"
-		}%><a href='%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help'>%MAKETEXT{"Help"}%</a></li>
+		}%><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help'>%MAKETEXT{"Help"}%</a></li>
 	</ul>
 	<div class='foswikiClear'></div>
 </div></noautolink>%ENDSECTION{"tabs"}%

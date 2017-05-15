@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494870493" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494874118" format="1.1" version="1"}%
    * Top comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
    * Top comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
@@ -198,7 +198,7 @@ Post to a different topic and return to here. In this example comments are writt
 
 _Comments:_
 <blockquote>
-%INCLUDE{%COMMENT_TOPIC%}%
+%INCLUDE{"%COMMENT_TOPIC%"}%
 </blockquote>
 
 ---

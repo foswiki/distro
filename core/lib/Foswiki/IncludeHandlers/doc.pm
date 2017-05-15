@@ -269,7 +269,7 @@ sub _doclink ($) {
 
     # SMELL relying on TML to set publicOnly
     return
-"[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
+"[[%SCRIPTURL{\"view\"}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
 }
 
 1;

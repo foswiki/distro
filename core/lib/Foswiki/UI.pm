@@ -317,9 +317,9 @@ sub handleRequest {
                   . '</b></tt> script can only be called with the <tt>POST</tt> type method'
                   . '<br/><br/>'
                   . 'For example:<br/>'
-                  . '&nbsp;&nbsp;&nbsp;<tt>&lt;form method="post" action="%SCRIPTURL{'
+                  . '&nbsp;&nbsp;&nbsp;<tt>&lt;form method="post" action="%SCRIPTURL{"'
                   . $req->action()
-                  . '}%/%WEB%/%TOPIC%"&gt;</tt><br/>'
+                  . '"}%/%WEB%/%TOPIC%"&gt;</tt><br/>'
                   . '<br/><br/>See <a href="http://foswiki.org/System/CommandAndCGIScripts#A_61'
                   . $req->action()
                   . '_61">System.CommandAndCGIScripts</a> for more information.'
