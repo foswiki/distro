@@ -198,7 +198,8 @@ sub _friendly {
         if ( $string =~ s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
-            print STDERR "Match1 $key\n";
+
+            #print STDERR "Match1 $key\n";
         }
 
         # simple double-quoted value with no name, sets the default
@@ -206,7 +207,8 @@ sub _friendly {
             unless ( defined( $this->{_DEFAULT} ) ) {
                 $key = '_DEFAULT';
                 $this->{_DEFAULT} = $1;
-                print STDERR "Match2 $key\n";
+
+                #print STDERR "Match2 $key\n";
             }
         }
 
@@ -214,7 +216,8 @@ sub _friendly {
         elsif ( $string =~ s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*'(.*?)'//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
-            print STDERR "Match3 $key\n";
+
+            #print STDERR "Match3 $key\n";
         }
 
         # name $op value pairs
@@ -223,25 +226,29 @@ sub _friendly {
         {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
-            print STDERR "Match4 $key\n";
+
+            #print STDERR "Match4 $key\n";
         }
 
         # $op "value"
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*\"(.*?)\"//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
-            print STDERR "Match5 $key\n";
+
+            #print STDERR "Match5 $key\n";
         }
 
         # $op 'value'
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*'(.*?)'//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
-            print STDERR "Match6 $key\n";
+
+            #print STDERR "Match6 $key\n";
         }
 
         # $op value
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*([^\s,\}\'\"]*)//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
-            print STDERR "Match7 $key\n";
+
+            #print STDERR "Match7 $key\n";
         }
 
         # simple single-quoted value with no name, sets the default
@@ -249,14 +256,16 @@ sub _friendly {
             unless ( defined( $this->{_DEFAULT} ) ) {
                 $key = '_DEFAULT';
                 $this->{_DEFAULT} = $1;
-                print STDERR "Match8 $key\n";
+
+                #print STDERR "Match8 $key\n";
             }
         }
 
         # simple name with no value (boolean, or _DEFAULT)
         elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)\b//is ) {
             $this->{$1} = 1;
-            print STDERR "Match9 $1\n";
+
+            #print STDERR "Match9 $1\n";
         }
 
         # otherwise the whole string - sans padding - is the default
@@ -267,7 +276,8 @@ sub _friendly {
                 && !defined( $this->{_DEFAULT} ) )
             {
                 $this->{_DEFAULT} = $1;
-                print STDERR "Match10 $1\n";
+
+                #print STDERR "Match10 $1\n";
             }
             last;
         }
