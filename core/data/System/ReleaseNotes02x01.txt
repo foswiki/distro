@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494553358" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494884408" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.4-RC2
 
@@ -484,6 +484,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13766][Item13766]] | EditRowPlugin columns widths are jumping to wider size when you hoover the mouse over the table. |
 | [[%BUGS%/Item13907][Item13907]] | UpdatesPlugin Report of required update should list the backlevel extensions. |
 | [[%BUGS%/Item13954][Item13954]] | Extensions with "pluggable" components cause errors: No such value {Store}{Implementation}. |
+| [[%BUGS%/Item14234][Item14234]] | Clicking pencil for first row (erp_row=0) opens editor on entire table.  |
 | [[%BUGS%/Item14324][Item14324]] | Perl 5.25.10 reports unescaped left brace in regular expression errors. |
 | [[%BUGS%/Item14328][Item14328]] | Foswiki::Net crashes with uninitialized value in pattern match when sending email for older CPAN modules. |
 | [[%BUGS%/Item14337][Item14337]] | SCRIPTURL paths and inline scripts make javascript signing more difficult than needed. |
