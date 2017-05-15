@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %DOC_TITLE%
-<form class='foswikiForm' action='%SCRIPTURLPATH{view}%/%SYSTEMWEB%/PerlDoc'>
+<form class='foswikiForm' action='%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/PerlDoc'>
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
       See PublishedAPI for packages intended to be used by Plugin and Contrib authors, or [[PerlDoc?module=Foswiki][browse all packages]].<br>
@@ -9,7 +9,7 @@
   </div>
   <div class='foswikiFormStep'>
     <label for='module'><b>Perl Module:</b></label>
-    <input type='text' name='module' id='module' size='60' value='%URLPARAM{module}%' class='foswikiInputField' />
+    <input type='text' name='module' id='module' size='60' value='%URLPARAM{"module"}%' class='foswikiInputField' />
 <!--
 Commented this out right before 1.1.5 - we should distinguish between 'public' and 'published' classes.
     <label for='publicOnly'><b>Public Only:</b></label>
@@ -31,5 +31,5 @@ Commented this out right before 1.1.5 - we should distinguish between 'public' a
 %TOC%
 
 %STARTSECTION{"doc"}%
-%INCLUDE{"doc:%URLPARAM{module}%" publicOnly="%URLPARAM{publicOnly}%" level="2"}%
+%INCLUDE{"doc:%URLPARAM{"module"}%" publicOnly="%URLPARAM{"publicOnly"}%" level="2"}%
 %ENDSECTION{"doc"}%

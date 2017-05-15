@@ -94,7 +94,7 @@ sub _getDate {
 sub _getTopicUrl {
     my ( $this, $topicObject ) = @_;
 
-    my $url = $topicObject->expandMacros("%SCRIPTURLPATH{view}%");
+    my $url = $topicObject->expandMacros("%SCRIPTURLPATH{\"view\"}%");
     return $url;
 }
 

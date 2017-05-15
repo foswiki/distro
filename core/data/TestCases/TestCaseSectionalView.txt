@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1127097700" format="1.1" version="1.4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1.4"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 
@@ -26,21 +26,21 @@ the result of clicking on the link in the right column.  Ouch.
   <tr>
     <th>first</th>
     <td>%INCLUDE{"IncludeFixtures" section="first"}%</td>
-    <td> %SCRIPTURL{view}%/%WEB%/IncludeFixtures?section=first</td>
+    <td> %SCRIPTURL{"view"}%/%WEB%/IncludeFixtures?section=first</td>
   </tr>
   <tr>
     <th>outer</th>
     <td>%INCLUDE{"IncludeFixtures" section="outer"}%</td>
-    <td> %SCRIPTURL{view}%/%WEB%/IncludeFixtures?section=outer</td>
+    <td> %SCRIPTURL{"view"}%/%WEB%/IncludeFixtures?section=outer</td>
   </tr>
   <tr>
     <th>inner</th>
     <td>%INCLUDE{"IncludeFixtures" section="inner"}%</td>
-    <td> %SCRIPTURL{view}%/%WEB%/IncludeFixtures?section=inner</td>
+    <td> %SCRIPTURL{"view"}%/%WEB%/IncludeFixtures?section=inner</td>
   </tr>
   <tr>
     <th>first, raw mode</th>
     <td>%INCLUDE{"IncludeFixtures" section="first"}%</td>
-    <td> %SCRIPTURL{view}%/%WEB%/IncludeFixtures?section=first;raw=on</td>
+    <td> %SCRIPTURL{"view"}%/%WEB%/IncludeFixtures?section=first;raw=on</td>
   </tr>
 </table>

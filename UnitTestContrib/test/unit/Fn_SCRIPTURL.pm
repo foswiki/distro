@@ -26,7 +26,8 @@ sub test_SCRIPTURL_view {
     $this->assert_str_equals(
         "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}", $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{view}%");
+    $result =
+      $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{\"view\"}%");
     $this->assert_str_equals( "$Foswiki::cfg{ScriptUrlPath}/view.dot",
         $result );
 
@@ -60,7 +61,8 @@ sub test_SCRIPTURL_view {
     $this->assert_str_equals(
         "$Foswiki::cfg{ScriptUrlPath}/view.dot/System/WebHome", $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{snarf}%");
+    $result =
+      $this->{test_topicObject}->expandMacros("%SCRIPTURLPATH{\"snarf\"}%");
     $this->assert_str_equals( "sausages", $result );
 
     # anchor parameter # is added as a fragment.

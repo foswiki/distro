@@ -53,7 +53,7 @@ foswiki.Window = {
      * @use
      * <pre>
      * var window = foswiki.Window.openPopup(
-     * 	"%SCRIPTURL{view}%/",
+     * 	"%SCRIPTURL{"view"}%/",
      * 		{
      * 			topic:"WebChanges",
      * 			web:"%SYSTEMWEB%"

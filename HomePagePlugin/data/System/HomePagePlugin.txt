@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426726301" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1"}%
 ---+!! !HomePagePlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -11,7 +11,7 @@ One line description, required for extensions repository catalog.
 ---++ Usage
 
 This plugin makes the Default frontpage configurable -
-   1 any time a user goes to %SCRIPTURL{view}% they will be shown the topic =configured= 
+   1 any time a user goes to %SCRIPTURL{"view"}% they will be shown the topic =configured= 
 by the Foswiki administrator in ={HomePagePlugin}{SiteDefaultTopic}= in the Extensions section of =configure=.
    2 if ={HomePagePlugin}{GotoHomePageOnLogin}= is set, when a user logs in, they will be shown the topic specificed in their UserForm
 

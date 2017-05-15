@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1351386046" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1"}%
 
 ---+!! %SYSTEMWEB%.SpacedWikiWordPlugin tests
 
@@ -50,7 +50,7 @@ WebHomes
 </verbatim>
 
    * Plugin spaced out: WebHomes
-   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{view}%/%WEB%/WebHome">Web Homes</a>
+   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{"view"}%/%WEB%/WebHome">Web Homes</a>
 
 ---+++ WW Plural bracket notation
 
@@ -59,7 +59,7 @@ WebHomes
 </verbatim>
 
    * Plugin spaced out: [[WebHomes]]
-   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{view}%/%WEB%/WebHome">Web Homes</a>
+   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{"view"}%/%WEB%/WebHome">Web Homes</a>
    
 ---+++ WW Bracket notation: link label same as topic name
 
@@ -211,7 +211,7 @@ TestCase.Underscore_topic
 </verbatim>
 
    * Plugin spaced out: [[Underscore_topic]]
-   * Expected: (link to [[Underscore_topic]]): <a href="%SCRIPTURL{view}%/%WEB%/Underscore_topic">Underscore topic</a>
+   * Expected: (link to [[Underscore_topic]]): <a href="%SCRIPTURL{"view"}%/%WEB%/Underscore_topic">Underscore topic</a>
    
 ---+++ UT Bracket notation: link label same as topic name, with web
 

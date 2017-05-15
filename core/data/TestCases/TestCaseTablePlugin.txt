@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252756547" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1"}%
 
 ---+!! %SYSTEMWEB%.TablePlugin tests
 
 Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 <!--
-   * Set SECTION_URL = %SCRIPTURL{view}%/%WEB%/%TOPIC%?template=viewprint
+   * Set SECTION_URL = %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?template=viewprint
 -->
 
 See also: TestCaseTablePluginTableAttributes

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449867281" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494882002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -109,7 +109,7 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
 	requires=""
 }%%ENDSECTION{"js"}%
 
-%STARTSECTION{"formstart" defaultweb="%INCLUDINGWEB%"}%<form name="newtopicform" action="%SCRIPTURLPATH{edit}%/%defaultweb%/">
+%STARTSECTION{"formstart" defaultweb="%INCLUDINGWEB%"}%<form name="newtopicform" action="%SCRIPTURLPATH{"edit"}%/%defaultweb%/">
 <input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
 <input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
 
@@ -143,7 +143,7 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
 %ENDSECTION{"topicparent"}%
 
 %STARTSECTION{"templatetopic"}%<select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" excludetopic="*EditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'>%POPUPWINDOW{
-url="%SCRIPTURL{view}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%;template=viewplain"
+url="%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%;template=viewplain"
 template="viewplain"
 toolbar="1"
 label="%MAKETEXT{"View templates"}%"
