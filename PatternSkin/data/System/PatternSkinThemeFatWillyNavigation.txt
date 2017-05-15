@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485108858" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -61,7 +61,7 @@ Include meta navigation with:
     "context authenticated"
     then='<li>%MAKETEXT{
         "Hello [_1]"
-        args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"
+        args="[[%WIKIUSERNAME%][%SPACEOUT{"%WIKINAME%"}%]]"
     }%</li>'
 }%%IF{
     "$ LOGOUT != ''"

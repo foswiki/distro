@@ -1182,7 +1182,7 @@ HERE
         name => 'corruptedLinks_Item11906',
         tml  => <<'HERE',
    * [[%WIKIUSERNAME%][My home page]]
-   * [[%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on][My %BASEWEB% activities]]
+   * [[%SCRIPTURL{"search"}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on][My %BASEWEB% activities]]
 
 <a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 HERE
@@ -1190,7 +1190,7 @@ HERE
 <ul>
 <li> <a class="TMLlink" href="%WIKIUSERNAME%">My home page</a>
 </li>
-<li> <a class="TMLlink" href="%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on">My <span class="WYSIWYG_PROTECTED WYSIWYG_PROTECTED">%BASEWEB%</span> activities</a>
+<li> <a class="TMLlink" href="%SCRIPTURL{"search"}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on">My <span class="WYSIWYG_PROTECTED WYSIWYG_PROTECTED">%BASEWEB%</span> activities</a>
 </li>
 </ul>
 <p class='WYSIWYG_NBNL'><span class="WYSIWYG_PROTECTED">&#60;a&nbsp;class=&#34;foswikiSmallish&#34;&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>

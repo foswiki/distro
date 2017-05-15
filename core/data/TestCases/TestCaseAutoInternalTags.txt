@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399379775" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494870493" format="1.1" version="1"}%
 Description: Tag tests that can be automated
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -138,9 +138,9 @@ Designed by: Crawford Currie
   <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>RELATIVETOPICPATH{Sausage}</td>
+  <td>RELATIVETOPICPATH{'Sausage'}</td>
   <td><!-- expected wendydate -->RELATIVETOPICPATH ../TestCases/Sausage<!-- /expected --></td>
-  <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{Sausage}%<!-- /actual --></td>
+  <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{'Sausage'}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>RELATIVETOPICPATH{"Chips"}</td>

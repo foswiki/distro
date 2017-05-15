@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1488333719" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %ADDTOZONE{"head" text="<style type='text/css'>
     #bulkReg .col1 {float:left; width:30%; margin:0 3% 0 0;}
@@ -52,7 +52,7 @@ Use the following form to create a new Unprocessed Registration topic.
    * Click "Create the topic" - you will be redirected to the new topic.
 
 <div id="bulkReg" class="foswikiFormSteps">
-<form name="picker" action="%SCRIPTURL{view}%/%WEB%/%TOPIC%#BuildTopic">
+<form name="picker" action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%#BuildTopic">
     <div class="foswikiFormStep">
         <h3>Choose the user template</h3>
         <div class="col1">
@@ -72,7 +72,7 @@ Use the following form to create a new Unprocessed Registration topic.
 </form>
 #BuildTopic
 <noautolink>
-<form name="savebulk" action="%SCRIPTURLPATH{save}%/%USERSWEB%" method="post"> \
+<form name="savebulk" action="%SCRIPTURLPATH{"save"}%/%USERSWEB%" method="post"> \
   <input type="hidden" name="onlynewtopic" value="1" />
 
       <div class="foswikiFormStep">

@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490657423" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 <ul id="patternLeftBarUserActions">
 %IF{
   "context authenticated" 
-  then="<li>%JQICON{"%IF{"context isadmin" then="user_red" else="user"}%"}%%MAKETEXT{"Hi, [_1]" args="<span class='foswikiUserName'>[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]</span></li>"}%"
+  then="<li>%JQICON{"%IF{"context isadmin" then="user_red" else="user"}%"}%%MAKETEXT{"Hi, [_1]" args="<span class='foswikiUserName'>[[%WIKIUSERNAME%][%SPACEOUT{"%WIKINAME%"}%]]</span></li>"}%"
 }%%IF{
   "$ LOGOUT != ''" 
   then="<li class='patternLogOut'>%JQICON{"lock"}%$percntLOGOUT$percnt</li>"

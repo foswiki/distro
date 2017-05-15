@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1484879481" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -19,7 +19,7 @@ This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae lik
 </td><td>&nbsp; &nbsp; &nbsp;</td><td valign="top">
 *Interactive example:*
 
-<form name="interactive" action="%SCRIPTURL{view}%/%WEB%/%TOPIC%" method="get">
+<form name="interactive" action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%" method="get">
 <noautolink>
 Formula: <code>%<nop>CALC{"</code><input type="text" name="formula" size="40" value="%URLPARAM{ "formula" default="$PROPERSPACE(%WIKINAME%)" encode="entity" }%" /><code>"}%</code> &nbsp; <input type="submit" value="Go" /><br />
 Result: &nbsp; &nbsp; %CALC{%URLPARAM{ "formula" default="$PROPERSPACE(%WIKINAME%)" }%}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485009132" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -166,7 +166,7 @@ the =%<nop>COMMENTPROMPT%= macro.
 | =comment_target= | Alternate save topic as passed to %COMMENT |
 Note that =comment_anchor= overrides =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
 <verbatim class="tml">
-<form method="post" action="%SCRIPTURL{restauth}%/CommentPlugin/comment" >
+<form method="post" action="%SCRIPTURL{"restauth"}%/CommentPlugin/comment" >
 <input type="submit" value="I Approve" />
 <input type="hidden" name="topic" value="%WEB%/%TOPIC%" />
 <input type="hidden" name="redirectto" value="%WEB%/%TOPIC%" />
@@ -189,7 +189,7 @@ Write a custom form in a topic.
 Example form:
 <verbatim class="tml">
 %TMPL:DEF{FORM:example}%
-<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<form method="post" action="%SCRIPTURL{"rest"}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
 <input type="hidden" name="topic"  value="%BASEWEB%/%BASETOPIC%" /> 
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
 %COMMENTPROMPT%
@@ -333,8 +333,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1485009132" size="70" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1485009132" size="1931" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1485009132" size="60" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1485009132" size="5134" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1485009132" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1494870493" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1494870493" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1494870493" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1494870493" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1494870493" size="1343" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1450471494" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494870493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 
@@ -118,7 +118,7 @@ The actual registration form.
 <literal>
 <div id="FwkVD" class="foswikiHidden">
 {
-  "url":"%SCRIPTURL{view}%/%SYSTEMWEB%.UserRegistrationParts",
+  "url":"%SCRIPTURL{"view"}%/%SYSTEMWEB%.UserRegistrationParts",
   "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
   "messages": {
     "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
@@ -347,7 +347,7 @@ Test if user login name exists. Used for form validation.
 }%
 
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" date="1494870493" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1494870493" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1494870493" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

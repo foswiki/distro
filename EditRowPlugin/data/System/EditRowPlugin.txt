@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1493947845" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494870493" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -232,7 +232,7 @@ and =erp_col= parameters. If neither is given, the entire table is returned. If 
 
 For example, a URI to retrieve column 2 from the table =EDITTABLE_1= from this topic would look like this:
 
-[[%SCRIPTURL{rest}%/EditRowPlugin/get?erp_topic=%WEB%.%TOPIC%;erp_table=EDITTABLE_1;erp_col=2]]
+[[%SCRIPTURL{"rest"}%/EditRowPlugin/get?erp_topic=%WEB%.%TOPIC%;erp_table=EDITTABLE_1;erp_col=2]]
 
 The =save= handler is used to save cells, and accepts the following parameters:
    * =erp_topic= the web.wikiname of the topic to be changed
@@ -353,17 +353,17 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
-%META:FILEATTACHMENT{name="icons.png" attr="h" comment="" date="1493947845" size="2457" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" date="1493947845" size="15337" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" date="1493947845" size="22834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" date="1493947845" size="1454" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" date="1493947845" size="12013" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" date="1493947845" size="6803" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" date="1493947845" size="11898" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" date="1493947845" size="2130" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" date="1493947845" size="9132" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" date="1493947845" size="26625" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1493947845" size="19461" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" date="1493947845" size="3626" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1493947845" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" date="1493947845" size="1418" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="icons.png" attr="h" comment="" date="1494870493" size="2457" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" date="1494870493" size="15337" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" date="1494870493" size="22834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" date="1494870493" size="1454" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" date="1494870493" size="12013" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" date="1494870493" size="6803" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" date="1494870493" size="11898" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" date="1494870493" size="2130" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" date="1494870493" size="9132" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" date="1494870493" size="26625" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1494870493" size="19461" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" date="1494870493" size="3626" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1494870493" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" date="1494870493" size="1418" user="ProjectContributor" version="1"}%
