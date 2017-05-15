@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYHIDE - Hide/close link
 ---++ Parameters
@@ -12,7 +12,7 @@
     | =start= | ="hide"= or ="show"= Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | |
     | =firststart= | ="hide"= or ="show"= Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | |
 ---++ Examples
-<verbatim class="tml">%TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%ICONURLPATH{toggleclose}%"}%</verbatim>
+<verbatim class="tml">%TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%ICONURLPATH{"toggleclose"}%"}%</verbatim>
 %STOPINCLUDE%
 ---++ Related
 %SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%

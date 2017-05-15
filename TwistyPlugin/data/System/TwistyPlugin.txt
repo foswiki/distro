@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1461594420" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -77,8 +77,8 @@ Note that if animations are on (using =TWISTYPLUGIN_TWISTYANIMATIONSPEED=), you 
 %TWISTY{
     showlink="Show..."
     hidelink="Hide"
-    showimgleft="%ICONURLPATH{toggleopen-small}%"
-    hideimgleft="%ICONURLPATH{toggleclose-small}%"
+    showimgleft="%ICONURLPATH{"toggleopen-small"}%"
+    hideimgleft="%ICONURLPATH{"toggleclose-small"}%"
 }%
 my twisty content
 %ENDTWISTY%
@@ -89,8 +89,8 @@ It will look like this:
 %TWISTY{
 showlink="Show..."
 hidelink="Hide"
-showimgleft="%ICONURLPATH{toggleopen-small}%"
-hideimgleft="%ICONURLPATH{toggleclose-small}%"
+showimgleft="%ICONURLPATH{"toggleopen-small"}%"
+hideimgleft="%ICONURLPATH{"toggleclose-small"}%"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -100,8 +100,8 @@ To put icons at the right side, write
 %TWISTY{
     showlink="Show"
     hidelink="Hide"
-    showimgright="%ICONURLPATH{toggleopen-small}%"
-    hideimgright="%ICONURLPATH{toggleclose-small}%"
+    showimgright="%ICONURLPATH{"toggleopen-small"}%"
+    hideimgright="%ICONURLPATH{"toggleclose-small"}%"
 }%
 my twisty content
 %ENDTWISTY%
@@ -110,8 +110,8 @@ my twisty content
 %TWISTY{
 showlink="Show"
 hidelink="Hide"
-showimgright="%ICONURLPATH{toggleopen-small}%"
-hideimgright="%ICONURLPATH{toggleclose-small}%"
+showimgright="%ICONURLPATH{"toggleopen-small"}%"
+hideimgright="%ICONURLPATH{"toggleclose-small"}%"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -409,8 +409,8 @@ link="$percntY$percnt"
 
 %TWISTY{
 link="$percntY$percnt"
-showimgleft="%ICONURLPATH{toggleopen-small}%"
-hideimgleft="%ICONURLPATH{toggleclose-small}%"
+showimgleft="%ICONURLPATH{"toggleopen-small"}%"
+hideimgleft="%ICONURLPATH{"toggleclose-small"}%"
 }%
 my twisty content
 %ENDTWISTY%
@@ -435,13 +435,13 @@ twisty if remember option is set, or a random number (useful for AJAX calls).
 
 ---++ Syntax
 
-%INCLUDE{VarTWISTY}%
-%INCLUDE{VarENDTWISTY}%
-%INCLUDE{VarTWISTYBUTTON}%
-%INCLUDE{VarTWISTYSHOW}%
-%INCLUDE{VarTWISTYHIDE}%
-%INCLUDE{VarTWISTYTOGGLE}%
-%INCLUDE{VarENDTWISTYTOGGLE}%
+%INCLUDE{"VarTWISTY"}%
+%INCLUDE{"VarENDTWISTY"}%
+%INCLUDE{"VarTWISTYBUTTON"}%
+%INCLUDE{"VarTWISTYSHOW"}%
+%INCLUDE{"VarTWISTYHIDE"}%
+%INCLUDE{"VarTWISTYTOGGLE"}%
+%INCLUDE{"VarENDTWISTYTOGGLE"}%
 
 ---++ Notes for developers
 ---+++ CSS classes
@@ -537,16 +537,16 @@ You can override some default settings in the plugin by setting the following [[
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" date="1461594420" size="27" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" date="1461594420" size="33" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" date="1461594420" size="1125" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" date="1461594420" size="7676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" date="1461594420" size="20" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" date="1461594420" size="4857" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" date="1461594420" size="1275" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" date="1461594420" size="4439" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" date="1461594420" size="0" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" date="1461594420" size="47" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" date="1461594420" size="10828" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1461594420" size="181" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" date="1461594420" size="0" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" date="1494815729" size="27" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" date="1494815729" size="33" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" date="1494815729" size="1125" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" date="1494815729" size="7676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" date="1494815729" size="20" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" date="1494815729" size="4857" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" date="1494815729" size="1275" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" date="1494815729" size="4439" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" date="1494815729" size="0" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" date="1494815729" size="47" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" date="1494815729" size="10828" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1494815729" size="181" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" date="1494815729" size="0" user="ProjectContributor" version="1"}%

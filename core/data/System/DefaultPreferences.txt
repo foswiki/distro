@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489539478" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -270,7 +270,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 
 ---+++ Skin icons
 
-   * Topic containing the icon graphics library. Icons can easily be rendered with =%<nop>ICON{name}%=.
+   * Topic containing the icon graphics library. Icons can easily be rendered with =%<nop>ICON{"name"}%=.
       * Set ICONTOPIC = %SYSTEMWEB%.DocumentGraphics
       * to use the Foswiki 1.0 iconset, set the ICONTOPIC to %SYSTEMWEB%.DocumentGraphics
 
@@ -339,17 +339,17 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 
 #DocGraphics
    * Macros for graphics used in documentation - view all images in %ICONTOPIC%:
-      * Set H = <img src="%ICONURLPATH{help}%" alt="HELP" title="HELP" width="16" height="16" />
-      * Set I = <img src="%ICONURLPATH{tip}%" alt="IDEA!" title="IDEA!" width="16" height="16" />
-      * Set M = <img src="%ICONURLPATH{arrowright}%" alt="MOVED TO..." title="MOVED TO..." width="16" height="16" />
-      * Set N = <img src="%ICONURLPATH{new}%" alt="NEW" title="NEW" width="30" height="16" />
-      * Set P = <img src="%ICONURLPATH{pencil}%" alt="REFACTOR" title="REFACTOR" width="16" height="16" />
-      * Set Q = <img src="%ICONURLPATH{question}%" alt="QUESTION?" title="QUESTION?" width="16" height="16" />
-      * Set S = <img src="%ICONURLPATH{starred}%" alt="PICK" title="PICK" width="16" height="16" />
-      * Set T = <img src="%ICONURLPATH{tip}%" alt="TIP" title="TIP" width="16" height="16" />
-      * Set U = <img src="%ICONURLPATH{updated}%" alt="UPDATED" title="UPDATED" width="55" height="16" />
-      * Set X = <img src="%ICONURLPATH{warning}%" alt="ALERT!" title="ALERT!" width="16" height="16" />
-      * Set Y = <img src="%ICONURLPATH{choice-yes}%" alt="DONE" title="DONE" width="16" height="16" />
+      * Set H = <img src="%ICONURLPATH{"help"}%" alt="HELP" title="HELP" width="16" height="16" />
+      * Set I = <img src="%ICONURLPATH{"tip"}%" alt="IDEA!" title="IDEA!" width="16" height="16" />
+      * Set M = <img src="%ICONURLPATH{"arrowright"}%" alt="MOVED TO..." title="MOVED TO..." width="16" height="16" />
+      * Set N = <img src="%ICONURLPATH{"new"}%" alt="NEW" title="NEW" width="30" height="16" />
+      * Set P = <img src="%ICONURLPATH{"pencil"}%" alt="REFACTOR" title="REFACTOR" width="16" height="16" />
+      * Set Q = <img src="%ICONURLPATH{"question"}%" alt="QUESTION?" title="QUESTION?" width="16" height="16" />
+      * Set S = <img src="%ICONURLPATH{"starred"}%" alt="PICK" title="PICK" width="16" height="16" />
+      * Set T = <img src="%ICONURLPATH{"tip"}%" alt="TIP" title="TIP" width="16" height="16" />
+      * Set U = <img src="%ICONURLPATH{"updated"}%" alt="UPDATED" title="UPDATED" width="55" height="16" />
+      * Set X = <img src="%ICONURLPATH{"warning"}%" alt="ALERT!" title="ALERT!" width="16" height="16" />
+      * Set Y = <img src="%ICONURLPATH{"choice-yes"}%" alt="DONE" title="DONE" width="16" height="16" />
 
    * Colored text: (see more StandardColors)
      | You type: | =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= |

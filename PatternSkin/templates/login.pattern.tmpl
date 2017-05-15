@@ -18,7 +18,7 @@
 <p>%TMPL:P{"passwordfield"}% %TMPL:P{"passwordnote"}%</p>
 %TMPL:P{context="can_remember_login" then="rememberbox"}%</div>%TMPL:END%
 
-%TMPL:DEF{"seealsostep"}%<span class='foswikiUnvisited'>[[%SCRIPTURLPATH{view}%/%SYSTEMWEB%/ResetPassword?username=%URLPARAM{username}%][%MAKETEXT{"Having problems logging in?"}%]]</span><br /><span class='foswikiUnvisited'>[[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Create account"}%]]</span>%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<span class='foswikiUnvisited'>[[%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ResetPassword?username=%URLPARAM{username}%][%MAKETEXT{"Having problems logging in?"}%]]</span><br /><span class='foswikiUnvisited'>[[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Create account"}%]]</span>%TMPL:END%
         
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
 %TMPL:P{"formstart"}%<div class="foswikiFormSteps">%TMPL:P{"titlestep"}%

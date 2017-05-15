@@ -30,7 +30,7 @@ This version is tested with Foswiki in IE6, IE7 and FF3.
 <th>%MAKETEXT{"Changed on"}%</th>
 <th>%MAKETEXT{"Last edited by"}%</th>
 </tr>
-%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
+%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
 
 
 %TMPL:DEF{"renderstyle"}%%TMPL:P{context="CompareRevisionsAddonPluginEnabled" then="renderstyle_cra_enabled" else="renderstyle_cra_disabled"}%%TMPL:END%

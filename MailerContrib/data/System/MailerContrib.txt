@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1490657423" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -182,7 +182,7 @@ To learn more about cron and crontab, Google for =crontab=.
 ---+++ Triggering mail notification from the browser
 You can also the mailer from within the browser, using a REST handler.
 
-For example, to notify changes in all webs, POST to =%<nop>SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+For example, to notify changes in all webs, POST to =%<nop>SCRIPTURL{"rest"}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
 
 | =nonews=1= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =nochanges=1= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
@@ -191,7 +191,7 @@ For example, to notify changes in all webs, POST to =%<nop>SCRIPTURL{rest}%/Mail
 | <code style="white-space:nowrap"><i>webs=web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 | <code style="white-space:nowrap"><i>excludewebs=web1 web2 ... webN</i></code> | List of webs to exclude, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
-<form name="mailnotify" action="%SCRIPTURLPATH{rest}%/MailerContribPlugin/notify" method="post">
+<form name="mailnotify" action="%SCRIPTURLPATH{"rest"}%/MailerContribPlugin/notify" method="post">
 <input type="submit" class="foswikiSubmit" value="Run notify" />
 </form>
 (Admin authority required!)
@@ -313,5 +313,5 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1490657423" size="11437" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1490657423" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1494815729" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1494815729" size="1343" user="ProjectContributor" version="1"}%

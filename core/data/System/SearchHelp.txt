@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebSearch"}%
 ---+!! Search Help
 %STARTINCLUDE%
@@ -68,8 +68,8 @@ You can copy and paste this text to any topic to get show search results on that
 %TWISTY{
 mode="div"
 link="Currently set search preferences"
-showimgleft="%ICONURLPATH{toggleopen}%"
-hideimgleft="%ICONURLPATH{toggleclose}%"
+showimgleft="%ICONURLPATH{"toggleopen"}%"
+hideimgleft="%ICONURLPATH{"toggleclose"}%"
 }%
    * =SEARCHDEFAULTTTYPE=: Default search type for search forms which calls the =search= script
       * Currently =%SEARCHDEFAULTTTYPE%=

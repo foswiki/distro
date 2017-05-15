@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebPreferences"}%
 ---++!! Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
-%TWISTY{mode="div" showlink="$percntICON{help}$percnt %MAKETEXT{"Show help"}%" hidelink="$percntICON{help}$percnt %MAKETEXT{"Hide help"}%"}%
+%TWISTY{mode="div" showlink="$percntICON{\"help\"}$percnt %MAKETEXT{"Show help"}%" hidelink="$percntICON{\"help\"}$percnt %MAKETEXT{"Hide help"}%"}%
 %INCLUDE{"%SYSTEMWEB%.PreferenceSettings"}%
 
 ---++!! Related Topics

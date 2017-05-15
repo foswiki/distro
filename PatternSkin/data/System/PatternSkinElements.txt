@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1488399691" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -528,7 +528,7 @@ Normal text. Normal text. Normal text. Normal text. Normal text. Normal text.
 =img= and =.foswikiIcon=
 
 Normal text. Normal text. Normal text. Normal text.
-Text with :-) smilies and %ICON{info}% icons.
+Text with :-) smilies and %ICON{"info"}% icons.
 Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text.
 
 

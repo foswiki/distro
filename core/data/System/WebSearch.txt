@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -52,8 +52,8 @@
 		else="hide"
 	}%"
 	link="<strong>%MAKETEXT{"Search options"}%</strong>"
-	showimgleft="%ICONURLPATH{toggleopen}%"
-	hideimgleft="%ICONURLPATH{toggleclose}%"
+	showimgleft="%ICONURLPATH{"toggleopen"}%"
+	hideimgleft="%ICONURLPATH{"toggleclose"}%"
 }%%IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
 	then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percent"

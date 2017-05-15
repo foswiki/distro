@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1494815729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -64,7 +64,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 				<p>
 					If you are creating a sub-web (a web inside a web), use the notation =Existingweb.Newweb=.
 				</p>
-				%TWISTYBUTTON{id="infoOnSubWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about sub-webs ..." hidelink="Close info" remember="on"}%
+				%TWISTYBUTTON{id="infoOnSubWebs" mode="span" showimgleft="%ICONURLPATH{"toggleopen"}%" hideimgleft="%ICONURLPATH{"toggleclose"}%" showlink="More info about sub-webs ..." hidelink="Close info" remember="on"}%
 				%TWISTYTOGGLE{id="infoOnSubWebs"}%<div class="foswikiHelp">
 					<h4>About sub-webs</h4>
 					<p>
@@ -114,7 +114,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 							<p>
 								Base the new web on an existing web.
 							</p>
-							%TWISTYBUTTON{id="infoOnTemplates" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  showlink="More info about template webs ..." hidelink="Close info" remember="on"}%
+							%TWISTYBUTTON{id="infoOnTemplates" mode="span" showimgleft="%ICONURLPATH{"toggleopen"}%" hideimgleft="%ICONURLPATH{"toggleclose"}%"  showlink="More info about template webs ..." hidelink="Close info" remember="on"}%
 							%TWISTYTOGGLE{id="infoOnTemplates"}%<div class="foswikiHelp">
 							<h4>About template webs</h4>
 							<p>

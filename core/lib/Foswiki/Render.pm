@@ -1382,6 +1382,7 @@ sub _renderExistingWikiWord {
 
     my %attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
+    print STDERR "Returns $href\n";
     if ($params) {
         $href .= $params;
     }
