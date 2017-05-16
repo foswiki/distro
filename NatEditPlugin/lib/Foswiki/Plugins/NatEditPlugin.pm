@@ -31,7 +31,7 @@ BEGIN {
 }
 
 our $VERSION           = '9.9';
-our $RELEASE           = '23 Jan 2017';
+our $RELEASE           = '04 May 2017';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
