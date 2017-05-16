@@ -6,6 +6,6 @@ use warnings;
 use Unit::TestSuite;
 our @ISA = 'Unit::TestSuite';
 
-sub include_tests { return ( 'Parser', 'HTML', 'Rest' ) }
+sub include_tests { return ( 'Parser', 'ERP_HTML', 'Rest' ) }
 
 1;
