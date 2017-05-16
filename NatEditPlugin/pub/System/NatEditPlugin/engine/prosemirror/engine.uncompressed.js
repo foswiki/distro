@@ -118,7 +118,7 @@ ProsemirrorEngine.prototype.getSelectionLines = function() {
   end.ch = 0;
   end = doc.posFromIndex(doc.indexFromPos(end)-1);
 
-  //console.log("start=",start,"end=",end);
+  //self.shell.log("start=",start,"end=",end);
 
   doc.setSelection(start, end);
 
@@ -175,7 +175,7 @@ ProsemirrorEngine.prototype.insertLineTag = function(markup) {
   start = doc.posFromIndex(doc.indexFromPos(doc.getCursor())+tagOpen.length);
   end = doc.posFromIndex(doc.indexFromPos(doc.getCursor())+tagOpen.length+selection.length);
 
-  console.log("start=",start,"end=",end);
+  self.shell.log("start=",start,"end=",end);
   self.setSelection(start, end);
 */
   
@@ -199,7 +199,7 @@ ProsemirrorEngine.prototype.insertTag = function(markup) {
   start = doc.posFromIndex(doc.indexFromPos(doc.getCursor())+tagOpen.length);
   end = doc.posFromIndex(doc.indexFromPos(doc.getCursor())+tagOpen.length+selection.length);
 
-  console.log("start=",start,"end=",end);
+  self.shell.log("start=",start,"end=",end);
   doc.setSelection(start, end);
 */
 };

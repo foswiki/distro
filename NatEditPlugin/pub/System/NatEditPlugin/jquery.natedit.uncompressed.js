@@ -910,7 +910,7 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
     return;
   }
 
-  //console.log("handleToolbarAction data=",itemData)
+  self.log("handleToolbarAction data=",itemData)
 
   // insert markup mode
   if (typeof(itemData.markup) !== 'undefined') {
@@ -968,19 +968,19 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
   // method mode 
   if (typeof(itemData.handler) !== 'undefined') {
     if (typeof(self.engine[itemData.handler]) === 'function') {
-      //console.log("found handler in engine for toolbar action",itemData.handler);
+      //self.log("found handler in engine for toolbar action",itemData.handler);
       self.engine[itemData.handler].call(self.engine, ev, ui);
       return;
     }
 
     if (typeof(self[itemData.handler]) === 'function') {
-      //console.log("found handler in shell for toolbar action",itemData.handler);
+      //self.log("found handler in shell for toolbar action",itemData.handler);
       self[itemData.handler].call(self, ev, ui);
       return;
     }
   }
 
-  //console.log("no action for ",ui);
+  //self.log("no action for ",ui);
 };
 
 /*************************************************************************
@@ -1239,10 +1239,10 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
-    //console.log("fixHeight height=",newHeight,"container.height=",self.container.height());
+    //self.log("fixHeight height=",newHeight,"container.height=",self.container.height());
     self.setSize(undefined, newHeight);
   } else {
-    //console.log("not fixHeight elem not yet visible");
+    //self.log("not fixHeight elem not yet visible");
   }
 };
 
@@ -1265,7 +1265,7 @@ $.NatEditor.prototype.autoResize = function() {
       $txtarea = $(self.txtarea),
       now, text, height;
 
-  //console.log("called autoResize()");
+  //self.log("called autoResize()");
   now = new Date();
   
   // don't do it too often
@@ -1418,16 +1418,16 @@ $.NatEditor.prototype.dialog = function(opts) {
           text: opts.okayText,
           icon: opts.okayIcon,
           click: function() {
-            $(this).dialog("close");
             dfd.resolve(this);
+            $(this).dialog("close");
             return true;
           }
         }, {
           text: opts.cancelText,
           icon: opts.cancelIcon,
           click: function() {
-            $(this).dialog("close");
             dfd.reject();
+            $(this).dialog("close");
             return false;
           }
         }],
@@ -1444,8 +1444,8 @@ $.NatEditor.prototype.dialog = function(opts) {
             if (!$input.is(".ui-autocomplete-input") || !$input.data("ui-autocomplete").menu.element.is(":visible")) {
               if (ev.keyCode === 13) {
                 ev.preventDefault();
-                $this.dialog("close");
                 dfd.resolve($this);
+                $this.dialog("close");
               }
             }
           });
@@ -1453,7 +1453,11 @@ $.NatEditor.prototype.dialog = function(opts) {
           opts.open.call(self, this, opts.data);
         },
         close: function() {
-          $(this).remove();
+          if (dfd.state() === 'pending') {
+            dfd.reject(); // resolve any pending dfd, such as is the case when ESC-aping a dialog
+          }
+          //self.log("destroying dialog");
+          $(this).dialog("destroy");
         },
         show: 'fade',
         modal: opts.modal,
@@ -1520,7 +1524,7 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
     opts = {},
     $currentTab = $dialog.find(".jqTab.current");
  
-  //self.log("called openInsertTable()", $dialog);
+  //self.log("called openInsertTable()", $currentTab);
 
   if ($currentTab.is(".topic")) {
     opts = {
@@ -1533,12 +1537,35 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
       url: $currentTab.find("input[name='url']").val(),
       text: $dialog.find("input[name='linktext_external']").val()
     };
+  } else if ($currentTab.is(".attachment")) {
+    opts = {
+      web: $currentTab.find("input[name='web']").val(),
+      topic: $currentTab.find("input[name='topic']").val(),
+      file: $currentTab.find("select[name='file']").val(),
+      text: $dialog.find("input[name='linktext_topic']").val()
+    };
   } else {
     return;
   }
 
   //self.log("opts=",opts);
   return self.engine.insertLink(opts);
+};
+
+/*****************************************************************************
+  * handler for the insert image dialog
+  */
+$.NatEditor.prototype.handleInsertImage = function(elem) {
+  var self = this, $dialog = $(elem), opts = {
+    web: $dialog.find("[name=web]").val(),
+    topic: $dialog.find("[name=topic]").val(),
+    file: $dialog.find("[name=file]").val(),
+    width: $dialog.find("[name=width]").val(),
+    height: $dialog.find("[name=height]").val(),
+    align: $dialog.find("[name=align]:checked").val()
+  };
+
+  return self.engine.insertImage(opts);
 };
 
 /*****************************************************************************
@@ -1775,7 +1802,10 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
   }
 
   function loadAttachments(web, topic) {
-    var selection = $fileSelect.data("selection") || '';
+    var selection = $fileSelect.data("selection") || '',
+        filter = $fileSelect.data("filter") || ".*",
+        filterRegEx = new RegExp(filter, "i");
+
     web = web || $container.find("input[name='web']").val();
     topic = topic || $container.find("input[name='topic']").val();
     $.ajax({
@@ -1784,11 +1814,13 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
         topic: web+"."+topic
       },
       dataType: "json"
-    }).done(function(data) {
+    }).done(function(json) {
       var options = [];
       options.push("<option></option>");
-      $(data).each(function(i, item) {
-        options.push("<option"+(selection === item.name?" selected":"")+">"+item.name+"</option>");
+      $(json).each(function(i, item) {
+        if (filterRegEx.test(item.name)) {
+          options.push("<option"+(selection === item.name?" selected":"")+">"+item.name+"</option>");
+        }
       });
       $fileSelect.html(options.join(""));
     });
@@ -1856,19 +1888,16 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
 };
 
 /*****************************************************************************
-  * init the attachments dialog 
+  * init the image dialog 
   */
-$.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
-  var self = this,
-      $dialog = $(elem);
+$.NatEditor.prototype.initImageDialog = function(elem, data) {
+  var self = this;
 
-  self.log("initAttachmentsDialog on elem=",elem);
+  //self.log("initImageDialog on elem=",elem);
+
+  // TODO: extract width and height from rurrent selection
 
   self.initLinkDialog(elem, data);
-
-  $dialog.on("dialogclose", function() {
-    self.hideMessages();
-  });
 };
 
 /*****************************************************************************

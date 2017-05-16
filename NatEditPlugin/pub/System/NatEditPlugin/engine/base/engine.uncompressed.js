@@ -265,7 +265,7 @@ BaseEngine.prototype.insertTable = function(opts) {
 BaseEngine.prototype.insertLink = function(opts) {
   var self = this, markup;
 
-//console.log("insertLink opts=",opts);
+  self.shell.log("insertLink opts=",opts);
 
   if (typeof(opts.url) !== 'undefined') {
     // external link
@@ -286,35 +286,18 @@ BaseEngine.prototype.insertLink = function(opts) {
       return; // nop
     }
 
-    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
-      markup = '%IMAGE{"'+opts.file+'"';
-      if (opts.web !== self.shell.opts.web || opts.topic !== self.shell.opts.topic) {
-        markup += ' topic="';
-        if (opts.web !== self.shell.opts.web) {
-          markup += opts.web+'.';
-        }
-        markup += opts.topic+'"';
-      }
-      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
-        markup += ' caption="'+opts.text+'"';
-      }
-      markup += ' size="320"}%';
+    if (opts.web === self.shell.opts.web && opts.topic === self.shell.opts.topic) {
+      markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
     } else {
-      // linking to an ordinary attachment
-
-      if (opts.web === self.shell.opts.web && opts.topic === self.shell.opts.topic) {
-        markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
-      } else {
-        markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
-      }
-
-      if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
-        markup += "["+opts.text+"]";
-      } else {
-        markup += "["+opts.file+"]";
-      }
-      markup += "]";
+      markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
     }
+
+    if (typeof(opts.text) !== 'undefined' && opts.text !== '') {
+      markup += "["+opts.text+"]";
+    } else {
+      markup += "["+opts.file+"]";
+    }
+    markup += "]";
 
   } else {
     // wiki link
@@ -334,6 +317,46 @@ BaseEngine.prototype.insertLink = function(opts) {
     } 
     markup += "]";
   }
+
+  self.remove();
+  self.insert(markup);
+};
+
+/***************************************************************************
+ * insert an image
+ *
+ * opts: {
+ *   web: "TheWeb",
+ *   topic: "TheTopic",
+ *   file: "TheAttachment.jpg",
+ *   width: number,
+ *   height: number,
+ *   align: "left" or "right" or "center"
+ * }
+ */
+BaseEngine.prototype.insertImage = function(opts) {
+  var self = this, markup;
+
+  self.shell.log("insertImage opts=",opts);
+
+  markup = '%IMAGE{"'+opts.file+'"';
+  if (opts.web !== self.shell.opts.web || opts.topic !== self.shell.opts.topic) {
+    markup += ' topic="';
+    if (opts.web !== self.shell.opts.web) {
+      markup += opts.web+'.';
+    }
+    markup += opts.topic+'"';
+  }
+
+  if (opts.width || opts.height) {
+    markup += ' size="'+opts.width+'x'+opts.height+'"';
+  }
+
+  if (opts.align) {
+    markup += ' align="'+opts.align+'"';
+  }
+
+  markup += '}%';
 
   self.remove();
   self.insert(markup);

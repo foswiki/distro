@@ -103,7 +103,7 @@ TinyMCEEngine.prototype.init = function() {
           });
         }
       });
-      self.on("GetContent", function() { console.log("got GetContent event"); });
+      self.on("GetContent", function() { self.shell.log("got GetContent event"); });
 */
     };
 
@@ -258,7 +258,7 @@ TinyMCEEngine.prototype.tml2html = function(tml) {
   var /*self = this,*/
       url = foswiki.getScriptUrl("rest", "WysiwygPlugin", "tml2html");
 
-  //console.log("called tml2html", tml);
+  //self.shell.log("called tml2html", tml);
 
   return $.post(url, {
     topic: foswiki.getPreference("WEB")+"."+foswiki.getPreference("TOPIC"),
@@ -458,7 +458,7 @@ TinyMCEEngine.prototype.insertTable = function(opts) {
 TinyMCEEngine.prototype.insertLink = function(opts) {
   var self = this, markup, link;
 
-  //console.log("called insertLink",opts);
+  //self.shell.log("called insertLink",opts);
 
   if (typeof(opts.url) !== 'undefined') {
     if (opts.url === '') {
@@ -514,7 +514,7 @@ TinyMCEEngine.prototype.insertLink = function(opts) {
     markup += "</a>";
   }
 
-  //console.log("markup=",markup);
+  //self.shell.log("markup=",markup);
 
   self.remove();
   self.insert(markup);
