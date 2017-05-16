@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package HTML;
+package ERP_HTML;
 
 use strict;
 use warnings;
@@ -223,16 +223,21 @@ INPUT
         #        erp_table   => "TABLE_0"
     );
     my $expected = <<EXPECTED;
-<form method="POST" action="$saveurl" name="erp_form_TABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<form action='$saveurl' method='POST' name='erp_form_TABLE_0'>
+<input name='erp_topic' type='hidden' value='$this->{test_web}.$this->{test_topic}'></input>
+<input name='erp_version' type='hidden' value='VERSION'></input>
+<input name='erp_table' type='hidden' value='TABLE_0'></input>
+<input name='erp_row' type='hidden' value='0'></input>
 <a name='erp_TABLE_0'></a>
-<input type="hidden" name="erp_TABLE_0_format" value=""  />
+<input name='erp_TABLE_0_format' type='hidden' value=''></input>
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  />
-<button type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erp-button" />
-<button type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erp-button" />
-<button class="ui-icon ui-icon-plusthick erp-button" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd" />
-<button class="ui-icon ui-icon-minusthick erp-button" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd" />
+<input name='erp_action' type='hidden' value=''></input>
+<button class='ui-icon ui-icon-disk erp-button' name='erp_action' title='Save' type='submit' value='saveRowCmd'></button>
+<button class='ui-icon ui-icon-cancel erp-button' name='erp_action' title='Cancel' type='submit' value='cancelCmd'></button>
+<button class='ui-icon ui-icon-plusthick erp-button' name='erp_action' title='Add new row after this row / at the end' type='submit' value='addRowCmd'></button>
+<button class='ui-icon ui-icon-minusthick erp-button' name='erp_action' title='Delete this row / last row' type='submit' value='deleteRowCmd'></button>
+<a name='erp_TABLE_0_0'></a>|
+
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );
@@ -285,18 +290,21 @@ INPUT
     );
     Foswiki::Plugins::EditRowPlugin::postRenderingHandler($in);
     my $expected = <<EXPECTED;
-<form method="POST" action="$saveurl" name="erp_form_TABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<form action='$saveurl' method='POST' name='erp_form_TABLE_0'>
+<input name='erp_topic' type='hidden' value='$this->{test_web}.$this->{test_topic}'></input>
+<input name='erp_version' type='hidden' value='VERSION'></input>
+<input name='erp_table' type='hidden' value='TABLE_0'></input>
+<input name='erp_row' type='hidden' value='0'></input>
 <a name='erp_TABLE_0'></a>
-<input type="hidden" name="erp_TABLE_0_format" value=""  />
+<input name='erp_TABLE_0_format' type='hidden' value=''></input>
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  />
-<button class="ui-icon ui-icon-disk erp-button" name="erp_action" title="Save" type="submit" value="saveTableCmd"/>
-<button class="ui-icon ui-icon-cancel erp-button" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
-<button class="ui-icon ui-icon-plusthick erp-button" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
-</button>
-<button class="ui-icon ui-icon-minusthick erp-button" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
-</button>
+<input name='erp_action' type='hidden' value=''></input>
+<button class='ui-icon ui-icon-disk erp-button' name='erp_action' title='Save' type='submit' value='saveRowCmd'></button>
+<button class='ui-icon ui-icon-cancel erp-button' name='erp_action' title='Cancel' type='submit' value='cancelCmd'></button>
+<button class='ui-icon ui-icon-plusthick erp-button' name='erp_action' title='Add new row after this row / at the end' type='submit' value='addRowCmd'></button>
+<button class='ui-icon ui-icon-minusthick erp-button' name='erp_action' title='Delete this row / last row' type='submit' value='deleteRowCmd'></button>
+<a name='erp_TABLE_0_0'></a>|
+
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );
