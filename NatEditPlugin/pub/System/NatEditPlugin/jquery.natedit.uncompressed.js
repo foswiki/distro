@@ -1227,8 +1227,7 @@ $.NatEditor.prototype.fixHeight = function() {
     (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
     - elem.position().top // editor's top position
     - (elem.outerHeight(true) - elem.outerHeight()) // editor's padding
-    - (self.container.outerHeight(true) - self.container.outerHeight()) // container's padding
-    - 2; // ... and a bit of nothing
+    - (self.container.outerHeight(true) - self.container.outerHeight()); // container's padding
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
