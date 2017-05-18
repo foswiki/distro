@@ -25,12 +25,27 @@ extends qw(Foswiki::Object);
 
 sub CHECKLEAK { 0 || $ENV{FOSWIKI_CHECKLEAK} }
 
+our ( $leakClass, $checkpointSub, $statusSub );
+
 BEGIN {
     if (CHECKLEAK) {
-        eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
-        die $@ if $@;
-        $Devel::Leak::Object::TRACKSOURCELINES = 1;
-        $Devel::Leak::Object::TRACKSTACK       = 1;
+        my $succeed = 0;
+        foreach $leakClass (qw(Unit::Leak::Object Devel::Leak::Object)) {
+            eval "use $leakClass qw{ GLOBAL_bless };";
+            if ($@) {
+                say STDERR "!!! Failed to load $leakClass\n", $@;
+            }
+            else {
+                eval "
+                \$${leakClass}::TRACKSOURCELINES = 1;
+                \$${leakClass}::TRACKSTACK       = 1;";
+                $checkpointSub = $leakClass->can('checkpoint');
+                $statusSub     = $leakClass->can('status');
+                $succeed       = 1;
+                last;
+            }
+        }
+        die "Cannot load a leak-check module" unless $succeed;
     }
 }
 
@@ -608,7 +623,7 @@ sub runOne {
                 print "SKIP\t$test - $skip\n";
             }
             else {
-                Devel::Leak::Object::checkpoint() if CHECKLEAK;
+                $checkpointSub->() if CHECKLEAK;
                 print "\t$test\n";
                 $action .= "\n# $test\n    ";
 

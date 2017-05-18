@@ -35,8 +35,8 @@ BEGIN {
 }
 use Plack::Builder;
 use Foswiki::App;
-use Devel::Leak;
-use Devel::Leak::Object;
+#use Devel::Leak;
+#use Devel::Leak::Object;
 
 use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 0;
 
