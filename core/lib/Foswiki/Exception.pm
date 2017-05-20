@@ -610,7 +610,7 @@ extends qw(Foswiki::Exception);
 =begin TML
 ---++ package Foswiki::Exception::Ext
 
-Base class for Foswiki::Extensions-related exceptions.
+Base class for Foswiki::ExtManager-related exceptions.
 
 Generic. Must not be used directly.
 

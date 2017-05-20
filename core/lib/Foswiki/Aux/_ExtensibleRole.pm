@@ -18,8 +18,9 @@ has __appObj => (
     weak_ref  => 1,
 );
 
-sub BUILD {
-    my $this = shift;
+around BUILD => sub {
+    my $orig     = shift;
+    my $this     = shift;
     my ($params) = @_;
 
     #$this->_traceMsg("Storing app for extensible objet");
@@ -28,13 +29,13 @@ sub BUILD {
         $this->__appObj( $params->{app} );
     }
 
-    #return $orig->($this, @_);
-}
+    return $orig->( $this, @_ );
+};
 
 # Foswiki::Object::clone support.
 # Avoid full app cloning.
 sub _clone__appObj {
-    return $_[0]->_appObj;
+    return $_[0]->__appObj;
 }
 
 1;

@@ -22,7 +22,7 @@ extends qw(Foswiki::Extension);
 ---++ The Ecosystem
 
 Extensions exists as a list of objects managed by =Foswiki::App= =extensions=
-attribute which is actually an object of =Foswiki::Extensions= class. The latter
+attribute which is actually an object of =Foswiki::ExtManager= class. The latter
 provides API for extension manipulation routines like loading and registering an
 extension; registering extension's components like overriding methods or
 classes; find an extenion object by name; etc.
@@ -46,7 +46,7 @@ is a registered =Sample= extension then whenever we a ask for the extension's
 object then we can be sure that there is no more than signle active one exists.
 This is an important rule for some of [[#ExportedSubs][exported subroutines]].
 
-=Foswiki::Extensions= module has its own =$VERSION= global var. It represents
+=Foswiki::ExtManager= module has its own =$VERSION= global var. It represents
 %WIKITOOLNAME% API version and is used to check an extension compatibility.
 
 ---++ Extensions loading
@@ -71,7 +71,7 @@ use version 0.77; our $VERSION = version->declare(0.0.1);
 our $API_VERSION = version->declare("2.99.0");
 </verbatim>
 
-=$API_VERSION= declares the minimal version of =Foswiki::Extensions= module
+=$API_VERSION= declares the minimal version of =Foswiki::ExtManager= module
 required.
 
 =cut
@@ -93,7 +93,7 @@ functionality. As such, their use is similar to =CPAN:Moo=
 ---+++ Extension dependencies
 
 An extension can claim to be located before or after another one in the list of
-extension objects (=extensions= attribute of =Foswiki::Extensions= class). This defines
+extension objects (=extensions= attribute of =Foswiki::ExtManager= class). This defines
 inheritance and callback execution order. I.e., if =Ext2= goes after =Ext1= and
 both register a callback handler for =Foswiki::App::postConfig= then =Ext1= handler
 will be called first.
@@ -109,7 +109,7 @@ The following subs implement this functionality:
 
 What these do is define a directed graph of extensions. When all extensions are
 loaded and registered the graph gets sorted using topoligical sort. The resulting
-order is stored in =Foswiki::Extensions= =orderedList= attribute.
+order is stored in =Foswiki::ExtManager= =orderedList= attribute.
 
 The final order of extensions is not guaranteed. For example, =Ext2= could
 require to be placed before =Ext1= but it doesn't mean that it will directly
@@ -167,7 +167,7 @@ tagHandler MYMACRO => 'Foswiki::Extension::Macro::MYMACRO';
 it is expected that the class would does =Foswiki::Macro= role. An object of
 this class will be created on demand by =Foswiki::Macros=. It won't get any
 reference to the extension object. Would the object be needed to expand the
-macro then =Foswiki::Extensions= =extObject()= method *must* be used to obtain
+macro then =Foswiki::ExtManager= =extObject()= method *must* be used to obtain
 the reference.
 
 =cut
@@ -283,7 +283,7 @@ will be explained later in this documentation.
 
 When a pluggable method is called the extensions framework first executes all
 _before_ methods; then _around_ ones; then _after_. Within each group methods
-are called using the order defined by =Foswiki::Extensions= =orderedList=
+are called using the order defined by =Foswiki::ExtManager= =orderedList=
 attribute (see the [[#ExtDeps][dependecies section]]).
 
 __NOTE:__ It is commonplace for _after_ methods to be called in reverse order.
@@ -419,7 +419,7 @@ suite.
 
 ---++ SEE ALSO
 
-=Foswiki::Extensions=, =Foswiki::Extension=, =Foswiki::Class=, and
+=Foswiki::ExtManager=, =Foswiki::Extension=, =Foswiki::Class=, and
 =ExtensionsTests= test suite.
 
 Check out [[Foswiki:Development.OONewPluginModel][Foswiki topic]] where all this

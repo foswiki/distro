@@ -305,7 +305,7 @@ sub _registerStandardCORE {
       EXTENSIONS_3 => [
         str2ver( 2.99, undef, undef ),
         -desc => "New and powerful OO extensions",
-        -doc  => 'Foswiki::Extensions'
+        -doc  => 'Foswiki::ExtManager'
       ],
       ;
 }

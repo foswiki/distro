@@ -23,7 +23,6 @@ use Storable qw(dclone);
 # shortcut functions. Must be replaced with something more reasonable.
 use CGI ();
 use Compress::Zlib;
-use Foswiki::Extensions;
 use Foswiki::FeatureSet qw(:all);
 use Foswiki::Engine;
 use Foswiki::Templates;
@@ -110,10 +109,11 @@ has env => (
     is       => 'rw',
     required => 1,
 );
-has extensions => (
+has extMgr => (
     is      => 'ro',
     lazy    => 1,
-    builder => '_prepareExtensions',
+    clearer => 1,
+    builder => '_prepareExtMgr',
 );
 has forms => (
     is      => 'ro',
@@ -341,7 +341,7 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
-    $this->extensions->initialize;
+    $this->extMgr->initialize;
 
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
@@ -640,7 +640,7 @@ sub create {
 
     Foswiki::load_class($class);
 
-    $class = $this->extensions->mapClass($class);
+    $class = $this->extMgr->mapClass($class);
 
     my $object;
 
@@ -1572,11 +1572,12 @@ sub _prepareUser {
     return undef;
 }
 
-sub _prepareExtensions {
+sub _prepareExtMgr {
     my $this = shift;
 
     # Don't use create() here because the latter depends on extensions.
-    return Foswiki::Extensions->new( app => $this );
+    Foswiki::load_class('Foswiki::ExtManager');
+    return Foswiki::ExtManager->new( app => $this );
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to

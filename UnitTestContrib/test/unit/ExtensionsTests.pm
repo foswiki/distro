@@ -97,7 +97,7 @@ extends qw(Foswiki::Extension);
 use version 0.77; our \$VERSION = version->declare(0.0.1);
 our \$API_VERSION = version->declare("2.99.0");
 
-Foswiki::Extensions::registerExtModule('$extName');
+Foswiki::ExtManager::registerExtModule('$extName');
 
 $code
 
@@ -123,7 +123,7 @@ sub _setExtDependencies {
 
     foreach my $extName ( keys %deps ) {
         my $dep = $deps{$extName};
-        Foswiki::Extensions::registerDeps( $extName,
+        Foswiki::ExtManager::registerDeps( $extName,
             ref($dep) ? @{$dep} : $dep );
     }
 }
@@ -131,7 +131,7 @@ sub _setExtDependencies {
 sub _disableAllCurrentExtensions {
     my $this = shift;
     $this->app->env->{FOSWIKI_DISABLED_EXTENSIONS} =
-      [@Foswiki::Extensions::extModules];
+      [@Foswiki::ExtManager::extModules];
 }
 
 sub test_orderedList {
@@ -152,7 +152,7 @@ sub test_orderedList {
 
     $this->assert_deep_equals(
         $expected,
-        $this->app->extensions->orderedList,
+        $this->app->extMgr->orderedList,
         "Wrong order of extensions"
     );
 }
@@ -169,14 +169,14 @@ sub test_manual_disable {
     $this->reCreateFoswikiApp;
 
     $this->assert_not_null(
-        $this->app->extensions->extensions->{ $ext[0] },
+        $this->app->extMgr->extensions->{ $ext[0] },
         "First extension is expected to be initialized"
     );
-    $this->assert( !$this->app->extensions->extEnabled( $ext[1] ),
+    $this->assert( !$this->app->extMgr->extEnabled( $ext[1] ),
         "Second extensions is expected to be disabled but it is not" );
     $this->assert_str_equals(
         "Disabled by FOSWIKI_DISABLED_EXTENSIONS environment variable.",
-        $this->app->extensions->disabledExtensions->{ $ext[1] }
+        $this->app->extMgr->disabledExtensions->{ $ext[1] }
     );
 }
 
@@ -196,27 +196,25 @@ sub test_depend_on_manual_disable {
     $this->reCreateFoswikiApp;
 
     $this->assert_not_null(
-        $this->app->extensions->extensions->{ $ext[0] },
+        $this->app->extMgr->extensions->{ $ext[0] },
         "First extension is expected to be initialized"
     );
-    $this->assert( !$this->app->extensions->extEnabled( $ext[1] ),
-        "Second extensions is expected to be disabled but it is not" );
+    $this->assert( !$this->app->extMgr->extEnabled( $ext[1] ),
+        "Second extension is expected to be disabled but it is not" );
     $this->assert_str_equals(
         "Disabled by FOSWIKI_DISABLED_EXTENSIONS environment variable.",
-        $this->app->extensions->disabledExtensions->{ $ext[1] }
+        $this->app->extMgr->disabledExtensions->{ $ext[1] }
     );
-    $this->assert(
-        !$this->app->extensions->extEnabled( $ext[2] ),
-        "Third extensions is expected to be disabled but it is not"
-    );
-    $this->assert( !$this->app->extensions->extEnabled( $ext[3] ),
-        "Fourth extensions is expected to be disabled but it is not" );
+    $this->assert( !$this->app->extMgr->extEnabled( $ext[2] ),
+        "Third extension is expected to be disabled but it is not" );
+    $this->assert( !$this->app->extMgr->extEnabled( $ext[3] ),
+        "Fourth extension is expected to be disabled but it is not" );
 
     $this->assert_str_contains( "Disabled extension",
-        $this->app->extensions->disabledExtensions->{ $ext[2] } );
+        $this->app->extMgr->disabledExtensions->{ $ext[2] } );
 
     $this->assert_str_contains( "Disabled extension",
-        $this->app->extensions->disabledExtensions->{ $ext[3] } );
+        $this->app->extMgr->disabledExtensions->{ $ext[3] } );
 }
 
 sub test_circular_deps {
@@ -236,15 +234,15 @@ sub test_circular_deps {
 
     $this->assert_deep_equals(
         $expected,
-        $this->app->extensions->orderedList,
+        $this->app->extMgr->orderedList,
         "Wrong order of extensions"
     );
 
     $this->assert_str_contains( "Circular dependecy found for ",
-        $this->app->extensions->disabledExtensions->{ $ext[1] } );
+        $this->app->extMgr->disabledExtensions->{ $ext[1] } );
 
     $this->assert_str_contains( "Circular dependecy found for ",
-        $this->app->extensions->disabledExtensions->{ $ext[3] } );
+        $this->app->extMgr->disabledExtensions->{ $ext[3] } );
 }
 
 sub test_pluggable_methods {
@@ -332,7 +330,7 @@ EXT3
     my $testClass  = 'Foswiki::ExtensionsTests::SampleClass';
     my $testMethod = 'testPluggableMethod';
     $this->assert(
-        defined $Foswiki::Extensions::pluggables{$testClass}{$testMethod},
+        defined $Foswiki::ExtManager::pluggables{$testClass}{$testMethod},
         "Method "
           . $testMethod
           . " of class "
@@ -392,14 +390,14 @@ sub test_API_VERSION {
     $this->reCreateFoswikiApp;
 
     ASSERT(
-        !$this->app->extensions->extEnabled( $ext[0] ),
+        !$this->app->extMgr->extEnabled( $ext[0] ),
         "Extension with API version "
           . Foswiki::fetchGlobal("\$$ext[0]::API_VERSION")
           . " must have been disabled but it's not"
     );
 
     ASSERT(
-        $this->app->extensions->extEnabled( $ext[1] ),
+        $this->app->extMgr->extEnabled( $ext[1] ),
         "Extension with API version "
           . Foswiki::fetchGlobal("\$$ext[1]::API_VERSION")
           . " must have been enabled but it's not"
@@ -483,7 +481,7 @@ EXT8
 
     $this->reCreateFoswikiApp;
 
-    my $exts = $this->app->extensions;
+    my $exts = $this->app->extMgr;
 
     foreach my $i ( 0 .. 7 ) {
         my $expect = defined( $expect[$i] )        ? "disabled" : "enabled";
@@ -597,7 +595,7 @@ package Foswiki::Macros::TEST_CLASS_MACRO;
     sub expand {
         my \$this = shift;
 
-        my \$myExt = \$this->app->extensions->extObject('$ext');
+        my \$myExt = \$this->app->extMgr->extObject('$ext');
 
         return "TEST_CLASS_MACRO_" . \$myExt->counter;
     }
@@ -634,8 +632,7 @@ SNEXT
 
     $this->reCreateFoswikiApp;
 
-    $this->assert_str_equals( 'AutoGenExt',
-        $this->app->extensions->extName($ext) );
+    $this->assert_str_equals( 'AutoGenExt', $this->app->extMgr->extName($ext) );
 }
 
 sub test_callbacks {
@@ -764,7 +761,7 @@ EXT3
     $this->assert_null( $rc->{cbReturn},
         "The callback call must have returned undef" );
 
-    $this->app->extensions->extObject( $ext[1] )->beTheHighlander(1);
+    $this->app->extMgr->extObject( $ext[1] )->beTheHighlander(1);
 
     $rc = $cbObj->sampleCBChain;
 

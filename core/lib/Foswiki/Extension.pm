@@ -5,11 +5,26 @@ package Foswiki::Extension;
 use Foswiki::Class qw(app callbacks);
 extends qw(Foswiki::Object);
 
+sub DEMOLISH {
+    my $this = shift;
+    my ($in_global_desctruction) = @_;
+
+    my $ext = ref($this);
+
+    #say STDERR "++++ DEMOLISHING $ext";
+
+    unless ($in_global_desctruction) {
+
+        #say STDERR "++++ Not in global destruction";
+        $this->app->extMgr->deregisterExtension( ref($this) );
+    }
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
