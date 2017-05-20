@@ -35,7 +35,7 @@ around BUILD => sub {
 # Foswiki::Object::clone support.
 # Avoid full app cloning.
 sub _clone__appObj {
-    return $_[0]->_appObj;
+    return $_[0]->__appObj;
 }
 
 1;

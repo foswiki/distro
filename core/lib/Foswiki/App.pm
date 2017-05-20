@@ -22,7 +22,6 @@ use Storable qw(dclone);
 # shortcut functions. Must be replaced with something more reasonable.
 use CGI ();
 use Compress::Zlib;
-use Foswiki::Extensions;
 use Foswiki::FeatureSet qw(:all);
 use Foswiki::Engine;
 use Foswiki::Templates;
@@ -115,12 +114,11 @@ has env => (
     is       => 'rw',
     required => 1,
 );
-has extensions => (
-    is        => 'ro',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    builder   => 'prepareExtensions',
+has extMgr => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => '_prepareExtMgr',
 );
 has forms => (
     is      => 'ro',
@@ -360,8 +358,8 @@ sub BUILD {
         $this->initStage( 'loadExtensions' . $stNum );
 
         # Reload extensions based on the configuration information.
-        $this->clear_extensions;
-        $this->extensions->initialize;
+        $this->clear_extMgr;
+        $this->extMgr->initialize;
     }
 
     $this->initStage('postConfig');
@@ -659,11 +657,11 @@ sub create {
 
     Foswiki::load_class($class);
 
-    if ( $this->has_extensions ) {
+    if ( $this->has_extMgr ) {
 
         # Avoid referring to extensions if we're on very early stages of the app
         # existance.
-        $class = $this->extensions->mapClass($class);
+        $class = $this->extMgr->mapClass($class);
     }
 
     my $object;
@@ -1596,11 +1594,12 @@ sub prepareUser {
     return undef;
 }
 
-sub prepareExtensions {
+sub _prepareExtMgr {
     my $this = shift;
 
-    # Don't use create() here because the method depends on extensions.
-    return Foswiki::Extensions->new( app => $this );
+    # Don't use create() here because the latter depends on extensions.
+    Foswiki::load_class('Foswiki::ExtManager');
+    return Foswiki::ExtManager->new( app => $this );
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to

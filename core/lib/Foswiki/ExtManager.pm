@@ -1,10 +1,10 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Extensions;
+package Foswiki::ExtManager;
 
 =begin TML
 
----++!! Class Foswiki::Extensions
+---++!! Class Foswiki::ExtManager
 
 [[https://foswiki.org/Development/OONewPluginModel][Foswiki OONewPluginModel topic]]
 could serve as a temporary explanasion of why this module extists and what
@@ -15,7 +15,7 @@ functionality it is expected to provide.
 use File::Spec     ();
 use IO::Dir        ();
 use Devel::Symdump ();
-use Scalar::Util qw(blessed);
+use Scalar::Util qw(blessed weaken);
 
 use Assert;
 use Try::Tiny;
@@ -377,25 +377,43 @@ sub initialize {
     my $this = shift;
 
     # Register macro tag handlers for enabled extensions.
-    foreach my $tag ( keys %extTags ) {
-        if ( $this->extEnabled( $extTags{$tag}{extension} ) ) {
-            my $handler = $extTags{$tag}{class} // $extTags{$tag}{extension};
+    foreach my $tag ( keys %{ $extTags{tags} } ) {
+        my $tagData = $extTags{tags}{$tag};
+        if ( $this->extEnabled( $tagData->{extension} ) ) {
+
+            # Store back mapping for later clean up.
+            push @{ $extTags{exts}{ $tagData->{extension} }{tags} }, $tag;
+            my $handler = $tagData->{class} // $tagData->{extension};
             $this->app->macros->registerTagHandler( $tag, $handler );
         }
     }
 
     # Register callback handlers for enabled extensions.
     foreach my $cbName ( keys %extCallbacks ) {
-        foreach my $cbData ( @{ $extCallbacks{$cbName} } ) {
-            $this->registerCallback(
-                $cbName,
-                \&_cbDispatch,
-                {
-                    extension => $cbData->{extension},
-                    app       => $this->app,
-                    userCode  => $cbData->{code},
-                }
-            );
+        foreach my $cbInfo ( @{ $extCallbacks{$cbName} } ) {
+            my $cbData = {
+                extension => $cbInfo->{extension},
+                userCode  => $cbInfo->{code},
+                app       => $this->app,
+            };
+
+            # Avoid circular dependencies on the app object.
+            weaken( $cbData->{app} );
+            $this->registerCallback( $cbName, \&_cbDispatch, $cbData );
+        }
+    }
+}
+
+sub deregisterExtension {
+    my $this = shift;
+    my ($ext) = @_;
+
+    my $extTags = $extTags{exts}{$ext}{tags};
+
+    if ($extTags) {
+        my $macros = $this->app->macros;
+        foreach my $tag (@$extTags) {
+            $macros->deregisterTag($tag);
         }
     }
 }
@@ -404,10 +422,14 @@ sub _cbDispatch {
     my $cbObj  = shift;    # The object which initiated the callback.
     my %params = @_;
 
-    my $app    = $params{data}{app};
-    my $extObj = $app->extensions->extObject( $params{data}{extension} );
+    my $app       = $params{data}{app};
+    my $extension = $params{data}{extension};
 
-    return $params{data}{userCode}->( $extObj, $cbObj, $params{params} );
+    if ( $app->extMgr->extEnabled($extension) ) {
+        my $extObj = $app->extMgr->extObject($extension);
+        return $params{data}{userCode}->( $extObj, $cbObj, $params{params} )
+          if $extObj;
+    }
 }
 
 sub _extVisit {
@@ -583,6 +605,9 @@ sub disableExtension {
     #$this->app->logger->warn("Disabling $extName because of: $reason");
 
     $this->disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
+
+    # SMELL Must also deregister all extension's handlers like tags and
+    # callbacks in particular.
 }
 
 =begin TML
@@ -912,7 +937,7 @@ sub _callPluggable {
 
 # Universal methods supporting static, on class, and object calls.
 sub extName {
-    shift if ref( $_[0] ) && $_[0]->isa('Foswiki::Extensions');
+    shift if ref( $_[0] ) && $_[0]->isa('Foswiki::ExtManager');
     my ($extName) = @_;
 
     my $name = Foswiki::fetchGlobal( "\$" . $extName . "::NAME" );
@@ -950,7 +975,8 @@ sub registerExtModule {
 sub registerExtTagHandler {
     my ( $extModule, $tagName, $tagClass ) = @_;
 
-    $extTags{$tagName} = {
+    # SMELL Shall we check for duplicate registrations here? Perhaps we shall.
+    $extTags{tags}{$tagName} = {
         extension => $extModule,
         ( defined $tagClass ? ( class => $tagClass ) : () ),
     };
@@ -997,8 +1023,8 @@ sub registerPluggable {
             my $obj = shift;
 
             # Avoid autovivification of the extensions object.
-            if ( $obj->_has__appObj && $obj->__appObj->has_extensions ) {
-                return $obj->__appObj->extensions->_callPluggable(
+            if ( $obj->_has__appObj && $obj->__appObj->has_extMgr ) {
+                return $obj->__appObj->extMgr->_callPluggable(
                     $target,
                     $method,
                     args   => \@_,

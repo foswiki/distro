@@ -96,6 +96,18 @@ sub registerTagHandler {
     }
 }
 
+sub deregisterTag {
+    my $this = shift;
+    my ($tag) = @_;
+
+    if ( defined $this->registered->{$tag} ) {
+        delete $this->registered->{$tag};
+        delete $this->contextFreeSyntax->{$tag};
+    }
+
+    return 0;
+}
+
 =begin TML
 
 ---++ ObjectMethod expandMacros( $text, $topicObject ) -> $text
@@ -665,8 +677,8 @@ sub execMacro {
     my $this = shift;
     my ( $macroName, $attrs, $topicObject, @macroArgs ) = @_;
 
-    my $app        = $this->app;
-    my $extensions = $app->extensions;
+    my $app    = $this->app;
+    my $extMgr = $app->extMgr;
 
     my $rc;
 
@@ -700,8 +712,8 @@ sub execMacro {
         my $methodName = 'expand';
 
         if ( UNIVERSAL::isa( $macroClass, 'Foswiki::Extension' ) ) {
-            if ( $extensions->extEnabled($macroClass) ) {
-                $macroObj   = $this->app->extensions->extObject($macroClass);
+            if ( $extMgr->extEnabled($macroClass) ) {
+                $macroObj   = $extMgr->extObject($macroClass);
                 $methodName = $macroName;
             }
             else {
@@ -710,7 +722,7 @@ sub execMacro {
                 # has been disabled manually after extensions have been
                 # initialized.
                 $rc = "$macroName disabled, check extension "
-                  . $extensions->extName($macroClass);
+                  . $extMgr->extName($macroClass);
             }
         }
         else {

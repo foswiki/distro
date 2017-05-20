@@ -417,38 +417,38 @@ sub _install_app {
 sub _handler_plugBefore ($&) {
     my $target = caller;
     my ( $plug, $code ) = @_;
-    Foswiki::Extensions::registerPlugMethod( $target, 'before', $plug, $code );
+    Foswiki::ExtManager::registerPlugMethod( $target, 'before', $plug, $code );
 }
 
 sub _handler_plugAround ($&) {
     my $target = caller;
     my ( $plug, $code ) = @_;
-    Foswiki::Extensions::registerPlugMethod( $target, 'around', $plug, $code );
+    Foswiki::ExtManager::registerPlugMethod( $target, 'around', $plug, $code );
 }
 
 sub _handler_plugAfter ($&) {
     my $target = caller;
     my ( $plug, $code ) = @_;
-    Foswiki::Extensions::registerPlugMethod( $target, 'after', $plug, $code );
+    Foswiki::ExtManager::registerPlugMethod( $target, 'after', $plug, $code );
 }
 
 sub _handler_extClass ($$) {
     my ( $class, $subClass ) = @_;
     my $target = caller;
 
-    Foswiki::Extensions::registerSubClass( $target, $class, $subClass );
+    Foswiki::ExtManager::registerSubClass( $target, $class, $subClass );
 }
 
 sub _handler_extAfter (@) {
     my $target = caller;
 
-    Foswiki::Extensions::registerDeps( $target, @_ );
+    Foswiki::ExtManager::registerDeps( $target, @_ );
 }
 
 sub _handler_extBefore (@) {
     my $target = caller;
 
-    Foswiki::Extensions::registerDeps( $_, $target ) foreach @_;
+    Foswiki::ExtManager::registerDeps( $_, $target ) foreach @_;
 }
 
 sub _handler_tagHandler ($;$) {
@@ -463,10 +463,10 @@ sub _handler_tagHandler ($;$) {
         # If second argument is a code ref then we install method with the same
         # name as macro name.
         _inject_code( $target, $tagName, $tagHandler );
-        Foswiki::Extensions::registerExtTagHandler( $target, $tagName );
+        Foswiki::ExtManager::registerExtTagHandler( $target, $tagName );
     }
     else {
-        Foswiki::Extensions::registerExtTagHandler( $target, $tagName,
+        Foswiki::ExtManager::registerExtTagHandler( $target, $tagName,
             $tagHandler );
     }
 }
@@ -474,7 +474,7 @@ sub _handler_tagHandler ($;$) {
 sub _handler_callbackHandler ($&) {
     my $target = caller;
 
-    Foswiki::Extensions::registerExtCallback( $target, @_ );
+    Foswiki::ExtManager::registerExtCallback( $target, @_ );
 }
 
 sub _install_extension {
@@ -494,13 +494,14 @@ sub _handler_pluggable ($&) {
     my $target = caller;
     my ( $method, $code ) = @_;
 
-    Foswiki::Extensions::registerPluggable( $target, $method, $code );
+    Foswiki::ExtManager::registerPluggable( $target, $method, $code );
 }
 
 sub _install_extensible {
     my ( $class, $target ) = @_;
 
-    Foswiki::load_package('Foswiki::Aux::_ExtensibleRole');
+    #say STDERR "--- INSTALLING extensible ON $target";
+
     _assign_role( $target, 'Foswiki::Aux::_ExtensibleRole' );
     _inject_code( $target, 'pluggable', \&_handler_pluggable );
 }

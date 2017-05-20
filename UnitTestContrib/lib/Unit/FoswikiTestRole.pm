@@ -17,15 +17,6 @@ use File::Spec;
 use Scalar::Util qw(blessed);
 use Foswiki::Exception;
 
-BEGIN {
-    if (Unit::TestRunner::CHECKLEAK) {
-        eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
-        die $@ if $@;
-        $Devel::Leak::Object::TRACKSOURCELINES = 1;
-        $Devel::Leak::Object::TRACKSTACK       = 1;
-    }
-}
-
 # Use variable to let it be easily incorporated into a regex.
 our $TEST_WEB_PREFIX = 'Temporary';
 
@@ -782,7 +773,7 @@ sub leakDetectCheckpoint {
 
     say STDERR "<<< LEAK CHECKPOINT FOR TEST ", $dumpName;
 
-    return Devel::Leak::Object::checkpoint();
+    return $Unit::TestRunner::checkpointSub->();
 }
 
 =begin TML
@@ -812,7 +803,7 @@ sub leakDetectDump {
 
     $dumpName =~ tr/:/_/;
     say STDERR ">>> LEAK DUMP FOR TEST ", $dumpName;
-    Devel::Leak::Object::status();
+    $Unit::TestRunner::statusSub->();
     eval {
         require Devel::MAT::Dumper;
         my $pmatFile = File::Spec->catfile( $this->app->cfg->data->{Log}{Dir},

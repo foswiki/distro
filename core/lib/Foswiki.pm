@@ -357,6 +357,7 @@ sub load_package {
         ${ $pkgNS->{$flagSym} } = 1;    # Mark package as loaded.
     }
     catch {
+        #say STDERR "! Load failed for  $fullname: $_";
         my $e = Foswiki::Exception->transmute( $_, 0 );
         $e->rethrow;
     };
