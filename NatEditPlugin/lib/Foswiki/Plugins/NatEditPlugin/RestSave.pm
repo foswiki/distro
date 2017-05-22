@@ -64,7 +64,7 @@ sub handle {
 
     # clear redirect enforced by a checkpoint action
     $response->deleteHeader( "Location", "Status" );
-    $response->pushHeader( "Status", $status );
+    $response->status($status);
 
     # add validation key to HTTP header, if required
     unless ( $response->getHeader('X-Foswiki-Validation') ) {
