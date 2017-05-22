@@ -368,6 +368,7 @@ lib/Foswiki/Configure/Checkers/AccessibleCFG.pm 0444
 lib/Foswiki/Configure/Checkers/AccessControlACL/EnableDeprecatedEmptyDeny.pm 0444
 lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/Enabled.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
