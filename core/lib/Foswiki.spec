@@ -1620,7 +1620,7 @@ $Foswiki::cfg{FormTypes} = [
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
-# **SELECTCLASS Foswiki::PageCache::DBI::* DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'" LABEL="Cache Implementation"**
+# **SELECTCLASS Foswiki::PageCache::DBI::* DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}' also:'{Cache}{Enabled}'" LABEL="Cache Implementation"**
 # Select the cache implementation. The default page cache implementation
 # is based on DBI (http://dbi.perl.org) which requires a working DBI driver to
 # connect to a database. This database will hold all cached data as well as the

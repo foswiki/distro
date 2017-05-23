@@ -22,6 +22,11 @@ Environment=FOSWIKI_CHECK_SIZE=10
 EnvironmentFile=-/etc/default/foswiki
 
 # The User, Group, PIDFile and WorkingDirectory  cannot be specified by Environment variables. Update as needed.
+# Typical settings:
+#  RedHat, Fedora, CentOS, Gentoo, Mandriva USER=apache   GROUP=apache
+#  debian, Ubuntu, Kubuntu                  USER=www-data GROUP=www-data
+#  Suse:                                    USER=wwwrun   GROUP=www
+#  FreeBSD:                                 USER=www      GROUP=wwwadmin
 User=www-data
 Group=www-data
 
