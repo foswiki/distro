@@ -39,7 +39,8 @@ and cause the method to fail.
 
 # Get =set= parameters and set the values in %Foswiki::cfg
 sub _getSetParams {
-    my ( $params, $root, $reporter ) = @_;
+    my ( $params, $root, $reporter, $Foswikicfg ) = @_;
+
     if ( $params->{set} ) {
         while ( my ( $k, $value ) = each %{ $params->{set} } ) {
             my $spec = $root->getValueObject($k);
@@ -66,7 +67,7 @@ sub _getSetParams {
                       . ", spec "
                       . $spec->stringify() . "\n"
                       if TRACE_GETSET;
-                    eval("\$Foswiki::cfg$k=\$value");
+                    eval("\$Foswikicfg->$k=\$value");
                 }
                 else {
                     print STDERR "GETSET $k=$value, spec "
@@ -75,12 +76,12 @@ sub _getSetParams {
 
                     # This is needed to prevent expansion of embedded
                     # $Foswiki::cfg variables during the eval.
-                    eval("\$Foswiki::cfg$k=join('',\$value)");
+                    eval("\$Foswikicfg->$k=join('',\$value)");
                 }
             }
             else {
                 print STDERR "GETSET undef $k\n" if TRACE_GETSET;
-                eval("undef \$Foswiki::cfg$k");
+                eval("undef \$Foswikicfg->$k");
             }
             if ($@) {
                 $reporter->ERROR( '<verbatim>'
@@ -322,7 +323,7 @@ sub check_current_value {
     my $reporter = Foswiki::Configure::Reporter->new();
 
     # Apply "set" values to $Foswiki::cfg
-    eval { _getSetParams( $params, $root, $frep ); };
+    eval { _getSetParams( $params, $root, $frep, \%Foswiki::cfg ); };
     if ( $frep->has_level('errors') ) {
         return [ { reports => $frep->messages() } ];
     }
@@ -503,6 +504,8 @@ return result is a hash containing the following keys:
 sub wizard {
     my ( $params, $reporter ) = @_;
 
+    local %Foswiki::cfg = %Foswiki::cfg;
+
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
     if ( $reporter->has_level('errors') ) {
@@ -536,7 +539,7 @@ sub wizard {
     }
     $method = $1;    # untaint
 
-    _getSetParams( $params, $root, $reporter );
+    _getSetParams( $params, $root, $reporter, \%Foswiki::cfg );
     return { messages => $reporter->messages() }
       if $reporter->has_level('errors');
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1490401384" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1495415159" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -186,7 +186,9 @@ Next, to integrate the =foswiki.fgi= process into the system's init process use 
 
    * Conventional init scripts (Should also work with systemd)
       * =tools/foswiki.init-script=: copy this to =/etc/init.d/foswiki=; make the file executable using =chmod +x /etc/init.d/foswiki=, and ensure that it is assigned to user/group root.
-      * =tools/foswiki.defaults=: copy this to =/etc/default/foswiki= and make appropriate adjustmenst; make sure the process uses the same socket as configured in nginx (see above, defaults to =127.0.0.1:9000=)
+      * =tools/foswiki.defaults=: copy this to =/etc/default/foswiki= and make appropriate adjustmenst; 
+         * make sure the process uses the same socket as configured in nginx (see above, defaults to =127.0.0.1:9000=)
+         * verify that the =FOSWIKI_ROOT= setting points to your foswiki installation.
 
    * systemd specific service files (Used _in place of the init scripts_. Don't use both!)
       * =tools/systemd/foswiki-fastcgi.service=: copy this to =/etc/systemd/system/foswiki.service=.
@@ -230,7 +232,8 @@ After the update, each process will still serve one more request before reloadin
 ---++ Info
 
 | Change History: | |
-|  21 Mar 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation. |
+|  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>
+                        Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
 |  14 Jun 2015 | (1.02) Foswikitask:Item10751 - Prepare for Unicode core. |
 |  29 Mar 2015 | (1.01) Foswikitask:Item13342 - Add missing dependency, don't re-init back end after every transaction while bootstrapping. |

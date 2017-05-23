@@ -1961,8 +1961,13 @@ sub new {
     if ( $Foswiki::cfg{Cache}{Enabled} && $Foswiki::cfg{Cache}{Implementation} )
     {
         eval "require $Foswiki::cfg{Cache}{Implementation}";
-        ASSERT( !$@, $@ ) if DEBUG;
-        $this->{cache} = $Foswiki::cfg{Cache}{Implementation}->new();
+        if ($@) {    # The require failed - Be graceful in failure
+            ASSERT( !$@, $@ ) if DEBUG;
+            $Foswiki::cfg{Cache}{Enabled} = 0;
+        }
+        else {
+            $this->{cache} = $Foswiki::cfg{Cache}{Implementation}->new();
+        }
     }
 
     my $prefs = new Foswiki::Prefs($this);
