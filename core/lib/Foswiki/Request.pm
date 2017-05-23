@@ -294,9 +294,16 @@ sub url {
     }
     $name =~ s(//+)(/)g;
     if ($full) {
-        my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
-        $url =
-          $vh ? $this->protocol . '://' . $vh : $Foswiki::cfg{DefaultUrlHost};
+        if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
+            $url = $Foswiki::cfg{DefaultUrlHost};
+        }
+        else {
+            my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
+            $url =
+                $vh
+              ? $this->protocol . '://' . $vh
+              : $Foswiki::cfg{DefaultUrlHost};
+        }
         return $url if $base;
         $url .= $name;
     }
