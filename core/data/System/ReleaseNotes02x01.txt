@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1486929101" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1495606515" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.3
 
@@ -55,6 +55,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
+   * Foswiki 2.1.4-RC3 was built on 23 May 2017. It is a release that contains 30 fixes.
 
 
 ---++ Pre-installed Extensions
@@ -473,6 +474,40 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14228][Item14228]] | Upgrade JQueryPlugin to blockui 2.70. |
 | [[%BUGS%/Item14229][Item14229]] | Upgrade JQueryPlugin to jsrender 0.9.83. |
 | [[%BUGS%/Item14230][Item14230]] | jquery.maskedinput initializer does not match documentation. |
+
+---++ Foswiki Release 2.1.4 Details
+---+++ Fixes
+
+| [[%BUGS%/Item12090][Item12090]] | Field name -with description- in Forms not working properly. |
+| [[%BUGS%/Item13246][Item13246]] | Context =header_text= needs better documentation. |
+| [[%BUGS%/Item13339][Item13339]] | Warning or errors icons in configure get stuck unless page is reloaded. |
+| [[%BUGS%/Item13766][Item13766]] | EditRowPlugin columns widths are jumping to wider size when you hoover the mouse over the table. |
+| [[%BUGS%/Item13907][Item13907]] | UpdatesPlugin Report of required update should list the backlevel extensions. |
+| [[%BUGS%/Item13954][Item13954]] | Extensions with "pluggable" components cause errors: No such value {Store}{Implementation}. |
+| [[%BUGS%/Item14234][Item14234]] | Clicking pencil for first row (erp_row=0) opens editor on entire table.  |
+| [[%BUGS%/Item14324][Item14324]] | Perl 5.25.10 reports unescaped left brace in regular expression errors. |
+| [[%BUGS%/Item14328][Item14328]] | Foswiki::Net crashes with uninitialized value in pattern match when sending email for older CPAN modules. |
+| [[%BUGS%/Item14337][Item14337]] | SCRIPTURL paths and inline scripts make javascript signing more difficult than needed. |
+| [[%BUGS%/Item14346][Item14346]] | Systemd service file has issues, needs better documentation. |
+| [[%BUGS%/Item14347][Item14347]] | Prune the cruft from the tools dir and improve tools script documentation. |
+| [[%BUGS%/Item14349][Item14349]] | EditRowPlugin Edit Table button not functional on IE 11. |
+| [[%BUGS%/Item14350][Item14350]] | OopsException documentation has incorrect example. |
+| [[%BUGS%/Item14351][Item14351]] | Uninitialized value warning when changerows is used with EditRowPlugin. |
+| [[%BUGS%/Item14366][Item14366]] | =use CGI::Carp= in bin scripts BEGIN block cannot be found via LocalLib.cfg override. |
+| [[%BUGS%/Item14368][Item14368]] | Failure to handle edge cases leads to obscure bug in RCS. |
+| [[%BUGS%/Item14369][Item14369]] | Document parameters for USERNAME, WIKINAME and WIKIUSERNAME macros. |
+| [[%BUGS%/Item14370][Item14370]] | Foswiki::Func::removeUserFromGroup docmentation is incorrect. |
+| [[%BUGS%/Item14372][Item14372]] | JQueryPlugin ui-draggable got dropped from  Config.spec. |
+| [[%BUGS%/Item14377][Item14377]] | Error message requires some encoding. |
+| [[%BUGS%/Item14381][Item14381]] | mod_perl unexpectedly decodes the URI, and X-FoswikiURI header should be debug only. |
+| [[%BUGS%/Item14388][Item14388]] | NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs. |
+| [[%BUGS%/Item14392][Item14392]] | WebPreferences topics contain empty DENY rules that would be honored if ={AccessControlACL}{EnableDeprecatedEmptyDeny}= is enabled. |
+| [[%BUGS%/Item14396][Item14396]] | Don't redirect to relative paths. 302 redirects should be absolute Locations. |
+| [[%BUGS%/Item14400][Item14440]] | Configure settings leak into the global $Foswiki::cfg hash in fcgi environment |
+| [[%BUGS%/Item14401][Item14401]] | Foswiki crashes if PageCache is enabled with missing dependencies. |
+| [[%BUGS%/Item14402][Item14402]] | Invalid default in FastCGIEngineContrib example foswiki.defaults file. |
+| [[%BUGS%/Item14404][Item14404]] | NatEdit Save and Continue action fails on mod_perl systems. |
+| [[%BUGS%/Item14405][Item14405]] | Redirect after validation with HTTPS proxy for HTTP site results in unsafe redirect. |
 
 </noautolink>
 

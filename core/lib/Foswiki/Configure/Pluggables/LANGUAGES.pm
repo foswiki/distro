@@ -15,6 +15,7 @@ use warnings;
 
 use Locale::Language ();
 use Locale::Country  ();
+use Error qw{ :try };
 
 use Assert;
 use Foswiki::Configure::Load  ();
@@ -43,26 +44,37 @@ sub construct {
         $keys = "'$keys'" if $keys =~ m/\W/;
 
         my $label;
-        if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
-            my ( $lname, $cname ) = (
-                ( Locale::Language::code2language($1) || '' ),
-                ( Locale::Country::code2country($2)   || '' )
-            );
-            if ( $lname && $cname ) {
-                $label = "$lname ($cname)";
-            }
-            elsif ($lname) {
-                $label = "$lname ($2)";
-            }
-            elsif ($cname) {
-                $label = "$1 ($cname)";
+
+        try {
+            if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
+                my ( $lname, $cname ) = (
+                    ( Locale::Language::code2language($1) || '' ),
+                    ( Locale::Country::code2country($2)   || '' )
+                );
+                if ( $lname && $cname ) {
+                    $label = "$lname ($cname)";
+                }
+                elsif ($lname) {
+                    $label = "$lname ($2)";
+                }
+                elsif ($cname) {
+                    $label = "$1 ($cname)";
+                }
+                else {
+                    $label = "$lang";
+                }
             }
             else {
-                $label = "$lang";
+                $label = Locale::Language::code2language($lang)
+                  || "$lang";
             }
         }
-        else {
-            $label = Locale::Language::code2language($lang) || "$lang";
+        otherwise {
+            $label = $lang;
+        };
+
+        if ( $label eq 'tlh' ) {
+            $label = "Klingon";
         }
 
         my $value = Foswiki::Configure::Value->new(
