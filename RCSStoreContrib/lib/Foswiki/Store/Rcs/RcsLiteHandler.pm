@@ -715,7 +715,7 @@ sub _patch {
     local $SIG{__WARN__} = sub {
         print STDERR
 "WARNING: Potentially corrupt RCS history $this->{file} at revision $rev: "
-          . shift . "\n";
+          . shift(@_) . "\n";
     };
 
     my $adj       = 0;

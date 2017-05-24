@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494895208" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1495512067" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.4-RC2
+---+!! Foswiki Release 2.1.4-RC3
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -55,7 +55,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
-   * Foswiki 2.1.4-RC2 was built on 15 May 2017. It is a release that contains 25 fixes.
+   * Foswiki 2.1.4-RC3 was built on 23 May 2017. It is a release that contains 30 fixes.
 
 
 ---++ Pre-installed Extensions
@@ -503,6 +503,11 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14388][Item14388]] | NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs. |
 | [[%BUGS%/Item14392][Item14392]] | WebPreferences topics contain empty DENY rules that would be honored if ={AccessControlACL}{EnableDeprecatedEmptyDeny}= is enabled. |
 | [[%BUGS%/Item14396][Item14396]] | Don't redirect to relative paths. 302 redirects should be absolute Locations. |
+| [[%BUGS%/Item14400][Item14440]] | Configure settings leak into the global $Foswiki::cfg hash in fcgi environment |
+| [[%BUGS%/Item14401][Item14401]] | Foswiki crashes if PageCache is enabled with missing dependencies. |
+| [[%BUGS%/Item14402][Item14402]] | Invalid default in FastCGIEngineContrib example foswiki.defaults file. |
+| [[%BUGS%/Item14404][Item14404]] | NatEdit Save and Continue action fails on mod_perl systems. |
+| [[%BUGS%/Item14405][Item14405]] | Redirect after validation with HTTPS proxy for HTTP site results in unsafe redirect. |
 
 </noautolink>
 
