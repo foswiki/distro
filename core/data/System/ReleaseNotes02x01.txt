@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1495512067" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1495596908" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.4-RC3
 
@@ -55,7 +55,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
-   * Foswiki 2.1.4-RC3 was built on 23 May 2017. It is a release that contains 30 fixes.
+   * Foswiki 2.1.4-RC3 was built on 24 May 2017. It is a release that contains 31 fixes.
 
 
 ---++ Pre-installed Extensions
@@ -515,6 +515,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14402][Item14402]] | Invalid default in FastCGIEngineContrib example foswiki.defaults file. |
 | [[%BUGS%/Item14404][Item14404]] | NatEdit Save and Continue action fails on mod_perl systems. |
 | [[%BUGS%/Item14405][Item14405]] | Redirect after validation with HTTPS proxy for HTTP site results in unsafe redirect. |
+| [[%BUGS%/Item14406][Item14406]] | Configue LANGUAGES pluggable crashes in Locale::Code for unknown languages with Perl 5.26. |
 
 </noautolink>
 
