@@ -45,15 +45,11 @@ sub construct {
 
         my $label;
 
-# SMELL: Language::Codes _code() is documented as taking a 3rd parameter, $no_check_code
-# as useful when adding languages. Set no_check_code so we don't crash for unknown languages
-# ie. Klingon. As of perl 5.26, it crashes for unkown languages.
-
         try {
             if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
                 my ( $lname, $cname ) = (
-                    ( Locale::Language::code2language( $1, undef, 1 ) || '' ),
-                    ( Locale::Country::code2country( $2, undef, 1 ) || '' )
+                    ( Locale::Language::code2language($1) || '' ),
+                    ( Locale::Country::code2country($2)   || '' )
                 );
                 if ( $lname && $cname ) {
                     $label = "$lname ($cname)";
@@ -69,7 +65,7 @@ sub construct {
                 }
             }
             else {
-                $label = Locale::Language::code2language( $lang, undef, 1 )
+                $label = Locale::Language::code2language($lang)
                   || "$lang";
             }
         }
