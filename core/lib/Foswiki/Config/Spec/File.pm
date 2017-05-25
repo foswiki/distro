@@ -216,11 +216,22 @@ sub prepareShebang {
 sub prepareCacheFile {
     my $this = shift;
 
-    my ( $vol, $dir ) = File::Spec->splitpath( $this->path );
+    my ( $vol, $dir, $file ) = File::Spec->splitpath( $this->path );
 
     my @dirs = File::Spec->splitdir( File::Spec->canonpath($dir) );
 
-    my $fname = $dirs[-1] . "_" . sha1_hex( $this->path ) . ".cached";
+    my $baseName;
+
+    if ( File::Spec->canonpath( File::Spec->catpath( $vol, $dir ) ) eq
+        Foswiki::guessLibDir )
+    {
+        ( $baseName = $file ) =~ s/\./_/g;
+    }
+    else {
+        $baseName = $dirs[-1];
+    }
+
+    my $fname = $baseName . "_" . sha1_hex( $this->path ) . ".cached";
 
     # Don't let the cache object to raise exceptions because it's for support
     # purposes only. If it fails we simple shall follow the slower way of
