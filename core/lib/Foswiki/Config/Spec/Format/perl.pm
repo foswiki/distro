@@ -1,5 +1,11 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Config::Spec::Format::perl::Wrapper;
+
+use Foswiki::Class qw(app);
+extends qw(Foswiki::Object);
+with qw(Foswiki::Config::CfgObject);
+
 package Foswiki::Config::Spec::Format::perl;
 
 use Foswiki::Exception::Config;
@@ -31,7 +37,10 @@ SPECCODE
         );
     }
 
-    return $sub->($this);
+    my $wrapper = $this->create( 'Foswiki::Config::Spec::Format::perl::Wrapper',
+        cfg => $this->cfg, );
+
+    return $sub->($wrapper);
 }
 
 1;
