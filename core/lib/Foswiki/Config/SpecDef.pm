@@ -179,6 +179,7 @@ sub hasNext {
 
 Returns undef if element is ok to be used as a subspec. Otherwise returns
 error text about elem type suitable to be used in a error message.
+
 =cut
 
 sub badSubSpecElem {
@@ -228,6 +229,18 @@ sub subSpecs {
         @_,
     );
     return $subSpecs;
+}
+
+sub inject {
+    my $this   = shift;
+    my %params = @_;
+
+    return undef
+      unless defined $params{specDef} && ref( $params{specDef} ) eq 'ARRAY';
+
+    splice( @{ $this->specDef }, $this->cursor, 0, @{ $params{specDef} } );
+
+    return 1;
 }
 
 1;
