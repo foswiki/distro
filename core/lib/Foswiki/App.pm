@@ -22,6 +22,7 @@ use Storable qw(dclone);
 # shortcut functions. Must be replaced with something more reasonable.
 use CGI ();
 use Compress::Zlib;
+use Foswiki::ExtManager;
 use Foswiki::FeatureSet qw(:all);
 use Foswiki::Engine;
 use Foswiki::Templates;
@@ -115,10 +116,11 @@ has env => (
     required => 1,
 );
 has extMgr => (
-    is      => 'ro',
-    lazy    => 1,
-    clearer => 1,
-    builder => '_prepareExtMgr',
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    builder   => '_prepareExtMgr',
 );
 has forms => (
     is      => 'ro',
@@ -359,6 +361,7 @@ sub BUILD {
 
         # Reload extensions based on the configuration information.
         $this->clear_extMgr;
+
         $this->extMgr->initialize;
     }
 
@@ -1598,7 +1601,6 @@ sub _prepareExtMgr {
     my $this = shift;
 
     # Don't use create() here because the latter depends on extensions.
-    Foswiki::load_class('Foswiki::ExtManager');
     return Foswiki::ExtManager->new( app => $this );
 }
 
