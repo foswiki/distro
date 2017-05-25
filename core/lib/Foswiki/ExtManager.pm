@@ -641,31 +641,49 @@ functional extensions.
 
 =cut
 
-sub prepareDisabledExtensions {
-    my $this        = shift;
-    my $env         = $this->app->env;
-    my $envVar      = 'FOSWIKI_DISABLED_EXTENSIONS';
-    my $envDisabled = $env->{$envVar} // '';
-    my %disabled;
-    if ( my $reftype = ref($envDisabled) ) {
-        Foswiki::Exception::Fatal->throw(
-                text => "Environment variable $envVar is a ref to "
+sub _disabled2List {
+    my $this = shift;
+    my ( $disabled, $msg ) = @_;
+
+    my @list;
+    if ( my $reftype = ref($disabled) ) {
+        Foswiki::Exception::Fatal->throw( text => $msg
+              . " is a ref to "
               . $reftype
               . " but ARRAY or scalar string expected" )
           unless $reftype eq 'ARRAY';
+        @list = @$disabled;
     }
     else {
-        $envDisabled = [ split /,/, $envDisabled ];
+        @list = split /,/, $disabled;
     }
+    return map { [ $_, $msg ] } @list;
+}
+
+sub prepareDisabledExtensions {
+    my $this    = shift;
+    my $env     = $this->app->env;
+    my $envVar  = 'FOSWIKI_DISABLED_EXTENSIONS';
+    my $confKey = "DisabledExtensions";
+
+    # @disabled would contain a list of pairs of extension name and a message to
+    # be appended to "Disabled by " prefix.
+    my @disabled = $this->_disabled2List( $env->{$envVar} // '',
+        "Environment variable $envVar" );
+    my %disabled;
+
+    push @disabled,
+      $this->_disabled2List( $this->app->cfg->get($confKey) // '',
+        "Configuration key $confKey" );
 
     # Never enable extension Empty. It's purpose is to serve as a template only.
-    push @$envDisabled, 'Empty';
+    push @disabled, [ 'Empty', "the core" ];
 
     %disabled =
       map {
-        $this->normalizeExtName($_) =>
-          "Disabled by $envVar environment variable."
-      } @$envDisabled;
+        $this->normalizeExtName( $_->[0] ) => "Disabled by "
+          . lcfirst( $_->[1] ) . "."
+      } @disabled;
 
     foreach my $ext (@extModules) {
         my $extMod = $this->normalizeExtName($ext);
