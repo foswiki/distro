@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494556778" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1495676458" format="1.1" version="1"}%
 ---+!! Spec Files v2
 %TOC%
 
@@ -71,7 +71,7 @@ explained how the format is determined for a file:
    1. The default format is data. 
 
 #SpecFormats
----++ Formats
+---++ File Formats
 
 There're three Spec formats supported out of the box: =data=, =perl=, and =legacy=. =data= and =perl= are just variants of v2 specs. =legacy=
 is the one used in pre-%WIKITOOLNAME% v3 era. Sure enough, it is supported for compatibility matters but its use is
@@ -248,6 +248,24 @@ using it. That'd be fun!
 EOT
 ],
 </verbatim>
+
+Specifying a type or default value implicitly defines a node as a leaf. So, the following
+would raise an exception because =SubKey= node cannot have subnodes:
+
+<verbatim>
+Key1 => [
+    SubKey => [
+        -type => 'STRING(30)',
+        SubSubKey => [
+            ...
+        ],
+    ],
+],
+</verbatim>
+
+
+---+++ Options
+
 
 #ImplDetail
 ---++ Implementation
