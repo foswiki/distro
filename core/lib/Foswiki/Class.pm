@@ -241,7 +241,8 @@ sub import {
 
     #say STDERR "Foswiki::Class($class, $target)";
 
-    $SIG{__DIE__} = sub { Carp::confess(@_) };
+    local $SIG{__DIE__} = sub { Carp::confess(@_) }
+      if $ENV{FOSWIKI_ASSERTS};
 
     # Define options we would provide for classes.
     my %options = (
