@@ -160,7 +160,7 @@ plugAfter 'Foswiki::Config::readLSC' => sub {
     my ($params) = @_;
 
     # Do nothing if LSC reading has already failed.
-    return if $params->{rc} == 0;
+    return if $params->{rc};
 
     $this->mode('read');
 
@@ -179,8 +179,12 @@ plugAfter 'Foswiki::Config::readLSC' => sub {
         try {
             my $dbh = $this->dbh;
 
+            my $tblName =
+              $this->data->{Extensions}{DBConfigExtension}{Connection}{Table}
+              // 'LSC';
+
             my $records =
-              $dbh->selectall_arrayref("SELECT `key`, value FROM LSC");
+              $dbh->selectall_arrayref("SELECT `key`, value FROM $tblName");
 
             foreach my $rec (@$records) {
                 my ( $keyPath, $keyVal ) = @$rec;
@@ -238,15 +242,13 @@ plugAround 'Foswiki::Config::writeLSCStart' => sub {
     my $dbh = $this->dbh;
 
     my $tblName =
-      $this->data->{Extensions}{DBConfigExtension}{Connection}{Table};
+      $this->data->{Extensions}{DBConfigExtension}{Connection}{Table} // 'LSC';
 
-    $this->lockTable;
-
-    $dbh->do( 'DELETE FROM ' . $tblName // 'LSC' );
+    $dbh->do( 'DELETE FROM ' . $tblName );
 
     my $statement =
         'INSERT INTO `'
-      . $this->data->{Extensions}{DBConfigExtension}{Connection}{Table}
+      . $tblName
       . '` (`key`,`value`,`comment`) VALUES (?, ?, ?)';
     my $sth = $dbh->prepare($statement);
 
@@ -276,7 +278,7 @@ plugAround 'Foswiki::Config::writeLSCRecord' => sub {
 
     # SMELL Temporary solution to automate replacement of $Foswiki::cfg with ${}
     # macro format.
-    $keyVal =~ s/\$Foswiki::cfg\{/\$\{/g;
+    $keyVal =~ s/\$Foswiki::cfg\{/\$\{/g if defined $keyVal && !ref($keyVal);
 
     $this->sth->execute( $keyPath, $keyVal, $comment );
 };
@@ -330,26 +332,6 @@ tagHandler DBCONFIG_INFO => sub {
 
 =begin TML
 
----+++ ObjectMethod lockTable
-
-Locks configuration table.
-
-=cut
-
-sub lockTable {
-    my $this = shift;
-
-    my $cfgData = $this->data;
-    my $driver  = $cfgData->{Extensions}{DBConfigExtension}{Connection}{Driver};
-    my $table   = $cfgData->{Extensions}{DBConfigExtension}{Connection}{Table};
-
-    my $lockMode = $driver eq 'mysql' ? 'WRITE' : 'IN EXCLUSIVE MODE';
-
-    $this->dbh->do("LOCK TABLE $table $lockMode");
-}
-
-=begin TML
-
 ---+++ ObjectMethod prepareDbh
 
 Builder for the =dbh= attribute of the extension's object. Connects to a
@@ -375,6 +357,12 @@ sub prepareDbh {
     $dsn .= ";port" . $connData->{Port}
       if defined $connData->{Port};
 
+    # Avoid strong circular dependency via HandleError callback referring back
+    # to $this.
+    my $_this = $this;
+    use Scalar::Util qw(weaken);
+    weaken($_this);
+
     my $dbh = DBI->connect(
         $dsn,
         $connData->{User},
@@ -384,7 +372,7 @@ sub prepareDbh {
             RaiseError  => 1,
             PrintError  => 0,
             HandleError => sub {
-                $this->_dbiError(@_);
+                $_this->_dbiError(@_);
             },
         }
     );
