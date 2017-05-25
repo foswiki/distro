@@ -189,7 +189,8 @@ sub import {
     my ($class) = shift;
     my $target = caller;
 
-    $SIG{__DIE__} = sub { Carp::confess(@_) };
+    local $SIG{__DIE__} = sub { Carp::confess(@_) }
+      if $ENV{FOSWIKI_ASSERTS};
 
     # Define options we would provide for classes.
     my %options = (
