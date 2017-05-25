@@ -46,6 +46,19 @@ has inSync => (
     default => 0,
 );
 
+# Defines if cache is in consistent state; i.e. it's been filled in with all the
+# data.
+# This is different from the inSync attribute as the latter signals if the
+# _cached attribute contains same data as the file on disk. Whereas isConsistent
+# is about object's internal state.
+has isConsistent => (
+    is      => 'rwp',
+    lazy    => 1,
+    clearer => 1,
+    trigger => 1,
+    builder => 'prepareIsConsistent',
+);
+
 sub storeNodes {
     my $this = shift;
 
@@ -76,6 +89,22 @@ around flush => sub {
     $this->inSync(1);
 };
 
+# Declare cache is complete – i.e. it's now in consistent state and can be
+# flushed on disk. This is the method to be used instead of flush().
+sub complete {
+    my $this = shift;
+
+    $this->_set_isConsistent(1);
+    $this->flush;
+}
+
+sub incomplete {
+    my $this = shift;
+
+    $this->_set_isConsistent(0);
+    $this->invalidate;
+}
+
 sub _prepareCached {
     my $this = shift;
 
@@ -96,7 +125,9 @@ sub _prepareCached {
 sub prepareEntries {
     my $this = shift;
 
-    return thaw( $this->_cached->{entries} );
+    my $entries = thaw( $this->_cached->{entries} );
+
+    return $entries;
 }
 
 sub prepareSpecData {
@@ -112,12 +143,16 @@ sub prepareFileSize {
     return $_[0]->_cached->{fileSize};
 }
 
+sub prepareIsConsistent {
+    return $_[0]->_cached->{isConsistent} // 0;
+}
+
 sub _trigger_entries {
     my $this    = shift;
     my $entries = shift;
 
     $this->_cached->{entries} = freeze($entries);
-    $this->invalidate;
+    $this->incomplete;
 }
 
 sub _trigger_specData {
@@ -125,7 +160,7 @@ sub _trigger_specData {
     my $specData = shift;
 
     $this->_cached->{specData} = freeze($specData);
-    $this->invalidate;
+    $this->incomplete;
 }
 
 sub _trigger_fileSize {
@@ -133,7 +168,19 @@ sub _trigger_fileSize {
     my $size = shift;
 
     $this->_cached->{fileSize} = $size;
-    $this->invalidate;
+    $this->incomplete;
+}
+
+sub _trigger_isConsistent {
+    my $this = shift;
+    my $val  = shift;
+
+    if ($val) {
+        $this->_cached->{isConsistent} = $val;
+    }
+    else {
+        delete $this->_cached->{isConsistent};
+    }
 }
 
 around prepareUnicode => sub {
@@ -147,11 +194,6 @@ around prepareBinary => sub {
 around prepareAutoWrite => sub {
     return 0;
 };
-
-sub DEMOLISH {
-    my $this = shift;
-    $this->flush;
-}
 
 1;
 __END__

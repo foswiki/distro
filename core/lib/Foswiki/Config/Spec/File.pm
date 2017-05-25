@@ -115,6 +115,7 @@ sub validCache {
     return
          defined( $cf->stat )
       && defined( $cf->content )
+      && $cf->isConsistent
       && ( $cf->stat->mtime >= $fstat->mtime )
       && ( !defined $cf->fileSize || ( $cf->fileSize == $fstat->size ) );
 }
@@ -143,8 +144,9 @@ pluggable parse => sub {
             @specs = $parser->parse($this);
 
             try {
-                my $specData = dclone( \@specs );
-                $this->cacheFile->specData($specData);
+                my $specData  = dclone( \@specs );
+                my $cacheFile = $this->cacheFile;
+                $cacheFile->specData($specData);
                 my $data         = $this->cfg->makeSpecsHash;
                 my $localDataObj = tied %$data;
                 $cfg->spec(
@@ -154,8 +156,8 @@ pluggable parse => sub {
                     section   => $this->section,
                     specs     => \@specs,
                 );
-                $this->cacheFile->storeNodes( $localDataObj->getLeafNodes );
-                $this->cacheFile->flush;
+                $cacheFile->storeNodes( $localDataObj->getLeafNodes );
+                $cacheFile->complete;
             }
             catch {
                 my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
