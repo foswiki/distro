@@ -84,7 +84,7 @@ sub INCLUDE {
             $perl,
             {
                 _Package =>
-                  '(?:(?<=\n)\bpackage|\Apackage)\s+(?<packageName>[\w:]+);',
+'(?:(?<=\n)\bpackage|\Apackage)\s+(?<packageName>[\w:]+)\s*(?:;|{)',
                 _Doc =>
 '\n=(?:begin(?:\h+(?:twiki|TML|html))?|pod)\h*\n(?<docText>.+?\n)=cut\h*?(?=\n)',
                 _Extends      => $extendsRx . $paramsRx,
@@ -111,7 +111,8 @@ sub INCLUDE {
             }
             elsif ( $lType =~ '^_(Extends|With)$' ) {
                 Foswiki::Exception::Fatal->throw( text =>
-                      'Found class modifiers before a package declaration.' )
+                      "Found class modifiers before a package declaration for "
+                      . $class )
                   if !defined($curPackage);
                 my $miKey     = lc($1);
                 my $params    = $ctxCode->{lexemes}{params};
