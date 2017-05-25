@@ -461,12 +461,7 @@ around stringify => sub {
     my $orig = shift;
     my $this = shift;
 
-    return
-        "Failed to "
-      . $this->op
-      . " file "
-      . $this->file . ": "
-      . $orig->($this);
+    return "Failed to " . $this->op . " " . $this->file . ": " . $orig->($this);
 };
 
 around prepareText => sub {
