@@ -172,10 +172,10 @@ around optionDefinitions => sub {
     my $orig = shift;
     return (
         $orig->(@_),
-        expert    => { arity => 0, },
-        modprefix => { arity => 1, },
-        pluggable => { arity => 1, },
-        section   => { arity => 2, },
+        expert     => { arity => 0, },
+        modprefix  => { arity => 1, },
+        expandable => { arity => 1, },
+        section    => { arity => 2, },
     );
 };
 

@@ -129,6 +129,9 @@ around log => sub {
         close($file);
     }
     else {
+        # SMELL Crashing the whole application simply because cannot write to a
+        # log file? Seriously?? Then again, it's a job for planned bufferized
+        # app messaging subsystem.
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
     }
     if ( $level =~ m/^(error|critical|alert|emergency)$/ ) {

@@ -3010,8 +3010,8 @@ sub prepareDataHashClass {
     # Map the class only if app's extensions attribute is initialized. Otherwise
     # avoid autovivification. This code would make sense when very early config
     # loading would be implemented.
-    $hashClass = $this->app->extensions->mapClass($hashClass)
-      if $this->app->has_extensions;
+    $hashClass = $this->app->extMgr->mapClass($hashClass)
+      if $this->app->has_extMgr;
 
     Foswiki::load_class($hashClass);
 
@@ -3140,7 +3140,72 @@ sub _specSectionBody {
             }
             else {
                 # Bool zero-arity options get values too.
-                $section->setOpt( $option, $values[0] );
+                if ( $option eq 'expandable' ) {
+
+                    # Insert dynamically-generated specs.
+                    my $specData;
+                    my $expandable = $values[0];
+                    if ( my $refType = ref($expandable) ) {
+                        if ( $refType eq 'CODE' ) {
+                            $specData =
+                              [ $expandable->( $this, section => $section, ) ];
+                        }
+                        else {
+                            Foswiki::Exception::Config::BadSpecData->throw(
+                                text => "Unallowed reference type "
+                                  . $refType
+                                  . " for -expandable",
+                                section => $section,
+                            );
+                        }
+                    }
+                    else {
+                        my $expMod = $expandable;
+
+                        $expMod = __PACKAGE__ . "::Expandable::$expMod"
+                          unless $expMod =~ /::/;
+
+                        try {
+                            Foswiki::load_package($expMod);
+
+                            my $composeSub = $expMod->can('compose');
+
+                            Foswiki::Exception::Config::BadSpecData->throw(
+                                text => "Module "
+                                  . $expMod
+                                  . " doesn't have 'compose' method",
+                                section => $section,
+                            ) unless $composeSub;
+
+                            if ( $expMod->can('new') ) {
+                                my $expObj =
+                                  $this->create( $expMod, cfg => $this, );
+                                $specData = [ $expObj->compose ];
+                            }
+                            else {
+                                $specData = [
+                                    $composeSub->(
+                                        $this, section => $section,
+                                    )
+                                ];
+                            }
+                        }
+                        catch {
+                            my $e =
+                              Foswiki::Exception::Fatal->transmute( $_, 0 );
+                            $e->_set_text( "Processing of -expandable '"
+                                  . $expandable
+                                  . "' failed: "
+                                  . $e->text );
+                            $e->rethrow;
+                        };
+                    }
+
+                    $specs->inject( specDef => $specData );
+                }
+                else {
+                    $section->setOpt( $option, $values[0] );
+                }
             }
 
         }
@@ -3190,23 +3255,23 @@ sub _specSection {
     $this->_specSectionBody( specs => $secSpecs, );
 }
 
-sub _specModprefix {
-    my $this   = shift;
-    my %params = @_;
-
-    my $specs   = $params{specs};
-    my $section = $specs->section;
-
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text    => "Incomplete -modprefix option, missing value",
-        section => $section,
-
-    ) unless $specs->hasNext;
-
-    my $prefix = $specs->fetch;
-
-    $section->setOpt( modprefix => $prefix );
-}
+#sub _specModprefix {
+#    my $this   = shift;
+#    my %params = @_;
+#
+#    my $specs   = $params{specs};
+#    my $section = $specs->section;
+#
+#    Foswiki::Exception::Config::BadSpecData->throw(
+#        text    => "Incomplete -modprefix option, missing value",
+#        section => $section,
+#
+#    ) unless $specs->hasNext;
+#
+#    my $prefix = $specs->fetch;
+#
+#    $section->setOpt( modprefix => $prefix );
+#}
 
 sub _isCompleteKeyDef {
     my $this = shift;
@@ -3292,8 +3357,8 @@ sub _specCfgKey {
 
     # $isLeafKey is undef until we decide if the key we're working with is leaf
     # – i.e. defines a key storing value, not other keys.
-    # The node is non-leaf if it hold a hash ref. For a newly created node
-    # its value is undefined and thus
+    # The node is non-leaf if it holds a hash ref. For a newly created node
+    # its value is undefined.
     my ( $isLeafKey, $isEnhancing, $keyType, $prevKeyType, $keySize, $keyText );
     my $noSourceFromSpec = 0;
 
@@ -3326,6 +3391,12 @@ sub _specCfgKey {
 
     while ( $keySpecs->hasNext ) {
         my $elem = $keySpecs->fetch;
+
+        Foswiki::Exception::Config::BadSpecData->throw(
+            text =>
+"Undefined value encountered where an element is expected for key '$keyFullName'",
+            section => $section,
+        ) unless defined $elem;
 
         Foswiki::Exception::Config::BadSpecData->throw(
             text => "Unexpected reference to "

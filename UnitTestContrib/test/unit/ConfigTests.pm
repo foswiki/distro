@@ -335,6 +335,48 @@ sub test_defaultValue {
     );
 }
 
+sub test_expandable {
+    my $this = shift;
+
+    my $data = $this->app->cfg->makeSpecsHash;
+
+    my $dataObj = tied %$data;
+
+    my $cfg = $this->app->cfg;
+
+    my $section = $this->create( 'Foswiki::Config::Section', name => 'Root', );
+
+    $cfg->spec(
+        source  => __FILE__,
+        dataObj => $dataObj,
+        section => $section,
+        specs   => [
+            -expandable => sub {
+                return (
+                    -section => Section => [
+                        'Test1.Key1' => [
+                            -type    => 'STRING',
+                            -default => 'Default Key1',
+                        ],
+                        'Test2.Key2' => [
+                            -type    => 'NUMBER',
+                            -default => 3.1415926,
+                        ],
+                    ]
+                );
+            },
+        ],
+    );
+
+    $this->assert_deep_equals(
+        {
+            Test1 => { Key1 => 'Default Key1', },
+            Test2 => { Key2 => 3.1415926, },
+        },
+        $data
+    );
+}
+
 my %keyStructs = (
     Straigt     => [ 'A' .. 'M' ],
     ComplexDeep => [
@@ -755,6 +797,8 @@ sub test_ReadWriteLSC {
 
     $this->app->cfg->data->{ThisKey}{Is}{Not}{From}{Specs} =
       "But we will have it in the LSC";
+    $this->app->cfg->data->{Extensions}{DBConfigExtension}{Connection}{Table} =
+      "LSC_TEST";
 
     my $lscFile = "./TestLocalSite.cfg";
     $this->app->cfg->writeLSC( lscFile => $lscFile, );

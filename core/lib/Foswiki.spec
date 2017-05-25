@@ -126,9 +126,6 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-#! The following plugin must follow all other {ScriptUrlPaths} items
-# *SCRIPTHASH*
-
 # ---++ File System Paths
 # Configure the file system locations of key Foswiki directories here.  These are usually guessed
 # correctly during bootstrap. Other file locations are configured within their related sections.
@@ -2376,7 +2373,7 @@ $Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{NatEditPlugin}{Module} =
   'Foswiki::Plugins::NatEditPlugin';
 
-# **BOOLEAN LABEL="PreferencesPlugin"
+# **BOOLEAN LABEL="PreferencesPlugin"**
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 
 # **STRING EXPERT LABEL="PreferencesPlugin Module"**
@@ -2397,7 +2394,7 @@ $Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} =
   'Foswiki::Plugins::SlideShowPlugin';
 
-# **BOOLEAN LABEL="SmiliesPlugin"
+# **BOOLEAN LABEL="SmiliesPlugin"**
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
 
 # **STRING EXPERT LABEL="SmiliesPlugin Module"**

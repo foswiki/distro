@@ -1053,7 +1053,8 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
 
                 $this->_checkItemComplete($status);
 
-                push @{ $status->{specs} }, -pluggable => $name;
+                # expandable is an alias for pluggable used by LoadSpec.
+                push @{ $status->{specs} }, -expandable => $name;
             }
             elsif (
                 $l =~ /^\#\s*---(?<subLevel>\++)\s*
