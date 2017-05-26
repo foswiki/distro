@@ -16,6 +16,8 @@ use v5.14;
 use strict;
 use warnings;
 
+use Try::Tiny;
+
 use File::Spec ();
 use Foswiki    ();
 
@@ -42,6 +44,16 @@ sub INCLUDE {
     #    return '' unless $class && $class =~ m/^Foswiki/;
     $class =~ s/[^\w:]//g;
 
+    my $classLoadError = "";
+
+    try {
+        Foswiki::load_package($class);
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $classLoadError = $e->stringify;
+    };
+
     my %publicPackages = map { $_ => 1 } _loadPublishedAPI($app);
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
     _setNavigation( $app, $class, $publicOnly, \%publicPackages );
@@ -66,7 +78,7 @@ sub INCLUDE {
     my %baseType2Text = (
         extends    => 'IS A',
         with       => 'ROLES',
-        classAttrs => _doclink( $app, 'Foswiki::Class' ) . ' ATTRIBUTES',
+        classAttrs => _doclink( $app, 'Foswiki::Class' ) . ' MODIFIERS',
     );
     my %classAttributes2Roles = (
         app       => 'Foswiki::AppObject',
@@ -167,7 +179,7 @@ sub INCLUDE {
                         _package =>
 '^(?:---\++)(?:!!)?\h+(?<pkgType>(?i:package|class|role))\h+(?<pkgName>.+?)\h*?$',
                         _method =>
-'^(---\++\h+(?<methodAccess>Object|Static|Class)(?<methodType>Method|Attribute)\h+(?<methodName>(?<methodPriv>_?).+?))\h*?$',
+'^(---\++\h+(?<methodAccess>Object|Static|Class)(?<methodType>Method|Attribute)\h+(?<methodText>(?<methodPriv>_?).+?))\h*?$',
                     },
                 );
                 if ( _nextLexeme($ctxSection) ) {
@@ -196,6 +208,14 @@ sub INCLUDE {
                                       ) . "|\n";
                                 }
                             }
+                            if ($classLoadError) {
+                                $pod .=
+                                    "*\%RED\%Loading of "
+                                  . $class
+                                  . " failed with the following error:\%ENDCOLOR\%*\n<verbatim>"
+                                  . $classLoadError
+                                  . "</verbatim>\n";
+                            }
                             $app->prefs->setSessionPreferences( 'DOC_TITLE',
                                 "---+ !! =$visibility $pkgType= "
                                   . _renderTitle( $app, $class ) )
@@ -205,19 +225,30 @@ sub INCLUDE {
                     elsif ( $secType eq '_method' ) {
                         my (
                             $methodAccess, $methodType,
-                            $methodName,   $methodPriv
+                            $methodText,   $methodPriv
                           )
                           = @{ $ctxSection->{lexemes} }
-                          {qw(methodAccess methodType methodName methodPriv)};
-                        $methodName = Foswiki::entityEncode($methodName);
+                          {qw(methodAccess methodType methodText methodPriv)};
+                        my $methodTextEncoded =
+                          Foswiki::entityEncode($methodText);
                         if ( $publicOnly && $methodPriv ) {
                             $suppressedMethodLevel = $secDepth;
                         }
                         else {
                             # Starting a non-suppressed method section.
                             $suppressedMethodLevel = 0;
+
+                            my $pluggable = "";
+                            if ( $methodText =~ /^\W*(?<methodName>\w+)\b/ ) {
+
+                                # TODO Replace word Pluggable with a link to
+                                # extensions documentaion when ready.
+                                $pluggable =
+                                  $Foswiki::ExtManager::pluggables{$class}
+                                  { $+{methodName} } ? "=Pluggable= " : "";
+                            }
                             $pod .=
-"\n$secDef =[[$methodAccess$methodType]]= ==$methodName==\n";
+"\n$secDef $pluggable=[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
                         }
                     }
                     else {    # Just plain simple heading.
