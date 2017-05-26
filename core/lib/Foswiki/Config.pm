@@ -13,6 +13,59 @@ package Foswiki::Config;
 
 Class representing configuration data.
 
+---++ General concepts
+
+The first and primary function of this class is to serve as a placeholder for
+the configuration hash stored in [[?%QUERYSTRING%#ObjectAttributeData][=data=]] attribute.
+Additionally this class implements:
+
+   1. Bootstrapping of a fresh install
+   1. Specs handling
+   1. Some API
+   
+There're two modes a =Foswiki::Class= object may be in: _data_ and _specs_. The
+difference among them is in whether =data= attribute contains a normal plain
+hash (_data_ mode) or a tied one (_specs_ mode). Whichever one is active at any
+given moment of time it doesn't affect application functionality – see
+[[https://perldoc.perl.org/perltie.html][perltie]].
+
+---+++ Specs mode
+
+A =Foswiki::Config= class is switched into _specs_ mode with a call to
+[[?%QUERYSTRING%#ObjectMethodSpecsMode][=specsMode()=]] method. The switch could
+be performed dynamically at any time (as well as switching back to _data_) and
+preserves all configuration data.
+
+This mode is mainly needed by the =configure= script as it provides all required
+information about configuration keys and their attributes. Additionally it can
+be used for debugging purposes as values stored into the configuration hash
+could be transparently verified for their validity.
+
+The following classes are working together to implement _specs_ mode:
+
+| *Class* | *Functionality* |
+| =Foswiki::Config::DataHash= | =data= attribute hash is tied to it; considered as top-level container class |
+| =Foswiki::Config::Node= | Represents information about a key stored in the configuration hash |
+| =Foswiki::Config::Section= | A configuration section |
+
+---+++ Globals
+
+This class installs the global hash =%Foswiki::cfg= to provide compatibility
+with legacy code. The hash is an alias to the
+[[?%QUERYSTRING%?#ObjectAttributeData][=data=]] attribute. It's assumed that
+normally there is only one instance of =Foswiki::Config= class and it's the one
+stored in =Foswiki::App= =cfg= attribute. For that reason =%Foswiki::cfg= is
+assumed to be the configuration hash of currently active application. This
+assumption could be workarounded using
+[[?%QUERYSTRING%#ObjectMethodAssignGlob][=assignGLOB()=]] and
+[[?%QUERYSTRING%#ObjectMethodUnassignGlob][=unAssignGLOB()=]] methods.
+
+
+---++ Terminology
+
+An abbreviation *LSC* could be used throughout this documention instead of
+"local site configuration".
+
 =cut
 
 use Assert;
@@ -76,6 +129,8 @@ $Foswiki::regex{optionNameRegex} = qr/^-(?<option>[[:alpha:]_][[:alnum:]_]*)$/;
 my %parserModules;
 
 =begin TML
+
+#ObjectAttributeData
 ---++ ObjectAttribute data
 
 Contains configuration hash. =%Foswiki::cfg= is an alias to this attribute.
@@ -95,6 +150,7 @@ has data => (
 );
 
 =begin TML
+
 ---++ ObjectAttribute files
 
 What files we read the config from in the order of reading.
@@ -166,7 +222,7 @@ has bootstrapMessage => ( is => 'rw', );
 Default for =readConfig()= method =$noExpand= parameter when called by
 constructor. Not used otherwise.
 
-See [[#ObjectMethodNew][constructor new()]].
+See [[?%QUERYSTRING%#ObjectMethodNew][constructor new()]].
 
 =cut
 
@@ -179,7 +235,7 @@ has noExpand => ( is => 'rw', default => 0, );
 Default for =readConfig()= method =$noSpec= parameter when called by
 constructor. Not used otherwise.
 
-See [[#ObjectMethodNew][constructor new()]].
+See [[?%QUERYSTRING%#ObjectMethodNew][constructor new()]].
 
 =cut
 
@@ -192,7 +248,7 @@ has noSpec => ( is => 'rw', default => 0, );
 Default for =readConfig()= method =$configSpec= parameter when called by
 constructor. Not used otherwise.
 
-See [[#ObjectMethodNew][constructor new()]].
+See [[?%QUERYSTRING%#ObjectMethodNew][constructor new()]].
 
 =cut
 
@@ -205,7 +261,7 @@ has configSpec => ( is => 'rw', default => 0, );
 Default for =readConfig()= method =$noLocal= parameter when called by
 constructor. Not used otherwise.
 
-See [[#ObjectMethodNew][constructor new()]].
+See [[?%QUERYSTRING%#ObjectMethodNew][constructor new()]].
 
 =cut
 
@@ -222,19 +278,19 @@ defined by specs.
 
 has rootSection => (
     is      => 'rw',
-    builder => 'prepareRootSection',
     lazy    => 1,
     clearer => 1,
     isa     => Foswiki::Object::isaCLASS(
         'rootSection', 'Foswiki::Config::Section', noUndef => 1,
     ),
+    builder => 'prepareRootSection',
 );
 
 =begin TML
 
 ---++ ObjectAttribute specFiles
 
-And object of =Foswiki::Config::Spec::Files= class. List of specs found.
+A object of =Foswiki::Config::Spec::Files= class. List of specs found.
 
 =cut
 
@@ -250,13 +306,27 @@ has specFiles => (
     builder => 'prepareSpecFiles',
 );
 
-# Class name used to create tied data hash.
+=begin TML
+
+---++ ObjectAttribute dataHashClass
+
+Class name used to create tied data hash.
+
+=cut
+
 has dataHashClass => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
     builder => 'prepareDataHashClass',
 );
+
+=begin TML
+
+---++ ObjectAttribute _specParsers
+
+
+=cut
 
 has _specParsers => (
     is      => 'ro',
@@ -396,7 +466,7 @@ sub _workOutOS {
 
 ---++ ObjectMethod localize( %init ) => $holder
 
-This methods preserves current =data= attribute on =_dataStack= and sets =data=
+This method preserves current =data= attribute on =_dataStack= and sets =data=
 to the values provided in =%init=.
 
 See also: =Foswiki::Aux::Localize=
@@ -422,6 +492,14 @@ around doLocalize => sub {
     $this->assignGLOB;
 };
 
+=begin TML
+
+---++ ObjectMethod _createSpecParser( $format ) -> $parser
+
+Creates a new parser object for =$format=. 
+
+=cut
+
 sub _createSpecParser {
     my $this   = shift;
     my $format = shift;
@@ -432,6 +510,18 @@ sub _createSpecParser {
 
     return $this->create( $fmtClass, cfg => $this, @_ );
 }
+
+=begin TML
+
+---++ ObjectMethod getSpecParser( $format ) -> $parser
+
+Returns a parser object for specified spec =$format=. Undef is returned is such
+format is now known or parser module load failed.
+
+Format modules are defined undef =Foswiki::Config::Spec::Format::= namespace and
+available in corresponding directory.
+
+=cut
 
 sub getSpecParser {
     my $this   = shift;
@@ -478,6 +568,7 @@ Fetch keys default values from specs cache. Refresh cache if necessary.
 See =Foswiki::Config::Spec::CacheFile=, =Foswiki::Config::Spec::File=.
 
 =cut
+
 sub fetchDefaults {
     my $this   = shift;
     my %params = @_;
@@ -515,6 +606,8 @@ sub fetchDefaults {
 
 ---++ ObjectMethod readConfig( $noExpand, $noSpec, $configSpec, $noLocal )
 
+%RED% *Must not be used any more* %ENDCOLOR%
+
 In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
 replaced by custom code which sets the configuration hash.  To prevent us from
@@ -529,6 +622,7 @@ The assumption is that =configure= will be run when an extension is installed,
 and that will add the config values to LocalSite.cfg, so no defaults are
 needed. Foswiki.spec is still read because so much of the core code doesn't
 provide defaults, and it would be silly to have them in two places anyway.
+
 =cut
 
 sub readConfig {
@@ -691,7 +785,24 @@ sub _expandAll {
     }
 }
 
-# SMELL Docs missing
+=begin TML
+
+---++ ObjectMethod expandAll( %params )
+
+Expands macros in all keys of a configuration data hash.
+
+---+++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =undef= | What to replace an undefined key value with | _"undef"_ |
+| =undefFail= | Bool, wether to fail if an undefined key value encountered | _false_ |
+| =data= | Configuration data hash | =$app->cfg->data= |
+
+=%params= is transparently sent over to =expandStr()= method except for =str=
+key.
+
+=cut
+
 sub expandAll {
     my $this   = shift;
     my %params = @_;
@@ -708,7 +819,39 @@ sub expandAll {
     $this->_expandAll( $data, %params );
 }
 
-# SMELL Docs missing
+=begin TML
+
+---++ ObjectMethod read( %params ) -> $data
+
+This method replaces the legacy =readConfig()=. Depending on what is defined
+by the parameters it:
+
+   * Fetches default values from spec files
+   * Reads the local site configuration file
+   * Expands macros in configuration keys
+   * Sets isVALID key to _true_ if LSC has been read successfully. It would remain _false_ whether LSC read failed or =noLocal= param is _true_.
+   * Normalizes =!PubDir, !DataDir, !ToolsDir, !ScriptDir, !TemplateDir, !LocalesDir,= and =WorkingDir= to correspond the OS used.
+   * Sets =ConfigurationFinished= configuration key to true
+   
+The method returns filled in configuration data hash.
+
+---+++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =data= | Configuration data hash to fill | =$app->cfg->data= |
+| =noDefaults= | Don't fetch spec default values | _false_ |
+| =onlyMain= | Only fetch defaults of the main spec file | _false_ |
+| =noLocal= | Don't read local site configuration file | _false_ |
+| =noExpand= | Don't expand macros in the configuration hash | _false_ |
+| =lscFile= | Name of the local configuration file | see =readLSCStart()= method |
+| =_stage= | The initialization stage as defined by =Foswiki::App= =initStage= attribute. | =$app->initStage= |
+
+%X% *NOTE:* The =_stage= param is not used by the core but could be taken into
+account by an extension overriding a pluggable method. It is also passed over to
+the =expandAll()= method.
+
+=cut
+
 pluggable read => sub {
     my $this   = shift;
     my %params = @_;
@@ -784,7 +927,28 @@ pluggable read => sub {
     return $data;
 };
 
-# SMELL Docs missing
+=begin TML
+
+---++ ObjectMethod readLSCStart( %params ) -> $success
+
+This method prepares reading from LSC file. Only to be called by =readLSC()=
+method.
+
+As a matter of fact this method reads the entire LSC file in %WIKITOOLNAME%
+format into memory and prepares data for =readLSCRecord()= method.
+
+Returns _false_ if failed.
+
+---+++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =lscFile= | Full pathname of LSC file | =$this->lscFile= with _.new_ suffix appended in %WIKITOOLNAME% library directory |
+
+%X% *NOTE:* The _.new_ suffix is a temporary solution to avoid conflicts with
+legacy code. Will be removed in release.
+
+=cut
+
 pluggable readLSCStart => sub {
     my $this   = shift;
     my %params = @_;
@@ -890,9 +1054,18 @@ pluggable readLSCStart => sub {
     return 1;
 };
 
-# SMELL Docs missing
-# Returns ($rc, $keyPath, $keyVal). If $rc is not true then record reading
-# failed. If $rc is true but $keyPath is undef then end of list is reached.
+=begin TML
+
+---++ ObjectMethod readLSCRecord( %params ) -> ($success, $keyPath, $keyVal )
+
+Fetches next record from LSC file. Only to be called by =readLSC()= method.
+
+Returns a list of =($success, $keyPath, $keyVal)=. If =$success= is _false_ then
+record reading failed. If =$success= is _true_ but =$keyPath= is _undef_ then it
+was an attempt to read past last record.
+
+=cut
+
 pluggable readLSCRecord => sub {
     my $this   = shift;
     my %params = @_;
@@ -2705,6 +2878,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 
 =begin TML
 
+#ObjectMethodAssignGlob
 ---++ ObjectMethod assignGLOB
 
 Sets the global =%Foswiki::cfg= hash to be an alias to the config's object
@@ -2725,6 +2899,7 @@ sub assignGLOB {
 
 =begin TML
 
+#ObjectMethodUnassignGlob
 ---++ ObjectMethod unAssignGLOB
 
 Does opposite to the =assignGLOB= method: assigns global =%Foswiki::cfg= to an
