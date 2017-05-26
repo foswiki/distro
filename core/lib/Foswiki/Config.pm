@@ -459,10 +459,25 @@ sub getSpecParser {
 
     $parsers->{$format} = $parser;
 
-    return unless $parser;
+    return undef unless $parser;
+    return $parser;
 }
 
-# Fetch keys default values from specs cache. Recache if necessary.
+=begin TML
+
+---++ ObjectMethod fetchDefaults( %params )
+
+Fetch keys default values from specs cache. Refresh cache if necessary.
+
+---+++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =data= | Hashref to store defaults into | =$app->cfg->data= |
+| =onlyMain= | Bool, fetch only the main spec file defaults (normally – =Foswiki.spec=) | _false_ |
+
+See =Foswiki::Config::Spec::CacheFile=, =Foswiki::Config::Spec::File=.
+
+=cut
 sub fetchDefaults {
     my $this   = shift;
     my %params = @_;
@@ -752,6 +767,7 @@ pluggable read => sub {
     foreach my $dirKey (
         qw(PubDir DataDir ToolsDir ScriptDir TemplateDir LocalesDir WorkingDir))
     {
+        next unless defined $data->{$dirKey};
         my ( $v, $d, $f ) = File::Spec->splitpath( $data->{$dirKey} );
         my @d = File::Spec->splitdir($d);
         $data->{$dirKey} =
