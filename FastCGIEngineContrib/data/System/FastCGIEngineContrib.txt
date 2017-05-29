@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1495415159" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1496025040" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -160,8 +160,8 @@ server {
            #fastcgi_pass             unix:/var/run/nginx/foswiki.sock;
            fastcgi_pass             127.0.0.1:9000;
            fastcgi_split_path_info  ^(/bin/\w+)(.*);
-           #  Captures two variables   ($ffastcgi_script_name) and ($fastcgi_path_info)
-           fastcgi_param            SCRIPT_FILENAME $foswiki_root/$fastcgi_script_name;
+           #  Captures two variables   ($fastcgi_script_name) and ($fastcgi_path_info)
+           fastcgi_param            SCRIPT_FILENAME $foswiki_root/bin/$fastcgi_script_name;
            fastcgi_param            SCRIPT_NAME     $fastcgi_script_name;
            fastcgi_param            PATH_INFO       $fastcgi_path_info;
            include fastcgi_params;
