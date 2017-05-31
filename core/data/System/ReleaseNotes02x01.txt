@@ -55,7 +55,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 02 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
-   * Foswiki 2.1.4 was built on 30 May 2017. It is a release that contains 31 fixes.
+   * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
 
 
 ---++ Pre-installed Extensions

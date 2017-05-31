@@ -5329,7 +5329,7 @@ msgstr ""
 "Waarschuwing: Op deze site is het niet toegestaan om %<nop>INCLUDE% van URLs "
 "te gebruiken"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 

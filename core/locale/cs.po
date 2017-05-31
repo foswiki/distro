@@ -5322,7 +5322,7 @@ msgstr "Varování: Nemohu zaslat potvrzovací email, zasílání emailů je vyp
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Varování: Nalezeny aktualizace pro %1 rozšíření."
 

@@ -5361,7 +5361,7 @@ msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 

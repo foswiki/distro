@@ -5493,7 +5493,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
