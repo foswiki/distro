@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2017-02-14 07:24+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5369,7 +5369,7 @@ msgstr ""
 "Advarsel: Dette websted tillader ikke brug af %<nop>INCLUDE% til inkludering "
 "af URL'er"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Advarsel: Opdateringer fundet for %1 extension(s)."
 

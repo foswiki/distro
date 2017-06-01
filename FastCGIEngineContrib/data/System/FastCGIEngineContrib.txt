@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1495415159" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1496065343" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -160,8 +160,8 @@ server {
            #fastcgi_pass             unix:/var/run/nginx/foswiki.sock;
            fastcgi_pass             127.0.0.1:9000;
            fastcgi_split_path_info  ^(/bin/\w+)(.*);
-           #  Captures two variables   ($ffastcgi_script_name) and ($fastcgi_path_info)
-           fastcgi_param            SCRIPT_FILENAME $foswiki_root/$fastcgi_script_name;
+           #  Captures two variables   ($fastcgi_script_name) and ($fastcgi_path_info)
+           fastcgi_param            SCRIPT_FILENAME $foswiki_root/bin/$fastcgi_script_name;
            fastcgi_param            SCRIPT_NAME     $fastcgi_script_name;
            fastcgi_param            PATH_INFO       $fastcgi_path_info;
            include fastcgi_params;
@@ -232,7 +232,7 @@ After the update, each process will still serve one more request before reloadin
 ---++ Info
 
 | Change History: | |
-|  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>
+|  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>\
                         Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
 |  14 Jun 2015 | (1.02) Foswikitask:Item10751 - Prepare for Unicode core. |

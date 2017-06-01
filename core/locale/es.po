@@ -5527,7 +5527,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advertencia: Este sitio no permite %<nop>INCLUDE% de direcciones web"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
