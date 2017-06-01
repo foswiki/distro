@@ -211,7 +211,7 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.3_004');
+    use version 0.77; $VERSION = version->declare('v2.1.4');
     $RELEASE = 'Foswiki-2.1.4';
 
     # Default handlers for different %TAGS%
