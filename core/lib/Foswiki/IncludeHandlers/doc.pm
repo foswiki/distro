@@ -245,10 +245,10 @@ sub INCLUDE {
                                 # extensions documentaion when ready.
                                 $pluggable =
                                   $Foswiki::ExtManager::pluggables{$class}
-                                  { $+{methodName} } ? "=Pluggable= " : "";
+                                  { $+{methodName} } ? "Pluggable " : "";
                             }
                             $pod .=
-"\n$secDef $pluggable=[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
+"\n$secDef =${pluggable}[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
                         }
                     }
                     else {    # Just plain simple heading.

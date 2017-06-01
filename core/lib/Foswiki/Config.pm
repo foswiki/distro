@@ -66,6 +66,140 @@ assumption could be workarounded using
 An abbreviation *LSC* could be used throughout this documention instead of
 "local site configuration".
 
+A configuration *key* is a sequence of characters starting with a word character
+(=\w= in [[https://perldoc.perl.org/perlre.html][Perl regexps]]) and followed by
+any character except for ='.'= (a dot), or ='='= (an equal sign), or ='{'=, or
+='}'= (curly braces).
+
+A *key path* is a sequence of configuration *keys* in either dot or curly braces
+notation. For example, a dot notation:
+
+<verbatim>
+JQueryPlugin.Plugins.Animate.Enabled
+</verbatim>
+
+Curly braces notation:
+
+<verbatim>
+{JQueryPlugin}{Plugins}{Animate}{Enabled}
+</verbatim>
+
+A *full key path* is a *key path* which includes all *keys* to identify a
+distinctive configuration entry. The examples above are both representing a full
+path. Sometimes a *partial key path* might be used to shorten a notation. Like,
+for example, when it's known that we're speaking about =JQueryPlugin.Plugins=
+part of the configuration then it would be ok to use just =Animate.Enabled=.
+
+---++ LSC File Format
+
+The new LSC file has a line-based format. A line in the file could be a:
+
+   * comment starting with =#=
+   * empty line (whitespaces are allowed)
+   * record line
+   * data line of a here-document
+   
+A record line is a line starting with a full key path in dot-notation, followed
+by an equal sign, and then by a valid Perl data or nothing. 'Valid data' means
+that what is placed on the right side of the equal sign must produce a valid
+output after being passed as a parameter to
+=[[https://perldoc.perl.org/functions/eval.html][eval]]= function. For example:
+
+<verbatim>
+MailerContrib.RespectUserPrefs='LANGUAGE'
+MaxLSCBackups=10
+</verbatim>
+
+The data could be a multi-line represented by a here-document. As any other kind
+of data it must represent a valid Perl data would it be a simple multi-line string
+or a complex structure:
+
+<verbatim>
+Log.Action=<<CF_DIWS
+{
+  'attach' => 1,
+  'changes' => 1,
+  'compare' => 1,
+  'edit' => 1,
+  'rdiff' => 1,
+  'register' => 1,
+  'rename' => 1,
+  'rest' => 1,
+  'save' => 1,
+  'search' => 1,
+  'upload' => 1,
+  'view' => 1,
+  'viewfile' => 1
+}
+CF_DIWS
+</verbatim>
+
+If nothing follows the equal sign then the key's value is undefined:
+
+<verbatim>
+Store.Encoding=
+</verbatim>
+
+---++ Macro expansion
+
+Macros in a configuration hash must be expanded using =expandStr()= method.
+
+A macro is a specially formatted string embedded into a configuration key
+value. The macro string starts with ='$'= (dollar sign) and followed by
+full key path enclosed in curly braces. See the =parseKeys()= method and
+how it handles embraced keys.
+
+Here is few examples of valid macro strings:
+
+<verbatim>
+${JQueryPlugin.Plugins.JEditable.Module}
+${JQueryPlugin}{Plugins}{JEditable}{Module}
+${JQueryPlugin.Plugins.JEditable}{Module}
+</verbatim>
+
+Macros are exanded recursivly. I.e. if we expand an embedded macro string then
+key's value it represents will be expanded too prior to inserting it into the
+original data.
+
+Consider a sample chunk of LSC file:
+
+<verbatim>
+CoreDir='/usr/local/www/foswiki'
+DataDir='${CoreDir}/data'
+WorkingDir='${CoreDir}/working'
+Cache.RootDir='${WorkingDir}/cache'
+</verbatim>
+
+It will result in the following configuration data hash:
+
+<verbatim>
+{
+    CoreDir       => '/usr/local/www/foswiki',
+    DataDir       => '/usr/local/www/foswiki/data',
+    WorkingDir    => '/usr/local/www/foswiki/working',
+    Cache.RootDir => '/usr/local/www/foswiki/working/cache',
+}
+</verbatim>
+
+How undefined key values are handled is defined by =undef= and =undefFail=
+parameters of the =expandStr()= method.
+
+Any non-word character can be inserted using a special macro =${&lt;chr&gt;}= where
+=&lt;chr&gt;= is the symbol we need to insert:
+
+| =${$}= | _$_ |
+| =${{}= | _{_ |
+| =${}}= | _}_ |
+| =${\}= | _\_ |
+| =${$}{Key.Path}= | _${Key.Path}_ |
+
+Note that a word char inside the curly braces is considered a valid key name.
+Thus,a string _'${k}'_ will either expand into key =k= value; or if there is no
+such key then the result of the expansion will depend on =undef= and =undefFail=
+parameters of the =expandStr()= method.
+
+---++ Attributes
+
 =cut
 
 use Assert;
@@ -131,7 +265,7 @@ my %parserModules;
 =begin TML
 
 #ObjectAttributeData
----++ ObjectAttribute data
+---+++ ObjectAttribute data
 
 Contains configuration hash. =%Foswiki::cfg= is an alias to this attribute.
 
@@ -151,7 +285,7 @@ has data => (
 
 =begin TML
 
----++ ObjectAttribute files
+---+++ ObjectAttribute files
 
 What files we read the config from in the order of reading.
 
@@ -165,7 +299,7 @@ has files => (
 
 =begin TML
 
----++ ObjectAttribute lscFile
+---+++ ObjectAttribute lscFile
 
 Default filename for local site configuration. Can be set from the following
 sources (in the order from hight priority to lower):
@@ -183,7 +317,7 @@ has lscFile => (
 
 =begin TML
 
----++ ObjectAttribute lscHeader
+---+++ ObjectAttribute lscHeader
 
 Default header to be put at the beginning of LSC file.
 =cut
@@ -196,7 +330,7 @@ has lscHeader => (
 
 =begin TML
 
----++ ObjectAttribute failedConfig
+---+++ ObjectAttribute failedConfig
 
 Keeps the name of the failed config or spec file.
 
@@ -206,7 +340,7 @@ has failedConfig => ( is => 'rw', );
 
 =begin TML
 
----++ ObjectAttribute bootstrapMessage
+---+++ ObjectAttribute bootstrapMessage
 
 If there is something to inform user about bootstrapping stage – the message
 will be here.
@@ -217,7 +351,7 @@ has bootstrapMessage => ( is => 'rw', );
 
 =begin TML
 
----++ ObjectAttribute noExpand -> Bool
+---+++ ObjectAttribute noExpand -> Bool
 
 Default for =readConfig()= method =$noExpand= parameter when called by
 constructor. Not used otherwise.
@@ -230,7 +364,7 @@ has noExpand => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ ObjectAttribute noSpec -> Bool
+---+++ ObjectAttribute noSpec -> Bool
 
 Default for =readConfig()= method =$noSpec= parameter when called by
 constructor. Not used otherwise.
@@ -243,7 +377,7 @@ has noSpec => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ ObjectAttribute configSpec -> Bool
+---+++ ObjectAttribute configSpec -> Bool
 
 Default for =readConfig()= method =$configSpec= parameter when called by
 constructor. Not used otherwise.
@@ -256,7 +390,7 @@ has configSpec => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ ObjectAttribute noLocal -> Bool
+---+++ ObjectAttribute noLocal -> Bool
 
 Default for =readConfig()= method =$noLocal= parameter when called by
 constructor. Not used otherwise.
@@ -269,7 +403,7 @@ has noLocal => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ ObjectAttribute rootSection => $rootSectionObject
+---+++ ObjectAttribute rootSection => $rootSectionObject
 
 The root section object. Holds a list of first-level sections in the order,
 defined by specs.
@@ -288,7 +422,7 @@ has rootSection => (
 
 =begin TML
 
----++ ObjectAttribute specFiles
+---+++ ObjectAttribute specFiles
 
 A object of =Foswiki::Config::Spec::Files= class. List of specs found.
 
@@ -308,7 +442,7 @@ has specFiles => (
 
 =begin TML
 
----++ ObjectAttribute dataHashClass
+---+++ ObjectAttribute dataHashClass
 
 Class name used to create tied data hash.
 
@@ -323,8 +457,9 @@ has dataHashClass => (
 
 =begin TML
 
----++ ObjectAttribute _specParsers
+---+++ ObjectAttribute _specParsers
 
+Cache of spec parser objects.
 
 =cut
 
@@ -373,8 +508,14 @@ has _lscRecPos => ( is => 'rw', );
 
 =begin TML
 
+---++ Methods
+
+=cut
+
+=begin TML
+
 #ObjectMethodNew
----++ ClassMethod new([noExpand => 0/1][, noSpec => 0/1][, configSpec => 0/1][, noLoad => 0/1])
+---+++ ClassMethod new([noExpand => 0/1][, noSpec => 0/1][, configSpec => 0/1][, noLoad => 0/1])
    
    * =noExpand= - suppress expansion of $Foswiki vars embedded in
      values.
@@ -464,7 +605,7 @@ sub _workOutOS {
 
 =begin TML
 
----++ ObjectMethod localize( %init ) => $holder
+---+++ ObjectMethod localize( %init ) => $holder
 
 This method preserves current =data= attribute on =_dataStack= and sets =data=
 to the values provided in =%init=.
@@ -494,7 +635,7 @@ around doLocalize => sub {
 
 =begin TML
 
----++ ObjectMethod _createSpecParser( $format ) -> $parser
+---+++ ObjectMethod _createSpecParser( $format ) -> $parser
 
 Creates a new parser object for =$format=. 
 
@@ -513,7 +654,7 @@ sub _createSpecParser {
 
 =begin TML
 
----++ ObjectMethod getSpecParser( $format ) -> $parser
+---+++ ObjectMethod getSpecParser( $format ) -> $parser
 
 Returns a parser object for specified spec =$format=. Undef is returned is such
 format is now known or parser module load failed.
@@ -555,11 +696,11 @@ sub getSpecParser {
 
 =begin TML
 
----++ ObjectMethod fetchDefaults( %params )
+---+++ ObjectMethod fetchDefaults( %params )
 
 Fetch keys default values from specs cache. Refresh cache if necessary.
 
----+++!! Parameters
+---++++!! Parameters
 
 | *Param* | *Description* | *Default* |
 | =data= | Hashref to store defaults into | =$app->cfg->data= |
@@ -604,7 +745,7 @@ sub fetchDefaults {
 
 =begin TML
 
----++ ObjectMethod readConfig( $noExpand, $noSpec, $configSpec, $noLocal )
+---+++ ObjectMethod readConfig( $noExpand, $noSpec, $configSpec, $noLocal )
 
 %RED% *Must not be used any more* %ENDCOLOR%
 
@@ -787,11 +928,11 @@ sub _expandAll {
 
 =begin TML
 
----++ ObjectMethod expandAll( %params )
+---+++ ObjectMethod expandAll( %params )
 
 Expands macros in all keys of a configuration data hash.
 
----+++!! Parameters
+---++++!! Parameters
 
 | *Param* | *Description* | *Default* |
 | =undef= | What to replace an undefined key value with | _"undef"_ |
@@ -821,7 +962,7 @@ sub expandAll {
 
 =begin TML
 
----++ ObjectMethod read( %params ) -> $data
+---+++ ObjectMethod read( %params ) -> $data
 
 This method replaces the legacy =readConfig()=. Depending on what is defined
 by the parameters it:
@@ -835,7 +976,7 @@ by the parameters it:
    
 The method returns filled in configuration data hash.
 
----+++!! Parameters
+---++++!! Parameters
 
 | *Param* | *Description* | *Default* |
 | =data= | Configuration data hash to fill | =$app->cfg->data= |
@@ -929,7 +1070,7 @@ pluggable read => sub {
 
 =begin TML
 
----++ ObjectMethod readLSCStart( %params ) -> $success
+---+++ ObjectMethod readLSCStart( %params ) -> $success
 
 This method prepares reading from LSC file. Only to be called by =readLSC()=
 method.
@@ -939,7 +1080,7 @@ format into memory and prepares data for =readLSCRecord()= method.
 
 Returns _false_ if failed.
 
----+++!! Parameters
+---++++!! Parameters
 
 | *Param* | *Description* | *Default* |
 | =lscFile= | Full pathname of LSC file | =$this->lscFile= with _.new_ suffix appended in %WIKITOOLNAME% library directory |
@@ -1056,7 +1197,7 @@ pluggable readLSCStart => sub {
 
 =begin TML
 
----++ ObjectMethod readLSCRecord( %params ) -> ($success, $keyPath, $keyVal )
+---+++ ObjectMethod readLSCRecord( %params ) -> ($success, $keyPath, $keyVal )
 
 Fetches next record from LSC file. Only to be called by =readLSC()= method.
 
@@ -1079,7 +1220,16 @@ pluggable readLSCRecord => sub {
     return ( 1, @{ $this->_lscRecords->[$curPos] } );
 };
 
-# SMELL Docs missing
+=begin TML
+
+---+++ ObjectMethod readLSCFinalize( %params ) -> $success
+
+Finalizes read cycle. Only to be called by =readLSC()= method.
+
+Returns _true_ if everything is ok.
+
+=cut
+
 pluggable readLSCFinalize => sub {
     my $this = shift;
 
@@ -1090,7 +1240,43 @@ pluggable readLSCFinalize => sub {
     return 1;
 };
 
-# SMELL Docs missing
+=begin TML
+
+#ObjectMethodReadLSC
+---+++ ObjectMethod readLSC( %params ) -> $success
+
+Reads local site configuration.
+
+Returns true if everything is ok.
+
+---++++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =data= | Configuration data hash reference to read LSC into. | $app->cfg->data |
+
+Read the Implementation Notes section on how parameters are handled.
+
+---++++!! Implementation Notes
+
+This method does a very simple thing:
+
+   1. Calls =readLSCStart()= method to initiate the reading
+   1. Fetches config records consisting of key path and value one by one with =readLSCRecord()= and stores it in the hash defined by =data= param using =set()= method.
+   1. Calls =readLSCFinalize()=.
+
+Although the only parameter used by this method is =data= a user is allowed to
+supply more parameters if necessary. They all will be passed over to the
+=readLSCStart()= method as is with no modification except for =data= which might
+be altered for a purpose and is always appended to the end of parameters so that
+it would override any user supplied value for it. For the =readLSCRecord()= and
+=readLSCFinalize()= method =data= is the only parameter passed.
+
+Such approach to handling paramers makes sense if one remembers that all four =readLSC*=
+methods are pluggables. So, any extra parameter not handled by the core could be
+useful for a extension.
+   
+=cut
+
 pluggable readLSC => sub {
     my $this   = shift;
     my %params = @_;
@@ -1118,6 +1304,14 @@ pluggable readLSC => sub {
     return ( $rc && $finalRc );
 };
 
+=begin TML
+
+---+++ ObjectMethod _genLSCHereDoc( $val ) -> $hereDocStr
+
+Generates a valid heredoc string which would incapsulate =$val=.
+
+=cut
+
 sub _genLSCHereDoc {
     my $this = shift;
     my $val  = shift;
@@ -1137,7 +1331,19 @@ sub _genLSCHereDoc {
     return "<<$endMark\n$val\n$endMark";
 }
 
-# SMELL Docs missing
+=begin TML
+
+---+++ ObjectMethod writeLSCStart( %params )
+
+Initiates LSC writing.
+
+---++++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =lscFile= | LSC file name | _LocalSite.cfg.new_ in Foswiki lib directory | 
+
+=cut
+
 pluggable writeLSCStart => sub {
     my $this   = shift;
     my %params = @_;
@@ -1155,8 +1361,21 @@ pluggable writeLSCStart => sub {
     );
 };
 
-# SMELL Docs missing
-# This method is for low-level writing of a single key/value pair into LSC.
+=begin TML
+
+---+++ ObjectMethod writeLSCRecord( %params )
+
+This method is for low-level writing of a single key/value pair into LSC.
+
+---++++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =key= | Full configuration key path | |
+| =value= | Key value | |
+| =comment= | Comment text to be written before configuration record. Must be a clear text with no '#' prepended. | |
+
+=cut
+
 pluggable writeLSCRecord => sub {
     my $this   = shift;
     my %params = @_;
@@ -1177,8 +1396,18 @@ pluggable writeLSCRecord => sub {
       };
 };
 
-# SMELL Docs missing
-# Called when all LSC records are stored.
+=begin TML
+
+---+++ ObjectMethod writeLSCFinalize( %params )
+
+Called when all LSC records are stored.
+
+---++++!! Parameters
+
+No parameters are used.
+
+=cut
+
 pluggable writeLSCFinalize => sub {
     my $this   = shift;
     my %params = @_;
@@ -1210,28 +1439,62 @@ pluggable writeLSCFinalize => sub {
     $this->_clear_lscRecords;
 };
 
-# SMELL Docs missing
-# This is the most basic write operation which only gets a data hash and writes
-# it to the destination file. The final config may contain more keys than passed
-# in the data because specs are being fetched in and defaults are added to the
-# data.
+=begin TML
+
+---+++ ObjectMethod writeLSC( %params )
+
+Writes configuration data into LSC file.
+
+---++++!! Parameters
+
+See also parameters of =writeLSCStart()= method.
+
+| *Param* | *Description* | *Default* |
+| =data= | Configuration data hash to be written into LSC file. | =$app->cfg->data= |
+
+---++++!! Implementation notes
+
+This method does the following:
+
+   1. Converts the =data= hash into specs mode unless it's a hash tied to =$app->cfg->dataHashClass= already.
+   1. Calls =writeLSCStart()=.
+   1. Gets all leaf nodes from the data hash and writes them one-by-one with =writeLSCRecord()= method.
+   1. Calls =writeLSCFinalize()=.
+
+Because of the convertion into specs mode (see
+=[[?%QUERYSTRING%#ObjectMethodSpecsMode][specsMode()]]= method) the data hash
+may eventually contain more keys then there was initially. If this is
+undesirable behavior then the =data= hash must be already in specs mode when
+passed into the method.
+
+Before writing a key into LSC file it is checked against all known keys defined
+in specs. If the key is not found then it is prepended with a warning comment.
+
+All user defined parameters are handled similar to the
+=[[?%QUERYSTRING%#ObjectMethodReadLSC][readLSC()]]= method.
+
+=cut
+
 pluggable writeLSC => sub {
     my $this   = shift;
     my %params = @_;
 
-    my $cfgData =
-      $this->specsMode( setAttr => 0, data => $params{data} // $this->data, );
+    my $cfgData = $params{data} // $this->data;
+
+    my $root = tied %$cfgData;
+
+    $cfgData = $this->specsMode( setAttr => 0, data => $cfgData, )
+      unless $root && $root->isa( $this->dataHashClass );
+
+    $root = tied %$cfgData;
 
     $this->writeLSCStart( @_, data => $cfgData );
 
-    my $root = tied %$cfgData;
     my @cfgKeys = sort map { $_->fullName } $root->getLeafNodes;
 
     my %specKeys;
 
     foreach my $sf ( @{ $this->specFiles->list } ) {
-        say STDERR ">>>> ", $sf->path;
-        say STDERR $sf->cacheFile->entries;
         $specKeys{ $_->[0] } = 1 foreach @{ $sf->cacheFile->entries };
     }
 
@@ -1241,7 +1504,7 @@ pluggable writeLSC => sub {
     my $comment = $this->lscHeader . "\n";
     foreach my $cfKey (@cfgKeys) {
         unless ( $specKeys{$cfKey} ) {
-            $comment .= "# This key is not defined in a spec file\n";
+            $comment .= "This key is not defined in a spec file\n";
 
             #say STDERR "Key $cfKey is not defined in specs";
         }
@@ -1276,7 +1539,7 @@ pluggable writeLSC => sub {
 
 =begin TML
 
----++ ObjectMethod expandValue($datum [, $mode])
+---+++ ObjectMethod expandValue($datum [, $mode])
 
 Expands references to Foswiki configuration items which occur in the
 values configuration items contained within the datum, which may be a
@@ -1420,18 +1683,49 @@ sub _expandStr {
     return $expStr;
 }
 
-# Expand a string possibly containing config value macro ${Key}
-# Profile keys:
-# str – a string to expand or an arrayref of strings.
-# key – a config key to expand it's value or an array ref of keys.
-# undef - what to replace undef value with
-# undefFail - true if undef must cause an exception.
-#
-# Returns a scalar only if has been called in a scalar context and only one
-# value was expanded. Note that if both str and key keys are passed it means at
-# least two strings are expanded.
-# If more than one string have been expanded then returns an array ref in scalar
-# context or a list.
+=begin TML
+
+---+++ ObjectMethod expandStr( %params ) -> expanded data
+
+Expands a string possibly containing config value macro ${Key}
+
+Returns an array of expanded strings if called in a list context. In a scalar
+context either returns a scalar for a single expanded string; or an array ref if
+multiple strings were expanded.
+
+---++++!! Parameters
+
+| *Param* | *Description* | *Default* |
+| =data= | Configuration data hash. | =$app->cfg->data= |
+| =str= | Data to be expanded. Could be a scalar or an array ref. | |
+| =key= | Full path of a configuration key to expand or an array ref of keys. | |
+| =undef= | What an undefined value must be replaced with. | _undef_ |
+| =undefFail= | Throw a fatal exception if undefined value has been encountered | _false_ |
+
+---++++!! Implementation details
+
+When a configuration key with undefined value encountered during the expansion
+process then method behaviour depends on =undefFail= and =undef= parameters.
+With =undefFail= set to _true_ a fatal exception will be generated. Otherwise,
+if =undef= is not specified or has undefined value then the whole expansion will
+result in an undefined value. But if =undef= containts a value it will be used
+as if it's the value of the undefined configuration key.
+
+For example, for the following config:
+
+<verbatim>
+UndefKey=
+AKey='Here we include ${UndefKey}...'
+</verbatim>
+
+With =undefFail= being _false_ and =undef= set to '*undef*' the resulting value will be:
+
+<verbatim>
+Here we include *undef*...
+</verbatim>
+
+=cut
+
 pluggable expandStr => sub {
     my $this   = shift;
     my %params = @_;
@@ -1479,7 +1773,7 @@ pluggable expandStr => sub {
 };
 
 =begin TML
----++ ObjectMethod bootstrapSystemSettings()
+---+++ ObjectMethod bootstrapSystemSettings()
 
 This method tries to determine mandatory configuration defaults to operate
 when no LocalSite.cfg is found.
@@ -1653,7 +1947,7 @@ BOOTS
 
 =begin TML
 
----++ ObjectMethod bootstrapWebSettings($script)
+---+++ ObjectMethod bootstrapWebSettings($script)
 
 Called by bootstrapConfig.  This handles the web environment specific settings only:
 
@@ -1855,7 +2149,7 @@ BOOTS
 
 =begin TML
 
----++ ObjectMethod _bootstrapSiteSettings()
+---+++ ObjectMethod _bootstrapSiteSettings()
 
 Called by bootstrapConfig.  This handles the {Site} settings.
 
@@ -1875,7 +2169,7 @@ sub _bootstrapSiteSettings {
 
 =begin TML
 
----++ ObjectMethod _bootstrapStoreSettings()
+---+++ ObjectMethod _bootstrapStoreSettings()
 
 Called by bootstrapConfig.  This handles the store specific settings.   This in turn
 tests each Store Contib to determine if it's capable of bootstrapping.
@@ -1979,7 +2273,7 @@ sub _bootstrapStoreSettings {
 
 =begin TML
 
----++ ObjectMethod setBootstrap()
+---+++ ObjectMethod setBootstrap()
 
 This routine is called to initialize the bootstrap process.   It sets the list of
 configuration parameters that will need to be set and "protected" during bootstrap.
@@ -2087,7 +2381,7 @@ sub arg2keys {
 
 =begin TML
 
----++ ObjectMethod normalizeKeyPath($keyPath, %params) -> $normalizedPathString
+---+++ ObjectMethod normalizeKeyPath($keyPath, %params) -> $normalizedPathString
 
 Takes a =$keyPath= in any form and returns it's normalized stringified form.
 Ususally it means a dotted notation but if =$params{asHash}= is true then Perl'ish
@@ -2126,7 +2420,7 @@ sub normalizeKeyPath {
 
 =begin TML
 
----++ ObjectMethod getSubHash($keyPath, %params) -> (\%subHash, $keyName)
+---+++ ObjectMethod getSubHash($keyPath, %params) -> (\%subHash, $keyName)
 
 Returns subhash of a config data where key defined by =$keyPath= is stored. The
 key short name (the last element of key path) is returned as second element.
@@ -2178,7 +2472,7 @@ sub getSubHash {
 
 =begin TML
 
----++ ObjectMethod get()
+---+++ ObjectMethod get()
 
 $app->cfg->get([qw(Root Branch Leaf)]);
 $app->cfg->get("Root.Branch.Leaf");
@@ -2198,7 +2492,7 @@ sub get {
 
 =begin TML
 
----++ ObjectMethod set($cfgPath => $value)
+---+++ ObjectMethod set($cfgPath => $value)
 
 $app->cfg->set([qw(Root Branch Leaf)], $value);
 $app->cfg->set("Root.Branch.Leaf", $value);
@@ -2220,7 +2514,7 @@ sub set {
 
 =begin TML
 
----++ ObjectMethod getAttachmentURL( $web, $topic, $attachment, %options ) -> $url
+---+++ ObjectMethod getAttachmentURL( $web, $topic, $attachment, %options ) -> $url
 
 Get a URL that points at an attachment. The URL may be absolute, or
 relative to the the page being rendered (if that makes sense for the
@@ -2303,7 +2597,7 @@ sub getAttachmentURL {
 
 =begin TML
 
----++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
+---+++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
 
 Composes a pub url.
    * =$web= - name of the web for the URL, defaults to $session->{webName}
@@ -2349,7 +2643,7 @@ sub getPubURL {
 
 =begin TML
 
----++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
+---+++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
 
 Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
@@ -2431,7 +2725,7 @@ sub getScriptUrl {
 
 =begin TML
 
----++ ObjectMethod patch(%cfgChunk) or patch(\%cfgChunk)
+---+++ ObjectMethod patch(%cfgChunk) or patch(\%cfgChunk)
 
 Patches the config object data with keys in =%cfgChunk=. Keys already existing
 in the config data are overriden with those from the chunk.
@@ -2453,7 +2747,7 @@ sub patch {
 
 =begin TML
 
----++ ObjectMethod urlHost
+---+++ ObjectMethod urlHost
 
 =cut
 
@@ -2879,7 +3173,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 =begin TML
 
 #ObjectMethodAssignGlob
----++ ObjectMethod assignGLOB
+---+++ ObjectMethod assignGLOB
 
 Sets the global =%Foswiki::cfg= hash to be an alias to the config's object
 =data= attribute.
@@ -2900,7 +3194,7 @@ sub assignGLOB {
 =begin TML
 
 #ObjectMethodUnassignGlob
----++ ObjectMethod unAssignGLOB
+---+++ ObjectMethod unAssignGLOB
 
 Does opposite to the =assignGLOB= method: assigns global =%Foswiki::cfg= to an
 empty hash.
@@ -2959,23 +3253,26 @@ sub makeSpecsHash {
 
 =begin TML
 
----++ ObjectMethod specsMode( %params ) -> \%cfgData
+#ObjectMethodSpecsMode
+---+++ ObjectMethod specsMode( %params ) -> \%cfgData
 
 Converts =data= attribute from plain data hash into specs mode by tieing it
 to =Foswiki::Config::DataHash=. The original data is preserved.
 
-The =%params= keys are:
+Returns a reference to the newly created tied hash. 
+
+---++++!! Parameters
 
 | *Key* | *Description* | *Default* |
 | =data= | Reference to config data to be copied into the tied hash | =$app->cfg->data= |
 | =setAttr= | True if =$app->cfg->data= has to be set to the new tied hash | _true_ unless =data= key is defined |
 
+---++++!! Implementation details
+
 The method does nothing if =setAttr= attribute is true and =$app->cfg->data= is
 a tied hash already.
 
-Returns a reference to the newly created tied hash. 
-
-*NOTE* Current implementation is incomplete as before restoring the original
+%X% *NOTE:* Current implementation is incomplete as before restoring the original
 data specs must be re-read from the disk. Otherwise this operation may result in
 inconsistent data not complying with specs requirements.
 
@@ -3027,7 +3324,7 @@ sub specsMode {
 
 =begin TML
 
----++ ObjectMethod dataMode
+---+++ ObjectMethod dataMode
 
 Does the opposite to =specsMode()= method – assigns plain hash to the =data=
 attribute. The data is preserved.
@@ -3048,7 +3345,7 @@ sub dataMode {
 
 =begin TML
 
----++ ObjectMethod getKeyObject(@path) -> $keyObject
+---+++ ObjectMethod getKeyObject(@path) -> $keyObject
 
 Returns a container object of =Foswiki::Config::DataHash= class. =@path= is a
 full path to the key (see =normalizeKeyPath= method).
@@ -3069,7 +3366,7 @@ sub getKeyObject {
 
 =begin TML
 
----++ ObjectMethod getKeyNode(@path) -> $nodeObject
+---+++ ObjectMethod getKeyNode(@path) -> $nodeObject
 
 Returns =Foswiki::Config::Node= object defined by =@path= (see
 =normalizeKeyPath= method).
@@ -3093,7 +3390,7 @@ sub getKeyNode {
 
 =begin TML
 
----++ ObjectMethod spec(%params)
+---+++ ObjectMethod spec(%params)
 
 Params keys are the following:
 
@@ -3180,7 +3477,7 @@ sub spec {
 
 =begin TML
 
----++ ObjectMethod prepareData
+---+++ ObjectMethod prepareData
 
 Initializer of =data= attribute.
 
@@ -3211,7 +3508,7 @@ sub prepareDataHashClass {
 
 =begin TML
 
----++ ObjectMethod prepareRootSection
+---+++ ObjectMethod prepareRootSection
 
 Initializer of =rootSection= attribute.
 
@@ -3225,7 +3522,7 @@ sub prepareRootSection {
 
 =begin TML
 
----++ ObjectMethod prepareSpecFiles
+---+++ ObjectMethod prepareSpecFiles
 
 Initializer of =specFiles= attribute.
 
