@@ -90,6 +90,11 @@ path. Sometimes a *partial key path* might be used to shorten a notation. Like,
 for example, when it's known that we're speaking about =JQueryPlugin.Plugins=
 part of the configuration then it would be ok to use just =Animate.Enabled=.
 
+Current application object would often be referred here as =$app=. Most of the
+time this is a shortcut for =$this->app= or legacy code supporting
+=$Foswiki::app= variable. Whenever a reference to an instance of this class is
+needed =$app->cfg= notation would be used.
+
 ---++ LSC File Format
 
 The new LSC file has a line-based format. A line in the file could be a:
@@ -1962,9 +1967,10 @@ sub bootstrapWebSettings {
     my $this   = shift;
     my $script = shift;
 
-    my $app    = $this->app;
-    my $env    = $app->env;
-    my $engine = $app->engine;
+    my $app     = $this->app;
+    my $env     = $app->env;
+    my $engine  = $app->engine;
+    my $cfgData = $this->data;
 
     print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
       . Data::Dumper::Dumper( \%ENV )
@@ -1972,41 +1978,41 @@ sub bootstrapWebSettings {
 
     # Cannot bootstrap the web side from CLI environments
     if ( !$engine->HTTPCompliant ) {
-        $this->data->{DefaultUrlHost} = 'http://localhost';
-        $this->data->{ScriptUrlPath}  = '/bin';
-        $this->data->{PubUrlPath}     = '/pub';
+        $cfgData->{DefaultUrlHost} = 'http://localhost';
+        $cfgData->{ScriptUrlPath}  = '/bin';
+        $cfgData->{PubUrlPath}     = '/pub';
         print STDERR
           "AUTOCONFIG: Bootstrap Phase 2 bypassed! n/a in the CLI Environment\n"
           if (TRAUTO);
         return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
     }
 
-    $this->data->{Engine} //= ref($engine);
+    $cfgData->{Engine} //= ref($engine);
 
     my $protocol = $engine->secure ? 'https' : 'http';
 
     # Figure out the DefaultUrlHost
     if ( $env->{HTTP_HOST} ) {
-        $this->data->{DefaultUrlHost} = "$protocol://" . $env->{HTTP_HOST};
+        $cfgData->{DefaultUrlHost} = "$protocol://" . $env->{HTTP_HOST};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
-          . $this->data->{DefaultUrlHost}
+          . $cfgData->{DefaultUrlHost}
           . " from HTTP_HOST "
           . $env->{HTTP_HOST} . " \n"
           if (TRAUTO);
     }
     elsif ( $env->{SERVER_NAME} ) {
-        $this->data->{DefaultUrlHost} = "$protocol://" . $env->{SERVER_NAME};
+        $cfgData->{DefaultUrlHost} = "$protocol://" . $env->{SERVER_NAME};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
-          . $this->data->{DefaultUrlHost}
+          . $cfgData->{DefaultUrlHost}
           . " from SERVER_NAME "
           . $env->{SERVER_NAME} . " \n"
           if (TRAUTO);
     }
     elsif ( $env->{SCRIPT_URI} ) {
-        ( $this->data->{DefaultUrlHost} ) =
+        ( $cfgData->{DefaultUrlHost} ) =
           $env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
-          . $this->data->{DefaultUrlHost}
+          . $cfgData->{DefaultUrlHost}
           . " from SCRIPT_URI "
           . $env->{SCRIPT_URI} . " \n"
           if (TRAUTO);
@@ -2014,9 +2020,9 @@ sub bootstrapWebSettings {
     else {
 
         # OK, so this is barfilicious. Think of something better.
-        $this->data->{DefaultUrlHost} = "$protocol://localhost";
+        $cfgData->{DefaultUrlHost} = "$protocol://localhost";
         say STDERR "AUTOCONFIG: barfilicious: Set DefaultUrlHost "
-          . $this->data->{DefaultUrlHost}
+          . $cfgData->{DefaultUrlHost}
           if (TRAUTO);
     }
 
@@ -2040,7 +2046,7 @@ sub bootstrapWebSettings {
       . ( $env->{SCRIPT_URI} || '(undef)' )
       if (TRAUTO);
     say STDERR "AUTOCONFIG: PATH_INFO   is $path_info" if (TRAUTO);
-    say STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine}
+    say STDERR "AUTOCONFIG: ENGINE      is " . $cfgData->{Engine}
       if (TRAUTO);
 
 # This code tries to break the url up into <prefix><script><path> ... The script may or may not
@@ -2066,10 +2072,10 @@ sub bootstrapWebSettings {
 
     # Try to Determine the prefix of the script part of the URI.
     if ( $env->{SCRIPT_URI} && $env->{SCRIPT_URL} ) {
-        if ( index( $env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq 0 ) {
+        if ( index( $env->{SCRIPT_URI}, $cfgData->{DefaultUrlHost} ) eq 0 ) {
             $pfx =
               substr( $env->{SCRIPT_URI},
-                length( $this->data->{DefaultUrlHost} ) );
+                length( $cfgData->{DefaultUrlHost} ) );
             $pfx =~ s#$suffix$##;
             print STDERR
 "AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI and SCRIPT_URL\n"
@@ -2095,40 +2101,39 @@ sub bootstrapWebSettings {
           if (TRAUTO);
 
         # Conventional URLs   with path and script
-        $this->data->{ScriptUrlPath} = $spfx;
-        $this->data->{ScriptUrlPaths}{view} =
-          $spfx . '/view' . $this->data->{ScriptSuffix};
+        $cfgData->{ScriptUrlPath} = $spfx;
+        $cfgData->{ScriptUrlPaths}{view} =
+          $spfx . '/view' . $cfgData->{ScriptSuffix};
 
         # This might not work, depending on the websrver config,
         # but it's the best we can do
-        $this->data->{PubUrlPath} =
-          ( length($spfx) ? "$spfx/.." : "" ) . "/pub";
+        $cfgData->{PubUrlPath} = ( length($spfx) ? "$spfx/.." : "" ) . "/pub";
     }
     else {
         print STDERR "AUTOCONFIG: Building Short URL paths using prefix $pfx \n"
           if (TRAUTO);
-        $this->data->{ScriptUrlPath}        = $pfx . '/bin';
-        $this->data->{ScriptUrlPaths}{view} = $pfx;
-        $this->data->{PubUrlPath}           = $pfx . '/pub';
+        $cfgData->{ScriptUrlPath}        = $pfx . '/bin';
+        $cfgData->{ScriptUrlPaths}{view} = $pfx;
+        $cfgData->{PubUrlPath}           = $pfx . '/pub';
     }
 
     if (TRAUTO) {
         say STDERR "AUTOCONFIG: Using ScriptUrlPath ",
-          $this->data->{ScriptUrlPath};
+          $cfgData->{ScriptUrlPath};
         say STDERR "AUTOCONFIG: Using {ScriptUrlPaths}{view} "
           . (
-            ( defined $this->data->{ScriptUrlPaths}{view} )
-            ? $this->data->{ScriptUrlPaths}{view}
+            ( defined $cfgData->{ScriptUrlPaths}{view} )
+            ? $cfgData->{ScriptUrlPaths}{view}
             : 'undef'
           );
-        say STDERR "AUTOCONFIG: Using PubUrlPath: ", $this->data->{PubUrlPath};
+        say STDERR "AUTOCONFIG: Using PubUrlPath: ", $cfgData->{PubUrlPath};
     }
 
     # Note: message is not I18N'd because there is no point; there
     # is no localisation in a default cfg derived from Foswiki.spec
     my $vp = '';
-    $vp = '?VIEWPATH=' . $this->data->{ScriptUrlPaths}{view}
-      if ( defined $this->data->{ScriptUrlPaths}{view} );
+    $vp = '?VIEWPATH=' . $cfgData->{ScriptUrlPaths}{view}
+      if ( defined $cfgData->{ScriptUrlPaths}{view} );
     my $system_message = <<BOOTS;
 *WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
 This Foswiki is running using a bootstrap configuration worked
@@ -2300,6 +2305,15 @@ sub setBootstrap {
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
+=begin TML
+
+---+++ ObjectMethod _isBadCfgKey( $keyName ) -> $errorStr
+
+Checks if =$keyName= is invalid. Return error message describing the problem or
+undef if the key is valid.
+
+=cut
+
 sub _isBadCfgKey {
     my $this = shift;
     my ($keyName) = @_;
@@ -2318,6 +2332,15 @@ sub _isBadCfgKey {
     return undef;
 }
 
+=begin TML
+
+---+++ ObjectMethod _validateBindings( $keyName )
+
+Checks if =$keyName is valid and throws
+=Foswiki::Exception::Config::InvalidKeyName= exception if it's not.
+
+=cut
+
 sub _validateCfgKey {
     my $this = shift;
     my ($keyName) = @_;
@@ -2331,6 +2354,50 @@ sub _validateCfgKey {
         );
     }
 }
+
+=begin TML
+
+---+++ ObjectMethod parseKey( @keyPath ) -> @parsedPath
+
+This method takes any combination of scalar strings and array refs from
+=@keyPath= and converts it into a plain list of keys forming a key path.
+
+A scalar string could be a combination of either a dot or culry braces notation,
+but not both. For example, valid strings are:
+
+<verbatim>
+AKey
+Key.SubKey
+{Key}{SubKey}
+</verbatim>
+
+but not ={Key.SubKey}=.
+
+An array ref is considered to be a key path on its own and is been parsed
+same way as the original =@keyPath=. In other words, the following structure:
+
+<verbatim>
+[
+    'A.B',
+    [
+        '{C}{D}',
+        [
+            'E', F',
+        ]
+    ]
+]
+</verbatim>
+
+will be parsed into:
+
+<verbatim>
+qw(A B C D E F)
+</verbatim>
+
+If a reference to anything but an array is encountered during the parsing
+then =Foswiki::Exception::Config::InvalidKeyName= exception will be thrown.
+
+=cut
 
 sub parseKeys {
     my $this = shift;
@@ -2364,7 +2431,17 @@ sub parseKeys {
     return @keys;
 }
 
-# Wrapper around parseKeys. It checks if parse result is valid.
+=begin TML
+
+---+++ ObjectMethod arg2keys( @keyPath ) -> @parsedPath
+
+Wrapper around parseKeys. It throws =Foswiki::Exception::Fatal= if parse
+returned non-zero number of keys in the path. Otherwise keys in the path are
+validated and =Foswiki::Exception::Config::InvalidKeyName= is thrown if
+validation fails..
+
+=cut
+
 sub arg2keys {
     my $this = shift;
 
@@ -2383,9 +2460,9 @@ sub arg2keys {
 
 ---+++ ObjectMethod normalizeKeyPath($keyPath, %params) -> $normalizedPathString
 
-Takes a =$keyPath= in any form and returns it's normalized stringified form.
-Ususally it means a dotted notation but if =$params{asHash}= is true then Perl'ish
-hash notation with curly braces is used. 
+Takes a =$keyPath= in any form and returns its normalized stringified form.
+Ususally it means a dotted notation but if =$params{asHash}= is _true_ then
+curly braces notation is used. 
 
 The =$keyPath= may consist of data of any format allowed to
 define keys:
@@ -2403,6 +2480,8 @@ For example, the following:
 
 is actually what one is expecting to be: a path _A.B.C.D.E.F.G.H.I_ in
 dot-normilized form.
+
+=arg2keys()= method is used to have the job done.
 
 =cut
 
@@ -2422,30 +2501,59 @@ sub normalizeKeyPath {
 
 ---+++ ObjectMethod getSubHash($keyPath, %params) -> (\%subHash, $keyName)
 
-Returns subhash of a config data where key defined by =$keyPath= is stored. The
-key short name (the last element of key path) is returned as second element.
+Returns subhash of config data where key defined by =$keyPath= is stored. The
+key's short name (the last element of key path) is returned as second element.
 
-The =%params= hash keys are:
+For example, for the following data hash:
+
+<verbatim>
+my $data = {
+    This => {
+        Is => {
+            A => {
+                Key => "With value"
+            }
+        }
+    }
+}
+</verbatim>
+
+if =$keyPath= is _'This.Is.A'_ then sub hash will be the content of
+=$data->{This}{Is}= and =$keyName= will be _'A'_. 
+
+---++++!! Parameters
 
 | *Name* | *Description* | *Default* |
 | =data= | Data hash ref | =$app->cfg->data= |
 | =autoVivify= | Automatically create non-existing subhashes. | _FALSE_ |
 
-The method either returns an empty list if the key path doesn't refer to
-a valid subhash. For example, for the following data structure:
+---++++!! Implementation details
+
+The method returns an empty list if the key path doesn't refer to a valid
+subhash. For example, for the following data structure:
 
 <verbatim>
-{
+my $data = {
     Key1 => {
         Key2 => 'Value',
     }
 }
 </verbatim>
 
-_Key1.Key2_ would be a valid path but _Key1.Key2.Key3_ is incorrect.
-Alternatively, if =autoVivify= is true the latter keypath would still be
-incorrect while _Key1.NewKey.Key3_ would create a subhash for NewKey and return
-it to the caller. The subhash will be empty meaning that _Key3_ doesn't exists.
+_Key1.Key2_ would be a valid path but _Key1.Key2.Key3_ is incorrect. With
+=autoVivify= set to _true_ the latter keypath would still be incorrect because
+=Key2= already contains a value and we're not supposed to alter it. But key path
+_Key1.NewKey.Key3_ will create a new subhash for NewKey and return it to the
+caller. The subhash will be empty meaning that there is no _Key3_ key in it. In
+other words:
+
+<verbatim>
+exists($data->{Key1}{NewKey}) -> true
+ref($data->{Key1}{NewKey}) -> HASH
+exists($data->{Key1}{NewKey}{Key3}) -> false
+</verbatim>
+
+See =arg2keys()=.
 
 =cut
 
@@ -2472,11 +2580,21 @@ sub getSubHash {
 
 =begin TML
 
----+++ ObjectMethod get()
+---+++ ObjectMethod get($keyPath, %params) -> $value
 
+Returns value assigned to configuration key defined by =$keyPath=.
+The key path could be either a scalar string or an array ref.
+
+See =arg2keys()= method about parsing the =$keyPath=; and =getSubHash()= method
+about supported parameters.
+
+Example calls referring same key:
+
+<verbatim>
 $app->cfg->get([qw(Root Branch Leaf)]);
 $app->cfg->get("Root.Branch.Leaf");
 $app->cfg->get("{Root}{Branch}{Leaf}");
+</verbatim>
 
 =cut
 
@@ -2492,11 +2610,29 @@ sub get {
 
 =begin TML
 
----+++ ObjectMethod set($cfgPath => $value)
+---+++ ObjectMethod set($keyPath => $value, %params)
 
+Sets a key defined by =$keyPath= to =$value=.
+
+---++++!! Parameters
+
+| *Name* | *Description* | *Default* |
+| =data= | Configuration data hash = | =$app->cfg->data= |
+
+---++++!! Implementation details
+
+Method autovivifies keys in =$keyPath= by setting =getSubHash()= method
+=autoVivify= parameter to _true_.
+
+Example calls:
+
+<verbatim>
 $app->cfg->set([qw(Root Branch Leaf)], $value);
 $app->cfg->set("Root.Branch.Leaf", $value);
 $app->cfg->set("{Root}{Branch}{Leaf}", $value);
+</verbatim>
+
+See =getSubbHash()= and =arg2keys()=.
 
 =cut
 
@@ -2747,7 +2883,7 @@ sub patch {
 
 =begin TML
 
----+++ ObjectMethod urlHost
+---+++ ObjectMethod urlHost -> $urlHost
 
 =cut
 
@@ -3196,8 +3332,8 @@ sub assignGLOB {
 #ObjectMethodUnassignGlob
 ---+++ ObjectMethod unAssignGLOB
 
-Does opposite to the =assignGLOB= method: assigns global =%Foswiki::cfg= to an
-empty hash.
+Does the opposite to the =assignGLOB()= method: assigns global =%Foswiki::cfg=
+to an empty hash.
 
 =cut
 
@@ -3229,6 +3365,17 @@ sub _validateBindings {
         "Foswiki::Config data attribute is not mapped to the %Foswiki::cfg hash"
     );
 }
+
+=begin TML
+
+---+++ ObjectMethod makeSpecsHash( %params ) -> $tiedHash
+
+Creates a new hash tied to =$app->cfg->dataHashClass=. Normally this would be
+=Foswiki::Config::DataHash=. If parameter key =data= is specified and is a hash
+reference then it's content is assigned to the newly created tied hash making it
+a full copy of the original data.
+
+=cut
 
 sub makeSpecsHash {
     my $this   = shift;
@@ -3275,6 +3422,8 @@ a tied hash already.
 %X% *NOTE:* Current implementation is incomplete as before restoring the original
 data specs must be re-read from the disk. Otherwise this operation may result in
 inconsistent data not complying with specs requirements.
+
+See =makeSpecsHash()=.
 
 =cut
 
@@ -3390,30 +3539,51 @@ sub getKeyNode {
 
 =begin TML
 
----+++ ObjectMethod spec(%params)
+---+++ ObjectMethod spec( %params )
 
-Params keys are the following:
+Translates specs structure into a valid configuration data hash tied to
+=$app->cfg->dataHashClass=.
 
-| *Key* | *Description* |
-| =source= | Where specs are defined. Could be a string or a =Foswiki::File= object. |
-| =specs= | Array ref of specs. |
-| =data= | An instance of =Foswiki::Config::DataHash= class. The one behind the =data= attribute is used if this key is not defined. |
+---++++!! Parameters
 
-Note that if =data= key is defined then =spec()= method doesn't turn =specMode=
-on.
+| *Key* | *Description* | *Default* |
+| =source= | Where specs data comes from. Could be a string or a =Foswiki::File= object. | <nop> *Required* |
+| =specs= | Array ref of specs. | <nop> *Required* |
+| =section= | An instance of =Foswiki::Config::Section= class. | <nop> *Required* |
+| =dataObj= | An instance of =Foswiki::Config::DataHash= class. The one behind the =data= attribute is used if this key is not defined. | =tied( %{ $app->cfg->data } )= |
+| =localData= | Used only if =dataObj= parameter is specified. If _true_ then =dataObj= is considered local, i.e. not coming from the =$app->cfg->data= and not planned to be used for it. | _true_ if =dataObj= is not the same one behind =$app->cfg->data= hash |
+
+---++++!! Implementation details
+
+If =dataObj= key is defined then =spec()= method doesn't turn =specsMode= on.
+
+The =localData= parameter is relevant only when =dataObj= is defined. It changes
+the way keys with =-enhancing= option set are handled. When =localData= is
+_false_ and no previously defined key with the same name is found then an
+exception is thrown. When =localData= is _true_ then this situation is not
+considered a error. The option is useful when it is needed to work with chunks
+of specs rather then with the full set read from all sources.
 
 Specs data format is currently described in
 [[https://foswiki.org/Development/OOConfigSpecsFormat][OOConfigSpecsFormat&nbsp;proposal]].
 
+See [[System.SpecFileFormat]],
+=[[?%QUERYSTRING%#ObjectMethodSpecsMode][specsMode()]]=
+
 =cut
 
-sub spec {
+pluggable spec => sub {
     my $this   = shift;
     my %params = @_;
 
     Foswiki::Exception::Fatal->throw(
         text => "Spec source parameter is required and cannot be empty", )
-      unless defined( $params{source} ) && length( $params{source} );
+      unless defined( $params{source} )
+      && ( ref( $params{source} ) || length( $params{source} ) );
+
+    Foswiki::Exception::Fatal->throw( text =>
+          "Spec source parameter is a ref but not a Foswiki::File instance", )
+      if ref( $params{source} ) && !$params{source}->isa('Foswiki::File');
 
     my ( $data, $section, $localData );
 
@@ -3435,7 +3605,7 @@ sub spec {
         $section = $params{section};
 
         # If no localData parameter is given then try to guess it by comparing
-        # passed in =data= parameter with config =data= attribute.
+        # passed in =dataObj= parameter with config =data= attribute.
         #
         # NOTE: This won't work if called from within specsMode() method because
         # it works on a freshly created data hash before making storing it into
@@ -3473,7 +3643,7 @@ sub spec {
 
         $e->rethrow;
     };
-}
+};
 
 =begin TML
 
@@ -3489,6 +3659,20 @@ sub prepareData {
     $this->assignGLOB($data);
     return $data;
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareDataHashClass
+
+Initializer of =dataHashClass= attribute.
+
+Returns _'Foswiki::Config::DataHash'_ by default. But if extensions subsystem is
+initialized and there is at least one extension claiming to override the class
+then it is mapped through =Foswiki::ExtManager= =mapClass()= method.
+
+The class is preloaded with =Foswiki::load_class()=.
+
+=cut
 
 sub prepareDataHashClass {
     my $this = shift;
@@ -3534,14 +3718,26 @@ sub prepareSpecFiles {
     return $this->create( 'Foswiki::Config::Spec::Files', cfg => $this, );
 }
 
-sub prepareStage {
-    my $this = shift;
-    return $this->app->initStage;
-}
+=begin TML
+
+---+++ ObjectMethod prepareLscFile
+
+Initializer of =lscFile= attribute. Uses =FOSWIKI_CONFIG= environment variable
+to let user-defined config be used. Otherwise _'LocalSite.cfg'_ is returned.
+
+=cut
 
 sub prepareLscFile {
     return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg';
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareLscHeader
+
+Initializer of =lscHeader= attribute.
+
+=cut
 
 sub prepareLscHeader {
     return <<'EOH';
@@ -3554,6 +3750,14 @@ sub prepareLscHeader {
 EOH
 }
 
+=begin TML
+
+---+++ ObjectMethod _prepareSpecParsers
+
+Initializer of =_specParsers= attribute.
+
+=cut
+
 sub _prepareSpecParsers {
 
     # Keep track of previously failed modules.
@@ -3562,6 +3766,14 @@ sub _prepareSpecParsers {
         grep { !defined $parserModules{$_} } keys %parserModules
     };
 }
+
+=begin TML
+
+---+++ ObjectMethod _prepareKeyOptArity
+
+Initializer of =_keyOptArity= attribute.
+
+=cut
 
 sub _prepareKeyOptArity {
     my $this = shift;
@@ -3579,15 +3791,39 @@ sub _prepareKeyOptArity {
     return \%arity;
 }
 
+=begin TML
+
+---+++ ObjectMethod _prepareSecOptArity
+
+Initializer of =_secOptArity= attribute.
+
+=cut
+
 sub _prepareSecOptArity {
     my $this = shift;
 
     return { Foswiki::Config::Section->optArities };
 }
 
+=begin TML
+
+---+++ ObjectMethod _prepareLscRecords
+
+Initializer of =_lscRecords= attribute.
+
+=cut
+
 sub _prepareLscRecords {
     return [];
 }
+
+=begin TML
+
+---+++ ObjectMethod _specSectionBody
+
+Parser of body part of section definition element of specs.
+
+=cut
 
 sub _specSectionBody {
     my $this   = shift;
@@ -3704,6 +3940,14 @@ sub _specSectionBody {
     }
 }
 
+=begin TML
+
+---+++ ObjectMethod _specSection
+
+Parser of section element of specs.
+
+=cut
+
 sub _specSection {
     my $this   = shift;
     my %params = @_;
@@ -3743,23 +3987,14 @@ sub _specSection {
     $this->_specSectionBody( specs => $secSpecs, );
 }
 
-#sub _specModprefix {
-#    my $this   = shift;
-#    my %params = @_;
-#
-#    my $specs   = $params{specs};
-#    my $section = $specs->section;
-#
-#    Foswiki::Exception::Config::BadSpecData->throw(
-#        text    => "Incomplete -modprefix option, missing value",
-#        section => $section,
-#
-#    ) unless $specs->hasNext;
-#
-#    my $prefix = $specs->fetch;
-#
-#    $section->setOpt( modprefix => $prefix );
-#}
+=begin TML
+
+---+++ ObjectMethod _isCompleteKeyDef( $specs, $section, $keyName )
+
+Throws =Foswiki::Exception::Config::BadSpecData= exception if no next item
+in =$specs=.
+
+=cut
 
 sub _isCompleteKeyDef {
     my $this = shift;
@@ -3770,6 +4005,28 @@ sub _isCompleteKeyDef {
         section => $section,
     ) unless $specs->hasNext;
 }
+
+=begin TML
+
+---+++ ObjectMethod _fetchOptVal( $option, $spec, $arity, $errorSuffix ) -> ( $option, @values )
+
+Fetches option value or values from =$spec=. Option name is passed in =$option=
+parameter. =$arity= is a mapping of option names into their arities.
+=$errorSuffix= is appedned to the standard exception message to provide more
+information about the nature of a problem.
+
+The method supports boolean options in negated form (=-nooption= vs. =-option=).
+For a boolean option single value is returned.
+
+For other options retuned as many values fetched from =$spec= as defined by
+its arity.
+
+Returns a list of option name (with optional =no= prefix removed from booleans)
+followed by one or few values.
+
+=Foswiki::Exception::Config::BadSpecData= exception is thrown upon errors.
+
+=cut
 
 sub _fetchOptVal {
     my $this = shift;
@@ -3810,6 +4067,18 @@ sub _fetchOptVal {
     return ( $option, @values );
 }
 
+=begin TML
+
+---+++ ObjectMethod _parseSpecKeyType( $keyType ) -> ( $type [, $size] )
+
+Method parsed type string possibly with size attribute following type name.
+For example: _'STRING'_ or _'STRING(40)'_.
+
+Returns a list of one or two elements with the first one being the base type
+name followed by size.
+
+=cut
+
 sub _parseSpecKeyType {
     my $this = shift;
     my ($keyType) = @_;
@@ -3820,6 +4089,19 @@ sub _parseSpecKeyType {
 
     return ($keyType);
 }
+
+=begin TML
+
+---+++ ObjectMethod _specCfgKey( $key, %params )
+
+Parses a key element data in specs.
+
+---++++!! Parameters
+
+| *Key* | *Description* | *Default* |
+| =specs= | Array ref of specs. | <nop> *Required* |
+
+=cut
 
 sub _specCfgKey {
     my $this = shift;
