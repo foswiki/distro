@@ -177,7 +177,7 @@ sub INCLUDE {
                     $secLine,
                     {
                         _package =>
-'^(?:---\++)(?:!!)?\h+(?<pkgType>(?i:package|class|role))\h+(?<pkgName>.+?)\h*?$',
+'^(?:---\+)(?:!!)?\h+(?<pkgType>(?i:package|class|role))\h+(?<pkgName>.+?)\h*?$',
                         _method =>
 '^(---\++\h+(?<methodAccess>Object|Static|Class)(?<methodType>Method|Attribute)\h+(?<methodText>(?<methodPriv>_?).+?))\h*?$',
                     },
@@ -229,6 +229,7 @@ sub INCLUDE {
                           )
                           = @{ $ctxSection->{lexemes} }
                           {qw(methodAccess methodType methodText methodPriv)};
+                        my $anchor;
                         my $methodTextEncoded =
                           Foswiki::entityEncode($methodText);
                         if ( $publicOnly && $methodPriv ) {
@@ -246,9 +247,14 @@ sub INCLUDE {
                                 $pluggable =
                                   $Foswiki::ExtManager::pluggables{$class}
                                   { $+{methodName} } ? "Pluggable " : "";
+
+                                $anchor = "#"
+                                  . $methodAccess
+                                  . $methodType
+                                  . $+{methodName} . "\n";
                             }
                             $pod .=
-"\n$secDef =${pluggable}[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
+"\n$anchor$secDef =${pluggable}[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
                         }
                     }
                     else {    # Just plain simple heading.
