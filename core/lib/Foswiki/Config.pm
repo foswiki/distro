@@ -63,15 +63,15 @@ assumption could be workarounded using
 
 ---++ Terminology
 
-An abbreviation *LSC* could be used throughout this documention instead of
-"local site configuration".
+*LSC* is an abbreviation used throughout this documention in place of "local
+site configuration".
 
 A configuration *key* is a sequence of characters starting with a word character
 (=\w= in [[https://perldoc.perl.org/perlre.html][Perl regexps]]) and followed by
-any character except for ='.'= (a dot), or ='='= (an equal sign), or ='{'=, or
-='}'= (curly braces).
+any character except ='.'= (a dot), or ='='= (an equal sign), or ='{'=, or ='}'=
+(curly braces).
 
-A *key path* is a sequence of configuration *keys* in either dot or curly braces
+*Key path* is a sequence of configuration *keys* in either dot or curly braces
 notation. For example, a dot notation:
 
 <verbatim>
@@ -84,7 +84,7 @@ Curly braces notation:
 {JQueryPlugin}{Plugins}{Animate}{Enabled}
 </verbatim>
 
-A *full key path* is a *key path* which includes all *keys* to identify a
+*Full key path* is a *key path* which includes all *keys* to identify a
 distinctive configuration entry. The examples above are both representing a full
 path. Sometimes a *partial key path* might be used to shorten a notation. Like,
 for example, when it's known that we're speaking about =JQueryPlugin.Plugins=

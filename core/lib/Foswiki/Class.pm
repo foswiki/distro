@@ -8,7 +8,7 @@ use warnings;
 
 =begin TML
 
----+!! Module Foswiki::Class
+---+ Package Foswiki::Class
 
 This is a wrapper package for Moo and intended to be used as a replacement and
 a shortcut for a bunch lines of code like:
@@ -28,52 +28,72 @@ use Foswiki::Class qw(app);
 
 ---++ Usage
 
-A set of features is exported to the calling module is defined by =use=
-parameter keywords. If no parameters defined then all it does is applies
-=[[CPAN:Moo][Moo]]=, ':5.14'
-[[http://perldoc.perl.org/feature.html#FEATURE-BUNDLES][feature]] bundle, and
-cleans namespace with =[[CPAN:namespace::clean][namespace::clean]]=.
+The basic functionality of this module is to:
 
----++ Parameters
+   1. Apply =:5.14= feature set (as if =use v5.14;= clause is used)
+   1. Apply =strict= and =warnings= features.
+   1. Clean name space with =[[CPAN:namespace::clean][namespace::clean]]=
+   1. Apply =[[CPAN:Moo][Moo]]=.
 
-The following parameters are support by this module:
+Every class built with this module help can have a set of modifiers applied.
+Each modifier has some specific effect upon the class by either changing its
+properties or exporting features. Modifiers are declared by passing parameter
+keywords to the module's =init()= method with =use= clause. In the example above
+a class is requesting =app= modifier to be applied.
+
+In particular, a modifier might do one or few of the following:
+
+   * Apply a role to the class
+   * Export one or more public method ("keywords") to the class namespace (similar to =[[https://metacpan.org/pod/Moo#PUBLIC-METHODS][Moo public methods]]=)
+   * Define active feature set (see below)
+
+There is a special modifier beginning with a colon and followed with version
+string which declares what feature set the class wants to be used. By default
+=:5.14= is charge (see
+[[http://perldoc.perl.org/feature.html#FEATURE-BUNDLES][feature bundles]]).
+
+---++ Terminology
+
+*Public method* or *keyword* – a prototyped subroutine exported into class'
+namespace. Usually it looks and acts as a Perl keyword:
+
+<verbatim>
+pluggable someMethod => sub {
+    ...  
+};
+</verbatim>
+
+Read about =extensible= modifier to find out what =pluggable= keyword does.
+
+---++ Modifiers
+
+The following modifiers are support by this module:
 
 | *Parameter* | *Description* |
-| =app= | Class being created will have =Foswiki::AppObject= role applied. |
+| =app= | Class will have =Foswiki::AppObject= role applied. |
 | =callbacks= | Provide support for callbacks |
 | =extension= | Declares class to be an extension. See =Foswiki::Extenion::Empty= for more information. |
 | =extensible= | Makes class an extensible. |
 | =:5.XX= | A string prefixed with colon is treated as a feature bundle name and passed over to the =feature= module as is. This allows to override the ':5.14' default. |
 
----++ Standard helpers
+See below for more details on each modifier.
 
-Standard helpers are installed automatically and provide some commonly used
-functionality in an attempt to simplify routine operations.
-
----+++ stubMethods @methodList
-
-This helper installs empty methods named after elements of it's parameters. A stub method
-is a sub which does nothing; in other words, instead of having a number of lines like:
+A class may have few modifiers applied at once:
 
 <verbatim>
-sub method1 {}
-sub method2 {}
-sub method3 {}
+use Foswiki::Class qw(app extensible);
 </verbatim>
 
-One could simply do:
+---+++ app
 
-<verbatim>
-stubMethods qw(method1 method2 method3);
-</verbatim>
+See =Foswiki::AppObject= role which is applied to class with this modifier. 
 
----++ Callbacks
+---+++ callbacks
 
-When =callbacks= parameter is used:
+A class with this modifier wants to get callbacks support. This is done by:
 
-<verbatim>
-use Foswiki::Class qw(callbacks);
-</verbatim>
+   1. applying =Foswiki::Aux::Callbacks= role
+   1. exporting =callback_names= public method.
 
 a subroutine =callback_names= is exported into a class' namespace and
 =Foswiki::Aux::Callbacks= role gets applied. =callback_names= accepts a list
@@ -100,14 +120,14 @@ Here we get two callbacks registered: =Foswiki::SomeClass::callback1= and
 
 See =Foswiki::Aux::Callbacks=.
 
----++ Extensions
+---+++ extension
 
 Extension support is provided by exporting subroutines =callbackHandler,
 extBefore, extAfter, extClass, plugBefore, plugAround, plugAfter, tagHandler=.
 
 See more in =Foswiki::Extension::Empty=.
 
----++ Extensible
+---+++ extensible
 
 A core class called extensible if it allows overriding one or more of it's
 methods by extensions. This is a lightweight version of subclassing through
@@ -115,13 +135,58 @@ reimplementing or extending only key method(s).
 
 See more in =Foswiki::Extension::Empty=.
 
----++ Class attributes recording
+---++ Standard helpers
+
+Standard helpers are installed automatically and provide some commonly used
+functionality in an attempt to simplify routine operations.
+
+---+++ stubMethods @methodList
+
+This helper installs empty methods named after elements of it's parameters. A stub method
+is a sub which does nothing; in other words, instead of having a number of lines like:
+
+<verbatim>
+sub method1 {}
+sub method2 {}
+sub method3 {}
+</verbatim>
+
+One could simply do:
+
+<verbatim>
+stubMethods qw(method1 method2 method3);
+</verbatim>
+
+---++ Implementation notes
+
+---+++ Modifiers
+
+Modifiers are implemented with =_install_&lt;modifier&gt;= methods and are
+called automatically depending on what a class has requested.
+
+If a modifier installer assigns a role to the calling class then  the role
+module must be preloaded with =Foswiki::load_package()=.
+
+---+++ Public methods (keywords)
+
+Keywords are implemented by =_handler_&lt;keyword&gt;= methods of this module.
+Though there is no automated mapping between a handler and a keyword by now it
+might be implemented in future and thus anybody extending this modulue is highly
+encouradged to follow this convention.
+
+---+++ Recording of class attributes
 
 When =FOSWIKI_ASSERTS= environment variable is set to true =Foswiki::Class=
 records attributes declared with Moo's =has= directive. Subroutine
 =getClassAttributes()= can be used to retrieve a list of declared attributes for
 a specific class. Attributes of class' parent classes and all applied roles are
-included.
+included into the list.
+
+*%X% NOTE:* Although all possible measures were taken to catch all class'
+parents and roles it is still possible that some exotic method of declaring them
+has been overlooked. For this reason if =Foswiki::Object= debug code reports an
+undeclared attribute then the first thing to check would be if there is a
+run-away parent or role declaring it.
 
 =cut
 
@@ -175,6 +240,7 @@ sub _fw_extends {
     #say STDERR "+++ $target ", ( $target->isa($_) ? "is a" : "isn't a" ),
     #  " $_ descendant"
     #  foreach qw (Moo::Object Foswiki::Object);
+    # SMELL Replace this if() with support of build_required flag of a modifier.
     if (   $_classData{$target}{options}{callbacks}{use}
         || $_classData{$target}{options}{extensible}{use} )
     {
@@ -207,6 +273,8 @@ if ( $ENV{FOSWIKI_ASSERTS} ) {
 # register every single Moo-generated code ref. Though this is a hacky way
 # on its own but the rest approaches seem to be even more hacky and no doubt
 # unreliable.
+# Additionally, interception is used to tap into processing of Moo::extends
+# in order
 foreach my $module (qw(Moo Moo::Role)) {
     my $ns               = Foswiki::getNS($module);
     my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
@@ -244,9 +312,10 @@ sub import {
     local $SIG{__DIE__} = sub { Carp::confess(@_) }
       if $ENV{FOSWIKI_ASSERTS};
 
-    # Define options we would provide for classes.
+    # Define modifiers we would provide for classes.
+    # 'Options' is the initial term for modifiers.
     my %options = (
-        callbacks => { use => 0, },
+        callbacks => { use => 0, build_required => 1, },
         app       => { use => 0, },
         extension => {
             use => 0,
@@ -254,8 +323,9 @@ sub import {
               [qw(extClass extAfter extBefore plugBefore plugAfter plugAround)],
         },
         extensible => {
-            use      => 0,
-            keywords => [qw(pluggable)],
+            use            => 0,
+            keywords       => [qw(pluggable)],
+            build_required => 1,
         },
     );
 
