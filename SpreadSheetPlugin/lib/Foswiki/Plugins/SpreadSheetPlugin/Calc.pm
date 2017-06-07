@@ -13,6 +13,7 @@ use warnings;
 use HTML::Entities;
 use Time::Local;
 use Time::Local qw( timegm_nocheck timelocal_nocheck );    # Necessary for DOY
+use Unicode::Normalize;
 
 # =========================
 my $web;
@@ -1101,7 +1102,9 @@ sub _LISTSORT {
         @arr = sort { $a <=> $b } @arr;
     }
     else {
-        @arr = sort @arr;
+        @arr =
+          map { $_->[0] }
+          sort { $a->[1] cmp $b->[1] } map { [ $_, NFKD($_) ] } @arr;
     }
     return _listToDelimitedString(@arr);
 }
