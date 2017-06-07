@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426281104" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1496855187" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 <div class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.%WIKIUSERSTOPIC% topic.</div>
 
@@ -18,7 +18,8 @@ Usage Notes:
 <!--%JQREQUIRE{"chili"}%-->
 <verbatim class="tml">
 %STARTSECTION{"WIKIUSERS"}%
-%FORMAT{"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z" 
+%FORMAT{
+"%CALCULATE{"$LISTUNIQUE($LISTSORT(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,%USERLIST{".*" format="$percntCALCULATE{\"$SUBSTRING($wikiname,1,1)\"}$percnt" separator=","}%))"}%"
     type="string" 
     format="   * $item - &lt;a name='$item'&gt;- - - -&lt;/a&gt; $percentINCLUDE{
         \"%TOPIC%\"
@@ -28,17 +29,15 @@ Usage Notes:
 }% 
 %ENDSECTION{"WIKIUSERS"}%
 
-%STARTSECTION{"USERS"}%%SEARCH{
-    "name=~'^%letter%.*' AND (form.name~'*UserForm')"
-    type="query"
-    web="%USERSWEB%"
-    nonoise="on"
+%STARTSECTION{"USERS"}%%USERLIST{
+    "^%letter%.*"
     separator="$n"
+    casesensitive="on"
     header="$n"
-    format="   * $topic - $percentUSERINFO{
-        \"$topic\"
+    format="   * $wikiname - $percentUSERINFO{
+        \"$wikiname\"
         format=\"$dollarusername\"
-    }$percent - $createdate"
+    }$percent - $percntREVINFO{topic=\"%USERSWEB%.$wikiname\" format=\"$date\"}$percnt"
 }%%ENDSECTION{"USERS"}% 
 </verbatim>
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452096476" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1496855187" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -239,18 +239,11 @@ jQuery(function($){
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{
-  "%SEARCH{
+  "%USERLIST{
      ".*%URLPARAM{"term" default="does not exist"}%.*"
-     type="regex"
-     scope="topic"
-     format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"
-          then=\"$percntUSERINFO{\"$topic\" format=\"$dollarwikiname, \"}$percnt\"
-          else=\"$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt\"
-        }$percnt"
+     format="$percntUSERINFO{\"$wikiname\" format=\"$dollarwikiname, \"}$percnt"
      separator=""
      limit="%URLPARAM{"limit" default="10"}%"
-     nonoise="on"
-     web="%USERSWEB%"
   }%"
   type="string"
   header="[$n"

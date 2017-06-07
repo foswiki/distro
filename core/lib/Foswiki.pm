@@ -342,6 +342,7 @@ BEGIN {
         URLENCODE           => undef,
         URLPARAM            => undef,
         USERINFO            => undef,
+        USERLIST            => undef,
         USERNAME            => undef,
         VAR                 => undef,
         WEBLIST             => undef,
