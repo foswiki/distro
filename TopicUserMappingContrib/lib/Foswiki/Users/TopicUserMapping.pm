@@ -35,6 +35,8 @@ use Error qw( :try );
 use Foswiki::ListIterator ();
 use Foswiki::Func         ();
 
+use Unicode::Normalize;
+
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
 
@@ -393,8 +395,6 @@ sub _maintainUsersTopic {
     my $output     = '';
     foreach my $line ( split( /\r?\n/, $input || '' ) ) {
 
-        # TODO: I18N fix here once basic auth problem with 8-bit user names is
-        # solved
         if ($entry) {
             my ( $web, $name, $odate ) = ( '', '', '' );
             if ( $line =~
@@ -427,7 +427,9 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
                 $insidelist = 2;
                 $name       = '';
             }
-            if ( ( $name && ( $wikiname le $name ) ) || $insidelist == 2 ) {
+            if ( ( $name && ( NFKD($wikiname) le NFKD($name) ) )
+                || $insidelist == 2 )
+            {
 
                 # found alphabetical position or last record
                 if ( $wikiname eq $name ) {
