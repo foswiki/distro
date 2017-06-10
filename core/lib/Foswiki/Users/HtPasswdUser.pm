@@ -354,7 +354,8 @@ sub _readPasswd {
             elsif ( length($tPass) eq 0 && !$fields[0]
                 || $fields[0] =~ m/@/ )
             {
-                $data->{$hID}->{enc} = 'sha';
+                # Password is zero length, no way to determine encoding.
+                $data->{$hID}->{enc} = 'unknown';
             }
 
             if ( $data->{$hID}->{enc} ) {
@@ -847,7 +848,7 @@ sub checkPassword {
     my ( $pw, $entry ) = $this->fetchPass($login);
 
     # $pw will be 0 if there is no pw
-    return 0 unless defined $pw;
+    return 0 unless defined $pw && length($pw);
 
     my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
     return 0 unless ($encryptedPassword);

@@ -411,12 +411,16 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
                 $odate = ''
                   unless $odate =~ m/^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
                 $insidelist = 1;
+
+                #print STDERR "1:  Found $web.$name.$odate  $insidelist\n";
             }
-            elsif ( $line =~ m/^\s+\*\s([A-Z]) - / ) {
+            elsif ( $line =~ m/^\s+\*\s([[:upper:]]) - / ) {
 
                 #	* A - <a name="A">- - - -</a>^M
                 $name       = $1;
                 $insidelist = 1;
+
+                #print STDERR "2:  Found $name  $insidelist\n";
             }
             elsif ( $insidelist == 1 ) {
 
@@ -426,13 +430,18 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
               # in all alphabets
                 $insidelist = 2;
                 $name       = '';
+
+                #print STDERR "3:  Found $name  $insidelist\n";
             }
             if ( ( $name && ( NFKD($wikiname) le NFKD($name) ) )
                 || $insidelist == 2 )
             {
 
+                #print STDERR "4:  Found $wikiname le $name ||  $insidelist\n";
                 # found alphabetical position or last record
                 if ( $wikiname eq $name ) {
+
+                    #print STDERR "5:  Found $wikiname eq $name\n";
 
                     next if ( $action eq 'del' );
 
@@ -440,6 +449,7 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
                     $entry .= $odate;
                 }
                 else {
+                    print STDERR "6:  Appending $today to $entry NL $line \n";
                     $entry .= $today . "\n" . $line;
                 }
 
