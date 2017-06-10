@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1495729065" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1497053450" format="1.1" version="1"}%
 %{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
@@ -211,7 +211,7 @@ then='
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
      <h3>%MAKETEXT{"Enter users or groups to add to this group"}%</h3>
-     <input type='text' name='username' value='' size='30' class='foswikiInputField jqTextboxList' autocomplete='%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%' />
+     <input type='text' name='username' value='' size='30' class='foswikiInputField jqTextboxList' autocomplete='%SCRIPTURL{"view"}%/%SYSTEMWEB%/WikiGroupsComponents?section=userselector;skin=text;exclude=%URLPARAM{"groupname" default="%groupname%"}%' />
   </div>
    <a class="jqUIDialogButton jqUIDialogSubmit jqUIDialogClose {icon:'ui-icon-circle-check'}" >%MAKETEXT{"Add members"}%</a>
    <a id='cancelLink' class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>

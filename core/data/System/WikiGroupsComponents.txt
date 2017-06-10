@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489712653" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1497053450" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki groups components.  
 Contains the active components used by %USERSWEB%.WikiGroups.  To modify this
@@ -50,7 +50,7 @@ automatically be used.
 </div>
 </form></sticky> %ENDTWISTY%
 
-%GROUPINFO{
+%GROUPLIST{
    header="<table class='foswikiTable wikiGroupsTable'>
              <tr>
                <th>%MAKETEXT{"Group"}%</th>
@@ -58,18 +58,18 @@ automatically be used.
                <th>%MAKETEXT{"Actions"}%</th>
              </tr>$n" 
    format="<tr>
-     <td> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>$name\" else=\"[[%USERSWEB%.$name][$name]]\"}$percnt</td>
+     <td> $percntIF{\"not istopic '%USERSWEB%.$groupname'\" then=\"<nop>$groupname\" else=\"[[%USERSWEB%.$groupname][$groupname]]\"}$percnt</td>
      <td> 
        $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
-         groupname=\"$name\"
+         groupname=\"$groupname\"
          allowschange=\"$allowschange\"
        }$percnt 
      </td>
      <td class=\"wikiGroupsActions\">
         $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
          section=\"groupactions\"
-         groupname=\"$name\"
+         groupname=\"$groupname\"
          allowschange=\"$allowschange\"
        }$percnt
      </td>
@@ -79,4 +79,28 @@ automatically be used.
 }%
 
 %STOPINCLUDE%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"userselector"}%<literal>%FORMAT{
+  "%USERLIST{
+     ".*%URLPARAM{"term" default="does not exist"}%.*"
+     format="$percntUSERINFO{\"$wikiname\" format=\"$dollarwikiname, \"}$percnt"
+     exclude="%URLPARAM{"exclude"}%"
+     separator=""
+     limit="%URLPARAM{"limit" default="10"}%"
+  }%%GROUPLIST{
+     ".*%URLPARAM{"term" default="does not exist"}%.*"
+     format="$groupname, "
+     exclude="%URLPARAM{"exclude"}%"
+     separator=""
+     limit="%URLPARAM{"limit" default="10"}%"
+  }%"
+  type="string"
+  header="[$n"
+  format="  {\"label\":\"<nop>$item\"}"
+  separator=",$n"
+  footer="$n]"
+}%
+</literal>%ENDSECTION{"userselector"}%
 </verbatim>
