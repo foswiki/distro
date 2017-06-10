@@ -209,6 +209,7 @@ data/System/VarFAILEDPLUGINS.txt 0644
 data/System/VarFORMAT.txt 0644
 data/System/VarFORMFIELD.txt 0644
 data/System/VarGMTIME.txt 0644
+data/System/VarGROUPLIST.txt 0644
 data/System/VarGROUPINFO.txt 0644
 data/System/VarGROUPS.txt 0644
 data/System/VarHOMETOPIC.txt 0644
@@ -557,6 +558,7 @@ lib/Foswiki/Macros/EXPAND.pm 0444
 lib/Foswiki/Macros/FORMAT.pm 0444
 lib/Foswiki/Macros/FORMFIELD.pm 0444
 lib/Foswiki/Macros/GROUPINFO.pm 0444
+lib/Foswiki/Macros/GROUPLIST.pm 0444
 lib/Foswiki/Macros/GROUPS.pm 0444
 lib/Foswiki/Macros/HTTP.pm 0444
 lib/Foswiki/Macros/HTTPS.pm 0444
@@ -596,6 +598,7 @@ lib/Foswiki/Macros/TOPICLIST.pm 0444
 lib/Foswiki/Macros/URLENCODE.pm 0444
 lib/Foswiki/Macros/URLPARAM.pm 0444
 lib/Foswiki/Macros/USERINFO.pm 0444
+lib/Foswiki/Macros/USERLIST.pm 0444
 lib/Foswiki/Macros/USERNAME.pm 0444
 lib/Foswiki/Macros/VAR.pm 0444
 lib/Foswiki/Macros/WEBLIST.pm 0444

@@ -13,9 +13,9 @@ BEGIN {
     }
 }
 
-sub USERLIST {
+sub GROUPLIST {
     my ( $this, $params ) = @_;
-    my $format = $params->{format} || '$wikiname';
+    my $format = $params->{format} || '$groupname';
     my $limit  = $params->{limit}  || 0;
     my $filter = $params->{_DEFAULT};
     my $separator = $params->{separator};
@@ -24,67 +24,64 @@ sub USERLIST {
     $header = '' unless defined $header;
     my $footer = $params->{footer};
     $footer = '' unless defined $footer;
-    my $casesensitive =
-      ( Foswiki::isTrue( $params->{casesensitive} ) ) ? '' : '(?i)';
     my $checkaccess = 0;
     my $session     = $Foswiki::Plugins::SESSION;
 
-    if ( defined $Foswiki::cfg{FeatureAccess}{USERLIST}
-        && $Foswiki::cfg{FeatureAccess}{USERLIST} ne 'all' )
+    if ( defined $Foswiki::cfg{FeatureAccess}{GROUPLIST}
+        && $Foswiki::cfg{FeatureAccess}{GROUPLIST} ne 'all' )
     {
-        if ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'admin' ) {
+        if ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'admin' ) {
             return '' unless ( $this->{users}->isAdmin( $this->{user} ) );
         }
-        elsif ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'authenticated' ) {
+        elsif ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'authenticated' ) {
             return '' unless $session->inContext("authenticated");
         }
         else {
-            # Must be "acl" access, but don't check admins..
+            # Must be "acl" access.
             $checkaccess = 1
               unless ( $this->{users}->isAdmin( $this->{user} ) );
         }
     }
 
+    my $casesensitive =
+      ( Foswiki::isTrue( $params->{casesensitive} ) ) ? '' : '(?i)';
+
     my $excludeTopics =
       Foswiki::convertTopicPatternToRegex( $params->{exclude} )
       if ( $params->{exclude} );
 
-    my $it = $Foswiki::Plugins::SESSION->{users}->eachUser();
-    $it->{process} = sub {
-        return $Foswiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
-    };
+    my $it = $Foswiki::Plugins::SESSION->{users}->eachGroup();
 
-    my @users;
-
+    my @groups;
     while ( $it->hasNext() ) {
-        my $user = $it->next();
+        my $group = $it->next();
         if ( length($filter) ) {
-            next unless ( $user =~ m/$casesensitive$filter/ );
+            next unless ( $group =~ m/$casesensitive$filter/ );
         }
         if ( defined $excludeTopics ) {
-            next if $user =~ m/$casesensitive$excludeTopics/;
+            next if $group =~ m/$casesensitive$excludeTopics/;
         }
-        push @users, $user;
+        push @groups, $group;
     }
-
-    return '' unless scalar @users;
+    return '' unless scalar @groups;
 
     my $count   = 0;
     my $results = $header;
-    foreach my $user ( sort { NFKD($a) cmp NFKD($b) } @users ) {
+    foreach my $group ( sort { NFKD($a) cmp NFKD($b) } @groups ) {
         $count++;
         last if ( $limit && $count > $limit );
         if ($checkaccess) {
-            if ( $session->topicExists( $Foswiki::cfg{UsersWebName}, $user ) ) {
+            if ( $session->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
+            {
                 my $userto =
                   Foswiki::Meta->load( $session, $Foswiki::cfg{UsersWebName},
-                    $user );
+                    $group );
                 next unless $userto->haveAccess('VIEW');
             }
         }
 
         my $temp = $format;
-        $temp =~ s/\$wikiname/$user/g;
+        $temp =~ s/\$groupname/$group/g;
         $results .= $temp;
         $results .= $separator if ($separator);
     }

@@ -582,7 +582,7 @@ $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = $FALSE;
 # new ACL format.
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
-# **SELECT authenticated,acl,all LABEL="Access to  RAW" EXPERT**
+# **SELECT authenticated,acl,all LABEL="Access to  RAW" **
 # Choose which users will have access to the "raw" topic views.
 # Default is "authenticated",  so that guest users can not view the raw
 # topic contents.  This avoids indexing of raw topic context by bots and
@@ -594,7 +594,7 @@ $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 # </verbatim>
 $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 
-# **SELECT authenticated,acl,all LABEL="Access to History" EXPERT**
+# **SELECT authenticated,acl,all LABEL="Access to History" **
 # Choose which users will have access to the topic history.
 # Default is "authenticated",  so that guest users can not view the topic
 # history. This can also reduce bot workload by denying web crawlers access
@@ -607,6 +607,32 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 # Note that this setting also controls access to the =rdiff= and =compare=
 #  scripts.
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
+
+# **SELECT admin,authenticated,acl,all LABEL="Access to USERLIST" **
+# Choose which users will have access to the list of users returned by the USERLIST macro.
+#    * =admin= restricts the user list to administrators
+#    * =authenticated= denies access to the WikiGuest
+#    * =acl= checks access of each user's topic. *This is slow!*
+#    * =all= gives everyone accsss to the list of users.
+# Default is "authenticated",  so that guest users can not view the list of registered users.
+# If set to =acl=, then access is controlled by the User's topic.  If the user executing the
+# USERLIST macro cannot view the user's topic, it will not be visible.  
+#<br/>
+# Note that not all mappers create User topics in the userweb. ACL checks may not be useful.
+$Foswiki::cfg{FeatureAccess}{USERLIST} = 'authenticated';
+
+# **SELECT admin,authenticated,acl,all LABEL="Access to GROUPLIST" **
+# Choose which users will have access to the list of groups returned by the GROUPLIST macro.
+#    * =admin= restricts the user list to administrators
+#    * =authenticated= denies access to the WikiGuest
+#    * =acl= checks access of each Group topic. This is slow!
+#    * =all= gives everyone accsss to the list of users.
+# Default is "authenticated",  so that guest users can not view the list of registered users.
+# If set to =acl=, then access is controlled by the User's topic.  If the user executing the
+# GROUPLIST macro cannot view the group topic, it will not be visible.  
+#<br/>
+# Note that not all mappers create Group topics in the userweb. ACL checks may not be useful.
+$Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'authenticated';
 
 # **STRING 80 LABEL="Access to Configure"**
 # A list of users permitted to use the =bin/configure= configuration tool

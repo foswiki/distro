@@ -252,6 +252,7 @@ BEGIN {
                 'gmtime' );
         },
         GROUPINFO => undef,
+        GROUPLIST => undef,
         GROUPS    => undef,
         HTTP_HOST =>
 
@@ -3735,6 +3736,29 @@ sub getApproxRevTime {
     }
 
     return $this->{store}->getApproxRevTime( $web, $topic );
+}
+
+=begin TML
+
+---++ ObjectMethod convertTopicPatternToRegex (  $pattern  ) -> $regex
+
+Pass a topic list used in several macros, =Web*, FooBar=,  converts it to a
+regular expression that will match topic names, for example in exclude= or include=
+lists.
+
+=cut
+
+sub convertTopicPatternToRegex {
+    my ($pattern) = @_;
+    return '' unless ($pattern);
+
+    # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
+    my @arr =
+      map { $_ = quotemeta($_); s/(^|(?<!\\))\\\*/\.\*/g; $_ }
+      split( /(?:,\s*|\|)/, $pattern );
+
+    return '' unless (@arr);
+    return '^(' . join( '|', @arr ) . ')$';
 }
 
 1;

@@ -30,6 +30,7 @@ about the same topic more than once.
 # Sven has the feeling that we should make result sets immutable
 
 use Assert;
+use Foswiki;
 use Foswiki::Func                     ();
 use Foswiki::Meta                     ();
 use Foswiki::Iterator::FilterIterator ();
@@ -422,14 +423,15 @@ sub getOptionFilter {
     my $includeTopics;
     my $topicFilter;
     my $excludeTopics;
-    $excludeTopics = convertTopicPatternToRegex( $options->{excludeTopics} )
+    $excludeTopics =
+      Foswiki::convertTopicPatternToRegex( $options->{excludeTopics} )
       if ( $options->{excludeTopics} );
 
     if ( $options->{includeTopics} ) {
 
         # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
         $includeTopics =
-          convertTopicPatternToRegex( $options->{includeTopics} );
+          Foswiki::convertTopicPatternToRegex( $options->{includeTopics} );
 
         if ($casesensitive) {
             $topicFilter = qr/$includeTopics/;
@@ -483,20 +485,6 @@ sub getTopicListIterator {
 
     return Foswiki::Iterator::FilterIterator->new( $it,
         getOptionFilter($options) );
-}
-
-sub convertTopicPatternToRegex {
-    my ($topic) = @_;
-    return '' unless ($topic);
-
-    # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
-    my @arr =
-      map { $_ = quotemeta($_); s/(^|(?<!\\))\\\*/\.\*/g; $_ }
-      split( /(?:,\s*|\|)/, $topic );
-
-    return '' unless (@arr);
-
-    return '^(' . join( '|', @arr ) . ')$';
 }
 
 1;

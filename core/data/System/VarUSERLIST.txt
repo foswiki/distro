@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="ProjectContributor" date="1497053450" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ USERLIST -- retrieve a list of registered users.
+---++ Parameters
+   | *Parameter* | *Description* |
+   | ="filter"= | A regular expression matching the users to be returned. | (no filter) |
+   | =limit= | Count of groups to be returned. | 0 (no limit) |
+   | =exclude= | List of group names to be excluded. Can use * wildcards | (none) |
+   | =casesensitive= | Should filter and exclude lists be a case sensitive comparison. | =false= |
+   | =header= | | |
+   | =format= | Format string; see below for supported formatting tokens. | =$wikiname= |
+   | =footer= | | |
+Format tokens that can be used in =format=:
+   | *Token* | *Description* |
+   | =$wikiname= | The user's =WikiName= | |
+The [[FormatTokens][standard format tokens]] are also supported.
+---++ Examples
+   * =%<nop>USERLIST{"^Admin"}%= expands to <code><literal>%USERLIST{"^Admin"}%</literal></code> 
+With formatted output, using tokens:
+         <verbatim class="tml">%USERLIST{"^Admin" header="$n" format="   * $wikiname$n" }%</verbatim>
+         Expands to: %USERLIST{"^Admin" header="$n" format="   * $wikiname$n" }%
+
+%STOPINCLUDE%
+---++ Related
+ [[VarUSERNAME][USERNAME]], [[VarWIKINAME][WIKINAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]], [[VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress
+<!--%JQREQUIRE{"chili"}%-->
