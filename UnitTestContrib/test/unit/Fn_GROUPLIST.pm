@@ -71,6 +71,68 @@ sub set_up {
     $topicObject->save();
     $topicObject->finish();
 
+    $Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'all';
+
+    return;
+}
+
+sub fixture_groups {
+
+    return ( [ 'Acl', 'Admin', 'All', 'Authenticated' ], );
+}
+
+sub Acl {
+    $Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'acl';
+}
+
+sub Admin {
+    $Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'admin';
+}
+
+sub All {
+    $Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'all';
+}
+
+sub Authenticated {
+    $Foswiki::cfg{FeatureAccess}{GROUPLIST} = 'authenticated';
+}
+
+sub verify_security {
+    my $this = shift;
+
+    if ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'admin' ) {
+        $this->createNewFoswikiSession('AdminUser');
+    }
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPLIST%');
+
+    if ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'authenticated' ) {
+
+# Normally we run as tests as guest.  so nothing returned in authenticated case.
+        $this->assert_str_equals( '', $ui );
+    }
+    else {
+        # must be acl, admin or all.
+        $this->assert_matches( qr/\bGropeGroup\b/,           $ui );
+        $this->assert_matches( qr/\bPopGroup\b/,             $ui );
+        $this->assert_matches( qr/\bNestingGroup\b/,         $ui );
+        $this->assert_matches( qr/\bGroupWithHiddenGroup\b/, $ui );
+        $this->assert_matches( qr/\bHiddenGroup\b/,          $ui )
+          unless ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'acl' );
+    }
+
+    if ( $Foswiki::cfg{FeatureAccess}{GROUPLIST} eq 'authenticated' ) {
+        $this->createNewFoswikiSession('ScumBag');
+        $ui = $this->{test_topicObject}->expandMacros('%GROUPLIST%');
+        $this->assert_matches( qr/\bGropeGroup\b/,           $ui );
+        $this->assert_matches( qr/\bPopGroup\b/,             $ui );
+        $this->assert_matches( qr/\bNestingGroup\b/,         $ui );
+        $this->assert_matches( qr/\bGroupWithHiddenGroup\b/, $ui );
+
+        # This works because "authenticated" access doesn't do any ACL checking.
+        $this->assert_matches( qr/\bHiddenGroup\b/, $ui );
+    }
+
     return;
 }
 
@@ -123,42 +185,33 @@ sub test_withLimit {
     return;
 }
 
-sub xtest_formatted {
+sub test_formatted {
     my $this = shift;
 
     my $ui =
-      $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="WU$wikiusernameU$usernameW$wikiname"}%'
-      );
-    $this->assert_str_equals(
-"WU$Foswiki::cfg{UsersWebName}.ScumBagUscumWScumBag, WU$Foswiki::cfg{UsersWebName}.WikiGuestUguestWWikiGuest",
-        $ui
-    );
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPLIST{"GropeGroup" format="$groupname"}%');
+    $this->assert_str_equals( 'GropeGroup', $ui );
     $ui =
-      $this->{test_topicObject}->expandMacros('%GROUPLIST{format="<$name>"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPLIST{format="<$groupname>"}%');
     $this->assert_matches( qr/^<\w+>(, <\w+>)+$/, $ui );
 
     $ui =
-      $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="<$username>" separator=";"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPLIST{ format="<$groupname>" separator=";"}%');
     $this->assert_matches( qr/^<\w+>(;<\w+>)+$/, $ui );
 
     $ui =
       $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="<$name>" separator=";"}%');
-    $this->assert_matches( qr/^<GropeGroup>(;<GropeGroup>)+$/, $ui );
-
-    $ui =
-      $this->{test_topicObject}->expandMacros(
-'%GROUPLIST{"GropeGroup" header="H" footer="F" format="<$username>" separator=";"}%'
+'%GROUPLIST{"Group" header="H" footer="F" format="<$groupname>" separator=";"}%'
       );
     $this->assert_matches( qr/^H<\w+>(;<\w+>)+F$/, $ui );
 
     $ui =
       $this->{test_topicObject}->expandMacros(
-'%GROUPLIST{"GropeGroup" limit="1" limited="L" footer = "F" format="<$username>"}%'
-      );
-    $this->assert_matches( qr/^<\w+>LF$/, $ui );
+        '%GROUPLIST{"Group" limit="1" footer = "F" format="<$groupname>"}%');
+    $this->assert_matches( qr/^<\w+>F$/, $ui );
 
     return;
 }

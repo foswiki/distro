@@ -1,4 +1,4 @@
-# tests for the correct expansion of GROUPLIST
+# tests for the correct expansion of USERLIST
 
 package Fn_USERLIST;
 use strict;
@@ -16,60 +16,93 @@ sub new {
 
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
 
-    return $class->SUPER::new( 'GROUPLIST', @args );
+    return $class->SUPER::new( 'USERLIST', @args );
 }
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
+
+    $this->registerUser( 'UserA', 'User', 'A', 'user@example.com' );
+    $this->registerUser( 'HiddenUser', 'Hidden', 'User',
+        'user86a@example.com' );
+
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
-    $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{users_web}, "PopGroup" );
-    $topicObject->text("   * Set GROUP = WikiGuest\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "NobodyGroup" );
-    $topicObject->text("   * Set GROUP = \n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "NestingGroup" );
-    $topicObject->text("   * Set GROUP = GropeGroup\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "OnlyAdminCanChangeGroup" );
-    $topicObject->text(
-        "   * Set GROUP = WikiGuest\n   * Set TOPICCHANGE = AdminGroup\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "GroupWithHiddenGroup" );
-    $topicObject->text("   * Set GROUP = HiddenGroup,WikiGuest\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HiddenGroup" );
-    $topicObject->text(
-        "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HiddenUserGroup" );
-    $topicObject->text("   * Set GROUP = ScumBag,HidemeGood\n");
-    $topicObject->save();
-    $topicObject->finish();
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HidemeGood" );
+      Foswiki::Func::readTopic( $this->{users_web}, "HiddenUser" );
     my $topText = $topicObject->text();
-    $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
+    $topText .= "   * Set ALLOWTOPICVIEW = HiddenUser\n";
     $topText = $topicObject->text($topText);
     $topicObject->save();
     $topicObject->finish();
+
+    $Foswiki::cfg{FeatureAccess}{USERLIST} = 'all';
+    return;
+}
+
+sub fixture_groups {
+
+    return ( [ 'Acl', 'Admin', 'All', 'Authenticated' ], );
+}
+
+sub Acl {
+    $Foswiki::cfg{FeatureAccess}{USERLIST} = 'acl';
+}
+
+sub Admin {
+    $Foswiki::cfg{FeatureAccess}{USERLIST} = 'admin';
+}
+
+sub All {
+    $Foswiki::cfg{FeatureAccess}{USERLIST} = 'all';
+}
+
+sub Authenticated {
+    $Foswiki::cfg{FeatureAccess}{USERLIST} = 'authenticated';
+}
+
+sub verify_security {
+    my $this = shift;
+
+    if ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'admin' ) {
+        $this->createNewFoswikiSession('AdminUser');
+    }
+
+    my $ui = $this->{test_topicObject}->expandMacros('%USERLIST%');
+
+#AdminUser, HiddenUser, ProjectContributor, RegistrationAgent, ScumBag, UnknownUser, UserA, WikiGuest
+
+    if ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'authenticated' ) {
+
+# Normally we run as tests as guest.  so nothing returned in authenticated case.
+        $this->assert_str_equals( '', $ui );
+    }
+    else {
+        # must be acl, admin or all.
+        $this->assert_matches( qr/\bAdminUser\b/,          $ui );
+        $this->assert_matches( qr/\bProjectContributor\b/, $ui );
+        $this->assert_matches( qr/\bRegistrationAgent\b/,  $ui );
+        $this->assert_matches( qr/\bScumBag\b/,            $ui );
+        $this->assert_matches( qr/\bUnknownUser\b/,        $ui );
+        $this->assert_matches( qr/\bUserA\b/,              $ui );
+        $this->assert_matches( qr/\bWikiGuest\b/,          $ui );
+        $this->assert_matches( qr/\bHiddenUser\b/,         $ui )
+          unless ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'acl' );
+    }
+
+    if ( $Foswiki::cfg{FeatureAccess}{USERLIST} eq 'authenticated' ) {
+        $this->createNewFoswikiSession('ScumBag');
+        $ui = $this->{test_topicObject}->expandMacros('%USERLIST%');
+        $this->assert_matches( qr/\bAdminUser\b/,          $ui );
+        $this->assert_matches( qr/\bProjectContributor\b/, $ui );
+        $this->assert_matches( qr/\bRegistrationAgent\b/,  $ui );
+        $this->assert_matches( qr/\bScumBag\b/,            $ui );
+        $this->assert_matches( qr/\bUnknownUser\b/,        $ui );
+        $this->assert_matches( qr/\bUserA\b/,              $ui );
+        $this->assert_matches( qr/\bWikiGuest\b/,          $ui );
+
+        # This works because "authenticated" access doesn't do any ACL checking.
+        $this->assert_matches( qr/\bHiddenUser\b/, $ui );
+    }
 
     return;
 }
@@ -80,10 +113,12 @@ sub test_basic {
     my $ui = $this->{test_topicObject}->expandMacros('%USERLIST%');
     my @u = split( /,/, $ui );
     $this->assert_matches( qr/\bAdminUser\b/,          shift(@u) );
+    $this->assert_matches( qr/\bHiddenUser\b/,         shift(@u) );
     $this->assert_matches( qr/\bProjectContributor\b/, shift(@u) );
     $this->assert_matches( qr/\bRegistrationAgent\b/,  shift(@u) );
     $this->assert_matches( qr/\bScumBag\b/,            shift(@u) );
     $this->assert_matches( qr/\bUnknownUser\b/,        shift(@u) );
+    $this->assert_matches( qr/\bUserA\b/,              shift(@u) );
     $this->assert_matches( qr/\bWikiGuest\b/,          shift(@u) );
     $this->assert_equals( 0, scalar(@u) );
 
@@ -108,9 +143,11 @@ sub test_withExclude {
       $this->{test_topicObject}
       ->expandMacros('%USERLIST{exclude="Scum*,AdminUser,Unknown"}%');
     my @u = split( /,/, $ui );
+    $this->assert_matches( qr/\bHiddenUser\b/,         shift(@u) );
     $this->assert_matches( qr/\bProjectContributor\b/, shift(@u) );
     $this->assert_matches( qr/\bRegistrationAgent\b/,  shift(@u) );
     $this->assert_matches( qr/\bUnknownUser\b/,        shift(@u) );
+    $this->assert_matches( qr/\bUserA\b/,              shift(@u) );
     $this->assert_matches( qr/\bWikiGuest\b/,          shift(@u) );
     $this->assert_equals( 0, scalar(@u) );
 
@@ -121,48 +158,49 @@ sub test_withLimit {
     my $this = shift;
 
     my $ui = $this->{test_topicObject}->expandMacros('%USERLIST{limit="3"}%');
-    $this->assert_equals( 'AdminUser, ProjectContributor, RegistrationAgent',
-        $ui );
+    $this->assert_equals( 'AdminUser, HiddenUser, ProjectContributor', $ui );
 
     return;
 }
 
-sub xtest_formatted {
+sub test_formatted {
     my $this = shift;
 
     my $ui =
       $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="WU$wikiusernameU$usernameW$wikiname"}%'
+'%USERLIST{"foo" header="HHH$n" footer="FFF$n" format="$wikiname" separator="XXX"}%'
       );
-    $this->assert_str_equals(
-"WU$Foswiki::cfg{UsersWebName}.ScumBagUscumWScumBag, WU$Foswiki::cfg{UsersWebName}.WikiGuestUguestWWikiGuest",
-        $ui
-    );
+
+    #No users match,  so results should be empty.
+    $this->assert_str_equals( '', $ui );
+
     $ui =
-      $this->{test_topicObject}->expandMacros('%GROUPLIST{format="<$name>"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%USERLIST{format="<$wikiname>"}%');
     $this->assert_matches( qr/^<\w+>(, <\w+>)+$/, $ui );
 
     $ui =
-      $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="<$username>" separator=";"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%USERLIST{"User" format="<$wikiname>" separator=";"}%');
     $this->assert_matches( qr/^<\w+>(;<\w+>)+$/, $ui );
 
     $ui =
-      $this->{test_topicObject}->expandMacros(
-        '%GROUPLIST{"GropeGroup" format="<$name>" separator=";"}%');
-    $this->assert_matches( qr/^<GropeGroup>(;<GropeGroup>)+$/, $ui );
+      $this->{test_topicObject}
+      ->expandMacros('%USERLIST{"User" format="<$wikiname>" separator="; "}%');
+    $this->assert_matches( qr/^<AdminUser>;/,  $ui );
+    $this->assert_matches( qr/<HiddenUser>;/,  $ui );
+    $this->assert_matches( qr/<UnknownUser>;/, $ui );
+    $this->assert_matches( qr/<UserA>$/,       $ui );
 
     $ui =
       $this->{test_topicObject}->expandMacros(
-'%GROUPLIST{"GropeGroup" header="H" footer="F" format="<$username>" separator=";"}%'
+'%USERLIST{"User" header="HHH$n()" footer="$n()FFF$n" format="$wikiname" separator="XXX"}%'
       );
-    $this->assert_matches( qr/^H<\w+>(;<\w+>)+F$/, $ui );
-
-    $ui =
-      $this->{test_topicObject}->expandMacros(
-'%GROUPLIST{"GropeGroup" limit="1" limited="L" footer = "F" format="<$username>"}%'
-      );
-    $this->assert_matches( qr/^<\w+>LF$/, $ui );
+    $this->assert_str_equals( $ui, <<RESULTS );
+HHH
+AdminUserXXXHiddenUserXXXUnknownUserXXXUserA
+FFF
+RESULTS
 
     return;
 }
