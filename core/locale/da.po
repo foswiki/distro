@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-02-14 07:24+0200\n"
+"PO-Revision-Date: 2017-06-15 06:35+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3483,9 +3483,8 @@ msgid "Registration"
 msgstr "Registrering"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
-#, fuzzy
 msgid "Registration approval is not enabled."
-msgstr "%1 validering af brugerregistrering er påkrævet"
+msgstr "Godkendelse af brugerregistrering er ikke aktiveret."
 
 #: core/lib/Foswiki/UI/Register.pm:732
 msgid ""
@@ -3519,12 +3518,11 @@ msgstr ""
 
 #: core/data/System/PendingRegistrations.txt:3
 msgid "Registrations awaiting Email verification"
-msgstr ""
+msgstr "Brugerregistrering afventer email verifikation"
 
 #: core/data/System/PendingRegistrations.txt:9
-#, fuzzy
 msgid "Registrations awaiting approval"
-msgstr "%1 validering af brugerregistrering er påkrævet"
+msgstr "Brugerregistrering afventer godkendelse"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3532,7 +3530,7 @@ msgstr "Søg med regulære udtryk"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
-msgstr ""
+msgstr "Afvis"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -3584,9 +3582,8 @@ msgid "Remove Members from %1"
 msgstr "Fjern medlemmer fra %1"
 
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:3
-#, fuzzy
 msgid "Remove User"
-msgstr "Fjern medlemmer..."
+msgstr "Fjern bruger"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -4380,13 +4377,12 @@ msgstr ""
 "allerede eksisterer en fil med samme navn på den nye side."
 
 #: core/templates/renameattachmentdelete.tmpl:43
-#, fuzzy
 msgid ""
 "The attachment may have to be renamed if an attachment called '%1' already "
 "exists in the target topic."
 msgstr ""
-"Den vedhæftede fil skal måske omdøbes hvis der allerede eksister en fil der "
-"hedder '%FILENAME%' på den destinationssiden."
+"Den vedhæftede fil skal måske omdøbes, hvis der allerede eksister en fil der "
+"hedder '%FILENAME%' på destinationssiden."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4729,6 +4725,8 @@ msgid ""
 "This is an internal error.  You can try to register again, or contact %1 to "
 "report the error."
 msgstr ""
+"Dette er en intern fejl. Du kan forsøge at registrere igen, eller kontakt %1 "
+"for at rapportere problemet."
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
@@ -5581,6 +5579,8 @@ msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
 msgstr ""
+"Du kan anvende \"Godkend\" eller \"Afvis\" link for at godkende eller afvise "
+"disse registreringer"
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
