@@ -235,7 +235,7 @@ has extMgr => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    builder   => '_prepareExtMgr',
+    builder   => 'prepareExtMgr',
 );
 
 =begin TML
@@ -625,7 +625,7 @@ has zones => (
 
 Hash of current =SwitchBoard= dispatcher attributes. A dispatcher is determined
 based on action defined by HTTP request. See configuration =SwitchBoard= key
-and =_prepareDispatcher()= method.
+and =_constructDispatcher()= method.
 
 =cut 
 
@@ -771,7 +771,7 @@ sub BUILD {
         Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
 
-    $this->_prepareDispatcher;
+    $this->_constructDispatcher;
     $this->_checkBootstrapStage2;
 
     # Setup initial context.
@@ -921,6 +921,8 @@ sub run {
 This is the core method of handling a HTTP request. Must never be called
 manually except for testing purposes.
 
+---++++!! Implementation details
+
 Key moments to know about this method behavior for a developer:
 
    * This is where user access to the requested action is checked.
@@ -928,8 +930,10 @@ Key moments to know about this method behavior for a developer:
    * Upon catching up a exception =handleRequestException= callback is executed.
      The caught exception is passed to callback handlers in =exception=
      parameter (see callback =params=).
-     
-    <!-- TODO To be finished -->
+   * Only Foswiki::AccessControlException, Foswiki::OopsException, and
+     Foswiki::EngineException are handled by the method. Others are rethrown.
+   * Upon return login manager sessions are cleaned up, response object is been
+     fed to engine's =finalize()= method and then returned by the method.
      
 =cut
 
@@ -1002,6 +1006,9 @@ sub handleRequest {
             $e->generate;
         }
         elsif ( $e->isa('Foswiki::EngineException') ) {
+
+            # SMELL Replace CGI use with some other HTML-generator. Perhaps a
+            # simple templating would work for the purpose.
             $res->header( -type => 'text/html', );
             $res->status( $e->status );
             my $html = CGI::start_html( $e->status . ' Bad Request' );
@@ -1028,16 +1035,18 @@ sub handleRequest {
 
 =begin TML
 
----++ ObjectMethod create($className, %initArgs)
+---+++ ObjectMethod create($className, %initArgs)
 
 Creates a new object of class =$className=. This method must always be used for
 creating new objects of classes rooted on =Foswiki::Object=.
 
-This methods does the following:
+Before actually create an object this method:
 
    1. Loads =$className= module.
-   1. Maps =$className= into a replacement class if an extension registered for class overriding.
-   1. Adds =app= parameter key pointing to the application object to class constructor arguments.
+   1. Maps =$className= into a replacement class if an extension registered for
+      class overriding.
+   1. If the class is a =Foswiki::Object= descendant then adds =app= parameter
+      key pointing to the application object to class constructor arguments.
 
 =cut
 
@@ -1070,7 +1079,7 @@ sub create {
 
 =begin TML
 
----++ ObjectMethod deepWebList($filter, $web) -> @list
+---+++ ObjectMethod deepWebList($filter, $web) -> @list
 
 Deep list subwebs of the named web. $filter is a =Foswiki::WebFilter=
 object that is used to filter the list. The listing of subwebs is
@@ -1099,7 +1108,7 @@ sub deepWebList {
 
 =begin TML
 
----++ ObjectMethod enterContext( $id, $val )
+---+++ ObjectMethod enterContext( $id, $val )
 
 Add the context id $id into the set of active contexts. The $val
 can be anything you like, but should always evaluate to boolean
@@ -1128,7 +1137,7 @@ sub enterContext {
 
 =begin TML
 
----++ ObjectMethod leaveContext( $id )
+---+++ ObjectMethod leaveContext( $id )
 
 Remove the context id $id from the set of active contexts.
 (see =enterContext= for more information on contexts)
@@ -1144,7 +1153,7 @@ sub leaveContext {
 
 =begin TML
 
----++ ObjectMethod inContext( $id )
+---+++ ObjectMethod inContext( $id )
 
 Return the value for the given context id
 (see =enterContext= for more information on contexts)
@@ -1158,7 +1167,7 @@ sub inContext {
 
 =begin TML
 
----++ ObjectMethod inlineAlert($template, $def, ... ) -> $string
+---+++ ObjectMethod inlineAlert($template, $def, ... ) -> $string
 
 Format an error for inline inclusion in rendered output. The message string
 is obtained from the template 'oops'.$template, and the DEF $def is
@@ -1214,7 +1223,7 @@ MESSAGE
 
 =begin TML
 
----++ ObjectMethod redirect( $url, $passthrough, $status )
+---+++ ObjectMethod redirect( $url, $passthrough, $status )
 
    * $url - url or topic to redirect to
    * $passthrough - (optional) parameter to pass through current query
@@ -1327,7 +1336,7 @@ sub redirect {
 
 =begin TML
 
----++ ObjectMethod redirectto($url) -> $url
+---+++ ObjectMethod redirectto($url) -> $url
 
 If the CGI parameter 'redirectto' is present on the query, then will validate
 that it is a legal redirection target (url or topic name). If 'redirectto'
@@ -1373,7 +1382,7 @@ sub redirectto {
 
 =begin TML
 
----++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
+---+++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
 
 Try and satisfy the current request for the given web.topic from the cache, given
 the current action (view, edit, rest etc).
@@ -1475,7 +1484,7 @@ sub satisfiedByCache {
 
 =begin TML
 
----++ ObjectMethod setCacheControl( $pageType, \%hopts )
+---+++ ObjectMethod setCacheControl( $pageType, \%hopts )
 
 Set the cache control headers in a response
 
@@ -1533,7 +1542,7 @@ sub setCacheControl {
 
 =begin TML
 
----++ ObjectMethod setETags( $cachedPage, \%hopts ) -> $boolean
+---+++ ObjectMethod setETags( $cachedPage, \%hopts ) -> $boolean
 
 Set etags (and modify status) depending on what the cached page specifies.
 Return 1 if the page has been modified since it was last retrieved, 0 otherwise.
@@ -1575,7 +1584,7 @@ sub setETags {
 
 =begin TML
 
----++ ObjectMethod getSkin () -> $string
+---+++ ObjectMethod getSkin () -> $string
 
 Get the currently requested skin path
 
@@ -1624,7 +1633,7 @@ sub getSkin {
 
 =begin TML
 
----++ ObjectMethod systemMessage( @messages )
+---+++ ObjectMethod systemMessage( @messages )
 
 Adds a new system message to be displayed to a user (who most likely would be an
 admin) either as a banner on the top of a wiki topic or by a special macro.
@@ -1646,7 +1655,7 @@ sub systemMessage {
 
 =begin TML
 
----++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
+---+++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
 
 Write a complete HTML page with basic header to the browser.
    * =$text= is the text of the page script (&lt;html&gt; to &lt;/html&gt; if it's HTML)
@@ -1830,10 +1839,26 @@ BOGUS
     }
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareContext
+
+Builder method for =context= attribute.
+
+=cut
+
 sub prepareContext {
     my $this = shift;
     return {};
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareEngine
+
+Builder method for =engine= attribute.
+
+=cut
 
 sub prepareEngine {
     my $this = shift;
@@ -1850,6 +1875,14 @@ sub prepareEngine {
     return $engine;
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareEngine
+
+Builder method for =prefs= attribute.
+
+=cut
+
 sub preparePrefs {
     my $this = shift;
 
@@ -1857,6 +1890,14 @@ sub preparePrefs {
 
     return $prefs;
 }
+
+=begin TML
+
+---+++ ObjectMethod _readPrefs
+
+Read user preferences.
+
+=cut
 
 sub _readPrefs {
     my $this = shift;
@@ -1895,7 +1936,14 @@ sub _readPrefs {
     $this->prefs->pushTopicContext( $req->web, $req->topic );
 }
 
-# The request attribute default method.
+=begin TML
+
+---+++ ObjectMethod prepareRequest
+
+Builder method for =request= attribute.
+
+=cut
+
 sub prepareRequest {
     my $this = shift;
     my @args = @_;
@@ -1927,14 +1975,29 @@ sub prepareRequest {
     return $request;
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareRequest
+
+Builder method for =cfg= attribute.
+
+=cut
+
 sub prepareCfg {
     my $this = shift;
     my $cfg  = $this->create('Foswiki::Config');
     return $cfg;
 }
 
-# Determines what dispatcher to use for the action requested.
-sub _prepareDispatcher {
+=begin TML
+
+---+++ ObjectMethod _constructDispatcher
+
+Determines what dispatcher to use for the action requested.
+
+=cut
+
+sub _constructDispatcher {
     my $this = shift;
     my $res  = $this->response;
 
@@ -1969,6 +2032,14 @@ sub _prepareDispatcher {
     $this->_dispatcherAttrs($dispatcher);
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareUser
+
+Builder method for =user= attribute.
+
+=cut
+
 sub prepareUser {
     my $this = shift;
 
@@ -1976,17 +2047,32 @@ sub prepareUser {
     return undef;
 }
 
-sub _prepareExtMgr {
+=begin TML
+
+---+++ ObjectMethod prepareExtMgr
+
+Builder method for =extMgr= attribute.
+
+=cut
+
+sub prepareExtMgr {
     my $this = shift;
 
     # Don't use create() here because the latter depends on extensions.
     return Foswiki::ExtManager->new( app => $this );
 }
 
-# If the X-Foswiki-Tickle header is present, this request is an attempt to
-# verify that the requested function is available on this Foswiki. Respond with
-# the serialised dispatcher, and finish the request. Need to stringify since
-# VERSION is a version object.
+=begin TML
+
+---+++ ObjectMethod _checkTickle
+
+If the X-Foswiki-Tickle header is present, this request is an attempt to verify
+that the requested function is available on this Foswiki. Respond with the
+serialised dispatcher, and finish the request. Need to stringify since VERSION
+is a version object.
+
+=cut
+
 sub _checkTickle {
     my $this = shift;
     my $req  = $this->request;
@@ -2005,6 +2091,15 @@ sub _checkTickle {
         Foswiki::Exception::HTTPResponse->throw;
     }
 }
+
+=begin TML
+
+---+++ ObjectMethod _checkReqCache
+
+Checks if request data must be fetched from cache based on
+=foswiki_redirect_cache= HTTP parameter.
+
+=cut
 
 sub _checkReqCache {
     my $this = shift;
@@ -2034,6 +2129,14 @@ sub _checkReqCache {
     }
 }
 
+=begin TML
+
+---+++ ObjectMethod _checkBootstrapStage2
+
+Phase two of bootstrap.
+
+=cut
+
 sub _checkBootstrapStage2 {
     my $this = shift;
     my $cfg  = $this->cfg;
@@ -2051,6 +2154,15 @@ sub _checkBootstrapStage2 {
         $this->systemMessage( $cfg->bootstrapMessage );
     }
 }
+
+=begin TML
+
+---+++ ObjectMethod _checkActionAccess
+
+Checks if action is allowed for request HTTP method. For example, some actions
+are allowed for POST requests only.
+
+=cut
 
 sub _checkActionAccess {
     my $this            = shift;
@@ -2102,19 +2214,22 @@ sub _checkActionAccess {
 
 }
 
-#
-# API Section
-#
-
 =begin TML
 
 ---++ API methods
 
 =cut
 
-# Given $web, $web and $topic, or $web $topic and $attachment, validate
-# and untaint each of them and return. If any fails to validate it will
-# be returned as undef.
+=begin TML
+
+---+++ ObjectMethod _checkWTA
+
+Given $web, $web and $topic, or $web $topic and $attachment, validate and
+untaint each of them and return. If any fails to validate it will be returned as
+undef.
+
+=cut
+
 sub _checkWTA {
     my $this = shift;
     my ( $web, $topic, $attachment ) = @_;
@@ -2142,8 +2257,14 @@ sub _checkWTA {
 
 }
 
-# Validate a web.topic.attachment and throw an exception if the
-# validation fails
+=begin TML
+
+---+++ ObjectMethod _validateWTA
+
+Validate a web.topic.attachment and throw an exception if the validation fails.
+
+=cut
+
 sub _validateWTA {
     my $this = shift;
     my ( $web, $topic, $attachment ) = @_;
@@ -2154,8 +2275,15 @@ sub _validateWTA {
     return ( $w, $t, $a );
 }
 
-# Tests if the $redirect is an external URL, returning false if
-# AllowRedirectUrl is denied
+=begin TML
+
+---+++ ObjectMethod _isRedirectSafe
+
+Tests if the $redirect is an external URL, returning false if =AllowRedirectUrl=
+configuration key is _false_.
+
+=cut
+
 sub _isRedirectSafe {
     my $this     = shift;
     my $redirect = shift;
@@ -2362,7 +2490,13 @@ sub popTopicContext {
 =begin TML
 
 ---++ API Methods - User related
+
+=cut
+
+=begin TML
+
 ---+++ ObjectMethod getDefaultUserName -> $loginName
+
 Get default user name as defined in the configuration as =DefaultUserLogin=
 
 Return: =$loginName= Default user name, e.g. ='guest'=
@@ -2377,6 +2511,7 @@ sub getDefaultUserName {
 =begin TML
 
 ---+++ ObjectMethod getCanonicalUserID( $user ) -> $cUID
+
    * =$user= can be a login, wikiname or web.wikiname
 Return the cUID of the specified user. A cUID is a unique identifier which
 is assigned by Foswiki for each user.
