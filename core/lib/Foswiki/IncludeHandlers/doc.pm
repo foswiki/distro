@@ -248,6 +248,9 @@ sub INCLUDE {
                                   $Foswiki::ExtManager::pluggables{$class}
                                   { $+{methodName} } ? "Pluggable " : "";
 
+                                # SMELL methodName with underscores generates
+                                # bad anchor name which is getting split by the
+                                # first _. Should anchor name handling be fixed?
                                 $anchor = "#"
                                   . $methodAccess
                                   . $methodType
