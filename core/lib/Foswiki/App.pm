@@ -331,12 +331,15 @@ has inUnitTestMode => (
     },
 );
 
-# App init stage.
-has initStage => ( is => 'rw', );
+=begin TML
+
+---++ Methods
+
+=cut
 
 =begin TML
 
----++ ClassMethod new([%parameters])
+---+++ ClassMethod new([%parameters])
 
 The following keys could be defined in =%parameters= hash:
 
@@ -353,11 +356,12 @@ sub BUILD {
 
     for my $stNum ( 1 .. 2 ) {
         $this->clear_cfg;
-        $this->initStage( 'readConfig' . $stNum );
+        $this->enterContext( appStage => 'readConfig' . $stNum );
         unless ( $this->cfg->data->{isVALID} ) {
             $this->cfg->bootstrapSystemSettings;
         }
-        $this->initStage( 'loadExtensions' . $stNum );
+
+        $this->enterContext( appStage => 'loadExtensions' . $stNum );
 
         # Reload extensions based on the configuration information.
         $this->clear_extMgr;
@@ -365,7 +369,7 @@ sub BUILD {
         $this->extMgr->initialize;
     }
 
-    $this->initStage('postConfig');
+    $this->enterContext( appStage => 'postConfig' );
 
     $this->callback('postConfig');
 
@@ -427,6 +431,21 @@ sub BUILD {
 
     $this->_prepareDispatcher;
     $this->_checkBootstrapStage2;
+
+    # Setup initial context.
+    my %context =
+      ( %{ $this->_dispatcherAttrs->{context} // {} }, features2Context );
+
+    while ( my ( $ctx, $val ) = each %context ) {
+        $this->enterContext( $ctx, $val );
+    }
+
+    if ( $cfgData->{Password} ) {
+        $this->enterContext('admin_available');
+    }
+    if ( $this->engine->isa('Foswiki::Engine::CLI') ) {
+        $this->enterContext('command_line');
+    }
 
     # Override user to be admin if no configuration exists.
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
@@ -1443,17 +1462,7 @@ BOGUS
 
 sub prepareContext {
     my $this = shift;
-
-    my %context =
-      ( %{ $this->_dispatcherAttrs->{context} // {} }, features2Context );
-
-    if ( $this->cfg->data->{Password} ) {
-        $context{admin_available} = 1;
-    }
-    if ( $this->engine->isa('Foswiki::Engine::CLI') ) {
-        $context{command_line} = 1;
-    }
-    return \%context;
+    return {};
 }
 
 sub prepareEngine {
