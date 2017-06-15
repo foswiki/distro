@@ -990,7 +990,7 @@ The method returns filled in configuration data hash.
 | =noLocal= | Don't read local site configuration file | _false_ |
 | =noExpand= | Don't expand macros in the configuration hash | _false_ |
 | =lscFile= | Name of the local configuration file | see =readLSCStart()= method |
-| =_stage= | The initialization stage as defined by =Foswiki::App= =initStage= attribute. | =$app->initStage= |
+| =_stage= | The initialization stage as defined by =Foswiki::App= =stage= context. | =$app->context->{appStage}= |
 
 %X% *NOTE:* The =_stage= param is not used by the core but could be taken into
 account by an extension overriding a pluggable method. It is also passed over to
@@ -1015,7 +1015,7 @@ pluggable read => sub {
 
     return if $data->{ConfigurationFinished};
 
-    my $stage = $params{_stage} // $this->app->initStage;
+    my $stage = $params{_stage} // $this->app->context->{appStage};
 
     # Similar to the old readConfig() noSpec set to true.
     my $noDefaults = exists $params{noDefaults} ? $params{noDefaults} : 0;

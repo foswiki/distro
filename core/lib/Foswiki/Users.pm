@@ -5,7 +5,8 @@ use v5.14;
 
 =begin TML
 
----+ package Foswiki::Users
+---+ Class Foswiki::Users
+
 This package provides services for the lookup and manipulation of login and
 wiki names of users, and their authentication.
 

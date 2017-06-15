@@ -9,6 +9,48 @@ package Foswiki::App;
 The core class of the project responsible for low-level and code glue
 functionality.
 
+An object of this class represents a single application serving a HTTP request
+or some other task like testing or supporting a command-line tool. A new
+instance is created for every new HTTP request but a singe object might serve
+few other tasks. The object then becomes the root of object (not class!)
+hierarchy.
+
+This class also provides the API for user-created code like extensions or
+legacy plugins.
+
+---++ Life cycle
+
+Depending on the purpose of a new application object it could be created either
+manually using =new()= method or by calling static method =run()=. The latter
+option is for serving a HTTP request and will provide no access to the object
+itself by taking care of its creation and destruction.
+
+The manual creation could be used for testing purposes, command line tools, etc.
+
+When serving a HTTP request no more than one application instance per request
+can exists.
+
+An application object is only guaranteed to pass through two stages of
+existance: initialization and destruction. The active stage at which the request
+is being processed could be omitted due to the obvious resons. Normally we
+check the current stage of application life by examining the context (see the
+=context= attribute). In particular, =appStage= context could be used to find
+out related information.
+
+---++ Legacy support
+
+Since the new %WIKITOOLNAME% core is not backward compatible with previous major
+versions the legacy code must be somewhat changed to be able to work with the
+new API and coding conventions. As much as possible has been done to keep these
+changes at minimum. Out of the most important measures taken is a global
+variable =$Foswiki::app= introduced to serve as a replacement for pre-v3
+=$Foswiki::Plugins::SESSION= variable up to some extent. Though the use of
+=$Foswiki::app= is highly discouraged this contraint is mostly related to newly
+created code.
+
+See some more useful information on
+[[https://foswiki.org/Development/Foswiki3CodeChanges][Foswiki official site]].
+
 =cut
 
 use constant TRACE_REQUEST => 0;
@@ -35,7 +77,28 @@ use Foswiki qw(%regex load_package load_class isTrue);
 use Foswiki::Class qw(callbacks);
 extends qw(Foswiki::Object);
 
+=begin TML
+
+---++ Callbacks
+
+This class is currently provides support for the following callbacks:
+
+| *Callback short name* | *Initiated ...* |
+| =handleRequestException= | when =handleRequest()= method catches an exception |
+| =postConfig= | by the constructor method right after configuration is fetched in and extensions are initialized |
+
+=cut
+
 callback_names qw(handleRequestException postConfig);
+
+=begin TML
+
+---++ Active features
+
+<!-- This part of documentation is better be handled by a special MACRO which
+would output a table of features -->
+
+=cut
 
 features_provided
   MOO => [
@@ -54,6 +117,20 @@ features_provided
   ],
   ;
 
+=begin TML
+
+---++ Attributes
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute access
+
+A instance of =Foswiki::Access= class.
+
+=cut
+
 has access => (
     is        => 'ro',
     lazy      => 1,
@@ -68,6 +145,15 @@ has access => (
         return $this->create($accessClass);
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute attach
+
+A instance of =Foswiki::Attach= class.
+
+=cut
+
 has attach => (
     is        => 'ro',
     lazy      => 1,
@@ -75,6 +161,16 @@ has attach => (
     predicate => 1,
     default   => sub { $_[0]->create('Foswiki::Attach'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute cache
+
+A instance of class defined by configuration key =Cache.Implementation= if
+enabled by =Cache.Enabled=.
+
+=cut
+
 has cache => (
     is        => 'rw',
     lazy      => 1,
@@ -111,10 +207,29 @@ has cfg => (
     builder   => 'prepareCfg',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute env
+
+A hash of environment variables as passed in by active engine. See
+=Foswiki::Engine=, and =engine= attribute.
+
+=cut
+
 has env => (
     is       => 'rw',
     required => 1,
 );
+
+=begin TML
+
+---+++ ObjectAttribute extMgr
+
+Extensions manager object, a instance of =Foswiki::ExtMgr=.
+
+=cut
+
 has extMgr => (
     is        => 'ro',
     lazy      => 1,
@@ -122,12 +237,31 @@ has extMgr => (
     predicate => 1,
     builder   => '_prepareExtMgr',
 );
+
+=begin TML
+
+---+++ ObjectAttribute forms
+
+Hash of web forms. See =Foswiki::Forms=.
+
+=cut
+
 has forms => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
     default => sub { {} },
 );
+
+=begin TML
+
+---+++ ObjectAttribute logger
+
+A logger object instantiated from configuration =Log.Implementation= key; or
+from =Foswiki::Logger= if the former is not defined.
+
+=cut
+
 has logger => (
     is        => 'ro',
     lazy      => 1,
@@ -143,6 +277,15 @@ has logger => (
         return $this->create($loggerClass);
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute engine
+
+Active engine object, a descendant of =Foswiki::Engine= class.
+
+=cut
+
 has engine => (
     is        => 'rw',
     lazy      => 1,
@@ -152,14 +295,35 @@ has engine => (
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
 );
 
-# Heap is to be used for data persistent over session lifetime.
-# Usage: $sessiom->heap->{key} = <your data>;
+=begin TML
+
+---+++ ObjectAttribute heap -> \%data
+
+A hashref of any data. Could be used by third-party code to store values which
+must persist over application lifetime. This attribute must be used as a
+last-resort approach when no other good solution for a problem is found but a
+some kind of global data storage. As use of global variables is considered
+totally evil then this attribute comes to resque. 
+
+Usage: =$app->heap->{key} = &lt;your data&gt;;=
+
+=cut
+
 has heap => (
     is      => 'rw',
     clearer => 1,
     lazy    => 1,
     default => sub { {} },
 );
+
+=begin TML
+
+---+++ ObjectAttribute i18n
+
+Localization object, a instance of =Foswiki::I18N=.
+
+=cut
+
 has i18n => (
     is        => 'ro',
     lazy      => 1,
@@ -172,6 +336,15 @@ has i18n => (
         $_[0]->create('Foswiki::I18N');
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute net
+
+A instance of =Foswiki::Net= class.
+
+=cut
+
 has net => (
     is        => 'ro',
     lazy      => 1,
@@ -179,6 +352,15 @@ has net => (
     predicate => 1,
     default   => sub { return $_[0]->create('Foswiki::Net'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute plugins
+
+Legacy plugins manager, a instance of =Foswiki::Plugins= class.
+
+=cut
+
 has plugins => (
     is        => 'rw',
     lazy      => 1,
@@ -186,6 +368,15 @@ has plugins => (
     predicate => 1,
     default   => sub { return $_[0]->create('Foswiki::Plugins'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute prefs
+
+Application preferences, a instance of =Foswiki::Prefs= class.
+
+=cut
+
 has prefs => (
     is        => 'ro',
     lazy      => 1,
@@ -193,6 +384,15 @@ has prefs => (
     clearer   => 1,
     builder   => 'preparePrefs',
 );
+
+=begin TML
+
+---+++ ObjectAttribute renderer
+
+A instance of =Foswiki::Render= class.
+
+=cut
+
 has renderer => (
     is        => 'ro',
     lazy      => 1,
@@ -202,6 +402,17 @@ has renderer => (
         return $_[0]->create('Foswiki::Render');
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute request
+
+HTTP request object, a instance of =Foswiki::Request= descendant class. The
+particular class is been chosen depending on the type of incoming HTTP request.
+See =Foswiki::Request= =prepare()= method.
+
+=cut
+
 has request => (
     is      => 'rw',
     lazy    => 1,
@@ -209,6 +420,15 @@ has request => (
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute response
+
+Application response object, a instance of =Foswiki::Response= class.
+
+=cut
+
 has response => (
     is      => 'rw',
     lazy    => 1,
@@ -218,6 +438,15 @@ has response => (
         'response', 'Foswiki::Response', noUndef => 1,
     ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute search
+
+A instance of =Foswiki::Search= class.
+
+=cut
+
 has search => (
     is        => 'ro',
     lazy      => 1,
@@ -227,6 +456,16 @@ has search => (
         return $_[0]->create('Foswiki::Search');
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute store
+
+Storage object, a instance of =Foswiki::Store= descendant. The particular class
+is defined by configuration key =Store.Implementation=.
+
+=cut
+
 has store => (
     is        => 'rw',
     lazy      => 1,
@@ -242,6 +481,15 @@ has store => (
         return $_[0]->create($storeClass);
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute templates
+
+%WIKITOOLNAME% templates manager, a instance of =Foswiki::Templates= class.
+
+=cut
+
 has templates => (
     is        => 'ro',
     lazy      => 1,
@@ -249,6 +497,15 @@ has templates => (
     clearer   => 1,
     default   => sub { return $_[0]->create('Foswiki::Templates'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute macros
+
+Macros manager object, a instance of =Foswiki::Macros= class.
+
+=cut
+
 has macros => (
     is      => 'rw',
     lazy    => 1,
@@ -256,12 +513,32 @@ has macros => (
     isa =>
       Foswiki::Object::isaCLASS( 'macros', 'Foswiki::Macros', noUndef => 1, ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute context -> \%data
+
+Hash of %WIKITOOLNAME% application contexts. A context is a key in this hash.
+Application is considered to be in the context of its value is _true_. See
+=enterContext()=, =leaveContext()=, and =inContext()= methods below.
+
+=cut
+
 has context => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
     builder => 'prepareContext',
 );
+
+=begin TML
+
+---+++ ObjectAttribute ui
+
+User interface object, a instance of =Foswiki::UI= class.
+
+=cut
+
 has ui => (
     is      => 'rw',
     lazy    => 1,
@@ -269,6 +546,15 @@ has ui => (
         return $_[0]->create('Foswiki::UI');
     },
 );
+
+=begin TML
+
+---+++ ObjectAttribute remoteUser
+
+=cut
+
+# TODO Somebody, please, make a clear difference between remoteUser and user! I
+# fail to do so.
 has remoteUser => (
     is        => 'rw',
     lazy      => 1,
@@ -280,7 +566,15 @@ has remoteUser => (
     },
 );
 
-# XXX user attribute must have complicated options like lazy or builder.
+=begin TML
+
+---+++ ObjectAttribute user
+
+Active logged in user.
+
+=cut
+
+# IMPORTANT! user attribute must have complicated options like lazy or builder.
 # Otherwise there is high risk of Perl or Moo optimizing RO-calls to this
 # attribute leading to corrupt stack if passed over as a method attribute and
 # then set to a different value deep in the call stack. For example if there is
@@ -292,6 +586,15 @@ has user => (
     lazy    => 1,
     builder => 'prepareUser',
 );
+
+=begin TML
+
+---+++ ObjectAttribute users
+
+User manager object, a instance of =Foswiki::Users= class.
+
+=cut
+
 has users => (
     is        => 'rw',
     lazy      => 1,
@@ -299,6 +602,15 @@ has users => (
     clearer   => 1,
     default   => sub { return $_[0]->create('Foswiki::Users'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute zones
+
+Rendering zones manager, a instance of =Foswiki::Render::Zones= class.
+
+=cut
+
 has zones => (
     is        => 'ro',
     lazy      => 1,
@@ -306,12 +618,34 @@ has zones => (
     predicate => 1,
     default   => sub { return $_[0]->create('Foswiki::Render::Zones'); },
 );
+
+=begin TML
+
+---+++ ObjectAttribute _dispatcherAttrs
+
+Hash of current =SwitchBoard= dispatcher attributes. A dispatcher is determined
+based on action defined by HTTP request. See configuration =SwitchBoard= key
+and =_prepareDispatcher()= method.
+
+=cut 
+
 has _dispatcherAttrs => (
     is  => 'rw',
     isa => Foswiki::Object::isaHASH( '_dispatcherAttrs', noUndef => 1 ),
 );
 
-# List of system messages to be displayed to user. Could be used to display non-critical errors or important warnings.
+=begin TML
+
+---+++ ObjectAttribute system_messages -> \@messages
+
+List of system messages to be displayed to user. Could be used to for
+non-critical errors or important warnings. Messages are expected to be
+broadcasted.
+
+See =systemMessage()= method.
+
+=cut
+
 has system_messages => (
     is      => 'rw',
     lazy    => 1,
@@ -319,6 +653,14 @@ has system_messages => (
     default => sub { [] },
     isa     => Foswiki::Object::isaARRAY( 'system_messages', noUndef => 1, ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute inUnitTestMode
+
+A boolean attribute set to _true_ if the code is executing unit tests.
+
+=cut
 
 has inUnitTestMode => (
     is      => 'rw',
@@ -464,6 +806,15 @@ sub BUILD {
     $this->_readPrefs;
 }
 
+=begin TML
+
+---+++ ObjectMethod DEMOLISH
+
+This method tries to cleanly shutdown application by calling
+=Foswiki::LoginManager= =complete()= method.
+
+=cut
+
 sub DEMOLISH {
     my $this = shift;
     my ($in_global) = @_;
@@ -481,7 +832,7 @@ sub DEMOLISH {
 
 =begin TML
 
----++ StaticMethod run([%parameters])
+---+++ StaticMethod run([%parameters])
 
 Starts application, prepares and initiates request processing. The following
 keys could be defined in =%parameters= hash:
@@ -562,6 +913,25 @@ sub run {
     };
     return $rc;
 }
+
+=begin TML
+
+---+++ ObjectMethod handleReques
+
+This is the core method of handling a HTTP request. Must never be called
+manually except for testing purposes.
+
+Key moments to know about this method behavior for a developer:
+
+   * This is where user access to the requested action is checked.
+   * This method enables legacy plugins prior dispatching the request to UI.
+   * Upon catching up a exception =handleRequestException= callback is executed.
+     The caught exception is passed to callback handlers in =exception=
+     parameter (see callback =params=).
+     
+    <!-- TODO To be finished -->
+     
+=cut
 
 sub handleRequest {
     my $this = shift;
@@ -3491,7 +3861,7 @@ sub copyAttachment {
 
 =begin TML
 
----++ Finding changes
+---++ API Methods - Finding changes
 
 =cut
 
@@ -3597,7 +3967,7 @@ sub summariseChanges {
 
 =begin TML
 
----++ Templates
+---++ API Methods - Templates
 
 =cut
 

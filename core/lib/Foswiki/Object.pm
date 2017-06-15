@@ -6,16 +6,56 @@ package Foswiki::Object;
 
 ---+ Class Foswiki::Object
 
-*NOTE:* This document is in draft status and may change as a result of
-a discussion, raised concerns or reasonable proposals.
-
 This is the base object for all Foswiki classes. It defines the default
-behaviour and general policies for all descendants.
+behaviour and general policies for its descendants.
 
----++ Behavior
+---++ Implementation details.
 
-=Foswiki::Object= is a subclass of Moo and as such inherits all it's
-features.
+=Foswiki::Object= is a subclass of Moo and as such inherits all its features.
+
+---+++ Behavior changing conditions
+
+This class' behavior could be changed by either a environment variable
+=FOSWIKI_NOSTACKTRACE= and =Assert='s module constant =DEBUG=. These changes
+should be completely transparent for the rest of core code and only be of any
+interest for debugging purposes. The =DEBUG= constant is of main significance
+here. =FOSWIKI_NOSTACKTRACE= is taken into account with =DEBUG= being _true_
+only.
+
+With =DEBUG= this class:
+
+   * records object origins recording information about the source which created
+     the object. The information includes: file, line, package, subroutine name,
+     and stack trace of the point where and when the =new()= method has been
+     called. The information is stored in ==__origin_*= set of object
+     attributes.
+   * Dumps any keys found on object's hash which are not attributes declared
+     with =Moo= =has=. This is to trace down legacy use of object.
+     
+When =FOSWIKI_NOSTACKTRACE= environment variable is set to a _true_ value then
+stack trace recording is switched off. The recording is quite lingering
+procedure and object creation is something done pretty frequently. So, running
+code in =DEBUG= mode might become a part of Buddhist patience training for some.
+
+---+++ Attribute validators.
+
+Since =Moo= doesn't provide any standard checker for an attribute =isa= option
+we wrote our own basic validtation methods. Those are static methods which are
+named =isaTYPE()=. Currently only three types are supported: ARRAY, HASH, and
+CLASS. See respective methods documentation.
+
+A typical use of them would look like the following code:
+
+<verbatim>
+package Foswiki::SomeClass;
+...
+has meta => (
+    is => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'meta', 'Foswiki::Meta', noUndef => 1, ),
+);
+</verbatim>
+
+See =CPAN:Moo= IMPORTED SUBROUTINES -> =has= documentation.
 
 =cut
 
@@ -32,48 +72,25 @@ use Assert;
 
 =begin TML
 
----++ ClassMethod BUILDARGS()
-
-Converts positional constructor parameters to named ones. Tries to detect if constructor is already being called using named notation.
-
-The =BUILDARGS()= uses array =@_newParameters= declared statically on a class to get information about the order of parameters.
-For example, for a =Foswiki::SampleClass=:
-
-<verbatim>
-package Foswiki::SampleClass;
-use Foswiki::Class;
-extends qw(Foswiki::Obejct);
-
-our @_newParameters = qw( param1 param2 );
-
-has param1 => (is => 'rw');
-has param2 => (is => 'ro');
-has param3 => (is => 'rw');
-
-1;
-</verbatim>
-
-the following notations are valid:
-
-<verbatim>
-my $object1 = Foswiki::SampleClass->new($param1, $param2);
-my $object2 = Foswiki::SampleClass->new($param1);
-my $object3 = Foswiki::SampleClass->new(param1 => 1, param2 => '2', param3 => 'additional');
-my $object3 = Foswiki::SampleClass->new({param1 => 1, param2 => '2', param3 => 'additional'});
-</verbatim>
-
-Note that for =$object2= the =BUILD()= method will be called with no param2 key.
-
-Key/value pairs as in =$object3= example are valid as soon as at least one key is mentioned in =@_newParameters=.
-This limitation will remain actual until constructors are called with positional parameters no more.
+---++ Attributes
 
 =cut
 
+# Debug-only attributes for recording object's origins; i.e. the location in the
+# core where it was created. Useful for tracking down the source of problems.
 has __orig_file  => ( is => 'rw', clearer => 1, );
 has __orig_line  => ( is => 'rw', clearer => 1, );
 has __orig_pkg   => ( is => 'rw', clearer => 1, );
 has __orig_sub   => ( is => 'rw', clearer => 1, );
 has __orig_stack => ( is => 'rw', clearer => 1, );
+
+=begin TML
+
+---+++ ObjectAttribute __id
+
+A unique id is used to differentiate two objects of same class.
+
+=cut
 
 has __id => (
     is      => 'ro',
@@ -87,75 +104,131 @@ has __id => (
     },
 );
 
+# Temporary storage for the group of cloning method.
 has __clone_heap =>
   ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
 
-around BUILDARGS => sub {
-    my $orig   = shift;
-    my $class  = shift;
-    my @params = @_;
+=begin TML
 
-    if (0) {
+---++ Methods
 
-        # No more support for @_newParameters.
+=cut
 
-        # Skip processing if already have passed with a hash ref.
-        return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
+#=begin TML
+#
+#---+++ ClassMethod BUILDARGS()
+#
+#Converts positional constructor parameters to named ones. Tries to detect if constructor is already being called using named notation.
+#
+#The =BUILDARGS()= uses array =@_newParameters= declared statically on a class to get information about the order of parameters.
+#For example, for a =Foswiki::SampleClass=:
+#
+#<verbatim>
+#package Foswiki::SampleClass;
+#use Foswiki::Class;
+#extends qw(Foswiki::Obejct);
+#
+#our @_newParameters = qw( param1 param2 );
+#
+#has param1 => (is => 'rw');
+#has param2 => (is => 'ro');
+#has param3 => (is => 'rw');
+#
+#1;
+#</verbatim>
+#
+#the following notations are valid:
+#
+#<verbatim>
+#my $object1 = Foswiki::SampleClass->new($param1, $param2);
+#my $object2 = Foswiki::SampleClass->new($param1);
+#my $object3 = Foswiki::SampleClass->new(param1 => 1, param2 => '2', param3 => 'additional');
+#my $object3 = Foswiki::SampleClass->new({param1 => 1, param2 => '2', param3 => 'additional'});
+#</verbatim>
+#
+#Note that for =$object2= the =BUILD()= method will be called with no param2 key.
+#
+#Key/value pairs as in =$object3= example are valid as soon as at least one key is mentioned in =@_newParameters=.
+#This limitation will remain actual until constructors are called with positional parameters no more.
+#
+#=cut
+#
+#around BUILDARGS => sub {
+#    my $orig   = shift;
+#    my $class  = shift;
+#    my @params = @_;
+#
+#    if (0) {
+#
+#        # No more support for @_newParameters.
+#
+#        # Skip processing if already have passed with a hash ref.
+#        return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
+#
+#        # Take care of clone-like methods.
+#        if ( ref($class) ) {
+#            $class = ref($class);
+#        }
+#
+#        my $paramHash;
+#
+#        Carp::confess("Undefined \$class") unless defined $class;
+#
+#        no strict 'refs';
+#        if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
+#            my @newParameters = @{ $class . '::_newParameters' };
+#            my $isHash        = 0;
+#
+#        # If there are even number of parameters passed suspect key/value pairs.
+#        # Note: at least one key has to be in @_newParameters for this to work.
+#            if ( ( @params % 2 ) == 0 ) {
+#                my $prop_re = '^(' . join( '|', @newParameters ) . ')$';
+#
+#      # Check for potential keys if any of them is mentioned in @_newParameters.
+#      # Not key/value form if any single suspected-to-be-key is undef.
+#                for ( my $i = 0 ; !$isHash && $i < @params ; $i += 2 ) {
+#                    next unless defined $params[$i];
+#                    $isHash = ( $params[$i] =~ $prop_re );
+#                }
+#            }
+#            unless ($isHash) {
+#                ASSERT(
+#                    scalar(@params) <= scalar(@newParameters),
+#"object constructor for class $class has received more parameters than defined in \@_newParameters"
+#                ) if DEBUG;
+#                while (@params) {
+#                    $paramHash->{ shift @newParameters } = shift @params;
+#                }
+#            }
+#        }
+#
+#        # If $paramHash is undef at this point then either @params is a
+#        # key/value pairs array or no @_newParameters array defined.
+#        # SMELL XXX Number of elements in @params has to be checked and an
+#        # exception thrown if it's inappropriate.
+#        unless ( defined $paramHash ) {
+#            Foswiki::Exception::Fatal->throw(
+#                text => "Odd number of elements in $class parameters hash" )
+#              if ( @params % 2 ) == 1;
+#            $paramHash = {@params};
+#        }
+#
+#        use strict 'refs';
+#        return $paramHash;
+#    }
+#
+#    return $orig->( $class, @_ );
+#};
 
-        # Take care of clone-like methods.
-        if ( ref($class) ) {
-            $class = ref($class);
-        }
+=begin TML
 
-        my $paramHash;
+---+++ ObjectMethod new( %params ) -> $obj
 
-        Carp::confess("Undefined \$class") unless defined $class;
+All Foswiki classes must use named parameters for their =new()= method and must
+be created using =Foswiki::App= =create()= method unless it is not possible for
+a strong reason.
 
-        no strict 'refs';
-        if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
-            my @newParameters = @{ $class . '::_newParameters' };
-            my $isHash        = 0;
-
-        # If there are even number of parameters passed suspect key/value pairs.
-        # Note: at least one key has to be in @_newParameters for this to work.
-            if ( ( @params % 2 ) == 0 ) {
-                my $prop_re = '^(' . join( '|', @newParameters ) . ')$';
-
-      # Check for potential keys if any of them is mentioned in @_newParameters.
-      # Not key/value form if any single suspected-to-be-key is undef.
-                for ( my $i = 0 ; !$isHash && $i < @params ; $i += 2 ) {
-                    next unless defined $params[$i];
-                    $isHash = ( $params[$i] =~ $prop_re );
-                }
-            }
-            unless ($isHash) {
-                ASSERT(
-                    scalar(@params) <= scalar(@newParameters),
-"object constructor for class $class has received more parameters than defined in \@_newParameters"
-                ) if DEBUG;
-                while (@params) {
-                    $paramHash->{ shift @newParameters } = shift @params;
-                }
-            }
-        }
-
-        # If $paramHash is undef at this point then either @params is a
-        # key/value pairs array or no @_newParameters array defined.
-        # SMELL XXX Number of elements in @params has to be checked and an
-        # exception thrown if it's inappropriate.
-        unless ( defined $paramHash ) {
-            Foswiki::Exception::Fatal->throw(
-                text => "Odd number of elements in $class parameters hash" )
-              if ( @params % 2 ) == 1;
-            $paramHash = {@params};
-        }
-
-        use strict 'refs';
-        return $paramHash;
-    }
-
-    return $orig->( $class, @_ );
-};
+=cut
 
 sub BUILD {
     my $this = shift;
@@ -356,7 +429,7 @@ This method tries to do it's best to create an exact copy of existing object.
 For that purpose this method considers a object as a data structure and
 traverses it recursively creating a profile for new object's constructor. All
 keys on object's hash are considered as attributes to be inserted into the
-profile. In other words it means then if we have an object with keys =key1=,
+profile. In other words it means that if we have an object with keys =key1=,
 =key2=, and =key3= then new object's constructor will get the following profile:
 
 <verbatim>
@@ -368,35 +441,42 @@ my @profile = (
 my $newObj = ref($this)->new( @profile );
 </verbatim>
 
-Actually the process is a bit more complicated than this example. It is guided
-by the following rules:
+But don't take this example seriously. The real life is more complicated. It's
+ruled by the following statements:
 
    1. If a key name begins with =__[__[...]]orig_= prefix it is used for
-      debugging needs and keeps object's creation history. To preserve the
-      history such keys are prefixed with additional =__= prefix. So, a clone of
-      clone would have three kopies of such keys prefixed with =__orig_=,
-      =____orig_=, and =______orig_=.
-   1. All other attributes with =__= prefixed names are ignored and not duplicated.
+      debugging needs and keeps object's creation history. To preserve the full
+      history which would include the original creation moment as well as all
+      cloning events such keys are prepended with additional =__= (double
+      underscore) prefix. So, a clone of clone would have three copies of such
+      keys named =__orig_*=, =____orig_*=, and =______orig_*=.
+   1. All other attributes with =__= prefixed names are ignored and not
+      duplicated.
    1. If a class wants to take care of cloning of an attribute it can define a
       =_clone_<attribute_name>()= method (say, =_clone_key2()= for the above
-      example; or =_clone__attr()= for private attribute =_attr=). In this case
-      the attribute value won't be traversed and return from the
-      =_clone_<attribute_name>()= method would be used.
-   1. For blessed references discovered during traversal their =clone()= method
-      is used to create a copy if their respective classes have this method
-      defined.
+      example; or =_clone__attr()= for a private attribute =_attr=). In this
+      case the attribute value will be ignored by cloning code and the return
+      from the =_clone_<attribute_name>()= method would be used instead.
+   1. Any blessed reference is considered a object. If the object has =clone()=
+      method then the method is used to clone the object.
    1. For objects without =clone()= method they're copied as a hash which is
-      then blessed into the object's class. *NOTE* This won't work for non-hash
-      blessed references. They're must be taken care by the class the attribute
-      belongs to.
+      then blessed into the object's class. %BR%
+      *%X% NOTE:* This won't work for non-hash blessed references. They're must
+      be taken care by the class itself by defining respective
+      =_clone_attribute()= method.
    1. Regexp's refs are just copied into destination.
    1. Attributes containing references of *ARRAY*, *HASH*, and *SCALAR* types
-      are cloned; refs of other types are just copied into destination.
+      are cloned; refs of other types are just copied into destination. If
+      copying is not a desirable behavior then respective =_clone_attribute()=
+      method must be present.
    1. If a reference is weakened it's clone is weakened too.
    1. If same reference found at two or more locations of cloned object's
       structure then destination object will have identical cloned references at
-      same locations; i.e. if =$this->attr1 == $this->attr2->subattr->[3]= then
-      =$cloned->attr1 == $cloned->attr2->subattr->[3]= too.
+      same locations; i.e. if
+      <verbatim>$this->attr1 &#61;&#61; $this->attr2->subattr->[3]</verbatim>
+      then
+      <verbatim>$cloned->attr1 &#61;&#61; $cloned->attr2->subattr->[3]</verbatim>
+      too.
    1. Circular dependecies are raising =Foswiki::Exception::Fatal=.
 
 =cut
@@ -505,6 +585,19 @@ sub __orig {
     return @foundFrame;
 }
 
+=begin TML
+
+---+++ StaticMethod _normalizeAttributeName( $attributeName ) -> $normalizedName
+
+For =Foswiki::Object= internal use only.
+
+This method attempts to guess what class an attribute defined by it's name
+belongs to. This is done for short names only (i.e. those without package name)
+by traversing up the call stack until a frame not from =Foswiki::Object= is
+found.
+
+=cut
+
 sub _normalizeAttributeName {
     my ($attributeName) = @_;
 
@@ -536,14 +629,15 @@ sub _validateIsaCode {
 
 =begin TML
 
----++ StaticMethod isaARRAY( $attributeName, \%opts )
+---+++ StaticMethod isaARRAY( $attributeName, %params )
 
 isa validator generator checking for arrayrefs.
 
-=%opts= hash keys:
+---++++!! Parameters
 
-   * =noUndef= – do not allow undef value
-   * =noEmpty= - do not allow empty array
+| *Key* | *Description* | *Default* |
+| =noUndef= | do not allow undef value | _false_ |
+| =noEmpty= | do not allow zero-length array | _false_ |
 
 =cut
 
@@ -566,13 +660,14 @@ sub isaARRAY {
 
 =begin TML
 
----++ StaticMethod isaHASH( $attributeName, \%opts )
+---++ StaticMethod isaHASH( $attributeName, \%params )
 
-isa validator generator checking for arrayrefs.
+isa validator generator checking for hashrefs.
 
-=%opts= hash keys:
+---++++!! Parameters
 
-   * =noUndef= – do not allow undef value
+| *Key* | *Description* | *Default* |
+| =noUndef= | do not allow undef value | _false_ |
 
 =cut
 
@@ -594,16 +689,34 @@ sub isaHASH {
 
 =begin TML
 
----++ StaticMethod isaCLASS( $attributeName, $className, \%opts )
+---++ StaticMethod isaCLASS( $attributeName, $className, \%params )
 
-isa validator generator checking if attribute is of =$className= class or it's
+isa validator generator checking if attribute is a class =$className= or it's
 descendant.
 
-=%opts= hash keys:
+---++++!! Parameters
 
-   * =noUndef= – do not allow undef value
-   * =strictMatch= - allow only =$className=, no decsendants
-   * =does= - defines a Role class must do.
+| *Key* | *Description* | *Default* |
+| =noUndef= | do not allow undef value | _false_ |
+| =strictMatch= | allow only =$className=, no decsendants | _false_ |
+| =does= | defines a role the class must do |  |
+
+Using =does= we can defined not only that the object must be, say, a
+=Foswiki::Object= descendant but that it has to have =Foswiki::AppObject=
+applied:
+
+<verbatim>
+has childObject => (
+    is => 'rw',
+    isa => Foswiki::Object::isaCLASS(
+            'childObject',
+            'Foswiki::Object',
+            does => 'Foswiki::AppObject',
+    ),
+);
+</verbatim>
+
+Currently only a single role could be defined for =does=.
 
 =cut
 

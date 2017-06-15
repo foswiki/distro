@@ -2,15 +2,15 @@
 
 =begin TML
 
----+ package Foswiki::Net
+---+ Class Foswiki::Net
 
-Object that brokers access to network resources.
+Class that brokers access to network resources.
+
+This class is used by configure, and as such must *not* 'use Foswiki', or any
+other module that uses it. Always run configure to test after changing the
+module.
 
 =cut
-
-# This module is used by configure, and as such must *not* 'use Foswiki',
-# or any other module that uses it. Always run configure to test after
-# changing the module.
 
 package Foswiki::Net;
 use v5.14;

@@ -142,8 +142,8 @@ functionality in an attempt to simplify routine operations.
 
 ---+++ stubMethods @methodList
 
-This helper installs empty methods named after elements of it's parameters. A stub method
-is a sub which does nothing; in other words, instead of having a number of lines like:
+This helper installs empty methods named after elements of it's parameters. A
+stub method is a sub which does nothing; in other words, the following:
 
 <verbatim>
 sub method1 {}
@@ -151,7 +151,7 @@ sub method2 {}
 sub method3 {}
 </verbatim>
 
-One could simply do:
+could be replaced with:
 
 <verbatim>
 stubMethods qw(method1 method2 method3);
@@ -164,8 +164,8 @@ stubMethods qw(method1 method2 method3);
 Modifiers are implemented with =_install_&lt;modifier&gt;= methods and are
 called automatically depending on what a class has requested.
 
-If a modifier installer assigns a role to the calling class then  the role
-module must be preloaded with =Foswiki::load_package()=.
+If a modifier installer assigns a role to the calling class then it must preload
+the role module with =Foswiki::load_package()=.
 
 ---+++ Public methods (keywords)
 
@@ -182,11 +182,18 @@ records attributes declared with Moo's =has= directive. Subroutine
 a specific class. Attributes of class' parent classes and all applied roles are
 included into the list.
 
-*%X% NOTE:* Although all possible measures were taken to catch all class'
+*%X% NOTE:* Although any possible measures were taken to catch all class'
 parents and roles it is still possible that some exotic method of declaring them
 has been overlooked. For this reason if =Foswiki::Object= debug code reports an
 undeclared attribute then the first thing to check would be if there is a
 run-away parent or role declaring it.
+
+---+++ Applying roles
+
+Roles are being applied to a class in a simple transactional manner. First
+a list of roles is built for a class using assignments (see =_assign_role()=).
+Then the list is used to actually apply roles to the class at once with
+=_apply_roles()= method after class code compilation is done.
 
 =cut
 
@@ -208,8 +215,11 @@ our @ISA = qw(Moo);
 
 my %_classData;
 
-# BEGIN Install wrappers for Moo's has/with/extends to record basic object information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
+# **BEGIN Install wrappers for Moo's has/with/extends to record basic object
+# information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
 
+# Mapping of wrapped sub into wrapping handler. The handlers must have names
+# starting with _fw_
 my %_codeWrapper = (
     extends => '_fw_extends',    # Wrap always.
 );
@@ -273,8 +283,12 @@ if ( $ENV{FOSWIKI_ASSERTS} ) {
 # register every single Moo-generated code ref. Though this is a hacky way
 # on its own but the rest approaches seem to be even more hacky and no doubt
 # unreliable.
-# Additionally, interception is used to tap into processing of Moo::extends
-# in order
+#
+# Additionally, interception is used to tap into processing of Moo::extends in
+# order to apply modifiers to the target classes. This is the only known way to
+# get around a problem with failed to compile modules. The problem is about
+# applying roles to them. This is causing a fatal exception which masks the
+# actual compilation error.
 foreach my $module (qw(Moo Moo::Role)) {
     my $ns               = Foswiki::getNS($module);
     my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
@@ -301,7 +315,13 @@ foreach my $module (qw(Moo Moo::Role)) {
     );
 }
 
-# END of has/with/extends wrappers.
+# **END of has/with/extends wrappers.
+
+=begin TML
+
+---++ Methods
+
+=cut
 
 sub import {
     my ($class) = shift;
@@ -404,6 +424,14 @@ sub _getAllAttrs {
     return map { @{ $_classData{$_}{registeredAttrs}{cached} } } @_;
 }
 
+=begin TML
+
+---+++ StaticMethod getClassAttributes( $class ) -> \@attrList
+
+Returns list of attributes declared with =CPAN:Moo='s =has= for =$class=.
+
+=cut
+
 sub getClassAttributes {
     my $class = shift;
 
@@ -417,8 +445,18 @@ sub getClassAttributes {
     return _getAllAttrs($class);
 }
 
-# Actually we're duplicating Moo::_install_coderef here in a way. But we better
-# avoid using a module's internalls.
+=begin TML
+
+---+++ StaticMethod _inject_code( $target, $name, $code )
+
+Installs a sub =$code= into module =$target= namespace under the name =$name=.
+
+*%X% NOTE:* In a way this method duplicates =Moo::_install_coderef=
+functionality. But as long as the latter remains a private =Moo= sub it's better
+be avoided.
+
+=cut
+
 sub _inject_code {
     my ( $target, $name, $code ) = @_;
 
@@ -426,6 +464,16 @@ sub _inject_code {
     Foswiki::getNS($target)->{$name} = $code;
     use warnings qw(redefine);
 }
+
+=begin TML
+
+---+++ StaticMethod _apply_roles( $class )
+
+%X% Strictly for internal =Foswiki::Class= use only.
+
+This method applies previosly assigned roles to a =$class=.
+
+=cut
 
 sub _apply_roles {
     my $class = shift;
@@ -450,6 +498,15 @@ sub _apply_roles {
         delete $_classData{$target}{assignedRoles};
     }
 }
+
+=begin TML
+
+---+++ StaticMethod _assign_role( $class, $role )
+
+Assigns a =$role= to a =$class=. Doesn't actually apply it, see =_apply_roles()=
+method.
+
+=cut
 
 sub _assign_role {
     my ( $class, $role ) = @_;
