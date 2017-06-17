@@ -79,6 +79,7 @@ use v5.14;
 
 use Assert;
 use Try::Tiny;
+use Scalar::Util qw(weaken);
 
 # Hash of registered callback names in a form of:
 # $_registeredNames{'Foswiki::NameSpace'}{callbackName} = 1;
@@ -93,6 +94,19 @@ around BUILD => sub {
 
     $this->callbacksInit;
     return $orig->( $this, @_ );
+};
+
+before DEMOLISH => sub {
+    my $this = shift;
+
+    #$this->_traceMsg("Callbacks DEMOLISH");
+
+    # Cleanup all callbacks registed by this object.
+    my $appHeap = $this->_getApp->heap;
+
+    foreach my $cbName ( keys %{ $appHeap->{_aux_registered_callbacks} } ) {
+        $this->deregisterCallback($cbName);
+    }
 };
 
 # Splits full callback name into namespace and short name.
@@ -168,17 +182,58 @@ sub registerCallback {
     my $this = shift;
     my ( $name, $fn, $userData ) = @_;
 
-    ASSERT( ref($fn) eq 'CODE', "callback must be a coderef" );
+    ASSERT( ref($fn) eq 'CODE',
+        "callback must be a coderef in a call to registerCallback method" );
 
     $name = $this->_guessCallbackName($name);
 
     ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
 
-    push @{ $this->_getApp->heap->{_aux_registered_callbacks}{$name} },
-      {
+    my $cbInfo = {
         code => $fn,
         data => $userData,
-      };
+        obj  => $this->__id,
+    };
+
+    push @{ $this->_getApp->heap->{_aux_registered_callbacks}{$name} }, $cbInfo;
+}
+
+=begin TML
+
+---+++ ObjectMethod deregisterCallback( $name [, $fn] )
+
+Deregisters callbacks registered by the object and defined by =$name=. If =$fn=
+is not defined then all registrations for callback =$name= are dropped.
+Otherwise it's only those pointing at coderef in =$fn= are affected. 
+
+=cut
+
+sub deregisterCallback {
+    my $this = shift;
+    my ( $name, $fn ) = @_;
+
+    ASSERT( ref($fn) eq 'CODE',
+        "callback must be a coderef in a call to deregisterCallback method" )
+      if defined $fn;
+
+    $name = $this->_guessCallbackName($name);
+
+    ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
+
+    my $objId   = $this->__id;
+    my $appHeap = $this->_getApp->heap;
+    my $oldList = $appHeap->{_aux_registered_callbacks}{$name};
+    my $newList = [];
+
+    #$this->_traceMsg("Deregistering callback `$name' for object $objId");
+
+    foreach my $cbInfo (@$oldList) {
+        push @$newList, $cbInfo
+          unless ( $cbInfo->{obj} eq $objId )
+          && ( !defined($fn) || $cbInfo->{code} == $fn );
+    }
+
+    $appHeap->{_aux_registered_callbacks}{$name} = $newList;
 }
 
 =begin TML
