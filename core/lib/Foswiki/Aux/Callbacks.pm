@@ -98,14 +98,23 @@ around BUILD => sub {
 
 before DEMOLISH => sub {
     my $this = shift;
-
-    #$this->_traceMsg("Callbacks DEMOLISH");
+    my ($in_global) = @_;
 
     # Cleanup all callbacks registed by this object.
-    my $appHeap = $this->_getApp->heap;
+    unless ($in_global) {
+        my $app = $this->_getApp;
 
-    foreach my $cbName ( keys %{ $appHeap->{_aux_registered_callbacks} } ) {
-        $this->deregisterCallback($cbName);
+        # The application object could have been already destroyed at this
+        # moment. This is normal for auto-destruction.
+        if ( defined $app ) {
+            my $appHeap = $app->heap;
+
+            foreach
+              my $cbName ( keys %{ $appHeap->{_aux_registered_callbacks} } )
+            {
+                $this->deregisterCallback($cbName);
+            }
+        }
     }
 };
 

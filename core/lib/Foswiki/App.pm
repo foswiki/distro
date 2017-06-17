@@ -113,7 +113,7 @@ has extMgr => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
-    builder => '_prepareExtMgr',
+    builder => 'prepareExtMgr',
 );
 has forms => (
     is      => 'ro',
@@ -1572,7 +1572,7 @@ sub _prepareUser {
     return undef;
 }
 
-sub _prepareExtMgr {
+sub prepareExtMgr {
     my $this = shift;
 
     # Don't use create() here because the latter depends on extensions.
