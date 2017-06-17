@@ -2,45 +2,88 @@
 
 =begin TML
 
----+ Role Foswiki::Aux::Callbacks
+---+!! Role Foswiki::Aux::Callbacks
 
-*Experimental*
+Support of callbacks for classes which may need them.
 
-_This documentation is a draft as callbacks are not finalized and are changing_
-
-Support of callbacks for classes which may need them. Might be replaced by
-future new plugins code or become a part of it.
-
-A callback name is a composition of namespace and it's short name combined by
-'::'. By default namespace is equal to the name of module which is registering
-the callback. For example, =Foswiki::App= is registering =postConfig= callback.
-In this case it could be referenced by the name =Foswiki::App::postConfig=.
-Whenever namespace could be guessed callback can be referenced by it's short
-name. So, when =Foswiki::App= is calling =postConfig= it can do it by simply
-issuing the following call:
+A callback name is a composition of namespace and it's short name joined with
+'::'. By default the namespace is the module name where the callback is been
+registered. For example, =Foswiki::App= is registering =postConfig= callback. In
+this case it could be referenced by its full name =Foswiki::App::postConfig=.
+Whenever namespace could be guessed the short name could be used. So, when
+=Foswiki::App= is calling =postConfig= it can do it by simply issuing the
+following call:
 
 <verbatim>
 $this->callback('postConfig', $params);
 </verbatim>
 
-and the namespace will be guessed by the =callback= method using caller's
-package name.
+The namespace would be guessed by the =callback()= method using caller's package
+name.
 
-Similarly to this a client registering callback might use the shortname but it
-will work only when the name is used only in one namespace. Otherwise an
-exception (ASSERT) with error will be raised.
+Similarly to this a client registering a callback handler might use the
+shortname. Though this would work exclusively if the name is used in one
+namespace only. Otherwise an exception will be raised.
 
-Callback is a coderef (a sub) which gets called at certain moments of a class
-life cycle. A callback sub is supplied with the following arguments:
+Callback is a coderef (a sub) which gets called when class' code wants to inform
+a third-party code about some event and, perhaps, get some feedback from it. A
+callback sub is been called with the following arguments:
 
    1 Reference to the object which is calling the callback.
-   1 A list of key/value pairs where the following keys are defined:
-      * =data= User data if supplied by the object which has registered this callback. Data format determined by the registering object.
-      * =params= Parameteres supplied by the calling object. Data format defined by the object and must be documented.
+   1 A list of key/value parameters.
+      
+Callback parameters keys are:
+
+| *Param* | *Description* |
+| =data= | User data if supplied by the object which has registered this\
+           callback handler. Data format determined by the registering object. |
+| =params= | Parameteres supplied by the calling object. Must be a hashref.
+             Keys of the hash a defined by the calling class and must be\
+             documented. |
+
+A sample callback handler may look like this:
+
+<verbatim>
+sub cbHandler {
+    my $obj = shift;
+    my %params = @_;
+    
+    my $this = $params{data}{this};
+    
+    ... # Do something.
+    
+}
+</verbatim>
+
+Note that =$obj= is the callback issuer. The parameter =this= is not provided
+by the callbacks framework and must be supplied by the handler registering object:
+
+<verbatim>
+package Foswiki::CBHandler;
+use Scalar::Util qw(weaken);
+
+use Foswiki::Class;
+extends qw(Foswiki::Object);
+
+sub BUILD {
+    my $this = shift;
+    
+    my $cbData = {
+        this => $this,  
+    };
+    
+    weaken( $cbData->{this} );
+    
+    $this->registerCallback( 'ACallBackName', \&cbHandler, $cbData );
+}
+</verbatim>
+
+Weakeing of =this= is needed to prevent circular dependency which would get the
+object stuck in the memory.
       
 A named callback may have more than one handler. In this case all handlers are
-executed in the order they were registerd. No return values are respecred. If a
-handler wants to be the last it must raise =Foswiki::Exception::Ext::Last=
+executed in the order they were registerd. Their return values are disrespecred.
+If a handler wants to be the last it must raise =Foswiki::Exception::Ext::Last=
 exception. If set, exception's =rc= attribute contains what is returned by
 =callback()= method then.
 
