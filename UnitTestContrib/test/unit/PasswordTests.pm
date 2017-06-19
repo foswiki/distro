@@ -327,18 +327,28 @@ crypt-md5::crypt-md5@example.com
 DONE
     $this->assert( close($fh) );
 
-    foreach
-      my $algo ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5' )
-    {
+    foreach my $algo ( 'apache-md5', 'crypt', 'sha1', 'crypt-md5' ) {
         $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
         $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+        $impl->ClearCache() if $impl->can('ClearCache');
 
-        foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5',
-            'crypt-md5' )
-        {
+        foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'crypt-md5' ) {
             $this->assert( !$impl->checkPassword( $user, '' ) );
+            $this->assert( $impl->userEnabled($user) );
         }
+        $impl->finish();
     }
+
+    $impl->finish();
+
+    # SMELL: With autodetect disabled, htdigest algorithm can't handle passwords
+    # stored with other formats.
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'htdigest-md5';
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache() if $impl->can('ClearCache');
+    $this->assert( !$impl->checkPassword( 'htdigest-md5', '' ) );
+    $this->assert( $impl->userEnabled('htdigest-md5') );
 
     # Verify that each algorithm can reset an empty password entry
     # But need to autodetect to not corrupt existing entries
@@ -347,6 +357,7 @@ DONE
       my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5', 'crypt-md5' )
     {
         $Foswiki::cfg{Htpasswd}{Encoding} = $user;
+        $impl->finish();
         $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
         my $added = $impl->setPassword( $user, "pw$user", 1 );
@@ -357,11 +368,57 @@ DONE
 
     # Verify that the passwords were reset
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+    $impl->finish();
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache() if $impl->can('ClearCache');
     foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'crypt-md5' ) {
         $this->assert( $impl->checkPassword( $user, "pw$user" ),
             "Failure for $user" );
     }
+
+    # Make sure file is detected as modified.
+    sleep 2;
+
+    open( $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+      || die "Unable to open \n $! \n\n ";
+    print $fh <<'DONE';
+#crypt::crypt@example.com
+#apache-md5::apache-md5@example.com
+#sha1::sha1@example.com
+#htdigest-md5:MyNewRealm::htdigest-md5@example.com
+#crypt-md5::crypt-md5@example.com
+DONE
+    $this->assert( close($fh) );
+
+    # Verify that disabled entries are properly detected.
+    foreach
+      my $algo ( 'apache-md5', 'crypt', 'sha1', 'crypt-md5', 'htdigest-md5' )
+    {
+        $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
+        $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+        $impl->ClearCache() if $impl->can('ClearCache');
+
+        foreach my $user ( 'crypt', 'apache-md5', 'sha1',
+            'crypt-md5', 'htdigest-md5' )
+        {
+            $this->assert( !$impl->checkPassword( $user, '' ) );
+            $this->assert( !$impl->userEnabled($user) );
+        }
+        $impl->finish();
+    }
+
+    foreach
+      my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5', 'crypt-md5' )
+    {
+        $Foswiki::cfg{Htpasswd}{Encoding} = $user;
+        $impl->finish();
+        $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+
+        my $enabled = $impl->userEnabled( $user, 1 );
+        $this->assert($enabled);
+    }
+
+    #dumpFile();
 
     return;
 }

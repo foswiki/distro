@@ -548,6 +548,24 @@ sub passwordError {
 
 =begin TML
 
+---++ ObjectMethod userEnabled( $login, $enabled ) -> $boolean
+
+Finds if the password is enabed for the given login. This is called using
+a login name rather than a cUID because the user may not have been mapped
+at the time it is called.
+
+Returns 1 on success, undef on failure.
+
+Default behaviour is to return 1.
+
+=cut
+
+sub userEnabled {
+    return 1;
+}
+
+=begin TML
+
 ---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
 
 Returns a string containing the sanitized registration field, or can throw an oops
@@ -592,7 +610,7 @@ sub validateRegistrationField {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -528,6 +528,18 @@ sub loadSession {
     # We should have a user at this point; or $defaultUser if there
     # was no better information available.
 
+    if (   defined $this->{_cgisession}
+        && $pwchecker
+        && !$pwchecker->userEnabled($authUser) )
+    {
+        $this->{_cgisession}->delete();
+        $this->{_cgisession}->flush();
+        $this->{_cgisession} = undef;
+        $this->_delSessionCookieFromResponse();
+
+        $authUser = $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
+    }
+
     # is this a logout?
     if (
         ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
@@ -1604,7 +1616,7 @@ sub removeUserSessions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

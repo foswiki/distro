@@ -9,6 +9,14 @@ Support for htpasswd and htdigest format password files.
 Subclass of =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Users::Password][Foswiki::Users::Password]]=.
 See documentation of that class for descriptions of the methods of this class.
 
+This module loads and maintains a user/password cache:
+| Field | use |
+| enabled | True if password is enabled |
+| enc | Password encoding |
+| realm | Authentication realm for digest authentication |
+| pass | The hashed password |
+| emails | List of emails for the user |
+
 =cut
 
 package Foswiki::Users::HtPasswdUser;
@@ -147,8 +155,13 @@ Break circular references.
 sub finish {
     my $this = shift;
     $this->SUPER::finish();
+    undef $this->{PasswordData};
     undef $this->{LocalCache};
     undef $this->{LocalTimestamp};
+    undef $this->{BCRYPT};
+    undef $this->{APR};
+    undef $this->{SHA};
+    undef $this->{error};
 }
 
 =begin TML
@@ -272,7 +285,8 @@ sub _readPasswd {
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         print STDERR
-          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n";
+          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n"
+          if (TRACE);
         return $data;
     }
 
@@ -296,17 +310,22 @@ sub _readPasswd {
     my $tID;
     my $pwcount = 0;
     while ( defined( $line = <$IN_FILE> ) ) {
-        next if ( substr( $line, 0, 1 ) eq '#' );
+        my $enabled = 1;
+        if ( substr( $line, 0, 1 ) eq '#' ) {
+            $line = substr( $line, 1, -1 );
+            $enabled = 0;
+        }
         chomp $line;
         $pwcount++;
         my @fields = split( /:/, $line, 5 );
 
         if ( TRACE > 1 ) {
             print STDERR "\nSplit LINE $line\n";
-            foreach my $f (@fields) { print STDERR "split: $f\n"; }
+            foreach my $f (@fields) { print STDERR "split: ($f)\n"; }
         }
 
         my $hID = shift @fields;
+        $data->{$hID}->{enabled} = $enabled;
 
         if ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
             my $tPass = shift @fields;
@@ -346,16 +365,24 @@ sub _readPasswd {
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( length($tPass) gt 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+            elsif (
+                length($tPass) gt 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
                 $data->{$hID}->{enc} = 'plain';
             }
-            elsif ( length($tPass) eq 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+            elsif (
+                length($tPass) eq 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
                 # Password is zero length, no way to determine encoding.
                 $data->{$hID}->{enc} = 'unknown';
+
+                #$data->{$hID}->{enabled} = 0;
             }
 
             if ( $data->{$hID}->{enc} ) {
@@ -388,8 +415,10 @@ sub _readPasswd {
                 || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' );
             $data->{$hID}->{pass} = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
+
+          #$data->{$hID}->{enabled} = ( length($data->{$hID}->{pass}) ) ? 1 : 0;
             print STDERR
-"Static Encoding - $hID:  $data->{$hID}->{enc} pass $data->{$hID}->{pass} emails $data->{$hID}->{emails} \n"
+"Static Encoding - $hID:  $data->{$hID}->{enc} pass $data->{$hID}->{pass} emails $data->{$hID}->{emails} Enabled: $data->{$hID}->{enabled}  \n"
               if ( TRACE > 1 );
         }
     }
@@ -420,7 +449,11 @@ sub _dumpPasswd {
     foreach my $login ( sort( keys(%$db) ) ) {
 
         $pwcount++;
-        my $entry = "$login:";
+        my $entry;
+        if ( !$db->{$login}->{enabled} ) {
+            $entry = '#';
+        }
+        $entry .= "$login:";
         if (
                $db->{$login}->{pass}
             && $db->{$login}->{enc}
@@ -972,11 +1005,61 @@ sub findUserByEmail {
     return $logins;
 }
 
+=begin TML
+
+---+ Extended object methods - Foswiki 2.2
+---++ ObjectMethod  userEnabled($login, $enabled ) -> boolean
+When supplied with 2 parameters, sets the enable/disable status,
+otherwise returns the status.
+
+If not supported by the password manager subclass, always
+returns true.
+
+=cut
+
+sub userEnabled {
+    my $this    = shift;
+    my $login   = shift;
+    my $enabled = shift;
+
+    if ( defined $enabled ) {
+
+        # Set the user enabled/disabled flag
+        my $lockHandle;
+        try {
+            $lockHandle = _lockPasswdFile(LOCK_EX);
+
+           # Read password without shared lock as we have already exclusive lock
+           #  - Don't trust cache
+            my $db = $this->_readPasswd( 0, 1 );
+            unless ( $db->{$login} ) {
+
+                # Make sure the user is in the auth system, by adding them with
+                # a null password if not.
+                $db->{$login}->{pass} = '';
+            }
+
+            $db->{$login}->{enabled} = $enabled;
+
+            $this->_savePasswd($db);
+        }
+        finally {
+            _unlockPasswdFile($lockHandle) if $lockHandle;
+        };
+
+    }
+    else {
+        my $db = $this->_readPasswd(1);
+        return 1 if ( $db->{$login} && $db->{$login}->{enabled} );
+        return 0;
+    }
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

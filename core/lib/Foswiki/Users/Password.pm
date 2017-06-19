@@ -267,11 +267,35 @@ sub fetchUsers {
     #return new Foswiki::ListIterator(\@users);
 }
 
+=begin TML
+
+---+ Extended object methods - Foswiki 2.2
+---++ ObjectMethod  userEnabled($login, $enabled ) -> boolean
+When supplied with 2 parameters, sets the enable/disable status,
+otherwise returns the status.
+
+If not supported by the password manager subclass, always
+returns true.
+
+=cut
+
+sub userEnabled {
+    my ( $this, $login, $enabled ) = @_;
+    if ( defined $enabled ) {
+        throw Foswiki::OopsException(
+            'register',
+            topic => $Foswiki::cfg{HomeTopicName},
+            def   => 'disable_unsupported',
+        );
+    }
+    return 1;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1585,6 +1585,28 @@ sub passwordError {
 
 =begin TML
 
+---++ ObjectMethod userEnabled( $login, $enabled ) -> $boolean
+
+Finds if the password is enabled for the given user.
+
+Returns 1 on success, undef on failure.
+
+=cut
+
+sub userEnabled {
+    my ( $this, $login, $enabled ) = @_;
+
+ # If we don't have a PasswordManager and use TemplateLogin,  always allow login
+    return 1
+      if ( $Foswiki::cfg{PasswordManager} eq 'none'
+        && $Foswiki::cfg{LoginManager} eq
+        'Foswiki::LoginManager::TemplateLogin' );
+
+    return $this->{passwords}->userEnabled( $login, $enabled );
+}
+
+=begin TML
+
 ---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
 
 This method is called for every field submitted during registration.  It is also used
@@ -1788,7 +1810,7 @@ sub _expandUserList {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

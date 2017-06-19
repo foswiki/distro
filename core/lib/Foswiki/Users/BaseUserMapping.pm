@@ -514,11 +514,23 @@ sub passwordError {
     return $this->{error};
 }
 
+=begin TML
+
+---++ ObjectMethod userEnabled( $login, $enabled ) -> $boolean
+
+Base users are always enabled.
+
+=cut
+
+sub userEnabled {
+    return 1;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

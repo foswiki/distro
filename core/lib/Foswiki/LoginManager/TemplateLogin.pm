@@ -195,93 +195,111 @@ sub login {
     my $error = '';
 
     if ($loginName) {
-        my $validation = $users->checkPassword( $loginName, $loginPass );
-        $error = $users->passwordError($loginName);
 
-        if (  !$validation
-            && $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
-            && ( $loginName =~ $Foswiki::regex{emailAddrRegex} ) )
-        {
-
-            # try email addresses if it is one
-            my $cuidList = $users->findUserByEmail($loginName);
-            foreach my $cuid (@$cuidList) {
-                my $login = $users->getLoginName($cuid);
-
-                $validation = $users->checkPassword( $login, $loginPass );
-                if ($validation) {
-                    $loginName = $login;
-                    last;
-                }
-            }
-        }
-
-        if ($validation) {
-
-            # SUCCESS our user is authenticated. Note that we may already
-            # have been logged in by the userLoggedIn call in loadSession,
-            # because the username-password URL params are the same as
-            # the params passed to this script, and they will be used
-            # in loadSession if no other user info is available.
-            $this->userLoggedIn($loginName);
-            $session->logger->log(
-                {
-                    level    => 'info',
-                    action   => 'login',
-                    webTopic => $web . '.' . $topic,
-                    extra    => "AUTHENTICATION SUCCESS - $loginName - "
-                }
-            );
-
-            # remove the sudo param - its only to tell TemplateLogin
-            # that we're using BaseMapper..
-            $query->delete('sudo');
-
-            $this->{_cgisession}->param( 'VALIDATION', $validation )
-              if $this->{_cgisession};
-            if ( !$origurl || $origurl eq $query->url() ) {
-                $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
-            }
-            else {
-
-                # Unpack params encoded in the origurl and restore them
-                # to the query. If they were left in the query string they
-                # would be lost if we redirect with passthrough.
-                # First extract the params, ignoring any trailing fragment.
-                if ( $origurl =~ s/\?([^#]*)// ) {
-                    foreach my $pair ( split( /[&;]/, $1 ) ) {
-                        if ( $pair =~ m/(.*?)=(.*)/ ) {
-                            $query->param( $1, TAINT($2) );
-                        }
-                    }
-                }
-
-                # Restore the action too
-                $query->action($origaction) if $origaction;
-            }
-
-            # Restore the method used on origUrl so if it was a GET, we
-            # get another GET.
-            $query->method($origmethod);
-            $session->redirect( $origurl, 1 );
-            return;
-        }
-        else {
-
-            # Tasks:Item1029  After much discussion, the 403 code is not
-            # used for authentication failures. RFC states: "Authorization
-            # will not help and the request SHOULD NOT be repeated" which
-            # is not the situation here.
+        if ( !$users->userEnabled($loginName) ) {
             $session->{response}->status(200);
             $session->logger->log(
                 {
                     level    => 'info',
                     action   => 'login',
                     webTopic => $web . '.' . $topic,
-                    extra    => "AUTHENTICATION FAILURE - $loginName - ",
+                    extra    => "AUTHENTICATION DENIED - $loginName - Disabled",
                 }
             );
-            $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
+            $banner = $session->templates->expandTemplate('DISABLED_USER');
+        }
+        else {
+
+            my $validation = $users->checkPassword( $loginName, $loginPass );
+            $error = $users->passwordError($loginName);
+
+            if (  !$validation
+                && $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
+                && ( $loginName =~ $Foswiki::regex{emailAddrRegex} ) )
+            {
+
+                # try email addresses if it is one
+                my $cuidList = $users->findUserByEmail($loginName);
+                foreach my $cuid (@$cuidList) {
+                    my $login = $users->getLoginName($cuid);
+
+                    $validation = $users->checkPassword( $login, $loginPass );
+                    if ($validation) {
+                        $loginName = $login;
+                        last;
+                    }
+                }
+            }
+
+            if ($validation) {
+
+                # SUCCESS our user is authenticated. Note that we may already
+                # have been logged in by the userLoggedIn call in loadSession,
+                # because the username-password URL params are the same as
+                # the params passed to this script, and they will be used
+                # in loadSession if no other user info is available.
+                $this->userLoggedIn($loginName);
+                $session->logger->log(
+                    {
+                        level    => 'info',
+                        action   => 'login',
+                        webTopic => $web . '.' . $topic,
+                        extra    => "AUTHENTICATION SUCCESS - $loginName - "
+                    }
+                );
+
+                # remove the sudo param - its only to tell TemplateLogin
+                # that we're using BaseMapper..
+                $query->delete('sudo');
+
+                $this->{_cgisession}->param( 'VALIDATION', $validation )
+                  if $this->{_cgisession};
+                if ( !$origurl || $origurl eq $query->url() ) {
+                    $origurl =
+                      $session->getScriptUrl( 0, 'view', $web, $topic );
+                }
+                else {
+
+                    # Unpack params encoded in the origurl and restore them
+                    # to the query. If they were left in the query string they
+                    # would be lost if we redirect with passthrough.
+                    # First extract the params, ignoring any trailing fragment.
+                    if ( $origurl =~ s/\?([^#]*)// ) {
+                        foreach my $pair ( split( /[&;]/, $1 ) ) {
+                            if ( $pair =~ m/(.*?)=(.*)/ ) {
+                                $query->param( $1, TAINT($2) );
+                            }
+                        }
+                    }
+
+                    # Restore the action too
+                    $query->action($origaction) if $origaction;
+                }
+
+                # Restore the method used on origUrl so if it was a GET, we
+                # get another GET.
+                $query->method($origmethod);
+                $session->redirect( $origurl, 1 );
+                return;
+            }
+            else {
+
+                # Tasks:Item1029  After much discussion, the 403 code is not
+                # used for authentication failures. RFC states: "Authorization
+                # will not help and the request SHOULD NOT be repeated" which
+                # is not the situation here.
+                $session->{response}->status(200);
+                $session->logger->log(
+                    {
+                        level    => 'info',
+                        action   => 'login',
+                        webTopic => $web . '.' . $topic,
+                        extra    => "AUTHENTICATION FAILURE - $loginName - ",
+                    }
+                );
+                $banner =
+                  $session->templates->expandTemplate('UNRECOGNISED_USER');
+            }
         }
     }
     else {
@@ -340,7 +358,7 @@ sub login {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2017 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

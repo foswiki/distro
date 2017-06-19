@@ -89,6 +89,11 @@ my %USERINFO_tokens = (
         my ( $this, $user ) = @_;
 
         return $this->{users}->isGroup($user) ? 'true' : 'false';
+    },
+    isenabled => sub {
+        my ( $this, $user ) = @_;
+
+        return $this->{users}->userEnabled($user) ? 'true' : 'false';
     }
 );
 my $USERINFO_tokenregex = join( '|', keys %USERINFO_tokens );
