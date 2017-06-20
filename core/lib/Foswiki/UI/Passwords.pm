@@ -147,6 +147,12 @@ sub _resetUsersPassword {
         return 0;
     }
 
+    if ( !$session->{users}->userEnabled($login) ) {
+        $$pMess .=
+          $session->inlineAlert( 'alertsnohtml', 'disabled_user', $login );
+        return 0;
+    }
+
     require Foswiki::Users;
     my $password = Foswiki::Users::randomPassword();
 
