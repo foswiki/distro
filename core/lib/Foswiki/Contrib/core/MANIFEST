@@ -35,7 +35,6 @@ bin/viewfileauth 0555
 data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
-data/Main/GroupViewTemplate.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
@@ -112,6 +111,7 @@ data/System/FrequentlyAskedQuestions.txt 0644
 data/System/GlossaryOfTerms.txt 0644
 data/System/GoBox.txt 0644
 data/System/GoodStyle.txt 0644
+data/System/GroupViewTemplate.txt 0644
 data/System/HierarchicalNavigation.txt 0644
 data/System/HierarchicalNavigationChildExample.txt 0644
 data/System/IfStatements.txt 0644
@@ -317,6 +317,7 @@ data/System/WebTopicEditTemplate.txt 0644
 data/System/WebTopicList.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WikiCulture.txt 0644
+data/System/WikiGroupsComponents.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
 data/System/WikiWord.txt 0644
@@ -426,6 +427,7 @@ lib/Foswiki/Configure/Checkers/PATH.pm 0444
 lib/Foswiki/Configure/Checkers/PERL.pm 0444
 lib/Foswiki/Configure/Checkers/PLUGIN_MODULE.pm 0444
 lib/Foswiki/Configure/Checkers/PluginsOrder.pm 0444
+lib/Foswiki/Configure/Checkers/PROXY/UseForwardedForHeader.pm 0444
 lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/ExpireAfter.pm 0444

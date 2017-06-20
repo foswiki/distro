@@ -175,9 +175,8 @@ sub render {
 
     $this->_assignLabels();
 
-    my $editing = ( $opts->{for_edit} && $this->can_edit() );
-    my $wholeTable =
-      ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
+    my $editing    = ( $opts->{for_edit}           && $this->can_edit() );
+    my $wholeTable = ( defined $opts->{active_row} && $opts->{active_row} < 0 );
 
     my $id = $this->getID();
     push( @out, Foswiki::Render::html( 'a', { name => "erp_${id}" } ) )

@@ -410,6 +410,17 @@ sub redirect {
     ) if DEBUG;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );
 
+# Per https://tools.ietf.org/html/rfc3875#section-6.2.2, if the CGI script returns
+# a local path, it must not provide any other headers, such as cookies. So make sure
+# the location is an absolute location.
+    unless ( $url =~ m{^https?://}i ) {
+        my $base =
+          ( $Foswiki::cfg{ForceDefaultUrlHost} )
+          ? $Foswiki::cfg{DefaultUrlHost}
+          : $Foswiki::Plugins::SESSION->{request}->url( base => 1, full => 1 );
+        $url = $base . $url;
+    }
+
     my @headers = ( -Location => $url );
     push @headers, '-Status' => $status;
     push @headers, '-Cookie' => $cookies if $cookies;

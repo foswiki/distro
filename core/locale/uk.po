@@ -5334,7 +5334,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Увага: Знайдено оновлення для %1 розширень(я)."
 

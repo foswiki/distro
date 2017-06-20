@@ -1,10 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1458094641" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1497953719" format="1.1" version="1"}%
 %{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
 %ADDTOZONE{"script" text="<script src='/pub/System/JavascriptFiles/strikeone.js'></script>"}%
 ---+!! %NOP%%TOPIC%
+%IF{"'%USERSWEB%'='%WEB%'" else="<div class=\'foswikiAlert'>You are
+viewing an inactive Group topic. See the [[%USERSWEB%.%TOPIC%]] for the live version of this group.</div>"}%
+
 %IF{
   "'%USERSWEB%.%TOPIC%' allows 'change'
   AND '%TOPIC%' != 'BaseGroup'
@@ -12,7 +15,7 @@
   AND {AdminUserWikiName} != '%WIKINAME%'"
   then="
       $percntINCLUDE{
-       \"%USERSWEB%.GroupViewTemplate\"
+       \"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
        section=\"manageself\"
        groupname=\"%TOPIC%\"
       }$percnt
@@ -21,12 +24,12 @@
 %TEXT%
 ---++ %MAKETEXT{"Members"}%
 %INCLUDE{
-   "%USERSWEB%.GroupViewTemplate"
+   "%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate"
    section="rendergroup"
    groupname="%TOPIC%"
    twisty="on"
 }%%INCLUDE{
-   "%USERSWEB%.GroupViewTemplate"
+   "%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate"
    section="groupactions"
    groupname="%TOPIC%"
    twisty="on"
@@ -180,8 +183,8 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_upgrade"}%
-<div id='manageGroup' title="%MAKETEXT{"Upgrade"}% %URLPARAM{"groupname"}%" class="jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}">
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<div id='manageGroup' title='%MAKETEXT{"Upgrade"}% <noautolink>%URLPARAM{"groupname"}%</noautolink>' class="jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}">
+<form action="%SCRIPTURLPATH{"manage"}%/%USERSWEB%/%BASETOPIC%" method="post">
 <input type="hidden" name="groupname" value="%URLPARAM{"groupname"}%"/>
 <input type="hidden" name="action" value="addUserToGroup"/>
 <input type="hidden" name="create" value="1"/>
@@ -202,7 +205,7 @@ then='
 -->
 %STARTSECTION{"group_add"}%<!-- --><sticky>
 <div id='manageGroup' title='%MAKETEXT{"Add Members to [_1]" args="<noautolink>%URLPARAM{"groupname"}%</noautolink>"}%' class='jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}'>
-<form id='addUser' action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'> 
+<form id='addUser' action='%SCRIPTURLPATH{"manage"}%/%USERSWEB%/%BASETOPIC%' method='post'> 
 <input type='hidden' name='groupname' value='%URLPARAM{"groupname" default="%groupname%"}%'/> 
 <input type='hidden' name='action' value='addUserToGroup'/>
 <div class='foswikiFormSteps'>
@@ -227,7 +230,7 @@ then='
 %GROUPINFO{
    "%URLPARAM{"groupname"}%"
    expand="0"
-   header="<form action=\"%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%\" method=\"post\" >
+   header="<form action=\"%SCRIPTURLPATH{"manage"}%/%USERSWEB%/%BASETOPIC%\" method=\"post\" >
      <input type=\"hidden\" name=\"groupname\" value=\"%URLPARAM{"groupname"}%\" />
      <input type=\"hidden\" name=\"action\" value=\"removeUserFromGroup\" />
      <div class=\"foswikiFormSteps\">
@@ -274,8 +277,8 @@ then='
 %STARTSECTION{"manageself"}%
 %IF{
     "'%GROUPINFO{"%groupname%" expand="0"}%'=~'\b%USERNAME%\b'"
-      then="%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="delme" groupname="%groupname%"}%"
-      else="%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="addme" groupname="%groupname%"}%"
+      then="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate" section="delme" groupname="%groupname%"}%"
+      else="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate" section="addme" groupname="%groupname%"}%"
 }%
 %ENDSECTION{"manageself"}%
 

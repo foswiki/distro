@@ -2321,8 +2321,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
-"mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; <nop>"
-"tlhopDaq chelwI&&#39; ngutlh yIghItlh"
+"mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; "
+"<nop>tlhopDaq chelwI&&#39; ngutlh yIghItlh"
 
 #: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
@@ -2333,8 +2333,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
-"<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj <nop>"
-"bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
+"<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj "
+"<nop>bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -3303,9 +3303,9 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
-"<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej "
-"[[%SYSTEMWEB%.WikiWord][WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>"
-"WikiWord meyrI&&#39; yIchu&&#39;Ha&&#39;"
+"<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej [[%SYSTEMWEB%.WikiWord]"
+"[WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>WikiWord meyrI&&#39; "
+"yIchu&&#39;Ha&&#39;"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -4294,8 +4294,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH <nop>"
-"QInvam yIpol."
+"%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH "
+"<nop>QInvam yIpol."
 
 #: core/templates/registerconfirm.tmpl:10
 msgid ""
@@ -4473,8 +4473,8 @@ msgid ""
 "used internally by Foswiki."
 msgstr ""
 "roD lo&&#39;wI&&#39; <nop>ghItlhDaq <nop>QInQuv cha&&#39;lu&&#39;be&&#39;. "
-"<nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;oH <nop>"
-"DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh chu&&#39;."
+"<nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;oH "
+"<nop>DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh chu&&#39;."
 
 #: core/templates/messages.tmpl:375
 msgid "The entry for user %1 was missing in the password system."
@@ -4533,12 +4533,12 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
-"<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh "
-"tu&&#39;be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh "
-"chu&&#39; &&#39;oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
+"<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh tu&&#39;"
+"be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh chu&&#39; &&#39;"
+"oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
 "pongbe&&#39;lu&&#39;chugh vaj [[%USERSWEB%.NewUserTemplate]] &&#39;oH ghItlh "
-"motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj "
-"[[%SYSTEMWEB%.NewUserTemplate]] &&#39;oH."
+"motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj [[%SYSTEMWEB%."
+"NewUserTemplate]] &&#39;oH."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -5355,7 +5355,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Qu&&#39;vatlh: URL %<nop>INCLUDE% chaw&&#39;be&&#39; weQmoQnaQ Daqvam"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 "Qu&&#39;vatlh: %1 extension(mey)vaD chu&&#39;moHwI&&#39; luSamlu&&#39;."

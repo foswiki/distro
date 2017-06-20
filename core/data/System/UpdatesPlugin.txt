@@ -1,0 +1,89 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1497953719" format="1.1" version="1"}%
+---+!! %TOPIC%
+<img class="foswikiRight" src="%ATTACHURL%/logo.png">
+%$SHORTDESCRIPTION%
+
+%TOC%
+
+This plugin is used to keep [[%USERSWEB%.AdminGroup][administrators]] informed
+of updates to their installed extensions via a pop-up message at the top of the
+page.
+
+Users can choose to either perform the update immediately using the =configure=
+tool, or delay it until later.
+
+---++ Usage
+
+Click below button to force checking foswiki.org for extension updates. A message will be displayed
+at the top of the page.  Normally it is displayed only when updates are required, but clicking this button will always display the banner.
+Note: The search for updates can take a while, depending upon the responsiveness of Foswiki.org.  Please be patient.
+
+%BUTTON{"%MAKETEXT{"Search for updates"}%" id="forceCheck" icon="bricks"}%
+
+<literal>
+<script>
+jQuery(function($) {
+    $(document).on("click", "#forceCheck", function() {
+      //console.log("click #forceCheck calling loadPluginInfo.");
+      $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
+      $(document).trigger("forceRefresh");
+    });
+});
+</script>
+</literal>
+%JQREQUIRE{"cookie"}%
+
+The upgrade decision is stored locally, so that the plugin will only check for
+updates again when this cookie expires (in 7 days).
+
+Note that the plugin requires Javascript and Cookies to be enabled in the
+browser.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Notes
+The plugin sends update status requests to the repository server to retrieve
+the current release information for extensions. If these update status requests
+are proxied via the local server (the default) then the current status of
+extensions retrieved from the repository is cached in the
+working/work_areas/UpdatesPlugin directory for 24 hours (default) before being
+retrieved again. You can safely clear the cache at any time by deleting all
+files in this directory.
+
+The plugin defines a REST handler for handling proxy requests. The 'rest'
+script must be removed from the ={AuthScripts}= configuration for this to work.
+
+%T% If you are using private extensions on your wiki server that are not available
+as Open Source on foswiki.org then use the ={ExcludeExtensions}= parameter in =configure=
+to prevent disclosing them to the outside world.
+
+---++ Info
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
+
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.03 (03 May 2017) | Foswikitask:Item13907: Report list of extensions needing update. |
+| 1.02 (23 Jan 2017) | Foswikitask:Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
+| 1.01 (24 Jul 2015) | Foswikitask:Item13555: Compare VERSION not RELEASE strings.<br/>\
+                       Foswikitask:Item13524: Plugin reports "0 extensions need update - too noisy |
+|  Dependencies: | %$DEPENDENCIES% |
+
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2017"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1497953719" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1497953719" size="2322" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1497953719" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1497953719" size="4313" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1497953719" size="127" user="ProjectContributor" version="1"}%

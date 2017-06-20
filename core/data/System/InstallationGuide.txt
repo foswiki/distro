@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490124221" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1497953719" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -411,6 +411,12 @@ And the configuration can then be checked, with optional verbose output:
 (Without -verbose, only errors and warnings are reported.)
 <verbatim class='bash'>
 tools/configure -check -verbose</verbatim>
+
+File system permissions can also be checked for any of
+={DataDir}=, ={LocalesDir}=, ={PubDir}=, ={ScriptDir}=, ={TemplateDir}=, ={ToolsDir}= and ={WorkingDir}=, for ex:
+<verbatim>
+tools/configure -check {DataDir} -method validate_permissions</verbatim>
+
 
 Configuration settings can be searched and queried as well:
 <verbatim class='bash'>
