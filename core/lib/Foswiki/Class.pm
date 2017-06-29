@@ -111,13 +111,12 @@ require Foswiki;
 require Moo::Role;
 require Moo;
 require namespace::clean;
-use B::Hooks::EndOfScope 'on_scope_end';
 
 use constant DEFAULT_FEATURESET => ':5.14';
 
 our @ISA = qw(Moo);
 
-my ( %_assignedRoles, %_registeredAttrs, %_ISA, %_WITH );
+my %_classData;
 
 # BEGIN Install wrappers for Moo's has/with/extends to record basic object information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
 sub _fw_has {
@@ -126,7 +125,7 @@ sub _fw_has {
 
     #say STDERR "Registering attr $attr on $target";
 
-    push @{ $_registeredAttrs{$target}{list} },
+    push @{ $_classData{$target}{registeredAttrs}{list} },
       { attr => $attr, options => [ @_[ 1 .. $#_ ] ] };
 }
 
@@ -134,14 +133,34 @@ sub _fw_with {
     my $target = shift;
 
     #say STDERR "$target WITH ", join( ", ", @_ );
-    push @{ $_WITH{$target} }, @_;
+    push @{ $_classData{$target}{WITH} }, @_;
 }
 
 sub _fw_extends {
     my $target = shift;
 
-    #say STDERR "$target EXTENDS ", join( ", ", @_ );
-    push @{ $_ISA{$target} }, @_;
+    #say STDERR "*** $target EXTENDS ", join( ", ", @_ );
+    push @{ $_classData{$target}{ISA} }, @_;
+
+    #say STDERR "+++ $target ", ( $target->isa($_) ? "is a" : "isn't a" ),
+    #  " $_ descendant"
+    #  foreach qw (Moo::Object Foswiki::Object);
+    if (   $_classData{$target}{options}{callbacks}{use}
+        || $_classData{$target}{options}{extensible}{use} )
+    {
+
+        my $trg_ns = Foswiki::getNS($target);
+
+        # Install BUILD method if a feature requiring it requested.
+        # Otherwise feature implementation role will fail to apply cleanly.
+        unless ( defined $trg_ns->{BUILD}
+            && defined *{ $trg_ns->{BUILD} }{CODE} )
+        {
+            #say STDERR "Installing BUILD for $target";
+            install_modifier( $target, fresh => BUILD => sub { } );
+        }
+    }
+    __PACKAGE__->_apply_roles;
 }
 
 if ( $ENV{FOSWIKI_ASSERTS} ) {
@@ -189,8 +208,9 @@ sub import {
     my ($class) = shift;
     my $target = caller;
 
-    local $SIG{__DIE__} = sub { Carp::confess(@_) }
-      if $ENV{FOSWIKI_ASSERTS};
+    #say STDERR "Foswiki::Class($class, $target)";
+
+    $SIG{__DIE__} = sub { Carp::confess(@_) };
 
     # Define options we would provide for classes.
     my %options = (
@@ -206,6 +226,8 @@ sub import {
             keywords => [qw(pluggable)],
         },
     );
+
+    $_classData{$target}{options} = \%options;
 
     my @p;
     my @noNsClean  = qw(meta);
@@ -234,19 +256,6 @@ sub import {
         $installer->( $class, $target );
     }
 
-    on_scope_end {
-        if ( $options{callbacks}{use} ) {
-            my $ns = Foswiki::getNS($target);
-
-            # Install BUILD method if callbacks feature requested.
-            # Otherwise Foswiki::Aux::Callbacks fails to apply cleanly.
-            unless ( defined $ns->{BUILD} && defined *{ $ns->{BUILD} }{CODE} ) {
-                install_modifier( $target, fresh => BUILD => sub { } );
-            }
-        }
-        $class->_apply_roles;
-    };
-
     require feature;
     feature->import($featureSet);
 
@@ -262,26 +271,32 @@ sub import {
 sub _getAllAttrs {
     foreach my $class (@_) {
         my @classAttrs;
-        if ( defined $_registeredAttrs{$class} ) {
-            if ( defined $_registeredAttrs{$class}{cached} ) {
+        if ( defined $_classData{$class}{registeredAttrs} ) {
+            if ( defined $_classData{$class}{registeredAttrs}{cached} ) {
 
                 # Skip the class if already cached.
                 next;
             }
-            if ( defined $_registeredAttrs{$class}{list} ) {
+            if ( defined $_classData{$class}{registeredAttrs}{list} ) {
                 push @classAttrs,
-                  map { $_->{attr} } @{ $_registeredAttrs{$class}{list} };
+                  map { $_->{attr} }
+                  @{ $_classData{$class}{registeredAttrs}{list} };
             }
         }
-        if ( defined $_ISA{$class} ) {
-            push @classAttrs, _getAllAttrs( @{ $_ISA{$class} } );
+        if ( defined $_classData{$class}{ISA} ) {
+            push @classAttrs, _getAllAttrs( @{ $_classData{$class}{ISA} } );
         }
-        if ( defined $_WITH{$class} ) {
-            push @classAttrs, _getAllAttrs( @{ $_WITH{$class} } );
+        if ( defined $_classData{$class}{WITH} ) {
+            push @classAttrs, _getAllAttrs( @{ $_classData{$class}{WITH} } );
         }
-        $_registeredAttrs{$class}{cached} = \@classAttrs;
+        my @base = eval "\@$class\::ISA";
+        push @classAttrs, _getAllAttrs(@base) if @base;
+
+        # Leave uniq only attrs.
+        @classAttrs = keys %{ { map { $_ => 1 } @classAttrs } };
+        $_classData{$class}{registeredAttrs}{cached} = \@classAttrs;
     }
-    return map { @{ $_registeredAttrs{$_}{cached} } } @_;
+    return map { @{ $_classData{$_}{registeredAttrs}{cached} } } @_;
 }
 
 sub getClassAttributes {
@@ -307,23 +322,31 @@ sub _inject_code {
 
 sub _apply_roles {
     my $class = shift;
-    foreach my $target ( keys %_assignedRoles ) {
+    foreach my $target (
+        grep { defined $_classData{$_}{assignedRoles} }
+        keys %_classData
+      )
+    {
 
-        #say STDERR "Applying roles ",
-        #  join( ", ", @{ $_assignedRoles{$target} } ), " to $target";
+       #say STDERR "Applying roles ",
+       #  join( ", ", @{ $_classData{$target}{assignedRoles} } ), " to $target";
 
-        push @{ $_WITH{$target} }, @{ $_assignedRoles{$target} };
+        push @{ $_classData{$target}{WITH} },
+          @{ $_classData{$target}{assignedRoles} };
 
+        #say STDERR "Applying {",
+        #  join( ",", @{ $_classData{$target}{assignedRoles} } ),
+        #  "} to $target";
         Moo::Role->apply_roles_to_package( $target,
-            @{ $_assignedRoles{$target} } );
+            @{ $_classData{$target}{assignedRoles} } );
         $class->_maybe_reset_handlemoose($target);
-        delete $_assignedRoles{$target};
+        delete $_classData{$target}{assignedRoles};
     }
 }
 
 sub _assign_role {
     my ( $class, $role ) = @_;
-    push @{ $_assignedRoles{$class} }, $role;
+    push @{ $_classData{$class}{assignedRoles} }, $role;
 }
 
 sub _handler_callback_names {
