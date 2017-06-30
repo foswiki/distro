@@ -84,16 +84,16 @@ sub INCLUDE {
             $perl,
             {
                 _Package =>
-                  '(?:(?<=\n)\bpackage|\Apackage)\s+(?<packageName>[\w:]+);',
+                  '(?:(?<=\R)\bpackage|\Apackage)\s+(?<packageName>[\w:]+);',
                 _Doc =>
-'\n=(?:begin(?:\h+(?:twiki|TML|html))?|pod)\h*\n(?<docText>.+?\n)=cut\h*?(?=\n)',
+'\R=(?:begin(?:\h+(?:twiki|TML|html))?|pod)\h*\R(?<docText>.+?\R)=cut\h*?(?=\R)',
                 _Extends      => $extendsRx . $paramsRx,
                 _With         => $withRx . $paramsRx,
                 _FoswikiClass => $fwClassRx . $paramsRx,
                 (
                     $showSmells # Don't even parse FIXME comments to non-admin users.
                     ? ( _FixmeComment =>
-'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\b\h*(?<commentText>.+?))(?=\n)'
+'\R\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\b\h*(?<commentText>.+?))(?=\R)'
                       )
                     : ()
                 ),
@@ -146,7 +146,7 @@ sub INCLUDE {
             $docRaw,
             {
                 _Section =>
-'(?<secPrefix>\n|\A)(?<secLine>(?<secDef>---(?<secDepth>\++))(?:!!)?\h+(.+?))(?=\n)',
+'(?<secPrefix>\R|\A)(?<secLine>(?<secDef>---(?<secDepth>\++))(?:!!)?\h+(.+?))(?=\R)',
             }
         );
 
@@ -346,7 +346,7 @@ sub _makeCtx {
         map { "(?:" . $ctxRxStrings->{$_} . ")(?{\$ctxData{type} = '$_';})" }
           keys %$ctxRxStrings )
       . "|(?:\\Z)(?{\$ctxData{type} = '_EOF_';}))(?{\@ctxData{qw(pos text)} = (pos(\$_), \$+{lexText}); \$ctxData{lexemes} = {\%+};})";
-    $ctxData{regex} = eval "qr/$rxStr/s";
+    $ctxData{regex} = eval "qr/$rxStr/nus";
     Foswiki::Exception::Fatal->throw( text => 'Failed to compile regex: /'
           . $rxStr . "/\n"
           . Foswiki::Exception::errorStr($@) )
