@@ -119,6 +119,11 @@ our @ISA = qw(Moo);
 my %_classData;
 
 # BEGIN Install wrappers for Moo's has/with/extends to record basic object information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
+
+my %_codeWrapper = (
+    extends => '_fw_extends',    # Wrap always.
+);
+
 sub _fw_has {
     my $target = shift;
     my ($attr) = @_;
@@ -164,42 +169,43 @@ sub _fw_extends {
 }
 
 if ( $ENV{FOSWIKI_ASSERTS} ) {
+    @_codeWrapper{qw(has with)} = qw(_fw_has _fw_with);
+}
 
-    # Moo doesn't provide a clean way to get all object's attributes. The only
-    # really clean way to distinguish between a key on object's hash and an
-    # attribute is to record what is passed to Moo's sub 'has'. Since Moo
-    # generates it for each class separately (as well as other 'keywords') and
-    # since Moo::Role does it on its own too then the only really clean way to
-    # catch everything is to tap into Moo's guts. And the best way to do so is
-    # to intercept calls to _install_tracked() as this sub is used to register
-    # every single Moo-generated code ref. Though this is a hacky way on its own
-    # but the rest approaches seem to be even more hacky and no doubt
-    # unreliable.
-    foreach my $module (qw(Moo Moo::Role)) {
-        my $ns               = Foswiki::getNS($module);
-        my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
-        _inject_code(
-            $module,
-            '_install_tracked',
-            sub {
-                my $ovCode;
-                my $target    = $_[0];
-                my $codeName  = $_[1];
-                my $ovSubName = "_fw_" . $_[1];
-                $ovCode = __PACKAGE__->can($ovSubName);
-                if ($ovCode) {
+# Moo doesn't provide a clean way to get all object's attributes. The only
+# really good way to distinguish between a key on object's hash and an
+# attribute is to record what is passed to Moo's sub 'has'. Since Moo
+# generates it for each class separately (as well as other 'keywords') and
+# since Moo::Role does it on its own too then the only correct approach to
+# intercept everything is to tap into Moo's guts. And the best way to do so
+# is to intercept calls to _install_tracked() as this sub is used to
+# register every single Moo-generated code ref. Though this is a hacky way
+# on its own but the rest approaches seem to be even more hacky and no doubt
+# unreliable.
+foreach my $module (qw(Moo Moo::Role)) {
+    my $ns               = Foswiki::getNS($module);
+    my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
+    _inject_code(
+        $module,
+        '_install_tracked',
+        sub {
+            my $ovCode;
+            my $target    = $_[0];
+            my $codeName  = $_[1];
+            my $ovSubName = $_codeWrapper{$codeName};
+            $ovCode = __PACKAGE__->can($ovSubName) if $ovSubName;
+            if ($ovCode) {
 
-                    #say STDERR "Installing wrapper $codeName on $target";
-                    my $origCode = $_[2];
-                    $_[2] = sub {
-                        $ovCode->( $target, @_ );
-                        goto &$origCode;
-                    };
-                }
-                goto &$_install_tracked;
+                #say STDERR "Installing wrapper $codeName on $target";
+                my $origCode = $_[2];
+                $_[2] = sub {
+                    $ovCode->( $target, @_ );
+                    goto &$origCode;
+                };
             }
-        );
-    }
+            goto &$_install_tracked;
+        }
+    );
 }
 
 # END of has/with/extends wrappers.
@@ -250,8 +256,10 @@ sub import {
     }
 
     foreach my $option ( grep { $options{$_}{use} } keys %options ) {
+
+        #say STDERR "Installing option $option";
         my $installer = __PACKAGE__->can("_install_$option");
-        die "INTERNAL:There is no installer for option $option"
+        die "INTERNAL:There is no support for option $option"
           unless defined $installer;
         $installer->( $class, $target );
     }
@@ -365,6 +373,8 @@ sub _install_callbacks {
 sub _install_app {
     my ( $class, $target ) = @_;
     Foswiki::load_package('Foswiki::AppObject');
+
+    #say STDERR "Assigning Foswiki::AppObject to $target";
     _assign_role( $target, 'Foswiki::AppObject' );
 }
 
