@@ -128,7 +128,7 @@ sub _fw_has {
     my $target = shift;
     my ($attr) = @_;
 
-    #say STDERR "Registering attr $attr on $target";
+    #say STDERR "Registering attr `$attr' on $target";
 
     push @{ $_classData{$target}{registeredAttrs}{list} },
       { attr => $attr, options => [ @_[ 1 .. $#_ ] ] };
@@ -158,14 +158,16 @@ sub _fw_extends {
 
         # Install BUILD method if a feature requiring it requested.
         # Otherwise feature implementation role will fail to apply cleanly.
-        unless ( defined $trg_ns->{BUILD}
-            && defined *{ $trg_ns->{BUILD} }{CODE} )
-        {
-            #say STDERR "Installing BUILD for $target";
-            install_modifier( $target, fresh => BUILD => sub { } );
-        }
+        #unless ( defined $trg_ns->{BUILD}
+        #    && defined *{ $trg_ns->{BUILD} }{CODE} )
+        #{
+        #    #say STDERR "Installing BUILD for $target";
+        #    install_modifier( $target, fresh => BUILD => sub { } );
+        #}
     }
-    __PACKAGE__->_apply_roles;
+
+    #say STDERR "Applying roles to $target";
+    __PACKAGE__->_apply_roles($target);
 }
 
 if ( $ENV{FOSWIKI_ASSERTS} ) {
@@ -199,8 +201,12 @@ foreach my $module (qw(Moo Moo::Role)) {
                 #say STDERR "Installing wrapper $codeName on $target";
                 my $origCode = $_[2];
                 $_[2] = sub {
+
+                    #say STDERR "Orig ${target}::$codeName code first.";
+                    &$origCode(@_);
+
+                    #say STDERR "Extension ${target}::$codeName code next.";
                     $ovCode->( $target, @_ );
-                    goto &$origCode;
                 };
             }
             goto &$_install_tracked;
@@ -214,7 +220,7 @@ sub import {
     my ($class) = shift;
     my $target = caller;
 
-    #say STDERR "Foswiki::Class($class, $target)";
+    #say STDERR "--- Foswiki::Class($class, $target)";
 
     $SIG{__DIE__} = sub { Carp::confess(@_) };
 
@@ -320,8 +326,8 @@ sub getClassAttributes {
     return _getAllAttrs($class);
 }
 
-# Actually we're duplicating Moo::_install_coderef here in a way. But we better
-# avoid using a module's internalls.
+# Actually _inject_code is duplicating Moo::_install_coderef in a way. But usage
+# of Moo internals is better be avoided.
 sub _inject_code {
     my ( $target, $name, $code ) = @_;
 
@@ -330,11 +336,12 @@ sub _inject_code {
 
 sub _apply_roles {
     my $class = shift;
-    foreach my $target (
-        grep { defined $_classData{$_}{assignedRoles} }
-        keys %_classData
-      )
-    {
+
+    my @targets =
+      grep { defined $_classData{$_}{assignedRoles} }
+      ( scalar(@_) ? @_ : keys %_classData );
+
+    foreach my $target (@targets) {
 
        #say STDERR "Applying roles ",
        #  join( ", ", @{ $_classData{$target}{assignedRoles} } ), " to $target";
