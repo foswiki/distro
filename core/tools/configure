@@ -129,6 +129,22 @@ sub _scalar {
     $actions{$name} = 1;
 }
 
+my $nonASCII = 0;
+
+unless ( ${^UNICODE} >= 32 ) {
+    foreach (@ARGV) {
+        if ( $_ =~ m/\P{Ascii}/ ) {
+            $nonASCII = 1;
+        }
+    }
+
+    if ($nonASCII) {
+        print STDERR
+"WARNING: non-ASCII input detected.  Should you be using the -CAS option?\n     perl -CAS tools/configure ...\n";
+
+    }
+}
+
 my $result = Getopt::Long::GetOptions(
     'check_current_value:s' => \&_keys,
     'dependencies'          => sub {
@@ -242,8 +258,8 @@ sub _prompt {
     $reply = '' unless ( defined $reply );
     return if ( $opt && $reply eq 'none' );
 
-    # Add keys to the params to be processed by the Save wizard.
-    # This invokes all needed handlers like ONSAVE vs. modifying the config directly
+# Add keys to the params to be processed by the Save wizard.
+# This invokes all needed handlers like ONSAVE vs. modifying the config directly
     eval "\$params->{set}{'$keys'} = '$reply'";
     if ($@) {
         print "Failed to set $keys: "
@@ -284,8 +300,10 @@ unless ( $Foswiki::cfg{isVALID} ) {
 
         # Ask for missing parameters that cannot bootstrap in CLI
         print "\n** Enter values for critical configuration items.\n";
-        print
+        unless ( ${^UNICODE} >= 32 ) {
+            print
 "** If any input will use utf-8 data (non-ASCII), run as 'perl -CAS tools/configure ...'\n";
+        }
         print
 "** type a new value or hit return to accept the value in brackets.\n";
     }
@@ -347,9 +365,6 @@ unless ( $Foswiki::cfg{isVALID} ) {
 "You should now run tools/configure -check to validate your new configuration!\n";
     }
 
-}
-else {
-       print "** Be sure to run as 'perl -CA tools/configure' if any settings will use utf-8 data\n";
 }
 
 if ( $reporter->has_level('errors') ) {
@@ -496,7 +511,7 @@ Use -save to save a new configuration.
 
 Use -json and -trace to control the output of this script.
 
-If any command line arguments are utf-8 characters, be sure to run configure using the B<perl -CA tools/configure ...> command.
+If any command line arguments are utf-8 characters, be sure to run configure using the B<perl -CAS tools/configure ...> command.
 
 =head1 OPTIONS
 
@@ -612,9 +627,9 @@ configuration.
 =head2 NOTES
 
 If you want to enter international characters into config variables, you will need to
-run the command with the perl -CA option.
+run the command with the perl -CAS option.
 
- $ perl -CA configure -save -set {Password}='passwordWithUTF8'
+ $ perl -CAS configure -save -set {Password}='passwordWithUTF8'
 
 will cause perl to treat the command line options as utf-8 strings and correctly
 encode international characters.
