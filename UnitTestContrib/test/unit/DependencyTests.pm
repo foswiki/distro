@@ -346,6 +346,23 @@ sub test_check_dep_version_with_underscore {
 
 }
 
+sub test_check_dep_version_oddball_DBI {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a version number that includes _
+    # 1, Algorithm::Diff v1.19_01 installed
+    my $dep = new Foswiki::Configure::Dependency(
+        type    => "perl",
+        module  => "DBI",
+        version => ">=1"
+    );
+    my ( $ok, $message ) = $dep->checkDependency();
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches( qr/DBI version \d+\.\d+(?:_\d+)? installed/,
+        $message );
+
+}
+
 sub test_compare_extension_versions {
     my ($this) = @_;
 
