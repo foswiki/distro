@@ -6,7 +6,7 @@ use warnings;
 my @DIG = map { chr($_) } ( 0 .. 9 );
 
 # Macro takes unquoted default parameter - context-free not supported.
-$Foswiki::contextFreeSyntax{ENCODE} = 0;
+#$Foswiki::contextFreeSyntax{ENCODE} = 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

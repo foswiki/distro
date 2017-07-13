@@ -27,19 +27,19 @@ sub test_boolean {
     my $this = shift;
 
     my $attrs = Foswiki::Attrs->new( "a", 1 );
-    $this->assert( !$attrs->isEmpty() );
-    $this->assert_not_null( $attrs->{"a"} );
-    $this->assert_str_equals( "1", $attrs->{"a"} );
+
+    # First value is default,
+    $this->assert_not_null( $attrs->{"_DEFAULT"} );
 
     $attrs = Foswiki::Attrs->new( "a12g b987", 1 );
-    $this->assert_not_null( $attrs->remove("a12g") );
-    $this->assert_null( $attrs->{"a12g"} );
+    $this->assert_str_equals( "a12g", $attrs->remove("_DEFAULT") );
+    $this->assert_null( $attrs->{"_DEFAULT"} );
     $this->assert_not_null( $attrs->remove("b987") );
     $this->assert_null( $attrs->{"b987"} );
     $this->assert( $attrs->isEmpty(), "Fail " . $attrs->stringify() );
 
     $attrs = Foswiki::Attrs->new( "Acid AnhydrousCopperSulphate='white' X", 1 );
-    $this->assert_not_null( $attrs->remove("Acid") );
+    $this->assert_str_equals( "Acid", $attrs->remove("_DEFAULT") );
     $this->assert_not_null( $attrs->remove("X") );
     $this->assert_str_equals( 'white',
         $attrs->remove("AnhydrousCopperSulphate") );

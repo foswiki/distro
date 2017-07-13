@@ -107,13 +107,15 @@ sub test_coverage {
     );
 
 # Same encoding, using the %ENCODE macro
-#SMELL:  Hex 01-02 are special markers used in render and don't encode correctly
+#SMELL:  Hex 01-03 are special markers used in render, and render zone, and don't encode correctly
+    $str = substr( $str, 3 );    # Drop first three characters
+       # Embedded double-quotes need escapes, so the macro gets the complete strings.
+    $str =~ s/\"/\\"/g;
     $results =
       $this->{test_topicObject}
       ->expandMacros( '%ENCODE{"' . $str . '" type="entities"}%' );
-
     $this->assert_str_equals(
-"&#39;&#34;&#3;&#4;&#5;&#6;&#7;&#8;&#9;'0a'&#11;&#12;'0d'&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
+"&#4;&#5;&#6;&#7;&#8;&#9;'0a'&#11;&#12;'0d'&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
         hexdump($results)
     );
 
@@ -123,7 +125,7 @@ sub test_coverage {
       ->expandMacros( '%ENCODE{"' . $str . '" type="html"}%' );
 
     $this->assert_str_equals(
-"&#39;&#34;&#3;&#4;&#5;&#6;&#7;&#8;&#9;&#10;&#11;&#12;&#13;&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
+"&#4;&#5;&#6;&#7;&#8;&#9;&#10;&#11;&#12;&#13;&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
         hexdump($results)
     );
 
@@ -133,7 +135,7 @@ sub test_coverage {
       ->expandMacros( '%ENCODE{"' . $str . '" type="url"}%' );
 
     $this->assert_str_equals(
-"%27%22%03%04%05%06%07%08%09%0a%0b%0c%0d%0e%0f%10%11%12%13%14%15%16%17%18%19%1a%1b%1c%1d%1e%1f%20!%22%23%24%25%26%27%28%29*%2b%2c-./0123456789:%3b%3c%3d%3e%3f%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5b%5c%5d%5e_%60abcdefghijklmnopqrstuvwxyz%7b%7c%7d~%7f",
+"%04%05%06%07%08%09%0a%0b%0c%0d%0e%0f%10%11%12%13%14%15%16%17%18%19%1a%1b%1c%1d%1e%1f%20!%22%23%24%25%26%27%28%29*%2b%2c-./0123456789:%3b%3c%3d%3e%3f%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5b%5c%5d%5e_%60abcdefghijklmnopqrstuvwxyz%7b%7c%7d~%7f",
         hexdump($results)
     );
 
@@ -149,7 +151,7 @@ sub test_coverage {
       ->expandMacros( '%ENCODE{"' . $str . '" type="safe"}%' );
 
     $this->assert_str_equals(
-"&#39;&#34;'03''04''05''06''07''08''09''0a''0b''0c''0d''0e''0f''10''11''12''13''14''15''16''17''18''19''1a''1b''1c''1d''1e''1f' !&#34;#\$&#37;&&#39;()*+,-./0123456789:;&#60;=&#62;?\@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'7f'",
+"'04''05''06''07''08''09''0a''0b''0c''0d''0e''0f''10''11''12''13''14''15''16''17''18''19''1a''1b''1c''1d''1e''1f' !&#34;#\$&#37;&&#39;()*+,-./0123456789:;&#60;=&#62;?\@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'7f'",
         hexdump($results)
     );
 

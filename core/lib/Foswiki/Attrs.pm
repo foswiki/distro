@@ -55,7 +55,9 @@ BEGIN {
     }
 }
 
-# Used in interpolation an regexes, so constant not appropriate
+use constant TRACE => 0;
+
+# Used in interpolation and regexes, so constant not appropriate
 our $MARKER = "\0";
 
 =begin TML
@@ -90,6 +92,7 @@ sub new {
     else {
         _unfriendly( $this, $string );
     }
+
     for ( values %$this ) {
         s/\x01/'/g;
         s/\x02/"/g;
@@ -193,13 +196,14 @@ sub _friendly {
     my $key = "_DEFAULT";
 
     while ( $string =~ m/\S/s ) {
+        print "STRING is ($string)\n" if (TRACE);
 
         # name $op "value" pairs
         if ( $string =~ s/^[\s,]*([#a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
 
-            #print STDERR "Match1 $key\n";
+            print STDERR "Match1 $key - Name op DQ-Value\n" if (TRACE);
         }
 
         # simple double-quoted value with no name, sets the default
@@ -208,7 +212,7 @@ sub _friendly {
                 $key = '_DEFAULT';
                 $this->{_DEFAULT} = $1;
 
-                #print STDERR "Match2 $key\n";
+                print STDERR "Match2 $key DQ-value ($1).\n" if (TRACE);
             }
         }
 
@@ -217,7 +221,7 @@ sub _friendly {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
 
-            #print STDERR "Match3 $key\n";
+            print STDERR "Match3 $key - Name op SQ-Value\n" if (TRACE);
         }
 
         # name $op value pairs
@@ -227,50 +231,75 @@ sub _friendly {
             $key = $1;
             $Ops{$2}[0]( \$this->{$key}, $3 );
 
-            #print STDERR "Match4 $key\n";
+            print STDERR "Match4 $key - name op NQ-value\n" if (TRACE);
         }
 
         # $op "value"
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*\"(.*?)\"//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
 
-            #print STDERR "Match5 $key\n";
+            print STDERR "Match5 $key - op DQ-Value\n" if (TRACE);
         }
 
         # $op 'value'
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*'(.*?)'//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
 
-            #print STDERR "Match6 $key\n";
+            print STDERR "Match6 $key - op SQ-Value\n" if (TRACE);
         }
 
         # $op value
         elsif ( $string =~ s/^[\s,]*($nonmOp)\s*([^\s,\}\'\"]*)//is ) {
             $Ops{$1}[1]( \$this->{$key}, $2 );
 
-            #print STDERR "Match7 $key\n";
+            print STDERR "Match7 $key - op NQ-Value\n" if (TRACE);
         }
 
         # simple single-quoted value with no name, sets the default
         elsif ( $string =~ s/^[\s,]*'(.*?)'//s ) {
-            unless ( defined( $this->{_DEFAULT} ) ) {
-                $key = '_DEFAULT';
-                $this->{_DEFAULT} = $1;
-
-                #print STDERR "Match8 $key\n";
-            }
-        }
-
-        # simple name with no value (boolean, or _DEFAULT)
-        elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)\b//is ) {
-
-            #print STDERR "Match9 $1\n";
             if ( defined( $this->{_DEFAULT} ) ) {
                 $this->{$1} = 1;
+                print STDERR "Match8a $1 - SQ-value, already have _DEFAULT\n"
+                  if (TRACE);
             }
             else {
                 $key = '_DEFAULT';
                 $this->{_DEFAULT} = $1;
+
+                print STDERR "Match8b $key - SQ-Value\n" if (TRACE);
+            }
+        }
+
+        # simple name with no value (boolean, or _DEFAULT)
+        elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)(?=[\s,])//is ) {
+
+            if ( defined( $this->{_DEFAULT} ) ) {
+                $this->{$1} = 1;
+                print STDERR
+                  "Match9a $1 - name, no value, already have _DEFAULT\n"
+                  if (TRACE);
+            }
+            else {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+                print STDERR "Match9b $1 - name, no value, take as _DEFAULT\n"
+                  if (TRACE);
+            }
+        }
+
+        # string with no value (boolean, or _DEFAULT)
+        elsif ( $string =~ s/^[\s,]*([\S]*)//is ) {
+            if ( defined( $this->{_DEFAULT} ) ) {
+                $this->{$1} = 1;
+                print STDERR
+                  "Match10 $1 string, no value, already have _DEFAULT$1\n"
+                  if (TRACE);
+            }
+            else {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+                print STDERR "Match10 $1 string, no value, take as _DEFAULT$1\n"
+                  if (TRACE);
             }
         }
 
@@ -283,7 +312,8 @@ sub _friendly {
             {
                 $this->{_DEFAULT} = $1;
 
-                #print STDERR "Match10 $1\n";
+                print STDERR "Match10 $1 - Whole string is default\n"
+                  if (TRACE);
             }
             last;
         }

@@ -8,7 +8,7 @@ use Foswiki::Render;
 use Foswiki::Func;
 
 # Macro takes unquoted default parameter - context-free not supported.
-$Foswiki::contextFreeSyntax{INCLUDE} = 0;
+#$Foswiki::contextFreeSyntax{INCLUDE} = 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

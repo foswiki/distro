@@ -686,12 +686,14 @@ THIS
 
 sub test_singlequoted_params {
     my $this = shift;
+
+    # Note: with friendly parser, single quotes work fine too.
     my $text =
       $this->{test_topicObject}
       ->expandMacros("%INCLUDE{'Oneweb.SomeTopic' section='suction'}%");
     $this->assert_str_equals(
         "<span class='foswikiAlert'>
-   Warning: Can't INCLUDE '<nop>'Oneweb.SomeTopic' section='suction'', path is empty or contains illegal characters. 
+    Warning: Can't find topic <nop>Oneweb.<nop>SomeTopic 
 </span>", $text
     );
 
