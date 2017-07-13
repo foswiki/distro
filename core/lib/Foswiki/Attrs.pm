@@ -263,9 +263,15 @@ sub _friendly {
 
         # simple name with no value (boolean, or _DEFAULT)
         elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)\b//is ) {
-            $this->{$1} = 1;
 
             #print STDERR "Match9 $1\n";
+            if ( defined( $this->{_DEFAULT} ) ) {
+                $this->{$1} = 1;
+            }
+            else {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+            }
         }
 
         # otherwise the whole string - sans padding - is the default
