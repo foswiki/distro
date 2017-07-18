@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-02-10 12:40+0200\n"
+"PO-Revision-Date: 2017-07-18 15:15+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -4417,6 +4417,8 @@ msgid ""
 "The filename you are attempting to upload (%1) contains characters not "
 "supported by the configured encoding (%2)."
 msgstr ""
+"ngutlhmey qab ngaS De&&#39; Dalabbogh pong&&#39;e&&#39; (%1), bIH lajbe&&#39;"
+" ngoq (%2)."
 
 #: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
@@ -4711,7 +4713,7 @@ msgstr "lo&&#39;wI&&#39; pongmey lo&&#39; patvam."
 
 #: core/templates/messages.tmpl:389
 msgid "This system is not configured to support user login. Return to [[%1]]."
-msgstr ""
+msgstr "lo&&#39;wI&&#39; lojmIt lajbe&&#39; patvam. [[%1]]Daq yIchegh."
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
@@ -4771,7 +4773,7 @@ msgstr "latlh lo&&#39;wI&&#39; <nop>DagheSmeH, vaj [[%1][yI&&#39;elqa&&#39;]]."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
-msgstr ""
+msgstr "%1 choHmey Ser Da&&#39;olmeH, naDev yI&&#39;uy: "
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
@@ -4890,7 +4892,7 @@ msgstr "mIchvam ghItlhmey"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
-msgstr ""
+msgstr "%1 mIchDaq ghItlhmeyvam choH latlh lo&&#39;wI&&#39;pu&&#39;:"
 
 #: core/templates/renamewebbase.tmpl:32
 msgid ""
@@ -4938,7 +4940,7 @@ msgstr "lo&&#39;wI&&#39;, chaw&&#39; ngoq joq ghovbe&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:42
 msgid "Unrecognized action command %1"
-msgstr ""
+msgstr "%1 mIw yajbe&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:405
 msgid ""
@@ -5015,6 +5017,7 @@ msgstr "%1 KB &&#39;oH jabbI&&#39;ID &&#39;aqroS&&#39;e&&#39;."
 #: core/templates/messages.tmpl:263
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr ""
+"tlhoy tIn De&&#39; Dalabbogh %1, %2 KB &&#39;oH &&#39;aqroS&&#39;e&&#39;"
 
 #: core/templates/messages.tmpl:262
 msgid "Uploaded file is too big"
@@ -5047,7 +5050,7 @@ msgstr ""
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "%2 choH lo&&#39;wI&&#39; %1 net chaw&&#39;be&&#39;."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
@@ -5211,6 +5214,8 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh  tu&&#39;lu&&#39;be&&#39;!"
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
+"yIqIm: cha&&#39;logh %1 vIchellaHbe&&#39;, &&#39;oH chelta&&#39; vay&&#39; "
+"rIntaH. %2"
 
 #: core/templates/messages.tmpl:371
 msgid ""
@@ -5656,6 +5661,7 @@ msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
+"chaq FoswikiDaq ngoq De&&#39; DachoHlaHbe&&#39;. loHwI&&#39; yIrI&&#39;."
 
 #: core/templates/registermessages.tmpl:29
 msgid ""
