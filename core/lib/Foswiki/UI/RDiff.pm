@@ -15,8 +15,9 @@ use warnings;
 use Assert;
 use Error qw( :try );
 
-use Foswiki     ();
-use Foswiki::UI ();
+use Foswiki                      ();
+use Foswiki::UI                  ();
+use Foswiki::Serialise::Embedded ();    # for dataDecode
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -109,7 +110,7 @@ sub _renderAttrs {
     require Foswiki::Store;
     if ($f) {
         for my $key ( keys %$attrs ) {
-            my $av = Foswiki::Meta::dataDecode( $attrs->{$key} );
+            my $av = Foswiki::Serialise::Embedded::dataDecode( $attrs->{$key} );
             $f =~ s/\$$key\b/$av/g;
         }
     }
