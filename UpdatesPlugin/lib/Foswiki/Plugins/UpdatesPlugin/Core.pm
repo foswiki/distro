@@ -32,7 +32,7 @@ sub new {
             session   => $session,
             debug     => 0,
             reportUrl => $Foswiki::cfg{Plugins}{UpdatesPlugin}{ReportUrl}
-              || "http://foswiki.org/Extensions/UpdatesPluginReport",
+              || "https://foswiki.org/Extensions/UpdatesPluginReport",
             timeout => $Foswiki::cfg{Plugins}{UpdatesPlugin}{CacheTimeout},
             exclude => $Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions}
               || '',
