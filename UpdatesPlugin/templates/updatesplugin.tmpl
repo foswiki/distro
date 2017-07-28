@@ -1,16 +1,16 @@
 %TMPL:DEF{"messagetmpl"}%<script id="foswikiUpdatesTmpl" type="text/x-jsrender"> 
 <div class="foswikiBroadcastMessage foswikiUpdatesMessage">
-%JQICON{"error"}%
+%TMPL:P{"messagetmpl::icon"}%
 %TMPL:P{"messagetmpl::text"}%
-<a href="%SCRIPTURL{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
-<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a><br/>
-%TMPL:P{"messagetmpl::list"}%
+%TMPL:P{"messagetmpl::buttons"}%
 %CLEAR%
 </div>
 </script>%TMPL:END%
 
-%TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s)." args="{{:nrPlugins}}"}%%TMPL:END%
-%TMPL:DEF{"messagetmpl::list"}%({{:pluginList}})%TMPL:END%
+%TMPL:DEF{"messagetmpl::icon"}%%JQICON{"error"}%%TMPL:END%
+%TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s): [_2]" arg1="{{:nrPlugins}}" arg2="{{:outdatedPlugins}}"}%%TMPL:END%
+%TMPL:DEF{"messagetmpl::buttons"}%<a href="%SCRIPTURLPATH{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
+<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a>%TMPL:END%
 
 %TMPL:DEF{"css"}%<style type="text/css">
 .foswikiBroadcastMessage.foswikiUpdatesMessage {
