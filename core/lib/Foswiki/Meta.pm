@@ -3822,20 +3822,16 @@ sub isValidEmbedding {
 
 ---++ StaticMethod dataDecode( $encoded ) -> $decoded
 
-Decode escapes in a string that was encoded using dataEncode
+Decode escapes in a string that was encoded using
+Foswiki::Serialise::Embedded::dataEncode
 
-The encoding has to be exported because Foswiki (and plugins) use
-encoded field data in other places e.g. RDiff, mainly as a shorthand
-for the properly parsed meta object. Some day we may be able to
-eliminate that....
+DEPRECATED - DO NOT USE!
 
 =cut
 
 sub dataDecode {
-    my $datum = shift;
-
-    $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-    return $datum;
+    require Foswiki::Serialise::Embedded;
+    return Foswiki::Serialise::Embedded::dataDecode(@_);
 }
 
 1;
