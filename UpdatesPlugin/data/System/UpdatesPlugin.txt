@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1493865930" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1501242886" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -66,6 +66,7 @@ to prevent disclosing them to the outside world.
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.04 (28 Jul 2017) | Foswikitask:Item14448: fixed broken outdated plugins report |
 | 1.03 (03 May 2017) | Foswikitask:Item13907: Report list of extensions needing update. |
 | 1.02 (23 Jan 2017) | Foswikitask:Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
 | 1.01 (24 Jul 2015) | Foswikitask:Item13555: Compare VERSION not RELEASE strings.<br/>\
@@ -80,10 +81,6 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2017"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1493865930" size="53676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1493865930" size="2322" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1493865930" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1493865930" size="4313" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1493865930" size="127" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1501242886" size="53676" user="ProjectContributor" version="1"}%
