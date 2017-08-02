@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+	<script src="../../jquery.observable.js" type="text/javascript"></script>
+	<script src="../../jquery.views.js" type="text/javascript"></script>
+	<link href="../resources/demos.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="nav"><a href="../demos.html">JsViews Demos</a></div>
+
+<script id="movieTemplate" type="text/x-jsrender">
+	<li>
+		<i>{{>name}}</i> ({{>releaseYear}})
+	</li>
+</script>
+
+<!--Note that a template does not have to include HTML elements-->
+<script id="textOnlyTemplate" type="text/x-jsrender">
+	- {{>name}} ({{>releaseYear}})
+</script>
+
+<h3>Rendering templates, and linking to changes in data:</h3>
+
+<div class="subhead">Insert HTML from a rendered template, as innerHTML under a container element. (Uses only JsRender.)</div>
+<div class="box">
+	<ul id="renderedListContainer"></ul>
+</div>
+
+<div class="subhead">Insert HTML from a rendered template between other content, and then data-link the content, for live updates. (Uses JsViews for data-linking.)</div>
+<p class="buttons">
+	<button onclick="addMovie()">add Movie</button>
+	<button onclick="removeMovie()">remove last Movie</button>
+</p>
+
+<div class="subhead">Binding content to data by rendering a template, inserted between text nodes:</div>
+<div class="box">
+	Preceding text <span class="linkedListPlaceholder"></span> - Following text
+</div>
+
+<div class="subhead">Binding content to data by rendering a template, inserted between elements:</div>
+<div class="box">
+	<b>Preceding element </b><span class="linkedListPlaceholder"></span><b> - Following element</b>
+</div>
+
+<div class="subhead">Binding content to data by rendering a template, inserted as content of an HTML container element:</div>
+<div class="box">
+	<ul id="linkedListContainer"></ul>
+</div>
+
+<script type="text/javascript">
+	var counter = 0,
+		movies = [
+			{ name: "The Red Violin", releaseYear: "1998" },
+			{ name: "Eyes Wide Shut", releaseYear: "1999" },
+			{ name: "The Inheritance", releaseYear: "1976" }
+		];
+
+	// JsRender: Render the template with the movies data and insert
+	// the rendered HTML under the "movieList" element
+	$.templates({
+		movieTemplate: "#movieTemplate",
+		textOnlyTemplate: "#textOnlyTemplate"
+	});
+
+	$( "#renderedListContainer" ).html(
+		$.render.movieTemplate( movies )
+	);
+
+	// Render the template with the movies data, as data-linked content
+	// replacing an HTML placeholder elements
+	$.link.textOnlyTemplate( ".linkedListPlaceholder", movies, { target: "replace" });
+
+	// Render the template with the movies data, as data-linked content
+	// of an HTML container element
+	$.link.movieTemplate( "#linkedListContainer", movies );
+
+	// Modify the data
+	function addMovie() {
+		$.observable( movies ).insert({
+			name: "NewTitle" + counter++,
+			releaseYear: "YYYY"
+		});
+	}
+
+	function removeMovie() {
+		$.observable( movies ).remove();
+	}
+</script>
+</body>
+</html>

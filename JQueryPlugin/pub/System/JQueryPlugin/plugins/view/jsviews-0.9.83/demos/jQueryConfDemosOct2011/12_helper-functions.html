@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link href="../resources/presentation.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/syntaxhighlighter.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/syntaxhighlighter.min.js" type="text/javascript"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="nav"><a href="11_editable-data.html">Prev</a> <a href="index.html">Index</a> <a href="13_converters.html">Next</a></div>
+
+<h3>JsRender: Custom helper functions for computed parameters</h3>
+
+<script id="movieTmpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				{{>name}}{{if ~nextToLast()}} and {{else ~notLast()}}, {{/if}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<table>
+	<thead><tr><th>Title</th><th>Languages</th></tr></thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script type="text/javascript">
+
+	$.views.helpers({
+		nextToLast: function() {
+			var view = this;
+			return view.index === view.parent.data.length - 2;
+		},
+
+		notLast: function() {
+			var view = this;
+			return view.index !== view.parent.data.length - 1;
+		}
+	});
+
+	var movie = {
+		title: "Eyes Wide Shut",
+		languages: [
+			{ name: "French" },
+			{ name: "German" },
+			{ name: "Spanish" }
+		]
+	};
+
+	$( "#movieList" ).html(
+		$( "#movieTmpl" ).render( movie )
+	);
+
+</script>
+
+<!--================ End of Demo Section ================-->
+
+<h4>HTML:</h4>
+<pre class="brush: xml;">
+&lt;td>
+    {{for languages}}
+        {{>name}}
+        {{if ~nextToLast()}}
+            and
+        {{else ~notLast()}}
+            ,
+        {{/if}}
+    {{/for}}
+&lt;/td>
+</pre>
+
+<h4>Script:</h4>
+<pre class="brush: js;">
+$.views.helpers({
+
+    nextToLast: function() {
+        var view = this;
+        return view.index === view.parent.data.length - 2;
+    },
+
+    notLast: function() {
+        var view = this;
+        return view.index !== view.parent.data.length - 1;
+    }
+});
+</pre>
+
+</body>
+</html>

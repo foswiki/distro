@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="../resources/presentation.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/syntaxhighlighter.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/syntaxhighlighter.min.js" type="text/javascript"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+	<script src="../../jquery.observable.js" type="text/javascript"></script>
+	<script src="../../jquery.views.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="nav"><a href="07_observable2.html">Prev</a> <a href="index.html">Index</a> <a href="08_for-tag.html">Next</a></div>
+
+<h3>JsViews: Two containers data-linked to the same array</h3>
+
+<p><button id="insertPerson">Add people</button></p>
+
+<!--====== Container ======-->
+<table><tbody id="details1"></tbody></table>
+
+<table><tbody id="details2"></tbody></table>
+
+<!--====== Template1 ======-->
+<script id="personTmpl1" type="text/x-jsrender">
+	<tr>
+		<td data-link="firstName" ></td>
+		<td>
+			<input data-link="firstName trigger=true" />
+		</td>
+		<td>
+			<img class="close" src="../resources/close.png" />
+		</td>
+	</tr>
+</script>
+
+<!--====== Template2 ======-->
+<script id="personTmpl2" type="text/x-jsrender">
+	<tr>
+		<td data-link="firstName" ></td>
+	</tr>
+</script>
+
+<!--====== Script ======-->
+<script type="text/javascript">
+
+var counter = 0,
+	people = [
+		{
+			firstName: "Jeff"
+		},
+		{
+			firstName: "Rebecca"
+		}
+	];
+
+// Compile templates
+$.templates({
+	personTmpl1: "#personTmpl1",
+	personTmpl2: "#personTmpl2"
+});
+
+// Data-link people to the details container, using the personTmpl template
+$.link.personTmpl1( "#details1", people );
+$.link.personTmpl2( "#details2", people );
+
+// Observable array change: insert two new people
+$( "#insertPerson" ).on( "click", function() {
+	var insertAt = people.length ? 1 : 0;
+	$.observable( people ).insert(
+		insertAt, // insert at index 1
+		[
+			{ firstName: "NewPerson" + counter++ },
+			{ firstName: "NewPerson" + counter++ }
+		]);
+});
+
+// Observable array change: remove
+$( "#details1" )
+	.on( "click", ".close", function() {
+		$.observable( people ).remove( $.view( this ).index );
+	});
+
+</script>
+
+<!--================ End of Demo Section ================-->
+
+<h4>Script:</h4>
+<pre class="brush: js;">
+// Data-link people to the details container, using the personTmpl template
+$.link.personTmpl1( "#details1", people );
+$.link.personTmpl2( "#details2", people );
+
+// Observable array change: insert two new people at index 1
+$( "#insertPerson" ).on( "click", function() {
+    $.observable( people ).insert(
+        1,    // index 1
+        [      // add two new people
+            { firstName: "NewPerson" },
+            { firstName: "NewPerson2" }
+        ]);
+});
+</pre>
+</body>
+</html>
+

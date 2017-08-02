@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link href="../resources/presentation.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/syntaxhighlighter.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/syntaxhighlighter.min.js" type="text/javascript"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="nav"><a href="09_for-composition.html">Prev</a> <a href="index.html">Index</a> <a href="11_editable-data.html">Next</a></div>
+
+<h3>JsRender: Using {{if}} and {{else}} to render conditional sections</h3>
+
+<script id="movieTemplate" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{if languages}}
+				Alternative languages: <em>{{>languages}}</em>.
+			{{else subtitles}}
+				Subtitles in <em>{{>subtitles}}</em>.
+			{{else}}
+				Original version only, without subtitles.
+			{{/if}}
+		</td>
+	</tr>
+</script>
+
+<table>
+	<thead><tr><th>Title</th><th>Languages</th></tr></thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script type="text/javascript">
+
+	var movies = [
+		{
+			title: "Meet Joe Black",
+			languages: "English and French",
+			subtitles: "English"
+		},
+		{
+			title: "Eyes Wide Shut",
+			subtitles: "French and Spanish"
+		},
+		{
+			title: "The Mighty"
+		}
+	];
+
+	$( "#movieList" ).html(
+		$( "#movieTemplate" ).render( movies )
+	);
+
+</script>
+
+<!--================ End of Demo Section ================-->
+
+<h4>HTML:</h4>
+<pre class="brush: xml;">
+&lt;td>
+    {{if languages}}
+        ...
+    {{else subtitles}}
+        ....
+    {{else}}
+        ...
+    {{/if}}
+&lt;/td>
+</pre>
+
+<h4>Data:</h4>
+<pre class="brush: js;">
+var movies = [
+    {
+        title: "Meet Joe Black",
+        languages: "English and French",
+        subtitles: "English"
+    },
+    {
+        title: "Eyes Wide Shut",
+        subtitles: "French and Spanish"
+    },
+    ...
+];
+</pre>
+
+</body>
+</html>
+
+

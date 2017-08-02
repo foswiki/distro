@@ -1,0 +1,42 @@
+{
+  "name": "jsviews",
+  "version": "v0.9.83",
+  "description": "Next-generation MVVM and MVP framework - built on top of JsRender templates. Bringing templates to life...",
+  "main": "./jsviews.js",
+  "author": {
+    "name": "Boris Moore",
+    "url": "https://github.com/borismoore"
+  },
+  "homepage": "http://www.jsviews.com/#jsviews",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/borismoore/jsviews.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/borismoore/jsviews/issues"
+  },
+  "scripts": {},
+  "keywords": [
+    "jsviews",
+    "jsrender",
+    "jquery",
+    "mvvm",
+    "mvp",
+    "spa",
+    "browserify",
+    "templates",
+    "template",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "glob-stream": "^5.0.0",
+    "gulp": "^3.9.0",
+    "jquery": "^2.1.4",
+    "jsrender": "^0.9.83",
+    "qunit": "^0.7.6"
+  },
+  "dependencies": {}
+}
