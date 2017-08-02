@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="../resources/presentation.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/syntaxhighlighter.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/syntaxhighlighter.min.js" type="text/javascript"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+	<script src="../../jquery.observable.js" type="text/javascript"></script>
+	<script src="../../jquery.views.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="nav"><a href="05_input.html">Prev</a> <a href="index.html">Index</a> <a href="06_data-binding2.html">Next</a></div>
+
+<h3>JsViews: Data binding</h3>
+
+<!--====== Container ======-->
+<table><tbody id="details"></tbody></table>
+
+<!--====== Template ======-->
+<script id="personTmpl" type="text/x-jsrender">
+	<tr>
+		<td data-link="firstName"></td>
+		<td>
+			<input data-link="firstName trigger=true" />
+		</td>
+	</tr>
+</script>
+
+<!--====== Script ======-->
+<script type="text/javascript">
+var people = [
+	{
+		firstName: "Jeff"
+	},
+	{
+		firstName: "Rebecca"
+	}
+];
+
+// Get template object
+var template = $.templates( "#personTmpl" );
+
+// Render and link: data-link people to the
+// details container, using the personTmpl template
+
+template.link( "#details", people );
+
+// Alternative syntax:
+//    $.link(template, "#details", people);
+</script>
+
+<!--================ End of Demo Section ================-->
+
+<h4>HTML:</h4>
+<pre class="brush: xml;">
+<!-- Template, with declarative data binding expressions -->
+...
+    &lt;td data-link="firstName">&lt;/td>
+    &lt;td>
+        &lt;input data-link="firstName" />
+    &lt;/td>
+...
+</pre>
+
+<h4>Script:</h4>
+<pre class="brush: js;">
+// Get template object
+var template = $.templates( "#personTmpl" );
+
+// Render and link: data-link people to the
+// details container, using the personTmpl template
+
+template.link( "#details", people );
+
+// Alternative syntax:
+//    $.link(template, "#details", people);
+</pre>
+
+
+<h4>Other possible data-binding paths:</h4>
+<pre class="brush: xml;">
+&lt;input data-link="{convert:manager.firstName:convertBack} title{:manager.firstName + manager.lastName}" ... />
+</pre>
+</body>
+</html>
+

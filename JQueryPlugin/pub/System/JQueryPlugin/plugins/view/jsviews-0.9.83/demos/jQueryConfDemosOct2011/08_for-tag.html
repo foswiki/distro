@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link href="../resources/presentation.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/syntaxhighlighter.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/syntaxhighlighter.min.js" type="text/javascript"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.js" type="text/javascript"></script>
+	<script src="../../jsrender.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="nav"><a href="07_observable3.html">Prev</a> <a href="index.html">Index</a> <a href="09_for-composition.html">Next</a></div>
+
+<h3>JsRender: Using {{for}} to render hierarchical data - inline nested template</h3>
+
+<script id="movieTemplate" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				<div>{{>name}}</div>
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<table>
+	<thead><tr><th>Title</th><th>Languages</th></tr></thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script type="text/javascript">
+
+var movie = {
+	title: "Eyes Wide Shut",
+	languages: [
+		{ name: "French" },
+		{ name: "Mandarin" },
+		{ name: "Spanish" }
+	]
+};
+
+$( "#movieList" ).html(
+	$( "#movieTemplate" ).render( movie )
+);
+
+</script>
+
+<!--================ End of Demo Section ================-->
+
+<h4>Data:</h4>
+<pre class="brush: js;">
+var movie = {
+    title: "Eyes Wide Shut",
+    languages: [
+        { name: "French" },
+        { name: "Mandarin" },
+        { name: "Spanish" }
+    ]
+}
+</pre>
+
+<h4>HTML:</h4>
+<pre class="brush: xml;">
+&lt;td>{{>title}}&lt;/td>
+&lt;td>
+    {{for languages}}
+        &lt;div>{{>name}}&lt;/div>
+    {{/for}}
+&lt;/td>
+</pre>
+
+</body>
+</html>
+
+
