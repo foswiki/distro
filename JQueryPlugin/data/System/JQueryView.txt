@@ -1,5 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" comment="" date="1496325739" format="1.1" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
+
 ---+!! %TOPIC%
 
 %JQPLUGINS{"view"
