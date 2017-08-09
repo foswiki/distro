@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -14,6 +14,15 @@ Foswiki uses [[skin templates]] as the basis of all the screens it uses to inter
 Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for skins that can be selected to give different, more sophisticated, look and feel. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
 
 Topic text is not affected by the choice of skin, though a skin can be defined to use a CSS (Cascading Style Sheet), which can sometimes give a radically different appearance to the text.
+
+*See other types of extensions:* [[ContributedAddOns][AddOns]], [[Contribs]], [[Plugins]]
+
+---++ Installing Skins
+
+   * Use [[%SCRIPTURLPATH{"configure"}%]] to browse or search the list of extensions available from Foswiki.org, and to install the extension.
+   * Or, use the =tools/extension_installer= script to download and install the extension.
+   * Or, download an extension package from some other source, and unzip it.
+   * Follow any special installation instructions in the Skin topic.
 
 ---++ Changing the default skin
 
@@ -300,4 +309,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1457496285" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1502239930" size="178" user="ProjectContributor" version="1"}%

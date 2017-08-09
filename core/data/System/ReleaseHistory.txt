@@ -1,10 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1496113409" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
-History of Foswiki
 %STARTINCLUDE%
 <noautolink>
 
 ---+ Appendix A: Foswiki Development Time-line
+
+The complete timeline of Foswiki Releases. Foswiki was forked from TWiki 4.2.4 and released with significant improvments as Foswiki 1.0 in January 2009.  Since then there have been 31 releases, with 2 major versions and 2 minor versions. 
 
 %TOC%
 ---++ Foswiki Release 2.1.4 - 31 May 2017
@@ -225,6 +226,8 @@ As part of the first Foswiki product release, various topics and terms were chan
      | Topic Template | Template Topic |
      | TWiki Markup Language (TML) | Topic Markup Language (TML) |
      | TWiki Application | Wiki Application |
+
+%STOPINCLUDE%
 
 #FreetownRelease 
 ---++ TWiki Release 4.2.1 (Freetown) released 22 Jan 2008
