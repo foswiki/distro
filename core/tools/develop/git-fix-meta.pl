@@ -36,6 +36,9 @@ chomp $rootdir;
 
 foreach my $f (@files) {
     if ($gitstatus) {
+        if ( ( my $pos = index( $f, '->' ) ) > 0 ) {
+            $f = substr( $f, $pos );
+        }
         chomp $f;
         $f = substr( $f, 3 );
     }
