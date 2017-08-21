@@ -447,7 +447,7 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
                     $entry .= $odate;
                 }
                 else {
-                    print STDERR "6:  Appending $today to $entry NL $line \n";
+                    #print STDERR "6:  Appending $today to $entry NL $line \n";
                     $entry .= $today . "\n" . $line;
                 }
 

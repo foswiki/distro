@@ -63,12 +63,12 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{login} = {
         package  => undef,
         function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1, sessionRequired => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{logon} = {
         package  => undef,
         function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1, sessionRequired => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{manage} = {
         package  => 'Foswiki::UI::Manage',
