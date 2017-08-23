@@ -415,7 +415,7 @@ $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 # Write debugging output to the webserver error log.
 $Foswiki::cfg{Trace}{LoginManager} = 0;
 
-# **STRING 100 LABEL="Authenticated Scripts" DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'" CHECK_ON_CHANGE="{LoginManager}" **
+# **STRING 100 LABEL="Authenticated Scripts" CHECK_ON_CHANGE="{LoginManager}" **
 # Comma-separated list of scripts in the bin directory that require the user to
 # authenticate. This setting is used with TemplateLogin; any time an
 # unauthenticated user attempts to access one of these scripts, they will be
