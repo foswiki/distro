@@ -1535,36 +1535,7 @@ sub _handleABBR    { return _flatten(@_); }
 sub _handleACRONYM { return _flatten(@_); }
 sub _handleADDRESS { return _flatten(@_); }
 
-sub _handleB {
-    my ( $this, $options ) = @_;
-    if ( $options & IN_TABLE ) {
-        if (
-            $this->{parent}
-            && (   $this->{parent}->{tag} eq 'td'
-                || $this->{parent}->{tag} eq 'th' )
-          )
-        {
-            # Item9651: Don't convert bold in a table cell into stars
-            # if the TML would be interpreted as a heading
-            my $left  = $this->{prev} ? $this->{prev}->stringify() : '';
-            my $right = $this->{next} ? $this->{next}->stringify() : '';
-            if ( "$left$right" =~ /^\s*$/ ) {
-
-                # Have to exclude ==this case== and __that case__ as
-                # they look awfully similar but don't generate table
-                # headings
-                my ( $foo, $t ) = _emphasis( @_, '*' );
-                if ( $t !~ /.*?$CHECK1(==|__).*\1$CHECK2/ ) {
-                    return ( 0, undef );
-                }
-                else {
-                    return ( $foo, $t );
-                }
-            }
-        }
-    }
-    return _emphasis( @_, '*' );
-}
+sub _handleB        { return _handleSTRONG(@_); }
 sub _handleBASE     { return ( 0, '' ); }
 sub _handleBASEFONT { return ( 0, '' ); }
 
@@ -1723,7 +1694,7 @@ sub _handleH3   { return _H( @_, 3 ); }
 sub _handleH4   { return _H( @_, 4 ); }
 sub _handleH5   { return _H( @_, 5 ); }
 sub _handleH6   { return _H( @_, 6 ); }
-sub _handleI    { return _emphasis( @_, '_' ); }
+sub _handleI    { return _handleEM(@_); }
 
 sub _handleIMG {
     my ( $this, $options ) = @_;
@@ -1964,7 +1935,37 @@ sub _handleSPAN {
 
 # STRIKE
 
-sub _handleSTRONG { return _emphasis( @_, '*' ); }
+sub _handleSTRONG {
+    my ( $this, $options ) = @_;
+
+    if ( $options & IN_TABLE ) {
+        if (
+            $this->{parent}
+            && (   $this->{parent}->{tag} eq 'td'
+                || $this->{parent}->{tag} eq 'th' )
+          )
+        {
+            # Item9651: Don't convert bold/strong in a table cell into stars
+            # if the TML would be interpreted as a heading
+            my $left  = $this->{prev} ? $this->{prev}->stringify() : '';
+            my $right = $this->{next} ? $this->{next}->stringify() : '';
+            if ( "$left$right" =~ /^\s*$/ ) {
+
+                # Have to exclude ==this case== and __that case__ as
+                # they look awfully similar but don't generate table
+                # headings
+                my ( $foo, $t ) = _emphasis( @_, '*' );
+                if ( $t && $t !~ /.*?$CHECK1(==|__).*\1$CHECK2/ ) {
+                    return ( 0, undef );
+                }
+                else {
+                    return ( $foo, $t );
+                }
+            }
+        }
+    }
+    return _emphasis( @_, '*' );
+}
 
 sub _handleSTYLE { return ( 0, '' ); }
 
