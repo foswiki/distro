@@ -649,7 +649,7 @@ function _id_ify(id) {
             $butt = $('<input type="checkbox" id="' + id + '">').appendTo($buttons);
             $butt.click(function() {
                 if ( $(this).attr("checked") ) {
-                    $ui.removeAttr("disabled");
+                    $ui.prop("disabled", false);
                     $node.removeClass("disabled");
                 } else {
                     $ui.attr("disabled", "disabled");
@@ -666,7 +666,7 @@ function _id_ify(id) {
                 $ui.attr("disabled", "disabled");
                 $node.addClass("disabled");
             } else {
-                $butt.attr("checked", "checked");
+                $butt.prop("checked", true);
             }
             $butt.appendTo($buttons);
             $("<label for='"+id+"'> enable</label>")
@@ -895,7 +895,7 @@ if (0) {
                         add_dependency(
                             entry.ENABLE_IF, $node, function($n, tf) {
                                 if (tf) {
-	                            $n.find("input,textarea").removeAttr('disabled');
+	                            $n.find("input,textarea").prop('disabled', false);
                                 } else {
 	                            $n.find("input,textarea")
                                         .attr('disabled', 'disabled');
