@@ -21,40 +21,69 @@ sub check_current_value {
     if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' )
     {
-        $reporter->WARN(
-"Configure access restrictions will not be used.  The ={LoginManager}= is set to 'none' and no access controls will be applied."
+        $reporter->ERROR(
+"Configure access restrictions will not be used.  The ={LoginManager}= is set to 'none' and no access controls will be applied.
+Clear this field, or configure a ={LoginManager}=. "
         ) if ( $Foswiki::cfg{FeatureAccess}{Configure} );
         return;
     }
 
     ( $Foswiki::cfg{FeatureAccess}{Configure} )
-      ? $reporter->NOTE('The users listedin this field have configure access.')
+      ? $reporter->NOTE('The users listed in this field have configure access.')
       : $reporter->NOTE(
 "This field is empty. Configure access is granted members of the $Foswiki::cfg{SuperAdminGroup} by default."
       );
     ( $Foswiki::cfg{Password} )
       ? $reporter->NOTE(
-        'The _internal admin_ user always has access to configure.')
-      : $reporter->NOTE('There is no _internal admin_ user configured.');
+'   * The _internal admin_ user is configured and always has access to configure.'
+      )
+      : $reporter->NOTE('   * There is no _internal admin_ user configured.');
 
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 
     while ( defined $it && $it->hasNext() ) {
-        my $admin = Foswiki::Func::getCanonicalUserID( $it->next() );
+        my $admin = $it->next();
+        my $admincUID = Foswiki::Func::getCanonicalUserID($admin) || '';
+        $admincUID =
+          ( $admincUID && $admincUID ne $admin ) ? "($admincUID)" : '';
 
         # The group members come from a data topic, which might have been
         # populated even when running in bootstrap mode. In this case there
         # will be no mapping for the user and therefore no CUID.
-        push( @admins, $admin ) if $admin;
+        push( @admins, "$admin$admincUID" ) if $admin;
     }
-    $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} contains no users and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= ).
-$Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot be used.  You should either set the _internal admin_ password, or add users to this list who are permitted to access configure."
-      )
-      if ( scalar(@admins) lt 2
+
+    if ( scalar(@admins) lt 2 ) {
+        $reporter->NOTE("   * The $Foswiki::cfg{SuperAdminGroup} is empty.");
+    }
+
+    if (   scalar(@admins) lt 2
         && !$Foswiki::cfg{Password}
-        && !$Foswiki::cfg{FeatureAccess}{Configure} );
+        && !$Foswiki::cfg{FeatureAccess}{Configure} )
+    {
+        $reporter->WARN(
+"$Foswiki::cfg{SuperAdminGroup} contains no users and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= )
+and the $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot be used. You should:
+   * set the _internal admin_ password, and/or
+   * add users to this list who are permitted to access configure, or
+   * Register and add add users to the $Foswiki::cfg{SuperAdminGroup}."
+        );
+        if ( $Foswiki::cfg{BOOTSTRAP} ) {
+            $reporter->WARN(
+"You are accessing configure while bootstrapping foswiki. Do not log out from foswiki without resovling this issue!"
+            );
+        }
+    }
+    $reporter->NOTE(
+"   * Members of $Foswiki::cfg{SuperAdminGroup} have access to configure: ="
+          . join( ', ', @admins )
+          . "= " )
+      unless ( $Foswiki::cfg{FeatureAccess}{Configure}
+        || scalar(@admins) == 1 );
+    $reporter->NOTE(
+"   * Members of the $Foswiki::cfg{SuperAdminGroup} do *not* have access to configure."
+    ) if $Foswiki::cfg{FeatureAccess}{Configure};
 
     my @Authorized = split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} );
     my $passed = '';   # Set to true if current user is allowed to use configure
@@ -62,9 +91,13 @@ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot be used.
     my $cUID    = Foswiki::Func::getCanonicalUserID();
     my $curuser = Foswiki::Func::getWikiName($cUID);
 
+    unless ( scalar @Authorized ) {
+        $passed = $Foswiki::Plugins::SESSION->{users}->isAdmin($cUID);
+    }
+
     if ( scalar @Authorized ) {
         foreach my $user (@Authorized) {
-            if ( $user eq $curuser ) {
+            if ( $user eq $curuser || $user eq $cUID ) {
                 $passed = 1;
             }
             if ( $user =~ m/Group$/ ) {
@@ -84,7 +117,7 @@ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot be used.
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

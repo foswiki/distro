@@ -77,7 +77,7 @@ HERE
         "The following scripts can be run by unauthenticated users: =$unauth=")
       if $unauth;
 
-    if ( $unauth =~ m/auth\b/ ) {
+    if ( $unauth =~ m/auth\b/ && $Foswiki::cfg{LoginManager} ne 'none' ) {
         $reporter->ERROR(
             <<"EOF"
 There are one or more *auth scripts found in $Foswiki::cfg{ScriptDir} that are missing
