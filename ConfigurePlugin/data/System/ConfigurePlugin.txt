@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491685944" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1505301976" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,6 +42,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  05 Sep 2017: | (1.09) Foswikitask:Item14472: replaced use of =attr()= with =prop()= where needed; fixed use of =null= value trying to trim values |
 |  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page.<br/>\
                          Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp |
 |  23 Jan 2017: | (1.07) Foswikitask:Item14287: Configure needs to encode reported configuration values. |
