@@ -35,7 +35,7 @@ the history of any topic changed during the installation.
 package Foswiki;
 
 # The root of package URLs
-my $PACKAGES_URL = 'http://foswiki.org/pub/Extensions';
+my $PACKAGES_URL = 'https://foswiki.org/pub/Extensions';
 
 # Establish where we are
 my @path = ( 'tools', 'extender.pl' );
