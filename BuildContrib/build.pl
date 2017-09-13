@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 unless ( scalar(@ARGV) ) {
     print <<DOC;
 Build an extension
