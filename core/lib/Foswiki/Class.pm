@@ -251,21 +251,21 @@ sub _fw_extends {
     #  " $_ descendant"
     #  foreach qw (Moo::Object Foswiki::Object);
     # SMELL Replace this if() with support of build_required flag of a modifier.
-    if (   $_classData{$target}{options}{callbacks}{use}
-        || $_classData{$target}{options}{extensible}{use} )
-    {
-
-        my $trg_ns = Foswiki::getNS($target);
-
-        # Install BUILD method if a feature requiring it requested.
-        # Otherwise feature implementation role will fail to apply cleanly.
-        #unless ( defined $trg_ns->{BUILD}
-        #    && defined *{ $trg_ns->{BUILD} }{CODE} )
-        #{
-        #    #say STDERR "Installing BUILD for $target";
-        #    install_modifier( $target, fresh => BUILD => sub { } );
-        #}
-    }
+    #if (   $_classData{$target}{options}{callbacks}{use}
+    #    || $_classData{$target}{options}{extensible}{use} )
+    #{
+    #
+    #    my $trg_ns = Foswiki::getNS($target);
+    #
+    #    # Install BUILD method if a feature requiring it requested.
+    #    # Otherwise feature implementation role will fail to apply cleanly.
+    #    unless ( defined $trg_ns->{BUILD}
+    #        && defined *{ $trg_ns->{BUILD} }{CODE} )
+    #    {
+    #        #say STDERR "Installing BUILD for $target";
+    #        install_modifier( $target, fresh => BUILD => sub { } );
+    #    }
+    #}
 
     #say STDERR "Applying roles to $target";
     __PACKAGE__->_apply_roles($target);
