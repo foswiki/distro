@@ -6,9 +6,25 @@ package Foswiki::ExtManager;
 
 ---++!! Class Foswiki::ExtManager
 
-[[https://foswiki.org/Development/OONewPluginModel][Foswiki OONewPluginModel topic]]
-could serve as a temporary explanasion of why this module extists and what
-functionality it is expected to provide.
+   : [[https://foswiki.org/Development/OONewPluginModel][Foswiki OONewPluginModel topic]]
+   could serve as a temporary explanation of why this module extists and what
+   functionality it is expected to provide.
+   
+This class is here to provide extension management for %WIKITOOLNAME%. And by
+'management' we mean every aspect of manipulation with extension loading,
+version checking, extension objects, their names, chains of calls, etc.
+
+---+++ Initialization logic
+
+An extension manager instance is not meant to be used by anything but an
+application object. It was designed to closely interact with an application
+and its life cycle.
+
+Basically, extension manager is passing two startup stages: construction
+and initialization. At construction stage (which is called so because it's
+initiated by class constructor) the manager only loads extensions by scanning
+direcotries listed in =extSubDirs= attribute and loading all .pm files it
+finds there.
 
 =cut
 
@@ -969,7 +985,7 @@ sub extName {
 
 =begin TML
 
----++ Static methods
+---+++ Static methods
 
 =cut
 
