@@ -294,7 +294,8 @@ sub _cloneData {
     if ( my $dataType = ref($val) ) {
         my $refAddr = refaddr($val);
 
-        # Check if ref has been cloned before and avoid deep recursion.
+        # Check if ref is being cloned now at some upper stack frames and avoid
+        # deep recursion.
         if ( defined $heap->{cloning_ref}{$refAddr} ) {
             Foswiki::Exception::Fatal->throw( text =>
 "Circular dependecy detected on a object being cloned for attribute $attr"
@@ -310,15 +311,23 @@ sub _cloneData {
             # Record the reference being cloned.
             $heap->{cloning_ref}{$refAddr} = $attr;
             if ( my $class = blessed($val) ) {
-                if ( $val->can('clone') ) {
+                if ( $val->isa(__PACKAGE__) ) {
+
+                    # Only Foswiki::Object descendants are expected to do valid
+                    # clone()
                     try {
                         $val->__clone_heap($heap);
                         $val->__clone_heap->{parent} = $this;
                         $cloned = $val->clone;
                     }
+                    catch {
+                        # Don't hide errors as it most likely is crucial not to
+                        # leave incomplete cloning behind.
+                        Foswiki::Exception::Fatal->rethrow($_);
+                    }
                     finally {
-                      # No matter what happens inside clone – always clear the
-                      # heap.
+                        # No matter what happens inside clone() – always clear
+                        # the heap.
                         $val->_clear__clone_heap;
                     };
                 }
@@ -701,7 +710,7 @@ descendant.
 | =strictMatch= | allow only =$className=, no decsendants | _false_ |
 | =does= | defines a role the class must do |  |
 
-Using =does= we can defined not only that the object must be, say, a
+By using =does= we can define not only that the object must be, say, a
 =Foswiki::Object= descendant but that it has to have =Foswiki::AppObject=
 applied:
 
