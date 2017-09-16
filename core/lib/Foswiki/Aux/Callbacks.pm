@@ -32,12 +32,12 @@ callback sub is been called with the following arguments:
    1 Reference to the object which is calling the callback.
    1 A list of key/value parameters.
       
-Callback parameters keys are:
+Parameter keys are:
 
 | *Param* | *Description* |
 | =data= | User data if supplied by the object which has registered this\
            callback handler. Data format determined by the registering object. |
-| =params= | Parameteres supplied by the calling object. Must be a hashref.
+| =params= | Parameteres supplied by the calling object. Must be a hashref.\
              Keys of the hash a defined by the calling class and must be\
              documented. |
 
@@ -83,9 +83,9 @@ object stuck in the memory.
       
 A named callback may have more than one handler. In this case all handlers are
 executed in the order they were registerd. Their return values are disrespecred.
-If a handler wants to be the last it must raise =Foswiki::Exception::Ext::Last=
-exception. If set, exception's =rc= attribute contains what is returned by
-=callback()= method then.
+If a handler wants to be the last in the calling sequence it must raise
+=Foswiki::Exception::Ext::Last= exception. If set, exception's =rc= attribute
+contains what is returned by =callback()= method then.
 
 If a callback handler raises any other exception besides of
 =Foswiki::Exception::Ext::*= then that exception is rethrown further up the call
@@ -211,9 +211,9 @@ sub _guessCallbackName {
 
 ---++ ObjectMethod callbacksInit()
 
-This method is virtual. Can be overriden by classes to which this role has been
-applied. It is guaranteed to be called before any actual callback is called by
-an object of the class.
+Virtual method. Can be overriden by classes to which this role has been applied.
+It is guaranteed to be called before any actual callback is called by an object
+of the class.
 
 =cut
 
@@ -291,6 +291,9 @@ sub deregisterCallback {
 =begin TML
 
 ---++ ObjectMethod callback($name, \%params)
+
+Execute a callback defined by =$name=. Reference to =%params= is passed over
+to registered callback subs in =params= profile key.
 
 =cut
 
