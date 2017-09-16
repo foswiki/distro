@@ -226,7 +226,7 @@ has env => (
 
 ---+++ ObjectAttribute extMgr
 
-Extensions manager object, a instance of =Foswiki::ExtMgr=.
+Extensions manager object, a instance of =Foswiki::ExtManager=.
 
 =cut
 
