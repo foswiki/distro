@@ -45,7 +45,7 @@ my %def;
 $def{MODULE} = $ARGV[0];
 usage() unless $def{MODULE};
 
-$def{MODULE} =~ /^.*?(Plugin|Contrib|Skin|AddOn)$/;
+$def{MODULE} =~ /^.*?(Plugin|Contrib|Skin|AddOn|Extension)$/;
 $def{TYPE} = $1;
 usage() unless $def{TYPE};
 
