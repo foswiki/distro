@@ -100,6 +100,7 @@ has cookies => (
     reader  => 'getCookies',
     writer  => 'setCookies',
 );
+
 has status => (
     is      => 'rw',
     default => 200,
@@ -110,6 +111,7 @@ has status => (
         $_[0] =~ m/^(\d{3})/ ? int($1) : undef;
     },
 );
+
 has headers => (
     is      => 'rw',
     lazy    => 1,

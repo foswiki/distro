@@ -4,13 +4,13 @@ package Foswiki::Extension::Empty;
 
 =begin TML
 
----+ Class Foswiki::Extension::Empty
+---+!! Class Foswiki::Extension::Empty
 
 This is a template module demostrating basic functionality provided by %WIKITOOLNAME%
 extensions framework.
 
-__NOTE:__ This documention is yet incomplete for now and only focused on
-documenting key parts of the new Extensions model.
+__NOTE:__ This document is incomplete for the moment and only focuses on key
+details of the new Extensions model.
 
 =cut
 
@@ -21,40 +21,42 @@ extends qw(Foswiki::Extension);
 
 ---++ The Ecosystem
 
-Extensions exists as a list of objects managed by =Foswiki::App= =extensions=
-attribute which is actually an object of =Foswiki::ExtManager= class. The latter
+Extensions exist as a list of objects managed by =Foswiki::App= =extMgr=
+attribute which is an instance of =Foswiki::ExtManager= class. The latter
 provides API for extension manipulation routines like loading and registering an
-extension; registering extension's components like overriding methods or
-classes; find an extenion object by name; etc.
+extension; registering extension's components; find an extenion object by name;
+etc.
 
-An extension should be registered in =Foswiki::Extension= namespace. I.e. if we
-create a =Sample= extension then its full name would be
+An extension should be registered in =Foswiki::Extension::= namespace. I.e. if
+we create a =Sample= extension then its full name would be
 =Foswiki::Extension::Sample=. Though this rule is not strictly imposed but it
 comes in handy when one wants to refer to an extension by its short name. The
-extension manager uses string stored in its =extPrefix= read only attribute to
-form an extension full name; by default the attribute is initialized with
-=Foswiki::Extension= string and there is no legal way to change it during
-application's life cycle.
+manager uses string stored in its =extPrefix= read only attribute to form an
+extension's full name; by default the attribute is initialized with
+_'Foswiki::Extension'_ string and there is no legal way to change it in a course
+of application's life cycle.
 
 It is also mandatory for an extension class to subclass =Foswiki::Extension=.
-The manager would reject a class registration if this rule is broken.
+The manager would refuse registration if this rule is broken.
 
 #SingleExtSet
 At any given moment of time there is only one active set of extensions
-accessible via the application's =extensions= attribute. It means that if there
-is a registered =Sample= extension then whenever we a ask for the extension's
-object then we can be sure that there is no more than signle active one exists.
-This is an important rule for some of [[#ExportedSubs][exported subroutines]].
+accessible via an application's =extMgr= attribute. It means that if the
+=Sample= extension is registered then whenever we query for its object it is
+guaranteed that there is no more than signle active one exists per application.
+This rule is important for some of [[#ExportedSubs][exported subroutines]].
 
 =Foswiki::ExtManager= module has its own =$VERSION= global var. It represents
-%WIKITOOLNAME% API version and is used to check an extension compatibility.
+%WIKITOOLNAME% API version and is used to check for extension compatibility.
 
----++ Extensions loading
+---++ Loading
 
-Upon startup the extensions object created by the application scans a directory
-(usually it is _$ENV{FOSWIKI_HOME}/lib/Foswiki/Extension_ but additional subdirs
-can be defined by FOSWIKI_EXTLIBS environment variable) for =.pm= files and
-tries to load them all in the order as returned by Perl =readdir()= function.
+Upon startup the extension manager scans a directory (usually it is
+_$ENV{FOSWIKI_HOME}/lib/Foswiki/Extension_ but additional subdirs can be defined
+by FOSWIKI_EXTLIBS environment variable) for =.pm= files and tries to load them
+all in the order as returned by Perl =readdir()= function.
+
+More information could be found in =Foswiki::ExtManager= documentation.
 
 ---++ Starting a new extension module
 

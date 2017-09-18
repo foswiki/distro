@@ -4,7 +4,7 @@ package Foswiki::ExtManager;
 
 =begin TML
 
----++!! Class Foswiki::ExtManager
+---+!! Class Foswiki::ExtManager
 
    : [[https://foswiki.org/Development/OONewPluginModel][Foswiki OONewPluginModel topic]]
    could serve as a temporary explanation of why this module extists and what
@@ -14,17 +14,53 @@ This class is here to provide extension management for %WIKITOOLNAME%. And by
 'management' we mean every aspect of manipulation with extension loading,
 version checking, extension objects, their names, chains of calls, etc.
 
----+++ Initialization logic
+---++ Initialization Stages And Logic
 
 An extension manager instance is not meant to be used by anything but an
 application object. It was designed to closely interact with an application
 and its life cycle.
 
-Basically, extension manager is passing two startup stages: construction
-and initialization. At construction stage (which is called so because it's
-initiated by class constructor) the manager only loads extensions by scanning
-direcotries listed in =extSubDirs= attribute and loading all .pm files it
-finds there.
+Basically, extension manager is passing through two startup stages: construction
+and initialization.
+
+---+++ Construction Stage
+
+At the construction stage (which is called so because it's initiated by class
+constructor) the manager only loads extensions by scanning direcotries listed in
+=extSubDirs= attribute and loading all _.pm_ files it finds there. The order of
+files (and thus the order of extensions) in not relevant here and depends on how
+=IO::Dir= =read()= method works.
+
+Upon loading an extension module register (or declare – particular term depends
+on a point of view) it's components or attributes like method or callback
+handlers, subclasses, order in the execution chain (before or after another
+extension), etc. All this could either be done either by direct reference to
+extension manager's =register*()= family of statuc methods; or, preferably, by
+using subroutines exported by =Foswiki::Class= module when =extension= modifier
+is used as a =Foswiki::Class= parameter (see =Foswiki::Extension::Empty= for
+code examples).
+
+*Important!* It has to be understood that after this stage is completed
+extensions are only registered with the core code. The information obtained is
+later used to correctly order and initialize exetensions and setup some
+extension manager's internals. More than that, because Perl can only load a
+module once (which is pretty understandable) over it's run cycle an extension
+has only a single chance of registering itself. This fact becomes especially
+significant in PSGI or any other similar environment with shared codebase where
+all ever created instances of applications (and their respective extension
+managers, of course) share the very same collection of loaded and registered
+extension modules. And it's still possible that a newly installed extension
+could be loaded after its counterparts by a different application instance and
+it would still work as expected.
+
+---+++ Initialization Stage
+
+This is when extensions are actually created. This stage is somewhat differs
+from the construction stage in a way that it has to be initiated by some extenal
+force. Most commonly this force is the application code which knows exactly
+the point when it needs the extensions.
+
+... To be continued ...
 
 =cut
 
@@ -71,6 +107,12 @@ our %plugMethods;         # Extension registered plug methods.
 
 # --- END of static data declarations
 
+=begin TML
+
+---++ Attributes
+
+=cut
+
 has extensions => (
     is      => 'rw',
     lazy    => 1,
@@ -85,7 +127,7 @@ has extSubDirs => (
 
 =begin TML
 
----++ ObjectAttribute extPrefix => string
+---+++ ObjectAttribute extPrefix => string
 
 Extension modules name prefix. Used by =normalizeExtName()= method and for locating extension by their =.pm= files.
 
@@ -100,7 +142,7 @@ has extPrefix => (
 
 =begin TML
 
----++ ObjectAttribute dependecies => hashref
+---+++ ObjectAttribute dependecies => hashref
 
 Keys: extension module names
 Values: list of extensions modules required by the key's module.
@@ -115,7 +157,7 @@ has dependencies => (
 
 =begin TML
 
----++ ObjectAttribute orderedList => arrayref
+---+++ ObjectAttribute orderedList => arrayref
 
 List of extensions presorted to confirm with their dependencies.
 
@@ -130,7 +172,7 @@ has orderedList => (
 
 =begin TML
 
----++ ObjectAttribute registeredClasses => hashref
+---+++ ObjectAttribute registeredClasses => hashref
 
 Map of core classes into list of overriding subclasses.
 
@@ -164,6 +206,12 @@ has disabledExtensions => (
     clearer => 1,
     builder => 'prepareDisabledExtensions',
 );
+
+=begin TML
+
+---++ Methods
+
+=cut
 
 sub BUILD {
     my $this = shift;
@@ -218,7 +266,7 @@ sub isBadVersion {
 
     if (@featArray) {
 
-        # When @FS_REQUIRED is present we don't check API_VERSION as demand of
+        # When @FS_REQUIRED is present we don't check API_VERSION as demand for
         # features is more specific and more precise.
         my @fs_required = Foswiki::fetchGlobal( '@' . $featArray[0] );
 
@@ -595,7 +643,7 @@ sub prepareExtSubDirs {
 
 =begin TML
 
----++ ObjectMethod disableExtension( $extName, $reason )
+---+++ ObjectMethod disableExtension( $extName, $reason )
 
 Marks extension =$extName= as disable because of =$reason=.
 
@@ -628,7 +676,7 @@ sub disableExtension {
 
 =begin TML
 
----++ ObjectMethod mapClass($class) => $replacement
+---+++ ObjectMethod mapClass($class) => $replacement
 
 Maps a core class name into replacement class name.
 
@@ -646,7 +694,7 @@ sub mapClass {
 
 =begin TML
 
----++ ObjectMethod prepareDisabledExtensions => \%disabled
+---+++ ObjectMethod prepareDisabledExtensions => \%disabled
 
 Returns extensions disabled for this installation or host. %disabled hash keys
 are extension names, values are text reasons for disabling the extension.
@@ -985,7 +1033,7 @@ sub extName {
 
 =begin TML
 
----+++ Static methods
+---++ Static Methods
 
 =cut
 
@@ -1026,11 +1074,11 @@ sub registerExtCallback {
       };
 }
 
+# TODO Rename deps (dependencies) into something order-related as extBefore
+# and extAfter shall only declare wishful order. For real dependecies more
+# strict extRequire must be introduced.
 sub registerDeps {
     my $extModule = shift;
-
-    #say STDERR "Registering dependencies for module ", $extModule, ":",
-    #  join( ",", @_ );
 
     push @{ $extDeps{$extModule} }, @_;
 }
