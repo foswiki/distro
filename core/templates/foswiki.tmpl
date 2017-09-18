@@ -72,6 +72,7 @@ but may be used in derived templates.
 #PageTop %TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"bodyend"}%</div>
+%RENDERZONE{"body"}%
 </body></html>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"broadcastmessage"}%%IF{"defined FOSWIKI_BROADCAST and $FOSWIKI_BROADCAST != ''" then="$percntTMPL:P{$quotbroadcastmessage:system$quot}$percnt"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
