@@ -200,7 +200,7 @@ sub INCLUDE {
                                 if ( my $classList =
                                     $modInfo{$pkgName}{$baseType} )
                                 {
-                                    $pod .= "|*$baseText*|"
+                                    $pod .= "|  *$baseText*|"
                                       . join(
                                         ", ",
                                         map { "=" . _doclink( $app, $_ ) . "=" }
