@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1450471494" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1505759671" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERZONE - render the content of a zone
 Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
@@ -29,10 +29,11 @@ Supports the [[FormatTokens][standard format tokens]] in all parameters.
 
 %H% Zones are cleared after being rendered; they are only ever rendered once.
 
-%H% =head= and =script= are _automatic zones_. They don't require a
-     corresponding =RENDERZONE= anywhere in the templates - they are
+%H% =head=, =script= and =body= are _default zones_. The corresponding =RENDERZONE=
+     is already included in the base =foswiki.tmpl=. =head= and =script= are
      automatically inserted before the =&lt;/head&gt;= tag in the output HTML
-     page.
+     page.  =body= is automatically inserted before the =&lt;/body&gt;= tag in
+     the output HTML page.
 
 %H% Macros will be expanded in all zones.  TML markup will not be expanded
      in the =head= and =scripts= zones.  Any formatting in =head= and =scripts= zones
