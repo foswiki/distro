@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1493139302" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1505530510" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -156,7 +156,8 @@ See http://foswiki.org/Tasks/TinyMCEPlugin and http://foswiki.org/Tasks/WysiwygP
                 &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |             | This package also includes a complete release of the !TinyMCE editor which is covered by the [[https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html][GNU Lesser General Public License, Version 2.1] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.00 | Foswikitask:Item14323: Upgrade to TinyMCE 4.5.3, much simplified UI, full unicode support |
+|  2.01 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.6. Support for IE 8-10 is removed. |
+|  2.00 | Foswikitask:Item14323: Upgrade to TinyMCE 4.5.3, much simplified UI, full unicode support. |
 |  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
 |  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
 |  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
@@ -272,23 +273,23 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="wysiwyg.css.gz" attr="h" comment="" date="1493139302" size="390" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.uncompressed.js" attr="h" comment="" date="1493139302" size="18556" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_hidden_verbatim.gif" attr="h" comment="" date="1493139302" size="1654" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermarks.psd" attr="h" comment="" date="1493139302" size="427691" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_literal.gif" attr="h" comment="" date="1493139302" size="1029" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_protect_on_save.gif" attr="h" comment="" date="1493139302" size="1492" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.uncompressed.js" attr="h" comment="" date="1493139302" size="4233" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.js.gz" attr="h" comment="" date="1493139302" size="2625" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wysiwyg_src.css" attr="h" comment="" date="1493139302" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_verbatim.gif" attr="h" comment="" date="1493139302" size="1181" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wysiwyg.css" attr="h" comment="" date="1493139302" size="827" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1493139302" size="30118" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_hidden.gif" attr="h" comment="" date="1493139302" size="950" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" date="1493139302" size="1847" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" date="1493139302" size="869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="watermark_protect_forever.gif" attr="h" comment="" date="1493139302" size="1494" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot" date="1493139302" size="35155" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1493139302" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_tiny.js" attr="h" comment="" date="1493139302" size="8435" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1493139302" size="147" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg.css.gz" attr="h" comment="" date="1505530510" size="390" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.uncompressed.js" attr="h" comment="" date="1505530510" size="18556" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden_verbatim.gif" attr="h" comment="" date="1505530510" size="1654" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermarks.psd" attr="h" comment="" date="1505530510" size="427691" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_literal.gif" attr="h" comment="" date="1505530510" size="1029" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_on_save.gif" attr="h" comment="" date="1505530510" size="1492" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.uncompressed.js" attr="h" comment="" date="1505530510" size="4233" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js.gz" attr="h" comment="" date="1505530510" size="2625" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg_src.css" attr="h" comment="" date="1505530510" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_verbatim.gif" attr="h" comment="" date="1505530510" size="1181" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg.css" attr="h" comment="" date="1505530510" size="827" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1505530510" size="30118" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden.gif" attr="h" comment="" date="1505530510" size="950" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" date="1505530510" size="1847" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" date="1505530510" size="869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_forever.gif" attr="h" comment="" date="1505530510" size="1494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h"  date="1505530510" size="35155" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1505530510" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js" attr="h" comment="" date="1505530510" size="8435" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1505530510" size="147" user="ProjectContributor" version="1"}%
