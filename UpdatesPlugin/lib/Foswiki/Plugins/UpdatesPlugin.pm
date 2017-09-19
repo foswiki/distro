@@ -37,11 +37,12 @@ sub initPlugin {
       && ( $context->{view} || $context->{rest} );
 
     my $request = Foswiki::Func::getRequestObject();
-    my $cookie;
+    my $outdatedPlugins;
+    $outdatedPlugins = $request->cookie("FOSWIKI_UPDATESPLUGIN") unless TRACE;
 
-    $cookie = $request->cookie("FOSWIKI_UPDATESPLUGIN") unless TRACE;
-
-    return 1 if defined($cookie) && $cookie <= 0;    # 0: DoNothing
+    return 1
+      if defined($outdatedPlugins)
+      && scalar( split( /\s*,\s*/, $outdatedPlugins ) ) <= 0;    # 0: DoNothing
 
     Foswiki::Func::readTemplate("updatesplugin");
 
