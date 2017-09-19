@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1497953719" format="1.1"  version="1"}%
-%META:TOPICPARENT{name="ReleaseHistory"}%
+%META:TOPICINFO{author="ProjectContributor" date="1505814092" format="1.1"  version="1"}%
+META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.4
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
@@ -80,6 +80,16 @@ A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will a
 However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+---++ Important changes in Foswiki 2.1.5
+
+---+++ New zone added as a default zone.
+
+The =body= zone has been added as a default zone.  It is rendered at the end
+of the body, just before the =&lt;body&gt= tag.  This improves compatibity of PatternSkin with Foswiki:Extensions.NatSkin. A number of extensions released for !NatSkin will not
+function correctly without this zone.   No changes are required unless you
+have replaced the =foswiki.tmpl= or =foswiki.pattern.tmpl= with a local
+version.
 
 ---++ Important changes in Foswiki 2.1.3
 
