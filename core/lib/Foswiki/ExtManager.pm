@@ -440,18 +440,6 @@ sub loadExtensions {
 sub initialize {
     my $this = shift;
 
-    # Register macro tag handlers for enabled extensions.
-    foreach my $tag ( keys %{ $extTags{tags} } ) {
-        my $tagData = $extTags{tags}{$tag};
-        if ( $this->extEnabled( $tagData->{extension} ) ) {
-
-            # Store back mapping for later clean up.
-            push @{ $extTags{exts}{ $tagData->{extension} }{tags} }, $tag;
-            my $handler = $tagData->{class} // $tagData->{extension};
-            $this->app->macros->registerTagHandler( $tag, $handler );
-        }
-    }
-
     # Register callback handlers for enabled extensions.
     foreach my $cbName ( keys %extCallbacks ) {
         foreach my $cbInfo ( @{ $extCallbacks{$cbName} } ) {
@@ -466,6 +454,20 @@ sub initialize {
             $this->registerCallback( $cbName, \&_cbDispatch, $cbData );
         }
     }
+
+    # Register macro tag handlers for enabled extensions.
+    foreach my $tag ( keys %{ $extTags{tags} } ) {
+        my $tagData = $extTags{tags}{$tag};
+        if ( $this->extEnabled( $tagData->{extension} ) ) {
+
+            # Store back mapping for later clean up.
+            push @{ $extTags{exts}{ $tagData->{extension} }{tags} }, $tag;
+            my $handler = $tagData->{class} // $tagData->{extension};
+            $this->app->macros->registerTagHandler( $tag, $handler );
+        }
+    }
+
+    $this->app->enterContext('extensionsInitialized');
 }
 
 sub deregisterExtension {
