@@ -745,11 +745,12 @@ $Foswiki::cfg{AuthRealm} =
 # mod_perl. This option is not compatible with =plain= text passwords.
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
-# **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
+# **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 max:99 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
 # Specify the cost that should be incurred when computing the hash of a
 # password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256
-# iterations.
+# iterations.  *CAUTION* Larger values than 10 or 12 (1024 and 4096 iterations)
+# can require extreme amounts of CPU time.
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
 # **PASSWORD LABEL="Internal Admin Password" CHECK_ON_CHANGE="{FeatureAccess}{Configure}" CHECK="also:{FeatureAccess}{Configure}" ONSAVE**
