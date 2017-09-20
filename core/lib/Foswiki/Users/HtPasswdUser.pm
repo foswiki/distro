@@ -638,6 +638,10 @@ sub encrypt {
             return 0;
         }
 
+        my $cost = $Foswiki::cfg{Htpasswd}{BCryptCost};
+        $cost = 8 unless defined $cost;
+        $cost = sprintf( "%02d", $cost );
+
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
@@ -657,7 +661,7 @@ sub encrypt {
             $salt =
               Crypt::Eksblowfish::Bcrypt::en_base64(
                 Foswiki::encode_utf8($salt) );
-            $salt = '$2a$08$' . $salt;
+            $salt = '$2a$' . $cost . '$' . $salt;
         }
         $salt = substr( $salt, 0, 29 );
         return Crypt::Eksblowfish::Bcrypt::bcrypt(
@@ -976,7 +980,7 @@ sub findUserByEmail {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
