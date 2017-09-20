@@ -131,6 +131,12 @@ my %_cbNameIndex;
 
 use Moo::Role;
 
+=begin TML
+
+---++ Methods
+
+=cut
+
 around BUILD => sub {
     my $orig = shift;
     my $this = shift;
@@ -209,7 +215,7 @@ sub _guessCallbackName {
 
 =begin TML
 
----++ ObjectMethod callbacksInit()
+---+++ ObjectMethod callbacksInit()
 
 Virtual method. Can be overriden by classes to which this role has been applied.
 It is guaranteed to be called before any actual callback is called by an object
@@ -222,7 +228,7 @@ sub callbacksInit {
 
 =begin TML
 
----++ ObjectMethod registerCallback($name, $fn, $userData)
+---+++ ObjectMethod registerCallback($name, $fn, $userData)
 
 Adds coderef =$fn= to the list of registered handlers of callback =$name=.
 
@@ -290,7 +296,7 @@ sub deregisterCallback {
 
 =begin TML
 
----++ ObjectMethod callback($name, \%params)
+---+++ ObjectMethod callback($name, \%params)
 
 Execute a callback defined by =$name=. Reference to =%params= is passed over
 to registered callback subs in =params= profile key.
@@ -361,7 +367,7 @@ sub callback {
 
 =begin TML
 
----++ StaticMethod registerCallbackNames($namespace, @cbNames)
+---+++ StaticMethod registerCallbackNames($namespace, @cbNames)
 
 Registers callback names on name space =$namespace=. Called by =Foswiki::Class=
 exported =callback_names=.

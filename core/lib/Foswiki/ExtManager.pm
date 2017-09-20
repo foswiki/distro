@@ -26,23 +26,23 @@ and initialization.
 ---+++ Construction Stage
 
 At the construction stage (which is called so because it's initiated by class
-constructor) the manager only loads extensions by scanning direcotries listed in
+constructor) the manager only loads extensions by scanning directories listed in
 =extSubDirs= attribute and loading all _.pm_ files it finds there. The order of
 files (and thus the order of extensions) in not relevant here and depends on how
 =IO::Dir= =read()= method works.
 
-Upon loading an extension module register (or declare – particular term depends
-on a point of view) it's components or attributes like method or callback
-handlers, subclasses, order in the execution chain (before or after another
-extension), etc. All this could either be done either by direct reference to
-extension manager's =register*()= family of statuc methods; or, preferably, by
+Upon loading an extension module registers (or declares – particular term
+depends on a point of view) it's components or attributes like methods or
+callback handlers, subclasses, order in the execution chain (before or after
+another extension), etc. All this could either be done by direct reference to
+extension manager's =register*()= family of static methods; or, preferably, by
 using subroutines exported by =Foswiki::Class= module when =extension= modifier
 is used as a =Foswiki::Class= parameter (see =Foswiki::Extension::Empty= for
 code examples).
 
 *Important!* It has to be understood that after this stage is completed
 extensions are only registered with the core code. The information obtained is
-later used to correctly order and initialize exetensions and setup some
+later used to correctly order and initialize extensions and setup some
 extension manager's internals. More than that, because Perl can only load a
 module once (which is pretty understandable) over it's run cycle an extension
 has only a single chance of registering itself. This fact becomes especially
@@ -55,12 +55,66 @@ it would still work as expected.
 
 ---+++ Initialization Stage
 
-This is when extensions are actually created. This stage is somewhat differs
-from the construction stage in a way that it has to be initiated by some extenal
-force. Most commonly this force is the application code which knows exactly
-the point when it needs the extensions.
+This is when extensions are actually created. This stage is somewhat different
+from the construction stage in a way that it has to be initiated by some
+external force. Most commonly this force is the application code which knows the
+exact moment when it needs the extensions.
 
-... To be continued ...
+While initialization code itself is only responsible for registering callbacks
+and tag handlers, it may initiate a number of other preparatory actions like
+building the ordered list of extensions and creating their corresponding
+instances. Those actions are performed by lazy attribute builders. Their order
+is not guaranteed and depends on core code implementation.
+
+Upon finishing this stage the extension manager sets global application context
+*extensionsInitialized*. Only when this context is active it is guaranteed that
+the extensions infrastructure is completely prepared and ready to serve. Until
+then any code trying to use it finds itself in a grey zone with no warranties
+but with a number of ways to shoot itself into foot...
+
+---+++ Extensions Ordering
+
+Most of the time the order of extensions plays no role in their functionality.
+But 'most' doesn't mean 'always' and it is possible for an extension, say, named
+_Ext1_ to declare that it needs to be called after another one named _Ext2_.
+This is done by exported subroutines =extAfter= and =extBefore= which accept
+lists of extension names. Note that =extBefore= is nothing special but just
+another way to write =extAfter=. I.e.:
+
+<verbatim>
+package Foswiki::Extension::Ext1;
+extBefore qw<Ext2>;
+</verbatim>
+
+is equivalent to:
+
+<verbatim>
+package Foswiki::Extension::Ext2;
+extAfter qw<Ext1>;
+</verbatim>
+
+But as long as _Ext1_ can't neither politely ask nor сompel _Ext2_ to declare
+this order for him without using a hack, =extBefore= remains the only legal way
+to accomplish the task. Still it's better to remember that internally extension
+manager know nothing about _'before'_ but only operates with _'after'_.
+
+Information about extension ordering is being collected during the construction
+stage and is used upon preparing the =orderedList= attribute. To rearrange the
+list of extensions topological sorting algorithm is used. If a circular
+dependency is encountered in a chain of extension dependencies, the whole chain
+is disabled. (See the note below)
+
+*NOTE:* Currently =extAfter= and =extBefore= are considered as 'dependencies'.
+It means that if for a reason _Ext2_ is disabled then _Ext1_ depending on it
+will be disabled too. This behavior is temporary and is a subjuect to change
+making these two subs used for merely declaring the order and nothing else.
+Another sub is to be introduced to declare requirements – something with a name
+=extRequire= or alike. The change would also change the described above circular
+dependency resolving approach. In particular, it is expected that for
+non-dependency order declarations detection of circularity will not disable
+involved extensions but will only generate a warning and leave them in the order
+they were at the detection moment. But the particular solution is still to be
+considered and discussed.
 
 =cut
 
@@ -1106,7 +1160,7 @@ sub registerPluggable {
         sub {
             my $obj = shift;
 
-            # Avoid autovivification of the extensions object.
+            # Avoid auto-vivification of the extensions object.
             if ( $obj->_has__appObj && $obj->__appObj->has_extMgr ) {
                 return $obj->__appObj->extMgr->_callPluggable(
                     $target,
