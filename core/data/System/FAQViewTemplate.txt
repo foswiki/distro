@@ -1,19 +1,24 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1505958329" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FAQForm"}%
-%{<verbatim class="tml">
-===================================================
-	FAQ topic templates	
-===================================================
-}%%{
----------------------------------------------------
-	Include the default view templates from your current SKIN and COVER paths
----------------------------------------------------
-}%%TMPL:INCLUDE{"view"}%%{
----------------------------------------------------
-    Override the content template DEFinition. This normally just contains %TEXT%,
-    but we add some more here to help decorate all the [[FAQForm]] topics in the
-    same way
----------------------------------------------------
+%{
+---+ FAQ topic templates
+This skin template is used to view FAQ questions and answers. It overrides the
+content portion of the default view template, and removes the normal form
+display, as the FAQForm data is included in the content.
+
+<div class="foswikiHelp">%T% See %SYSTEMWEB%.SkinTemplates for more
+information on this topic. The extraneous characters: =%<nop>{...}<nop>%= are
+interpreted as comments when this topic is processed as a template.</div>
+
+Include the default view templates from your current SKIN and COVER paths
+<verbatim class="tml">
+}%
+%TMPL:INCLUDE{"view"}%%{
+</verbatim>
+Override the content template DEFinition. This normally just contains %TEXT%,
+but we add some more here to help decorate all the [[FAQForm]] topics in the
+same way.
+<verbatim class="tml">
 }%%TMPL:DEF{"content"}%
 ---+ Question: %FORMFIELD{"TopicSummary"}%
 ---++ Answer
@@ -22,13 +27,10 @@
 *Back to:* [[%SYSTEMWEB%.%FORMFIELD{"TopicClassification"}%][%FORMFIELD{"TopicClassification"}%]]
 ----
 *Related Topics:* %FORMFIELD{"RelatedTopics"}%%TMPL:END%%{
----------------------------------------------------
-    Re-define the form DEFinition to be empty; the contents of the from data
-    have already been displayed above so it wouldn't make much sense to show all
-    that again at the bottom of each [[FAQForm]] topic
----------------------------------------------------
+</verbatim>
+Re-define the form DEFinition to be empty; the contents of the from data
+have already been displayed above so it wouldn't make much sense to show all
+that again at the bottom of each [[FAQForm]] topic.
+<verbatim class="tml">
 }%%TMPL:DEF{"form"}%%TMPL:END%%{
-===================================================
 </verbatim>}%
-
-%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
