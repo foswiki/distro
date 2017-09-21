@@ -72,6 +72,7 @@ the extensions infrastructure is completely prepared and ready to serve. Until
 then any code trying to use it finds itself in a grey zone with no warranties
 but with a number of ways to shoot itself into foot...
 
+#ExtOrdering
 ---+++ Extensions Ordering
 
 Most of the time the order of extensions plays no role in their functionality.
@@ -104,17 +105,69 @@ list of extensions topological sorting algorithm is used. If a circular
 dependency is encountered in a chain of extension dependencies, the whole chain
 is disabled. (See the note below)
 
-*NOTE:* Currently =extAfter= and =extBefore= are considered as 'dependencies'.
-It means that if for a reason _Ext2_ is disabled then _Ext1_ depending on it
-will be disabled too. This behavior is temporary and is a subjuect to change
-making these two subs used for merely declaring the order and nothing else.
-Another sub is to be introduced to declare requirements – something with a name
-=extRequire= or alike. The change would also change the described above circular
-dependency resolving approach. In particular, it is expected that for
+*NOTE:* Currently =extAfter= and =extBefore= are been considered 'dependencies'.
+It means that if for a reason _Ext2_ is disabled then _Ext1_, which is depending
+on it, will be disabled too. This behavior is temporary and is a subjuect to
+change making these two subs used for merely declaring the order and nothing
+else. Another sub is to be introduced to declare requirements – something with a
+name =extRequire= or alike. The change would also change the described above
+circular dependency resolving approach. In particular, it is expected that for
 non-dependency order declarations detection of circularity will not disable
 involved extensions but will only generate a warning and leave them in the order
 they were at the detection moment. But the particular solution is still to be
 considered and discussed.
+
+#ApiCompatibility
+---+++ API Compatibility
+
+Upon building a list of disabled extensions the manager tests their API
+compatibility. The following conditions are to be met to declare an extension
+compatible:
+
+   1 It is a subclass of =Foswiki::Extension=
+   1 Its module defines either =$API_VERSION= or =@FS_REQUIRED=
+   1 Features required by the module (as defined in =@FS_REQUIRED=) are provided
+   either by the core or by specified namespaces (see =Foswiki::FeatureSet=)
+   1 If no =@FS_REQUIRED= is found then the requested API version in
+   =$API_VERSION= is tested to fall into inclusive range from
+   =$Foswiki::ExtManager::MIN_VERSION= to =$Foswiki::ExtManager::VERSION=.
+   
+The =@FS_REQUIRED= is a simple list of strings where each string is either a
+feature name or two strings together define a namespace in a form of
+=-namespace= option:
+
+<verbatim>
+package Foswiki::Extension::SampleExtension;
+
+our @FS_REQUIRED = qw<MOO UNICODE -namespace Ext::OtherExtension FEAT1 FEAT2>;
+</verbatim>
+
+In the example above the extension requests the core to support MOO and UNICODE
+features; and the extension _OtherExtension_ to support FEAT1 and FEAT2. If any
+of the above is not true then compatibility check fails and the
+_SampleExtension_ will be disabled. A possible cause to fail could be, for
+instance, an older version of _OtherExtension_ installed in the system which
+doesn't support =FEAT2= yet. Or the core has moved on and switched to a
+different OO framework making the =MOO= feature gone.
+
+Use of feature sets is highly recommended versus use of =$API_VERSION= because
+of its flexibility. In some cases an abandoned extension could be very important
+for a particular %WIKITOOLNAME% installation. It could still be compatible with
+some newer core version even though it's declared API version falls short
+matching =$Foswiki::ExtManager::MIN_VERSION=. This is a very possible situation
+as some rarely used core feature could be considered useless or harmfull and
+removed causing a bump to the =$MIN_VERSION= value. But the old extension never
+used the feature and thus it's still compatible with the new core! Usually this
+could be fixed by corresponding increase to the extension's =$API_VERSION=. But
+then again, how could we know if it's not using another core functionality which
+is not there anymore? And remember that depending on the importance and
+particular functionality of that old extension its failure might result in
+severe data corruption.
+
+This is why feature sets provide better solution to the problem. And even more,
+as this framework supports a feature deprecation cycle, further core development
+may provide %WIKITOOLNAME% users with warnings on those extensions which are
+relying upon soon to be removed functionality.
 
 =cut
 
@@ -167,11 +220,43 @@ our %plugMethods;         # Extension registered plug methods.
 
 =cut
 
+=begin TML
+
+---+++ ObjectAttribute extensions => hashref
+
+Mapping of extension names into extension objects.
+
+Lazy, builder creates the objects.
+
+=cut
+
 has extensions => (
     is      => 'rw',
     lazy    => 1,
     builder => 'prepareExtensions',
 );
+
+=begin TML
+
+---+++ ObjectAttribute extSubDirs => arrayref
+
+List of *library* paths where to look for extensions. Those are not ultimate as
+full name of directories where extensions are actually being located is formed
+using =extPrefix= attribute. For example, with it's default _Foswiki::Extension_
+value a library path _/usr/local/www/foswiki/lib_ would be used to make the full
+form _/usr/local/www/foswiki/lib/Foswiki/Extension_ – and  this is where the
+manager is expecting to find extensions.
+
+Lazy, builder uses the following sources to set the attribute (next one is used
+if none of the previous is set):
+
+   1 =FOSWIKI_EXTLIBS= environment variable. Multiple paths are supported,
+   separated by colon.
+   1 =FOSWIKI_LIBS= environment variable.
+   1 Full path to _Foswiki.pm_ from =%INC= hash is used to guess the correct
+   library path.
+
+=cut
 
 has extSubDirs => (
     is      => 'rw',
@@ -183,9 +268,16 @@ has extSubDirs => (
 
 ---+++ ObjectAttribute extPrefix => string
 
-Extension modules name prefix. Used by =normalizeExtName()= method and for locating extension by their =.pm= files.
+Extension modules name prefix. Used by =normalizeExtName()= method and for
+locating extension by their =.pm= files.
 
-Default: Foswiki::Extension.
+*Default:* _Foswiki::Extension_
+
+*Example:* if an extension is referred by its short name _Ext1_ then internaly
+it will be normalized and the full form _Foswiki::Extension::Ext1_ will be used.
+
+*NOTE:* Changing this attribute will most likely break loading of standard
+extensions. Though it could be useful for testing/debugging.
 
 =cut
 
@@ -198,8 +290,8 @@ has extPrefix => (
 
 ---+++ ObjectAttribute dependecies => hashref
 
-Keys: extension module names
-Values: list of extensions modules required by the key's module.
+For an extension name defines other extensions this one depends upon. All
+names are in normalized form.
 
 =cut
 
@@ -213,7 +305,8 @@ has dependencies => (
 
 ---+++ ObjectAttribute orderedList => arrayref
 
-List of extensions presorted to confirm with their dependencies.
+Ordered list of extensions. The order depends on =dependencies= attribute.
+See [[?%QUERYSTRING%#ExtOrdering][Extensions Ordering]].
 
 =cut
 
@@ -228,7 +321,10 @@ has orderedList => (
 
 ---+++ ObjectAttribute registeredClasses => hashref
 
-Map of core classes into list of overriding subclasses.
+Map of core classes into lists of overriding subclasses.
+
+See =extClass= in =Foswiki::Class= and extensions documentation
+(=Foswiki::Extension::Empty=).
 
 =cut
 
@@ -239,17 +335,26 @@ has registeredClasses => (
     builder => 'prepareRegisteredClasses',
 );
 
+=begin TML
+
+---+++ ObjectAttribute registeredMethods => hashref
+
+Multilevel map of target=>method=>where keys into lists of coderefs.
+
+   $ target: a target core module, where the pluggable method defined
+   $ method: the method name
+   $ where: before/around/after
+
+The coderefs in lists are from =plug[Before|Around|After]= extension
+declarations and ordered after the =orderedList= attribute.
+   
+=cut
+
 has registeredMethods => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
     builder => 'prepareRegisteredMethods',
-);
-
-has _errors => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub { [] },
 );
 
 # Hashref of disabled extensions. Keys are extension names, values – reason
@@ -259,6 +364,21 @@ has disabledExtensions => (
     lazy    => 1,
     clearer => 1,
     builder => 'prepareDisabledExtensions',
+);
+
+=begin TML
+
+---+++ ObjectAttribute _errors => arrayref
+
+List of =Foswiki::Exception::Ext::Load= instances containing information about
+loading modules errors.
+
+=cut
+
+has _errors => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { [] },
 );
 
 =begin TML
@@ -273,6 +393,16 @@ sub BUILD {
     $this->loadExtensions;
 }
 
+=begin TML
+
+---+++ ObjectMethod normalizeExtName( $extName ) => $normalName
+
+Takes an extension name in =$extName= and makes it a full extension name by
+prepending it with =extPrefix= if the name is in short form. A name considered
+to be short if it doesn't contain any double-colon (::).
+
+=cut
+
 sub normalizeExtName {
     my $this = shift;
     my ($extName) = @_;
@@ -284,6 +414,15 @@ sub normalizeExtName {
     return $extName;
 }
 
+=begin TML
+
+---+++ ObjectMethod extEnabled( $extName ) => $enabled
+
+If extension =$extName= is enabled then returns its normalized name. Otherwise
+_undef_ is returned.
+
+=cut
+
 sub extEnabled {
     my $this = shift;
     my ($ext) = @_;
@@ -293,6 +432,14 @@ sub extEnabled {
     return defined $this->disabledExtensions->{$extName} ? undef : $extName;
 }
 
+=begin TML
+
+---+++ ObjectMethod extObject( $extName ) => $extObject
+
+Returns reference to extension's =$extName= object. Short names are allowed.
+
+=cut
+
 sub extObject {
     my $this = shift;
     my ($ext) = @_;
@@ -301,6 +448,17 @@ sub extObject {
 
     return $this->extensions->{$extName};
 }
+
+=begin TML
+
+---+++ ObjectMethod isBadVersion( $extName ) => $errorMessage
+
+Takes a extension name =$extName= and returns a error message if the extension
+doesn't pass version compatibility check. Returns _undef_ if extension is
+compatible with the core. See the
+[[?%QUERYSTRING%#ApiCompatibility][API Compatibility]] section.
+
+=cut
 
 sub isBadVersion {
     my $this = shift;
@@ -482,6 +640,16 @@ sub _loadFromSubDir {
         };
     }
 }
+
+=begin TML
+
+---+++ ObjectMethod loadExtensions()
+
+Loads extension modules unless they're already loaded.
+
+For extension manager's internal use mostly.
+
+=cut
 
 sub loadExtensions {
     my $this = shift;
@@ -889,6 +1057,7 @@ sub prepareRegisteredMethods {
     my %normPlugs;
 
     # Rebuild %plugMethods using normalized extension names.
+    # $where is after/before/around
     foreach my $ext ( keys %plugMethods ) {
         my $extMod = $this->normalizeExtName($ext);
         foreach my $target ( keys %{ $plugMethods{$ext} } ) {

@@ -44,7 +44,8 @@ At any given moment of time there is only one active set of extensions
 accessible via an application's =extMgr= attribute. It means that if the
 =Sample= extension is registered then whenever we query for its object it is
 guaranteed that there is no more than signle active one exists per application.
-This rule is important for some of [[#ExportedSubs][exported subroutines]].
+This rule is important for some of [[?%QUERYSTRING%#ExportedSubs][exported
+subroutines]].
 
 =Foswiki::ExtManager= module has its own =$VERSION= global var. It represents
 %WIKITOOLNAME% API version and is used to check for extension compatibility.
