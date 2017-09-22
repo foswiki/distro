@@ -81,6 +81,7 @@ required.
 
 use version 0.77; our $VERSION = version->declare(0.0.1);
 our $API_VERSION = version->declare("2.99.0");
+our $NAME = "Empty";
 
 =begin TML
 

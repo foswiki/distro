@@ -1043,10 +1043,10 @@ creating new objects of classes rooted on =Foswiki::Object=.
 Before actually create an object this method:
 
    1. Loads =$className= module.
-   1. Maps =$className= into a replacement class if an extension registered for
-      class overriding.
+   1. Maps =$className= into a replacement class if an extension is registered
+   for class overriding.
    1. If the class is a =Foswiki::Object= descendant then adds =app= parameter
-      key pointing to the application object to class constructor arguments.
+   key pointing to the application object to class constructor arguments.
 
 =cut
 

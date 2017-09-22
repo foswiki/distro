@@ -14,6 +14,12 @@ This class is here to provide extension management for %WIKITOOLNAME%. And by
 'management' we mean every aspect of manipulation with extension loading,
 version checking, extension objects, their names, chains of calls, etc.
 
+---++ Common advises
+
+   * It must always be remembered that your extension isn't the only one working
+   in the system! Think of consequences of the actions it takes and don't forget
+   sharing the playground!
+
 ---++ Initialization Stages And Logic
 
 An extension manager instance is not meant to be used by anything but an
@@ -53,6 +59,7 @@ extension modules. And it's still possible that a newly installed extension
 could be loaded after its counterparts by a different application instance and
 it would still work as expected.
 
+#InitializationStage
 ---+++ Initialization Stage
 
 This is when extensions are actually created. This stage is somewhat different
@@ -168,6 +175,57 @@ This is why feature sets provide better solution to the problem. And even more,
 as this framework supports a feature deprecation cycle, further core development
 may provide %WIKITOOLNAME% users with warnings on those extensions which are
 relying upon soon to be removed functionality.
+
+=cut
+
+# TODO The following section contains coding guidelines which are to be made
+# part of common development guidelines.
+
+=begin TML
+
+#SubClassing
+---+++ Subclassing
+
+An extension could subclass practically any core class and redefine its
+functionality. To make this possible any %WIKITOOLNAME% code, including
+extensions themselves, must comply to the following rules:
+
+   * Any class must be a direct or indirect descendant of =Foswiki::Object=.
+   * New class instances (objects) must be created using
+     =Foswiki::App::create()= method which is available for classes consuming
+     =Foswiki::AppObject= role.
+     
+The second rule is redundant for extensions because they're inheriting from
+=Foswiki::Extension= which already consumes the role.
+
+Most of the core classes, with =Foswiki::App= in the first place, are following
+these rules making it possible to subclass practically any core class.
+
+It is important remember the advise about multiple active extensions. With
+respect to subclassing the advise could be extended with an additional sentense:
+remember about the order! When few extensions are requesting to subclass the
+same class the inheritance order is determined from the =orderedList= attribute.
+
+What happens next is a little bit of a magic because there is a thing to be
+always kept in mind: the code could be ran under a code-sharing environment like
+mod_perl or PSGI. Same code may serve different sites with different sets of
+active extensions. Imagine three extensions declaring three subclasses of the
+same class: =SubC1=, =SubC2=, and =SubC3=, to say. For simplicity let's imagine
+that they're ordered by their respective numbers. Imagine too that the setup is
+serving one site where all three extensions are active, and another site where
+the active ones are the first and the third. What it means is that whatever
+tricks we might invent to actually declare =SubC1= inheriting from the core
+class, and =SubC2= inheriting from =SubC1=, but we simply won't have a way to
+determine what =SubC3= must inherit from because for one site it's =SubC2= while
+for another it's =SubC1=!
+
+The solution for the problem is in use of roles. The extension manager takes
+declared subclasses of active extensions, orders them and apply them as roles to
+a new subclass of the core class. This implies that extension subclasses must
+all be built using =[[CPAN:Moo::Role][Moo::Role]]=.
+
+More implementation details are in the code of =prepareRegisteredClasses()=
+method.
 
 =cut
 
@@ -659,6 +717,15 @@ sub loadExtensions {
     }
 }
 
+=begin TML
+
+---+++ ObjectMethod initialize()
+
+Initializes extensions subsystem. See
+[[?%QUERYSTRING%#InitializationStage][Initialization Stage]].
+
+=cut
+
 sub initialize {
     my $this = shift;
 
@@ -692,6 +759,16 @@ sub initialize {
     $this->app->enterContext('extensionsInitialized');
 }
 
+=begin TML
+
+---+++ ObjectMethod deregisterExtension( $extName )
+
+This method doesn't remove an extension from the system but it cleans up
+references to the extension's object. For the moment it only deregisters
+extension's tags in macros framework.
+
+=cut
+
 sub deregisterExtension {
     my $this = shift;
     my ($ext) = @_;
@@ -704,6 +781,60 @@ sub deregisterExtension {
             $macros->deregisterTag($tag);
         }
     }
+}
+
+=begin TML
+
+---+++ ObjectMethod disableExtension( $extName, $reason )
+
+Marks extension =$extName= as disable because of =$reason=.
+
+*%X% NOTE:* Disabling an extension makes reason only before =extensions=
+attribute is filled in with extensions objects. Any later call to this method
+makes no sense even though the call won't fail. This is intentional as in the
+future disabling and extension might also deregister it.
+
+=cut
+
+sub disableExtension {
+    my $this = shift;
+    my ( $extName, $reason ) = @_;
+
+    ASSERT(
+        defined $extName,
+        "Undefined extension name in call to "
+          . ref($this)
+          . "::disableExtension method"
+    );
+    ASSERT(
+        defined $reason,
+        "Undefined reason in call to "
+          . ref($this)
+          . "::disableExtension method"
+    );
+
+    #$this->app->logger->warn("Disabling $extName because of: $reason");
+
+    $this->disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
+}
+
+=begin TML
+
+---+++ ObjectMethod mapClass( $class ) => $subClass
+
+Maps a core class name into sub class constructed from extensions' class
+declarations (=extClass=).
+
+=cut
+
+sub mapClass {
+    my $this = shift;
+    my ($class) = @_;
+
+    $class = ref($class) || $class;
+
+    my $replClass = $this->registeredClasses->{$class};
+    return $replClass || $class;
 }
 
 sub _cbDispatch {
@@ -815,6 +946,14 @@ sub _topoSort {
     return @list;
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareOrderedList()
+
+Initializer for =orderedList= attribute.
+
+=cut
+
 sub prepareOrderedList {
     my $this = shift;
 
@@ -823,6 +962,14 @@ sub prepareOrderedList {
         $this->dependencies );
     return \@orderedExtList;
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareExtensions()
+
+Initializer for =extensions= attribute.
+
+=cut
 
 sub prepareExtensions {
     my $this = shift;
@@ -836,6 +983,14 @@ sub prepareExtensions {
 
     return $extensions;
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareExtSubDirs()
+
+Initializer for =extSubDirs= attribute.
+
+=cut
 
 sub prepareExtSubDirs {
     my $this = shift;
@@ -863,57 +1018,6 @@ sub prepareExtSubDirs {
     }
 
     return \@extPath;
-}
-
-=begin TML
-
----+++ ObjectMethod disableExtension( $extName, $reason )
-
-Marks extension =$extName= as disable because of =$reason=.
-
-=cut
-
-sub disableExtension {
-    my $this = shift;
-    my ( $extName, $reason ) = @_;
-
-    ASSERT(
-        defined $extName,
-        "Undefined extension name in call to "
-          . ref($this)
-          . "::disableExtension method"
-    );
-    ASSERT(
-        defined $reason,
-        "Undefined reason in call to "
-          . ref($this)
-          . "::disableExtension method"
-    );
-
-    #$this->app->logger->warn("Disabling $extName because of: $reason");
-
-    $this->disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
-
-    # SMELL Must also deregister all extension's handlers like tags and
-    # callbacks in particular.
-}
-
-=begin TML
-
----+++ ObjectMethod mapClass($class) => $replacement
-
-Maps a core class name into replacement class name.
-
-=cut
-
-sub mapClass {
-    my $this = shift;
-    my ($class) = @_;
-
-    $class = ref($class) || $class;
-
-    my $replClass = $this->registeredClasses->{$class};
-    return $replClass || $class;
 }
 
 =begin TML
@@ -991,6 +1095,14 @@ sub prepareDisabledExtensions {
     return \%disabled;
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareDependencies()
+
+Initializer for =dependencies= attribute.
+
+=cut
+
 sub prepareDependencies {
     my $this = shift;
 
@@ -1005,7 +1117,17 @@ sub prepareDependencies {
     return \%nDeps;
 }
 
-# Build mapping of core classes into overriding classes based on the ordered
+=begin TML
+
+---+++ ObjectMethod prepareRegisteredClasses()
+
+Initializer for =registeredClasses= attribute.
+
+See [[?%QUERYSTRING%?#SubClassing][Subclassing]].
+
+=cut
+
+# Build mapping of core classes into sub-classes based on the ordered
 # extension list.
 sub prepareRegisteredClasses {
     my $this = shift;
@@ -1050,6 +1172,14 @@ sub prepareRegisteredClasses {
 
     return \%classMap;
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareRegisteredMethods()
+
+Initializer for =registeredMethods= attribute.
+
+=cut
 
 sub prepareRegisteredMethods {
     my $this = shift;
@@ -1242,15 +1372,42 @@ sub _callPluggable {
     return $origCode->( $params{object}, @{ $params{args} } );
 }
 
+=begin TML
+
+---++ Static Methods
+
+=cut
+
+=begin TML
+
+---+++ StaticMethod extName( $extFullName )
+
+Returns extension's name. The name is either the part of extension's module
+name without prefix or a value from =$NAME= global if it's defined in the
+module.
+
+The method though declared as static could also me called on both
+=Foswiki::ExtManager= class or its subclasses; and on extension manager object.
+In the latter case =extPrefix= attribute is used to strip it off of the
+beginning of extension's name string.
+
+=cut
+
 # Universal methods supporting static, on class, and object calls.
 sub extName {
-    shift if ref( $_[0] ) && $_[0]->isa('Foswiki::ExtManager');
+    my $this = shift if UNIVERSAL::isa( $_[0], 'Foswiki::ExtManager' );
     my ($extName) = @_;
 
     my $name = Foswiki::fetchGlobal( "\$" . $extName . "::NAME" );
 
+    my $extPrefix = 'Foswiki::Extension';
+
+    if ( ref($this) ) {
+        $extPrefix = $this->extPrefix;
+    }
+
     unless ($name) {
-        ( $name = $extName ) =~ s/^Foswiki::Extension:://;
+        ( $name = $extName ) =~ s/^$exrPrefix:://;
     }
 
     return $name // '';
@@ -1258,7 +1415,24 @@ sub extName {
 
 =begin TML
 
----++ Static Methods
+---+++ StaticMethod registerSubClass( $extModule, $class, $subClass )
+
+Registers a sub-class =$subClass= for =$class= by extension =$extModule=.
+
+For example, a hypothetical extension =Foswiki::Extension::CloudConfig= wants
+to override =Foswiki::Config= functionality. For this purpose it provides a
+sub-class =Foswiki::Extension::CloudConfig::Config=. To make the core use
+this class the method has to be called like this:
+
+<verbatim>
+registerSubClass(
+        'Foswiki::Extenstion::CloudConfig',
+        'Foswiki::Config',
+        'Foswiki::Extension::CloudConfig::Config'
+);
+</verbatim>
+
+See =[[?%QUERYSTRING%#SubClassing][Subclassing]].
 
 =cut
 
