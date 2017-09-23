@@ -112,7 +112,7 @@ list of extensions topological sorting algorithm is used. If a circular
 dependency is encountered in a chain of extension dependencies, the whole chain
 is disabled. (See the note below)
 
-*NOTE:* Currently =extAfter= and =extBefore= are been considered 'dependencies'.
+*%X% NOTE:* Currently =extAfter= and =extBefore= are been considered 'dependencies'.
 It means that if for a reason _Ext2_ is disabled then _Ext1_, which is depending
 on it, will be disabled too. This behavior is temporary and is a subjuect to
 change making these two subs used for merely declaring the order and nothing
@@ -227,6 +227,16 @@ all be built using =[[CPAN:Moo::Role][Moo::Role]]=.
 More implementation details are in the code of =prepareRegisteredClasses()=
 method.
 
+#PluggableMethods
+---+++ Pluggable Methods
+
+Alongside with subclassing there is a less radical method of redefining core
+behavior. It is called 'pluggable methods' and it depends on the good will of
+a core class which can declare itself an _extensible_ (see =Foswiki::Class=).
+With this modifier it acquires the power of declaring some of its methods
+as _pluggables_. A pluggable method is extensions' plaything. But more details
+on this subject can be found in =Foswiki::Extension::Empty= documentation.
+
 =cut
 
 use File::Spec     ();
@@ -261,8 +271,8 @@ our $MIN_VERSION = version->declare("2.99.0");
 # extensions are built.
 # NOTE All data stored in globals is raw and must be revalidated before used.
 our @extModules
-  ; # List of the extension modules in the order they were registered with registerExtModule().
-our %registeredModules;   # Modules registered with registerExtModule().
+  ; # List of the extension modules in the order they were registered with _registerExtModule().
+our %registeredModules;   # Modules registered with _registerExtModule().
 our %extSubClasses;       # Subclasses registered by extensions.
 our %extDeps;             # Module dependecies; defines the order of extensions.
 our %extTags;             # Tags registered by extensions.
@@ -334,7 +344,7 @@ locating extension by their =.pm= files.
 *Example:* if an extension is referred by its short name _Ext1_ then internaly
 it will be normalized and the full form _Foswiki::Extension::Ext1_ will be used.
 
-*NOTE:* Changing this attribute will most likely break loading of standard
+*%X% NOTE:* Changing this attribute will most likely break loading of standard
 extensions. Though it could be useful for testing/debugging.
 
 =cut
@@ -641,7 +651,7 @@ sub _loadExtModule {
 
     try {
         Foswiki::load_class($extModule);
-        registerExtModule($extModule);
+        _registerExtModule($extModule);
     }
     catch {
         Foswiki::Exception::Ext::Load->rethrow(
@@ -1027,7 +1037,7 @@ sub prepareExtSubDirs {
 Returns extensions disabled for this installation or host. %disabled hash keys
 are extension names, values are text reasons for disabling the extension.
 
-*NOTE* Extension =Foswiki::Extension::Empty= is hard coded into the list of
+*%X% NOTE:* Extension =Foswiki::Extension::Empty= is hard coded into the list of
 disabled extensions because its purpose is to be a template for developing
 functional extensions.
 
@@ -1380,6 +1390,20 @@ sub _callPluggable {
 
 =begin TML
 
+---+++ StaticMethod isRegistered( $extModule ) => $registered
+
+Returns _true_ if =$extModule= is already registered with the core.
+
+=cut
+
+sub isRegistered {
+    my ($extModule) = @_;
+
+    return $registeredModules{$extModule} // 0;
+}
+
+=begin TML
+
 ---+++ StaticMethod extName( $extFullName )
 
 Returns extension's name. The name is either the part of extension's module
@@ -1415,6 +1439,16 @@ sub extName {
 
 =begin TML
 
+---++ Registration methods
+
+Registration methods though publicly available but are not recommended for
+end-user code and mostly intended to support corresponding shortcuts in
+=Foswiki::Class=.
+
+=cut
+
+=begin TML
+
 ---+++ StaticMethod registerSubClass( $extModule, $class, $subClass )
 
 Registers a sub-class =$subClass= for =$class= by extension =$extModule=.
@@ -1432,7 +1466,9 @@ registerSubClass(
 );
 </verbatim>
 
-See =[[?%QUERYSTRING%#SubClassing][Subclassing]].
+Shortcut: =extClass=
+
+See [[?%QUERYSTRING%#SubClassing][Subclassing]].
 
 =cut
 
@@ -1446,12 +1482,37 @@ sub registerSubClass {
       };
 }
 
-sub registerExtModule {
+=begin TML
+
+---+++ StaticMethod _registerExtModule( $module )
+
+Creates a record about a recently loaded extension module.
+
+For internal use.
+
+=cut
+
+sub _registerExtModule {
     my ($extModule) = @_;
 
     push @extModules, $extModule;
     $registeredModules{$extModule} = 1;
 }
+
+=begin TML
+
+---+++ StaticMethod registerExtTagHandler( $extModule, $tagName [, $tagClass] )
+
+Registers a tag named =$tagName= for extension =$extModule=. If =$tagClass= is
+passed in then it's interpreted as a macro class (the one which consumes
+=Foswiki::Macro= role; see =registerTagHandler()= method in =Foswiki::Macros=).
+
+If =$tagClass= is not used then the extension must have a method named after
+=$tagName=.
+
+Shortcut: =tagHandler=
+
+=cut
 
 sub registerExtTagHandler {
     my ( $extModule, $tagName, $tagClass ) = @_;
@@ -1463,6 +1524,16 @@ sub registerExtTagHandler {
     };
 }
 
+=begin TML
+
+---+++ StaticMethod registerExtCallback( $extModule, $cbName, $cbCode )
+
+Registers extension's code =$cbCode= as a handler for callback =$cbName=.
+
+Shortcut: =callbackHandler=
+
+=cut
+
 sub registerExtCallback {
     my ( $extModule, $cbName, $cbCode ) = @_;
 
@@ -1473,6 +1544,16 @@ sub registerExtCallback {
       };
 }
 
+=begin TML
+
+---+++ StaticMethod registerDeps( $extModule, @deps )
+
+With this method we register what extensions must go before =$extModule=.
+
+Shortcuts: =extAfter=, =extBefore=
+
+=cut
+
 # TODO Rename deps (dependencies) into something order-related as extBefore
 # and extAfter shall only declare wishful order. For real dependecies more
 # strict extRequire must be introduced.
@@ -1481,6 +1562,18 @@ sub registerDeps {
 
     push @{ $extDeps{$extModule} }, @_;
 }
+
+=begin TML
+
+---+++ StaticMethod registerPluggable( $class, $method, $code )
+
+Registers =$code= as pluggable method =$method= for =$class=.
+
+Shortcut: =pluggable=
+
+See [[?%QUERYSTRING%#PluggableMethods][Pluggable Methods]].
+
+=cut
 
 sub registerPluggable {
     my ( $target, $method, $code ) = @_;
@@ -1518,6 +1611,18 @@ sub registerPluggable {
     );
 }
 
+=begin TML
+
+---+++ StaticMethod registerPlugMethod( $extModule, $where, $pluggableMethod, $code )
+
+Registers a handler defined by coderef in =$code= for a pluggable method
+=$pluggableMethod=. =$where= defines the execution stage: _before_, _after_,
+or _around_.
+
+Shortcuts: =plugBefore=, =plugAfter=, =plugAround=
+
+=cut
+
 sub registerPlugMethod {
     my ( $extModule, $where, $pluggableMethod, $code ) = @_;
 
@@ -1530,12 +1635,6 @@ sub registerPlugMethod {
     my ( $target, $method ) = ( $1, $2 );
 
     $plugMethods{$extModule}{$target}{$method}{$where} = $code;
-}
-
-sub isRegistered {
-    my ($extModule) = @_;
-
-    return $registeredModules{$extModule} // 0;
 }
 
 =begin TML

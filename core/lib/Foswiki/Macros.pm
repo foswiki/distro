@@ -49,14 +49,21 @@ sub BUILD {
 
 ---++ ObjectMethod registerTagHandler( $tag, $handler, $syntax )
 
-STATIC Add a tag handler to the function tag handlers.
-   * =$tag= name of the tag e.g. MYTAG
-   * =$handler= Reference to a sub or object with Foswiki::Macro role. See below on more details.
-   * =$syntax= somewhat legacy - 'classic' or 'context-free' (context-free may be removed in future)
+Add a new tag handler.
+
+   $ =$tag=: name of the tag e.g. MYTAG
+   $ =$handler=: Reference to a sub, or a object with Foswiki::Macro role, or an
+     extension class. See below on more details.
+   $ =$syntax=: _classic_ or _context-free_
    
 =$handler= parameter:
-   * If it is a sub then it will be passed ($app, \%params, $web, $topic ).
-   * If it is an object then method =expand()= will be called with arguments (\%params, $topicObject)
+
+   * If it is a sub then it will be passed with
+   =($app, \%params, $web, $topic)=.
+   * If it is an object then method =expand()= will be called with arguments
+     =(\%params, $topicObject, @macroArgs)=
+   * Extension must have a method named after the =$tag=. The method will be
+     called with same parameters, as =expand()= above.
 
 =$syntax= parameter:
 Way back in prehistory, back when the dinosaur still roamed the earth, 
@@ -664,12 +671,12 @@ sub parseSections {
 
 =begin TML
 
----++ execMacro($macroName, \%attrs, $topicObject) => $string
+---++ execMacro($macroName, \%attrs, $topicObject, @macroArgs) => $string
 
 Executes macro defined by its name $macroName.
 
-   * =%attrs= is a hash of attributes or a =Foswiki::Attrs= instance.
-   * =$topicObject= ...
+   $ =%attrs=: Hash of attributes or a =Foswiki::Attrs= instance.
+   $ =$topicObject=:  ...
 
 =cut
 
@@ -735,7 +742,7 @@ sub execMacro {
                 ASSERT( $this->_macros->{$macroName}->does('Foswiki::Macro'),
                         "Invalid macro module "
                       . $this->registered->{$macroName}
-                      . "; must do Foswiki::Macro role" )
+                      . "; must consume Foswiki::Macro role" )
                   if DEBUG;
             }
         }
