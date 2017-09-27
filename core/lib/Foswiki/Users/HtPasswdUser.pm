@@ -276,7 +276,8 @@ sub _readPasswd {
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         print STDERR
-          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n";
+          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n"
+          if DEBUG;
         return $data;
     }
 
