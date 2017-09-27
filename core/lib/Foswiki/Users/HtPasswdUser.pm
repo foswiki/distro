@@ -149,6 +149,10 @@ sub finish {
     $this->SUPER::finish();
     undef $this->{LocalCache};
     undef $this->{LocalTimestamp};
+    undef $this->{BCRYPT};
+    undef $this->{APR};
+    undef $this->{SHA};
+    undef $this->{error};
 }
 
 =begin TML
@@ -346,13 +350,20 @@ sub _readPasswd {
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( length($tPass) gt 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+
+            elsif (
+                length($tPass) gt 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
                 $data->{$hID}->{enc} = 'plain';
             }
-            elsif ( length($tPass) eq 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+            elsif (
+                length($tPass) eq 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
                 # Password is zero length, no way to determine encoding.
                 $data->{$hID}->{enc} = 'unknown';
