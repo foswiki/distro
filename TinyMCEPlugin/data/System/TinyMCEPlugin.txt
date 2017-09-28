@@ -11,7 +11,7 @@ One line description, required for extensions repository catalog.
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
 %TOC%
-This is an integration of the fast and highly functional [[http://tinymce.moxiecode.com][TinyMCE]] WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE, Safari, Opera and Google Chrome (see [[http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
+This is an integration of the fast and highly functional [[http://tinymce.moxiecode.com][TinyMCE]] WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE-11 & Edge, Safari and Google Chrome (see [[https://www.tinymce.com/docs/get-started/system-requirements/#browsercompatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
@@ -151,13 +151,14 @@ See http://foswiki.org/Tasks/TinyMCEPlugin and http://foswiki.org/Tasks/WysiwygP
 
 ---++ Plugin Info
 
+See the [[%ATTACHURLPATH%/tinymce/changelog.txt][TinyMCE Editor Change Log]] for detailed changes included in this release of the !TinyMCE Editor.
 
 |  Copyright: | &copy; 2007-2017 Crawford Currie http://c-dot.co.uk %BR%\
-                &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
+                &copy; 2010-2017 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |             | This package also includes a complete release of the !TinyMCE editor which is covered by the [[https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html][GNU Lesser General Public License, Version 2.1] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.02 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.7. Support for IE 8-10 is removed. |
-|  2.01 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.6. Support for IE 8-10 is removed. |
+|  2.02 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.7. |
+|  2.01 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.6. Note that support for IE 8-10 has been removed. |
 |  2.00 | Foswikitask:Item14323: Upgrade to TinyMCE 4.5.3, much simplified UI, full unicode support. |
 |  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
 |  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
