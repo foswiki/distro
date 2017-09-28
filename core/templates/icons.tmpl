@@ -1,10 +1,8 @@
 %{ FamFamFam based icon library for over-ride by skins. By defining the ICON using a Template, you can completely customise your skin }%
 
-%{ the 'alt' text should really be a MAKETEXT.. }%
-
-%{ yes, i'm redefining it - its also (currently) in foswiki.tmpl }%
 %TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%
 
+%{ the 'alt' text should really be a MAKETEXT.. }%
 
 %TMPL:DEF{"iconurl:book"}%%PUBURL%/%SYSTEMWEB%/DocumentGraphics/book.png%TMPL:END%
 %TMPL:DEF{"iconalt:book"}%Book%TMPL:END%
@@ -15,12 +13,9 @@
 %TMPL:DEF{"icon:blank-bg"}%<span class='foswikiIcon'><div class='inner' style='width:14;height:14;border:1 solid gray;background:transparent;display:inline-block'></div></span>%TMPL:END%
 %TMPL:DEF{"icon:empty"}%<span class='foswikiIcon'><div class='inner' style='width:14;height:14;border:0;background:transparent;display:inline-block;'></div></span>%TMPL:END%
 
-
-
 %{ needs tweaking to get the 'm' and 'p' in the right place }%
 %TMPL:DEF{"icon:monospace"}%<span class='foswikiIcon'><div class='inner' style='width:14;height:14;border:1 solid gray;background:white;display:inline-block;font-family:monospace;'>m</div></span>%TMPL:END%
 %TMPL:DEF{"icon:proportional"}%<span class='foswikiIcon'><div class='inner' style='width:14;height:14;border:1 solid gray;background:white;display:inline-block;font-family:serif;'>p</div></span>%TMPL:END%
-
 
 %{ non-16 sized icons }%
 %TMPL:DEF{"icon:more-small"}%<span class='foswikiIcon'><img src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/more-small.png' width='13' height='13' alt='Read more' /></span>%TMPL:END%
