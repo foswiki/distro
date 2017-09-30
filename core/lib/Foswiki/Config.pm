@@ -1,10 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::_expandStr::UndefVal {
-    use Foswiki::Class;
-    extends qw(Foswiki::Exception::Harmless);
-}
-
 package Foswiki::Config;
 
 =begin TML
@@ -24,7 +19,7 @@ Additionally this class implements:
    1. Some API
    
 There're two modes a =Foswiki::Class= object may be in: _data_ and _specs_. The
-difference among them is in whether =data= attribute contains a normal plain
+difference between them is in whether =data= attribute contains a normal plain
 hash (_data_ mode) or a tied one (_specs_ mode). Whichever one is active at any
 given moment of time it doesn't affect application functionality – see
 [[https://perldoc.perl.org/perltie.html][perltie]].
@@ -44,8 +39,10 @@ could be transparently verified for their validity.
 The following classes are working together to implement _specs_ mode:
 
 | *Class* | *Functionality* |
-| =Foswiki::Config::DataHash= | =data= attribute hash is tied to it; considered as top-level container class |
-| =Foswiki::Config::Node= | Represents information about a key stored in the configuration hash |
+| =Foswiki::Config::DataHash= | =data= attribute hash is tied to it;\
+  considered as top-level container class |
+| =Foswiki::Config::Node= | Represents information about a key stored in\
+  the configuration hash |
 | =Foswiki::Config::Section= | A configuration section |
 
 ---+++ Globals
@@ -71,7 +68,11 @@ A configuration *key* is a sequence of characters starting with a word character
 any character except ='.'= (a dot), or ='='= (an equal sign), or ='{'=, or ='}'=
 (curly braces).
 
-*Key path* is a sequence of configuration *keys* in either dot or curly braces
+*Spec* is a file containing information about attributes of LSC keys. The
+attributes include but not limited to key default value, description,
+config section it belongs to, etc.
+
+*Key path* is a sequence of configuration *keys* in either dot or curly braces 
 notation. For example, a dot notation:
 
 <verbatim>
@@ -203,7 +204,7 @@ Thus,a string _'${k}'_ will either expand into key =k= value; or if there is no
 such key then the result of the expansion will depend on =undef= and =undefFail=
 parameters of the =expandStr()= method.
 
----++ Attributes
+---++ ATTRIBUTES
 
 =cut
 
@@ -219,6 +220,11 @@ use Foswiki qw(urlEncode urlDecode make_params);
 
 use Foswiki::Configure::FileUtil;
 use Foswiki::Exception::Config;
+
+package Foswiki::Exception::_expandStr::UndefVal {
+    use Foswiki::Class;
+    extends qw(Foswiki::Exception::Harmless);
+}
 
 use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::Object);
@@ -513,7 +519,7 @@ has _lscRecPos => ( is => 'rw', );
 
 =begin TML
 
----++ Methods
+---++ METHODS
 
 =cut
 

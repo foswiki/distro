@@ -2,6 +2,14 @@
 
 package Foswiki::Extension;
 
+=begin TML
+
+---+!! Class Foswiki::Extension
+
+This is the base class to be inherited by _every_ new extension.
+
+=cut
+
 use Foswiki::Class qw(app callbacks);
 extends qw(Foswiki::Object);
 

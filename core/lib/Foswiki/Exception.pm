@@ -11,12 +11,15 @@ Base class for all Foswiki exceptions. This is still a concept only.
 
 Basic principles behind exceptions:
 
-   1. Exceptions are using =Try::Tiny=. Use of =CPAN:Error= module is no longer
-      recommended.
-   1. Exception classes are inheriting from =Foswiki::Exception=.
-   1. =Foswiki::Exception= is an integral part of Fowiki's OO system and inheriting from =Foswiki::Object=.
-   1. =Foswiki::Exception= is utilizing =Throwable= role. Requires this module to be installed.
-   1. Exception classes inheritance shall form a tree of relationships for fine-grained error hadling.
+   1 Exceptions are using =Try::Tiny=. Use of =CPAN:Error= module is no longer
+     recommended.
+   1 Exception classes are inheriting from =Foswiki::Exception=.
+   1 =Foswiki::Exception= is an integral part of Fowiki's OO system and
+     inheriting from =Foswiki::Object=.
+   1 =Foswiki::Exception= is utilizing =Throwable= role. Requires this module
+     to be installed.
+   1 Exception classes inheritance shall form a tree of relationships for
+     fine-grained error hadling.
    
 The latter item might be illustrated with the following expample (for inherited
 classes =Foswiki::Exception= prefix is skipped for simplicity though it is

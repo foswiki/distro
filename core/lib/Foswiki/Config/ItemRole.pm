@@ -283,8 +283,8 @@ sub setOpt_sources {
 ---+++ ClassMethod optionDefinitions -> @optionDefs
 
 Returns a list of option definitions for a class. Note that a option definition
-is a pair of =option => definition= where =option= is a option name; and deinition
-is a hashref of option preferences.
+is a pair of =option => definition= where =option= is a option name; and
+deinition is a hashref of option preferences.
 
 A class with =Foswiki::Config::ItemRole= applied must override this method and
 preferably combine what parent method returns with additional options the class
@@ -311,9 +311,13 @@ around optionDefinitions => sub {
 The following option preferences are supported:
 
 | *Preference* | *Description* | *Mandatory* | *Note* |
-| =arity= | Number of option parameters. Usually one but could be 0 for boolean options (then an option could be prefixed with 'no') or 2+ for some specific cases like section definition. | %Y% | |
-| =leaf= | Options is valid in a leaf node only. | | =Foswiki::Config::Node= only |
-| =dual= | Option is valid for both leaf and branch node types. | | =Foswiki::Config::Node= only |
+| =arity= | Number of option parameters. Usually one but could be 0 for boolean\
+  options (then an option could be prefixed with 'no') or 2+ for some specific\
+  cases like section definition. | %Y% | |
+| =leaf= | Options is valid in a leaf node only. | | =Foswiki::Config::Node=\
+  only |
+| =dual= | Option is valid for both leaf and branch node types. | | \
+   =Foswiki::Config::Node= only |
 
 *NOTE* Normally this method would be called once for each class. It's return
 list would be cached by =Foswiki::Config::ItemRole=.

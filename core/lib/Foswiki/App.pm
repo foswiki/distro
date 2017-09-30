@@ -916,7 +916,7 @@ sub run {
 
 =begin TML
 
----+++ ObjectMethod handleReques
+---+++ ObjectMethod handleRequest
 
 This is the core method of handling a HTTP request. Must never be called
 manually except for testing purposes.

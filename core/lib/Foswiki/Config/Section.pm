@@ -172,7 +172,8 @@ around optionDefinitions => sub {
     my $orig = shift;
     return (
         $orig->(@_),
-        expert     => { arity => 0, },
+        expert => { arity => 0, }
+        ,    # TODO Combine with node's same name option and move to ItemRole?
         modprefix  => { arity => 1, },
         expandable => { arity => 1, },
         section    => { arity => 2, },

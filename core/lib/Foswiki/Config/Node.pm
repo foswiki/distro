@@ -554,7 +554,7 @@ around optionDefinitions => sub {
         default         => { arity => 1, leaf => 1, },
         display_if      => { arity => 1, leaf => 1, },
         enhance         => { arity => 0, leaf => 1, },
-        expert          => { arity => 0, leaf => 1, },
+        expert          => { arity => 0, leaf => 1, }, # TODO: Move to ItemRole?
         feedback        => { arity => 1, leaf => 1, },
         hidden          => { arity => 0, leaf => 1, },
         label           => { arity => 1, dual => 1, },
