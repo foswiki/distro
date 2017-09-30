@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1495676458" format="1.1" version="1"}%
----+!! Spec Files v2
+%META:TOPICINFO{author="ProjectContributor" date="1506731777" format="1.1" version="1"}%
+---+!! Spec Files v2.0
 %TOC%
 
 This topic is about further development of %WIKITOOLNAME% spec format. Read
 about the history and the reasoning behind the specs in
-[[Development.HowToWriteASpecFile]]. This document has more focus on specs supported
-by %WIKITOOLNAME% v3.
+[[Development.HowToWriteASpecFile]]. This document has more focus on specs
+supported by %WIKITOOLNAME% v3.
 
 %X% *NOTE* This document might not be a comprehensive description of the specs and
 may require further improvements.
@@ -46,9 +46,9 @@ EOT
   ],
 </verbatim>
 
-Essentially this is just a Perl array which will be enclosed into square brackets
-and fed to =Foswiki::Config= =spec()= method. The array contains several kinds of
-elements like section or key definition, etc.
+Essentially this is just a Perl array which will be enclosed into square
+brackets and fed to =%PERLDOC{"Foswiki::Config" method="spec"}%= method. The
+array contains several kinds of elements like section or key definition, etc.
 
 ---++ Directories and files.
 
@@ -58,33 +58,51 @@ look for spec files:
 
 | *Directory* | *Description* |
 | =$FOSWIKI_LIBS= | To load =Foswiki.spec= |
-| =$FOSWIKI_LIBS/Foswiki/{Plugins&#124;Contrib&#124;Extension}= | To search for custom spec files. Directories are scanned recursively for files matching =Spec.*= or =*.spec= globs |
+| =$FOSWIKI_LIBS/Foswiki/{Plugins&#124;Contrib&#124;Extension}= | To search\
+  for custom spec files. Directories are scanned recursively for files matching\
+  =Spec.*= or =*.spec= globs |
 | =$FOSWIKI_LIBS/.specCache= | To store specs cached data |
 
-Each file found could contain different spec formats. More about formats is in [[#SpecFormats][corresponding section]] of this topic. Here it will be
-explained how the format is determined for a file:
+Each file found could contain different spec formats. More about formats is in
+[[File Formats]] section. Here it will be explained how the format is determined
+for a file:
 
-   1. The file is checked for shebang. Shebang format is a commonly used =#!= prefix followed with a format name defined by a single word (see =\w= character class in [[https://perldoc.perl.org/perlre.html][Perl regular expressions documentation]]). Example:
-      <verbatim>#!legacy</verbatim>
-   1. If file name is matching =Spec.*= glob then its extension defines the format. Example: =Spec.data=
-   1. If the file contains TML section formatting string in a =#= comment string and a line starting with _$Foswiki::cfg{_ or _1;_ strings then it's format is guessed as legacy.
+   1. The file is checked for shebang. Shebang format is a commonly used =#!=
+      prefix followed with a format name defined by a single word (see =\w=
+      character class in 
+      [[https://perldoc.perl.org/perlre.html][Perl regexp documentation]]).
+      Example:: <verbatim>#!legacy</verbatim>
+   1. If file name is matching =Spec.*= glob then its extension defines the
+      format. Example: =Spec.data=
+   1. If the file contains TML section formatting string in a =#= comment string
+      and a line starting with _$Foswiki::cfg{_ or _1;_ strings then it's format
+      would be guessed as legacy.
    1. The default format is data. 
 
 #SpecFormats
 ---++ File Formats
 
-There're three Spec formats supported out of the box: =data=, =perl=, and =legacy=. =data= and =perl= are just variants of v2 specs. =legacy=
-is the one used in pre-%WIKITOOLNAME% v3 era. Sure enough, it is supported for compatibility matters but its use is
-discouraged.
+There're three Spec formats supported out of the box:
+   * =data=
+   * =perl=
+   * =legacy=
+   
+=data= and =perl= are just variants of specs v2.0. =legacy= is the one used in
+pre-%WIKITOOLNAME% v3 era. Sure enough, it is supported for compatibility
+matters but its use is discouraged.
 
-=data= format is the basic and the simplest one. Its use is described in the [[#BasicConcepts][Basic Concepts]] section.
+=data= format is the basic and the simplest one. Its use is described in the
+[[#BasicConcepts][Basic Concepts]] section.
 
-=perl= format is somewhat more advanced as file content is considered to be a body of a method called against a object
-of a class with =Foswiki::AppObject= and =Foswiki::CfgObject= roles applied. The actual class name is irrelevant and may
-vary depending on implementation. The method will have variable =$this= available for use. It must return a list with
-valid spec data.
+=perl= format is somewhat more advanced as file content is considered to be
+a body of a method called on a object of a class with
+=%PERLDOC{Foswiki::AppObject}%= and =%PERLDOC{Foswiki::CfgObject}%= roles
+applied. The actual class name is irrelevant and may vary depending on
+implementation. The method will have local scalar =$this= available the code. It
+must return a list with valid spec data.
 
-=perl= format is good for a situation if some complex processing is necessary before spec data could be formed.
+=perl= format is good for a situation when some complex processing is necessary
+before spec data could be formed.
 
 ---++ Data Format
 
@@ -133,8 +151,8 @@ by an array ref:
 </verbatim>
 
 Each section has a level associated with it. There is implicitly defined _Root_
-section with level 0. The top-level section (or sections) of any given spec
-file correspondingly would be assigned with level 1; any of it's subsections –
+section at level 0. The top-level section (or sections) of any given spec
+file correspondingly will be assigned with level 1; any of it's subsections –
 level 2; and so on.
 
 Two sections at the same level with same name define the same section as long
@@ -194,26 +212,29 @@ another items in this list.
 
 ---+++ Nodes
 
-Nodes are keys in =Foswiki::Config= data hash. Depending on their location
-in the hash tree they're separated into two categories: *branch* and *leaf* nodes.
-Branch nodes are those not storing any value but serving as a container for
-their sub-nodes. On the contrary, a leaf node is terminal in a path from
-top-level node to a value the key represents.
+Nodes are keys in 
+%PERLDOC{"Foswiki::Config" attr="data" text="Foswiki::Config data hash"}%.
+Depending on their location in the hash tree they fall into two categories:
+*branch* and *leaf* nodes.  Branch nodes are those not storing any value but
+serving as a container for their sub-nodes. On the contrary, a leaf node is
+terminal in a path from top-level node to a value the key represents.
 
 For example, in path _From.Top.To.Bottom_ subkeys _From_, _Top_, and _To_
-are branches and _Bottom_ is the leaf.
+are branches while _Bottom_ is a leaf node.
 
 A node type could be determined in a few possible ways:
 
    * If data type or default value is defined for a node – it's a leaf
-   * If an option which is either leaf or branch only specific is used - the node is of the type for which the option is valid
+   * If an option which is either leaf or branch only specific is used - the
+     node is of the type for which the option is valid
    * If a sub-key definition detected – it's a branch
 
 Mixing incompatible attributes within single node definition raises a fatal
 exception. For example, if a node has type assigned to it and a sub-key
 definition is found.
 
-A node declaration can only be found within a section body. The following spec is illegal:
+A node declaration can only be found within a section body. The following spec
+file is illegal:
 
 <verbatim>
 Key => [
@@ -223,16 +244,20 @@ Key => [
 
 A declaration consist of:
 
-   1. Node name of path
+   1. Node name or path
    1. Optional data type
    1. Node body represented by an arrayref
 
-Example of valid declarations:
+Example of valid keys declarations (the example comes from body of a imaginary
+section):
 
 <verbatim>
 Key1 => [
     SubKey => [
         -type => 'STRING(30)',
+    ],
+    "Flags.Key" => [
+        -type => "BOOLEAN",
     ],
 ],
 SomeNumber => 'NUMBER(10)' => [
@@ -247,10 +272,13 @@ Let's expect a user to guess what is this value for and how the system is
 using it. That'd be fun!
 EOT
 ],
+"Full.Key.Path" => PATH => [
+    -text => "A key defined by it's full keypath",
+],
 </verbatim>
 
-Specifying a type or default value implicitly defines a node as a leaf. So, the following
-would raise an exception because =SubKey= node cannot have subnodes:
+Specifying a type or default value implicitly defines a node as a leaf. So, the
+following would raise an exception because =SubKey= node cannot have subnodes:
 
 <verbatim>
 Key1 => [
@@ -263,17 +291,112 @@ Key1 => [
 ],
 </verbatim>
 
-
+#ElementOptions
 ---+++ Options
 
+Sections and key nodes are defined by their attributes defined by options. Both
+these basic types share the following options:
 
-#ImplDetail
----++ Implementation
+| *Name* | *Type* | *Description* |
+| =-text= | _string_ | Long element description. Might (and most likely will)\
+  be displayed by UI to the user. |
+| =-expert= | _flag_ | Marks element as for expert use only. |
+| =-source= | varies | Contains information about the source from where the\
+  element was read. Usually it's a string with file name but could be a \
+  strutrure containing a line number too. |
 
-Behind the scenes specs are handled by =Foswiki::Config= class code. An object of
-this class can exists in two modes: _data_ or _specs_. In _data_ mode the object operates
-on a simple data hash of configuration keys similar to the legacy =%Foswiki::cfg=.
-In _specs_ mode the data hash is tied to =Foswiki::Config::DataHash= class.
+*NOTE:* _flag_ option type indicates that the option doesn't take a value. It
+is boolean and using it in =-option= form means the option is _on_; while
+=-nooption= means _off_.
 
--- Main.AdminUser - 11 May 2017
+---++++ Section Options
 
+| *Name* | *Type* | *Description* |
+| =-modprefix= | _string_ | Prefix part for short module names referred in the\
+  section. |
+| =-expandable= | _code_ or _string_ | This option defines a subroutine which\
+  would generate a list of spec elements which would be inserted right where\
+  this option sits. See [[#OptionExpandable][Option -expandable]]. |
+
+#OptionExpandable
+---+++++ Option -expandable
+
+=-expandable= could either be a coderef or a string which is expandable's name.
+In second case the name is appended to _"Foswiki::Config::Expandable::"_ string
+to form a full package name which has to have =compose()= subroutine.
+
+In either form it all ends up with a sub being executed with the following 
+parameters passed on to it:
+
+   1 %PERLDOC{Foswiki::Config}% instance most likely to be a content of
+     %PERLDOC{"Foswiki::App" attr="cfg"}% attribute
+   1 a profile with keys:
+      $ section: a %PERLDOC{Foswiki::Config::Section}% instance
+
+As stated above, the code being executed is expected to return a list of spec
+elements suitable to be inserted into the section body in place of the
+corresponding =-expandable= option.
+
+Examples of working composers code could be found in %WIKITOOLNAME%'s
+_lib/Foswiki/Config/Expandable_ directory where currently three standard
+modules are located (FINDEXTENSIONS, LANGUAGES, PLUGINS); or in unit test
+file _ConfigTests.pm_, =test_expandable()= sub.
+
+---++++ Node options
+
+Most of the key node options are coming from the legacy specs format. For a
+while if there is no description for a option then try to find in the old
+specs documentation. Meaning of most of them is or will be defined by 
+configuration UI code.
+
+| *Name* | *Type* | *Description* |
+| =-check= | | |
+| =-checker= | | |
+| =-check_on_change= | | |
+| =-default= | varies | Key's default value. |
+| =-display_if= | _string_ |  |
+| =-enhance= | _flag_ | Set if enhancing earlier definition of the same key. |
+| =-feedback= | | |
+| =-hidden= | _flag_ | |
+| =-label= | | |
+| =-onsave= | | |
+| =-optional= | _flag_ | |
+| =-spellcheck= | | |
+| =-type= | _string_ | Type of key's data. |
+| =-wizard= | _coderef_ | |
+
+---+++++ Key data types
+
+The following data types are currently supported:
+
+| *Type* | *Attributes* |
+| =STRING= | sizeable |
+| =NUMBER= | sizeable |
+| =URL= | sizeable |
+| =URLPATH= | sizeable |
+| =REGEX= | sizeable |
+| =COMMAND= | sizeable |
+| =PASSWORD= | sizeable |
+| =PATH= | sizeable |
+| =PERL= | sizeable |
+| =EMAILADDRESS= | sizeable |
+| =SELECT= | drop-down list |
+| =SELECTCLASS= | drop-down list |
+| =BOOLGROUP= | drop-down list |
+| =BOOLEAN= | plain |
+| =LANGUAGE= | plain |
+| =OCTAL= | plain |
+| =DATE= | plain |
+| =URILIST= | plain |
+| =VOID= | plain |
+
+The attributes above are related to configuration UI:
+
+   $ sizeable: field size with key's value can be limited. The size is defined
+     in braces right after the type name: =STRING(80)=
+   $ drop-down list: Tells on its own.
+   $ plain: Simple field
+
+---++ Related 
+
+=%PERLDOC{"Foswiki::Config"}%= 
