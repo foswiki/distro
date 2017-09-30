@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489712653" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1506736562" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki groups components.  
 Contains the active components used by %USERSWEB%.WikiGroups.  To modify this
@@ -42,7 +42,7 @@ automatically be used.
    * Content does not get lost because topics are under revision control.
    * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
 
-*Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
+*Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%BASEWEB%.%WEBPREFSTOPIC%][%WEBPREFSTOPIC%]], [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
 
 <div class="foswikiHelp">%X% If a large number of groups are configured, the rendering performance of this page can be significantly improved by disabling group maintenance from this page.  Edit this topic for more information.</div>
     </div>
