@@ -915,6 +915,7 @@ sub _registerDefaultMacros {
         META      => undef, # deprecated
         METASEARCH           => undef,    # deprecated
         NONCE                => undef,
+        PERLDOC              => undef,
         PERLDEPENDENCYREPORT => undef,
         NOP =>
 

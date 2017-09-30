@@ -241,20 +241,20 @@ sub INCLUDE {
 
                             my $pluggable = "";
                             if ( $methodText =~ /^\W*(?<methodName>\w+)\b/ ) {
+                                my $methodName = $+{methodName};
 
                                 # TODO Replace word Pluggable with a link to
                                 # extensions documentaion when ready.
                                 $pluggable =
                                   $Foswiki::ExtManager::pluggables{$class}
-                                  { $+{methodName} } ? "Pluggable " : "";
+                                  {$methodName} ? "Pluggable " : "";
 
                                 # SMELL methodName with underscores generates
                                 # bad anchor name which is getting split by the
                                 # first _. Should anchor name handling be fixed?
-                                $anchor = "#"
-                                  . $methodAccess
-                                  . $methodType
-                                  . $+{methodName} . "\n";
+                                $anchor =
+                                  _makeAnchor( $app, $methodType, $methodName )
+                                  . "\n";
                             }
                             $pod .=
 "\n$anchor$secDef =${pluggable}[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
@@ -578,12 +578,26 @@ sub _doclink {
       ) . $formatChar;
 }
 
+sub _makeAnchor {
+    my $app = shift;
+
+    # type is either method or attr/attribute; case is irrelevant
+    my ( $type, $name ) = @_;
+
+    $type =~ s/^attribute$/attr/i;
+    $type = ucfirst( lc($type) );
+    $name =~ s/_+//;
+    $name = join( "", map { ucfirst } split /_+/, $name );
+
+    return "#${type}${name}";
+}
+
 1;
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

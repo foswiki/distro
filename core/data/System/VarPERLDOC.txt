@@ -1,0 +1,33 @@
+%META:TOPICINFO{author="ProjectContributor" date="1506731777" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ PERLDOC -- generate a link to code documentation
+Generates a link to in-code documentation. Takes following parameters:
+
+   | *Parameter* | *Description* | *Default* |
+   | ="Foswiki::ModuleName"= | Module name | =Foswiki= |
+   | =method= | Name of a method to point to | |
+   | =attr= or =attribute= | Name of an attribute to point to | |
+   | =text= | Text to be displayed instead of default | |
+
+If either =method= or =attr= is used the generated link will contain anchor
+pointing to corresponding sub-section in the documentation. Note that if both
+parameters are used then =method= has priority over =attr=.
+
+Default text generated for the link consist of module name followed by a double
+colon and the method or attribute name if corresponding parameters are present;
+for methods parenthesis are appended at the end. If this representation is not
+desirable then parameter =text= must be set.
+
+*Note:* This macro is fully functional only when =USE_LEXICAL_PARSER= in
+%PERLDOC{"Foswiki::IncludeHandlers::doc"}% constant is set to a _true_ value.
+Otherwise linking to subsections won't work.
+---++ Examples
+   * =%<nop>PERLDOC{"Foswiki::App"}%= displays as: %PERLDOC{"Foswiki::Config"}%
+   * =%<nop>PERLDOC{"Foswiki::App" method="handleRequest"}%= displays as: %PERLDOC{"Foswiki::App" method="handleRequest"}%
+   * =%<nop>PERLDOC{"Foswiki::App" method="create" text="see app's =create()= method"}%= 
+     displays as:
+     %PERLDOC{"Foswiki::App" method="create" text="see app's =create()= method"}%
+%STOPINCLUDE%
+---++ Related
+ [[VarINCLUDE][INCLUDE]]
+
