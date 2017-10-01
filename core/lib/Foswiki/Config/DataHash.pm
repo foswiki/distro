@@ -1,37 +1,45 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Config::DataHash;
+
 =begin TML
 
----+ Class Foswiki::Config::DataHash
+---+!! Class Foswiki::Config::DataHash
 
-Container class for config specs. The config attribute =data= hash is tied to
-this class when config is in specs mode.
+Container class for config specs. The =Foswiki::Config= attribute =data= hash is
+tied to this class when config is in specs mode.
 
 ---++ DESCRIPTION
 
-This is only a container class. Actual specs are stored in a node data defined by
-=Foswiki::Config::Node= class. Node data is kept in =nodes= hash. For example:
+This is only a container class. Actual specs are stored in a node data defined
+by =Foswiki::Config::Node= class. Node data are kept in =nodes= hash. For
+example:
 
 <verbatim>
 $app->cfg->data->{Email}{MailMethod} = 'Net::SMTP';
 </verbatim>
 
-is actually represented by four objects: root =DataHash= stores a branch =Node=
-in key _Email_ on =nodes= attribute. This node =value= attribute is a reference
-to a hash tied to =DataHash= object named _Email_. _MailMethod_ key of the
-=nodes= attribute contains a =Node= object which value is _Net::SMTP_.
+is actually represented by four objects: 
+
+   * =$app->cfg->data= is the root hashref tied to =Foswiki::Config::DataHash=.
+      * Key _Email_ of the hash in =nodes= attribute contains
+      a =Foswiki::Config::Node= object.
+         * The node object's =value= attribute contains a reference to hash tied
+         to =Foswiki::Config::DataHash=; its =name= attribute contains
+         _'Email'_. 
+            * Its =nodes= attribute hash has a key _MailMethod_. The key is in
+            turn a =Foswiki::Config::Node= object.
+               * The node object's =value= is the string _'Net::SMTP'_.
 
 Though this structure may seem a bit complicated but it serves two purposes:
 
-   1. Use of tied hash keeps the structure transparent for code using config
-      data. The code would deal with config data hash as usual and don't care
-      whether it's a plain data hash or specs loaded in memory.
-   1. Separate actual container from specs data. Mostly it should be sufficient
-      to request a spec data using full config path like _Email.MailMethod_.
+   1 Use of tied hashes keeps the structure transparent for code using config
+   data. The code would deal with config data hash as usual and doesn't care
+   whether it's a plain data hash or specs loaded in memory.
+   1 Separate actual container (a =Foswiki::Config::DataHash= object) from specs
+   data. 
 
 =cut
-
-package Foswiki::Config::DataHash;
 
 use Assert;
 use Foswiki::Exception;
@@ -45,11 +53,17 @@ use constant NODE_CLASS => 'Foswiki::Config::Node';
 
 =begin TML
 
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
 ---+++ ObjectAttribute nodes -> \%nodes
 
-Hash nodes. Each key in the hash either doesn't exists or is a
-=Foswiki::Config::Node= object. No other values like a scalar value or a non
-=Foswiki::Config::Node= object are allowed.
+Hash nodes. Each key in the hash either doesn't exists or is
+a =Foswiki::Config::Node= object. No other values like a scalar value or
+a object of any other but =Foswiki::Config::Node= class are allowed.
 
 =cut
 
@@ -151,6 +165,12 @@ has _trace => (
     builder => '_prepareTrace',
 );
 
+=begin TML
+
+---++ METHODS
+
+=cut
+
 around BUILDARGS => sub {
     my $orig   = shift;
     my $class  = shift;
@@ -233,7 +253,7 @@ sub STORE {
         $node->value($value);
 
         # Mark node as leaf if
-        $node->setLeafState(1) if $node->isVague;
+        $node->setLeafState(&Foswiki::Config::Node::LEAF) if $node->isVague;
     }
 }
 

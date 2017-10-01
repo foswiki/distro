@@ -7,7 +7,7 @@ about the history and the reasoning behind the specs in
 [[Development.HowToWriteASpecFile]]. This document has more focus on specs
 supported by %WIKITOOLNAME% v3.
 
-%X% *NOTE* This document might not be a comprehensive description of the specs and
+*%X% NOTE:* This document might not be a comprehensive description of the specs and
 may require further improvements.
 
 #BasicConcepts
@@ -91,18 +91,17 @@ There're three Spec formats supported out of the box:
 pre-%WIKITOOLNAME% v3 era. Sure enough, it is supported for compatibility
 matters but its use is discouraged.
 
-=data= format is the basic and the simplest one. Its use is described in the
-[[#BasicConcepts][Basic Concepts]] section.
-
-=perl= format is somewhat more advanced as file content is considered to be
-a body of a method called on a object of a class with
-=%PERLDOC{Foswiki::AppObject}%= and =%PERLDOC{Foswiki::CfgObject}%= roles
-applied. The actual class name is irrelevant and may vary depending on
-implementation. The method will have local scalar =$this= available the code. It
-must return a list with valid spec data.
-
-=perl= format is good for a situation when some complex processing is necessary
-before spec data could be formed.
+   $ =data=: is the basic and the simplest one. Its use is described in the
+     [[#BasicConcepts][Basic Concepts]] section.
+   $ =perl=: is somewhat more advanced as file content is considered to be
+   a body of a method called on a object of a class with
+   =%PERLDOC{Foswiki::AppObject}%= and =%PERLDOC{Foswiki::CfgObject}%= roles
+   applied. The actual class name is irrelevant and may vary depending on
+   implementation. The method will have local scalar =$this= available the code.
+   It must return a list with valid spec data. The format is good for
+   a situation when some complex processing is necessary before spec data could
+   be formed.
+   $ =legacy=: pre-%WIKITOOLNAME% v3 format.
 
 ---++ Data Format
 
@@ -305,7 +304,7 @@ these basic types share the following options:
   element was read. Usually it's a string with file name but could be a \
   strutrure containing a line number too. |
 
-*NOTE:* _flag_ option type indicates that the option doesn't take a value. It
+*%X% NOTE:* _flag_ option type indicates that the option doesn't take a value. It
 is boolean and using it in =-option= form means the option is _on_; while
 =-nooption= means _off_.
 
@@ -358,7 +357,7 @@ configuration UI code.
 | =-enhance= | _flag_ | Set if enhancing earlier definition of the same key. |
 | =-feedback= | | |
 | =-hidden= | _flag_ | |
-| =-label= | | |
+| =-label= | _string_ | Configuration UI input field label text |
 | =-onsave= | | |
 | =-optional= | _flag_ | |
 | =-spellcheck= | | |
@@ -399,4 +398,5 @@ The attributes above are related to configuration UI:
 
 ---++ Related 
 
-=%PERLDOC{"Foswiki::Config"}%= 
+=%PERLDOC{Foswiki::Config}%=, =%PERLDOC{Foswiki::Config::DataHash}%=,
+=%PERLDOC{Foswiki::Config::Node}%=
