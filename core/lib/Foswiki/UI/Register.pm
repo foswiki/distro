@@ -737,7 +737,8 @@ sub _requireConfirmation {
     $data->{LoginName} ||= $data->{WikiName};
     $data->{webName} = $web;
 
-    $data->{"${type}Code"} = $data->{WikiName} . '.' . int( rand(99999999) );
+    $data->{"${type}Code"} =
+      $data->{WikiName} . '.' . Foswiki::generateRandomChars( 8, '0123456789' );
 
     # SMELL: used for Register unit tests
     $session->{DebugVerificationCode} = $data->{"${type}Code"};

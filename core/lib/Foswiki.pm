@@ -2764,6 +2764,62 @@ sub expandMacrosOnTopicCreation {
 
 =begin TML
 
+---++ objectMethod generateRandomChars( $length [, $fromString] )
+
+Generate a character string of length $length.  If a $fromString is supplied,
+use the characters in that string as the set of characters available for
+the random string.
+
+This routine attempts to use a Cryptographically Secure Pseudo-Random Number Generator (CSPRNG)
+If it is not availble, it falls back to the old Foswiki/TWiki algorithm, based upon the
+perl rand() function.
+
+=cut
+
+my $CSPRNG;
+
+sub generateRandomChars {
+
+    my $length   = shift;
+    my $universe = shift;
+
+    # Provide a default if undefined
+    # $ and : illegal in htpasswd file, <># significant in URLs
+    $universe ||=
+'_./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#%{}[]|';
+
+    unless ( defined $CSPRNG ) {
+        $CSPRNG = 0;
+        eval 'use Bytes::Random::Secure';
+        unless ($@) {
+            $CSPRNG = Bytes::Random::Secure->new(
+                NonBlocking => 1,     # Use non-blocking source of randomness
+                Bits        => 256    # This is the default entropy
+            );
+        }
+    }
+
+    if ($CSPRNG) {
+
+        # Use Secure::Random::Bytes
+        return $CSPRNG->string_from( $universe, $length, '' );
+
+    }
+    else {
+        # This is the original Foswiki / TWiki Salt algorithm.
+        # It mixes in the Login which is no longer recommended.
+        my @chars = split( //, $universe );
+        my $random;
+
+        foreach ( 1 .. $length ) {
+            $random .= $chars[ rand @chars ];
+        }
+        return $random;
+    }
+}
+
+=begin TML
+
 ---++ StaticMethod entityEncode( $text [, $extras] ) -> $encodedText
 
 Escape special characters to HTML numeric entities. This is *not* a generic

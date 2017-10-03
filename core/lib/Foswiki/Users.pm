@@ -327,13 +327,8 @@ sub randomPassword {
       ( $Foswiki::cfg{MinPasswordLength} > 8 )
       ? $Foswiki::cfg{MinPasswordLength}
       : 8;
-    my @chars = ( 'a' .. 'z', 'A' .. 'Z', 0 .. 9, '_', '.', '/' );
-    my $newpw;
 
-    foreach ( 1 .. $pwlen ) {
-        $newpw .= $chars[ rand @chars ];
-    }
-    return $newpw;
+    return Foswiki::generateRandomChars($pwlen);
 
 }
 

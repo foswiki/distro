@@ -562,10 +562,10 @@ sub encrypt {
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
-            my @saltchars = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '.', '/' );
-            $salt =
-                $saltchars[ int( rand( $#saltchars + 1 ) ) ]
-              . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
+
+            $salt = Foswiki::generateRandomChars( 2,
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./'
+            );
         }
         return crypt( Foswiki::encode_utf8($passwd),
             Foswiki::encode_utf8( substr( $salt, 0, 2 ) ) );
@@ -590,19 +590,7 @@ sub encrypt {
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$apr1$';
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 7 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt .= Foswiki::generateRandomChars(8);
         }
         return Crypt::PasswdMD5::apache_md5_crypt(
             Foswiki::encode_utf8($passwd),
@@ -613,19 +601,7 @@ sub encrypt {
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$1$';
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 7 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt .= Foswiki::generateRandomChars(8);
         }
 
         # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
@@ -657,19 +633,7 @@ sub encrypt {
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 15 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt = Foswiki::generateRandomChars(16);
             $salt =
               Crypt::Eksblowfish::Bcrypt::en_base64(
                 Foswiki::encode_utf8($salt) );
