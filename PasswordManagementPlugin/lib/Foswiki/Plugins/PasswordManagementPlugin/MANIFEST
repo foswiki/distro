@@ -1,0 +1,4 @@
+!noci
+data/System/PasswordManagementPlugin.txt 0664
+lib/Foswiki/Plugins/PasswordManagementPlugin.pm 0664
+lib/Foswiki/Plugins/PasswordManagementPlugin/DEPENDENCIES 0664
