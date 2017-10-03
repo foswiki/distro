@@ -18,4 +18,4 @@ Telecoms::phone( $mobile, "home" );
 </verbatim>
 
 ---
-*Related Topics:* ClassMethod, StaticMethod
+*Related Topics:* ClassMethod, StaticMethod, ObjectAttribute

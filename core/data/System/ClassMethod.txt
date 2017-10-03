@@ -14,5 +14,5 @@ my $mobile = Telecoms->new();
 </verbatim>
 
 ---
-*Related Topics:* StaticMethod, ObjectMethod
+*Related Topics:* StaticMethod, ObjectMethod, ObjectAttribute
 <!-- %JQREQUIRE{"chili"}% -->

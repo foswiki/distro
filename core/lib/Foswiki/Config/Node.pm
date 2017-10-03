@@ -25,7 +25,9 @@ and can be anything, even *undef*.
 
 In uninitialized state =has_value()= returns _false_. In this case =getValue()=
 method will return data defined in =default= option as returned by
-=Foswiki::Config::ItemRole= =getOpt()= method.
+%PERLDOC{"Foswiki::Config::ItemRole"  method="getOpt"}% method.
+
+See: %PERLDOC{"Foswiki::Config"}%
 
 =cut
 

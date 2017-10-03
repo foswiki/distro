@@ -1,0 +1,44 @@
+%META:TOPICINFO{author="ProjectContributor" date="1506995134" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+---+ Foswiki v3 Essentials
+
+This category is dedicated to development under Foswiki v3 core. 
+
+Basically, what makes v3 different from all previous versions are:
+
+   $ Full OO : New version is totally redesigned. Where all previous versions
+   were basically procedural code using some OO elements – v3 is OO from the
+   first call of =%PERLDOC{"Foswiki::App" method="run"}%= method.
+   $ Application centric : Everything in the new core is summoned and
+   manipulated by a single application object.
+   $ PSGI support : Yes, the new code is PSGI compliant. Basically, it is the
+   main and only mode of operation now. Any other environments like CGI, FastCGI,
+   etc. are now supported through corresponding CPAN:Plack::Handler adapters.
+   $ PSGI testing framework : It comes as an extension to the legacy testing
+   code and wraps around CPAN:Plack::Test.
+   $ OO-redesigned test framework : It's all said.
+   $ Manageable callbacks : Flexible and powerful, the new callback protocol
+   unifies the interface and provides more control.
+   $ Extensions : They're here to replace some day the old plugins framework.
+   Their power is probably limitless within Perl's limitations. Yet many tasks
+   are now easier to accomplish.
+   $ Perl-based Config specs : The legacy specs bundled with special language
+   are now just an additional data type of the new powerful specs format. There
+   is no more need to learn a new obscure language to declare your configuration
+   keys!
+   $ Structured exceptions : Together with switching to CPAN:Try::Tiny and
+   CPAN:Throwable exceptions are now forming an inheritance tree allowing
+   better granularity of error processing.
+   $ Macros as objects : A macro could now be defined as a class.
+   $ Feature sets : Foswiki core and any component can now define a set of
+   supported features as well as version range which defines a feature's life
+   span. Any component (extensions mostly) can now request what features it
+   needs to work correctly. This provides way more flexible control over
+   code compatibility matters than just version range tests.
+
+There are some under the hood changes in behaviour of some components like
+=%PERLDOC{"Foswiki::Request"}%= initialization procedures; or alike.
+
+
+   $ [[SpecFileFormat]] : Config Specs v2
+

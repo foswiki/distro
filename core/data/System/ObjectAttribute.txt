@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="BaseUserMapping_333" date="1506994530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+An object attribute is a named data store on object. For example:
+
+---+ Class Foswiki::SampleClass
+---++ ATTRIBUTES
+---+++ ObjectAttribute lastError
+
+A hash containing two keys:
+
+   $ errNum : Integer error code
+   $ errStr : Text explanation of the error
+
+Lazy attribute.
+
+---
+*Related topics:* ClassMethod, ObjectMethod, StaticMethod
