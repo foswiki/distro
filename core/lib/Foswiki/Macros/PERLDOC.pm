@@ -35,11 +35,12 @@ sub expand {
 
     $linkText = $params->{text} if $params->{text};
 
-    $result .=
-        "[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module="
-      . $module
-      . $anchor . "]["
-      . $linkText . "]]";
+    my $cfgData = $this->app->cfg->data;
+    my $sysWeb  = $cfgData->{SystemWebName};
+    my $viewUrl =
+      $this->app->getScriptUrl( $sysWeb, "PerlDoc", "view", module => $module );
+
+    $result .= "[[" . $viewUrl . $anchor . "][" . $linkText . "]]";
 
     return $result;
 }

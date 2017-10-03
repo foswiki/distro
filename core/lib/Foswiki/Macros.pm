@@ -843,8 +843,8 @@ m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
 }
 
 sub _registerDefaultMacros {
-    my $this = shift;
-    my $cfg  = $this->app->cfg;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
 
     return {
         ADDTOHEAD => undef,
@@ -858,15 +858,15 @@ sub _registerDefaultMacros {
         DATE          => sub {
             Foswiki::Time::formatTime(
                 time(),
-                $cfg->data->{DefaultDateFormat},
-                $cfg->data->{DisplayTimeValues}
+                $cfgData->{DefaultDateFormat},
+                $cfgData->{DisplayTimeValues}
             );
         },
         DISPLAYTIME => sub {
             Foswiki::Time::formatTime(
                 time(),
                 $_[1]->{_DEFAULT} || '',
-                $cfg->data->{DisplayTimeValues}
+                $cfgData->{DisplayTimeValues}
             );
         },
         ENCODE            => undef,
@@ -899,8 +899,8 @@ sub _registerDefaultMacros {
         INTURLENCODE => undef,
         LANG         => sub {
             my $lang = 'en';    # the default
-            if (   $cfg->data->{UseLocale}
-                && $cfg->data->{Site}{Locale} =~ m/^([a-z]+)(?:_([a-z]+))?/i )
+            if (   $cfgData->{UseLocale}
+                && $cfgData->{Site}{Locale} =~ m/^([a-z]+)(?:_([a-z]+))?/i )
             {
 
 # Locale identifiers use _ as the separator in the language, but a minus sign is required
@@ -1001,26 +1001,26 @@ sub _registerDefaultMacros {
         ENDINCLUDE   => sub { '' },
 
         # Constant tags dependent on the config
-        ALLOWLOGINNAME => sub { $cfg->data->{Register}{AllowLoginName} || 0 },
-        AUTHREALM      => sub { $cfg->data->{AuthRealm} },
-        DEFAULTURLHOST => sub { $cfg->data->{DefaultUrlHost} },
-        HOMETOPIC      => sub { $cfg->data->{HomeTopicName} },
-        LOCALSITEPREFS => sub { $cfg->data->{LocalSitePreferences} },
+        ALLOWLOGINNAME => sub { $cfgData->{Register}{AllowLoginName} || 0 },
+        AUTHREALM      => sub { $cfgData->{AuthRealm} },
+        DEFAULTURLHOST => sub { $cfgData->{DefaultUrlHost} },
+        HOMETOPIC      => sub { $cfgData->{HomeTopicName} },
+        LOCALSITEPREFS => sub { $cfgData->{LocalSitePreferences} },
         NOFOLLOW =>
-          sub { $cfg->data->{NoFollow} ? 'rel=' . $cfg->data->{NoFollow} : '' },
-        NOTIFYTOPIC       => sub { $cfg->data->{NotifyTopicName} },
-        SCRIPTSUFFIX      => sub { $cfg->data->{ScriptSuffix} },
-        STATISTICSTOPIC   => sub { $cfg->data->{Stats}{TopicName} },
-        SYSTEMWEB         => sub { $cfg->data->{SystemWebName} },
-        TRASHWEB          => sub { $cfg->data->{TrashWebName} },
-        SANDBOXWEB        => sub { $cfg->data->{SandboxWebName} },
-        WIKIADMINLOGIN    => sub { $cfg->data->{AdminUserLogin} },
-        USERSWEB          => sub { $cfg->data->{UsersWebName} },
-        WEBPREFSTOPIC     => sub { $cfg->data->{WebPrefsTopicName} },
-        WIKIPREFSTOPIC    => sub { $cfg->data->{SitePrefsTopicName} },
-        WIKIUSERSTOPIC    => sub { $cfg->data->{UsersTopicName} },
-        WIKIWEBMASTER     => sub { $cfg->data->{WebMasterEmail} },
-        WIKIWEBMASTERNAME => sub { $cfg->data->{WebMasterName} },
+          sub { $cfgData->{NoFollow} ? 'rel=' . $cfgData->{NoFollow} : '' },
+        NOTIFYTOPIC       => sub { $cfgData->{NotifyTopicName} },
+        SCRIPTSUFFIX      => sub { $cfgData->{ScriptSuffix} },
+        STATISTICSTOPIC   => sub { $cfgData->{Stats}{TopicName} },
+        SYSTEMWEB         => sub { $cfgData->{SystemWebName} },
+        TRASHWEB          => sub { $cfgData->{TrashWebName} },
+        SANDBOXWEB        => sub { $cfgData->{SandboxWebName} },
+        WIKIADMINLOGIN    => sub { $cfgData->{AdminUserLogin} },
+        USERSWEB          => sub { $cfgData->{UsersWebName} },
+        WEBPREFSTOPIC     => sub { $cfgData->{WebPrefsTopicName} },
+        WIKIPREFSTOPIC    => sub { $cfgData->{SitePrefsTopicName} },
+        WIKIUSERSTOPIC    => sub { $cfgData->{UsersTopicName} },
+        WIKIWEBMASTER     => sub { $cfgData->{WebMasterEmail} },
+        WIKIWEBMASTERNAME => sub { $cfgData->{WebMasterName} },
     };
 }
 
