@@ -166,8 +166,11 @@ sub INCLUDE {
       DOC_SECTION:
         while ( _nextLexeme($ctxDoc) ) {
             my $dType = $ctxDoc->{type};
-            $pod .= _modLink( $app, $ctxDoc->{lexemes}{skipped} // '' )
-              unless $suppressedMethodLevel;
+
+            #$pod .= _modLink( $app, $ctxDoc->{lexemes}{skipped} // '' )
+            #  unless $suppressedMethodLevel;
+            $pod .= $ctxDoc->{lexemes}{skipped};
+
             if ( $dType eq '_Section' ) {
                 my ( $secPrefix, $secLine, $secDef ) =
                   @{ $ctxDoc->{lexemes} }{qw(secPrefix secLine secDef)};
