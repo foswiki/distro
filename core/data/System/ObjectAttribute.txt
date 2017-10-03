@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1506994530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1506998025" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 An object attribute is a named data store on object. For example:
 
