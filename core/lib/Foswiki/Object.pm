@@ -16,7 +16,7 @@ behaviour and general policies for its descendants.
 ---+++ Behavior changing conditions
 
 This class' behavior could be changed by either a environment variable
-=FOSWIKI_NOSTACKTRACE= and =Assert='s module constant =DEBUG=. These changes
+=FOSWIKI_NOSTACKTRACE= and =%PERLDOC{"Assert" text="Assert's"}%= module constant =DEBUG=. These changes
 should be completely transparent for the rest of core code and only be of any
 interest for debugging purposes. The =DEBUG= constant is of main significance
 here. =FOSWIKI_NOSTACKTRACE= is taken into account with =DEBUG= being _true_
@@ -41,12 +41,12 @@ code in =DEBUG= mode might become a part of Buddhist patience training for some.
 
 Since =Moo= doesn't provide any standard checker for an attribute =isa= option
 we wrote our own basic validtation methods. Those are static methods which are
-named =isaTYPE()=. Currently only three types are supported: ARRAY, HASH, and
-CLASS. See respective methods documentation.
+named =isaTYPE()=. Currently only three =TYPEs= are supported: *ARRAY*, *HASH*,
+and *CLASS*. See respective methods documentation.
 
 A typical use of them would look like the following code:
 
-<verbatim>
+<verbatim class="perl">
 package Foswiki::SomeClass;
 ...
 has meta => (
@@ -56,6 +56,15 @@ has meta => (
 </verbatim>
 
 See =CPAN:Moo= IMPORTED SUBROUTINES -> =has= documentation.
+
+---+++ Object stringifiction
+
+=Foswiki::Object= overrides the stringification operator =""=
+(see CPAN:overload) and maps it onto
+=%PERLDOC{"Foswiki::Object" method="to_str" text="to_str()"}%= method. The
+original method preserves Perl's standard behavior but could be overridden
+by inheriting classes to achieve their goals. Check the
+%PERLDOC{Foswiki::Exception}% code for an example use of this method.
 
 =cut
 
@@ -119,8 +128,8 @@ has __clone_heap =>
 ---+++ ObjectMethod new( %params ) -> $obj
 
 All Foswiki classes must use named parameters for their =new()= method and must
-be created using =Foswiki::App= =create()= method unless it is not possible for
-a strong reason.
+be created using =%PERLDOC{"Foswiki::App" method="create"}%= method unless it is
+not possible for a strong reason.
 
 =cut
 

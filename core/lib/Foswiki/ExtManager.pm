@@ -192,8 +192,8 @@ extensions themselves, must comply to the following rules:
 
    * Any class must be a direct or indirect descendant of =Foswiki::Object=.
    * New class instances (objects) must be created using
-     =Foswiki::App::create()= method which is available for classes consuming
-     =Foswiki::AppObject= role.
+     =Foswiki::App::create()= method which is directly available as a
+     ObjectMethod for classes consuming =Foswiki::AppObject= role.
      
 The second rule is redundant for extensions because they're inheriting from
 =Foswiki::Extension= which already consumes the role.

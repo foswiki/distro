@@ -1,0 +1,214 @@
+%META:TOPICINFO{author="ProjectContributor" date="1507078114" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Programming for Foswiki v3
+%TOC%
+
+This topic explains basics requirements and specifics of programming for Foswiki
+v3. These include:
+
+   * Object oriented techniques
+   * Application-centric code
+   * Exception handling
+
+It is also implied that the reader of this topic is already familiar with Perl's
+OO programming. It is also required to learn about =CPAN:Moo= before proceeding
+any further as %WIKITOOLNAME% is using it as the base OO framework.
+
+---++ Basic code requirements
+
+   * Minimal supported Perl version is 5.14 <verbatim>use v5.14;</verbatim>
+   * =strict= and =warning= pragmas
+   * Use of =CPAN:namespace::clean= (see below)
+
+---++ Object oriented techniques
+
+The first rule of programming for %WIKITOOLNAME% says: "Nobody talks about..."
+Er, sorry, that's from another documentation I've being studying recently. ;)
+
+Ok, let's give it a second try:
+
+   : Everything is inheriting from =%PERLDOC{Foswiki::Object}%=.
+
+That's it. You're now ready to go as long as you follow the rule. The rest of
+this section is mostly about special features and nuances.
+
+What is so important about inheriting from a single core class? First of all,
+it allows for clear separation of Foswiki and non-Foswiki objects by simply
+testing 
+
+<verbatim>
+if $obj->isa("Foswiki::Object")
+</verbatim>
+
+Even if you think this is not important to you – still, it may play significant
+role for some core or extension code.
+
+Another important feature of =Foswiki::Object= is its support for debugging and
+some object manipulation. For example, it supports object cloning - a very handy
+feature; especially for testing framework.
+
+---+++ Construction and desctruction
+
+As required by =Moo=, any object is constructed using named parameters unless
+some special care is taken by a class and implemented using =BUILDARGS()=
+class method. Otherwise there is nothing special about the default constructor
+unless the code is working in =DEBUG= mode (see %PERLDOC{Assert}% and
+%PERLDOC{Foswiki::Object}%).
+
+Similar note applies to the destruction stage which usually does nothing unless
+the =DEBUG= mode is on. In this case a number of last-second checks is performed
+to catch simple errors of bypassing =Moo='s attribute accessors and manipulating
+directly on object's hash.
+
+%X% It is highly recommended to avoid using class =new()= method and rely upon
+%PERLDOC{"Foswiki::App" method="create"}% instead. 
+%PERLDOC{"Foswiki::ExtManager"}% documentation explains the importance of this
+rule.
+
+%X% A newly created object is not guaranteed to exist in fully prepared state
+as some attributes might still remain uninitialized after construction is done.
+See the [[#Attributes][Attributes]] section and keep in mind *lazy* option.
+
+---+++ Attributes
+
+The attributes within Foswiki code are the standard =CPAN:Moo= attributes.
+There is a debugging trick implemented by %PERLDOC{Foswiki::Class}%, but it
+still doesn't change the default behavior. But there is a convention with
+regard to attributes options and their use:
+
+   1 Attributes are named using 
+   [[https://en.wikipedia.org/wiki/Camel_case][camelCase]] style, common across
+   Foswiki code.
+   1 Private attribute names must start with underscore: =_aPrivateAttr=.
+   1 Whenever an attribute is utilizing *lazy* option it must be initialized
+   with *builder* instead of *default*. The *builder* must define a method
+   name which starts with _'prepare'_ followed by attribute name with capitalized
+   first character. If attribute is private the leading underscore char must be
+   removed and placed in front of _'prepare'_. Here is naming examples:
+      $ someAttribute : =prepareSomeAttribute=
+      $ !_aPrivateAttribute : =_prepareAPrivateAttribute=
+
+Use of *builder* option is important for class inheritance where descending
+class may want to override initialization implementation of its base class.  For
+example:
+
+<verbatim class="perl">
+package Foswiki::BaseClass;
+
+use Foswiki::Class;
+extends qw<Foswiki::Object>
+
+has someAttribute => (
+   is   => 'rw',
+   lazy => 1,
+   builder => 'prepareSomeAttribute',
+);
+
+sub prepareSomeAttribute {
+    my $this;
+
+    return 1.2;
+}
+
+1;
+</verbatim>
+
+<verbatim class="perl">
+package Foswiki::Descendant;
+
+use Foswiki::Class;
+extends qw<Foswiki::BaseClass>;
+
+around prepareSomeAttribute => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    if ( $someSpecificCondition ) {
+        # Under certain circumstances the constant might differ from the default
+        return 1.22;
+    }
+
+    return $orig->($this);
+};
+
+1;
+</verbatim>
+
+%X% As it is clear from the definition of *lazy* option, attribute remains
+uninitialized until referenced. With respect to this fact it is important to
+remember that sometimes it is better to use *predicate* option and check if
+attribute has been initialized instead of testing if it's _defined_. The latter
+may cause unwanted deep recursion if used within *builder* code of another
+attribute when the two directly or indirectly depend on each other.
+
+%X% Special care must be taken of attributes storing back references to other
+objects. Mostly it is related to situations when a child object is referring its
+parent. As this is a typical situation where circular references occur and
+cause garbage collection to fail use of *weak_ref* option is highly recommended
+to be considered. See %PERLDOC{Foswiki::AppObject}%= role code as an example.
+
+---+++ Avoiding infrastructure code
+
+What would a typical class header look like in Foswiki v3? Lets see how we make
+it comply to the base requirements:
+
+<verbatim>
+package Foswiki::SomeClass;
+
+use v5.14;
+use Moo;
+use namespace::clean;
+extends qw<Foswiki::Object>;
+with qw<Foswiki::AppObject>;
+</verbatim>
+
+Though the last line is not mandatory but most of the core classes use it.
+
+So, this is what we would type every time a new class is started. Not only it
+takes our priceless time but it may harm our fragile patience. Then, again,
+what if we bump the minimal required Perl version? 
+
+In order to get around these annoyances Foswiki provides a wrapper for
+=CPAN:Moo= which takes care of this burden:
+
+<verbatim>
+package Foswiki::SomeClass;
+
+use Foswiki::Class qw<app>;
+extends qw<Foswiki::Object>;
+</verbatim>
+
+Minus 3 lines, plus +20 to readability.
+
+There are more useful tricks provided by =%PERLDOC{Foswiki::Class}%=. Read the
+module's documentation to find out more about them. Here is just a simple
+example:
+
+<verbatim>
+package Foswiki::SomeClass;
+
+use Foswiki::Class;
+extends qw<Foswiki::Object>;
+
+has attr1 => (
+   is      => 'rw',
+   lazy    => 1,
+   builder => 'prepareAttr1',
+);
+
+# This is how it would look previously when prepareAttr1 sub is only a stub
+# allowing a descendant to implement the logic:
+# sub prepareAttr1 {}
+
+stubMethods qw<prepareAttr1>;
+</verbatim>
+
+The example may not look very convincing in its current form with only single
+attribute in use. But simply imagine a number of attributes defined this way.
+
+---+++ Related
+
+=%PERLDOC{Foswiki::Object}%=, =%PERLDOC{Foswiki::Class}%=
+
+---++ Application
+

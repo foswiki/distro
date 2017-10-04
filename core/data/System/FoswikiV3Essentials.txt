@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506998025" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507086384" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
+%TOC%
 
 This category is dedicated to development under Foswiki v3 core. 
 
@@ -39,6 +40,11 @@ Basically, what makes v3 different from all previous versions are:
 There are some under the hood changes in behaviour of some components like
 =%PERLDOC{"Foswiki::Request"}%= initialization procedures; or alike.
 
+---++ Basic concepts
+
+   $ [[OOCodeConcepts]] : Main concepts of programming under %WIKITOOLNAME% v3.
+
+---++ New standards
 
    $ [[SpecFileFormat]] : Config Specs v2
 

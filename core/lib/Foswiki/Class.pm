@@ -11,19 +11,21 @@ use warnings;
 ---+ Package Foswiki::Class
 
 This is a wrapper package for Moo and intended to be used as a replacement and
-a shortcut for a bunch lines of code like:
+a shortcut for a bunch of code like:
 
 <verbatim>
 use v5.14;
 use Moo;
 use namespace::clean;
-with qw(Foswiki::AppObject);
+extends qw<Foswiki::Object>;
+with qw<Foswiki::AppObject>;
 </verbatim>
 
 The above could be replaced with a single line of:
 
 <verbatim>
 use Foswiki::Class qw(app);
+extends qw<Foswiki::Object>;
 </verbatim>
 
 ---++ Usage
