@@ -872,6 +872,7 @@ sub _registerDefaultMacros {
         ENCODE            => undef,
         ENV               => undef,
         EXPAND            => undef,
+        FEATURES_INFO     => undef,
         FORMAT            => undef,
         FORMFIELD         => undef,
         FOSWIKI_BROADCAST => sub {
