@@ -95,6 +95,8 @@ callback_names qw(handleRequestException postConfig);
 
 ---++ Active features
 
+%FEATURES_INFO%
+
 <!-- This part of documentation is better be handled by a special MACRO which
 would output a table of features -->
 
@@ -105,6 +107,7 @@ features_provided
     2.99, undef, undef,
     -proposal => 'ImproveOOModel',
     -desc     => 'Support for Moo-based OO core',
+    -doc      => "OOCodeConcepts",
   ],
   PARA_INDENT   => [ undef, undef, undef ],
   PREF_SET_URLS => [ undef, undef, undef ],
@@ -119,7 +122,7 @@ features_provided
 
 =begin TML
 
----++ Attributes
+---++ ATTRIBUTES
 
 =cut
 
@@ -192,7 +195,7 @@ has cache => (
 
 =begin TML
 
----++ ObjectAttribute cfg
+---+++ ObjectAttribute cfg
 
 This attribute stores application configuration object - a =Foswiki::Config=
 instance.
@@ -675,7 +678,7 @@ has inUnitTestMode => (
 
 =begin TML
 
----++ Methods
+---++ METHODS
 
 =cut
 

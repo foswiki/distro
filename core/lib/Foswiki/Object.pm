@@ -2,6 +2,9 @@
 
 package Foswiki::Object;
 
+# TODO Implement methods Throw, Rethrow, Transmute as wrappers around respective Foswiki::Exception methods
+# The purpose is to fill in object-related attributes of new exceptions.
+
 =begin TML
 
 ---+ Class Foswiki::Object

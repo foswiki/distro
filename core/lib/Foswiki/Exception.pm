@@ -1,7 +1,8 @@
 # See bottom of file for license and copyright information
 
+# TODO Split this package into individual files.
+
 package Foswiki::Exception;
-use v5.14;
 
 =begin TML
 
@@ -11,43 +12,46 @@ Base class for all Foswiki exceptions. This is still a concept only.
 
 Basic principles behind exceptions:
 
-   1 Exceptions are using =Try::Tiny=. Use of =CPAN:Error= module is no longer
-     recommended.
+   1 Exceptions are using =CPAN:Try::Tiny=. Use of =CPAN:Error= module is no
+   longer recommended.
    1 Exception classes are inheriting from =Foswiki::Exception=.
    1 =Foswiki::Exception= is an integral part of Fowiki's OO system and
-     inheriting from =Foswiki::Object=.
-   1 =Foswiki::Exception= is utilizing =Throwable= role. Requires this module
-     to be installed.
+   inheriting from =Foswiki::Object=.
+   1 =Foswiki::Exception= is utilizing =CPAN:Throwable= role. Requires the
+   module to be installed.
    1 Exception classes inheritance shall form a tree of relationships for
-     fine-grained error hadling.
+   fine-grained error hadling.
    
-The latter item might be illustrated with the following expample (for inherited
+The last item might be illustrated with the following expample (for inherited
 classes =Foswiki::Exception= prefix is skipped for simplicity though it is
 recommended for code readability):
 
    * Foswiki::Exception
       * Core
-        * Engine
-        * CGI
+         * Engine
+         * CGI
       * Rendering
-        * UI
-        * Validation
-        * Oops
-           * Fatal
+         * UI
+         * Validation
+         * Oops
+            * Fatal
 
-This example is not proposed for implementation as hierarchy is exceptions has to be thought out based on many factors.
-It would be reasonable to consider splitting Oops exception into a fatal and non-fatal variants, for example.
+This example is not proposed for implementation as hierarchy of exceptions has
+to be thought out based on many factors. It would be reasonable to consider
+splitting Oops exception into a fatal and non-fatal variants, for example.
 
 ---++ Notes on Try::Tiny
 
-Unlike =CPAN:Error=, =CPAN:Try::Tiny= doesn't support catching of exceptions based on
-their respective classes. It has to be done manually.
+Unlike =CPAN:Error=, =CPAN:Try::Tiny= doesn't support catching of exceptions
+based on their respective classes. It has to be done manually.
 
-Alternatively =CPAN:Try::Tiny::ByClass= might be considered. It adds one more dependency
-of =CPAN:Dispatch::Class= module.
+Alternatively =CPAN:Try::Tiny::ByClass= might be considered. It adds one more
+dependency of =CPAN:Dispatch::Class= module.
 
 One more alternative is =CPAN:TryCatch= but it is not found neither in MacPorts,
-nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD ports tree.
+nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD
+ports tree.
+
 =cut
 
 use Assert;
@@ -64,7 +68,13 @@ our $EXCEPTION_TRACE = 0;
 
 =begin TML
 
----++ ObjectAttribute file
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute file
 
 Name of the file where the exception has been raised as returned by the =caller=
 funtion.
@@ -78,7 +88,7 @@ has file => (
 
 =begin TML
 
----++ ObjectAttribute line
+---+++ ObjectAttribute line
 
 Number of the line in the source file where the exception has been raised as
 returned by the =caller= funtion.
@@ -92,7 +102,7 @@ has line => (
 
 =begin TML
 
----++ ObjectAttribute text
+---+++ ObjectAttribute text
 
 Simple text explaining what's went wrong. Must always be set to something
 meaningful. If a child class doesn't expect this attribute to be set by the code
@@ -110,7 +120,7 @@ has text => (
 
 =begin TML
 
----++ ObjectAttribute object
+---+++ ObjectAttribute object
 
 Might be set by the object which generated the exception to inidicate the source
 of problem.
@@ -121,7 +131,7 @@ has object => ( is => 'ro', );
 
 =begin TML
 
----++ ObjectAttribute stacktrace
+---+++ ObjectAttribute stacktrace
 
 Contains full stack trace if =DEBUG= is =TRUE=. The trace includes calls to
 =Foswiki::Exception= methods too to provide as much information for tracing down
@@ -133,6 +143,12 @@ has stacktrace => (
     is        => 'rwp',
     predicate => 1,
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 sub BUILD {
     my $this = shift;
@@ -216,7 +232,7 @@ sub TO_JSON {
 
 =begin TML
 
----++ ClassMethod rethrow($class [, $exception[, %params]])
+---+++ ClassMethod rethrow($class [, $exception[, %params]])
 
 Receives any exception class or a error text and rethrows it as an
 Foswiki::Exception descendant. $class specifies the final class of rethrown
@@ -275,7 +291,7 @@ sub rethrow {
 
 =begin TML
 
----++ ClassMethod rethrowAs($class, $exception[, %params])
+---+++ ClassMethod rethrowAs($class, $exception[, %params])
 
 Similar to the =rethrow()= method but always reinstantiates $exception into
 $class using =transmute()=. Note that if =%params= are defined and =$exception=
@@ -292,7 +308,7 @@ sub rethrowAs {
 
 =begin TML
 
----++ ClassMethod transmute($class, $exception, $enforce) => $exceptionObject
+---+++ ClassMethod transmute($class, $exception, $enforce) => $exceptionObject
 
 Reinstantiates $exception into $class.
 
@@ -369,7 +385,7 @@ sub transmute {
 
 =begin TML
 
----++ StaticMethod errorStr($error)
+---+++ StaticMethod errorStr($error)
 
 Converts $error into a text message by trying to determine error type and
 properly stringify it.
@@ -480,7 +496,7 @@ sub prepareErrno {
 
 =begin TML
 
----+ Exception Foswiki::Exception::HTTPResponse
+---++ Exception Foswiki::Exception::HTTPResponse
 
 Used to send HTTP status responses to the user.
 
@@ -606,12 +622,8 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
-package Foswiki::Exception::Ext;
-use Foswiki::Class;
-extends qw(Foswiki::Exception);
-
 =begin TML
----++ package Foswiki::Exception::Ext
+---++ Exception Foswiki::Exception::Ext
 
 Base class for Foswiki::ExtManager-related exceptions.
 
@@ -619,9 +631,13 @@ Generic. Must not be used directly.
 
 =cut
 
+package Foswiki::Exception::Ext;
+use Foswiki::Class;
+extends qw(Foswiki::Exception);
+
 =begin TML
 
----++ ObjectAttribute extension => string
+---+++ ObjectAttribute extension => string
 
 Extension name.
 

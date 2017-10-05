@@ -22,6 +22,22 @@ require Foswiki::Object;
 
 use Moo::Role;
 
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute app
+
+Reference to the parent application object.
+
+Required.
+
+=cut
+
 has app => (
     is        => 'rwp',
     predicate => 1,

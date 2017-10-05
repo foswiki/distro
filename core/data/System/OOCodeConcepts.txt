@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507078114" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507170542" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -134,6 +134,10 @@ around prepareSomeAttribute => sub {
 1;
 </verbatim>
 
+%X% *NOTE:* It is better to check against the source if certain attribute is
+lazy and is using builder. A few lazy ones are still using the *default* option.
+This will be fixed over time.
+
 %X% As it is clear from the definition of *lazy* option, attribute remains
 uninitialized until referenced. With respect to this fact it is important to
 remember that sometimes it is better to use *predicate* option and check if
@@ -203,7 +207,7 @@ has attr1 => (
 stubMethods qw<prepareAttr1>;
 </verbatim>
 
-The example may not look very convincing in its current form with only single
+The example may not look very convincing in its current form with just a single
 attribute in use. But simply imagine a number of attributes defined this way.
 
 ---+++ Related
@@ -211,4 +215,130 @@ attribute in use. But simply imagine a number of attributes defined this way.
 =%PERLDOC{Foswiki::Object}%=, =%PERLDOC{Foswiki::Class}%=
 
 ---++ Application
+
+Application object is the star of Foswiki's planetary system in a sense that
+everything else is rotating around it. The application object is responsible
+for:
+
+   1 Creating and initializing other interface objects like extensions and
+   configuration managers, engine, request, etc.
+   1 Preparing the working environment.
+   1 Handling a request if running under a web server.
+   1 Providing top-level (or "last resort") exception handlers.
+
+The object is an instance of %PERLDOC{Foswiki::App}% class.
+
+---+++ Foswiki::AppObject role
+
+Internally all Foswiki classes could be separated in two major groups: those
+with %PERLDOC{Foswiki::AppObject}% applied; and those without. When a class
+consumes the role it means it can exists only within initialized application
+environment. Most of the core classes are consuming the role.
+
+The role provides two major elements on a class: 
+%PERLDOC{"Foswiki::AppRole" attr="app"}% attribute and =create()= method.
+
+=%PERLDOC{"Foswiki::Class"}%= provides easy way to apply the role:
+
+<verbatim class="perl">
+package Foswiki::AppClass;
+
+use Foswiki::Class qw<app>;
+extends qw<Foswiki::Object>;
+</verbatim>
+
+*NOTE:* There is another role providing support for accessing the application
+object. But it is a part of the extensions framework and as such is out of the
+scope of this documentation.
+
+%X% *NOTE TO SCRIPT/TOOLS DEVELOPERS:* If a script relies upon a core class
+with =Foswiki::AppObject= role applied it must create an application object.
+Then either a corresponding attribute on application could be used to do the job
+or necessary instance must be created using application's =create()= method.
+
+---+++ $Foswiki::app, $Foswiki::cfg and muli-application environment
+
+It is common for Foswiki code to serve a single request, return a response and
+shutdown – all within a single process. In this scenario it is guaranteed that
+no more than a single application exists per process.
+
+Things are a little different under PSGI environment which introduces so called
+[[https://metacpan.org/pod/PSGI#Delayed-Response-and-Streaming-Body][Delayed \
+Response]]. With this technique it is possible that two or more application
+objects would share the same address space. Fully compliant with encapsulation
+requirements OO code would have no problem with this. But the legacy of older
+Foswiki code (especially related to old plugins) makes it necessary for two
+global variables to exists which are related to application state rather than
+to code state. Those two are
+=%PERLDOC{"Foswiki::App" anchor="Legacy_support" text="$Foswiki::app"}%=
+(replaces old =$Foswiki::Plugins::SESSION=) and
+=%PERLDOC{"Foswiki::Config" anchor="Globals" text="%Foswiki::cfg"}%=.
+
+   : <em>Variables which are related to code state could be found in
+   =Foswiki::Class= module, =Foswiki::ExtManager= class and a couple of other
+   modules. For example, =%Foswiki::ExtManager::registeredModules= global keeps
+   information about all loaded extension modules – the kind of information
+   which is only related to what code is currently loaded by Perl.</em>
+
+The problem about the two globals is pretty much clear: they could only be
+valid in a non-threaded environment and only if special care is taken to make
+them point to corresponding objects responsible for handling currently active
+request.
+
+The above statement lead us to inevitable conclusion: *use of these two \
+globals is strictly prohibited for the new code*. They're only allowed for
+porting legacy plugins to the new codebase.
+
+%X% *NOTE:* PSGI delayed response is not yet implemented and most likely won't
+be until Foswiki depends upon the legacy plugins.
+
+---+++ Foswiki API
+
+In versions prior to Foswiki v3 the API was provided by
+=%PERLDOC{Foswiki::Func}%= module. Together with migration to fully-OO model the
+API definition changes: any public object method is considered an API method
+allowed for use by any third-party code.
+
+The new code tries to provide backward compatibility while still allowing pure
+data encapsulation. This is done by converting =Foswiki::Func= functions into
+%PERLDOC{"Foswiki::App" anchor="API_methods" text="Foswiki::App methods"}%
+(except for a couple of them relocated into other, more appropriate classes
+– check =%Foswiki::Func::_funcPrefixMap=). Respectively, it is highly
+recommended that any code, belonging to a class with =Foswiki::AppObject= role
+applied, to use these methods and avoid =Foswiki::Func= whatsoever.
+
+For the legacy code =Foswiki::Func= implements mapping of API functions into API
+methods on =$Foswiki::app= global. BTW, for functions declared as deprecated the
+mapping code would write a warning into Foswiki log file upon each hundredth
+call.
+
+---+++ Related
+
+=%PERLDOC{"Foswiki::App"}%=, =%PERLDOC{"Foswiki::Func"}%=
+
+---++ Exceptions
+
+Comparing to the older Foswiki versions use of exceptions has been extended.
+Same time use of =[[CPAN:Error#WARNING][Error]]= has been dropped in favor of
+=[[CPAN:Try::Tiny][Try::Tiny]]= and =[[CPAN:Throwable][Throwable]]=.
+
+Things to keep in mind about the exceptions:
+
+   * In addition to basic _throw_ capability Foswiki exceptions introduce 
+   _rethrow_ and _transmute_. The former is essentially "throw again" mixed with
+   "throw as": it takes an existing exception object, converts it to desired
+   class if necessary, and throws again. It is utilizing _transmute_ to do the
+   conversion job. See respective methods in =%PERLDOC{Foswiki::Exception}%=.
+   * When application is been given control through 
+   %PERLDOC{"Foswiki::App" method="run"}% method, a handler is installed on
+   =__DIE__= signal which rethrows any received exception into
+   =Foswiki::Exception=; if =DEBUG= is on then any warning becomes an exception
+   too.
+   * Any thrown exception tries not only to signal about an event but does its
+   best to collect the information about the point in code where it's been
+   raised.
+
+---+++ Related
+
+=%PERLDOC{"Foswiki::Exception"}%=
 
