@@ -650,6 +650,11 @@ In case any of the above conditions fail a =Foswiki::Exception::Fatal= is raised
 
 =cut
 
+my %metaKeyMap = (
+    -doc  => "-documentation",
+    -desc => "-description",
+);
+
 sub _verifyFeatureData {
     my $feature = shift;
     my $data    = shift;
@@ -689,6 +694,7 @@ sub _verifyFeatureData {
               . $key
               . ") must begin with dash." )
           unless $key =~ /^-/;
+        $key = $metaKeyMap{$key} if defined $metaKeyMap{$key};
         $fsMeta{$key} = $val;
     }
 
