@@ -33,7 +33,9 @@ sub expand {
         }
     }
 
-    $linkText = $params->{text} if $params->{text};
+    $linkText = $params->{text}   if $params->{text};
+    $anchor   = $params->{anchor} if $params->{anchor};
+    $anchor = "#$anchor" unless $anchor =~ /^#/;
 
     my $cfgData = $this->app->cfg->data;
     my $sysWeb  = $cfgData->{SystemWebName};
