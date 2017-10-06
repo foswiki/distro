@@ -1,0 +1,33 @@
+%META:TOPICINFO{author="ProjectContributor" date="1507250413" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Engine role in Foswiki v3
+
+Introduction of application object concept led to another change in the core
+concepts of Foswiki: engine's role has been revised and cleaned from nonrelevant
+functionality. Now an engine is an abstraction layer between a web server
+environment and Foswiki core. In other words, it's a driver. It is responsible
+for providing the core with necessary data in a unified form, as documented in
+=%PERLDOC{Foswiki::Engine}%=; and it is also provides the results of Foswiki
+core work back to the web server.
+
+From application/core object relations point of view an engine stays somewhat
+aside from other objects as it is usually undesirable to create a new engine
+object via direct call to =create()= method; static method
+=%PERLDOC{"Foswiki::Engine" method="start"}%= must be used instead. It returns
+a (hopefully) valid engine object which type corresponds to the working
+environment.
+
+%X% *NOTE:* Assuming that we currently rely upon
+=[[CPAN:Plack::Handler][Plack::Handler]]= the most probable engine to be used
+would be =%PERLDOC{Foswiki::Engine::PSGI}%=.
+
+An engine object communicates with the rest of the code by providing a set of
+attributes with predefined data formats where information obtained from the web
+server can be found by clients (and =%PERLDOC{Foswiki::Request}%= is the most
+important of them). Back from the core it expects data in PSGI format which is
+now the standard.
+
+---++ Related
+
+=%PERLDOC{Foswiki::Engine}%=
+

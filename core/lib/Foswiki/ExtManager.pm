@@ -1639,9 +1639,9 @@ sub registerPlugMethod {
 
 =begin TML
 
----++ SEE ALSO
+---++ RELATED
 
-=Foswiki::Extension::Empty=, =Foswiki::Class=.
+=%PERLDOC{Foswiki::Extension::Empty}%=, =%PERLDOC{Foswiki::Class}%=.
 
 =cut
 

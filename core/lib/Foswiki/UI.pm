@@ -9,7 +9,6 @@ Coordinator of execution flow and service functions used by the UI packages
 =cut
 
 package Foswiki::UI;
-use v5.14;
 
 use Try::Tiny;
 use Assert;
@@ -28,10 +27,8 @@ use Foswiki::Validation             ();
 use Foswiki::Exception              ();
 use Foswiki::Request::Cache         ();
 
-use Moo;
-use namespace::clean;
-extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
+use Foswiki::Class qw<app>;
+extends qw<Foswiki::Object>;
 
 # Used to lazily load UI handler modules
 #has isInitialized => ( is => 'rw', lazy => 1, default => sub { {} }, );

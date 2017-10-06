@@ -1,0 +1,72 @@
+%META:TOPICINFO{author="ProjectContributor" date="1507254269" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Chained Calls
+
+There are two techniques used by Foswiki which are using call chaining. These
+are callbacks and extensions. Though their implementations are somewhat
+different but the basic concept remains the same:
+
+   : <em>If there is a point in the code where several actors wanna participate
+   in the code execution by registering special subroutines then those
+   subroutines are gonna be called in a specific order.</em>
+
+In the above definition we're saying nothing about neither the order nor about
+the result of the execution because both are determined by particular technique.
+What is important here is how the calls are chained and how the execution is 
+controlled.
+
+The first principle of call chaining in Foswiki says that everybody must be
+cooperative. The core provides some high level of freedom for the registering
+clients but expects them to behave nicely, responsible and share the playground.
+
+The second principle also explains why the first one is important: everybody has
+the right to control the execution order by either breaking the chain or
+requesting the managing code to restart it from the beginning.
+
+Another thing to remember is that there is always some data which is passed to
+the registered subroutines. Usually in a form of a hasref which is common to
+all subs being called. It means that any changes in the data done by an actor
+will then be passed on to all subsequent actors.
+
+For example, let's imagine we have actors A,B,C,D (how original, isn't it? ;)
+). They're all registered for the same callback. Let's assume that the order
+is alphabetical. Then normally they would be called:
+
+<verbatim>
+A -> B -> C -> D -> core
+</verbatim>
+
+But at some point C decides that something is wrong with the data it received
+and it has to corrected and the whole chain be repeated with the correction
+in hands. It does the changes and raises =Foswiki::Exception::Ext::Restart=:
+
+<verbatim>
++--------+
+v        |
+A-> B -> C -> D -> core
+</verbatim>
+
+Obviously, D is not called during the first chain run; but it has good chances
+to get into action on the second one – unless a bug in C would loop the whole
+thing again and again, until the manager decides that this is no good and
+would fail with a fatal exception.
+
+BTW, restarts are recorded and the information is passed on to the subs making
+it possible for them to make decisions about what to do in this situation.
+
+Breaking the chain looks like this:
+
+<verbatim>
+    +--------->
+    |
+A-> B -> C -> D -> core
+</verbatim>
+
+I.e. C and D will not be called if B decides that there is nothing more to be
+done here. What happens next depends on the technique and documented in
+corresponding documentations.
+
+---++ Related
+
+=%PERLDOC{Foswiki::Callbacks}%=, =%PERLDOC{Foswiki::ExtManager}%=
+

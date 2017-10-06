@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507086384" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507256707" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -12,6 +12,8 @@ Basically, what makes v3 different from all previous versions are:
    first call of =%PERLDOC{"Foswiki::App" method="run"}%= method.
    $ Application centric : Everything in the new core is summoned and
    manipulated by a single application object.
+   $ Engines reconsidered : Engine role in the core ecosystem has been slightly
+   revised.
    $ PSGI support : Yes, the new code is PSGI compliant. Basically, it is the
    main and only mode of operation now. Any other environments like CGI, FastCGI,
    etc. are now supported through corresponding CPAN:Plack::Handler adapters.
@@ -43,8 +45,14 @@ There are some under the hood changes in behaviour of some components like
 ---++ Basic concepts
 
    $ [[OOCodeConcepts]] : Main concepts of programming under %WIKITOOLNAME% v3.
+   $ [[EngineRevisedV3]] : Engine new role in Foswiki V3.
+   $ [[ChainedExecutionFlow]] : Callbacks and extensions chaining of calls.
 
 ---++ New standards
 
    $ [[SpecFileFormat]] : Config Specs v2
+
+---++ Testing
+
+   $ [[FoswikiV3Testing]] : Code testing
 

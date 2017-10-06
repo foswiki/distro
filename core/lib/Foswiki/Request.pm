@@ -45,7 +45,13 @@ extends qw(Foswiki::Object);
 
 =begin TML
 
----++ ObjectAttribute action([$action]) -> $action
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute action([$action]) -> $action
 
 
 Gets/Sets action requested (view, edit, save, ...)
@@ -59,7 +65,8 @@ has action => (
     trigger => sub {
         my ( $this, $action ) = @_;
 
-        # This will set base_action only the first time action would been set.
+        # This will set the base_action attribute only for the first time the
+        # action is set.
         $this->base_action;
         $this->app->env->{FOSWIKI_ACTION} = $action;
     },
@@ -67,7 +74,7 @@ has action => (
 
 =begin TML
 
----++ ObjectAttribute base_action() -> $action
+---+++ ObjectAttribute base_action() -> $action
 
 Get the first action ever set in this request object. This remains
 unchanged even if a request cache is unwrapped on to of this request.
@@ -89,7 +96,7 @@ has base_action => (
 
 =begin TML
 
----++ ObjectAttribute pathInfo
+---+++ ObjectAttribute pathInfo
 
 Request path info.
 
@@ -111,6 +118,15 @@ has remoteAddress => (
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{remoteAddress} },
 );
+
+=begin TML
+
+---+++ ObjectAttribute uri( [$uri] ) -> $uri
+
+Gets/Sets request uri.
+
+=cut
+
 has uri => (
     is      => 'rw',
     lazy    => 1,
@@ -123,7 +139,7 @@ has uri => (
 
 =begin TML
 
-ObjectAttribute cookies( \%cookies ) -> $hashref
+---+++ ObjectAttribute cookies( \%cookies ) -> $hashref
 
 Gets/Sets cookies hashref. Keys are cookie names
 and values CGI::Cookie objects.
@@ -146,7 +162,7 @@ has _param => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 =begin TML
 
----++ ObjectAttribute uploads -> $hashref
+---+++ ObjectAttribute uploads -> $hashref
 
 Gets/Sets request uploads field. Keys are uploaded file names,
 as sent by browser, and values are Foswiki::Request::Upload objects.
@@ -169,7 +185,7 @@ has param_list => (
 
 =begin TML
 
----++ ObjectAttribute method( [ $method ] ) -> $method
+---+++ ObjectAttribute method( [ $method ] ) -> $method
 
 Sets/Gets request method (GET, HEAD, POST).
 
@@ -195,6 +211,15 @@ has serverName => (
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{serverName} },
 );
+
+=begin TML
+
+---+++ ObjectAttribute secure( [$secure] ) -> $secure
+
+Gets/Sets connection's secure flag.
+
+=cut
+
 has secure => (
     is      => 'rw',
     lazy    => 1,
@@ -232,7 +257,7 @@ has invalidTopic => (
 
 =begin TML
 
----++ ObjectAttribute taintAll
+---+++ ObjectAttribute taintAll
 
 Construction-time flag indicating that all =param_list= elements must be
 tainted. Unit test support only.
@@ -247,6 +272,12 @@ has _pathParsed  => (
     isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
     builder => '_establishAttributes',
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 # Aliases are to be declared after all attribute handling methods are been
 # created but before CGI methods gets imported via cgiRequest attribute
@@ -267,7 +298,7 @@ sub getTime {
 
 =begin TML
 
----++ ClassMethod new([initializer => $initializer])
+---+++ ClassMethod new([initializer => $initializer])
 
 Constructs a Foswiki::Request object.
    * =$initializer= - may be a filehandle or hashref.
@@ -310,7 +341,7 @@ sub BUILD {
 
 =begin TML
 
----++ ObjectMethod protocol() -> $protocol
+---+++ ObjectMethod protocol() -> $protocol
 
 Returns 'https' if secure connection. 'http' otherwise.
 
@@ -323,15 +354,7 @@ sub protocol {
 
 =begin TML
 
----++ ObjectAttribute uri( [$uri] ) -> $uri
-
-Gets/Sets request uri.
-
-=cut
-
-=begin TML
-
----++ ObjectMethod queryString() -> $query_string
+---+++ ObjectMethod queryString() -> $query_string
 
 Returns query_string part of request uri, if any.
 
@@ -361,7 +384,7 @@ sub query_string {
 
 =begin TML
 
----++ ObjectMethod url( [-full     => 1,
+---+++ ObjectMethod url( [-full     => 1,
                          -base     => 1,
                          -absolute => 1,
                          -relative => 1, 
@@ -436,15 +459,7 @@ sub url {
 
 =begin TML
 
----++ ObjectAttribute secure( [$secure] ) -> $secure
-
-Gets/Sets connection's secure flag.
-
-=cut
-
-=begin TML
-
----++ ObjectMethod remoteAddress( [$ip] ) -> $ip
+---+++ ObjectMethod remoteAddress( [$ip] ) -> $ip
 
 Gets/Sets client IP address. Alias to ObjectAttribute =remote_address=.
 
@@ -454,7 +469,7 @@ Gets/Sets client IP address. Alias to ObjectAttribute =remote_address=.
 
 =begin TML
 
----++ ObjectMethod remoteUser( [$userName] ) -> $userName
+---+++ ObjectMethod remoteUser( [$userName] ) -> $userName
 
 Gets/Sets remote user's name. Alias to CGI-compatible ObjectAttribute
 =remote_user=.
@@ -463,7 +478,7 @@ Gets/Sets remote user's name. Alias to CGI-compatible ObjectAttribute
 
 =begin TML
 
----++ ObjectMethod serverPort( [$userName] ) -> $userName
+---+++ ObjectMethod serverPort( [$userName] ) -> $userName
 
 Gets/Sets server user's name. Alias to CGI-compatible ObjectAttribute
 =server_port=.
@@ -472,7 +487,7 @@ Gets/Sets server user's name. Alias to CGI-compatible ObjectAttribute
 
 =begin TML
 
----++ ObjectMethod queryParam( [-name => $name, -value => $value             |
+---+++ ObjectMethod queryParam( [-name => $name, -value => $value             |
                                 -name => $name, -values => [ $v1, $v2, ... ] |
                                 $name, $v1, $v2, ...                         |
                                 name, [ $v1, $v2, ... ]                     
@@ -493,7 +508,7 @@ sub queryParam {
 
 =begin TML
 
----++ ObjectMethod bodyParam( [-name => $name, -value => $value             |
+---+++ ObjectMethod bodyParam( [-name => $name, -value => $value             |
                                -name => $name, -values => [ $v1, $v2, ... ] |
                                $name, $v1, $v2, ...                         |
                                name, [ $v1, $v2, ... ]                     
@@ -511,7 +526,7 @@ sub bodyParam {
 
 =begin TML
 
----++ ObjectMethod param( [-name => $name, -value => $value             |
+---+++ ObjectMethod param( [-name => $name, -value => $value             |
                            -name => $name, -values => [ $v1, $v2, ... ] |
                            $name, $v1, $v2, ...                         |
                            name, [ $v1, $v2, ... ]                     
@@ -591,7 +606,7 @@ sub param {
 
 =begin TML
 
----++ ObjectMethod cacheQuery -> $queryString
+---+++ ObjectMethod cacheQuery -> $queryString
 
 Caches the current query in the params cache, and returns a rewritten
 query string for the cache to be picked up again on the other side of a
@@ -622,7 +637,7 @@ sub cacheQuery {
 
 =begin TML
 
----++ ObjectMethod cookie($name [, $value, $path, $secure, $expires]) -> $value
+---+++ ObjectMethod cookie($name [, $value, $path, $secure, $expires]) -> $value
 
    * If called  without parameters returns a list of cookie names.
    * If called only with =$name= parameter returns value of cookie 
@@ -656,7 +671,7 @@ sub cookie {
 
 =begin TML
 
----++ ObjectMethod delete( @paramNames )
+---+++ ObjectMethod delete( @paramNames )
 
 Deletes parameters from request.
 
@@ -680,7 +695,7 @@ sub delete {
 
 =begin TML
 
----++ ObjectMethod deleteAll()
+---+++ ObjectMethod deleteAll()
 
 Deletes all parameter name and value(s).
 
@@ -695,7 +710,7 @@ sub deleteAll {
 
 =begin TML
 
----++ ObjectMethod deleteUploads()
+---+++ ObjectMethod deleteUploads()
 
 Deletes all upload parameters.
 
@@ -709,7 +724,7 @@ sub deleteUploads {
 
 =begin TML
 
----++ ObjectMethod header([-name => $name, -value  => $value            |
+---+++ ObjectMethod header([-name => $name, -value  => $value            |
                            -name => $name, -values => [ $v1, $v2, ... ] |
                            $name, $v1, $v2, ...                         |
                            name, [ $v1, $v2, ... ]                     
@@ -772,7 +787,7 @@ sub header {
 
 =begin TML
 
----++ ObjectMethod save( $fh )
+---+++ ObjectMethod save( $fh )
 
 Saves object state to filehandle. Object may be loaded later
 passing $fh to new constructor or by calling load().
@@ -795,7 +810,7 @@ sub save {
 
 =begin TML
 
----++ ObjectMethod load( $fh )
+---+++ ObjectMethod load( $fh )
 
 Loads object state from filehandle, probably created with
 a previous save().
@@ -831,7 +846,7 @@ sub load {
 
 =begin TML
 
----++ ObjectMethod upload( $name ) -> $handle
+---+++ ObjectMethod upload( $name ) -> $handle
 
 Called with file name parameter returns an open filehandle
 to uploaded file.
@@ -846,7 +861,7 @@ sub upload {
 
 =begin TML
 
----++ ObjectMethod uploadInfo( $fname ) -> $headers
+---+++ ObjectMethod uploadInfo( $fname ) -> $headers
 
 Returns a hashref to information about uploaded 
 files as sent by browser.
@@ -859,7 +874,7 @@ sub uploadInfo {
 
 =begin TML
 
----++ ObjectMethod tmpFileName( $fname ) -> $tmpFileName
+---+++ ObjectMethod tmpFileName( $fname ) -> $tmpFileName
 
 Returns the name of temporarly created file to store uploaded $fname.
 
@@ -881,7 +896,7 @@ sub tmpFileName {
 
 =begin TML
 
----++ ObjectMethod http( [$header] ) -> $value DEPRECATED
+---+++ ObjectMethod http( [$header] ) -> $value DEPRECATED
 
 Called without parameters returns a list of all available header filed names.
 
@@ -905,7 +920,7 @@ sub http {
 
 =begin TML
 
----++ ObjectMethod https( [$name] ) -> $value || $secure DEPRECATED
+---+++ ObjectMethod https( [$name] ) -> $value || $secure DEPRECATED
 
 Similar to =http()= method above. Called with no parameters returns
 secure flag.
@@ -922,7 +937,7 @@ sub https {
 
 =begin TML
 
----++ ObjectMethod userAgent() -> $userAgent;
+---+++ ObjectMethod userAgent() -> $userAgent;
 
 Convenience method to get User-Agent string.
 
@@ -934,7 +949,7 @@ sub userAgent { shift->header('User-Agent') }
 
 =begin TML
 
----++ ObjectMethod referer()
+---+++ ObjectMethod referer()
 
 Convenience method to get Referer uri.
 
@@ -944,7 +959,7 @@ sub referer { shift->header('Referer') }
 
 =begin TML
 
----++ StaticMethod parse([query path]) -> { web => $web, topic => $topic, invalidWeb => optional, invalidTopic => optional }
+---+++ StaticMethod parse([query path]) -> { web => $web, topic => $topic, invalidWeb => optional, invalidTopic => optional }
 
 Parses the rquests query_path and returns a hash of web and topic names.
 If passed a query string, it will parse it and return the extracted
@@ -1121,7 +1136,7 @@ sub parse {
 
 =begin TML
 
----++ StaticMethod prepare(app => $app)
+---+++ StaticMethod prepare(app => $app)
 
 Prepares and returns a new instance of Foswiki::Request or its derivative
 depending on =action=.
@@ -1164,7 +1179,7 @@ sub prepare {
 
 =begin TML
 
----++ private ObjectMethod _establishAttributes($userPathInfo) ->  \%parsed_path_info
+---+++ ObjectMethod _establishAttributes($userPathInfo) ->  \%parsed_path_info
 
 Used as default for =_pathParsed= attribute which is then used by
 =web,topic,invalidWeb,invalidTopic= attribute defaults.
@@ -1199,7 +1214,7 @@ sub _establishAttributes {
 
 =begin TML
 
----++ private ObjectMethod _establishHeaders() ->  \%headers
+---+++ ObjectMethod _establishHeaders() ->  \%headers
 
 Used as default for =headers= attribute.
 
@@ -1219,7 +1234,7 @@ sub _establishHeaders {
 
 =begin TML
 
----++ private ObjectMethod _establishParamList() ->  \@params
+---+++ ObjectMethod _establishParamList() ->  \@params
 
 Used as default for =params_list= attribute.
 
@@ -1290,7 +1305,7 @@ sub _establishUploads {
 
 =begin TML
 
----++ ObjectMethod normalizeWebTopicName( $web, $topic ) -> ( $web, $topic )
+---+++ ObjectMethod normalizeWebTopicName( $web, $topic ) -> ( $web, $topic )
 
 Normalize a Web<nop>.<nop>TopicName
 

@@ -117,6 +117,7 @@ features_provided
     2.99, undef, undef,
     -desc     => "Perl Specs",
     -proposal => "OOConfigSpecsFormat",
+    -doc      => 'SpecFileFormat',
   ],
   ;
 

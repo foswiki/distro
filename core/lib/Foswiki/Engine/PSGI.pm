@@ -6,7 +6,8 @@
 
 Class that implements default PSGI behavior.
 
-Refer to Foswiki::Engine documentation for explanation about methods below.
+Refer to %PERLDOC{Foswiki::Engine}% documentation for explanation about methods
+below.
 
 =cut
 
