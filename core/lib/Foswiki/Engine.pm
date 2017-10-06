@@ -4,11 +4,12 @@
 
 ---+!! Class Foswiki::Engine
 
-Engine is a mediator between the 'outside' world (i.e. – user side browser or a test
-unit code) and %WIKITOOLNAME% core; in particular – =Foswiki::Request= object.
+Engine is a mediator between the 'outside' world (i.e. – user side browser or a
+test unit code) and %WIKITOOLNAME% core; in particular –
+=%PERLDOC{Foswiki::Request}%= object.
 
-This is the base class and implements only some basic functionality. Each engine
-should inherit from this and overload methods necessary to achieve correct
+This is the base class which implements basic functionality only. Each engine
+should inherit from it and overload methods necessary to achieve correct
 behavior.
 
 =cut
@@ -191,21 +192,22 @@ has headers => ( is => 'rw', lazy => 1, builder => 'prepareHeaders', );
 
 =begin TML
 
----++ ClassMethod start(env => \%env)
+---++ StaticMethod start(env => \%env)
 
-Determines the type of environment we're running in and creates an instance of
-corresponding class. The environment is been detected by:
+Determines the type of environment we're running under and creates an instance
+of corresponding class. The environment is been detected by:
 
    * reading configuration key =Engine=;
-   * loading all engines defined by =EngineList= configuration key and calling their =probe()= static method;
-   * assuming that if no engine has been detected that it's CLI is in use.
+   * loading all engines defined by =EngineList= configuration key and calling
+     their =probe()= static method;
+   * assuming that if no engine has been detected then CLI must be used.
 
 =cut
 
 sub start {
     my %params = @_;
 
-    my $app = $params{app} // $Foswiki::app;
+    my $app = $params{app};
     my $cfg = $app->cfg;
     my $env = $app->env;
     my $engine;
@@ -214,6 +216,8 @@ sub start {
     unless ( defined $engine ) {
         foreach my $shortName ( @{ $cfg->data->{EngineList} } ) {
             my $engMod = "Foswiki::Engine::$shortName";
+
+            $engMod = $app->extMgr->mapClass($engMod);
 
             # Do not catch errors here because engines have to be impeccable.
             # Nothing is allowed to fail.
@@ -438,7 +442,7 @@ sub write {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
