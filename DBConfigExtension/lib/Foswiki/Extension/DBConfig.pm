@@ -42,7 +42,7 @@ package Foswiki::Extension::DBConfig;
 use DBI;
 use Try::Tiny;
 
-use Foswiki::FeatureSet qw(featuresComply);
+use Foswiki::FeatureSet;
 
 use Foswiki::Class qw(extension);
 extends qw(Foswiki::Extension);
@@ -52,6 +52,13 @@ our $API_VERSION = version->declare("2.99.0");
 
 # Features this extension require to run.
 our @FS_REQUIRED = qw( MOO OOSPECS );
+
+features_provided
+  -namespace => 'Ext::DBConfig',
+  READ_WRITE =>
+  [ 2.99, undef, undef, -desc => "Config could be read and written", ],
+  MYSQL      => [ 2.99, undef, undef, -desc => "MySQL support", ],
+  POSTGRESQL => [ 2.99, undef, undef, -desc => "PostgreSQL support", ];
 
 =begin TML
 
