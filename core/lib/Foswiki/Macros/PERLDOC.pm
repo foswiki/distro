@@ -3,6 +3,7 @@ package Foswiki::Macros::PERLDOC;
 
 use Try::Tiny;
 use Data::Dumper;
+use Foswiki::Render::Anchors;
 
 use Foswiki::Class qw(app);
 extends qw<Foswiki::Object>;
@@ -33,8 +34,13 @@ sub expand {
         }
     }
 
-    $linkText = $params->{text}   if $params->{text};
-    $anchor   = $params->{anchor} if $params->{anchor};
+    $linkText = $params->{text} if $params->{text};
+    if ( $params->{anchor} ) {
+        $anchor = $params->{anchor};
+    }
+    elsif ( $params->{section} ) {
+        $anchor = Foswiki::Render::Anchors::make( $params->{section} );
+    }
     $anchor = "#$anchor" unless $anchor =~ /^#/;
 
     my $cfgData = $this->app->cfg->data;

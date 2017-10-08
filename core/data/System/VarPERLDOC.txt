@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506731777" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507428457" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PERLDOC -- generate a link to code documentation
 Generates a link to in-code documentation. Takes following parameters:
@@ -8,10 +8,15 @@ Generates a link to in-code documentation. Takes following parameters:
    | =method= | Name of a method to point to | |
    | =attr= or =attribute= | Name of an attribute to point to | |
    | =text= | Text to be displayed instead of default | |
+   | =anchor= | Link to specific anchor in the documenation | |
+   | =section= | Link to specific section in the documentation | |
 
 If either =method= or =attr= is used the generated link will contain anchor
 pointing to corresponding sub-section in the documentation. Note that if both
 parameters are used then =method= has priority over =attr=.
+
+=anchor= and =section= override anchors defined by =attr= or =method= with
+=anchor= being the highest priority one.
 
 Default text generated for the link consist of module name followed by a double
 colon and the method or attribute name if corresponding parameters are present;
