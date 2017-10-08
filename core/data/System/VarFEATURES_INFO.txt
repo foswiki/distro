@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" date="1507428111" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ FEATURES_INFO - outputs a table with currently active features
+
+Produces formatted information about currently active features.
+
+   | *Parameter* | *Description* | *Default* |
+   | =mode= | Output info about _"features"_ or _"namespaces"_. | _"features"_ |
+   | =namespace= or =ns= | Namespace to output information about. | |
+
+Features are displayed in a table; namespaces as a bulleted list.
+
+The =namespace= is ignored if =mode= is _"namespaces"_. It has two special meanings:
+
+   $ _"*"_: all registered namespaces
+   $ empty string or no =namespace= parameter: core namespace only. 
+
+---++ Examples
+
+Output only features of the core namespace:
+
+<verbatim>
+%FEATURES_INFO%
+</verbatim>
+
+Output features from all namespaces:
+
+<verbatim>
+%FEATURES_INFO{ns="*"}%
+</verbatim>
+
+Output test namespace only:
+
+<verbatim>
+%FEATURES_INFO{ns="Test"}%
+</verbatim>
+
+Output list of registered namespaces:
+
+<verbatim>
+%FEATURES_INFO{mode="namespaces"}%
+</verbatim>

@@ -3,7 +3,8 @@ package Foswiki::Macros::FEATURES_INFO;
 
 use Try::Tiny;
 use Data::Dumper;
-use Foswiki::FeatureSet qw<getNSFeatures featureMeta featureVersions>;
+use Foswiki::FeatureSet qw<getNSFeatures featureMeta featureVersions
+  getFSNamespaces>;
 
 use Foswiki::Class qw(app);
 extends qw<Foswiki::Object>;
@@ -15,30 +16,54 @@ sub expand {
 
     my $result = "";
 
-    my $namespace = $params->{ns} // $params->{namespace} // undef;
+    my $mode = $params->{mode} // 'features';
+    my $requestedNS = $params->{ns} // $params->{namespace} // undef;
 
-    my @fsList = getNSFeatures($namespace);
+    if ( $mode eq 'features' ) {
+        my @nsList =
+          $requestedNS eq '*' ? ( "", getFSNamespaces ) : ($requestedNS);
 
-    $result =
+        $result =
 "| *Feature* | *Ver.introduced* | *Ver.depracted* | *Ver.obsoleted* | *Description* | *Orig.proposal* | *Documentation topic* |\n";
 
-    foreach my $feature ( sort @fsList ) {
-        my $fsMeta = featureMeta( $feature, -namespace => $namespace );
-        my $fsVersions = featureVersions( $feature, -namespace => $namespace );
-        my @row;
+        foreach my $namespace (@nsList) {
 
-        push @row, "=$feature=",
-          map { defined $_ ? $_->normal : "" } @$fsVersions;
+            if ($namespace) {
+                $result .=
+                    "|  *Namespace: "
+                  . Foswiki::entityEncode($namespace)
+                  . "*  |||||||\n";
+            }
 
-        push @row, Foswiki::entityEncode( $fsMeta->{"-description"} ) // "";
-        push @row,
-          defined( $fsMeta->{"-proposal"} )
-          ? "[[https://foswiki.org/Development/"
-          . $fsMeta->{"-proposal"} . "]["
-          . $fsMeta->{"-proposal"} . "]]"
-          : "";
-        push @row, $fsMeta->{"-documentation"} // "";
-        $result .= "| " . join( " | ", @row ) . " |\n";
+            my @fsList = getNSFeatures($namespace);
+
+            foreach my $feature ( sort @fsList ) {
+                my $fsMeta = featureMeta( $feature, -namespace => $namespace );
+                my $fsVersions =
+                  featureVersions( $feature, -namespace => $namespace );
+                my @row;
+
+                push @row, "=$feature=",
+                  map { defined $_ ? $_->normal : "" } @$fsVersions;
+
+                push @row,
+                  Foswiki::entityEncode( $fsMeta->{"-description"} ) // "";
+                push @row,
+                  defined( $fsMeta->{"-proposal"} )
+                  ? "[[https://foswiki.org/Development/"
+                  . $fsMeta->{"-proposal"} . "]["
+                  . $fsMeta->{"-proposal"} . "]]"
+                  : "";
+                push @row, $fsMeta->{"-documentation"} // "";
+                $result .= "| " . join( " | ", @row ) . " |\n";
+            }
+        }
+    }
+    elsif ( $mode eq 'namespaces' ) {
+        my @nsList = getFSNamespaces;
+        $result = "\n"
+          . join( "",
+            map { "   * " . Foswiki::entityEncode($_) . "\n" } @nsList );
     }
 
     return $result;
