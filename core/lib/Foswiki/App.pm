@@ -95,10 +95,7 @@ callback_names qw(handleRequestException postConfig);
 
 ---++ Active features
 
-%FEATURES_INFO%
-
-<!-- This part of documentation is better be handled by a special MACRO which
-would output a table of features -->
+%FEATURES_INFO{ns="*"}%
 
 =cut
 
@@ -118,8 +115,7 @@ features_provided
     -desc     => "Perl Specs",
     -proposal => "OOConfigSpecsFormat",
     -doc      => 'SpecFileFormat',
-  ],
-  ;
+  ];
 
 =begin TML
 
