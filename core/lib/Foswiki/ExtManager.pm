@@ -33,18 +33,19 @@ and initialization.
 
 At the construction stage (which is called so because it's initiated by class
 constructor) the manager only loads extensions by scanning directories listed in
-=extSubDirs= attribute and loading all _.pm_ files it finds there. The order of
-files (and thus the order of extensions) in not relevant here and depends on how
-=IO::Dir= =read()= method works.
+=%PERLDOC{"Foswiki::ExtManager" attr="extSubDirs" text="extSubDirs"}%= attribute
+and loading all _.pm_ files it finds there. The order of files (and thus the
+order of extensions) in not relevant here and depends on how =CPAN:IO::Dir=
+=read()= method works.
 
 Upon loading an extension module registers (or declares – particular term
 depends on a point of view) it's components or attributes like methods or
 callback handlers, subclasses, order in the execution chain (before or after
 another extension), etc. All this could either be done by direct reference to
 extension manager's =register*()= family of static methods; or, preferably, by
-using subroutines exported by =Foswiki::Class= module when =extension= modifier
-is used as a =Foswiki::Class= parameter (see =Foswiki::Extension::Empty= for
-code examples).
+using subroutines exported by =%PERLDOC{Foswiki::Class}%= module when
+=extension= modifier is used as a =Foswiki::Class= parameter (see
+=%PERLDOC{Foswiki::Extension::Empty}%= for code examples).
 
 *Important!* It has to be understood that after this stage is completed
 extensions are only registered with the core code. The information obtained is
@@ -134,10 +135,17 @@ compatible:
    1 It is a subclass of =Foswiki::Extension=
    1 Its module defines either =$API_VERSION= or =@FS_REQUIRED=
    1 Features required by the module (as defined in =@FS_REQUIRED=) are provided
-   either by the core or by specified namespaces (see =Foswiki::FeatureSet=)
+   either by the core or by specified namespaces (see
+   =%PERLDOC{Foswiki::FeatureSet}%=)
    1 If no =@FS_REQUIRED= is found then the requested API version in
    =$API_VERSION= is tested to fall into inclusive range from
    =$Foswiki::ExtManager::MIN_VERSION= to =$Foswiki::ExtManager::VERSION=.
+   
+%X% *NOTE:* The =$Foswiki::ExtManager::VERSION= mentioned above is not Foswiki
+version. It declares current API version which may fall behind
+$Foswiki::VERSION if API did not change over few Foswiki releases. For example,
+Foswiki v3.1 might easily have API versioned as v3.0.5. It is recommended to
+set API version to match the release where it was changed.
    
 The =@FS_REQUIRED= is a simple list of strings where each string is either a
 feature name or two strings together define a namespace in a form of
@@ -190,16 +198,18 @@ An extension could subclass practically any core class and redefine its
 functionality. To make this possible any %WIKITOOLNAME% code, including
 extensions themselves, must comply to the following rules:
 
-   * Any class must be a direct or indirect descendant of =Foswiki::Object=.
+   * Any class must be a direct or indirect descendant of
+     =%PERLDOC{Foswiki::Object}%=.
    * New class instances (objects) must be created using
-     =Foswiki::App::create()= method which is directly available as a
-     ObjectMethod for classes consuming =Foswiki::AppObject= role.
+     =%PERLDOC{"Foswiki::App" method="create"}%= method which is directly
+     available as a ObjectMethod for classes consuming =Foswiki::AppObject=
+     role.
      
 The second rule is redundant for extensions because they're inheriting from
 =Foswiki::Extension= which already consumes the role.
 
-Most of the core classes, with =Foswiki::App= in the first place, are following
-these rules making it possible to subclass practically any core class.
+Most of the core classes, with =%PERLDOC{Foswiki::App}%= in the first place, are
+following these rules making it possible to subclass practically any core class.
 
 It is important remember the advise about multiple active extensions. With
 respect to subclassing the advise could be extended with an additional sentense:
@@ -231,11 +241,12 @@ method.
 ---+++ Pluggable Methods
 
 Alongside with subclassing there is a less radical method of redefining core
-behavior. It is called 'pluggable methods' and it depends on the good will of
-a core class which can declare itself an _extensible_ (see =Foswiki::Class=).
-With this modifier it acquires the power of declaring some of its methods
-as _pluggables_. A pluggable method is extensions' plaything. But more details
-on this subject can be found in =Foswiki::Extension::Empty= documentation.
+behavior. It is called 'pluggable methods' and it depends on the good will of a
+core class which can declare itself an _extensible_ (see
+=%PERLDOC{Foswiki::Class}%=). With this modifier it acquires the power of
+declaring some of its methods as _pluggables_. A pluggable method is extensions'
+plaything. But more details on this subject can be found in
+=Foswiki::Extension::Empty= documentation.
 
 =cut
 
@@ -310,10 +321,10 @@ has extensions => (
 
 List of *library* paths where to look for extensions. Those are not ultimate as
 full name of directories where extensions are actually being located is formed
-using =extPrefix= attribute. For example, with it's default _Foswiki::Extension_
-value a library path _/usr/local/www/foswiki/lib_ would be used to make the full
-form _/usr/local/www/foswiki/lib/Foswiki/Extension_ – and  this is where the
-manager is expecting to find extensions.
+using =extPrefix= attribute. For example, with it's default
+_"Foswiki::Extension"_ value a library path _/usr/local/www/foswiki/lib_ would
+be used to make the full form _/usr/local/www/foswiki/lib/Foswiki/Extension_ –
+and this is where the manager is expecting to find extensions.
 
 Lazy, builder uses the following sources to set the attribute (next one is used
 if none of the previous is set):
@@ -1641,7 +1652,9 @@ sub registerPlugMethod {
 
 ---++ RELATED
 
-=%PERLDOC{Foswiki::Extension::Empty}%=, =%PERLDOC{Foswiki::Class}%=.
+%PERLDOC{Foswiki::Extension::Empty}% : a source of information on practical details of extension development
+
+%PERLDOC{Foswiki::Class}%
 
 =cut
 
@@ -1649,7 +1662,7 @@ sub registerPlugMethod {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

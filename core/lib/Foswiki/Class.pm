@@ -10,8 +10,8 @@ use warnings;
 
 ---+ Package Foswiki::Class
 
-This is a wrapper package for Moo and intended to be used as a replacement and
-a shortcut for a bunch of code like:
+This wrapper package for Moo intended to be used as a replacement and a shortcut
+for a bunch of code like:
 
 <verbatim>
 use v5.14;

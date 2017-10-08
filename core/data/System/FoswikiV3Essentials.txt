@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507256707" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507428457" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -17,9 +17,9 @@ Basically, what makes v3 different from all previous versions are:
    $ PSGI support : Yes, the new code is PSGI compliant. Basically, it is the
    main and only mode of operation now. Any other environments like CGI, FastCGI,
    etc. are now supported through corresponding CPAN:Plack::Handler adapters.
+   $ OO-redesigned test framework : It's all said.
    $ PSGI testing framework : It comes as an extension to the legacy testing
    code and wraps around CPAN:Plack::Test.
-   $ OO-redesigned test framework : It's all said.
    $ Manageable callbacks : Flexible and powerful, the new callback protocol
    unifies the interface and provides more control.
    $ Extensions : They're here to replace some day the old plugins framework.
