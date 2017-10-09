@@ -416,6 +416,12 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # the Web Server configuration.
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
+# **NUMBER LABEL="Login Token Lifetime"**
+# Specifiy the time in seconds the Login token should be usable, for example:  password reset.
+# Recommend setting this to allow for email delays, including grey listing
+# no more than 15 minutes (900 seconds).
+$Foswiki::cfg{Login}{TokenLifetime} = 900;
+
 # **BOOLEAN LABEL="Debug Login Manager" EXPERT**
 # Write debugging output to the webserver error log.
 $Foswiki::cfg{Trace}{LoginManager} = 0;
@@ -441,13 +447,15 @@ $Foswiki::cfg{AuthScripts} =
 # Enable this setting to restore the original insecure defaults.
 $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 
-# **REGEX LABEL="Authenticated Scripts Pattern" EXPERT**
-# Regular expression matching the scripts that should be allowed to accept the 
+# **REGEX LABEL="Scripts accepting user/pass params" EXPERT**
+# Regular expression matching the scripts that should be allowed to accept the
 # =username= and =password= parameters other than the login script. Older
 # versions of Foswiki would accept the username and password parameter on any
 # script. The =login= and =logon= script will always accept the username and
 # password, but only from POST requests. In order to add support for the
-# =rest= and =restauth>> scripts, specify =/^(view|rest)(auth)?$/=
+# =rest= and =restauth>> scripts, specify =/^(view|rest)(auth)?$/=.  See also the
+# Miscellaneous -> Compatibilty expert settings if you want to accept user/pass
+# parameters on GET requests.
 $Foswiki::cfg{Session}{AcceptUserPwParam} = '^view(auth)?$';
 
 # **BOOLEAN LABEL="Prevent from Remembering the User Password" EXPERT DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'"**

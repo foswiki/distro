@@ -634,6 +634,28 @@ sub checkAccess {
     my ( $session, $mode, $topicObject ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
+    # If this is checking the primary session topic, apply access restrictions
+    if ( $topicObject->isSessionTopic() ) {
+        my $topicRestriction =
+          $session->getLoginManager()
+          ->getSessionValue('FOSWIKI_TOPICRESTRICTION');
+
+        if ($topicRestriction) {
+
+            my ( $rWeb, $rTopic ) =
+              $session->normalizeWebTopicName( '', $topicRestriction );
+            unless (
+                   $rWeb   eq $topicObject->web()
+                && $rTopic eq $topicObject->topic()
+
+              )
+            {
+                my $url = $session->getScriptUrl( 1, 'view', $rWeb, $rTopic );
+                $session->redirect($url);
+            }
+        }
+    }
+
     unless ( $topicObject->haveAccess($mode) ) {
         throw Foswiki::AccessControlException( $mode, $session->{user},
             $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason );
