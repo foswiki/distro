@@ -223,7 +223,8 @@ use Foswiki::Exception::Config;
 
 package Foswiki::Exception::_expandStr::UndefVal {
     use Foswiki::Class;
-    extends qw(Foswiki::Exception::Harmless);
+    extends qw<Foswiki::Exception>;
+    with qw<Foswiki::Exception::Harmless>;
 }
 
 use Foswiki::Class qw(app extensible);

@@ -699,7 +699,7 @@ sub _loadFromSubDir {
             }
             else {
                 # SMELL Bad extension file name, shall we do something about it?
-                # Note that loggins isn't possible yet. But we can rely upon
+                # Note that logging isn't possible yet. But we can rely upon
                 # server logging perhaps.
                 Foswiki::Exception::Ext::BadName->throw(
                     extension => $dirEntry );

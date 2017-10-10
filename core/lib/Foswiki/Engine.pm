@@ -295,7 +295,6 @@ Initializer for the =user= object attribute.
 
 Returns =$req= - Foswiki::Request object, populated with the action and the path.
 
-
 =cut
 
 sub prepareUser { return shift->env->{REMOTE_USER}; }

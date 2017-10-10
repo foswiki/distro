@@ -980,9 +980,10 @@ sub handleRequest {
 
         $this->callback( 'handleRequestException', { exception => $e, } );
 
-        # SMELL TODO At this stage we shall be able to display any exception in
-        # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
-        # exception is just a temporary stub.
+# SMELL TODO At this stage we shall be able to display any exception in a pretty
+# HTMLized way if engine is HTTPCompliant. Rethrowing of an exception is just a
+# temporary stub.
+# SMELL TODO Foswiki::Exception::HTTPResonse and HTTPError are better be handled here.
         if ( $e->isa('Foswiki::AccessControlException') ) {
 
             unless ( $this->users->getLoginManager->forceAuthentication ) {
