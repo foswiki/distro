@@ -6,7 +6,8 @@ use Foswiki::Exception;
 package Foswiki::Exception::Config::NoNextDef;
 
 use Foswiki::Class;
-extends qw(Foswiki::Exception::Harmless);
+extends qw<Foswiki::Exception>;
+with qw<Foswiki::Exception::Harmless>;
 
 # Role to prefix exception text with source file info.
 package Foswiki::Exception::Config::SrcFile;
@@ -88,10 +89,7 @@ around stringify => sub {
       . $sourceInfo . ")"
       : '';
 
-    return
-        $this->stringifyText( $this->text )
-      . $sectionInfo
-      . $this->stringifyPostfix;
+    return $this->stringifyText . $sectionInfo . $this->stringifyPostfix;
 };
 
 sub prepareSection {
