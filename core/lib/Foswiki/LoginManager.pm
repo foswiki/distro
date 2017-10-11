@@ -69,9 +69,8 @@ our %readOnlySK = (
     %secretSK,
     AUTHUSER                 => 1,    # The authorized user.
     SUDOFROMAUTHUSER         => 1,    # The user who initiated SUDO admin login
-    FOSWIKI_TOPICRESTRICTION => 1     # Restricts all access to named web.topic
-      FOSWIKI_RESETPASSWORD =>
-      1    # Allows ChahgePassword without using old password
+    FOSWIKI_TOPICRESTRICTION => 1,    # Restricts all access to named web.topic
+    FOSWIKI_RESETPASSWORD    => 1,    # Skips validating old password
 );
 
 use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
