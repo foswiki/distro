@@ -70,6 +70,8 @@ our %readOnlySK = (
     AUTHUSER                 => 1,    # The authorized user.
     SUDOFROMAUTHUSER         => 1,    # The user who initiated SUDO admin login
     FOSWIKI_TOPICRESTRICTION => 1     # Restricts all access to named web.topic
+      FOSWIKI_RESETPASSWORD =>
+      1    # Allows ChahgePassword without using old password
 );
 
 use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
@@ -1778,6 +1780,7 @@ sub generateLoginToken {
     my $cUID    = shift;
     my $options = shift;
 
+    $options->{cUID} = $cUID;
     my $nonce         = Foswiki::generateRandomChars(32);
     my $token         = Digest::MD5::md5_hex($nonce);
     my $tokenFile     = "$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token";

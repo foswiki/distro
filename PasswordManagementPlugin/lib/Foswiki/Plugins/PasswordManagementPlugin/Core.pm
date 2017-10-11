@@ -1,0 +1,370 @@
+# See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Plugins::PasswordManagementPlugin::Core
+REST methods for password management.
+Messages templates are found in oopspassword.tmpl and passwordmessages.tmpl.
+
+=cut
+
+package Foswiki::Plugins::PasswordManagementPlugin::Core;
+
+use strict;
+use warnings;
+use Assert;
+use Error qw( :try );
+
+use Foswiki                ();
+use Foswiki::OopsException ();
+use Foswiki::Sandbox       ();
+
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
+=begin TML
+
+---++ StaticMethod resetPassword($session)
+
+Generates a password. Mails it to them and asks them to change it. Entry
+point intended to be called from UI::run
+
+=cut
+
+sub _RESTresetPassword {
+
+    #   my ( $session, $subject, $verb, $response ) = @_;
+
+    my $session = shift;
+    my $query   = $session->{request};
+    my $users   = $session->{users};
+
+    unless ( $Foswiki::cfg{EnableEmail} ) {
+        my $err = $session->i18n->maketext(
+            'Email has been disabled for this Foswiki installation');
+        throw Foswiki::OopsException(
+            'password',
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_bad',
+            params => [$err]
+        );
+    }
+
+    my $userName = $query->param('LoginName');
+
+    unless ($userName) {
+        throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
+    }
+
+    my $user = Foswiki::Func::getCanonicalUserID($userName);
+    unless ( $user && $session->{users}->userExists($user) ) {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'not_a_user',
+            params => [$userName],
+        );
+    }
+
+    my $token = Foswiki::LoginManager::generateLoginToken(
+        $user,
+        {
+            FOSWIKI_TOPICRESTRICTION =>
+              "$Foswiki::cfg{SystemWebName}.ChangePassword",
+            FOSWIKI_PASSWORDRESET => 1.
+        }
+    );
+
+    my @em     = $users->getEmails($user);
+    my $sent   = 0;
+    my $errors = '';
+    if ( !scalar(@em) ) {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'bad_email',
+            params => [$userName],
+        );
+    }
+    else {
+        # absolute URL context for email generation
+        $session->enterContext('absolute_urls');
+
+        my $ln = $users->getLoginName($user);
+        my $wn = $users->getWikiName($user);
+        foreach my $email (@em) {
+            my $err;
+            $err = _sendEmail(
+                $session,
+                'passwordresetmail',
+                {
+                    webName       => $Foswiki::cfg{UsersWebName},
+                    LoginName     => $ln,
+                    FirstLastName => Foswiki::spaceOutWikiWord($wn),
+                    WikiName      => $wn,
+                    EmailAddress  => $email,
+                    TokenLife     => $Foswiki::cfg{Login}{TokenLifetime},
+                    AuthToken     => $token,
+                }
+            );
+
+            if ($err) {
+                $errors .= $err;
+            }
+            else {
+                $sent++;
+            }
+        }
+        $session->leaveContext('absolute_urls');
+    }
+
+    # Now that we have successfully reset the password we log the event
+    $session->logger->log(
+        {
+            level  => 'info',
+            action => 'resetpasswd',
+            extra  => $user,
+        }
+    );
+
+    if ($sent) {
+
+        # Redirect to a page that tells what happened
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_ok',
+            params => [ $Foswiki::cfg{Login}{TokenLifetime}, $errors ]
+        );
+    }
+
+    #else {
+    #    throw Foswiki::OopsException(
+    #        'register',
+    #        topic  => $Foswiki::cfg{HomeTopicName},
+    #        def    => 'reset_bad',
+    #        params => [$message]
+    #    );
+    #}
+}
+
+=begin TML
+
+---++ StaticMethod RESTchangePassword 
+
+Change the user's password. Details of the user and password
+are passed in CGI parameters.
+
+=cut
+
+sub _RESTchangePassword {
+    my $session = shift;
+
+    my $topic        = $session->{topicName};
+    my $webName      = $session->{webName};
+    my $query        = $session->{request};
+    my $requestUser  = $session->{user};
+    my $loginManager = $session->getLoginManager();
+
+    my $oldpassword = $query->param('oldpassword');
+    my $login       = $query->param('username');
+    my $passwordA   = $query->param('password');
+    my $passwordB   = $query->param('passwordA');
+
+    # check if required fields are filled in
+    unless ($login) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'missing_fields',
+            params => ['username']
+        );
+    }
+
+    my $users = $session->{users};
+
+    unless ($login) {
+        throw Foswiki::OopsException(
+            'register',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'not_a_user',
+            params => [$login]
+        );
+    }
+
+    unless ( defined $passwordA ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'missing_fields',
+            params => ['password']
+        );
+    }
+
+    # check if passwords are identical
+    if ( $passwordA ne $passwordB ) {
+        throw Foswiki::OopsException(
+            'register',
+            web   => $webName,
+            topic => $topic,
+            def   => 'password_mismatch'
+        );
+    }
+
+    my $resetActive = $loginManager->getSessionValue('FOSWIKI_PASSWORDRESET');
+
+    if ($resetActive) {
+        $oldpassword = 1;
+    }
+    else {
+        # check if required fields are filled in
+        unless ( defined $oldpassword || $users->isAdmin($requestUser) ) {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $webName,
+                topic  => $topic,
+                def    => 'missing_fields',
+                params => ['oldpassword']
+            );
+        }
+
+        unless ( $users->isAdmin($requestUser)
+            || $users->checkPassword( $login, $oldpassword ) )
+        {
+            throw Foswiki::OopsException(
+                'register',
+                web   => $webName,
+                topic => $topic,
+                def   => 'wrong_password'
+            );
+        }
+    }
+
+    my $cUID = $users->getCanonicalUserID($login);
+
+    # Determine that the cUID exists.
+    unless ( defined $cUID ) {
+        throw Foswiki::OopsException(
+            'register',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'not_a_user',
+            params => [$login]
+        );
+    }
+
+    if ( length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
+        throw Foswiki::OopsException(
+            'register',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'bad_password',
+            params => [ $Foswiki::cfg{MinPasswordLength} ]
+        );
+    }
+
+    # Parameters have been checked, check the validation key
+    Foswiki::UI::checkValidationKey($session);
+
+    # OK - password may be changed
+    unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
+        throw Foswiki::OopsException(
+            'register',
+            web   => $webName,
+            topic => $topic,
+            def   => 'password_not_changed'
+        );
+    }
+    else {
+        $session->logger->log(
+            {
+                level  => 'info',
+                action => 'changepasswd',
+                extra  => $login
+            }
+        );
+    }
+
+    $loginManager->clearSessionValue('FOSWIKI_PASSWORDRESET');
+    $loginManager->clearSessionValue('FOSWIKI_TOPICRESTRICTION');
+
+    # OK - password changed
+    throw Foswiki::OopsException(
+        'register',
+        status => 200,
+        web    => $webName,
+        topic  => $topic,
+        def    => 'password_changed'
+    );
+}
+
+# sends $p->{template} to $p->{Email} with substitutions from $data
+sub _sendEmail {
+    my ( $session, $template, $data ) = @_;
+
+    my $text = $session->templates->readTemplate($template);
+    $data->{Introduction} ||= '';
+    $data->{Name} ||= $data->{WikiName};
+    my @unexpanded;
+    foreach my $field ( keys %$data ) {
+        my $f = uc($field);
+        unless ( $text =~ s/\%$f\%/$data->{$field}/g ) {
+            unless ( $field =~ m/^Password|Confirm|form|webName/
+                || !defined( $data->{$field} )
+                || $data->{$field} !~ /\W/ )
+            {
+                push( @unexpanded, "$field: $data->{$field}" );
+            }
+        }
+    }
+    $text =~ s/%REGISTRATION_DATA%/join("\n", map {"\t* $_" } @unexpanded)/ge;
+
+    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
+        $data->{WikiName} );
+    $text = $topicObject->expandMacros($text);
+
+    return $session->net->sendEmail($text);
+}
+
+1;
+
+__END__
+
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+(c) 1999-2007 TWiki Contributors
+(c) 1999-2007 Peter Thoeny, peter@thoeny.com
+(c) 2001 Kevin Atkinson, kevin twiki at atkinson dhs org
+(c) 2003-2008 SvenDowideit, SvenDowideit@home.org.au
+(c) 2003 Graeme Pyle graeme@raspberry dot co dot za
+(c) 2004 Martin Cleaver, Martin.Cleaver@BCS.org.uk
+(c) 2004 Gilles-Eric Descamps twiki at descamps.org
+(c) 2004-2007 Crawford Currie c-dot.co.uk
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

@@ -2445,6 +2445,11 @@ $Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="NatEditPlugin Module"**
 $Foswiki::cfg{Plugins}{NatEditPlugin}{Module} = 'Foswiki::Plugins::NatEditPlugin';
 
+# **BOOLEAN LABEL="PasswordManagementPlugin"
+$Foswiki::cfg{Plugins}{PasswordManagementPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="PasswordManagementPlugin Module"**
+$Foswiki::cfg{Plugins}{PasswordManagementPlugin}{Module} = 'Foswiki::Plugins::PasswordManagementPlugin';
+
 # **BOOLEAN LABEL="PreferencesPlugin"
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="PreferencesPlugin Module"**

@@ -1,4 +1,9 @@
-!noci
+data/System/ChangePassword.txt 0664
 data/System/PasswordManagementPlugin.txt 0664
+data/System/ResetPassword.txt 0664
 lib/Foswiki/Plugins/PasswordManagementPlugin.pm 0664
+lib/Foswiki/Plugins/PasswordManagementPlugin/Core.pm 0664
 lib/Foswiki/Plugins/PasswordManagementPlugin/DEPENDENCIES 0664
+templates/oopspassword.tmpl 0664
+templates/passwordmessages.tmpl 0664
+templates/passwordresetmail.tmpl 0664
