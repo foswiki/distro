@@ -43,7 +43,7 @@ sub initPlugin {
 
     Foswiki::Func::registerRESTHandler(
         'resetPassword', \&_RESTresetPassword,
-        validate => 0,
+        validate     => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
         authenticate => 0,
         http_allow   => 'POST',
         description  => 'Generate a Passord reset token and email to the user.',

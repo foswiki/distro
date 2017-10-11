@@ -71,6 +71,8 @@ sub _RESTresetPassword {
         );
     }
 
+    #  TOPICRESTRICTION - locks session down to a single topic
+    #  PASSWORDRESET    - Bypasses checking of old password.
     my $token = Foswiki::LoginManager::generateLoginToken(
         $user,
         {
@@ -109,7 +111,7 @@ sub _RESTresetPassword {
                     FirstLastName => Foswiki::spaceOutWikiWord($wn),
                     WikiName      => $wn,
                     EmailAddress  => $email,
-                    TokenLife     => $Foswiki::cfg{Login}{TokenLifetime},
+                    TokenLife     => $Foswiki::cfg{Login}{TokenLifetime} || 900,
                     AuthToken     => $token,
                 }
             );
@@ -144,15 +146,14 @@ sub _RESTresetPassword {
             params => [ $Foswiki::cfg{Login}{TokenLifetime}, $errors ]
         );
     }
-
-    #else {
-    #    throw Foswiki::OopsException(
-    #        'register',
-    #        topic  => $Foswiki::cfg{HomeTopicName},
-    #        def    => 'reset_bad',
-    #        params => [$message]
-    #    );
-    #}
+    else {
+        throw Foswiki::OopsException(
+            'password',
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_bad',
+            params => [$errors]
+        );
+    }
 }
 
 =begin TML
@@ -191,13 +192,14 @@ sub _RESTchangePassword {
 
     my $users = $session->{users};
 
-    unless ($login) {
-        throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
+    my $user = Foswiki::Func::getCanonicalUserID($login);
+    unless ( $user && $session->{users}->userExists($user) ) {
+        throw Foswiki::OopEexception(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{hometopicname},
             def    => 'not_a_user',
-            params => [$login]
+            params => [$user],
         );
     }
 
@@ -272,9 +274,6 @@ sub _RESTchangePassword {
             params => [ $Foswiki::cfg{MinPasswordLength} ]
         );
     }
-
-    # Parameters have been checked, check the validation key
-    Foswiki::UI::checkValidationKey($session);
 
     # OK - password may be changed
     unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
