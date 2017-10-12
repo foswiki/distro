@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Aux::MuteOut;
+package Foswiki::Util::MuteOut;
 use strict;
 use warnings;
 
 =begin TML
 
----+!! Package Foswiki::Aux::MuteOut
+---+!! Package Foswiki::Util::MuteOut
 
 Very simplistic redirection of STDERR/STDOUT.
 
@@ -16,7 +16,7 @@ Simply avoid any output:
 
 <verbatim>
 
-use Foswiki::Aux::MuteOut;
+use Foswiki::Util::MuteOut;
 
 sub proc {
     my ($dir) = @_;
@@ -25,7 +25,7 @@ sub proc {
     print STDERR "RC=", $rc;
 }
 
-my $mute = Foswiki::Aux::MuteOut->new;
+my $mute = Foswiki::Util::MuteOut->new;
 
 # Nothing will be displayed by proc()
 $mute->exec(\&proc, "/etc");
@@ -34,7 +34,7 @@ $mute->exec(\&proc, "/etc");
 Capture output into files:
 
 <verbatim>
-my $capture = Foswiki::Aux::MuteOut->new(
+my $capture = Foswiki::Util::MuteOut->new(
     outFile => 'stdout.txt',
     errFile => 'stderr.txt',
 );
@@ -63,18 +63,18 @@ sub new {
       ( defined $params{errFile} ) ? $params{errFile} : File::Spec->devnull;
 
     unless ( open $oldOut, ">&", STDOUT ) {
-        Foswiki::Aux::Dependencies::_msg( "Cannot dup STDOUT: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Cannot dup STDOUT: " . $! );
         return undef;
     }
     unless ( open $oldErr, ">&", STDERR ) {
-        Foswiki::Aux::Dependencies::_msg( "Cannot dup STDERR: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Cannot dup STDERR: " . $! );
         return undef;
     }
     unless ( open STDOUT, ">", $outFile ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to redirect STDOUT: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Failed to redirect STDOUT: " . $! );
     }
     unless ( open STDERR, ">", $errFile ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to redirect STDERR: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Failed to redirect STDERR: " . $! );
     }
 
     my $obj = bless {
@@ -110,10 +110,10 @@ sub DESTROY {
     my $this = shift;
 
     unless ( open STDOUT, ">&", $this->{oldOut} ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to restore STDOUT: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Failed to restore STDOUT: " . $! );
     }
     unless ( open STDERR, ">&", $this->{oldErr} ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to restore STDERR: " . $! );
+        Foswiki::Util::Dependencies::_msg( "Failed to restore STDERR: " . $! );
     }
 }
 
