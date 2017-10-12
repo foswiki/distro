@@ -175,22 +175,22 @@ sub _RESTchangePassword {
     my $loginManager = $session->getLoginManager();
 
     my $oldpassword = $query->param('oldpassword');
-    my $login       = $query->param('username');
+    my $login       = $query->param('username') || $requestUser;
     my $passwordA   = $query->param('password');
     my $passwordB   = $query->param('passwordA');
 
-    # check if required fields are filled in
-    unless ($login) {
+    if (   $login eq $Foswiki::cfg{AdminUserLogin}
+        || $login eq $Foswiki::cfg{AdminUserWikiName} )
+    {
         throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'missing_fields',
-            params => ['username']
+            'password',
+            web   => $webName,
+            topic => $topic,
+            def   => 'not_admin',
         );
     }
 
-    my $users = $session->{users};
+    my $users = $session->{users};    # Get the Foswiki::Users object
 
     my $user = Foswiki::Func::getCanonicalUserID($login);
     unless ( $user && $session->{users}->userExists($user) ) {
@@ -205,7 +205,7 @@ sub _RESTchangePassword {
 
     unless ( defined $passwordA ) {
         throw Foswiki::OopsException(
-            'attention',
+            'password',
             web    => $webName,
             topic  => $topic,
             def    => 'missing_fields',
@@ -216,7 +216,7 @@ sub _RESTchangePassword {
     # check if passwords are identical
     if ( $passwordA ne $passwordB ) {
         throw Foswiki::OopsException(
-            'register',
+            'password',
             web   => $webName,
             topic => $topic,
             def   => 'password_mismatch'
@@ -226,13 +226,17 @@ sub _RESTchangePassword {
     my $resetActive = $loginManager->getSessionValue('FOSWIKI_PASSWORDRESET');
 
     if ($resetActive) {
-        $oldpassword = 1;
+        $oldpassword = 1;    # Allow password change without oldpassword.
+    }
+    elsif (  $users->isAdmin($requestUser)
+            && ! length($oldpassword) ) {
+        $oldpassword = 1;    # Allow an admin to omit the oldpassword
     }
     else {
         # check if required fields are filled in
-        unless ( defined $oldpassword || $users->isAdmin($requestUser) ) {
+        unless ( defined $oldpassword ) {
             throw Foswiki::OopsException(
-                'attention',
+                'password',
                 web    => $webName,
                 topic  => $topic,
                 def    => 'missing_fields',
@@ -240,11 +244,10 @@ sub _RESTchangePassword {
             );
         }
 
-        unless ( $users->isAdmin($requestUser)
-            || $users->checkPassword( $login, $oldpassword ) )
+        unless (  $users->checkPassword( $login, $oldpassword ) )
         {
             throw Foswiki::OopsException(
-                'register',
+                'password',
                 web   => $webName,
                 topic => $topic,
                 def   => 'wrong_password'
@@ -252,22 +255,9 @@ sub _RESTchangePassword {
         }
     }
 
-    my $cUID = $users->getCanonicalUserID($login);
-
-    # Determine that the cUID exists.
-    unless ( defined $cUID ) {
-        throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [$login]
-        );
-    }
-
     if ( length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
         throw Foswiki::OopsException(
-            'register',
+            'password',
             web    => $webName,
             topic  => $topic,
             def    => 'bad_password',
@@ -276,9 +266,9 @@ sub _RESTchangePassword {
     }
 
     # OK - password may be changed
-    unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
+    unless ( $users->setPassword( $user, $passwordA, $oldpassword ) ) {
         throw Foswiki::OopsException(
-            'register',
+            'password',
             web   => $webName,
             topic => $topic,
             def   => 'password_not_changed'
@@ -299,7 +289,7 @@ sub _RESTchangePassword {
 
     # OK - password changed
     throw Foswiki::OopsException(
-        'register',
+        'password',
         status => 200,
         web    => $webName,
         topic  => $topic,
