@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Wizard ();
-use Foswiki::Aux::MuteOut      ();
+use Foswiki::Util::MuteOut     ();
 use File::Temp                 ();
 
 our @ISA = ('Foswiki::Configure::Wizard');
@@ -114,7 +114,7 @@ sub _muteExec {
 
     {
         # Don't try to capture STDERR on FastCGI systems. it won't work.
-        my $muter = Foswiki::Aux::MuteOut->new(
+        my $muter = Foswiki::Util::MuteOut->new(
             outFile  => $outFile,
             errFile  => $errFile,
             reporter => $reporter,
