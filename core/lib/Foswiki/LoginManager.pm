@@ -355,14 +355,16 @@ sub loadSession {
       if defined $authUser;
 
 =begin TML
-   * Step 4: Still no user?  Try Token authentication.
+   * Step 4: Try Token authentication.  Allow the Token Auth to replace the current session user.  If a user provides a valid authentication token, it essentially logs them out and logs in a new user.
+      * If the user is currently running "sudo'd" to the admin user, clear that as well.
 =cut
 
-    if ( !$authUser ) {
+    my $tokenUser = $this->_getTokenCredentials($session);
+    if ($tokenUser) {
         _trace( $this,
-            "No session user, checking URI Params for an authentication token"
-        );
-        $authUser = $this->_getTokenCredentials($session);
+            "Replacing current user with $tokenUser from authtoken" );
+        $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
+        $authUser = $tokenUser;
     }
 
 =begin TML
