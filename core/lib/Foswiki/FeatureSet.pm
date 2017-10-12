@@ -192,14 +192,14 @@ namespace to which the following features will belong. For example:
 <verbatim>
 features_provided
     FEATURE1 => [ undef, undef, undef, ],
-    -namespace => 'Aux::NS',
+    -namespace => 'Auxiliary::NS',
     FEATURE2 => [ undef, undef, undef, ],
     FEATURE1 => [ undef, undef, undef, ],
     ;
 </verbatim>
 
 In this code the first =FEATURE1= would belong to the default namespace
-while =FEATURE2= and second =FEATURE1= will go into =Aux::NS=. Note also
+while =FEATURE2= and second =FEATURE1= will go into =Auxiliary::NS=. Note also
 that without the =-namespace= option this call would generate a fatal
 exception because of the duplicating features.
 
@@ -208,7 +208,7 @@ above could be rewritten in the following way:
 
 <verbatim>
 features_provided
-    -namespace => 'Aux::NS',
+    -namespace => 'Auxiliary::NS',
     FEATURE2 => [ undef, undef, undef, ],
     FEATURE1 => [ undef, undef, undef, ],
     -namespace => '',

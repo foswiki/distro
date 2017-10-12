@@ -94,11 +94,11 @@ See =Foswiki::AppObject= role which is applied to class with this modifier.
 
 A class with this modifier wants to get callbacks support. This is done by:
 
-   1. applying =Foswiki::Aux::Callbacks= role
+   1. applying =Foswiki::Util::Callbacks= role
    1. exporting =callback_names= public method.
 
 a subroutine =callback_names= is exported into a class' namespace and
-=Foswiki::Aux::Callbacks= role gets applied. =callback_names= accepts a list
+=Foswiki::Util::Callbacks= role gets applied. =callback_names= accepts a list
 and registers names from the list as callbacks supported by the class.
 
 For example:
@@ -120,7 +120,7 @@ sub someMethod {
 Here we get two callbacks registered: =Foswiki::SomeClass::callback1= and
 =Foswiki::SomeClass::callback2=.
 
-See =Foswiki::Aux::Callbacks=.
+See =Foswiki::Util::Callbacks=.
 
 ---+++ extension
 
@@ -534,14 +534,14 @@ sub _handler_stubMethods (@) {
 
 sub _handler_callback_names {
     my $target = caller;
-    Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
+    Foswiki::Util::Callbacks::registerCallbackNames( $target, @_ );
 }
 
 sub _install_callbacks {
     my ( $class, $target ) = @_;
 
-    Foswiki::load_package('Foswiki::Aux::Callbacks');
-    _assign_role( $target, 'Foswiki::Aux::Callbacks' );
+    Foswiki::load_package('Foswiki::Util::Callbacks');
+    _assign_role( $target, 'Foswiki::Util::Callbacks' );
     _inject_code( $target, "callback_names", *_handler_callback_names );
 }
 
@@ -641,7 +641,7 @@ sub _install_extensible {
 
     #say STDERR "--- INSTALLING extensible ON $target";
 
-    _assign_role( $target, 'Foswiki::Aux::_ExtensibleRole' );
+    _assign_role( $target, 'Foswiki::Util::_ExtensibleRole' );
     _inject_code( $target, 'pluggable', \&_handler_pluggable );
 }
 

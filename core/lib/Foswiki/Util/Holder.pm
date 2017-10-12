@@ -2,13 +2,13 @@
 
 =begin TML
 
----++ Class Foswiki::Aux::Holder
+---++ Class Foswiki::Util::Holder
 
 Auxiliary class. 
 
 =cut
 
-package Foswiki::Aux::Holder;
+package Foswiki::Util::Holder;
 use v5.14;
 
 require Foswiki::Object;

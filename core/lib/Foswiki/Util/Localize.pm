@@ -2,13 +2,13 @@
 
 =begin TML
 
----++ Role Foswiki::Aux::Localize
+---++ Role Foswiki::Util::Localize
 
 This role determines classes which are able to simulate =local= Perl operator
 using OO approach. They do it by providing two methods: =localize()= and
 =restore()=. The first one cleans up object to some desired state. For example –
 by cleaning up all attributes and by settings some of them to user-provided
-values. An instance of =Foswiki::Aux::Holder= class is been created then and stores
+values. An instance of =Foswiki::Util::Holder= class is been created then and stores
 a refernce to the object being localized. The holder is supposed to be stored in
 a =my= variable within same scope for where we would like the =local= operator
 to be active. When we leaving the scope the holder object destroyer method calls
@@ -40,10 +40,10 @@ class.
 
 =cut
 
-package Foswiki::Aux::Localize;
+package Foswiki::Util::Localize;
 use v5.14;
 
-use Foswiki::Aux::Holder ();
+use Foswiki::Util::Holder ();
 
 use Moo::Role;
 
@@ -122,7 +122,7 @@ This method pushes on =_dataStack= all attributes defined by
 =_localizableAttributes=. New attribute values are set using =%newAttributes=
 hash.
 
-Returns a newly created =Foswiki::Aux::Holder= instance.
+Returns a newly created =Foswiki::Util::Holder= instance.
 
 If a class with this role wants to implement its own localization method then it
 must not inherit this method but =doLocalize()=. 
@@ -153,7 +153,7 @@ sub localize {
         $this->_clear_localizeState;
     };
 
-    return Foswiki::Aux::Holder->new( object => $this );
+    return Foswiki::Util::Holder->new( object => $this );
 }
 
 sub doLocalize {

@@ -112,7 +112,7 @@ require Unit::TestRunner;
 
 use Foswiki::Class;
 extends qw(Unit::TestCase);
-with qw(Foswiki::Aux::Localize Unit::FoswikiTestRole);
+with qw(Foswiki::Util::Localize Unit::FoswikiTestRole);
 
 =begin TML
 
@@ -761,7 +761,7 @@ sub setLocalizableAttributes {
 
 ---++ See Also
 
-=Foswiki::Aux::Localize=, =Unit::FoswikiTestRole=, =Plack::Test=,
+=Foswiki::Util::Localize=, =Unit::FoswikiTestRole=, =Plack::Test=,
 =[[CPAN:HTTP::Request::Common][HTTP::Request::Common]]=.
 
 

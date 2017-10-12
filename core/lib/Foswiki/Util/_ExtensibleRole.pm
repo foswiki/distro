@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Aux::_ExtensibleRole;
+package Foswiki::Util::_ExtensibleRole;
 use v5.14;
 
 use Moo::Role;

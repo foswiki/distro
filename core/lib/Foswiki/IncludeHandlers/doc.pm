@@ -82,7 +82,7 @@ sub INCLUDE {
     );
     my %classAttributes2Roles = (
         app       => 'Foswiki::AppObject',
-        callbacks => 'Foswiki::Aux::Callbacks',
+        callbacks => 'Foswiki::Util::Callbacks',
     );
 
     if (USE_LEXICAL_PARSER) {

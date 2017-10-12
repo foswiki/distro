@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! Role Foswiki::Aux::Callbacks
+---+!! Role Foswiki::Util::Callbacks
 
 Support of callbacks for classes which may need them.
 
@@ -117,7 +117,7 @@ sub cbHandler {
 
 =cut
 
-package Foswiki::Aux::Callbacks;
+package Foswiki::Util::Callbacks;
 use v5.14;
 
 use Assert;
@@ -183,7 +183,7 @@ sub _getApp {
         $this->isa('Foswiki::App') ? $this
         : (
             $this->does('Foswiki::AppObject') ? $this->app
-            : (      $this->does('Foswiki::Aux::_ExtensibleRole')
+            : (      $this->does('Foswiki::Util::_ExtensibleRole')
                   && $this->_has__appObj ? $this->__appObj : $Foswiki::app )
         )
     );

@@ -229,7 +229,7 @@ package Foswiki::Exception::_expandStr::UndefVal {
 
 use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::Object);
-with qw(Foswiki::Aux::Localize);
+with qw(Foswiki::Util::Localize);
 
 # Enable to trace auto-configuration (Bootstrap)
 use constant TRAUTO => 1;
@@ -622,7 +622,7 @@ sub _workOutOS {
 This method preserves current =data= attribute on =_dataStack= and sets =data=
 to the values provided in =%init=.
 
-See also: =Foswiki::Aux::Localize=
+See also: =Foswiki::Util::Localize=
 
 =cut
 

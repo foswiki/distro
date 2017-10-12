@@ -46,7 +46,7 @@ our $didOnlyOnceChecks = 0;
 
 use Foswiki::Class;
 extends qw(Unit::TestCase);
-with qw(Foswiki::Aux::Localize Unit::FoswikiTestRole);
+with qw(Foswiki::Util::Localize Unit::FoswikiTestRole);
 
 #has twiki =>
 #  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->app }, );

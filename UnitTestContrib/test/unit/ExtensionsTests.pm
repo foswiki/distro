@@ -340,7 +340,7 @@ EXT3
 
     my $testObj = $this->create('Foswiki::ExtensionsTests::SampleClass');
 
-    $this->assert( $testObj->DOES('Foswiki::Aux::_ExtensibleRole'),
+    $this->assert( $testObj->DOES('Foswiki::Util::_ExtensibleRole'),
             "Test object of class "
           . ref($testObj)
           . " doesn't have extensible role!" );

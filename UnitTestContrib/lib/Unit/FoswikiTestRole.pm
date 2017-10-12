@@ -264,7 +264,7 @@ sub sentMail {
 ---++ ObjectMethod saveState
 
 Preserves current state of test object. This method is utilizing
-=Foswiki::Aux::Localize= facilities.
+=Foswiki::Util::Localize= facilities.
 
 =cut
 
@@ -282,7 +282,7 @@ sub saveState {
 ---++ ObjectMethod restoreState
 
 Restores last saved by =saveState= method object state. In addition to
-functionality provided by =Foswiki::Aux::Localize= this method also restore the
+functionality provided by =Foswiki::Util::Localize= this method also restore the
 application and config globals =$Foswiki::app= and =%Foswiki::cfg=,
 correspondingly.
 
@@ -582,7 +582,7 @@ sub _fixupAppObjects {
 
     my $app = $this->app;
 
-    # SMELL FIXME Doesn't deal with Foswiki::Aux::_ExtensibleRole.
+    # SMELL FIXME Doesn't deal with Foswiki::Util::_ExtensibleRole.
     foreach my $attr ( keys %$this ) {
         if (
                blessed( $this->{$attr} )

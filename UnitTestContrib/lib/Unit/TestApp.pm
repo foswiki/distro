@@ -28,7 +28,7 @@ extends qw(Foswiki::App);
 
 ---++ Callbacks
 
-This class defines the following callbacks (see =Foswiki::Aux::Callbacks=):
+This class defines the following callbacks (see =Foswiki::Util::Callbacks=):
 
 | *name* | *Description* |
 | =testPreHandleRequest= | Executed before control is passed over to =Foswiki::App= =handleRequest()= method. |

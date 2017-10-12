@@ -218,10 +218,10 @@ callbackHandler postConfig => sub {
 The coderef acts as an extension's method. The method gets reference to the
 object which actually initiated this callback; and reference to a hash with
 parameters supplied by the object – see =params= key of callback arguments in
-=Foswiki::Aux::Callbacks=.
+=Foswiki::Util::Callbacks=.
 
 %X% *NOTE:* The method arguments are different from common callback handler as
-described in =%PERLDOC{Foswiki::Aux::Callbacks}%= because there is no point of
+described in =%PERLDOC{Foswiki::Util::Callbacks}%= because there is no point of
 passing the =data= key of arguments hash. Instead extension callback method can
 rely on object's internals whenever needed.
 =cut
@@ -256,7 +256,7 @@ correspondingly.
 
 To allow support for this feature by a core class it must add =extensible=
 parameter to =use Foswiki::Class=. This will implicitly apply
-=Foswiki::Aux::_ExtensibleRole= role to the class and export =pluggable=
+=Foswiki::Util::_ExtensibleRole= role to the class and export =pluggable=
 subroutine to declare pluggable methods:
 
 <verbatim>
@@ -281,7 +281,7 @@ Method overriding can only work within properly initialized %WIKITOOLNAME%
 application environment. I.e. it requires initialized extensions on application
 object. On the other hand not only classes with =%PERLDOC{Foswiki::AppObject}%=
 role applied can use this feature. This is because
-=Foswiki::Aux::_ExtensibleRole= implicitly adds =__appObj= attribute to the
+=Foswiki::Util::_ExtensibleRole= implicitly adds =__appObj= attribute to the
 class it is applied to. In distinction to =%PERLDOC{"Foswiki::AppObject"
 attr="app"}%= attribute =__appObj= is not required and can remain undefined.
 

@@ -14,7 +14,7 @@ use constant CACHE_SUBDIR => '.specCache';
 
 use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::File);
-with qw(Foswiki::Config::CfgObject Foswiki::Aux::Localize);
+with qw(Foswiki::Config::CfgObject Foswiki::Util::Localize);
 
 # Spec file format:
 # - 'legacy' for classical pre-3.0 format
