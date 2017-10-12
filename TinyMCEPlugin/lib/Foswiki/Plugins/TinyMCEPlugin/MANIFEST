@@ -91,6 +91,8 @@ pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualchars/plugin.min.js 06
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/wordcount/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.inline.min.css 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.mobile.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-mobile.woff 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf 0644
@@ -104,7 +106,9 @@ pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/loader.gif 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/object.gif 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/trans.gif 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.mobile.min.css 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/inlite/theme.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/mobile/theme.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/modern/theme.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/tinymce.min.js 0644
 pub/System/TinyMCEPlugin/watermark_hidden.gif 0644

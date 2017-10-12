@@ -1,0 +1,3 @@
+[submodule "TinyMCEPlugin/pub/System/TinyMCEPlugin/tinymce_dev"]
+	path = TinyMCEPlugin/pub/System/TinyMCEPlugin/tinymce_dev
+	url = https://github.com/tinymce/tinymce.git
