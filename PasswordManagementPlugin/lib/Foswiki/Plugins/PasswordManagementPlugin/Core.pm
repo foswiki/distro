@@ -44,13 +44,19 @@ sub _RESTresetPassword {
     my $users   = $session->{users};
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
-        my $err = $session->i18n->maketext(
-            'Email has been disabled for this Foswiki installation');
         throw Foswiki::OopsException(
             'password',
             topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [$err]
+            def    => 'email_disabled',
+        );
+    }
+
+    if ( !$session->inContext('passwords_modifyable') ) {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'passwords_disabled'
         );
     }
 
@@ -70,10 +76,7 @@ sub _RESTresetPassword {
         if ( scalar @$cuidList > 1 ) {
             throw Foswiki::OopsException(
                 'password',
-                topic => $Foswiki::cfg{HomeTopicName},
-                def   => 'reset_bad',
-                params =>
-                  ['The entered email address is not unique. Use a WikiName']
+                def   => 'non_unique_email',
             );
         }
         else {
@@ -84,11 +87,7 @@ sub _RESTresetPassword {
         throw Foswiki::OopsException(
             'password',
             status => 200,
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [
-'This Foswiki is not configured to permit access by email address. Please enter a WikiName or Login name.'
-            ],
+            def    => 'email_not_supported',
         );
     }
 
@@ -219,6 +218,15 @@ sub _RESTchangePassword {
             web   => $webName,
             topic => $topic,
             def   => 'not_admin',
+        );
+    }
+
+    if ( !$session->inContext('passwords_modifyable') ) {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'passwords_disabled'
         );
     }
 
