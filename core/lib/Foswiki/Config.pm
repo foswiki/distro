@@ -4056,6 +4056,7 @@ sub _fetchOptVal {
           . $option . "' "
           . $errorSuffix,
         section => $spec->section,
+        srcFile => $spec->source,
     ) unless defined $argCount;
 
     Foswiki::Exception::Config::BadSpecData->throw(
@@ -4289,6 +4290,7 @@ sub _specCfgKey {
                   . $prevKeyType . "'",
                 section => $section,
                 key     => $keyFullName,
+                srcFile => $specs->source,
               )
               if ( $prevKeyType ne $keyType )
               && !( $isEnhancing && $keyType eq 'VOID' );
