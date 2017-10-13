@@ -792,21 +792,4 @@ sub test_expandAll {
     );
 }
 
-sub test_ReadWriteLSC {
-    my $this = shift;
-
-    $this->app->cfg->data->{ThisKey}{Is}{Not}{From}{Specs} =
-      "But we will have it in the LSC";
-    $this->app->cfg->data->{Extensions}{DBConfigExtension}{Connection}{Table} =
-      "LSC_TEST";
-
-    my $lscFile = "./TestLocalSite.cfg";
-    $this->app->cfg->writeLSC( lscFile => $lscFile, );
-    my %data;
-    $this->app->cfg->readLSC( lscFile => $lscFile, data => \%data, );
-
-    #unlink $lscFile;
-    return;
-}
-
 1;
