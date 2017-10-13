@@ -1,3 +1,4 @@
+data/System/ChangeEmailAddress.txt 0664
 data/System/ChangePassword.txt 0664
 data/System/PasswordManagementPlugin.txt 0664
 data/System/ResetPassword.txt 0664

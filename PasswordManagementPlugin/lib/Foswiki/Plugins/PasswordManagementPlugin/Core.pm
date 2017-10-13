@@ -46,8 +46,8 @@ sub _RESTresetPassword {
     unless ( $Foswiki::cfg{EnableEmail} ) {
         throw Foswiki::OopsException(
             'password',
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'email_disabled',
+            topic => $Foswiki::cfg{HomeTopicName},
+            def   => 'email_disabled',
         );
     }
 
@@ -74,10 +74,8 @@ sub _RESTresetPassword {
         my $cuidList = $users->findUserByEmail($userName);
 
         if ( scalar @$cuidList > 1 ) {
-            throw Foswiki::OopsException(
-                'password',
-                def   => 'non_unique_email',
-            );
+            throw Foswiki::OopsException( 'password',
+                def => 'non_unique_email', );
         }
         else {
             $userName = @$cuidList[0];
@@ -362,6 +360,134 @@ sub _sendEmail {
     eval { $results = $session->net->sendEmail($text); };
 
     return $results;
+}
+
+=begin TML
+
+---++ StaticMethod _RESTchangeEmail( $session )
+
+Change the user's email. Details of the user and password
+are passed in CGI parameters.
+
+=cut
+
+sub _RESTchangeEmail {
+    my $session = shift;
+
+    my $topic       = $session->{topicName};
+    my $webName     = $session->{webName};
+    my $query       = $session->{request};
+    my $requestUser = $session->{user};
+
+    my $login    = $query->param('username');
+    my $password = $query->param('password');
+    my $email    = $query->param('email');
+
+    if (   $login eq $Foswiki::cfg{AdminUserLogin}
+        || $login eq $Foswiki::cfg{AdminUserWikiName} )
+    {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $webName,
+            topic => $topic,
+            def   => 'not_admin',
+        );
+    }
+
+    if ( !$session->inContext('passwords_modifyable') ) {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'passwords_disabled'
+        );
+    }
+
+    my $users = $session->{users};    # Get the Foswiki::Users object
+
+    my $user = Foswiki::Func::getCanonicalUserID($login);
+    unless ( $user && $session->{users}->userExists($user) ) {
+        throw Foswiki::OopEexception(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{hometopicname},
+            def    => 'not_a_user',
+            params => [$user],
+        );
+    }
+
+    unless ( defined $password || $users->isAdmin($requestUser) ) {
+        throw Foswiki::OopsException(
+            'password',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'missing_fields',
+            params => ['password']
+        );
+    }
+
+    unless ( $users->isAdmin($requestUser)
+        && !length($password) )
+    {
+        unless ( $users->checkPassword( $login, $password ) ) {
+            throw Foswiki::OopsException(
+                'password',
+                web   => $webName,
+                topic => $topic,
+                def   => 'wrong_password'
+            );
+        }
+    }
+
+    my $cUID = $users->getCanonicalUserID($login);
+
+    # Determine that the cUID exists.
+    unless ( defined $cUID ) {
+        throw Foswiki::OopsException(
+            'password',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'not_a_user',
+            params => [$login]
+        );
+    }
+
+    # check valid email addresses - space between each
+    if ( defined $email
+        && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ )
+    {
+        throw Foswiki::OopsException(
+            'password',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'bad_email',
+            params => [$email]
+        );
+    }
+
+    if ( defined $email ) {
+
+        my $oldEmails = join( ', ', $users->getEmails($cUID) );
+        my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'changepasswd',
+                webTopic => $webName . '.' . $topic,
+                extra    => "from $oldEmails to $email for $login",
+            }
+        );
+    }
+
+    # must be just email
+    throw Foswiki::OopsException(
+        'password',
+        status => 200,
+        web    => $webName,
+        topic  => $topic,
+        def    => 'email_changed',
+        params => [ $email, Foswiki::Func::getWikiUserName($login) ]
+    );
 }
 
 1;

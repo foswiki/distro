@@ -19,9 +19,10 @@ package Foswiki::Plugins::PasswordManagementPlugin;
 use strict;
 use warnings;
 
-our $VERSION           = '1.01';
-our $RELEASE           = '02 Oct 2017';
-our $SHORTDESCRIPTION  = '=REST= interface for managing User passwords and Emails.';
+our $VERSION = '1.01';
+our $RELEASE = '02 Oct 2017';
+our $SHORTDESCRIPTION =
+  '=REST= interface for managing User passwords and Emails.';
 our $NO_PREFS_IN_TOPIC = 1;
 
 use Assert;
@@ -43,7 +44,7 @@ sub initPlugin {
 
     Foswiki::Func::registerRESTHandler(
         'resetPassword', \&_RESTresetPassword,
-        validate     => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
+        validate => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
         authenticate => 0,
         http_allow   => 'POST',
         description  => 'Generate a Passord reset token and email to the user.',
@@ -58,7 +59,7 @@ sub initPlugin {
     );
 
     Foswiki::Func::registerRESTHandler(
-        'changeEmail', \&_RESTchangegEmail,
+        'changeEmail', \&_RESTchangeEmail,
         authenticate => 1,
         validate     => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
         http_allow   => 'POST',
@@ -82,9 +83,9 @@ Generate a reset for a user's passord
 
 sub _RESTresetPassword {
     require Foswiki::Plugins::PasswordManagementPlugin::Core;
-    return Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTresetPassword(@_);
+    return
+      Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTresetPassword(@_);
 }
-
 
 =begin TML
 
@@ -99,9 +100,9 @@ Generate a reset for a user's passord
 
 sub _RESTchangePassword {
     require Foswiki::Plugins::PasswordManagementPlugin::Core;
-    return Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTchangePassword(@_);
+    return
+      Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTchangePassword(@_);
 }
-
 
 =begin TML
 
@@ -116,9 +117,9 @@ Generate a reset for a user's passord
 
 sub _RESTchangeEmail {
     require Foswiki::Plugins::PasswordManagementPlugin::Core;
-    return Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTchangeEmail(@_);
+    return Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTchangeEmail(
+        @_);
 }
-
 
 =pod
 
