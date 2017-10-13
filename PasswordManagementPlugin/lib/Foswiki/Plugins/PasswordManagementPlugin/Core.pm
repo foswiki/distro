@@ -60,6 +60,38 @@ sub _RESTresetPassword {
         throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
     }
 
+    if ( $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
+        && ( $userName =~ $Foswiki::regex{emailAddrRegex} ) )
+    {
+
+        # try email addresses if it is one
+        my $cuidList = $users->findUserByEmail($userName);
+
+        if ( scalar @$cuidList > 1 ) {
+            throw Foswiki::OopsException(
+                'password',
+                topic => $Foswiki::cfg{HomeTopicName},
+                def   => 'reset_bad',
+                params =>
+                  ['The entered email address is not unique. Use a WikiName']
+            );
+        }
+        else {
+            $userName = @$cuidList[0];
+        }
+    }
+    else {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_bad',
+            params => [
+'This Foswiki is not configured to permit access by email address. Please enter a WikiName or Login name.'
+            ],
+        );
+    }
+
     my $user = Foswiki::Func::getCanonicalUserID($userName);
     unless ( $user && $session->{users}->userExists($user) ) {
         throw Foswiki::OopsException(
@@ -143,7 +175,7 @@ sub _RESTresetPassword {
             status => 200,
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
-            params => [ $Foswiki::cfg{Login}{TokenLifetime}, $errors ]
+            params => [ $Foswiki::cfg{Login}{TokenLifetime} || 900, $errors ]
         );
     }
     else {
@@ -158,7 +190,7 @@ sub _RESTresetPassword {
 
 =begin TML
 
----++ StaticMethod RESTchangePassword 
+---++ StaticMethod RESTchangePassword
 
 Change the user's password. Details of the user and password
 are passed in CGI parameters.
@@ -228,8 +260,9 @@ sub _RESTchangePassword {
     if ($resetActive) {
         $oldpassword = 1;    # Allow password change without oldpassword.
     }
-    elsif (  $users->isAdmin($requestUser)
-            && ! length($oldpassword) ) {
+    elsif ( $users->isAdmin($requestUser)
+        && !length($oldpassword) )
+    {
         $oldpassword = 1;    # Allow an admin to omit the oldpassword
     }
     else {
@@ -244,8 +277,7 @@ sub _RESTchangePassword {
             );
         }
 
-        unless (  $users->checkPassword( $login, $oldpassword ) )
-        {
+        unless ( $users->checkPassword( $login, $oldpassword ) ) {
             throw Foswiki::OopsException(
                 'password',
                 web   => $webName,
@@ -302,27 +334,26 @@ sub _sendEmail {
     my ( $session, $template, $data ) = @_;
 
     my $text = $session->templates->readTemplate($template);
-    $data->{Introduction} ||= '';
     $data->{Name} ||= $data->{WikiName};
     my @unexpanded;
     foreach my $field ( keys %$data ) {
         my $f = uc($field);
-        unless ( $text =~ s/\%$f\%/$data->{$field}/g ) {
-            unless ( $field =~ m/^Password|Confirm|form|webName/
-                || !defined( $data->{$field} )
-                || $data->{$field} !~ /\W/ )
-            {
-                push( @unexpanded, "$field: $data->{$field}" );
-            }
-        }
+        $text =~ s/\%$f\%/$data->{$field}/g;
     }
-    $text =~ s/%REGISTRATION_DATA%/join("\n", map {"\t* $_" } @unexpanded)/ge;
 
     my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
         $data->{WikiName} );
     $text = $topicObject->expandMacros($text);
 
-    return $session->net->sendEmail($text);
+    # SMELL: For some reason Net::sendEmail issues a "die" if the email address
+    # is bad.  But only in a REST handler.  Send  to the exact same email from
+    # UI::Password,  and it returns an error without the "die".
+    # The eval{} avoids the issue.
+
+    my $results;
+    eval { $results = $session->net->sendEmail($text); };
+
+    return $results;
 }
 
 1;
