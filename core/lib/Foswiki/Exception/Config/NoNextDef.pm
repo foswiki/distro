@@ -1,19 +1,19 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::Ext::Last;
+package Foswiki::Exception::Config::NoNextDef;
 
 =begin TML
 
----+!! Class Foswiki::Exception::Ext::Last
+---+!! Class Foswiki::Exception::Config::NoNextDef
 
-Subclass of =Foswiki::Exception::Ext::Flow=.
-
-Inidicates that an extension is requesting to be the last in the execution line.
+Internal use only. With this exception =%PERLDOC{"Foswiki::Config::SpecDef"}%=
+signals that no more elements left to fetch.
 
 =cut
 
 use Foswiki::Class;
-extends qw<Foswiki::Exception::Ext::Flow>;
+extends qw<Foswiki::Exception::Config>;
+with qw<Foswiki::Exception::Harmless>;
 
 =begin TML
 
@@ -23,13 +23,9 @@ extends qw<Foswiki::Exception::Ext::Flow>;
 
 =begin TML
 
----+++ ObjectAttribute rc
-
-Return value of a method call.
+---++ METHODS
 
 =cut
-
-has rc => ( is => 'rw', predicate => 1, );
 
 1;
 __END__

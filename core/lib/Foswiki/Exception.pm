@@ -14,7 +14,7 @@ Basic principles behind exceptions:
    longer recommended.
    1 Exception classes are inheriting from =Foswiki::Exception=.
    1 =Foswiki::Exception= is an integral part of Fowiki's OO system and
-   inheriting from =Foswiki::Object=.
+   inherits from =%PERLDOC{Foswiki::Object}%=.
    1 =Foswiki::Exception= is utilizing =CPAN:Throwable= role. Requires the
    module to be installed.
    1 Exception classes inheritance shall form a tree of relationships for
@@ -354,7 +354,7 @@ sub rethrowAs {
 
 Reinstantiates $exception into $class.
 
-If =$enforce= is *FALSE* and =$exception='s class is a =Foswiki::Exception=
+If =$enforce= is *FALSE* and =$exception= is a =Foswiki::Exception=
 descendant then no action would be taken. If =$enforce= is true then no matter
 what the =$exception= type is - it would be coerced into =$class=.
 
@@ -479,19 +479,9 @@ sub prepareText {
     return "text attribute hasn't been set";
 }
 
-#use Foswiki::Exception::Ext;
-#use Foswiki::Exception::ASSERT;
-#use Foswiki::Exception::Fatal;
-#use Foswiki::Exception::FileOp;
-#use Foswiki::Exception::HTTPResponse;
-#use Foswiki::Exception::HTTPError;
-#use Foswiki::Exception::Engine;
-
-END {
-    use Foswiki;
-    for my $m (qw<Ext ASSERT Fatal FileOp HTTPResponse HTTPError Engine>) {
-        Foswiki::load_class("Foswiki::Exception::$m");
-    }
+use Foswiki;
+for my $m (qw<Ext ASSERT Fatal FileOp HTTPResponse HTTPError Engine>) {
+    Foswiki::load_class( __PACKAGE__ . "::" . $m );
 }
 
 1;

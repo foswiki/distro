@@ -1,19 +1,19 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::Ext::Last;
+package Foswiki::Exception::Config::InvalidKeyName;
 
 =begin TML
 
----+!! Class Foswiki::Exception::Ext::Last
+---+!! Class Foswiki::Exception::Config::InvalidKeyName
 
-Subclass of =Foswiki::Exception::Ext::Flow=.
-
-Inidicates that an extension is requesting to be the last in the execution line.
+Reports about an attempt to use a key name which doesn't conform to the
+standards.
 
 =cut
 
 use Foswiki::Class;
-extends qw<Foswiki::Exception::Ext::Flow>;
+extends qw<Foswiki::Exception::Config>;
+with qw<Foswiki::Exception::Deadly>;
 
 =begin TML
 
@@ -23,13 +23,41 @@ extends qw<Foswiki::Exception::Ext::Flow>;
 
 =begin TML
 
----+++ ObjectAttribute rc
+---+++ ObjectAttribute keyName
 
-Return value of a method call.
+The key which caused the exception.
 
 =cut
 
-has rc => ( is => 'rw', predicate => 1, );
+has keyName => ( is => 'rw', required => 1, );
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod stringifyText
+
+Overrides base class method. Appends information about the problematic key.
+
+=cut
+
+around stringifyText => sub {
+    my $orig   = shift;
+    my $this   = shift;
+    my ($text) = @_;
+
+    my $errMsg = $orig->( $this, @_ );
+    my $key = $this->keyName;
+
+    $errMsg .= " (the key is:"
+      . ( defined $key ? ( ref($key) || $key ) : '*undef*' ) . ")";
+
+    return $errMsg;
+};
 
 1;
 __END__

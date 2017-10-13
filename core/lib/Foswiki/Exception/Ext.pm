@@ -16,7 +16,13 @@ extends qw<Foswiki::Exception>;
 
 =begin TML
 
----+++ ObjectAttribute extension => string
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute extension -> string
 
 Extension name.
 
@@ -30,6 +36,20 @@ has extension => (
     coerce => sub { ref( $_[0] ) // $_[0] },
 );
 
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod prepareText
+
+Overrides base method, generates =text= attribute based on =extension= value.
+
+=cut
+
 around prepareText => sub {
     my $orig = shift;
     my $this = shift;
@@ -40,14 +60,10 @@ around prepareText => sub {
 };
 
 # Preload exceptions
-#use Foswiki::Exception::Ext::BadName;
-#use Foswiki::Exception::Ext::Load;
 
-END {
-    use Foswiki;
-    for my $m (qw<BadName Load Last Restart>) {
-        Foswiki::load_class("Foswiki::Exception::Ext::$m");
-    }
+use Foswiki;
+for my $m (qw<BadName Load Last Restart>) {
+    Foswiki::load_class( __PACKAGE__ . "::" . $m );
 }
 
 1;

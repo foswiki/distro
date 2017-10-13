@@ -1,13 +1,50 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Exception::Ext::Load;
+
+=begin TML
+
+---+!! Class Foswiki::Exception::Ext::Load
+
+Raised when extension fails to load.
+
+=cut
+
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Ext);
+
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute reason -> string
+
+Error string explaining why loading failed.
+
+=cut
 
 has reason => (
     is       => 'rw',
     required => 1,
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod prepareText
+
+Overrides base class method.
+
+=cut
 
 around prepareText => sub {
     my $orig = shift;

@@ -22,26 +22,59 @@ use Foswiki::Class;
 extends qw<Foswiki::Exception>;
 with qw<Foswiki::Exception::Harmless>;
 
-has status =>
-  ( is => 'ro', lazy => 1, default => sub { $_[0]->response->status, }, );
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute status
+
+HTTP response status code. By default is taken from =response= object.
+
+=cut
+
+has status => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareStatus',
+);
+
+=begin TML
+
+---+++ ObjectAttribute response
+
+A %PERLDOC{"Foswiki::Response"}% object. If =$Foswiki::app= is defined then
+is taken from its =response= attribute. Otherwise a new one is generated.
+
+=cut
+
 has response => (
     is      => 'ro',
     lazy    => 1,
-    default => sub {
-        return defined($Foswiki::app)
-          ? $Foswiki::app->response
-          : Foswiki::Response->new;
-    },
+    builder => 'prepareResponse',
 );
 
-# SMELL To be replaced by prepareText() overriding.
+=begin TML
+
+---+++ObjectAttribute text
+
+Overrides the base class attribute, makes it read-only.
+
+=cut
+
 has '+text' => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
-        return 'HTTP status code "' . $_[0]->status;
-    },
+    is   => 'ro',
+    lazy => 1,
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 sub _useHTTP {
     my $this = shift;
@@ -65,6 +98,47 @@ around stringify => sub {
 
     return $str;
 };
+
+=begin TML
+
+---+++ ObjectMethod prepareText
+
+Overrides base class method.
+
+=cut
+
+around prepareText => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return 'HTTP status code "' . $_[0]->status;
+};
+
+=begin TML
+
+---+++ ObjectMethod prepareStatus
+
+Initializer for =status= attribute.
+
+=cut
+
+sub prepareStatus {
+    return $_[0]->response->status;
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareResponse
+
+Initializer for =response= attribute.
+
+=cut
+
+sub prepareResponse {
+    return defined($Foswiki::app)
+      ? $Foswiki::app->response
+      : Foswiki::Response->new;
+}
 
 1;
 __END__

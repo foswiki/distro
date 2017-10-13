@@ -1,9 +1,48 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Exception::Ext::BadName;
+
+=begin TML
+
+---+!! Class Foswiki::Exception::Ext::BaseName;
+
+This exception is raised when extension with unacceptable name is found.
+
+=cut
+
 use Foswiki::Class;
 extends qw<Foswiki::Exception::Ext>;
 with qw<Foswiki::Exception::Deadly>;
+
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute extension
+
+Modifies base attribute, makes it *required*.
+
+=cut
+
+has '+extension' => ( required => 1, );
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod prepareText
+
+Overrides base class method.
+
+=cut
 
 around prepareText => sub {
     my $orig = shift;

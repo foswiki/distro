@@ -1,19 +1,18 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::Ext::Last;
+package Foswiki::Exception::Config::BadSpecSrc;
 
 =begin TML
 
----+!! Class Foswiki::Exception::Ext::Last
+---+!! Class Foswiki::Exception::Config::BadSpecSrc
 
-Subclass of =Foswiki::Exception::Ext::Flow=.
-
-Inidicates that an extension is requesting to be the last in the execution line.
+Informs about a problem in config spec source file.
 
 =cut
 
 use Foswiki::Class;
-extends qw<Foswiki::Exception::Ext::Flow>;
+extends qw(Foswiki::Exception::Config);
+with qw(Foswiki::Exception::Deadly Foswiki::Exception::Config::SrcFile);
 
 =begin TML
 
@@ -23,13 +22,40 @@ extends qw<Foswiki::Exception::Ext::Flow>;
 
 =begin TML
 
----+++ ObjectAttribute rc
+---+++ ObjectAttribute srcFile
 
-Return value of a method call.
+Declares %PERLDOC{"Foswiki::Exception::Config::SrcFile" attr="srcFile"}%
+attribute as read-only and required.
 
 =cut
 
-has rc => ( is => 'rw', predicate => 1, );
+has '+srcFile' => (
+    is       => 'ro',
+    required => 1,
+);
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---++ ObjectMethod stringifyText
+
+Overrides base class method. Includes info about source file.
+
+=cut
+
+around stringifyText => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $errMsg = $orig->( $this, @_ );
+
+    return "Failed to parse specs file " . $this->sourceInfo . ": " . $errMsg;
+};
 
 1;
 __END__

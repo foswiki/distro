@@ -677,7 +677,7 @@ sub _handleDirtyArea {
         $text = $topicObj->renderTML($text);
     }
     catch {
-        if ( !ref($_) || $_->isa('Foswiki::Exception::Fatal') ) {
+        if ( !ref($_) || $_->DOES('Foswiki::Exception::Deadly') ) {
 
             # Do not hide critical errors.
             Foswiki::Exception::Fatal->rethrow($_);

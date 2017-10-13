@@ -4,23 +4,69 @@
 
 ---+!! Class Foswiki::Exception::FileOp
 
-Base exception for failed file operations.
-
-Attributes:
-
-| *Name* | *Description* | *Required* |
-| =file= | File name | _yes_ |
-| =op= | Operation caused the failure, single verb like 'read' | _yes' |
+Base exception for failed file system operations. Could be used for any kind
+of file system object including files, directories, etc. Could automatically
+pick up =errno= (=$!=) and form default error message.
 
 =cut
 
 package Foswiki::Exception::FileOp;
+
+use POSIX qw<strerror>;
+
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Fatal);
 
-has file  => ( is => 'rw', required => 1, );
-has op    => ( is => 'rw', required => 1, );
-has errno => ( is => 'rw', builder  => 'prepareErrno', );
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute file -> string
+
+Object name on which the error happened.
+
+=cut
+
+has file => ( is => 'rw', required => 1, );
+
+=begin TML
+
+---+++ ObjectAttribute op -> string
+
+Operation that caused the problem. Could be any verb which would fit after
+_"Failed to "_ words. For example, _"read"_, _"write"_, _"open directory"_.
+
+=cut
+
+has op => ( is => 'rw', required => 1, );
+
+=begin TML
+
+---+++ ObjectAttribute errno -> integer
+
+=errno= value. If not set by invoking code then picks the latest =$!= value.
+
+=cut
+
+has errno => ( is => 'rw', builder => 'prepareErrno', );
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod stringify
+
+Overrides the base class method.
+
+=cut
 
 around stringify => sub {
     my $orig = shift;
@@ -29,12 +75,29 @@ around stringify => sub {
     return "Failed to " . $this->op . " " . $this->file . ": " . $orig->($this);
 };
 
+=begin TML
+
+---+++ ObjectMethod prepareText
+
+Overrides the base class method. Uses =CPAN:POSIX= =strerror()= to generate
+default text.
+
+=cut
+
 around prepareText => sub {
     my $orig = shift;
     my $this = shift;
 
-    return $!;    # text attribute to be set from last file operation error.
+    return strerror( $this->errno );
 };
+
+=begin TML
+
+---+++ ObjectMethod prepareErrno
+
+Initializer for the =errno= attribute.
+
+=cut
 
 sub prepareErrno {
     return int($!);

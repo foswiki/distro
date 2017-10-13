@@ -1,19 +1,18 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::Ext::Last;
+package Foswiki::Exception::Config::BadSpecData;
 
 =begin TML
 
----+!! Class Foswiki::Exception::Ext::Last
+---+!! Class Foswiki::Exception::Config::BadSpecData
 
-Subclass of =Foswiki::Exception::Ext::Flow=.
-
-Inidicates that an extension is requesting to be the last in the execution line.
+Informs about problems with config spec data.
 
 =cut
 
 use Foswiki::Class;
-extends qw<Foswiki::Exception::Ext::Flow>;
+extends qw(Foswiki::Exception::Config::BadSpec);
+with qw(Foswiki::Exception::Config::SrcFile);
 
 =begin TML
 
@@ -23,13 +22,30 @@ extends qw<Foswiki::Exception::Ext::Flow>;
 
 =begin TML
 
----+++ ObjectAttribute rc
-
-Return value of a method call.
+---++ METHODS
 
 =cut
 
-has rc => ( is => 'rw', predicate => 1, );
+=begin TML
+
+---+++ ObjectMethod stringifyPostfix
+
+Overrides base class method. Includes source info into the message.
+
+=cut
+
+around stringifyPostfix => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $errMsg = $orig->( $this, @_ );
+
+    if ( defined $this->srcFile ) {
+        $errMsg = " from " . $this->sourceInfo . " " . $errMsg;
+    }
+
+    return $errMsg;
+};
 
 1;
 __END__

@@ -93,7 +93,11 @@ use v5.14;
 use Assert;
 
 use Foswiki::Class qw(app);
-extends qw(Foswiki::Exception);
+extends qw<Foswiki::Exception>;
+
+# Oops is sometimes used to pass information around. So, it's basically
+# harmless. Otherwise it all depends on particular code interpretation...
+with qw<Foswiki::Exception::Harmless>;
 
 #our @_newParameters = qw( template );
 

@@ -1,19 +1,17 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Exception::Ext::Last;
+package Foswiki::Exception::Config::SrcFile;
 
 =begin TML
 
----+!! Class Foswiki::Exception::Ext::Last
+---+!! Role Foswiki::Exception::Config::SrcFile
 
-Subclass of =Foswiki::Exception::Ext::Flow=.
-
-Inidicates that an extension is requesting to be the last in the execution line.
+Used to prefix exception text with source file info.
 
 =cut
 
-use Foswiki::Class;
-extends qw<Foswiki::Exception::Ext::Flow>;
+use Moo::Role;
+use namespace::clean;
 
 =begin TML
 
@@ -23,13 +21,51 @@ extends qw<Foswiki::Exception::Ext::Flow>;
 
 =begin TML
 
----+++ ObjectAttribute rc
+---+++ ObjectAttribute srcFile
 
-Return value of a method call.
+Source file name. Read only.
 
 =cut
 
-has rc => ( is => 'rw', predicate => 1, );
+has srcFile => ( is => 'ro', required => 1, );
+
+=begin TML
+
+---+++ ObjectAttribute srcLine
+
+Source line in the file. Read only.
+
+=cut
+
+has srcLine => ( is => 'ro', );
+
+=begin TML
+
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod sourceInfo
+
+Returns a string with source file and line (if latter is defined).
+
+=cut
+
+sub sourceInfo {
+    my $this = shift;
+
+    my $file = $this->srcFile;
+    if ( UNIVERSAL::isa( $file, 'Foswiki::File' ) ) {
+        $file = $file->path;
+    }
+    if ( $file && defined $this->srcLine ) {
+        $file .= ":" . $this->srcLine;
+    }
+
+    return $file // '';
+}
 
 1;
 __END__

@@ -268,7 +268,7 @@ sub maketext {
     }
     catch {
         my $e = $_;
-        if ( !ref($e) || $e->isa('Foswiki::Exception::Fatal') ) {
+        if ( !ref($e) || $e->DOES('Foswiki::Exception::Deadly') ) {
             Foswiki::Exception::Fatal->rethrow($e);
         }
         print STDERR

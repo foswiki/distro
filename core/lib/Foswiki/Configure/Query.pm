@@ -59,7 +59,7 @@ sub _getSetParams {
                 }
                 catch {
                     my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
-                    if ( $e->isa('Foswiki::Exception::Fatal') ) {
+                    if ( $e->DOES('Foswiki::Exception::Deadly') ) {
                         $reporter->ERROR(
                             "The value of $k was unreadable: <verbatim>"
                               . Foswiki::Configure::Reporter::stripStacktrace(

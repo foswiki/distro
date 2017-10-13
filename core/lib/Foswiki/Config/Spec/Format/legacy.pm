@@ -608,7 +608,8 @@ foreach my $type ( sort $nodeClass->getAllTypes ) {
 package Foswiki::Exception::Config::Spec::Format::legacy::Flow;
 
 use Foswiki::Class;
-extends qw(Foswiki::Exception::Harmless);
+extends qw(Foswiki::Exception::Config);
+with qw(Foswiki::Exception::Harmless);
 
 # UpSection is to signal when to cancel processing and return control to the
 # upper level stack frame.
