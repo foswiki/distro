@@ -222,7 +222,7 @@ sub prepareCacheFile {
 
     my $baseName;
 
-    if ( File::Spec->canonpath( File::Spec->catpath( $vol, $dir ) ) eq
+    if ( File::Spec->canonpath( File::Spec->catpath( $vol, $dir, "" ) ) eq
         Foswiki::guessLibDir )
     {
         ( $baseName = $file ) =~ s/\./_/g;
