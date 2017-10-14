@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507428457" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507948779" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -47,6 +47,7 @@ There are some under the hood changes in behaviour of some components like
    $ [[OOCodeConcepts]] : Main concepts of programming under %WIKITOOLNAME% v3.
    $ [[EngineRevisedV3]] : Engine new role in Foswiki V3.
    $ [[ChainedExecutionFlow]] : Callbacks and extensions chaining of calls.
+   $ [[CallbacksFramework]] : Callbacks framework
 
 ---++ New standards
 

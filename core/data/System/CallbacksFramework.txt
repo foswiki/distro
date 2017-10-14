@@ -1,0 +1,120 @@
+%META:TOPICINFO{author="ProjectContributor" date="1507858764" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Callbacks
+%TOC%
+
+The latest version of Foswiki makes an attempt to unify callbacks interface.
+In this section we would outline the big picture.
+
+---++ Common Principles
+
+Callbacks cannot exist outside of Foswiki's OO model. The framework itself is
+provided as =%PERLDOC{"Foswiki::Util::Callbacks"}%= role. It is not possible
+neither to declare nor to excute a callback otherwise but by an object. More
+than that, it cannot function without an application object either! For this
+reason it is recommended to have callbacks declared by instances of classes with
+either %PERLDOC{"Foswiki::AppObject"}% role or %PERLDOC{"Foswiki::Class"}%
+=extensible= modifier applied. In any case, use of %PERLDOC{"Foswiki::App"
+method="create"}% method is advisable, as [[OOCodeConcepts]] suggests. If this
+rule is not followed then callbacks framework would attempt to use the
+=$Foswiki::app= global which is to be avoided as much as possible.
+
+---++ Naming
+
+First of all, callbacks are now given with names. Each name consist of a
+namespace and callback's short name. Commonly, namespace is the name of package
+which declares the callback. For example, =%PERLDOC{"Foswiki::App"}%= declares
+a _postConfig_ callback by its short name. Then it will be known as 
+_Foswiki::App::postConfig_ for other components. But the application code
+can still use the short name:
+
+<verbatim>
+$this->callback('postConfig', $params);
+</verbatim>
+
+As a matter of fact, other components could use the short name too as long as
+it is unique across all namespaces. For example, it is possible to register
+a handler for _'postConfig'_:
+
+<verbatim>
+$this->registerCallback( 'postConfig', \&cbhPostConfig, $data );
+</verbatim>
+
+Though there is a catch: if another component would declare same callback name
+then the code above would raise a =%PERLDOC{"Foswiki::Exception::ASSERT"}%=. For
+this reason use of short names is ok only if the names are declared reserved and
+published in a corresponding topic.
+
+One might say that use of namespaces overcomplicates the whole thing.
+However, if we remember that callbacks are allowed for declaration not only by
+the core code but by extensions too then it should become clear that the
+approach allows to avoid name collisions.
+
+---++ Parameters
+
+There some confusion is possible over the parameters passed to a callback code.
+Few rules to remember here:
+
+   1 A callback handler code is called as if it's a caller's ObjectMethod. I.e.
+   it receives reference to the calling object as its first parameter.
+      : <em>The reasoning here is simple: the caller typically have now idea
+      about the source of callback handler. It could even be registered by
+      a non-OO code!</em>
+   1 Upon registering a callback a user can also attach a piece of =data= to it
+   which could later help the callback to determine it working environment. For
+   example, if the data is a hashref then it may contain a key =this= pointing
+   back to the object which registers the handler. This data is considered as
+   *static* because it is defined only once and then passed into the callback
+   unchanged.
+      : <em>The *static* status of =data= doesn't mean it's immutable. It only
+      means that the framework passes this reference to a handler as is. If the
+      handler changes any data by this references they will be passed on to
+      the handler on the next call.</em>
+      : <em>It is recommended but not required to use a hashref or an object as 
+      =data=.</em>
+   1 Contrary, the calling object passes dynamic =params= which are always
+   guaranteed to be a hashref. The hash structure must be documented by the
+   class declaring the callback. 
+
+---++ Passing Data Around
+
+Sometimes callbacks are used to ask user component's opinion about certain
+conditions. In other words, it is like asking somebody: "What do you think on
+this?" – and receiving his reply. How is it done in callbacks framework? Well,
+first of all one must remember that the 
+%PERLDOC{"Foswiki::Util::Callbacks" method="callback"}% method usually returns
+no value. The only exception is when a handler raises
+%PERLDOC{"Foswiki::Exception::Ext::Last"}% and sets the =rc= parameter which is
+returned then. But this is rather an indication that some additional attention
+from the calling object might be needed – or it might not.  In other words, this
+is just another degree of freedom when working with callbacks but not a way to
+establish communication between the caller and callee. Generally, the framework
+doesn't implement any standard protocol for such communication. The only rule
+which applies here is: use the =params=. Then it is up to the calling code to
+declare the protocol by documenting what keys a callback handler must use to
+return data to the caller; and what data structure is expected.
+
+Another way to establish a communication channel between a caller and a handler
+is direct method calling. Because handlers are executed as calling object's
+methods they might use the object's methods directly. Then again, it is totally
+up to the object's code developer to decide what methods to provide for
+handler's use.
+
+In either case, while writing the handler's code one must always remember about
+[[ChainedExecutionFlow][call chaining]].
+
+---++ Multiplicity And Uniqueness
+
+A callback name could only be declared once. Second declaration of the same name
+raises =%PERLDOC{"Foswiki::Exception::ASSERT"}%.
+
+Same callback could be executed anytime anywhere, once or many times in a row.
+
+Same object could register more than one handler for the same callback. It
+doesn't make sense but it's possible. Deregistering from a callback would remove
+any number of handlers bound to the same object.
+
+---++ Related
+
+%PERLDOC{"Foswiki::Util::Callbacks"}%
+

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507170542" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507948779" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -329,11 +329,10 @@ Things to keep in mind about the exceptions:
    "throw as": it takes an existing exception object, converts it to desired
    class if necessary, and throws again. It is utilizing _transmute_ to do the
    conversion job. See respective methods in =%PERLDOC{Foswiki::Exception}%=.
-   * When application is been given control through 
-   %PERLDOC{"Foswiki::App" method="run"}% method, a handler is installed on
-   =__DIE__= signal which rethrows any received exception into
-   =Foswiki::Exception=; if =DEBUG= is on then any warning becomes an exception
-   too.
+   * When application is been given control through %PERLDOC{"Foswiki::App"
+   method="run"}% method, a handler is installed on =__DIE__= signal which
+   rethrows any received exception as =Foswiki::Exception::Fatal=; if =DEBUG= is
+   on then any warning becomes an exception too.
    * Any thrown exception tries not only to signal about an event but does its
    best to collect the information about the point in code where it's been
    raised.

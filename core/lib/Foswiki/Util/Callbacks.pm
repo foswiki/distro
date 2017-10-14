@@ -1,69 +1,52 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Util::Callbacks;
+use v5.14;
+
 =begin TML
 
 ---+!! Role Foswiki::Util::Callbacks
 
-Support of callbacks for classes which may need them.
+Support of callbacks for classes which need them.
 
-A callback name is a composition of namespace and it's short name joined with
-'::'. By default the namespace is the module name where the callback is been
-registered. For example, =Foswiki::App= is registering =postConfig= callback. In
-this case it could be referenced by its full name =Foswiki::App::postConfig=.
-Whenever namespace could be guessed the short name could be used. So, when
-=Foswiki::App= is calling =postConfig= it can do it by simply issuing the
-following call:
+---++ SYNOPSIS
 
 <verbatim>
-$this->callback('postConfig', $params);
-</verbatim>
+package Foswiki::CBSample;
 
-The namespace would be guessed by the =callback()= method using caller's package
-name.
+use Foswiki::Class qw<callbacks>;
+extends qw<Foswiki::Object>;
 
-Similarly to this a client registering a callback handler might use the
-shortname. Though this would work exclusively if the name is used in one
-namespace only. Otherwise an exception will be raised.
+__PACKAGE__->registerCallbackNames( qw<sampleCB1 sampleCB2> );
 
-Callback is a coderef (a sub) which gets called when class' code wants to inform
-a third-party code about some event and, perhaps, get some feedback from it. A
-callback sub is been called with the following arguments:
-
-   1 Reference to the object which is calling the callback.
-   1 A list of key/value parameters.
-      
-Parameter keys are:
-
-| *Param* | *Description* |
-| =data= | User data if supplied by the object which has registered this\
-           callback handler. Data format determined by the registering object. |
-| =params= | Parameteres supplied by the calling object. Must be a hashref.\
-             Keys of the hash a defined by the calling class and must be\
-             documented. |
-
-A sample callback handler may look like this:
-
-<verbatim>
-sub cbHandler {
-    my $obj = shift;
-    my %params = @_;
+sub aMethod {
+    my $this = shift;
     
-    my $this = $params{data}{this};
+    ...
     
-    ... # Do something.
+    my $cbParams = {
+        arg1 => $aScalar,
+        arg2 => \%aHash,
+    };
     
+    $this->callback( sampleCB1 => $cbParams );
+    
+    if ( defined $cbParams->{rc} ) {
+        say "Received a message for callback handler: ", $cbParams->{rc}{msg};
+    }
+    
+    ...
 }
+
 </verbatim>
 
-Note that =$obj= is the callback issuer. The parameter =this= is not provided
-by the callbacks framework and must be supplied by the handler registering object:
-
 <verbatim>
-package Foswiki::CBHandler;
-use Scalar::Util qw(weaken);
+package Foswiki::Util::UserModule;
 
-use Foswiki::Class;
-extends qw(Foswiki::Object);
+use Scalar::Util qw<weaken>;
+
+use Foswiki::Class qw<callbacks>;
+extends qw<Foswiki::Object>;
 
 sub BUILD {
     my $this = shift;
@@ -74,24 +57,103 @@ sub BUILD {
     
     weaken( $cbData->{this} );
     
-    $this->registerCallback( 'ACallBackName', \&cbHandler, $cbData );
+    $this->registerCallback( 'Foswiki::CBSample::sambleCB1', $cbData );
 }
+
+sub DEMOLISH {
+    my $this = shift;
+    
+    $this->deregisterCallback( 'Foswiki::CBSample::sambleCB1' );
+}
+
+sub cbHandler {
+    my $obj = shift;
+    my %args = @_;
+    my $this = $args{data}{this};
+    
+    $args{params}{rc}{msg} = "Hello from cbHandler!";
+}
+
 </verbatim>
 
-Weakeing of =this= is needed to prevent circular dependency which would get the
-object stuck in the memory.
+---++ DESCRIPTION
+
+Read about [[%SYSTEMWEB%.CallbacksFramework][callbacks basics]] first.
+
+---+++ Components
+
+Callback as a phenomenon consists of:
+
+   $ Name : unique identifier
+   $ Caller or calling object : instance of a class with this role applied which
+   executes the callback
+   $ Callee or callback handler : a code which is called when callback is
+   executed
+
+Name uniquely identifies callback. It is composed of a namespace and a short
+name joined together by double colon (_::_). By default the namespace is the
+module name where the callback is been registered. For example, =Foswiki::App=
+registers a callback by its short name =postConfig=. In this case the full name
+is =Foswiki::App::postConfig=.
+
+Whenever the namespace is guessable the short name only could be used. So, when
+=Foswiki::App= is executing =postConfig= it can do it by with the following
+code:
+
+<verbatim>
+$this->callback( 'postConfig', $params );
+</verbatim>
+
+The namespace is then guessed by the =callback()= method using caller's package
+name.
+
+Similarly to this a client registering a callback handler may use a short name.
+Though this would work exclusively if the short name is unique among all
+namespaces. Otherwise an exception will be raised.
+
+Callback handler is a coderef (a sub) which gets called when the callback is
+executed. The handler sub receives the following arguments:
+
+   1 Reference to the calling object.
+   1 A list of key/value parameters.
+      
+Parameter keys are:
+
+| *Key* | *Description* |
+| =data= | User data if supplied by the object which has registered this\
+           callback handler. Data format determined by the registering object. |
+| =params= | Parameteres supplied by the calling object. Must be a hashref.\
+             Keys of the hash are defined by the calling class and must be\
+             documented. The only key which is reserved for the internal use \
+             is _.cbData_. |
+
+A sample callback handler is demonstrated in SYNOPSIS above. Note that =$obj= in
+the example is the calling object while =$this= points to the callee object.
+
+%X% It is worth paying special attention to the =weaken()= call. It prevents a
+memory leak where the callee object is never destroyed. This happens because
+storing =$this= in =$cbData= increases its reference count. =$cbData= is then
+stored by the callbacks framework in a permanent storage (see Internals section
+below) where it rests until =deregisterCallback()= cleans up the handler
+registration. And here comes the 'oops' because deregistration takes place in
+the object destructor and it will never get called because the object is still
+references from the stored =$cbData=! Weaking of =this= key in =$cbData= breaks
+this circular dependency (read about weak references in CPAN:perlref).
       
 A named callback may have more than one handler. In this case all handlers are
-executed in the order they were registerd. Their return values are disrespecred.
+executed in the order they were registerd. Their return values are ignored.
 If a handler wants to be the last in the calling sequence it must raise
 =Foswiki::Exception::Ext::Last= exception. If set, exception's =rc= attribute
 contains what is returned by =callback()= method then.
+
+%X% *NOTE:* Read about
+[[%SYSTEMWEB%.ChainedExecutionFlow][chained execution flow]].
 
 If a callback handler raises any other exception besides of
 =Foswiki::Exception::Ext::*= then that exception is rethrown further up the call
 stack.
 
-Example callback handler may look like:
+A sample callback handler utilizing exceptions may look like this:
 
 <verbatim>
 sub cbHandler {
@@ -108,17 +170,48 @@ sub cbHandler {
         Foswiki::Exception::Fatal->throw( text => "That's bad!" );
     }
     
-    # Suppose that $rc is set when the 
+    # Assuming that $rc might have been set by the code hidden under the '...'
+    # statement:
     if (defined $rc) {
         Foswiki::Exception::Ext::Last->throw( rc => $rc );
     }
 }
 </verbatim>
 
-=cut
+---+++ Construction And Destruction
 
-package Foswiki::Util::Callbacks;
-use v5.14;
+As a role, callbacks framework takes care of construction and destruction stages
+of object's life cycle.
+
+The construction stage is only relevant as =callbacksInit()= gets called. Note
+that it happens _before_ the class' main =BUILD()= method is called. So, if
+there is something your code must have done at the very early stage of object's
+life then overriding the =callbacksInit()= method is the way to go.
+
+What is more important is that the framework takes care of deregistering all
+object's callback handlers. This is also done _before_ object's =DEMOLISH()=
+method gets called.
+
+---+++ Internals
+
+The registration subsystem of callbacks requires some kind of permanent storage
+to function correctly. 'Permanent' means here 'until the application object is
+alive'. As long as the application object is the only entity which is guaranteed
+to conform the requirement then its the best storage we can use for the purpose!
+And since there is %PERLDOC{"Foswiki::App" attr="heap"}% attribute it is used to
+keep callbacks data in =_aux_registered_callbacks= key.
+
+   : <em>So, please, would you ever need the heap for something – leave the key
+   alone, don't use it, don't change it's value! Callbacks framework would
+   appreciate your udnerstanding!</em>
+   
+Because of the use of the application object it is strongly recommended for
+the callbacks to be used by either classes with %PERLDOC{"Foswiki::AppObject"}%
+role, or with %PERLDOC{"Foswiki::Class" anchor="extensible"}% *extensible*
+modifier - read about the framework's
+[[%SYSTEMWEB%.CallbacksFramework#Common_Principles][common principles]].
+   
+=cut
 
 use Assert;
 use Try::Tiny;
@@ -133,7 +226,7 @@ use Moo::Role;
 
 =begin TML
 
----++ Methods
+---++ METHODS
 
 =cut
 
@@ -379,8 +472,8 @@ sub callback {
 
 ---+++ StaticMethod registerCallbackNames($namespace, @cbNames)
 
-Registers callback names on name space =$namespace=. Called by =Foswiki::Class=
-exported =callback_names=.
+Declare callback names on name space =$namespace=. Called by
+=%PERLDOC{Foswiki::Class}%= exported =callback_names=.
 
 =cut
 

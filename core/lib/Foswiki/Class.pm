@@ -94,7 +94,7 @@ See =Foswiki::AppObject= role which is applied to class with this modifier.
 
 A class with this modifier wants to get callbacks support. This is done by:
 
-   1. applying =Foswiki::Util::Callbacks= role
+   1. applying =%PERLDOC{"Foswiki::Util::Callbacks"}%= role
    1. exporting =callback_names= public method.
 
 a subroutine =callback_names= is exported into a class' namespace and
@@ -135,7 +135,7 @@ A core class called extensible if it allows overriding one or more of it's
 methods by extensions. This is a lightweight version of subclassing through
 reimplementing or extending only key method(s).
 
-See more in =Foswiki::Extension::Empty=.
+See more in =%PERLDOC{"Foswiki::Extension::Empty"}%=.
 
 ---++ Standard helpers
 

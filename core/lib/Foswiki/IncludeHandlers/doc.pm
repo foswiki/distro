@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::IncludeHandlers::doc
+---+!! package Foswiki::IncludeHandlers::doc
 
 This package is designed to be lazy-loaded when Foswiki sees
 an INCLUDE macro with the doc: protocol. It implements a single
