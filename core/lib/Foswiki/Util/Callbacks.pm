@@ -158,12 +158,16 @@ before DEMOLISH => sub {
         if ( defined $app ) {
             my $appHeap = $app->heap;
 
+    # SMELL It's actually pretty slow way of doing the task. Needs optimization.
             foreach
               my $cbName ( keys %{ $appHeap->{_aux_registered_callbacks} } )
             {
                 $this->deregisterCallback($cbName);
             }
+
+            delete $appHeap->{_aux_registered_callbacks};
         }
+
     }
 };
 
@@ -253,7 +257,12 @@ sub registerCallback {
         obj  => $this->__id,
     };
 
-    push @{ $this->_getApp->heap->{_aux_registered_callbacks}{$name} }, $cbInfo;
+    my $app = $this->_getApp;
+
+    ASSERT( defined $app,
+        "Callback cannot be registered without an active application object" );
+
+    push @{ $app->heap->{_aux_registered_callbacks}{$name} }, $cbInfo;
 }
 
 =begin TML
@@ -310,6 +319,7 @@ sub callback {
     $name = caller . "::$name" unless $name =~ /::/;
 
     ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
+    ASSERT( ref($params) eq 'HASH', "callback params must be a hashref" );
 
     my $lastException;
     my $cbList = $this->_getApp->heap->{_aux_registered_callbacks}{$name};
@@ -337,7 +347,7 @@ sub callback {
                         $lastException = $e;
                     }
                     elsif ( $e->isa('Foswiki::Exception::Ext::Restart') ) {
-                        $params->{execRestarted} = {
+                        $params->{'.cbData'}{execRestarted} = {
                             code => $cbInfo->{code},
                             data => $cbInfo->{data},
                         };
@@ -380,10 +390,11 @@ sub registerCallbackNames {
 
     foreach (@_) {
         my $cbName = "${namespace}::$_" unless /::/;
+        ASSERT( !$_registeredCBNames{$cbName},
+            "Duplicate registration of $cbName callback" );
         $_registeredCBNames{$cbName} = 1;
         push @{ $_cbNameIndex{$_} }, $namespace;
     }
-
 }
 
 1;
