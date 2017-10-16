@@ -398,7 +398,7 @@ sub deregisterCallback {
 
 =begin TML
 
----+++ ObjectMethod callback($name, \%params)
+---+++ ObjectMethod callback( $name [, \%params] )
 
 Execute a callback defined by =$name=. Reference to =%params= is passed over
 to registered callback subs in =params= profile key.
@@ -410,6 +410,7 @@ sub callback {
     my ( $name, $params ) = @_;
 
     $name = caller . "::$name" unless $name =~ /::/;
+    $params //= {};
 
     ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
     ASSERT( ref($params) eq 'HASH', "callback params must be a hashref" );
