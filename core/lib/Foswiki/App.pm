@@ -165,12 +165,7 @@ has access => (
     predicate => 1,
     isa =>
       Foswiki::Object::isaCLASS( 'access', 'Foswiki::Access', noUndef => 1, ),
-    default => sub {
-        my $this        = shift;
-        my $accessClass = $this->cfg->data->{AccessControl}
-          || 'Foswiki::Access::TopicACLAccess';
-        return $this->create($accessClass);
-    },
+    builder => 'prepareAccess',
 );
 
 =begin TML
@@ -186,7 +181,9 @@ has attach => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub { $_[0]->create('Foswiki::Attach'); },
+    isa =>
+      Foswiki::Object::isaCLASS( 'access', 'Foswiki::Attach', noUndef => 1, ),
+    builder => 'prepareAttach',
 );
 
 =begin TML
@@ -203,18 +200,7 @@ has cache => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        my $this = shift;
-        my $cfg  = $this->cfg;
-        if (   $cfg->data->{Cache}{Enabled}
-            && $cfg->data->{Cache}{Implementation} )
-        {
-            load_class( $cfg->data->{Cache}{Implementation} );
-            ASSERT( !$@, $@ ) if DEBUG;
-            return $this->create( $cfg->data->{Cache}{Implementation} );
-        }
-        return undef;
-    },
+    builder   => 'prepareCache',
 );
 
 =begin TML
@@ -277,7 +263,7 @@ has forms => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
-    default => sub { {} },
+    builder => 'prepareForms',
 );
 
 =begin TML
@@ -294,15 +280,7 @@ has logger => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        my $this        = shift;
-        my $cfg         = $this->cfg;
-        my $loggerClass = 'Foswiki::Logger';
-        if ( $cfg->data->{Log}{Implementation} ne 'none' ) {
-            $loggerClass = $cfg->data->{Log}{Implementation};
-        }
-        return $this->create($loggerClass);
-    },
+    builder   => 'prepareLogger',
 );
 
 =begin TML
@@ -340,7 +318,7 @@ has heap => (
     is      => 'rw',
     clearer => 1,
     lazy    => 1,
-    default => sub { {} },
+    builder => 'prepareHeap',
 );
 
 =begin TML
@@ -356,12 +334,7 @@ has i18n => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-
-        # language information; must be loaded after
-        # *all possible preferences sources* are available
-        $_[0]->create('Foswiki::I18N');
-    },
+    builder   => 'prepareI18n',
 );
 
 =begin TML
@@ -377,7 +350,7 @@ has net => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub { return $_[0]->create('Foswiki::Net'); },
+    builder   => 'prepareNet',
 );
 
 =begin TML
@@ -393,7 +366,7 @@ has plugins => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub { return $_[0]->create('Foswiki::Plugins'); },
+    builder   => 'preparePlugins',
 );
 
 =begin TML
@@ -425,9 +398,7 @@ has renderer => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        return $_[0]->create('Foswiki::Render');
-    },
+    builder   => 'prepareRenderer',
 );
 
 =begin TML
@@ -460,7 +431,7 @@ has response => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => sub { $_[0]->create('Foswiki::Response') },
+    builder => 'prepareResponse',
     isa     => Foswiki::Object::isaCLASS(
         'response', 'Foswiki::Response', noUndef => 1,
     ),
@@ -479,9 +450,7 @@ has search => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        return $_[0]->create('Foswiki::Search');
-    },
+    builder   => 'prepareSearch',
 );
 
 =begin TML
@@ -500,13 +469,7 @@ has store => (
     predicate => 1,
     isa =>
       Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
-    default => sub {
-        my $storeClass = $Foswiki::cfg{Store}{Implementation}
-          || 'Foswiki::Store::PlainFile';
-        ASSERT( $storeClass, "Foswiki::store base class is not defined" )
-          if DEBUG;
-        return $_[0]->create($storeClass);
-    },
+    builder => 'prepareStore',
 );
 
 =begin TML
@@ -522,7 +485,7 @@ has templates => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    default   => sub { return $_[0]->create('Foswiki::Templates'); },
+    builder   => 'prepareTemplates',
 );
 
 =begin TML
@@ -536,7 +499,7 @@ Macros manager object, a instance of =Foswiki::Macros= class.
 has macros => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { return $_[0]->create('Foswiki::Macros'); },
+    builder => 'prepareMacros',
     isa =>
       Foswiki::Object::isaCLASS( 'macros', 'Foswiki::Macros', noUndef => 1, ),
 );
@@ -569,9 +532,7 @@ User interface object, a instance of =Foswiki::UI= class.
 has ui => (
     is      => 'rw',
     lazy    => 1,
-    default => sub {
-        return $_[0]->create('Foswiki::UI');
-    },
+    builder => 'prepareUi',
 );
 
 =begin TML
@@ -587,10 +548,7 @@ has remoteUser => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        my $this = shift;
-        return $this->users->loadSession( $this->engine->user );
-    },
+    builder   => 'prepareRemoteUser',
 );
 
 =begin TML
@@ -627,7 +585,7 @@ has users => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    default   => sub { return $_[0]->create('Foswiki::Users'); },
+    builder   => 'prepareUsers',
 );
 
 =begin TML
@@ -643,7 +601,7 @@ has zones => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub { return $_[0]->create('Foswiki::Render::Zones'); },
+    builder   => 'prepareZones',
 );
 
 =begin TML
@@ -663,7 +621,7 @@ has _dispatcherAttrs => (
 
 =begin TML
 
----+++ ObjectAttribute system_messages -> \@messages
+---+++ ObjectAttribute systemMessages -> \@messages
 
 List of system messages to be displayed to user. Could be used to for
 non-critical errors or important warnings. Messages are expected to be
@@ -673,12 +631,12 @@ See =systemMessage()= method.
 
 =cut
 
-has system_messages => (
+has systemMessages => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY( 'system_messages', noUndef => 1, ),
+    builder => 'prepareSystemMessages',
+    isa     => Foswiki::Object::isaARRAY( 'systemMessages', noUndef => 1, ),
 );
 
 =begin TML
@@ -692,12 +650,7 @@ A boolean attribute set to _true_ if the code is executing unit tests.
 has inUnitTestMode => (
     is      => 'rw',
     lazy    => 1,
-    default => sub {
-        my $this   = shift;
-        my $inTest = $Foswiki::inUnitTestMode
-          || ( $this->has_engine && ref( $this->engine ) =~ /::Test$/ );
-        return $inTest;
-    },
+    builder => 'prepareInUnitTestMode',
 );
 
 =begin TML
@@ -1673,12 +1626,12 @@ This method is to be used with care when really necessary.
 sub systemMessage {
     my $this = shift;
     if (@_) {
-        push @{ $this->system_messages }, @_;
+        push @{ $this->systemMessages }, @_;
         return;
     }
 
     # SMELL Something better than %BR% shall be used here.
-    return join( '%BR%', @{ $this->system_messages } );
+    return join( '%BR%', @{ $this->systemMessages } );
 }
 
 =begin TML
@@ -1865,6 +1818,120 @@ BOGUS
     else {
         $this->response->print($text);
     }
+}
+
+sub prepareAccess {
+    my $this        = shift;
+    my $accessClass = $this->cfg->data->{AccessControl}
+      || 'Foswiki::Access::TopicACLAccess';
+    return $this->create($accessClass);
+}
+
+sub prepareAttach {
+    return $_[0]->create('Foswiki::Attach');
+}
+
+sub prepareCache {
+    my $this = shift;
+    my $cfg  = $this->cfg;
+    if (   $cfg->data->{Cache}{Enabled}
+        && $cfg->data->{Cache}{Implementation} )
+    {
+        load_class( $cfg->data->{Cache}{Implementation} );
+        ASSERT( !$@, $@ ) if DEBUG;
+        return $this->create( $cfg->data->{Cache}{Implementation} );
+    }
+    return undef;
+}
+
+sub prepareForms { {} }
+
+sub prepareHeap {
+    return {};
+}
+
+sub prepareI18n {
+
+    # language information; must be loaded after
+    # *all possible preferences sources* are available
+    return $_[0]->create('Foswiki::I18N');
+}
+
+sub prepareInUnitTestMode {
+    my $this   = shift;
+    my $inTest = $Foswiki::inUnitTestMode
+      || ( $this->has_engine && ref( $this->engine ) =~ /::Test$/ );
+    return $inTest;
+}
+
+sub prepareLogger {
+    my $this        = shift;
+    my $cfg         = $this->cfg;
+    my $loggerClass = 'Foswiki::Logger';
+    if ( $cfg->data->{Log}{Implementation} ne 'none' ) {
+        $loggerClass = $cfg->data->{Log}{Implementation};
+    }
+    return $this->create($loggerClass);
+}
+
+sub prepareMacros {
+    return $_[0]->create('Foswiki::Macros');
+}
+
+sub prepareNet {
+    return $_[0]->create('Foswiki::Net');
+}
+
+sub preparePlugins {
+    return $_[0]->create('Foswiki::Plugins');
+}
+
+sub prepareRemoteUser {
+    my $this = shift;
+    return $this->users->loadSession( $this->engine->user );
+}
+
+sub prepareRenderer {
+    return $_[0]->create('Foswiki::Render');
+}
+
+sub prepareResponse {
+    $_[0]->create('Foswiki::Response');
+}
+
+sub prepareSearch {
+    return $_[0]->create('Foswiki::Search');
+}
+
+sub prepareStore {
+
+    # Use of {Store}{Implementation} could be replaced with extension class
+    # overriding.
+    my $storeClass = $Foswiki::cfg{Store}{Implementation}
+      || 'Foswiki::Store::PlainFile';
+    ASSERT( $storeClass, "Foswiki::store base class is not defined" )
+      if DEBUG;
+    return $_[0]->create($storeClass);
+}
+
+sub prepareSystemMessages {
+    return [];
+}
+
+sub prepareTemplates {
+    return $_[0]->create('Foswiki::Templates');
+}
+
+sub prepareUi {
+    return $_[0]->create('Foswiki::UI');
+}
+
+sub prepareUsers {
+    return $_[0]->create('Foswiki::Users');
+}
+
+sub prepareZones {
+    return $_[0]->create('Foswiki::Render::Zones');
 }
 
 =begin TML
