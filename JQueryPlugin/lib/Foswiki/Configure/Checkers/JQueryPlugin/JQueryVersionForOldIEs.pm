@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::JQueryPlugin::JQueryVersion;
+package Foswiki::Configure::Checkers::JQueryPlugin::JQueryVersionForOldIEs;
 
 use strict;
 use warnings;
@@ -11,7 +11,7 @@ our @ISA = qw( Foswiki::Configure::Checker );
 sub check {
     my $this      = shift;
     my $e         = '';
-    my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
+    my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
 
     if ( !$jqversion ) {
         return $this->ERROR(<<'MESSAGE');
