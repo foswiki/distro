@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507948779" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1508119765" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -42,16 +42,32 @@ Basically, what makes v3 different from all previous versions are:
 There are some under the hood changes in behaviour of some components like
 =%PERLDOC{"Foswiki::Request"}%= initialization procedures; or alike.
 
----++ Basic concepts
+---++ Basic Concepts
 
    $ [[OOCodeConcepts]] : Main concepts of programming under %WIKITOOLNAME% v3.
    $ [[EngineRevisedV3]] : Engine new role in Foswiki V3.
    $ [[ChainedExecutionFlow]] : Callbacks and extensions chaining of calls.
    $ [[CallbacksFramework]] : Callbacks framework
 
----++ New standards
+---++ New Standards And Major Changes
 
    $ [[SpecFileFormat]] : Config Specs v2
+   $ [[MacrosAsOO]] : Object oriented macros model
+
+---+++ Configuration Management
+
+All configuration-related functionality has been put into
+%PERLDOC{"Foswiki::Config"}% class which is instantiated in
+=%PERLDOC{"Foswiki::App" attr="cfg"}%= attribute. The functionality includes:
+
+   * Bootstraping
+   * Reading Local Site Configuration (LSC)
+   * Fetching and handling of configuration specs (see Config Specs v2 above)
+
+---+++ Easy File Handling
+
+New class =%PERLDOC{"Foswiki::File"}%= provides simple and easy to use interface
+for fetching/writing files.
 
 ---++ Testing
 

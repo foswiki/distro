@@ -98,8 +98,9 @@ A class with this modifier wants to get callbacks support. This is done by:
    1. exporting =callback_names= public method.
 
 a subroutine =callback_names= is exported into a class' namespace and
-=Foswiki::Util::Callbacks= role gets applied. =callback_names= accepts a list
-and registers names from the list as callbacks supported by the class.
+=%PERLDOC{"Foswiki::Util::Callbacks"}%= role gets applied. =callback_names=
+accepts a list and registers names from the list as callbacks supported by the
+class.
 
 For example:
 
@@ -124,10 +125,11 @@ See =Foswiki::Util::Callbacks=.
 
 ---+++ extension
 
-Extension support is provided by exporting subroutines =callbackHandler,
-extBefore, extAfter, extClass, plugBefore, plugAround, plugAfter, tagHandler=.
+Extension support is provided by exporting subroutines =callbackHandler=,
+=extBefore=, =extAfter=, =extClass=, =plugBefore=, =plugAround=, =plugAfter=,
+=tagHandler=.
 
-See more in =Foswiki::Extension::Empty=.
+See more in =%PERLDOC{"Foswiki::Extension::Empty"}%=.
 
 ---+++ extensible
 

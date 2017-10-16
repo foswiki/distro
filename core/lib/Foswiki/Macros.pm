@@ -2,6 +2,24 @@
 
 package Foswiki::Macros;
 
+=begin TML
+
+---+!! Class Foswiki::Macros
+
+---++ SYNOPSIS
+
+<verbatim>
+$app->macros->registerTagHandler("TAGNAME", \&tagHandler);
+
+my $expanded = $app->macros->expandMacros( $text, $metaObject );
+</verbatim>
+
+---++ DESCRIPTION
+
+This class is responsible for managing macros.
+
+=cut
+
 use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
 
@@ -12,9 +30,7 @@ use Assert;
 
 =begin TML
 
----++!! Class Foswiki::Macros
-
-Macro handling and expansion class.
+---++ ATTRIBUTES
 
 =cut
 
@@ -38,6 +54,12 @@ has _macros => (
     lazy    => 1,
     default => sub { {} },
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 sub BUILD {
     my $this = shift;
@@ -211,7 +233,7 @@ s/%TOC(?:\{(.*?)\})?%/$this->execMacro('TOC', $1, $topicObject, $text, $tocInsta
 
 =begin TML
 
----++ ObjectMethod expandMacrosOnTopicCreation ( $topicObject )
+---++ ObjectMethod expandMacrosOnTopicCreation( $topicObject )
 
    * =$topicObject= - the topic
 
@@ -220,9 +242,9 @@ expanded during topic creation, in the body text and
 PREFERENCE meta only. The expansion is in-place inside
 the topic object.
 
-# SMELL: no plugin handler
-
 =cut
+
+# SMELL: no plugin handler
 
 sub expandMacrosOnTopicCreation {
     my ( $this, $topicObject ) = @_;
@@ -322,7 +344,7 @@ sub expandMacrosOnTopicCreation {
 }
 
 =begin TML
----++ ObjectMethod exists($macro) -> boolean
+---++ ObjectMethod exists( $macro ) -> boolean
 
 Returns true if =$macro= is a registered macro.
 
@@ -739,7 +761,7 @@ sub execMacro {
             else {
                 $macroObj = $this->_macros->{$macroName} =
                   $this->create( $this->registered->{$macroName} );
-                ASSERT( $this->_macros->{$macroName}->does('Foswiki::Macro'),
+                ASSERT( $this->_macros->{$macroName}->DOES('Foswiki::Macro'),
                         "Invalid macro module "
                       . $this->registered->{$macroName}
                       . "; must consume Foswiki::Macro role" )

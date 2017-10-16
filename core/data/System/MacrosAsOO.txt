@@ -1,0 +1,54 @@
+%META:TOPICINFO{author="ProjectContributor" date="1508119765" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Macros OO Model
+%TOC%
+
+In Foswiki v3 macros management has been extracted into a dedicated class
+=%PERLDOC{"Foswiki::Macros"}%. The class is responsible for keeping macros
+registration information and for expanding them in a text. While the class
+itself is nothing special and provides pretty clean and well documented API,
+the two additional ways of implementing macros it introduces are of the real
+interest here.
+
+---++ Macro In a Class
+
+The first way is declaring a class which will be instantiated into an object.
+The object is created upon encountering first occurrence of the macro and then
+is preserved until the macros manager object is destroyed. The macro class must
+fulfill the following two requirements:
+
+   * consume =%PERLDOC{"Foswiki::Macro"}%= role
+   * implement method =expand()=
+
+The second requirement is actually imposed by the =Foswiki::Macro= role.
+
+The =expand()= sub is executed as a method of the macro object.
+
+The advantages of this way are persistence and encapsulation of macro data.
+Where previously subroutine handlers would have to use either some kind of
+global persistent storage (=$Foswiki::Plugins::SESSION=, most of the time) or
+=state= variables to preserve some of their data across calls, it is now
+possible to use object attributes for this purpose. The approach also clears the
+way for multi-application environment (see OOCodeConcepts topic).
+
+---++ Macro In an Extension
+
+The macro manager also supports macro declaration in an extension. This way
+works through registering the extension class as the macro handler. Then the
+macro manager relies upon extension manager to check if the extension is active
+and obtain its object. Extension's class must provide a method named after the
+macro. There could be more than one macro registered by same extension.
+
+Macro methods are executed on the extension object.
+
+In addition to the mentioned above advantages this approach adds direct access
+of macro code to the extension's internal data. Additionally, as long as a
+developer is using =tagHandler= (see 
+=%PERLDOC{"Foswiki::Extension::Empty" anchor="Custom_macros"}%=), it simplifies
+bundling of an extension by keeping all code in the same location.
+
+---+ Related
+
+=%PERLDOC{"Foswiki::Macros"}%=, =%PERLDOC{"Foswiki::ExtManager"}%=,
+=%PERLDOC{"Foswiki::Extension::Empty"}%=
+

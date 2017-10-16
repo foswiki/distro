@@ -6,6 +6,21 @@ package Foswiki::App;
 
 ---+!! Class Foswiki::App
 
+---++ SYNOPSIS
+
+<verbatim>
+# Basic PSGI starter script
+use Foswiki::App;
+
+my $app = sub {
+    my $env = shift;
+
+    return Foswiki::App->run( env => $env, );
+};
+</verbatim>
+
+---++ DESCRIPTION
+
 The core class of the project responsible for low-level and code glue
 functionality.
 
@@ -18,7 +33,7 @@ hierarchy.
 This class also provides the API for user-created code like extensions or
 legacy plugins.
 
----++ Life cycle
+---+++ Life cycle
 
 Depending on the purpose of a new application object it could be created either
 manually using =new()= method or by calling static method =run()=. The latter
@@ -37,7 +52,7 @@ check the current stage of application life by examining the context (see the
 =context= attribute). In particular, =appStage= context could be used to find
 out related information.
 
----++ Legacy support
+---+++ Legacy support
 
 Since the new %WIKITOOLNAME% core is not backward compatible with previous major
 versions the legacy code must be somewhat changed to be able to work with the
@@ -79,7 +94,7 @@ extends qw(Foswiki::Object);
 
 =begin TML
 
----++ Callbacks
+---+++ Callbacks
 
 This class is currently provides support for the following callbacks:
 
@@ -93,7 +108,7 @@ callback_names qw(handleRequestException postConfig);
 
 =begin TML
 
----++ Active features
+---+++ Active features
 
 %FEATURES_INFO{ns="*"}%
 
@@ -115,7 +130,19 @@ features_provided
     -desc     => "Perl Specs",
     -proposal => "OOConfigSpecsFormat",
     -doc      => 'SpecFileFormat',
-  ];
+  ],
+  NAMED_CALLBACKS => [
+    2.99, undef, undef,
+    -desc => "Named callbacks",
+    -doc  => 'CallbacksFramework',
+  ],
+  OOEXTENSIONS => [
+    2.99, undef, undef,
+    -desc     => "OO Extensions",
+    -proposal => 'OONewPluginModel',
+    -doc      => '%PERLDOC{"Foswiki::ExtManager"}%',
+  ],
+  ;
 
 =begin TML
 

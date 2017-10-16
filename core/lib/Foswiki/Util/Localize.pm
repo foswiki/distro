@@ -2,7 +2,7 @@
 
 =begin TML
 
----++ Role Foswiki::Util::Localize
+---++!! Role Foswiki::Util::Localize
 
 This role determines classes which are able to simulate =local= Perl operator
 using OO approach. They do it by providing two methods: =localize()= and

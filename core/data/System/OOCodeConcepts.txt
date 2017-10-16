@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507948779" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1508119765" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -256,7 +256,7 @@ with =Foswiki::AppObject= role applied it must create an application object.
 Then either a corresponding attribute on application could be used to do the job
 or necessary instance must be created using application's =create()= method.
 
----+++ $Foswiki::app, $Foswiki::cfg and muli-application environment
+---+++ $Foswiki::app, $Foswiki::cfg and multi-application environment
 
 It is common for Foswiki code to serve a single request, return a response and
 shutdown – all within a single process. In this scenario it is guaranteed that
