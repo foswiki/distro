@@ -16,6 +16,7 @@ use warnings;
 use Assert;
 
 use Foswiki::Form::FieldDefinition ();
+use HTML::Entities;
 our @ISA = ('Foswiki::Form::FieldDefinition');
 
 BEGIN {
@@ -58,7 +59,7 @@ sub getOptions {
     my @vals  = ();
     my %descr = ();
 
-    @vals = split( /,/, $this->{value} );
+    @vals = split( /\s*,\s*/, $this->{value} );
 
     if ( !scalar(@vals) ) {
         my $topic = $this->{definingTopic} || $this->{name};
@@ -100,6 +101,7 @@ sub getOptions {
         }
     }
     @vals = map { $_ =~ s/^\s*(.*)\s*$/$1/; $_; } @vals;
+    @vals = map { $_ = HTML::Entities::decode_entities($_); } @vals;
 
     $this->{_descriptions} = \%descr;
 

@@ -97,7 +97,13 @@ sub renderForEdit {
     my $choices = '';
 
     $value = '' unless defined $value;
-    my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
+    my %isSelected;
+    if ( $this->isMultiValued() ) {
+        %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
+    }
+    else {
+        $isSelected{$value} = 1;
+    }
     foreach my $item ( @{ $this->getOptions() } ) {
         my $option = $item
           ; # Item9647: make a copy not to modify the original value in the array
