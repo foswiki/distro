@@ -550,9 +550,11 @@ sub setupUserRegistration {
 
 ---++ ObjectMethod createNewFoswikiApp(%params) -> ref to new Unit::TestApp obj
 
-cleans up the existing Foswiki object, and creates a new one
+Cleans up the existing Foswiki object, and creates a new one.
 
-=%params= are passed directly to the application object constructor. Note that for most test cases this would be =Unit::TestApp= class instead of its parent =Foswiki::App=.
+=%params= are passed directly to the application object constructor. Note that
+for most test cases this would be =%PERLDOC{"Unit::TestApp"}%= class instead of
+its parent =%PERLDOC{"Foswiki::App"}%=.
 
 Typically called to force a full re-initialisation with new preferences, topics, users, groups or config.
 
@@ -767,7 +769,7 @@ sub leakDetectCheckpoint {
     my $this = shift;
     my ($dumpName) = @_;
 
-    return unless Unit::TestRunner::CHECKLEAK;
+    return unless &Unit::TestRunner::CHECKLEAK;
 
     $dumpName //= $this->testSuite;
 
@@ -797,7 +799,7 @@ sub leakDetectDump {
     my $this = shift;
     my ($dumpName) = @_;
 
-    return unless Unit::TestRunner::CHECKLEAK;
+    return unless &Unit::TestRunner::CHECKLEAK;
 
     $dumpName //= $this->testSuite;
 
@@ -817,7 +819,7 @@ sub leakDetectDump {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

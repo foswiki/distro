@@ -4,7 +4,10 @@ use v5.14;
 
 =begin TML
 
----+ package Unit::TestCase
+---+!! Class Unit::TestCase
+
+---++ DESCRIPTION
+
 Base class of all unit test cases. Modeled on JUnit.TestCase.
 
 This class is a general purpose and should not make any reference to
@@ -33,8 +36,7 @@ my $SEPARATOR_STRING = '########################################';
 
 =begin TML
 
----++ ClassMethod new()
-Construct a new testcase.
+---++ ATTRIBUTES
 
 =cut
 
@@ -47,6 +49,7 @@ has annotations => (
     },
     clearer => 1,
 );
+
 has expecting_failure => (
     is      => 'rw',
     default => 0,
@@ -61,10 +64,12 @@ has _stderr => (
     is      => 'rw',
     clearer => 1,
 );
+
 has _stdout => (
     is      => 'rw',
     clearer => 1,
 );
+
 has _tempDir => (
     is      => 'rw',
     lazy    => 1,
@@ -81,16 +86,24 @@ has _tempDir => (
     },
     handles => { tempDir => 'dirname', },
 );
+
 has verify_permutations => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
 );
+
 has testSuite => ( is => 'ro', required => 1, );
 
 =begin TML
 
----++ ObjectMethod set_up()
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod set_up()
 
 Called by the test environment before each test case, used to set up
 test fixtures.
@@ -107,7 +120,7 @@ sub set_up {
 
 =begin TML
 
----++ ObjectMethod tear_down()
+---+++ ObjectMethod tear_down()
 Tear down temporary test fixtures
 
 Subclasses should call the superclass method in overrides.
@@ -119,7 +132,7 @@ sub tear_down {
 
 =begin TML
 
----++ ObjectMethod run_in_new_process()
+---+++ ObjectMethod run_in_new_process()
 
 Override this method to return true 
 in test suites that should be run in a separate process.
@@ -142,7 +155,7 @@ sub _fixture_test {
 
 =begin TML
 
----++ ObjectMethod fixture_groups() ->\@\@functions
+---+++ ObjectMethod fixture_groups() ->\@\@functions
 
 Implement this to return an array of arrays, each of which is a list
 of the names of fixture setup functions. For example, ( [ A, B ], [ C, D] ).
@@ -170,7 +183,7 @@ sub fixture_groups {
 
 =begin TML
 
----++ ObjectMethod list_tests() -> @list
+---+++ ObjectMethod list_tests() -> @list
 
 Returns a list of the names of test functions defined by the testcase.
 This method can be overridden to give an alternative list of tests.
@@ -259,7 +272,7 @@ SUB
 
 =begin TML
 
----++ ObjectMethod assert($condition [, $message])
+---+++ ObjectMethod assert($condition [, $message])
 
 Fail the test unless the $condition is true. $message is optional.
 
@@ -280,7 +293,7 @@ sub assert {
 
 =begin TML
 
----++ ObjectMethod assert_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_equals($expected, $got [, $message])
 
 Fail the test unless the $expected eq $got is true. $message is optional.
 
@@ -302,7 +315,7 @@ sub assert_equals {
 
 =begin TML
 
----++ ObjectMethod assert_not_null($wot [, $message])
+---+++ ObjectMethod assert_not_null($wot [, $message])
 
 Fail the test if $wot is undef. $message is optional.
 
@@ -315,7 +328,7 @@ sub assert_not_null {
 
 =begin TML
 
----++ ObjectMethod assert_null($wot [, $message])
+---+++ ObjectMethod assert_null($wot [, $message])
 
 Fail the test unless $wot is undef. $message is optional.
 
@@ -329,7 +342,7 @@ sub assert_null {
 
 =begin TML
 
----++ ObjectMethod assert_str_contains($expected, $got [, $message])
+---+++ ObjectMethod assert_str_contains($expected, $got [, $message])
 
 Fail the test unless =$got= contains =$expected=. =$message= is optional.
 
@@ -346,7 +359,7 @@ sub assert_str_contains {
 
 =begin TML
 
----++ ObjectMethod assert_str_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_str_equals($expected, $got [, $message])
 
 Fail the test unless $got eq $expected. $message is optional.
 
@@ -363,7 +376,7 @@ sub assert_str_equals {
 
 =begin TML
 
----++ ObjectMethod assert_str_not_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_str_not_equals($expected, $got [, $message])
 
 Fail the test if $got eq $expected. $message is optional.
 
@@ -380,7 +393,7 @@ sub assert_str_not_equals {
 
 =begin TML
 
----++ ObjectMethod assert_num_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_num_equals($expected, $got [, $message])
 
 Fail the test if $got == $expected. $message is optional.
 
@@ -397,7 +410,7 @@ sub assert_num_equals {
 
 =begin TML
 
----++ ObjectMethod assert_num_not_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_num_not_equals($expected, $got [, $message])
 
 Fail the test if $got != $expected. $message is optional.
 
@@ -414,7 +427,7 @@ sub assert_num_not_equals {
 
 =begin TML
 
----++ ObjectMethod assert_matches($expected, $got [, $message])
+---+++ ObjectMethod assert_matches($expected, $got [, $message])
 
 Fail the test unless $got =~ /$expected/. $message is optional.
 
@@ -443,7 +456,7 @@ sub assert_matches {
 
 =begin TML
 
----++ ObjectMethod assert_does_not_match($expected, $got [, $message])
+---+++ ObjectMethod assert_does_not_match($expected, $got [, $message])
 
 Fail the test if $got !~ /$expected/ undef. $message is optional.
 
@@ -472,7 +485,7 @@ sub assert_does_not_match {
 
 =begin TML
 
----++ ObjectMethod assert_deep_equals($expected, $got [, $message])
+---+++ ObjectMethod assert_deep_equals($expected, $got [, $message])
 
 Fail the test if $got != $expected. Comparison is deep. $message is optional.
 
@@ -553,7 +566,7 @@ sub _nundef {
 
 =begin TML
 
----++ ObjectMethod annotate($message)
+---+++ ObjectMethod annotate($message)
 
 Add an annotation to the test output
 
@@ -566,7 +579,7 @@ sub annotate {
 
 =begin TML
 
----++ ObjectMethod assert_html_equals($expected, $got [,$message])
+---+++ ObjectMethod assert_html_equals($expected, $got [,$message])
 
 HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser
 which is tolerant of unbalanced tags, so the actual may have unbalanced
@@ -598,7 +611,7 @@ sub assert_html_equals {
 
 =begin TML
 
----++ ObjectMethod assert_html_matches($expected, $got [,$message])
+---+++ ObjectMethod assert_html_matches($expected, $got [,$message])
 
 See if a block of HTML occurs in a larger
 block of HTML. Both blocks must be well-formed HTML.
@@ -621,7 +634,7 @@ sub assert_html_matches {
 
 =begin TML
 
----++ ObjectMethod assert_json_equals($expected, $got [,$message])
+---+++ ObjectMethod assert_json_equals($expected, $got [,$message])
 
 Fail the test unless the two JSON data structures are equivalent.
 The message is optional.
@@ -641,7 +654,7 @@ sub assert_json_equals {
 
 =begin TML
 
----++ ObjectMethod assert_URI_equals($expected, $got [,$message])
+---+++ ObjectMethod assert_URI_equals($expected, $got [,$message])
 
 Test two (string) URIs for canonical equality.
 
@@ -691,7 +704,7 @@ sub _canonical_param_string {
 
 =begin TML
 
----++ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
+---+++ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
 
 Invoke a function while grabbing stdout and stderr, so the output
 doesn't flood the console that you're running the unit test from.
@@ -747,7 +760,7 @@ sub captureSTD {
 
 =begin TML
 
----++ StaticMethod encode_wide_chars($text) -> $text
+---+++ StaticMethod encode_wide_chars($text) -> $text
 
 Given a string that may contain wide characters (which will break
 print) encode those characters using URL encoding.

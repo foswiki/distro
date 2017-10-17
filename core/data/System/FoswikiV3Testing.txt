@@ -1,0 +1,133 @@
+%META:TOPICINFO{author="ProjectContributor" date="1508190446" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Foswiki v3 Testing
+
+Architectural changes to Foswiki core resulted in major changes to the way
+tests are functioning. Additionally, introduction of PSGI support brought in
+a new test framework which wraps around [[CPAN:Plack::Test][Plack::Test]] and
+provides Foswiki-specific routines to ease test writing.
+
+---++ Application In The Test Environment
+
+One of the most visible changes is related to the new, application-centric,
+nature of the core. The first outward appearance of this change is removal of
+=createNewFoswikiSession()= method. It was kinda replaced with
+=createNewFoswikiApp()=; but the real changes are more complicated than a simple
+substitution.
+
+First of all, test code requires some additional support from the core. The code
+implementing it though being pretty small in footprint but comes at performance
+cost. For this reason it was extracted into a separate class
+=%PERLDOC{"Unit::TestApp"}%= bundled with UnitTestContrib.
+
+Another issue we're facing here is application object needing an engine to
+communicate with the outside world. The engine is also provided by the same
+contrib and is installed under =%PERLDOC{"Foswiki::Engine::Test"}%= name.
+
+---++ Initialization
+
+As testing is all about "let's create some situation and see what happens to
+the program", we need a way to create the situation of the interest. In Foswiki
+application case it usually means we need to simulate data flows coming from
+several sources. Most important of them are:
+
+   * HTTP request
+   * Local site configuration
+   * Environment variables
+   * User accounts info
+   * Topics in a store
+   * Plugins/extensions
+
+Of this list the first item could be the most tricky to initialize. Previously,
+when ties between a request object and =$Foswiki::Plugins::SESSION= were rather
+loose, simulation was done by filling a request with required parameters and
+creating a new session object with the prepared request. In the new model
+request is a secondary entity initialized with data obtained from engine. To put
+the data in it %PERLDOC{"Foswiki::Engine::Test"}% provides support for a few
+different sources of information, including a special attribute named
+=initialAttributes= which could be passed in as a constructor parameter.
+
+So far so good until we realize that the standard =%PERLDOC{"Foswiki::App"}%=
+class is keeping all object creation procedures in its tenacious tentacles and
+doesn't provide any means for a developer to participate in the process.
+
+Deadend? No considering that attributes dedicated for corresponding objects are
+lazily initialized with =prepareATTRIBUTE()= builders (see [[OOCodeConcepts]]).
+By inheriting and overriding the builders we can properly initialize the
+corresponding attributes. This is what =%PERLDOC{"Unit::TestApp"}%= already does
+for us.
+
+Now, lets step back and approach to the situation from another direction. The
+=createNewFoswikiApp()= method could be considered a shortcut for calling
+=Unit::TestApp->new()= (except that it does more than just that, but it's not
+relevant here). And it receives constructor profile has as its parameters.
+Correspondingly, upon creating a new test application we can feed it with all
+the data we may need. =Unit::TestApp= on its side provides us with
+=engineParams= attribute which we can initialize with an profile suitable for
+creating a new engine object.
+
+Here is an excerpt from real life test case _ClientTests_ which demonstrates
+what's been told so far:
+
+<verbatim>
+    $this->createNewFoswikiApp(
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                action    => 'edit',
+            },
+        },
+    );
+</verbatim>
+
+We won't be getting into details of this code as everything is documented by
+corresponding classes. One thing worth mentioning is that the code above leaves
+us with fully equipped application object. This actually means that later we
+can perform fine-tuning of some of its child object. For example, we can manually
+set a request HTTP parameter:
+
+<verbatim>
+    $this->app->request->param( '-sampleParam', 1 );
+</verbatim>
+
+Though this could also be done differently. As full simulation of a HTTP request
+could be a hard task, sometimes its easier to initialize the request object
+directly. This approach is supported by special request code functionality which
+allows some data from one HTTP request to be serialized and stored externally
+to be later retrieved and used during a subsequent HTTP request as if it came
+with the latter one. It all works through the use of =initializer= attribute of
+%PERLDOC{"Foswiki::Request"}%. =requestParams= attribute of =Unit::TestApp=
+provides us with functionality similar to =engineParams= but for the =request=
+object. And here is another code from _ClientTests_:
+
+<verbatim>
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                username => [ $Foswiki::cfg{AdminUserLogin} ],
+                password => [$secret],
+                Logon    => [1],
+                skin     => ['none'],
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        }
+    );
+</verbatim>
+
+%X% *NOTE:* Off-topic, but =$Foswiki::cfg= must not be used there. Correct
+would be to use =$this->app->cfg->data->{AdminUserLogin}=. Let's leave it here
+together with this note as is as an example of transforming old-style code to
+the new standards.
+
+---++ Memory leak detection
+
+... =%PERLDOC{"Unit::Leak::Object"}%=.
+
+---+ Related
+
+=%PERLDOC{"Unit::TestCase"}%=, =%PERLDOC{"Unit::FoswikiTestRole"}%=,
+=%PERLDOC{"Unit::TestApp"}%=, %PERLDOC{"Foswiki::Engine::Test"}%=

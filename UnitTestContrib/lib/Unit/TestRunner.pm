@@ -23,7 +23,7 @@ use Assert;
 use Foswiki::Class;
 extends qw(Foswiki::Object);
 
-sub CHECKLEAK { 0 || $ENV{FOSWIKI_CHECKLEAK} }
+use constant CHECKLEAK => !!$ENV{FOSWIKI_CHECKLEAK};
 
 our ( $leakClass, $checkpointSub, $statusSub );
 

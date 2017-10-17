@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1508119765" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1508205637" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -209,6 +209,87 @@ stubMethods qw<prepareAttr1>;
 
 The example may not look very convincing in its current form with just a single
 attribute in use. But simply imagine a number of attributes defined this way.
+
+---+++ Advices
+
+---++++ Attribute Accessors
+
+Because object attribute accessor is a method accessing it comes with a cost.
+Perl is known for comparatively slow subroutine calls and, sure enough, as
+methods are effectively subroutines, heavy use of attribute accessors might
+result in overall performance degradation. Simple benchmarking on a object
+with following attributes:
+
+<verbatim>
+has simpleAttr => (
+    is => 'rw',
+);
+
+has validatedAttr => (
+    is => 'rw',
+    isa => sub {
+        die "Negative not allowed" if $_[0] < 0;
+    },
+);
+</verbatim>
+
+gives following numbers:
+
+| *Read/write* | *Scalar* | *simpleAttr* | *validatedAttr* |
+| *Read* | 0.054491 | 0.122344 | |
+| *Write* | 0.031946 | 0.204803 | 1.498040 |
+
+%X% *NOTE:* Obviously, particular numbers are gonna be different on different
+systems. Only correlation matters.
+
+It's worth paying special attention to writing into a validated attribute which
+is nearly 50 times slower, than writing to a scalar! This is the price we pay
+for data validation. BTW, %PERLDOC{"Foswiki::Object"}% =isaTYPE()= family of
+methods is gonna be even slower that simple =die= with =if= in our example.
+
+   : <em>Hopefully there is no need to explain why extra validation might save
+   us from problems worse than code slowdown.</em>
+
+With the above information in mind, we recommend caching of attribute data
+in a local scalar whenever reasonable. For example (similar code could be
+seen all across the core source):
+
+<verbatim>
+package Foswiki::AClass;
+use Foswiki::Class qw<app>;
+extends qw<Foswiki::Object>;
+
+has result => (
+    is => 'rw',
+    isa => Foswiki::Object::isaHASH( 'result', noUndef => 1, ),
+);
+
+sub someMethod {
+    my $this = shift;
+
+    my $app = $this->app;
+    my $cfgData = $app->cfg->data;
+    my $appHeap = $app->heap;
+
+    my $result;
+
+    while ($this->conditionIsMet) {
+        $appHeap->{'Foswiki::AClass'}{myData} = $this->myData
+            if $cfgData->{AClassParams}{ShareMyData};
+        $result = $this->doSomething;
+    }
+
+    $this->result($result);
+}
+</verbatim>
+
+The example basically displays that caching of attributes makes sense when:
+
+   * attribute is used multiple times within a method
+   * attribute is used within a loop. This is also related to the previous case
+   if method could be called from within an outer loop.
+   * writing to an attribute within a loop is to be avoided unless data
+   validation is required on each write
 
 ---+++ Related
 

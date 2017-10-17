@@ -1027,11 +1027,11 @@ around createNewFoswikiApp => sub {
 };
 
 1;
-__DATA__
+__END__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2008-2015 Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors
 
 Additional copyrights apply to some or all of the code in this file
 as follows:

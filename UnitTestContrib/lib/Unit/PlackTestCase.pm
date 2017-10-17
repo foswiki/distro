@@ -248,7 +248,8 @@ around tear_down => sub {
     return $orig->( $this, @_ );
 };
 
-# Executes coderefs defined by test parameters keys initTest, initRequest, shutdownTest, shutdownRequest.
+# Executes coderefs defined by test parameters keys initTest, initRequest,
+# shutdownTest, shutdownRequest.
 sub _execPerTestStageCode {
     my $this      = shift;
     my $stageName = shift;
@@ -374,10 +375,15 @@ about [[#InitDeinit][initialization/deinitialization]].
 =%args= contains following keys:
 
 | *Key* | *Description* |
-| =data= | Callback user supplied data. Because callbacks are registered using =Unit::TestApp= =registerCallbacks()= method this would be a hash with the only key =app= pointing to the server application object. |
-| =params= | Callback caller suplpied parameters. =postConfig= doesn't provide any so this is gonna be undef but it may change is the future. |
-| =serverApp= | Points to server application object. It duplicates data's =app= key but is here to code readability. |
-| =testParams= | Hash of parameters of the next test to be run. See =testClientList= attribute description. |
+| =data= | Callback user supplied data. Because callbacks are registered using \
+   =Unit::TestApp= =registerCallbacks()= method this would be a hash with the \
+   only key =app= pointing to the server application object. |
+| =params= | Callback caller suplpied parameters. =postConfig= doesn't provide \
+   any so this is gonna be undef but it may change is the future. |
+| =serverApp= | Points to server application object. It duplicates data's \
+   =app= key but is here to code readability. |
+| =testParams= | Hash of parameters of the next test to be run. See \
+   =testClientList= attribute description. |
 
 Note that this method is called on the test case object and =$this->app= points
 to test case's application instance which is different from =serverApp= key.
