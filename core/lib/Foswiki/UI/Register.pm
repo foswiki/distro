@@ -323,26 +323,6 @@ sub _checkApproval {
     return $data;
 }
 
-# Handle password reset;
-# SMELL: is this used any more? It should be going through =manage=.
-sub _resetPassword {
-    my $session = shift;
-    if ( !$session->inContext('passwords_modifyable') ) {
-        throw Foswiki::OopsException(
-            'register',
-            web   => $session->{webName},
-            topic => $session->{topicName},
-            def   => 'passwords_disabled'
-        );
-    }
-
-    # resetpasswd calls checkValidationKey - don't check it here
-    require Foswiki::UI::Passwords;
-    Foswiki::UI::Passwords::resetpasswd($session);
-
-    # unaffected user, accessible by username.$verificationCode
-}
-
 my $b1 = "\t* ";
 my $b2 = "\t$b1";
 

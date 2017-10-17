@@ -110,12 +110,6 @@ BEGIN {
         # Rename is 2 stage; protect in Foswiki::UI::Rename
         #allow => { POST => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package  => 'Foswiki::UI::Passwords',
-        function => 'resetPassword',
-        context  => { resetpasswd => 1 },
-        allow    => { POST => 1 },
-    };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
         request  => 'Foswiki::Request::Rest',
