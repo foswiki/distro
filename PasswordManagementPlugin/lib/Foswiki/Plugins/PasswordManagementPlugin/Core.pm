@@ -28,10 +28,9 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod resetPassword($session)
+---++ StaticMethod _RESTresetPassword($session)
 
-Generates a password. Mails it to them and asks them to change it. Entry
-point intended to be called from UI::run
+Generates a reset token. Mails it to the user and asks them to set their password.
 
 =cut
 
@@ -66,27 +65,28 @@ sub _RESTresetPassword {
         throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
     }
 
-    if ( $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
-        && ( $userName =~ $Foswiki::regex{emailAddrRegex} ) )
-    {
+    if ( $userName =~ $Foswiki::regex{emailAddrRegex} )  {
+        if ( $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} )
+        {
 
-        # try email addresses if it is one
-        my $cuidList = $users->findUserByEmail($userName);
+            # try email addresses if it is one
+            my $cuidList = $users->findUserByEmail($userName);
 
-        if ( scalar @$cuidList > 1 ) {
-            throw Foswiki::OopsException( 'password',
-                def => 'non_unique_email', );
+            if ( scalar @$cuidList > 1 ) {
+                throw Foswiki::OopsException( 'password',
+                    def => 'non_unique_email', );
+            }
+            else {
+                $userName = @$cuidList[0];
+            }
         }
         else {
-            $userName = @$cuidList[0];
+            throw Foswiki::OopsException(
+                'password',
+                status => 200,
+                def    => 'email_not_supported',
+            );
         }
-    }
-    else {
-        throw Foswiki::OopsException(
-            'password',
-            status => 200,
-            def    => 'email_not_supported',
-        );
     }
 
     my $user = Foswiki::Func::getCanonicalUserID($userName);
@@ -100,20 +100,7 @@ sub _RESTresetPassword {
         );
     }
 
-    #  TOPICRESTRICTION - locks session down to a single topic
-    #  PASSWORDRESET    - Bypasses checking of old password.
-    my $token = Foswiki::LoginManager::generateLoginToken(
-        $user,
-        {
-            FOSWIKI_TOPICRESTRICTION =>
-              "$Foswiki::cfg{SystemWebName}.ChangePassword",
-            FOSWIKI_PASSWORDRESET => 1.
-        }
-    );
-
     my @em     = $users->getEmails($user);
-    my $sent   = 0;
-    my $errors = '';
     if ( !scalar(@em) ) {
         throw Foswiki::OopsException(
             'password',
@@ -123,37 +110,8 @@ sub _RESTresetPassword {
             params => [$userName],
         );
     }
-    else {
-        # absolute URL context for email generation
-        $session->enterContext('absolute_urls');
 
-        my $ln = $users->getLoginName($user);
-        my $wn = $users->getWikiName($user);
-        foreach my $email (@em) {
-            my $err;
-            $err = _sendEmail(
-                $session,
-                'passwordresetmail',
-                {
-                    webName       => $Foswiki::cfg{UsersWebName},
-                    LoginName     => $ln,
-                    FirstLastName => Foswiki::spaceOutWikiWord($wn),
-                    WikiName      => $wn,
-                    EmailAddress  => $email,
-                    TokenLife     => $Foswiki::cfg{Login}{TokenLifetime} || 900,
-                    AuthToken     => $token,
-                }
-            );
-
-            if ($err) {
-                $errors .= $err;
-            }
-            else {
-                $sent++;
-            }
-        }
-        $session->leaveContext('absolute_urls');
-    }
+    my ($sent, $errors ) = _generateResetEmail( $session, $user, \@em );
 
     # Now that we have successfully reset the password we log the event
     $session->logger->log(
@@ -187,6 +145,189 @@ sub _RESTresetPassword {
 
 =begin TML
 
+---++ StaticMethod _RESTbulkResetPassword($session)
+
+Generates a reset token. Mails it to multiple users and asks them to set their password.
+
+This version is restricted to Admin users, and allows multile users in the request.
+
+This version only accepts User Names. It cannot be used with email addresses.
+
+=cut
+
+sub _RESTbulkResetPassword {
+
+    #   my ( $session, $subject, $verb, $response ) = @_;
+
+    my $session = shift;
+    my $query   = $session->{request};
+    my $users   = $session->{users};
+
+    unless ( $users->isAdmin($session->{user}) ) {
+        throw Foswiki::OopsException(
+            'password',
+            topic => $Foswiki::cfg{HomeTopicName},
+            def   => 'bulk_not_admin',
+        );
+    }
+
+
+    unless ( $Foswiki::cfg{EnableEmail} ) {
+        throw Foswiki::OopsException(
+            'password',
+            topic => $Foswiki::cfg{HomeTopicName},
+            def   => 'email_disabled',
+        );
+    }
+
+    if ( !$session->inContext('passwords_modifyable') ) {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'passwords_disabled'
+        );
+    }
+
+    my @userNames = $query->param('resetUsers');
+
+    unless (scalar @userNames) {
+        throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
+    }
+
+    my ( $sent, $errors );
+
+    foreach my $userName ( @userNames ) {
+
+        my $user = Foswiki::Func::getCanonicalUserID($userName);
+        unless ( $user && $session->{users}->userExists($user) ) {
+            throw Foswiki::OopsException(
+                'password',
+                status => 200,
+                topic  => $Foswiki::cfg{HomeTopicName},
+                def    => 'not_a_user',
+                params => [$userName],
+            );
+        }
+
+        my @em     = $users->getEmails($user);
+        if ( !scalar(@em) ) {
+            throw Foswiki::OopsException(
+                'password',
+                status => 200,
+                topic  => $Foswiki::cfg{HomeTopicName},
+                def    => 'bad_email',
+                params => [$userName],
+            );
+        }
+
+        ($sent, $errors ) = _generateResetEmail( $session, $user, \@em );
+
+        # Now that we have successfully reset the password we log the event
+        $session->logger->log(
+            {
+                level  => 'info',
+                action => 'resetpasswd',
+                extra  => $user,
+            }
+        );
+    }
+
+    if ($sent) {
+
+        # Redirect to a page that tells what happened
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_ok',
+            params => [ $Foswiki::cfg{Login}{TokenLifetime} || 900, $errors ]
+        );
+    }
+    else {
+        throw Foswiki::OopsException(
+            'password',
+            topic  => $Foswiki::cfg{HomeTopicName},
+            def    => 'reset_bad',
+            params => [$errors]
+        );
+    }
+}
+
+=begin TML
+
+---++ StaticMethod _generateResetEmail ( $session, $user, $emails )
+
+Utility method. Passed a user name and list of emails, generate the reset token
+and email it to the email addresses for that user.  This is intended for sending
+to a *single* user with one or more registered email addresses.
+
+This sends one email per address.  If multiple email addresses are listed, some
+agents can fail the entire email.
+
+=cut
+
+sub _generateResetEmail {
+    my $session = shift;
+    my $user    = shift;
+    my $emails  = shift;
+
+    my $users   = $session->{users};
+
+    #  TOPICRESTRICTION - locks session down to a single topic
+    #  PASSWORDRESET    - Bypasses checking of old password.
+    my $token = Foswiki::LoginManager::generateLoginToken(
+        $user,
+        {
+            FOSWIKI_TOPICRESTRICTION =>
+              "$Foswiki::cfg{SystemWebName}.ChangePassword",
+            FOSWIKI_PASSWORDRESET => 1.
+        }
+    );
+
+    my $sent   = 0;
+    my $errors = '';
+    # absolute URL context for email generation
+    $session->enterContext('absolute_urls');
+
+    my $ln = $users->getLoginName($user);
+    my $wn = $users->getWikiName($user);
+
+    # SMELL: Some email agents die if any email in the To: list is bad.
+    # eg. ssmtp.  So we cannot flatten the list of emails, and need to 
+    # send them one at a time.
+    #my $email = join( ', ', @$emails);
+
+    foreach my $email (@$emails) {
+        my $err;
+        $err = _sendEmail(
+            $session,
+            'passwordresetmail',
+            {
+                webName       => $Foswiki::cfg{UsersWebName},
+                LoginName     => $ln,
+                FirstLastName => Foswiki::spaceOutWikiWord($wn),
+                WikiName      => $wn,
+                EmailAddress  => $email,
+                TokenLife     => $Foswiki::cfg{Login}{TokenLifetime} || 900,
+                AuthToken     => $token,
+            }
+        );
+
+        if ($err) {
+            $errors .= $err;
+        }
+        else {
+            $sent++;
+        }
+        $session->leaveContext('absolute_urls');
+    }
+
+    return ( $sent, $errors );
+}
+
+=begin TML
+
 ---++ StaticMethod RESTchangePassword
 
 Change the user's password. Details of the user and password
@@ -215,7 +356,7 @@ sub _RESTchangePassword {
             'password',
             web   => $webName,
             topic => $topic,
-            def   => 'not_admin',
+            def   => 'no_change_admin',
         );
     }
 

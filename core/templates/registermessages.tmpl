@@ -432,7 +432,7 @@
 | *ok* | *WikiName* | *Reset Password* | *Results* |%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_row"}%
-| $flag | $wikiname |  <input  type='checkbox' name='LoginName' $state value='$wikiname' />  | $errors |%TMPL:END%
+| $flag | $wikiname |  <input  type='checkbox' name='resetUsers' $state value='$wikiname' />  | $errors |%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_foot"}%
 
@@ -443,11 +443,10 @@
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_reset_formtop"}%
 <div id="bulkreset" class="foswikiFormSteps">
-<form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
+<form name="resetpasswd" action='%SCRIPTURLPATH{"rest" subject="PasswordManagementPlugin" verb="bulkResetPassword" topic="%TOPIC%"}%' method="post">
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_reset_formbot"}%
-<input type="hidden" name="action" value="resetPassword" />
 <div class="foswikiFormStep">
 <textarea class="foswikiInputField" name="Introduction" rows="4" cols="70" style="width:99%;">
 Welcome! The site is ready for your use. Please use the login name and password listed below and contact %WIKIWEBMASTER% if you have any questions.

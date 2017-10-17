@@ -51,6 +51,14 @@ sub initPlugin {
     );
 
     Foswiki::Func::registerRESTHandler(
+        'bulkResetPassword', \&_RESTbulkResetPassword,
+        validate => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
+        authenticate => 1,
+        http_allow   => 'POST',
+        description  => 'Generate and send a Passord reset token for multiple users.',
+    );
+
+    Foswiki::Func::registerRESTHandler(
         'changePassword', \&_RESTchangePassword,
         authenticate => 1,
         validate     => $Foswiki::cfg{Validation}{Method} eq 'none' ? 0 : 1,
@@ -85,6 +93,23 @@ sub _RESTresetPassword {
     require Foswiki::Plugins::PasswordManagementPlugin::Core;
     return
       Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTresetPassword(@_);
+}
+
+=begin TML
+
+---++ =sub _RESTbulkResetPassword=
+
+Generate a reset for a user's passord
+
+   * generates a crypographic token that will allow login to Foswiki
+   * Email the token to the user.
+
+=cut
+
+sub _RESTbulkResetPassword {
+    require Foswiki::Plugins::PasswordManagementPlugin::Core;
+    return
+      Foswiki::Plugins::PasswordManagementPlugin::Core::_RESTbulkResetPassword(@_);
 }
 
 =begin TML
