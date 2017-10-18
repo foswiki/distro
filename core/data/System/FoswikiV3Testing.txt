@@ -1,11 +1,49 @@
-%META:TOPICINFO{author="ProjectContributor" date="1508190446" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1508291963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Foswiki v3 Testing
+%TOC%
 
 Architectural changes to Foswiki core resulted in major changes to the way
 tests are functioning. Additionally, introduction of PSGI support brought in
 a new test framework which wraps around [[CPAN:Plack::Test][Plack::Test]] and
 provides Foswiki-specific routines to ease test writing.
+
+---++ Start a new test
+
+A template test module would have the following look:
+
+<verbatim>
+package TemplateModuleTests;
+
+use Foswiki::Class;
+extends qw<FoswikiTestCase>;
+
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $orig->($this, @_);
+
+    ... ; # Do your own preparations
+};
+
+around tear_down => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    ... ; # Clean up after yourself.
+
+    $orig->($this, @_);
+};
+
+sub test_something {
+    my $this = shift;
+
+    ...
+}
+
+1;
+</verbatim>
 
 ---++ Application In The Test Environment
 
@@ -118,14 +156,195 @@ object. And here is another code from _ClientTests_:
     );
 </verbatim>
 
-%X% *NOTE:* Off-topic, but =$Foswiki::cfg= must not be used there. Correct
-would be to use =$this->app->cfg->data->{AdminUserLogin}=. Let's leave it here
-together with this note as is as an example of transforming old-style code to
-the new standards.
+%X% *NOTE:* Off-topic, but =$Foswiki::cfg= must not be used there.
+=$this->app->cfg->data->{AdminUserLogin}= is the correct one. Let's leave it
+here together with this note as is - as an example of transforming old-style
+code to the new standards.
 
----++ Memory leak detection
+---++ Memory Leak Detection
 
-... =%PERLDOC{"Unit::Leak::Object"}%=.
+Finding where you loose memory is always a headache. Foswiki test framework
+was trying to ease the task by adding special support for 
+=[[CPAN:Devel::Leak::Object][Devel::Leak::Object]]=. Unfortunately, the module
+doesn't help in solving two rather serious issues:
+
+   * By providing information about source file and line of the location where
+     the leak took place it doesn't provide stack trace which would explain how
+     did we get there. The issue becomes even more significant because most of
+     Foswiki objects are created by a single =create()= method. And knowing that
+     a lost object was born there is totally of no help.
+   * The module output is also useless when we try to find out _why_ exactly an
+     object was stuck in memory. In other words, we don't know what references
+     it and keeps its refcount non-zero.
+
+Unfortunately, there is no common solution for both issues. Therefore Foswiki v3
+testing support two different ones.
+
+The first one is =Unit::Leak::Object= module. As could be guessed from its name,
+it's an improved version of =Devel::Leak::Object= with added ability to keep
+stack traces of leaked objects. Similarly to the original module where
+=$TRACKSOURCELINES= variable controls output of source lines information,
+=$TRACKSTACK= controls output of stack trace.
+
+The other solution is done with =[[CPAN:Devel::MAT][Devel::MAT]]=.  The test
+framework can dump _.pmat_ files using
+[[CPAN:Devel::MAT::Dumper][Devel::MAT::Dumper]] module. Those could later be
+analyzed with any of _pmat-*- utilities installed with =Devel::MAT=; or with
+[[CPAN::App::Devel::MAT::Explorer::GTK][App::Devel::MAT::Explorer::GTK]]; or
+using _$FOSWIKI_HOME/tools/MAT_dump.pl_ script which tries to extract exactly
+the data one would need to trace down all references to a leaked memory object.
+See script's section below.
+
+By default, _$FOSWIKI_HOME/test/bin/TestRunner.pl_ dumps _FOSWIKI.pmat_ into
+_$FOSWIKI_HOME/core/working/logs_ directory upon finishing all test suits or
+a test case if one is specified on the command line. But sometimes it might be
+necessary to dump an intermediate _.pmat_ file over course of a specific test.
+For this purpose =%PERLDOC{"Unit::FoswikiTestRole" method="leakDetectDump"}%=
+method could be called anywhere anytime. It would then produce a _.pmat_ file
+in =$this->app->cfg->data->{Log}{Dir}=. The file will be named after
+%PERLDOC{"Unit::TestCase" attr="testSuite"}% with all possibly contained colons
+being replaced with underscores.
+
+In all cases memory leak tracing is controlled by %PERLDOC{"Unit::TestRunner"}%
+=CHECKLEAK= constant which is initially set from =FOSWIKI_CHECKLEAK= shell
+environment variable. So, turning on leak detection is as simple as issuing
+the following command:
+
+<verbatim>
+$ cd $FOSWIKI_HOME/test/unit
+$ FOSWIKI_CHECKLEAK=1 perl $FOSWIKI_HOME/test/bin/TestRunnerl.pl -clean SomeTests
+</verbatim>
+
+---+++ MAT_dump.pl
+
+_MAT_dump.pl_ might not be very informative about memory objects recorded in a
+_.pmat_ file but it provides information in way that sometimes makes it very
+easy to quickly spot the chain of refernces which holds our lost object in
+memory.
+
+For example, the script once produced output similar to the following:
+
+<verbatim>
+001: | >>> OBJECT TYPE: HASH ADDR:00007f94a81e1068
+001: | NAME: %Foswiki::Meta::; BLESSED; REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+001: | KEYS: text, app, _indices, topic, _latestIsLoaded, web, metaData, inMetaCache, __orig_stack, _loadedRev
+001: | +++ INREFS:1
+002: | | >>> OBJECT TYPE: REF ADDR:00007f94a81e2ce8
+002: | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+002: | | +++ INREFS:1
+003: | | | >>> OBJECT TYPE: HASH ADDR:00007f94a81e1728
+003: | | | NAME: %Foswiki::Prefs::TopicRAM::; BLESSED; REFCNT: 2; adjusted REFCNT: 2; by elements in backrefs: 0; INREFS: 4 (direct:2; strong: 2; weak: 0)
+003: | | | KEYS: __orig_stack, topicObject, values
+003: | | | +++ INREFS:2
+004: | | | | >>> OBJECT TYPE: REF ADDR:00007f94a81e2c70
+004: | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+004: | | | | +++ INREFS:1
+005: | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a18ab208
+005: | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+005: | | | | | KEYS: Main.SitePreferences, System.DefaultPreferences, TemporaryExtensionsTestsUsersWeb.WikiGuest, TemporaryExtensionsTestsTestWebExtensionsTests.WebPreferences
+005: | | | | | +++ INREFS:1
+006: | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a81e0d98
+006: | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+006: | | | | | | +++ INREFS:1
+007: | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a18adb20
+007: | | | | | | | NAME: %Foswiki::Prefs::; BLESSED; REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+007: | | | | | | | KEYS: contexts, main, app, paths, internals, __orig_stack
+007: | | | | | | | +++ INREFS:1
+008: | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a7b5f428
+008: | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+008: | | | | | | | | +++ INREFS:1
+009: | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a6cfcbe0
+009: | | | | | | | | | NAME: %Unit::TestApp::; BLESSED; REFCNT: 2; adjusted REFCNT: 2; by elements in backrefs: 1; INREFS: 92 (direct:46; strong: 2; weak: 44)
+009: | | | | | | | | | KEYS: callbacks, cfgParams, extMgr, engineParams, engine, users, user, __orig_stack, remoteUser, _cbRegistered, cfg, response, inUnitTestMode, env, cache, request, store, requestParams, prefs, heap, context, _dispatcherAttrs, plugins, ui, macros
+009: | | | | | | | | | +++ INREFS:2
+010: | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a18ab4a8
+010: | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+010: | | | | | | | | | | +++ INREFS:1
+011: | | | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a7b56568
+011: | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+011: | | | | | | | | | | | KEYS: app, userCode, extension
+011: | | | | | | | | | | | +++ INREFS:1
+012: | | | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a8153ed0
+012: | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+012: | | | | | | | | | | | | +++ INREFS:1
+013: | | | | | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a7637810
+013: | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+013: | | | | | | | | | | | | | KEYS: obj, data, code
+013: | | | | | | | | | | | | | +++ INREFS:1
+014: | | | | | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a75ef810
+014: | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+014: | | | | | | | | | | | | | | +++ INREFS:1
+015: | | | | | | | | | | | | | | | >>> OBJECT TYPE: ARRAY ADDR:00007f94a75ef8a0
+015: | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0); REAL; ELEMS: 1
+015: | | | | | | | | | | | | | | | +++ INREFS:1
+016: | | | | | | | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a75e5f90
+016: | | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type ARRAY(Devel::MAT::SV::ARRAY)
+016: | | | | | | | | | | | | | | | | +++ INREFS:1
+017: | | | | | | | | | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a80b9338
+017: | | | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+017: | | | | | | | | | | | | | | | | | KEYS: Foswiki::App::handleRequestException, Foswiki::App::postConfig
+017: | | | | | | | | | | | | | | | | | +++ INREFS:1
+018: | | | | | | | | | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a7559ec0
+018: | | | | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+018: | | | | | | | | | | | | | | | | | | +++ INREFS:1
+019: | | | | | | | | | | | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a18ab550
+019: | | | | | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 2 (direct:1; strong: 1; weak: 0)
+019: | | | | | | | | | | | | | | | | | | | KEYS: TestCase_TempDir, _aux_registered_callbacks
+019: | | | | | | | | | | | | | | | | | | | +++ INREFS:1
+020: | | | | | | | | | | | | | | | | | | | | >>> OBJECT TYPE: REF ADDR:00007f94a7b461f8
+020: | | | | | | | | | | | | | | | | | | | | REFCNT: 1; adjusted REFCNT: 1; by elements in backrefs: 0; INREFS: 1 (direct:1; strong: 1; weak: 0); STRONG to object type HASH(Devel::MAT::SV::HASH)
+020: | | | | | | | | | | | | | | | | | | | | +++ INREFS:1
+021: | | | | | | | | | | | | | | | | | | | | | >>> OBJECT TYPE: HASH ADDR:00007f94a6cfcbe0
+021: | | | | | | | | | | | | | | | | | | | | | !!! ADDR 00007f94a6cfcbe0 has been seen before at level 9
+009: | | | | | | | | | !!! OBJECT ADDR 00007f94a6cfcbe0 has been seen already on this level.
+003: | | | !!! OBJECT ADDR 00007f94a81e1728 has been seen already on this level.
+</verbatim>
+
+Though looking pretty scary, this dump provides us with invaluable data. But
+before we start analyzing it, an important remarks has to be made:
+
+   * The numbers in first column are nesting levels. They're here to simplify
+     reading of messages with level numbers in them.
+   * We're used to perceive tree structures so that right-handed branches are
+     referenced by left-handed ones (reference pointing top-down, left-right).
+     But it is other way around in this dump: higher nesting levels are
+     referencing lower ones. I.e., object in line 5 at level 2 is holding
+     reference to object in line 1 at level 1.
+
+Now, what we see from the dump:
+
+   1 The lost object is blessed into =Foswiki::Meta= class.
+   1 Tracing all the way down to nesting level 21 we find out that the object
+   has been previously seen at level 9. Ok, conclusion can be made that this is
+   the circular dependency which leads to the leak we're trying to fix.
+   1 Now some forensic skills would be in demand. The trace doesn't have any
+   source information at levels 9 to 21. All we have there is a chain of
+   anonymous references. But at level 17 we find a hash with keys looking
+   suspiciously familiar: those are full names of callbacks registered by
+   =Foswiki::App=.
+   1 Tracing further up we find another hashref at level 20 with a key named
+   =_aux_registered_callbacks=. The key is used by =Foswiki::Util::Callbacks=
+   role. If we didn't know this from the start then this information could
+   easily be grepped in the source tree.
+   1 It is now becomes clear that the problem is caused by the callbacks code
+   and that somehow the application object receives extra reference. Actually,
+   right next to level 9, at level 11 we find that extra reference is stored in
+   a hash with three keys: =app=, =userCode=, and =extensions=. By browsing the
+   =Foswiki::Util::Callbacks= module we find out that method =initialize()= sets
+   all three keys in a callback data parameter and then registers a wrapper
+   callback handler.
+   1 So, here we stop because the cause of the leak is now clear: the
+   application object is referenced by the callback data hash which is in turn
+   is stored in application's =%PERLDOC{"Foswiki::App" attr="heap"}%= attribute.
+
+This is a real life example. The problem was traced down almost exactly the way
+described above. Overall, it took approx. 20 minutes to fix it starting with the
+moment the dump has been generated to typing ';' symbol after the call to
+=weaken()= function.
+
+The script also accept =-stash= command line option which accepts a string with
+Perl regexp to match against stash names. It doesn't speed up loading of the
+_.pmat_ file but reduces the output could sometimes be _really_ huge.
 
 ---+ Related
 
