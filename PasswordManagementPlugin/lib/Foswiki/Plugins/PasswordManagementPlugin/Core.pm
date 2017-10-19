@@ -26,6 +26,15 @@ BEGIN {
     }
 }
 
+# Base mapping ID's can't change passwords. (AdminUser is handled separately)
+my @notsupported = (
+    'ProjectContributor',
+    'UnknownUser',
+    $Foswiki::cfg{DefaultUserLogin},
+    $Foswiki::cfg{DefaultUserWikiName},
+    $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+);
+
 =begin TML
 
 ---++ StaticMethod _RESTresetPassword($session)
@@ -65,9 +74,8 @@ sub _RESTresetPassword {
         throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
     }
 
-    if ( $userName =~ $Foswiki::regex{emailAddrRegex} )  {
-        if ( $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} )
-        {
+    if ( $userName =~ $Foswiki::regex{emailAddrRegex} ) {
+        if ( $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} ) {
 
             # try email addresses if it is one
             my $cuidList = $users->findUserByEmail($userName);
@@ -90,6 +98,17 @@ sub _RESTresetPassword {
     }
 
     my $user = Foswiki::Func::getCanonicalUserID($userName);
+
+    if ( $users->isInUserList( $user, \@notsupported ) ) {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTOpicName},
+            def    => 'no_change_base',
+            params => [$user],
+        );
+    }
+
     unless ( $user && $session->{users}->userExists($user) ) {
         throw Foswiki::OopsException(
             'password',
@@ -100,7 +119,7 @@ sub _RESTresetPassword {
         );
     }
 
-    my @em     = $users->getEmails($user);
+    my @em = $users->getEmails($user);
     if ( !scalar(@em) ) {
         throw Foswiki::OopsException(
             'password',
@@ -111,7 +130,7 @@ sub _RESTresetPassword {
         );
     }
 
-    my ($sent, $errors ) = _generateResetEmail( $session, $user, \@em );
+    my ( $sent, $errors ) = _generateResetEmail( $session, $user, \@em );
 
     # Now that we have successfully reset the password we log the event
     $session->logger->log(
@@ -163,14 +182,13 @@ sub _RESTbulkResetPassword {
     my $query   = $session->{request};
     my $users   = $session->{users};
 
-    unless ( $users->isAdmin($session->{user}) ) {
+    unless ( $users->isAdmin( $session->{user} ) ) {
         throw Foswiki::OopsException(
             'password',
             topic => $Foswiki::cfg{HomeTopicName},
             def   => 'bulk_not_admin',
         );
     }
-
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
         throw Foswiki::OopsException(
@@ -189,15 +207,15 @@ sub _RESTbulkResetPassword {
         );
     }
 
-    my @userNames = $query->param('resetUsers');
+    my @userNames = $query->multi_param('resetUsers');
 
-    unless (scalar @userNames) {
+    unless ( scalar @userNames ) {
         throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
     }
 
     my ( $sent, $errors );
 
-    foreach my $userName ( @userNames ) {
+    foreach my $userName (@userNames) {
 
         my $user = Foswiki::Func::getCanonicalUserID($userName);
         unless ( $user && $session->{users}->userExists($user) ) {
@@ -210,7 +228,7 @@ sub _RESTbulkResetPassword {
             );
         }
 
-        my @em     = $users->getEmails($user);
+        my @em = $users->getEmails($user);
         if ( !scalar(@em) ) {
             throw Foswiki::OopsException(
                 'password',
@@ -221,7 +239,7 @@ sub _RESTbulkResetPassword {
             );
         }
 
-        ($sent, $errors ) = _generateResetEmail( $session, $user, \@em );
+        ( $sent, $errors ) = _generateResetEmail( $session, $user, \@em );
 
         # Now that we have successfully reset the password we log the event
         $session->logger->log(
@@ -272,7 +290,7 @@ sub _generateResetEmail {
     my $user    = shift;
     my $emails  = shift;
 
-    my $users   = $session->{users};
+    my $users = $session->{users};
 
     #  TOPICRESTRICTION - locks session down to a single topic
     #  PASSWORDRESET    - Bypasses checking of old password.
@@ -287,6 +305,7 @@ sub _generateResetEmail {
 
     my $sent   = 0;
     my $errors = '';
+
     # absolute URL context for email generation
     $session->enterContext('absolute_urls');
 
@@ -294,7 +313,7 @@ sub _generateResetEmail {
     my $wn = $users->getWikiName($user);
 
     # SMELL: Some email agents die if any email in the To: list is bad.
-    # eg. ssmtp.  So we cannot flatten the list of emails, and need to 
+    # eg. ssmtp.  So we cannot flatten the list of emails, and need to
     # send them one at a time.
     #my $email = join( ', ', @$emails);
 
@@ -343,11 +362,34 @@ sub _RESTchangePassword {
     my $query        = $session->{request};
     my $requestUser  = $session->{user};
     my $loginManager = $session->getLoginManager();
+    my $users = $session->{users};    # Get the Foswiki::Users object
 
     my $oldpassword = $query->param('oldpassword');
-    my $login       = $query->param('username') || $requestUser;
+    my $login       = $query->param('username');
     my $passwordA   = $query->param('password');
-    my $passwordB   = $query->param('passwordA');
+    my $passwordB   = $query->param('passwordA') || '';
+
+    if ( !$session->inContext('passwords_modifyable') ) {
+        throw Foswiki::OopsException(
+            'password',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'passwords_disabled'
+        );
+    }
+
+    if ( defined $login && !$users->isAdmin($requestUser) ) {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTOpicName},
+            def    => 'change_not_admin',
+            params => [$login],
+        );
+    }
+    elsif ( !defined $login ) {
+        $login = $requestUser;
+    }
 
     if (   $login eq $Foswiki::cfg{AdminUserLogin}
         || $login eq $Foswiki::cfg{AdminUserWikiName} )
@@ -360,25 +402,25 @@ sub _RESTchangePassword {
         );
     }
 
-    if ( !$session->inContext('passwords_modifyable') ) {
+    my $user = Foswiki::Func::getCanonicalUserID($login);
+
+    if ( $users->isInUserList( $user, \@notsupported ) ) {
         throw Foswiki::OopsException(
             'password',
-            web   => $session->{webName},
-            topic => $session->{topicName},
-            def   => 'passwords_disabled'
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTOpicName},
+            def    => 'no_change_base',
+            params => [$login],
         );
     }
 
-    my $users = $session->{users};    # Get the Foswiki::Users object
-
-    my $user = Foswiki::Func::getCanonicalUserID($login);
     unless ( $user && $session->{users}->userExists($user) ) {
-        throw Foswiki::OopEexception(
+        throw Foswiki::OopsException(
             'password',
             status => 200,
-            topic  => $Foswiki::cfg{hometopicname},
+            topic  => $Foswiki::cfg{HomeTOpicName},
             def    => 'not_a_user',
-            params => [$user],
+            params => [$login],
         );
     }
 
@@ -445,23 +487,34 @@ sub _RESTchangePassword {
     }
 
     # OK - password may be changed
-    unless ( $users->setPassword( $user, $passwordA, $oldpassword ) ) {
+    my $ok;
+    my $result;
+
+    try {
+        $ok = $users->setPassword( $user, $passwordA, $oldpassword );
+    }
+    catch Error::Simple with {
+        my $error = shift;
+        $result = $error->{-text};
+    };
+
+    if ( !$ok ) {
         throw Foswiki::OopsException(
             'password',
-            web   => $webName,
-            topic => $topic,
-            def   => 'password_not_changed'
+            web    => $webName,
+            topic  => $topic,
+            def    => 'password_not_changed',
+            params => [$result]
         );
     }
-    else {
-        $session->logger->log(
-            {
-                level  => 'info',
-                action => 'changepasswd',
-                extra  => $login
-            }
-        );
-    }
+
+    $session->logger->log(
+        {
+            level  => 'info',
+            action => 'changepasswd',
+            extra  => $login
+        }
+    );
 
     $loginManager->clearSessionValue('FOSWIKI_PASSWORDRESET');
     $loginManager->clearSessionValue('FOSWIKI_TOPICRESTRICTION');
@@ -548,7 +601,7 @@ sub _RESTchangeEmail {
 
     my $user = Foswiki::Func::getCanonicalUserID($login);
     unless ( $user && $session->{users}->userExists($user) ) {
-        throw Foswiki::OopEexception(
+        throw Foswiki::OopsException(
             'password',
             status => 200,
             topic  => $Foswiki::cfg{hometopicname},
