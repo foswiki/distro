@@ -1,48 +1,159 @@
 # See bottom of file for license and copyright information
 
 package Unit::PlackTestCase;
-use v5.14;
 
 =begin TML
 
----+ package Unit::PlackTestCase
+---+!! class Unit::PlackTestCase
 
-Testing %WIKITOOLNAME% with =Plack::Test=.
+Testing %WIKITOOLNAME% with =[[CPAN:Plack::Test][Plack::Test]]=.
 
----++ Concepts
+---++ SYNOPSIS
 
-This class providing framework for testing %WIKITOOLNAME% with
+<verbatim>
+package PlackViewTests;
+
+use Assert;
+use HTTP::Request::Common;
+
+use Foswiki::Class;
+extends qw(Unit::PlackTestCase);
+
+around prepareTestClientList => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $tests = $orig->( $this, @_ );
+
+    push @$tests, (
+        {
+            # This is intentional use of client-prefixed function to demonstrate
+            # both methods of defining a test. What makes these tests different
+            # is initRequest key.
+            client      => \&clientSimple,
+            name        => 'probe',
+            initRequest => sub {
+                my $this = shift;
+                my %args = @_;
+                my $app  = $args{serverApp};
+
+                $app->cfg->data->{UsersWebName} = 'Sandbox';
+            },
+        },
+    );
+
+    return $tests;
+};
+
+sub clientSimple {
+    my $this = shift;
+    my %args = @_;
+
+    my $test = $args{plackTestObj};
+
+    my $expected =
+      '<h1 id="Welcome_to_the_Main_web">  Welcome to the Main web </h1>
+Congratulations, you have finished installing Foswiki.
+<p>';
+
+    my $res = $test->request( GET "/" );
+
+    my $content = $res->content;
+
+    $this->assert_html_matches( $expected, $content );
+}
+</verbatim>
+
+Expected output (irrelevant text is replaced with =[...]=):
+
+<verbatim>
+$ perl $FOSWIKI_HOME/test/bin/TestRunner.pl -clean PlackViewTests
+[...]
+Running PlackViewTests
+    test_Simple
+    test_probe
+
+Unit test run Summary:
+[...]
+
+All tests passed (2)
+1..4
+</verbatim>
+
+---++ DESCRIPTION
+
+---+++ Concepts
+
+This class provides framework for testing %WIKITOOLNAME% with
 =[[CPAN:Plack::Test][Plack::Test]]=. It must be subclassed to create a test
 case. In turn, it subclasses _Unit::TestCase_ and as such inherits most of its
 functionality.
 
----+++ List of tests
+The framework operates with simple OO interface of =Plack::Test=. Upon
+transferring control to a test sub it passes a =Plack::Test= object as a
+parameter.
+
+A test developer needs to clearly understand that the framework operates with
+two major levels: the actual test code and an application in simulated server
+environment. The latter is actually created by =Plack::Test= every time its
+=request()= method is called. !PlackTestCase takes special measures to get the
+test application properly initialized and to allow the test developer to define
+the application's parameters.
+
+It is no less important to remember that with certain =Plack::Test= backends
+(MockHTTP, in particular) it is possible for two application objects to exist in
+memory simultaneously. One of them would the application responsible to running
+the test code and the other is the one processing the test request. To
+understand the implications of this situation read about =$Foswiki::app= and
+=%Foswiki::cfg= globals in %PERLDOC{"Foswiki::App"}% and
+%PERLDOC{"Foswiki::Config"}% docuemntations. An example of possible confusion
+would a case where content of =%Foswiki::cfg= hash referenced in a =client=
+sub (see %PERLDOC{attr="testClientList"}% below) would differ from that in
+=initRquest= sub; or when changes made by =initRequest= sub wouldn't be later
+seen by the =client= sub. As it is stated in Foswiki's coding guidelines,
+those globs are to be avoided anyway as they're only provided to ease porting
+of the old style plugin.
+
+Keeping the last two paragraphs in mind it would worth reminding that =$app=
+in =initRequest= from SYSNOPSIS section and =$this->app= in =clientSimple()=
+method are two different objects.
+
+---++++ List Of Tests
 
 A test within test case can be defined in two ways. The first one is similar to
 =Unit::TestCase= behaviour of looking for functions with =test= prefix. Except
-that a Plack test case function must be prefixed with =client=. The different
-prefix is here to avoid messing up with =Unit::TestCase= because this
-framework's tests are called with different parameters.
+that a Plack test case function must be prefixed with _client_. The different
+prefix is here to avoid messing up with =Unit::TestCase= because tests of this
+framework are called with different parameters. In the output the prefix _client_
+is replaced with _test__ for being consistent with the standard.
 
-The other way is to override method
-=[[#PrepareTestClientList][prepareTestClientList()]]= and define your own list
-of tests. Each test in the list is defined by a hash of its properties. See
-=[[#testClientList][testClientList]]= object attribute description to read about
-them.
+The other way is to override method =%PERLDOC{method="prepareTestClientList"}%=
+and define your own list of tests. Each test in the list is defined by a hash of
+properties. See =%PERLDOC{"Unit::PlackTestCase" attr="testClientList"}%= object
+attribute description to learn about them.
+
+The SYNOPSIS section displays both approaches in a single test case: same method
+=clientSimple()= gets called twice producing two test names in the script
+output: _test_Simple_ and _test_probe_. Apparently the first one is made of the
+method name; and the second is formed from a %PERLDOC{attr="testClientList"}%
+element name.
 
 #InitDeinit
----+++ Initialization/deinitialization of tests
+---++++ Initialization/Deinitialization Of Tests
 
-In addition to =Unit::TestCase= =set_up()= and =tear_down()= methods this
-framework provide additional layers of initialization/deinitialization. Those
-are =initTest/shutdownTest= and =initRequest/shutdownRequest=. Their use is
+In addition to =%PERLDOC{"Unit::TestCase" method="set_up"}%= and
+=%PERLDOC{"Unit::TestCase" method="tear_down"}%= methods this framework provides
+additional layers of initialization/deinitialization. Those are
+=initTest/shutdownTest= and =initRequest/shutdownRequest=. Their use is
 preferred because they provide better per-test support.
 
-The reason for separate init/deinit methods lies in the fact =Plack::Test= actually
-create a new application instance for each request being executed. This means different
-run time environments for the test code and the application code processing the request.
+The reason for separate init/deinit methods lies in the fact =Plack::Test=
+actually create a new application object for each request being executed. This
+means different run-time environments for the test code and the application code
+processing the request.
 
-=initTest/shutdownTest= are executed right before and after the client (test) function is called.
+=initTest/shutdownTest= are executed right before and after the client (test)
+function is called.
 
 =initRequest= is executed as early as possible in =Foswiki::App= object
 construction stage. Practically it means it's initiated using =postConfig=
@@ -50,6 +161,12 @@ callback which is raised right after LSC is being read (or bootstrapped) but
 before any other =Foswiki::App= subsystem is initialized. This allows us to
 patch the config in a way we require and have the effect we desire in simpliest
 way possible.
+
+   : %X% <em>The =postConfig= callback must not be overriden via
+   =%PERLDOC{attr="testClientList"}%= =appParams=. Same applies to
+   %PERLDOC{"Unit::TestApp"}% =testPostHandleRequest= callback. Those are used
+   internally by this framework. Whatever one would like to do with these
+   callbacks must be done with =initRequest/shutdownRequest=.</em>
 
 =shutdownRequest= is executed right after the request has been processed and
 before response is been returned.
@@ -59,8 +176,8 @@ both test and application environments creating semi-permanent sandbox which
 simulates a real-life case of a session in action.
 
 For each of the four init/deinit stages there is a key in test profile hash with
-the same name. The key must be a code ref allowing easy adjustments being made
-on a per-test level. In other words, instead of writing somethingl like this:
+the same name. The key must be a code ref allowing easy adjustments on a
+per-test level. In other words, instead of writing somethingl like this:
 
 <verbatim>
 around initRequest => sub {
@@ -96,10 +213,9 @@ around prepareTestClientList => sub {
     );
     return $tests;
 };
-
-This way it is much easier to control all test-specific details.
-
 </verbatim>
+
+It is much easier to control all test-specific details in this way.
 
 =cut
 
@@ -116,8 +232,13 @@ with qw(Foswiki::Util::Localize Unit::FoswikiTestRole);
 
 =begin TML
 
-#testClientList
----++ ObjectAttribute testClientList : arrayref
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute testClientList : arrayref
 
 List of hashrefs with test parameters. Each hash ref may have the following keys:
 
@@ -127,12 +248,15 @@ Keys:
 | =name= | _required_ | Test name. Must be a valid Perl identifier. | |
 | =client= | _required_ | Reference to the test sub. | |
 | =appClass= | | Defines class of application object. | =Unit::TestApp= |
-| =appParams= | | Hash of application constructor parameters. See the application class documentation. | ={}= |
+| =appParams= | | Hash of application constructor parameters. See the \
+   application class documentation. | ={}= |
+| =appSub= | | Coderef to PSGI application sub. Normally to be skipped as the \
+   framework generates a default one for you. |
 | =initTest= | | Coderef to test-specific init sub | |
 | =shutdownTest= | | Coderef to test-specific deinitialize sub | |
 | =initRequest= | | Coderef to test-specific request init sub | |
 | =shutdownRequest= | | Coderef to test-specific request deinitialize sub | |
-| =adminUser= | | Default admin user defined by a hashref of =wikiname=, =login=, =group= keys. | See =Unit::FoswikiTestRole= =setupAdminUser()= method. |
+| =adminUser= | | Default admin user defined by a hashref of =wikiname=, =login=, =group= keys. | See =%PERLDOC{"Unit::FoswikiTestRole" method="setupAdminUser"}%= method. |
 | =testWebs= | | Hash of webs to create for this test. Keys define web names. Values are hashes of ='TopicName' => "Topic Text"= pairs. | |
 | =testUsers= | | List of users to create for this test. Elements are hashes with keys =login=, =forename=, =surname=, =email=, =group= describing each user. | |
 
@@ -215,7 +339,7 @@ has testClientList => (
 );
 
 =begin TML
----++ ObjectAttribute defaultAppClass
+---+++ ObjectAttribute defaultAppClass
 
 Default name of the class to instantiate the application object.
 
@@ -229,6 +353,12 @@ has defaultAppClass => (
     is      => 'rw',
     default => 'Unit::TestApp',
 );
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 around set_up => sub {
     my $orig = shift;
@@ -265,7 +395,7 @@ sub _execPerTestStageCode {
 
 =begin TML
 
----++ ObjectMethod initTest(%args)
+---+++ ObjectMethod initTest(%args)
 
 This methods gets called right before every individual test is been run.
 
@@ -348,7 +478,7 @@ sub initTest {
 
 =begin TML
 
----++ ObjectMethod shutdownTest(%args)
+---+++ ObjectMethod shutdownTest(%args)
 
 This method is been called right after each individual test finishes. =%args=
 keys are the same as in =initTest()=.
@@ -367,10 +497,10 @@ sub shutdownTest {
 
 =begin TML
 
----++ ObjectMethod initRquest( %args )
+---+++ ObjectMethod initRquest( %args )
 
 This method is called in server context upon every request. See the section
-about [[#InitDeinit][initialization/deinitialization]].
+about %PERLDOC{anchor="InitDeinit" text="initialization/deinitialization"}%.
 
 =%args= contains following keys:
 
@@ -386,7 +516,7 @@ about [[#InitDeinit][initialization/deinitialization]].
    =testClientList= attribute description. |
 
 Note that this method is called on the test case object and =$this->app= points
-to test case's application instance which is different from =serverApp= key.
+to test case's application object which is different from =serverApp= key.
 
 =cut
 
@@ -406,7 +536,7 @@ sub initRequest {
 
 =begin TML
 
----++ ObjectMethod shutdownRequest( %args )
+---+++ ObjectMethod shutdownRequest( %args )
 
 This methods is called when request processing is finished right before sending
 back a response.
@@ -423,7 +553,7 @@ sub shutdownRequest {
 
 =begin TML
 
----++ ObjectMethod list_tests() => @tests
+---+++ ObjectMethod list_tests() => @tests
 
 Completely overrides =list_tests()= from =Unit::TestCase=. Prepares tests using
 =testClientList= attribute.
@@ -445,9 +575,7 @@ around list_tests => sub {
         $this->assert_not_null( $clientHash->{client},
             "client $clientHash->{name} code is undefined" );
 
-        unless ( defined $clientHash->{appSub} ) {
-            $clientHash->{appSub} = $this->_genDefaultAppSub($clientHash);
-        }
+        $clientHash->{appSub} //= $this->_genDefaultAppSub($clientHash);
         my $testSubName = "test_" . $clientHash->{name};
         unless ( $suite->can($testSubName) ) {
             no strict 'refs';
@@ -477,8 +605,7 @@ around list_tests => sub {
 
 =begin TML
 
-#PrepareTestClientList
----++ ObjectMethod prepareTestClientList() => @testList
+---+++ ObjectMethod prepareTestClientList() => @testList
 
 =testClientList= object attribute initializer.
 
@@ -555,7 +682,7 @@ sub _genDefaultAppSub {
 
 =begin TML
 
----++ ObjectMethod writeTopic( $web, $topic, $text ) => $topicObject 
+---+++ ObjectMethod writeTopic( $web, $topic, $text ) => $topicObject 
 
 Simple shortcut for creating a topic defined by =$web= and =$topic= using
 =$text=.
@@ -577,7 +704,7 @@ sub writeTopic {
 
 =begin TML
 
----++ ObjectMethod findHTMLTag( $html, %criteria ) => $matchedEntity
+---+++ ObjectMethod findHTMLTag( $html, %criteria ) => $matchedEntity
 
 Simple search for a particular tag in HTML page in =$html= parameter.
 =%criteria= hash must contain mandatory key =tag= which defines HTML entity to
@@ -765,9 +892,10 @@ sub setLocalizableAttributes {
 
 =begin TML
 
----++ See Also
+---++ RELATED
 
-=Foswiki::Util::Localize=, =Unit::FoswikiTestRole=, =Plack::Test=,
+=%PERLDOC{"Foswiki::Util::Localize"}%=, =%PERLDOC{"Unit::FoswikiTestRole"}%=,
+=[[CPAN:Plack::Test][Plack::Test]]=,
 =[[CPAN:HTTP::Request::Common][HTTP::Request::Common]]=.
 
 

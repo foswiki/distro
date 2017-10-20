@@ -346,7 +346,22 @@ The script also accept =-stash= command line option which accepts a string with
 Perl regexp to match against stash names. It doesn't speed up loading of the
 _.pmat_ file but reduces the output could sometimes be _really_ huge.
 
----+ Related
+---++ !PlackTestCase
+
+One of the many PSGI advantages is a very simple simulation of client-server 
+environment – all within the same process! [[CPAN:Plack::Test][Plack::Test]]
+module takes advantage of this feature and provides basic functionality for
+testing a PSGI application.
+
+Unfortunately, direct use of =Plack::Test= with the default Foswiki testing
+framework would require a lot of handwork to prepare the testing playground.
+%PERLDOC{"Unit::PlackTestCase"}% class provides the framework which tries to
+combine the two worlds while providing the developer with many levers to
+control the test. The class is well-documented and, in turn, has rather small
+code footprint allowing for easy understanding of its internals. 
+
+---++ Related
 
 =%PERLDOC{"Unit::TestCase"}%=, =%PERLDOC{"Unit::FoswikiTestRole"}%=,
-=%PERLDOC{"Unit::TestApp"}%=, %PERLDOC{"Foswiki::Engine::Test"}%=
+=%PERLDOC{"Unit::TestApp"}%=, =%PERLDOC{"Foswiki::Engine::Test"}%=,
+=%PERLDOC{"Unit::PlackTestCase"}%=
