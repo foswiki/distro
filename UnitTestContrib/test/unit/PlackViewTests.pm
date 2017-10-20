@@ -1,13 +1,11 @@
 # See bottom of file for license and copyright information
 
 package PlackViewTests;
-use v5.14;
 
 use Assert;
 use HTTP::Request::Common;
 
 use Foswiki::Class;
-use namespace::clean;
 extends qw(Unit::PlackTestCase);
 
 around prepareTestClientList => sub {

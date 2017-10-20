@@ -1,7 +1,6 @@
 # Example test case; use this as a basis to build your own
 
 package FeatureSetTests;
-use v5.14;
 
 use Foswiki;
 use Foswiki::FeatureSet qw(:all);
