@@ -19,7 +19,9 @@ sub expand {
 
     my $result = "";
 
-    my $module = $params->{_DEFAULT} || 'Foswiki';
+    my $prefModule     = $this->app->prefs->getPreference('DOC_MODULE');
+    my $module         = $params->{_DEFAULT} || $prefModule || 'Foswiki';
+    my $noModuleInText = $module eq $prefModule;
     my ( $anchor, $type, $linkText ) = ( "", "", $module );
 
   TYPE: foreach $type (qw<method attr attribute>) {
@@ -27,7 +29,8 @@ sub expand {
             $anchor =
               Foswiki::IncludeHandlers::doc::_makeAnchor( $this->app,
                 $type => $params->{$type} );
-            $linkText = $module . "::" . $params->{$type};
+            $linkText =
+              ( $noModuleInText ? "" : "${module}::" ) . $params->{$type};
             $linkText .= "()" if ( $type eq 'method' );
             $linkText = "$linkText";
             last TYPE;

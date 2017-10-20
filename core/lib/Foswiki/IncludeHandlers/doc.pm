@@ -54,6 +54,8 @@ sub INCLUDE {
         $classLoadError = $e->stringify;
     };
 
+    $app->prefs->setSessionPreferences( "DOC_MODULE", $class );
+
     my %publicPackages = map { $_ => 1 } _loadPublishedAPI($app);
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
     _setNavigation( $app, $class, $publicOnly, \%publicPackages );
