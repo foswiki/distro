@@ -19,8 +19,8 @@ sub expand {
 
     my $result = "";
 
-    my $prefModule     = $this->app->prefs->getPreference('DOC_MODULE');
-    my $module         = $params->{_DEFAULT} || $prefModule || 'Foswiki';
+    my $prefModule = $this->app->prefs->getPreference('DOC_MODULE') // '';
+    my $module = $params->{_DEFAULT} || $prefModule || 'Foswiki';
     my $noModuleInText = $module eq $prefModule;
     my ( $anchor, $type, $linkText ) = ( "", "", $module );
 
