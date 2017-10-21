@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright information
 package Foswiki::Request::Cache;
-use v5.14;
 
 =begin TML
 

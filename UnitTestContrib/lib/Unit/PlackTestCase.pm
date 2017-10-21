@@ -339,6 +339,7 @@ has testClientList => (
 );
 
 =begin TML
+
 ---+++ ObjectAttribute defaultAppClass
 
 Default name of the class to instantiate the application object.

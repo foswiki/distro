@@ -37,7 +37,13 @@ use constant TRACE_REQUEST => 0;
 
 =begin TML
 
----++ StaticMethod logon($app)
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ StaticMethod logon($app)
 
 Handler for "logon" action.
    * =$app= is a Foswiki session object
@@ -73,7 +79,7 @@ sub logon {
 
 =begin TML
 
----++ ObjectMethod checkWebExists( $web [, $op] )
+---+++ ObjectMethod checkWebExists( $web [, $op] )
 
 Check if the web exists. If it doesn't, will throw an oops exception.
 
@@ -127,7 +133,7 @@ sub checkWebExists {
 
 =begin TML
 
----++ ObjectMethod topicExists( $web, $topic [, $op] ) => boolean
+---+++ ObjectMethod topicExists( $web, $topic [, $op] ) => boolean
 
 Check if the given topic exists, throwing an OopsException if it doesn't. $op is
 the user operation being performed. $app->request->action is used if $op is
@@ -169,7 +175,7 @@ sub checkTopicExists {
 
 =begin TML
 
----++ ObjectMethod checkAccess( $mode, $topicObject )
+---+++ ObjectMethod checkAccess( $mode, $topicObject )
 
 Check if the given mode of access by the given user to the given
 web.topic is permissible, throwing a Foswiki::AccessControlException if not.
@@ -195,7 +201,7 @@ sub checkAccess {
 
 =begin TML
 
----++ ObjectMethod checkValidationKey
+---+++ ObjectMethod checkValidationKey
 
 Check the validation key for the given action. Throws an exception
 if the validation key isn't valid (handled in _execute(), above)

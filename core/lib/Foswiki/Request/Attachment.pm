@@ -15,7 +15,6 @@ The following attributes are parsed from the path_info and/or query params (see
 =cut
 
 package Foswiki::Request::Attachment;
-use v5.14;
 
 use Assert;
 use IO::File         ();

@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::OopsException
+---+!! Class Foswiki::OopsException
 
 Exception used to raise a request to output a preformatted page.
 
@@ -99,30 +99,82 @@ extends qw<Foswiki::Exception>;
 # harmless. Otherwise it all depends on particular code interpretation...
 with qw<Foswiki::Exception::Harmless>;
 
-#our @_newParameters = qw( template );
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute template 
+
+=cut
 
 has template => (
     is       => 'rwp',
     default  => '',
     required => 1,
 );
+
+=begin TML
+
+---+++ ObjectAttribute web 
+
+=cut
+
 has web => (
     is      => 'ro',
     default => '',
 );
+
+=begin TML
+
+---+++ ObjectAttribute topic 
+
+=cut
+
 has topic => (
     is      => 'ro',
     default => '',
 );
+
+=begin TML
+
+---+++ ObjectAttribute def 
+
+=cut
+
 has def => (
     is      => 'ro',
     default => '',
 );
+
+=begin TML
+
+---+++ ObjectAttribute keep 
+
+=cut
+
 has keep => (
     is      => 'ro',
     default => '',
 );
+
+=begin TML
+
+---+++ ObjectAttribute params 
+
+=cut
+
 has params => ( is => 'rwp', );
+
+=begin TML
+
+---+++ ObjectAttribute status 
+
+=cut
+
 has status => (
     is      => 'rw',
     default => 500,
@@ -130,7 +182,13 @@ has status => (
 
 =begin TML
 
----++ ClassMethod new( $template, ...)
+---++ METHODS
+
+=cut
+
+=begin TML
+
+---+++ ClassMethod new( $template, ...)
    * =template= is the name of an oops template. e.g. 'bathplugin' refers to =templates/oopsbathplugin.tmpl=
 The remaining parameters are interpreted as key-value pairs. The following keys are used:
    * =web= will be used as the web for the oops
@@ -187,7 +245,7 @@ sub BUILD {
 
 =begin TML
 
----++ ObjectMethod stringify( [$wihtTemplate] ) -> $string
+---+++ ObjectMethod stringify( [$wihtTemplate] ) -> $string
 
 Generates a string representation for the object. if $withTemplate is true, and
 the exception specifies a def, then that def is expanded. This is to allow
@@ -257,7 +315,7 @@ sub redirect {
 
 =begin TML
 
----++ ObjectMethod generate( $session )
+---+++ ObjectMethod generate( $session )
 
 Generate an error page for the exception. This will output the error page
 to the browser. The default HTTP Status for an Oops page is 500. This
