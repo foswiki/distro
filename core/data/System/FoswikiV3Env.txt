@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="ProjectContributor" date="1508637123" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Foswiki V3 Environment Variables
+%TOC%
+
+A number of new environment variables are used to obtain additional run-time
+environment information. They are listed in the following table:
+
+| *Variable* | *Description* | *Related Documentation* |
+| =FOSWIKI_NOSTACKTRACE= | Turns off recroding of stacktrace by every single \
+object | %PERLDOC{"Foswiki::Object"}% |
+| =FOSWIKI_ENGINE= | Enforce particular engine module to be used | \
+%PERLDOC{"Foswiki::Engine"}% |
+| =FOSWIKI_TEST_*= | A family of variables used to initialize the test engine \
+| %PERLDOC{"Foswiki::Engine::Test"}% |
+| =FOSWIKI_EXTLIBS= | List of paths to load extensions from | \
+%PERLDOC{"Foswiki::ExtManager"}% |
+| =FOSWIKI_DISABLED_EXTENSIONS= | User-defined list of extensions to be \
+forcibly disabled | %PERLDOC{"Foswiki::ExtManager"}% |
+

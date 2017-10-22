@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1508119765" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1508637123" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -53,6 +53,7 @@ There are some under the hood changes in behaviour of some components like
 
    $ [[SpecFileFormat]] : Config Specs v2
    $ [[MacrosAsOO]] : Object oriented macros model
+   $ [[FoswikiV3Env]] : New environment variables
 
 ---+++ Configuration Management
 
