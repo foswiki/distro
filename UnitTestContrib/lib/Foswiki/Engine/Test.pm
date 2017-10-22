@@ -7,10 +7,15 @@ use v5.14;
 
 ---+!! Class Foswiki::Engine::Test
 
-This is unit tests support engine which is supposed to simulate real-life
-environment for test cases.
+This engine supports unit tests by simulating real-life server environment.
 
----++ Object Initialization
+---++ DESCRIPTION
+
+The main distinction of this engine is the way it is initializing itself. Where
+other engines obtain information for the server environmens this one provides
+a number of ways for developers to provide the information.
+
+---+++ Object Initialization
 
 A instance of this class initialize itself using the following sources of data
 (in the order from higher to lower priority):
@@ -28,8 +33,8 @@ A instance of this class initialize itself using the following sources of data
         =$engine->pathData->{path_info}= would be fetched from
         =$engine->initialAttributes->{path_info}=.
       * =FOSWIKI_TEST_= prefixed keys of the =env= attribute hash for individual
-        keys of =*Data= attributes (see =Foswiki::Engine=). For example,
-        =$engine->pathData->{path_info}= would be set from
+        keys of =*Data= attributes (see =%PERLDOC{"Foswiki::Engine"}%=). For
+        example, =$engine->pathData->{path_info}= would be set from
         =FOSWIKI_TEST_PATH_INFO=. These are used only when corresponding =*Data=
         attribute is not initialized at object construction stage.
       * Similar to other engines =FOSWIKI_ACTION= might be used if none of the
@@ -38,13 +43,13 @@ A instance of this class initialize itself using the following sources of data
       * =FOSWIKI_TEST_QUERY_STRING= is used for setting =queryParameters=
         attribute.
       
-*NOTE* Most of the time constructor parameter and object attribute are the
+%X% *NOTE:* Most of the time constructor parameter and object attribute are the
 same thing - see CPAN:Moo. But remember that when 'constructor parameter'
 is used it means at this stage attributes are not initialized yet. Or attribute
 may differ from constructor parameter value.
 
-*NOTE* on =__foswikiEngineTestInit=: it is a global default for all newly
-created engine objects. So that instead of duplicating a call like this:
+%X% *NOTE:* on =__foswikiEngineTestInit=: it is a global default for all newly
+created test engine objects. So that instead of duplicating a call like this:
 
 <verbatim>
 $engine = Foswiki::Engine::Test->new(
@@ -54,7 +59,8 @@ $engine = Foswiki::Engine::Test->new(
 );
 </verbatim>
 
-or in terms of =Unit::FoswikiTestRole= =createNewFoswikiApp= method:
+or in terms of =%PERLDOC{"Unit::FoswikiTestRole" method="createNewFoswikiApp"}%=
+method:
 
 <verbatim>
 # This is way more common throughout the tests code.
@@ -106,7 +112,13 @@ extends qw(Foswiki::Engine);
 
 =begin TML
 
----++ ObjectAttribute simulate -> [psgi|cgi]
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute simulate -> [psgi|cgi]
 
 The only valid values for this attribute are either 'psgi' or 'cgi'. It defines
 how this engine communicates with the 'outside' worlds: either in PSGI way by
@@ -129,23 +141,35 @@ has simulate => (
 
 =begin TML
 
----++ ObjectAttribute initialAttributes
+---+++ ObjectAttribute initialAttributes
 
 This is a hashref for initializing =Foswiki::Engine= =*Data= attributes. It is
 used by =initFromEnv= method as described in the _Initialization_ section of
 this document.
 
-See =Foswiki::Engine= =pathData=, =connectionData= for the list of of keys.
-Additionally the following keys are used:
+See =%PERLDOC{"Foswiki::Engine" attr="pathData"}%=, =%PERLDOC{"Foswiki::Engine"
+attr="connectionData"}%= for the list of of keys.  Additionally the following
+keys are used:
 
 | *Key* | *Initialized attribute* | *Comment* |
 | =user=, =remote_user= | =user= | =user= takes precedence |
-| =postData= | =postData= | What is defined by the key would end up in engine's =postData= attribute as is, with no modification and will be validated by a request object. |
+| =postData= | =postData= | What is defined by the key would end up in \
+engine's =postData= attribute as is, with no modification and will be \
+validated by a request object. |
 | =headers= | =headers= | Hash of header => value pairs |
 
 =cut
 
-has initialAttributes => ( is => 'rw', default => sub { { headers => {}, } }, );
+has initialAttributes => (
+    is      => 'rw',
+    builder => 'prepareInitialAttributes',
+);
+
+=begin TML
+
+---++ METHODS
+
+=cut
 
 around BUILDARGS => sub {
     my $orig   = shift;
@@ -167,7 +191,7 @@ around BUILDARGS => sub {
 
 =begin TML
 
----++ ObjectMethod initFromEnv(@keys)
+---+++ ObjectMethod initFromEnv(@keys)
 
 Forms a data hash using keys either from initialAttributes (higher prio) or from
 =env=. See the _Initialization_ section of this document. Requested keys are
@@ -192,81 +216,9 @@ sub initFromEnv {
     return \%initHash;
 }
 
-around preparePath => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    # Use the standard if test value is not provided.
-    $this->env->{FOSWIKI_TEST_ACTION} //= $this->env->{FOSWIKI_ACTION};
-    return $this->initFromEnv(qw(action path_info uri));
-};
-
-around prepareConnection => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    my $connData =
-      $this->initFromEnv(qw(remoteAddress serverPort method secure));
-
-    $connData->{method} //= 'GET';
-
-    return $connData;
-};
-
-around prepareQueryParameters => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    my $queryString = $this->initialAttributes->{query_string}
-      // $this->env->{FOSWIKI_TEST_QUERY_STRING};
-
-    return $orig->( $this, $queryString ) if defined $queryString;
-    return [];
-};
-
-around prepareHeaders => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    my $headers = $orig->($this);
-    foreach my $header ( keys %{ $this->env } ) {
-        next unless $header =~ m/^FOSWIKI_TEST_(?:HTTP|CONTENT|COOKIE)/i;
-        ( my $field = $header ) =~ s/^FOSWIKI_TEST_//;
-        $field =~ s/^HTTPS?_//;
-        $headers->{$field} = $this->env->{$header};
-    }
-
-    # Initial attributes override environment values.
-    my $initAttrs = $this->initialAttributes;
-    if ( defined $initAttrs->{headers} ) {
-        ASSERT(
-            ref( $initAttrs->{headers} ) eq 'HASH',
-            "Initial test engine headers key is a hashref"
-        );
-        $headers->{$_} = $initAttrs->{headers}{$_}
-          foreach keys %{ $initAttrs->{headers} };
-    }
-
-    return $headers;
-};
-
-around prepareUser => sub {
-    my $orig     = shift;
-    my $this     = shift;
-    my $initHash = $this->initFromEnv(qw(user remote_user));
-    return $initHash->{user} // $initHash->{remote_user};
-};
-
-around preparePostData => sub {
-    my $orig     = shift;
-    my $this     = shift;
-    my $initHash = $this->initFromEnv(qw(postData));
-    return $initHash->{postData};
-};
-
 =begin TML
 
----++ ObjectMethod mergeAttrs(\%attrs1 [, \%attrs2 [, ...]])
+---+++ ObjectMethod mergeAttrs(\%attrs1 [, \%attrs2 [, ...]])
 
 Gets a list of hashrefs and deep merges them. The first one is the destination
 hash which will contain the result of the merge.
@@ -340,6 +292,8 @@ priority of these hashes.
 
 =cut
 
+# TODO Shouldn't this method become a part of Foswiki.pm?
+
 sub mergeAttrs {
     my @hashes = @_;
     ASSERT( UNIVERSAL::isa( $_, 'HASH' ),
@@ -372,7 +326,7 @@ sub mergeAttrs {
 
 =begin TML
 
----++ ObjectMethod parseURL($queryString) -> \%attrs
+---+++ ObjectMethod parseURL($queryString) -> \%attrs
 
 This method parses =$queryString= with complete URL and returns constructor-compatible attribute hash
 where =initialAttributes= constructor parameter is initialized from the query string. The following keys
@@ -429,6 +383,90 @@ around finalizeReturn => sub {
         print @{ $return->[2] };
     }
     return $rc;
+};
+
+=begin TML
+
+---+++ ObjectMethod prepareInitialAttributes
+
+Method initializer for =initialAttributes= attribute.
+
+=cut
+
+sub prepareInitialAttributes {
+    return { headers => {}, };
+}
+
+around preparePath => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    # Use the standard if test value is not provided.
+    $this->env->{FOSWIKI_TEST_ACTION} //= $this->env->{FOSWIKI_ACTION};
+    return $this->initFromEnv(qw(action path_info uri));
+};
+
+around prepareConnection => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $connData =
+      $this->initFromEnv(qw(remoteAddress serverPort method secure));
+
+    $connData->{method} //= 'GET';
+
+    return $connData;
+};
+
+around prepareQueryParameters => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $queryString = $this->initialAttributes->{query_string}
+      // $this->env->{FOSWIKI_TEST_QUERY_STRING};
+
+    return $orig->( $this, $queryString ) if defined $queryString;
+    return [];
+};
+
+around prepareHeaders => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $headers = $orig->($this);
+    foreach my $header ( keys %{ $this->env } ) {
+        next unless $header =~ m/^FOSWIKI_TEST_(?:HTTP|CONTENT|COOKIE)/i;
+        ( my $field = $header ) =~ s/^FOSWIKI_TEST_//;
+        $field =~ s/^HTTPS?_//;
+        $headers->{$field} = $this->env->{$header};
+    }
+
+    # Initial attributes override environment values.
+    my $initAttrs = $this->initialAttributes;
+    if ( defined $initAttrs->{headers} ) {
+        ASSERT(
+            ref( $initAttrs->{headers} ) eq 'HASH',
+            "Initial test engine headers key is a hashref"
+        );
+        $headers->{$_} = $initAttrs->{headers}{$_}
+          foreach keys %{ $initAttrs->{headers} };
+    }
+
+    return $headers;
+};
+
+around prepareUser => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my $initHash = $this->initFromEnv(qw(user remote_user));
+    return $initHash->{user} // $initHash->{remote_user};
+};
+
+around preparePostData => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my $initHash = $this->initFromEnv(qw(postData));
+    return $initHash->{postData};
 };
 
 1;

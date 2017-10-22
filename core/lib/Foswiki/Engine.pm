@@ -198,6 +198,7 @@ Determines the type of environment we're running under and creates an instance
 of corresponding class. The environment is been detected by:
 
    * reading configuration key =Engine=;
+   * reading =FOSWIKI_ENGINE= environment variable
    * loading all engines defined by =EngineList= configuration key and calling
      their =probe()= static method;
    * assuming that if no engine has been detected then CLI must be used.
