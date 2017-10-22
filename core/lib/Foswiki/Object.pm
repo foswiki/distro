@@ -19,11 +19,11 @@ behaviour and general policies for its descendants.
 ---+++ Behavior changing conditions
 
 This class' behavior could be changed by either a environment variable
-=FOSWIKI_NOSTACKTRACE= and =%PERLDOC{"Assert" text="Assert's"}%= module constant =DEBUG=. These changes
-should be completely transparent for the rest of core code and only be of any
-interest for debugging purposes. The =DEBUG= constant is of main significance
-here. =FOSWIKI_NOSTACKTRACE= is taken into account with =DEBUG= being _true_
-only.
+=FOSWIKI_NOSTACKTRACE= and =%PERLDOC{"Assert" text="Assert's"}%= module constant
+=DEBUG=. These changes should be completely transparent for the rest of core
+code and only be of any interest for debugging purposes. The =DEBUG= constant is
+of main significance here. =FOSWIKI_NOSTACKTRACE= is taken into account with
+=DEBUG= being _true_ only.
 
 With =DEBUG= this class:
 
@@ -149,7 +149,7 @@ sub BUILD {
         #  } while (
         #    $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
 
-        my $noStackTrace = $ENV{FOSWIKI_NOSTACKTRACE} // 1;
+        my $noStackTrace = $ENV{FOSWIKI_NOSTACKTRACE} // 0;
 
         $this->__orig;
         $this->__orig_stack( Carp::longmess('') ) unless $noStackTrace;
@@ -562,7 +562,7 @@ sub isaARRAY {
     $attributeName = _normalizeAttributeName($attributeName);
 
     return _validateIsaCode( $attributeName,
-            'sub { Foswiki::Exception->throw( text => "'
+            'sub { Foswiki::Exception::Fatal->throw( text => "'
           . $attributeName
           . ' attribute may only be '
           . ( $opts{noUndef} ? '' : 'undef or an ' )
@@ -592,7 +592,7 @@ sub isaHASH {
     $attributeName = _normalizeAttributeName($attributeName);
 
     return _validateIsaCode( $attributeName,
-            'sub { Foswiki::Exception->throw( text => "'
+            'sub { Foswiki::Exception::Fatal->throw( text => "'
           . $attributeName
           . ' attribute may only be '
           . ( $opts{noUndef} ? '' : 'undef or an ' )
@@ -642,7 +642,7 @@ sub isaCLASS {
 
     return _validateIsaCode(
         $attributeName,
-        'sub { Foswiki::Exception->throw( text => "'
+        'sub { Foswiki::Exception::Fatal->throw( text => "'
           . $attributeName
           . ' attribute may only be '
           . ( $opts{noUndef} ? '' : 'undef or an ' )
