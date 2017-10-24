@@ -124,6 +124,7 @@ sub str2ver (@) {
     my @v = map {
         $_
           ? ( UNIVERSAL::isa( $_, 'version' ) ? $_ : version->declare($_) )
+          ->normal
           : undef
     } @_;
     return ( wantarray ? @v : ( @v > 1 ? \@v : $v[0] ) );
@@ -340,9 +341,9 @@ sub test_feature_data {
     features_provided
       FEATURE_WITH_META => [
         undef, undef, undef,
-        -desc     => $desc,
-        -proposal => $prop,
-        -doc      => $doc,
+        -desc          => $desc,
+        -proposal      => $prop,
+        -documentation => $doc,
       ],
       -namespace        => 'Test::NS',
       FEATURE_WITH_META => [
@@ -355,9 +356,9 @@ sub test_feature_data {
 
     $this->assert_deep_equals(
         {
-            -desc     => $desc,
-            -proposal => $prop,
-            -doc      => $doc,
+            -description   => $desc,
+            -proposal      => $prop,
+            -documentation => $doc,
         },
         $meta,
         "Incorrect meta for FEATURE_WITH_META from the default namespace"
@@ -375,8 +376,8 @@ sub test_feature_data {
 
     $this->assert_deep_equals(
         {
-            -desc => $desc,
-            -doc  => $doc,
+            -description   => $desc,
+            -documentation => $doc,
         },
         $meta,
         "Incorrect meta for FEATURE_WITH_META from Test::NS namespace"
