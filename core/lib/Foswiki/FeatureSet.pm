@@ -50,7 +50,7 @@ was declared deprecated; and finally the version when support for the feature is
 cancelled. A keyword paired with version triplet represents a complete feature
 information required to technically describe a feature.
 
-*NOTE* An obsoleted feature description must never be removed from the source
+%X% *NOTE:* An obsoleted feature description must never be removed from the source
 code. First in order to provide necesarry information to some third-party code
 which may rely on this entry to exists. Second to avoid re-use of the same
 keyword for different or differently implemented feature. For example, would
@@ -122,11 +122,12 @@ a duplicate feature keyword will result in raising =Foswiki::Exception::Fatal=
 exception.
 
 #AppContext
----++ Application context
+---++ Application Context
 
-Active features (including the deprecated ones) are registered in the application
-context and could be checked by any code where the context is accessible. This
-is specifically useful as not all code has access to the core API.
+Active features (including the deprecated ones) are registered in the
+%PERLDOC{"Foswiki::App" attr="context" text="application context"}% and could be
+checked by any code where the context is accessible. This is specifically useful
+as not all code has access to the core API.
 
 Before registered in the context a feature names gets transofrmed to avoid
 possible name conflicts with other context entries and between featues from
@@ -258,7 +259,7 @@ sub features_provided (@) {
 
 =begin TML
 
----+++ StatucMethod getFSNamespaces => @nsList
+---+++ StaticMethod getFSNamespaces => @nsList
 
 Returns unordered list of registered namespaces.
 
@@ -270,7 +271,7 @@ sub getFSNamespaces {
 
 =begin TML
 
----++ StatucMethod nsExists( $ns ) => $bool
+---+++ StaticMethod nsExists( $ns ) => $bool
 
 Returns true if namespace defined by =$ns= exists.
 

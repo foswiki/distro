@@ -1,0 +1,33 @@
+%META:TOPICINFO{author="ProjectContributor" date="1508803797" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Feature Sets
+
+This is a completely new concept for allowing fine granular compatibility
+checks.  If we consider a feature as some functionality provided by Foswiki (or
+any other code) and focused on a particular subject (like support of PSGI, or OO
+with help of Moo framework) then feature set is composed of many features and
+ideally it would represent Foswiki (or any other code) functionality. Though
+usually software version represents more/less same concept but there is a
+difference; especially when it comes to automated compatibility checks.
+
+Let's see how it works with an example. Suppose the core has switched from using
+Moo for the OO framework to Moose in Foswiki v4. Most extensions depending on
+Moo would stop working because of incompatibilities between the two frameworks.
+So, we must not use any extension not declaring v4 compatibility. Ok, what if
+changes from v3 to v4 are less significant but numerous? Say, an outdated
+feature is gone but otherwise v4 would maintain good backward compatibility. All
+v3 compatible extensions are still ok under v4 except for a few depending on the
+outdated feature. With version-based compatibility check we would still require
+the extensions to be disabled until they're fixed. But wait, can changing a
+single with API version be called a fix? And what if a otherwise perfectly ok
+extension is abandoned by its author?
+
+With feature sets in place it would then be possible do declare the removed
+features as unsupported by v4 and to disable only those few extensions which are
+requiring them. The rest would continue working as if no major version switch
+took place. Basically, specifying required features would demand a little more
+from a developer on the initial stages of extension development but it would
+save its users from many headaches in the future.
+
+See more details in %PERLDOC{"Fosweiki::FeatureSet"}% module documentation.
+
