@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::FeatureSet;
+use v5.14;
+
 =begin TML
 
 ---+!! Package Foswiki::FeatureSet
@@ -147,9 +150,6 @@ For example:
 ---++ API
 
 =cut
-
-package Foswiki::FeatureSet;
-use v5.14;
 
 use strict;
 use warnings;
@@ -485,7 +485,7 @@ sub isDeprecatedVersion {
 
 =begin TML
 
----+++ StaticMethod featuresComply(%options) => $bool
+---+++ StaticMethod featuresComply( %options ) => $bool
 
 This function checks if a set of required features complies with the active
 features. The check could be performed for a specific version and a specific
@@ -496,7 +496,7 @@ The =%options= hash can have the following keys:
 | *Key* | *Description* | *Default* |
 | =-version= | The version we check for | =$Foswiki::VERSION= |
 | =-features= | A list of required features | |
-| =-namespace= | A namespace names | _the default namespace_ |
+| =-namespace= | Namespace where to look for the features | _the default namespace_ |
 | =-inactive= | User specified array ref to store a list of non-complying features. | |
 
 Returns true if all features from the =-features= list exist and active in
@@ -516,7 +516,7 @@ sub featuresComply {
 
     undef $inactive unless defined($inactive) && ref($inactive) eq 'ARRAY';
 
-    delete @params{qw(-version -features)};
+    delete @params{qw(-version -features -inactive)};
 
     my $comply = ( @fsList > 0 );
 
