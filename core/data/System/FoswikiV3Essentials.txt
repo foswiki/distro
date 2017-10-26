@@ -53,6 +53,11 @@ There are some under the hood changes in behaviour of some components like
 ---++ New Standards And Major Changes
 
    $ [[SpecFileFormat]] : Config Specs v2
+      : <em>%X% Because configure doesn't support new specs yet it only reads
+      the legacy ones. It also save with its own Save wizard and does so into
+      _LocalSite.cfg_ file.  To prevent conflicts, %PERLDOC{"Foswiki::Config"}%
+      temporarily saves and reads _LocalSite.cfg.new_ file. Things have to
+      change prior to first public beta.</em>
    $ [[MacrosAsOO]] : Object oriented macros model
    $ [[FoswikiV3Env]] : New environment variables
 
