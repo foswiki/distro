@@ -278,6 +278,7 @@ sub flush {
           or $this->throwFileOp( op => "write", );
 
         $this->modified(0);
+        $this->clear_stat;
     }
     catch {
         $this->exception( Foswiki::Exception::Fatal->transmute( $_, 0 ) );
@@ -319,12 +320,12 @@ sub prepareStat {
 
     my $path = $this->path;
 
-    unless ( -r $path ) {
+    if ( ( -e $path || !$this->autoCreate ) && !-r $path ) {
         $this->exception(
             $this->_createException(
                 exception => 'Foswiki::Exception::FileOp',
-                text => "Don't have read access to " . $path . ", cannot stat",
-                op   => "stat",
+                text      => "don't have read access to " . $path,
+                op        => "stat",
             )
         );
         return undef;
