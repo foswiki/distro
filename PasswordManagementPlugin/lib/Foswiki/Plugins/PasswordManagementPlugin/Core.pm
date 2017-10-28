@@ -130,7 +130,8 @@ sub _RESTresetPassword {
         );
     }
 
-    my ( $sent, $errors ) = _generateResetEmail( $session, $user, \@em );
+    # lifetime 0 - uses configured default
+    my ( $sent, $errors ) = _generateResetEmail( $session, $user, 0, \@em, '' );
 
     # Now that we have successfully reset the password we log the event
     $session->logger->log(
@@ -149,7 +150,10 @@ sub _RESTresetPassword {
             status => 200,
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
-            params => [ $Foswiki::cfg{Login}{TokenLifetime} || 900, $errors ]
+            params => [
+                $Foswiki::cfg{Login}{TokenLifetime} || 15,
+                ($errors) ? '1' : '0'
+            ]
         );
     }
     else {
@@ -213,6 +217,9 @@ sub _RESTbulkResetPassword {
         throw Foswiki::OopsException( 'password', def => 'no_users_to_reset' );
     }
 
+    my $validFor     = $query->param('validFor')     || 0;
+    my $Introduction = $query->param('Introduction') || '';
+
     my ( $sent, $errors );
 
     foreach my $userName (@userNames) {
@@ -239,7 +246,9 @@ sub _RESTbulkResetPassword {
             );
         }
 
-        ( $sent, $errors ) = _generateResetEmail( $session, $user, \@em );
+        ( $sent, $errors ) =
+          _generateResetEmail( $session, $user, $validFor, \@em,
+            $Introduction );
 
         # Now that we have successfully reset the password we log the event
         $session->logger->log(
@@ -259,7 +268,10 @@ sub _RESTbulkResetPassword {
             status => 200,
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
-            params => [ $Foswiki::cfg{Login}{TokenLifetime} || 900, $errors ]
+            params => [
+                $validFor || $Foswiki::cfg{Login}{TokenLifetime} || 15,
+                ($errors) ? '1' : '0'
+            ]
         );
     }
     else {
@@ -274,7 +286,7 @@ sub _RESTbulkResetPassword {
 
 =begin TML
 
----++ StaticMethod _generateResetEmail ( $session, $user, $emails )
+---++ StaticMethod _generateResetEmail ( $session, $user, $validFor, $emails )
 
 Utility method. Passed a user name and list of emails, generate the reset token
 and email it to the email addresses for that user.  This is intended for sending
@@ -286,9 +298,8 @@ agents can fail the entire email.
 =cut
 
 sub _generateResetEmail {
-    my $session = shift;
-    my $user    = shift;
-    my $emails  = shift;
+
+    my ( $session, $user, $validFor, $emails, $message ) = @_;
 
     my $users = $session->{users};
 
@@ -296,6 +307,7 @@ sub _generateResetEmail {
     #  PASSWORDRESET    - Bypasses checking of old password.
     my $token = Foswiki::LoginManager::generateLoginToken(
         $user,
+        $validFor,
         {
             FOSWIKI_TOPICRESTRICTION =>
               "$Foswiki::cfg{SystemWebName}.ChangePassword",
@@ -330,6 +342,7 @@ sub _generateResetEmail {
                 EmailAddress  => $email,
                 TokenLife     => $Foswiki::cfg{Login}{TokenLifetime} || 900,
                 AuthToken     => $token,
+                Introduction  => $message,
             }
         );
 
@@ -341,7 +354,6 @@ sub _generateResetEmail {
         }
         $session->leaveContext('absolute_urls');
     }
-
     return ( $sent, $errors );
 }
 

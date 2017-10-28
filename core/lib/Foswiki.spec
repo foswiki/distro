@@ -417,10 +417,10 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
 # **NUMBER LABEL="Login Token Lifetime"**
-# Specifiy the time in seconds the Login token should be usable, for example:  password reset.
+# Specifiy the time in minutes the Login token should be usable, for example:  password reset.
 # Recommend setting this to allow for email delays, including grey listing
-# no more than 15 minutes (900 seconds).
-$Foswiki::cfg{Login}{TokenLifetime} = 900;
+# at least 15 minutes.
+$Foswiki::cfg{Login}{TokenLifetime} = 15;
 
 # **BOOLEAN LABEL="Debug Login Manager" EXPERT**
 # Write debugging output to the webserver error log.
@@ -912,6 +912,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{LeaseLengthLessForceful}',
     '{LinkProtocolPattern}',
     '{LocalSitePreferences}',
+    '{Login}{TokenLifetime}',
     '{LoginNameFilterIn}',
     '{MaxRevisionsInADiff}',
     '{MinPasswordLength}',

@@ -361,6 +361,8 @@ sub loadSession {
 
     my $tokenUser = $this->_getTokenCredentials($session);
     if ($tokenUser) {
+        $tokenUser =
+          $session->{users}->getLoginName($tokenUser);    # Returns a cUID
         _trace( $this,
             "Replacing current user with $tokenUser from authtoken" );
         $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
@@ -1755,7 +1757,7 @@ sub removeUserSessions {
 
 =begin TML
 
----++ StaticMethod generateLoginToken( $cUID, %sessionVars ) = $token
+---++ StaticMethod generateLoginToken( $cUID, $validFor,  %sessionVars ) = $token
 
 Creates a login token and saves the authentication information into a corresponding
 file. This will allow the user to gain access for purposes of resetting a password.
@@ -1765,6 +1767,8 @@ token is sent to the user using a highly trusted channel.
 Note:  The cUID contained in the token will be granted access, even if the user is
 not known to the Password Manager / Mapper.  The caller of this function should 
 ensure that the user exists before creating the token.
+
+Valid time in minutes, defaults to 15 minutes, as configured in $Foswiki::cfg{Login}{TokenLifetime} 
 
 The $sessionVars hash is used to set Session Variables. Options hash currently includes:
    $ FOSWIKI_TOPICRESTRICTION => "Web.Topic": Access will be redirected to this topic    
@@ -1778,16 +1782,17 @@ variables.
 
 sub generateLoginToken {
 
-    my $cUID    = shift;
-    my $options = shift;
+    my ( $cUID, $validFor, $options ) = @_;
 
     $options->{cUID} = $cUID;
-    my $nonce         = Foswiki::generateRandomChars(32);
-    my $token         = Digest::MD5::md5_hex($nonce);
-    my $tokenFile     = "$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token";
-    my $tokenLifetime = $Foswiki::cfg{Login}{TokenLifetime} || 900;
 
-    $options->{expires} = time() + $tokenLifetime;
+    my $nonce     = Foswiki::generateRandomChars(32);
+    my $token     = Digest::MD5::md5_hex($nonce);
+    my $tokenFile = "$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token";
+
+    $validFor ||= $Foswiki::cfg{Login}{TokenLifetime} || 15;
+
+    $options->{expires} = time() + ( $validFor * 60 );
 
     # login token file is only written to once, so if it already exists,
     # suspect a security hack (O_EXCL)
