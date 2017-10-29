@@ -949,6 +949,26 @@ sub fetchGlobal {
 
 =begin TML
 
+---+++ StaticMethod inject_code( $target, $name, $code )
+
+Installs a sub =$code= into module =$target= namespace under the name =$name=.
+
+*%X% NOTE:* In a way this method duplicates =Moo::_install_coderef=
+functionality. But as long as the latter remains a private =Moo= sub it's better
+be avoided.
+
+=cut
+
+sub inject_code {
+    my ( $target, $name, $code ) = @_;
+
+    no warnings qw(redefine);
+    getNS($target)->{$name} = $code;
+    use warnings qw(redefine);
+}
+
+=begin TML
+
 ---++ StaticMethod guessLibDir => $libDir
 
 If =FOSWIKI_LIBS= environment variable is defined then its value is returned.

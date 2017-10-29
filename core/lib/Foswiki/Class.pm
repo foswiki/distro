@@ -298,7 +298,7 @@ if ( $ENV{FOSWIKI_ASSERTS} ) {
 foreach my $module (qw(Moo Moo::Role)) {
     my $ns               = Foswiki::getNS($module);
     my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
-    _inject_code(
+    Foswiki::inject_code(
         $module,
         '_install_tracked',
         sub {
@@ -397,7 +397,7 @@ sub import {
     );
 
     # Install some common helpers.
-    _inject_code( $target, 'stubMethods', \&_handler_stubMethods );
+    Foswiki::inject_code( $target, 'stubMethods', \&_handler_stubMethods );
 
     @_ = ( $class, @p );
     goto &Moo::import;
@@ -457,26 +457,6 @@ sub getClassAttributes {
 
 =begin TML
 
----+++ StaticMethod _inject_code( $target, $name, $code )
-
-Installs a sub =$code= into module =$target= namespace under the name =$name=.
-
-*%X% NOTE:* In a way this method duplicates =Moo::_install_coderef=
-functionality. But as long as the latter remains a private =Moo= sub it's better
-be avoided.
-
-=cut
-
-sub _inject_code {
-    my ( $target, $name, $code ) = @_;
-
-    no warnings qw(redefine);
-    Foswiki::getNS($target)->{$name} = $code;
-    use warnings qw(redefine);
-}
-
-=begin TML
-
 ---+++ StaticMethod _apply_roles( $class [, @classes] )
 
 %X% Strictly for internal =Foswiki::Class= use only.
@@ -530,7 +510,7 @@ sub _handler_stubMethods (@) {
     my $target = caller;
     my $stubCode = sub { };
     foreach my $methodName (@_) {
-        _inject_code( $target, $methodName, $stubCode );
+        Foswiki::inject_code( $target, $methodName, $stubCode );
     }
 }
 
@@ -544,7 +524,7 @@ sub _install_callbacks {
 
     Foswiki::load_package('Foswiki::Util::Callbacks');
     _assign_role( $target, 'Foswiki::Util::Callbacks' );
-    _inject_code( $target, "callback_names", *_handler_callback_names );
+    Foswiki::inject_code( $target, "callback_names", *_handler_callback_names );
 }
 
 sub _install_app {
@@ -603,7 +583,7 @@ sub _handler_tagHandler ($;$) {
 
         # If second argument is a code ref then we install method with the same
         # name as macro name.
-        _inject_code( $target, $tagName, $tagHandler );
+        Foswiki::inject_code( $target, $tagName, $tagHandler );
         Foswiki::ExtManager::registerExtTagHandler( $target, $tagName );
     }
     else {
@@ -621,14 +601,15 @@ sub _handler_callbackHandler ($&) {
 sub _install_extension {
     my ( $class, $target ) = @_;
 
-    _inject_code( $target, 'plugBefore',      \&_handler_plugBefore );
-    _inject_code( $target, 'plugAround',      \&_handler_plugAround );
-    _inject_code( $target, 'plugAfter',       \&_handler_plugAfter );
-    _inject_code( $target, 'extClass',        \&_handler_extClass );
-    _inject_code( $target, 'extAfter',        \&_handler_extAfter );
-    _inject_code( $target, 'extBefore',       \&_handler_extBefore );
-    _inject_code( $target, 'tagHandler',      \&_handler_tagHandler );
-    _inject_code( $target, 'callbackHandler', \&_handler_callbackHandler );
+    Foswiki::inject_code( $target, 'plugBefore', \&_handler_plugBefore );
+    Foswiki::inject_code( $target, 'plugAround', \&_handler_plugAround );
+    Foswiki::inject_code( $target, 'plugAfter',  \&_handler_plugAfter );
+    Foswiki::inject_code( $target, 'extClass',   \&_handler_extClass );
+    Foswiki::inject_code( $target, 'extAfter',   \&_handler_extAfter );
+    Foswiki::inject_code( $target, 'extBefore',  \&_handler_extBefore );
+    Foswiki::inject_code( $target, 'tagHandler', \&_handler_tagHandler );
+    Foswiki::inject_code( $target, 'callbackHandler',
+        \&_handler_callbackHandler );
 }
 
 sub _handler_pluggable ($&) {
@@ -644,7 +625,7 @@ sub _install_extensible {
     #say STDERR "--- INSTALLING extensible ON $target";
 
     _assign_role( $target, 'Foswiki::Util::_ExtensibleRole' );
-    _inject_code( $target, 'pluggable', \&_handler_pluggable );
+    Foswiki::inject_code( $target, 'pluggable', \&_handler_pluggable );
 }
 
 1;
