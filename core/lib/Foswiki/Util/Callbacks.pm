@@ -244,7 +244,7 @@ before DEMOLISH => sub {
 
     # Cleanup all callbacks registed by this object.
     unless ($in_global) {
-        my $app = $this->_getApp;
+        my $app = $this->guessApp;
 
         # The application object could have been already destroyed at this
         # moment. This is normal for auto-destruction.
@@ -268,20 +268,6 @@ sub _splitCBName {
 
     $_[0] =~ /^(.*)::([^:]+)$/;
     return ( $1, $2 );
-}
-
-# Returns currently active Foswiki::App object.
-sub _getApp {
-    my $this = shift;
-
-    return (
-        $this->isa('Foswiki::App') ? $this
-        : (
-            $this->does('Foswiki::AppObject') ? $this->app
-            : (      $this->does('Foswiki::Util::_ExtensibleRole')
-                  && $this->_has__appObj ? $this->__appObj : $Foswiki::app )
-        )
-    );
 }
 
 # Normilizes callback name to it's full form of 'namespace::cbName'. If cbName
@@ -348,7 +334,7 @@ sub registerCallback {
         obj  => $this->__id,
     };
 
-    my $app = $this->_getApp;
+    my $app = $this->guessApp;
 
     ASSERT( defined $app,
         "Callback cannot be registered without an active application object" );
@@ -379,7 +365,7 @@ sub deregisterCallback {
     ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
 
     my $objId   = $this->__id;
-    my $appHeap = $this->_getApp->heap;
+    my $appHeap = $this->guessApp->heap;
     my $oldList = $appHeap->{_aux_registered_callbacks}{$name};
     my $newList = [];
 
@@ -414,7 +400,7 @@ sub callback {
     ASSERT( ref($params) eq 'HASH', "callback params must be a hashref" );
 
     my $lastException;
-    my $cbList = $this->_getApp->heap->{_aux_registered_callbacks}{$name};
+    my $cbList = $this->guessApp->heap->{_aux_registered_callbacks}{$name};
 
     return unless $cbList;
 

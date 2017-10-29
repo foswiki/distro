@@ -32,9 +32,7 @@ use Moo::Role;
 
 ---+++ ObjectAttribute app
 
-Reference to the parent application object.
-
-Required.
+Modifies %PERLDOC{"Foswiki::Object" attr="app"} attribute, makes it required.
 
 =cut
 
@@ -43,14 +41,8 @@ has app => (
     predicate => 1,
     weak_ref  => 1,
     isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
-    required => 1,
-    clearer  => 1,
-    handles  => [qw(create)],
+    clearer => 1,
 );
-
-sub _clone_app {
-    return $_[0]->app;
-}
 
 1;
 __END__

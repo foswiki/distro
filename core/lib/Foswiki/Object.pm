@@ -75,6 +75,7 @@ require Carp;
 require Foswiki::Exception;
 use Try::Tiny;
 use Scalar::Util qw(blessed refaddr reftype weaken isweak);
+use Foswiki qw<indentInc indentMsg>;
 
 use Foswiki::Class;
 
@@ -84,9 +85,25 @@ use Assert;
 
 =begin TML
 
----++ Attributes
+---++ ATTRIBUTES
 
 =cut
+
+=begin TML
+
+---+++ ObjectAttribute app
+
+Reference to the parent application object.
+
+=cut
+
+has app => (
+    is        => 'rwp',
+    predicate => 1,
+    weak_ref  => 1,
+    isa       => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', ),
+    clearer   => 1,
+);
 
 # Debug-only attributes for recording object's origins; i.e. the location in the
 # core where it was created. Useful for tracking down the source of problems.
@@ -122,7 +139,7 @@ has __clone_heap =>
 
 =begin TML
 
----++ Methods
+---++ METHODS
 
 =cut
 
@@ -188,6 +205,30 @@ sub DEMOLISH {
             }
         }
     }
+}
+
+=begin TML
+
+---+++ ObjectMethod create( $className, @params ) -> $object
+
+Creates a new object of class =$className=. If application object could be
+guessed with %PERLDOC{"Foswiki::Object" method="guessApp"}% then its
+%PERLDOC{"Foswiki::App" method="create" text="create()"}% method would be used.
+Otherwise the =$object= would be created with =$className='s =new()= method.
+
+=cut
+
+sub create {
+    my $this = shift;
+
+    my $app = $this->guessApp;
+
+    if ( defined $app ) {
+        return $app->create(@_);
+    }
+
+    my $class = shift;
+    return $class->new(@_);
 }
 
 sub _cloneData {
@@ -441,6 +482,42 @@ sub clone {
 
 =begin TML
 
+---+++ ObjectMethod getApp -> $app
+
+Returns application object depending on current object's status:
+
+   1 for a %PERLDOC{"Foswiki::App"}% object returns itself
+   1 if =app= attribute is set then returns its value.
+   1 otherwise returns undef
+
+=cut
+
+sub getApp {
+    my $this = shift;
+    return (
+          $this->isa('Foswiki::App')
+        ? $this
+        : ( $this->has_app ? $this->app : undef )
+    );
+}
+
+=begin TML
+
+---+++ ObjectMethod guessApp -> $app
+
+Similar to the =getApp()= method above but tries harder and returns
+=$Foswiki::app= when getApp() returns undef. Note that in some cases this
+could be _undef_ too.
+
+=cut
+
+sub guessApp {
+    my $this = shift;
+    return $this->getApp // $Foswiki::app;
+}
+
+=begin TML
+
 ---++ ObjectMethod to_str => $string
 
 This method is used to overload stringification operator "" (see
@@ -668,6 +745,10 @@ sub _traceMsg {
 
         say STDERR $pkg, "(line ", $line, ", obj ", $this, "): ", @_;
     }
+}
+
+sub _clone_app {
+    return $_[0]->app;
 }
 
 1;

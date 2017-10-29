@@ -1031,7 +1031,8 @@ Before actually create an object this method:
 
 =cut
 
-sub create {
+around create => sub {
+    my $orig  = shift;
     my $this  = shift;
     my $class = shift;
 
@@ -1056,7 +1057,7 @@ sub create {
     }
 
     return $object;
-}
+};
 
 =begin TML
 

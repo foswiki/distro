@@ -7,37 +7,6 @@ use Moo::Role;
 
 # This role is not to be applied manually but by Foswiki::Class only!
 
-# Though this attribute is seemingly duplicating Foswiki::AppObject app
-# attribute but it's purpose to be optional and apply cleanly to classes which
-# are not Foswiki::App-dependant.
-has __appObj => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    isa       => Foswiki::Object::isaCLASS( '__appObj', 'Foswiki::App' ),
-    weak_ref  => 1,
-);
-
-around BUILD => sub {
-    my $orig     = shift;
-    my $this     = shift;
-    my ($params) = @_;
-
-    #$this->_traceMsg("Storing app for extensible objet");
-
-    if ( defined $params->{app} && $params->{app}->isa('Foswiki::App') ) {
-        $this->__appObj( $params->{app} );
-    }
-
-    return $orig->( $this, @_ );
-};
-
-# Foswiki::Object::clone support.
-# Avoid full app cloning.
-sub _clone__appObj {
-    return $_[0]->__appObj;
-}
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

@@ -45,9 +45,9 @@ use v5.14;
 
 use Foswiki::Util::Holder ();
 
-use Moo::Role;
-
 use Try::Tiny;
+
+use Moo::Role;
 
 # _dataStack is a storage for configurations active upon localize() method
 # calls.
