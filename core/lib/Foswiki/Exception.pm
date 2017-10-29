@@ -480,7 +480,7 @@ sub prepareText {
 }
 
 use Foswiki;
-for my $m (qw<Ext ASSERT Fatal FileOp HTTPResponse HTTPError Engine>) {
+for my $m (qw<Ext ASSERT Fatal FileOp HTTPResponse HTTPError Engine ModLoad>) {
     Foswiki::load_class( __PACKAGE__ . "::" . $m );
 }
 
