@@ -11,6 +11,7 @@ my ( $checkpointSub, $statusSub );
 BEGIN {
     $rootDir   = $ENV{FOSWIKI_HOME};
     $scriptDir = $ENV{FOSWIKI_SCRIPTS};
+    $ENV{FOSWIKI_ASSERTS} = 1;
 
     unless ($scriptDir) {
         my $script = __FILE__;
