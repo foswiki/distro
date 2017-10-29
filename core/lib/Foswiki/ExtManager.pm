@@ -255,6 +255,7 @@ use IO::Dir        ();
 use Devel::Symdump ();
 use Scalar::Util qw(blessed weaken);
 
+use Foswiki qw<inject_code fetchGlobal>;
 use Assert;
 use Try::Tiny;
 use Data::Dumper;
@@ -290,6 +291,8 @@ our %extTags;             # Tags registered by extensions.
 our %extCallbacks;        # Callbacks registered by extensions.
 our %pluggables;          # Pluggable methods
 our %plugMethods;         # Extension registered plug methods.
+our %extDisabled
+  ;    # Disabled extensions defined by keys. Values are reasons for disabling.
 
 # --- END of static data declarations
 
@@ -468,6 +471,9 @@ has _errors => (
 
 sub BUILD {
     my $this = shift;
+
+    # Never enable extension Empty. It's purpose is to be an example.
+    $extDisabled{ $this->normalizeExtName('Empty') } = "sample code";
 
     $this->loadExtensions;
 }
@@ -813,7 +819,7 @@ Marks extension =$extName= as disable because of =$reason=.
 *%X% NOTE:* Disabling an extension makes reason only before =extensions=
 attribute is filled in with extensions objects. Any later call to this method
 makes no sense even though the call won't fail. This is intentional as in the
-future disabling and extension might also deregister it.
+future disabling an extension might also deregister it.
 
 =cut
 
@@ -1080,21 +1086,24 @@ sub prepareDisabledExtensions {
     my $confKey = "DisabledExtensions";
 
     # @disabled would contain a list of pairs of extension name and a message to
-    # be appended to "Disabled by " prefix.
+    # be appended to "Disable reason: " prefix.
     my @disabled = $this->_disabled2List( $env->{$envVar} // '',
-        "Environment variable $envVar" );
+        "listed in environment variable $envVar" );
     my %disabled;
 
     push @disabled,
-      $this->_disabled2List( $this->app->cfg->get($confKey) // '',
-        "Configuration key $confKey" );
+      $this->_disabled2List(
+        $this->app->cfg->get($confKey) // '',
+        "listed in configuration key $confKey"
+      );
 
-    # Never enable extension Empty. It's purpose is to serve as a template only.
-    push @disabled, [ 'Empty', "the core" ];
+    push @disabled, map { [ $_, $extDisabled{$_} ] } keys %extDisabled;
+
+    #say STDERR $_->[0], ": ", $_->[1] foreach @disabled;
 
     %disabled =
       map {
-        $this->normalizeExtName( $_->[0] ) => "Disabled by "
+        $this->normalizeExtName( $_->[0] ) => "Disable reason: "
           . lcfirst( $_->[1] ) . "."
       } @disabled;
 
@@ -1233,7 +1242,9 @@ sub prepareRegisteredMethods {
 
     my %methodMap;
 
+  SCANEXT:
     foreach my $ext ( @{ $this->orderedList } ) {
+        next unless $this->extEnabled($ext);
         foreach my $target ( keys %{ $normPlugs{$ext} } ) {
             foreach my $method ( keys %{ $normPlugs{$ext}{$target} } ) {
                 foreach
@@ -1602,14 +1613,14 @@ sub registerPluggable {
 
     $pluggables{$target}{$method} = $code;
 
-    Foswiki::Class::_inject_code(
+    inject_code(
         $target, $method,
         sub {
             my $obj = shift;
 
             # Avoid auto-vivification of the extensions object.
-            if ( $obj->_has__appObj && $obj->__appObj->has_extMgr ) {
-                return $obj->__appObj->extMgr->_callPluggable(
+            if ( $obj->has_app && $obj->app->has_extMgr ) {
+                return $obj->app->extMgr->_callPluggable(
                     $target,
                     $method,
                     args   => \@_,
