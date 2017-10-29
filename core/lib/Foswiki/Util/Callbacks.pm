@@ -257,8 +257,6 @@ before DEMOLISH => sub {
             {
                 $this->deregisterCallback($cbName);
             }
-
-            delete $appHeap->{_aux_registered_callbacks};
         }
 
     }
