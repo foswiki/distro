@@ -618,6 +618,13 @@ sub createNewFoswikiApp {
         $app->cfg->dataMode;
         my %cfgData = %{ $app->cfg->clone };
         delete $cfgData{app};
+
+        # specFiles attribute backreferences cfg object via weak references.
+        # It means that as soon as we leave current scope all those will be
+        # invalidated and undef'ed. Next time we try to reclone cfg specFiles
+        # would be recreated with cfg constructor parameter set to undef causing
+        # a fatal exception. So, we better let it be recreated from scratch...
+        delete $cfgData{specFiles};
         $params{cfgParams} = \%cfgData;
     }
 
