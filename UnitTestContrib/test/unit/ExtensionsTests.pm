@@ -97,7 +97,7 @@ extends qw(Foswiki::Extension);
 use version 0.77; our \$VERSION = version->declare(0.0.1);
 our \$API_VERSION = version->declare("2.99.0");
 
-Foswiki::ExtManager::registerExtModule('$extName');
+Foswiki::ExtManager::_registerExtModule('$extName');
 
 $code
 
@@ -175,7 +175,7 @@ sub test_manual_disable {
     $this->assert( !$this->app->extMgr->extEnabled( $ext[1] ),
         "Second extensions is expected to be disabled but it is not" );
     $this->assert_str_equals(
-        "Disabled by FOSWIKI_DISABLED_EXTENSIONS environment variable.",
+"Disable reason: listed in environment variable FOSWIKI_DISABLED_EXTENSIONS.",
         $this->app->extMgr->disabledExtensions->{ $ext[1] }
     );
 }
@@ -202,7 +202,7 @@ sub test_depend_on_manual_disable {
     $this->assert( !$this->app->extMgr->extEnabled( $ext[1] ),
         "Second extension is expected to be disabled but it is not" );
     $this->assert_str_equals(
-        "Disabled by FOSWIKI_DISABLED_EXTENSIONS environment variable.",
+"Disable reason: listed in environment variable FOSWIKI_DISABLED_EXTENSIONS.",
         $this->app->extMgr->disabledExtensions->{ $ext[1] }
     );
     $this->assert( !$this->app->extMgr->extEnabled( $ext[2] ),
