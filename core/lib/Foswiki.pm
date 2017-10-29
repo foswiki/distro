@@ -358,7 +358,9 @@ sub load_package {
     }
     catch {
         #say STDERR "! Load failed for  $fullname: $_";
-        my $e = Foswiki::Exception->transmute( $_, 0 );
+        my $e =
+          Foswiki::Exception::ModLoad->transmute( $_, 1,
+            moduleName => $fullname, );
         $e->rethrow;
     };
 }
