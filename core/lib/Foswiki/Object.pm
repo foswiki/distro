@@ -244,9 +244,11 @@ sub _cloneData {
         # Check if ref is being cloned now at some upper stack frames and avoid
         # deep recursion.
         if ( defined $heap->{cloning_ref}{$refAddr} ) {
-            Foswiki::Exception::Fatal->throw( text =>
-"Circular dependecy detected on a object being cloned for attribute $attr"
-            );
+            $cloned = $val;    # Circular refs will be resolved by _fixRefs()
+
+     #            Foswiki::Exception::Fatal->throw( text =>
+     #"Circular dependecy detected on a object being cloned for attribute $attr"
+     #            );
         }
         elsif ( defined $heap->{cloned_ref}{$refAddr} ) {
 
@@ -256,7 +258,7 @@ sub _cloneData {
         }
         else {
             # Record the reference being cloned.
-            $heap->{cloning_ref}{$refAddr} = $attr;
+            local $heap->{cloning_ref}{$refAddr} = $attr;
             if ( my $class = blessed($val) ) {
                 if ( $val->isa(__PACKAGE__) ) {
 
@@ -264,7 +266,7 @@ sub _cloneData {
                     # clone()
                     try {
                         $val->__clone_heap($heap);
-                        $val->__clone_heap->{parent} = $this;
+                        local $val->__clone_heap->{parent} = $this;
                         $cloned = $val->clone;
                     }
                     catch {
@@ -304,8 +306,7 @@ sub _cloneData {
                         # ref.
                         $cloned = $val;
                     }
-                    bless $cloned, ref($val)
-                      if $cloned != $val;
+                    bless $cloned, ref($val) if $cloned != $val;
                 }
             }
             else {
@@ -337,7 +338,8 @@ sub _cloneData {
 
             # Record the cloned reference.
             $heap->{cloned_ref}{$refAddr} = $cloned;
-            delete $heap->{cloning_ref}{$refAddr};
+
+            #delete $heap->{cloning_ref}{$refAddr};
         }
 
         weaken($cloned) if isweak($val);
@@ -437,13 +439,79 @@ ruled by the following statements:
 
 =cut
 
-# XXX Experimental.
+sub _doFixRef {
+    my $this   = shift;
+    my $heap   = shift;
+    my $val    = $_[0];
+    my $isWeak = isweak( $_[0] );
+
+    return unless ref($val);
+
+#say STDERR indentMsg("-> Fixing ", ( $isWeak ? " weak" : "" ), "value: ", $val);
+
+    my $refaddr = refaddr($val);
+    if ( defined $heap->{cloned_ref}{$refaddr} ) {
+        $_[0] = $heap->{cloned_ref}{$refaddr};
+
+        #say STDERR indentMsg( $val, " -> ", $_[0] );
+    }
+
+    # Skip weak references – they're always pointing back to parent objects.
+    $this->_fixRefs( $heap, $_[0] ) unless $isWeak;
+}
+
+# Fix all references in the structure to point to cloned copies.
+sub _fixRefs {
+    my $this = shift;
+    my ( $heap, $obj ) = @_;
+
+    #say STDERR indentMsg( "+ FIXING REFS FOR ", $obj // '*undef*' );
+    my $indHold = indentInc;    # Increase messaging indent
+                                #say STDERR indentMsg("NEW INC LEVEL");
+
+    my $reftype = reftype($obj);
+    return unless $reftype && $reftype =~ /^(HASH|ARRAY)$/;
+
+    my $objAddr = refaddr($obj);
+
+    # Don't fix what's being fixed at upper stack levels.
+    return if $heap->{fixing_ref}{$objAddr};
+
+    local $heap->{fixing_ref}{$objAddr} = $obj;
+
+    if ( $reftype eq 'HASH' ) {
+        foreach my $key ( keys %$obj ) {
+            my $isWeak = isweak( $obj->{$key} );
+
+            #say STDERR indentMsg( "Fixing ", ( $isWeak ? "weak " : "" ),
+            #    "key: ", $key, " of ", ref($obj) );
+            $this->_doFixRef( $heap, $obj->{$key} );
+            if ( $isWeak && !isweak( $obj->{$key} ) ) {
+
+                #say STDERR indentMsg("Weakness is lost");
+                weaken( $obj->{$key} );
+
+                #say STDERR indentMsg("Weakness is restored")
+                #  if $isWeak && isweak( $obj->{$key} );
+            }
+        }
+    }
+    else {
+        foreach my $val (@$obj) {
+            $this->_doFixRef( $heap, $val );
+        }
+    }
+}
+
 # clone works on low-level bypassing Moo's accessor methods.
 sub clone {
     my $this = shift;
 
     $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
     my @profile;
+    my $heap = $this->__clone_heap;
+
+    local $heap->{cloning_ref}{ refaddr($this) } = $this;
 
     #my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
     foreach my $attr ( keys %$this ) {
@@ -474,6 +542,10 @@ sub clone {
     # SMELL Should it be better to use same approach as in _cloneData - just
     # bless a profile hash?
     my $newObj = ref($this)->new(@profile);
+
+    $heap->{cloned_ref}{ refaddr($this) } = $newObj;
+
+    $this->_fixRefs( $heap, $newObj ) unless $heap->{parent};
 
     $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
 
