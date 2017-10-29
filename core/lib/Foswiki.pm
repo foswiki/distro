@@ -25,7 +25,8 @@ use Exporter qw(import);
 our @EXPORT_OK = qw(
   %regex urlEncode urlDecode make_params load_package load_class
   expandStandardEscapes findCaller findCallerByPrefix isTrue
-  fetchGlobal getNS
+  indentInc indentMsg
+  fetchGlobal getNS inject_code
   $TRUE $FALSE
 );
 
@@ -981,6 +982,23 @@ sub guessHomeDir {
     my @d = File::Spec->splitdir( File::Spec->canonpath($d) );
     pop @d;
     return File::Spec->catpath( $v, File::Spec->catdir(@d) );
+}
+
+# --- Indentet output
+
+sub indentObj {
+    state $indentObj;
+    require Foswiki::Util::IndentMsg;
+    $indentObj = Foswiki::Util::IndentMsg->new unless defined $indentObj;
+    return $indentObj;
+}
+
+sub indentInc {
+    return indentObj->incLevel;
+}
+
+sub indentMsg {
+    return indentObj->indent(@_);
 }
 
 1;
