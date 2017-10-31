@@ -201,10 +201,10 @@ sub INCLUDE {
                             $pod .=
                               "\n$secDef =$visibility $pkgType= $pkgName\n";
                             foreach my $baseType (qw(extends with classAttrs)) {
-                                my $baseText = $baseType2Text{$baseType};
-                                if ( my $classList =
-                                    $modInfo{$pkgName}{$baseType} )
-                                {
+                                my $baseText  = $baseType2Text{$baseType};
+                                my $classList = $modInfo{$pkgName}{$baseType};
+
+                                if ( $classList && @$classList ) {
                                     $pod .= "|  *$baseText*|"
                                       . join(
                                         ", ",
