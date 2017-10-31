@@ -940,7 +940,7 @@ sub fetchGlobal {
     };
 
     Foswiki::Exception::Fatal->throw(
-        text => "$sigil$symbol not declared in " . $ns )
+        text => "$sigil$symbol is not declared in " . $ns )
       unless defined $ns->{$symbol}
       && *{ $ns->{$symbol} }{ $sigilKey->{$sigil} };
 
