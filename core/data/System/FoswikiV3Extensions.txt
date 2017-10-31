@@ -1,0 +1,151 @@
+%META:TOPICINFO{author="ProjectContributor" date="1509416412" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FoswikiV3Essentials"}%
+---+ Extensions Framework
+%TOC%
+
+Extensions is the new model of extending/altering the default Foswiki
+functionality. There were two main reasons for extensions to emerge:
+
+   1 The old plugins were very limited in functionality and pretty much
+   antiquated in design.
+   1 The focus on object oriented techniques brought in new possibilities and
+   new challenges.
+
+The top-level goal for the extensions is to allow them to override the deepest
+layers of Foswiki functionality allowing a third-party to have sky-high limits
+in what they can develop. Consider implementing a full-fledged cluster solution
+without any participation from the core developers! It is possible now.
+
+---++ Basics
+
+The first thing to remember about is that extensions are totally and completely
+OO-based. It means they always operate with terms like _classes_, _methods_, and
+_instances_. Any extension itself is a class being instantiated by
+%PERLDOC{"Foswiki::ExtManager" text="Foswiki extension manager"}% into a object
+following "one extension - one object per application" paradigm. More than that,
+extensions are directly bound to the application object in order to maintain
+proper encapsulation.
+
+Foswiki implements a few execution interception methods to allow extensions to
+gain control and do their job. Those methods could be listed as:
+
+   $ Cooperative : Callbacks or tags. Extension is getting in charge when
+   requested by some other code. We don't say "by some _core_ code" because a
+   callback could
+   be initiated by other extension.
+   $ Semi-cooperative : Installation of handlers on methods of other classes.
+   $ Overriding : Subclassing
+
+As a matter of fact, callbacks are not part of the extensions framework and
+as such are introduced in CallbacksFramework. But special support is provided
+by the extensions manager providing convenience shortcuts for extension
+developers.
+
+Extension could be in either enabled or disabled status. An enabled extension
+has an active object of extension's class. A disabled extension has a textual
+reason of why it actually was disabled.
+
+---++ Method Handlers
+
+The most straightforward approach to control or even modify Foswiki behaviour
+is to install hooks on method calls. Basically, this is pretty much similar to
+[[CPAN:Moo][Moo's]] class method modifiers except that it works without actually
+inheriting from a class. Could be handy when the goal could be achieved by
+taking care of one or a couple of method calls. Say, an extension provides
+additional level of access control by limiting what topics are returned by
+=%PERLDOC{"Foswiki::Meta" method="eachTopic"}%=. For this purpose it could
+install a handler which would be executed right after the above method but
+before it's result is returned to the calling code and simply filter out
+unwanted topics from the returned list.
+
+Methods handlers are executed as extension object methods; i.e. their first
+argument is actually =$this= (or =$self= as some prefer to call it). More 
+technical details on this and other aspecs are in Related topics.
+
+---++ Subclassing
+
+This is the most powerful technique provided by the extensions framework. But
+same time it is very easy to comprehend. The point is to allow an extension to
+override almost any class in Foswiki's ecosystem. Certain conditions must be
+fulfilled for this to work but they're not very restrictive. Generally saying,
+subclassing could be used on even wider basis then method handlers.
+
+Subclassing usually makes sense when one of the following is taking place:
+
+   * More than just a couple of methods of certain class need to be modified
+   * Installation of additional attributes into the class is needed
+
+It is also recommended that subclassing code won't require accessing extension's
+internals like attributes or methods on a regular basis because accessing them
+would require manual fetching of extension object by means of extension manager
+API. This could not always be possible for a number of reasons.
+
+Subclassing is also intended to replace "implementation class" mechanism widely
+used by 2.x Foswiki branch. For example, new storages could be provided by
+subclassing %PERLDOC{"Foswiki::Store"}% and declaring subclasses to the
+manager. The core could simple create a new =Foswiki::Store= object and
+be worried about nothing else. The rest would be done by the extension manager.
+Now, all a system administrator would need to do to switch to another storage
+is disable one extensions and enable another one!
+
+More than that, two nicely behaving storages could even co-exist by using
+different backends for storing topics and one only for reading. This would make
+the admin's life even easier as if at some point he decides to switch to another
+backend the no conversion would be required! This is actually could be a
+possible scenario for implementing on-the-fly backup of Foswiki data where
+one layer stores topics to an external storage.
+
+Apparently, the above scenario is a typical example of utilizing of chained
+inheritance where one storage subclass would be actually inheriting from
+another subclass which is in turn inheriting from actual =Foswiki::Store=. A
+developer don't need to take any special care to have this working as everything
+is done by the manager which is taking into account extensions ordering.
+
+%X% Despite being noted in some of the Related topics it's still worth
+mentioning here that subclasses are actually roles.
+
+More technical details are in Related topics.
+
+---++ Special Cases
+
+---+++ Mixing Of Techniques
+
+Two extensions could mix up subclassing and method handlers on the same method
+of a class. In the mentioned above topic backup scenario one extension might
+need to install a single method handler to intercept topic saving. While actual
+storage extension would modify the very same method by inheriting from the base
+class. Both methods are perfectly acceptable and must cooperate with each
+other without special consideration on extension developers side.
+
+---++ Extensions Ordering
+
+There are few ways to define the order in which extensions are enumerated. The
+importance of the order could be demonstrated on the above examples where the
+storage extension could decide that it is the final one and no actions must be
+taken when it's, day, done saving a topic. This could break the backup extension
+if it's to be given control after the storage one. Actually, "break" is not the
+word here because it won't be given a chance whatsoever. The solution? Place
+it before the storage extension, for sure!
+
+In the case above neither extension knows about the other one as neither could
+predict would storage or backup solution the admin would choose. For this reason
+it's admin's job to define the order for these two. But in some cases somebody
+would develop an extension which would be in one or other way bound to another
+extension. In this case the former one could declare its relation to the latter
+one and the manager will take it into account when building up the list.
+
+There're two kinds of relations between extensions: ordering and dependency.
+The difference as the same as between "to want" and "to require". Where ordering
+simply defines before/after relations between two; dependency tells the manager
+that an extensions must be disabled if the one it depends upon is disabled too.
+
+---++ Related
+
+   * %PERLDOC{Foswiki::ExtManager}% : docs mostly focus on implementation
+   nuances.
+   * %PERLDOC{Foswiki::Extension::Empty}% : focus is on using the framework
+   * =%PERLDOC{Foswiki::Extension}%= : extension base class
+   * =%PERLDOC{Foswiki::Class}%= : provider of declarative functionality
+   * =ExtensionsTests= : test suite with implementation examples
+   * DBConfigExtension : a working example of how distributed and clusterized
+   Foswiki could be implemented.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1508803797" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1509416412" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Foswiki v3 Essentials
 %TOC%
@@ -52,6 +52,8 @@ There are some under the hood changes in behaviour of some components like
 
 ---++ New Standards And Major Changes
 
+   $ [[FoswikiV3Extensions]] : Extensions are here to replace outdated plugins
+   model
    $ [[SpecFileFormat]] : Config Specs v2
       : <em>%X% Because configure doesn't support new specs yet it only reads
       the legacy ones. It also save with its own Save wizard and does so into
