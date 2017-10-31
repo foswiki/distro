@@ -773,6 +773,87 @@ EXT3
     $this->assert_str_equals( $rc->{cbReturn}, 'This is from ext2' );
 }
 
+sub test_override {
+    my $this = shift;
+
+    # Test plugs for methods without pluggable modifier.
+    $this->_disableAllCurrentExtensions;
+
+    my $pClass = "Foswiki::Extension::Sample::PlugOverrideTest";
+
+    my $rcStr = "This is plug for public";
+
+    my @ext = $this->_genExtModules(
+        1,
+        <<EXT,
+plugAround "${pClass}::publicMethod" => sub {
+    my \$this = shift;
+    my (\$params) = \@_;
+    
+    \$params->{rc} = "$rcStr";
+};
+EXT
+    );
+
+    $this->reCreateFoswikiApp;
+
+    my $obj = $this->create($pClass);
+
+    $this->assert_equals( $obj->publicMethod, $rcStr );
+}
+
+sub test_badOverrides {
+    my $this = shift;
+
+    # Test for disabling extensions where plugs failed for any reason.
+    $this->_disableAllCurrentExtensions;
+
+    my $goodClass = "Foswiki::Extension::Sample::PlugOverrideTest";
+    my $badClass  = "Foswiki::Extension::Sample::BadPlugOverrideTest";
+
+    my $rcStr = "we must not get this";
+
+    my @ext = $this->_genExtModules(
+        2,
+
+        # This extensions must be disabled because plugging into invalid method.
+        <<EXT1,
+plugAround "${goodClass}::nonExistingMethod" => sub {
+    my \$this = shift;
+    my (\$params) = \@_;
+    
+    \$params->{rc} = "$rcStr";
+};
+EXT1
+
+        # This one must be disabled because the module contains a syntax error.
+        <<EXT2,
+plugAround "${badClass}::badMethod" => sub {
+    my \$this = shift;
+    my (\$params) = \@_;
+    
+    \$params->{rc} = "$rcStr";
+};
+EXT2
+    );
+
+    $this->reCreateFoswikiApp;
+
+    my $app = $this->app;
+
+    $this->assert(
+        !$app->extMgr->extEnabled( $ext[0] ),
+"Extension must have been disabled because of plugging into non-existing method"
+    );
+    say STDERR $app->extMgr->disabledExtensions->{ $ext[0] };
+    $this->assert(
+        !$app->extMgr->extEnabled( $ext[1] ),
+"Extension must have been disabled because of plugging into non-compilable module"
+    );
+    say STDERR $app->extMgr->disabledExtensions->{ $ext[0] };
+    say STDERR $app->extMgr->disabledExtensions->{ $ext[1] };
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

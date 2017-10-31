@@ -253,7 +253,7 @@ plaything. But more details on this subject can be found in
 use File::Spec     ();
 use IO::Dir        ();
 use Devel::Symdump ();
-use Scalar::Util qw(blessed weaken);
+use Scalar::Util qw(blessed weaken reftype);
 
 use Foswiki qw<inject_code fetchGlobal>;
 use Assert;
@@ -720,8 +720,9 @@ sub _loadFromSubDir {
                 extension => $extModule,
                 reason    => Foswiki::Exception::errorStr($_),
               );
-            say STDERR "Extension $extModule problem: \n",
-              Foswiki::Exception::errorStr( $this->_errors->[-1] );
+
+            #say STDERR "Extension $extModule problem: \n",
+            #  Foswiki::Exception::errorStr( $this->_errors->[-1] );
         };
     }
 }
@@ -1065,7 +1066,7 @@ sub _disabled2List {
     my ( $disabled, $msg ) = @_;
 
     my @list;
-    if ( my $reftype = ref($disabled) ) {
+    if ( my $reftype = reftype($disabled) ) {
         Foswiki::Exception::Fatal->throw( text => $msg
               . " is a ref to "
               . $reftype
@@ -1391,8 +1392,15 @@ sub _callPluggable {
             }
         }
 
-        if ($wantArray) {
-            return @{ $callParams->{rc} };
+        if ( $wantArray && ref( $callParams->{rc} ) ) {
+            my $refType = reftype( $callParams->{rc} );
+            if ( $refType eq 'ARRAY' ) {
+                return @{ $callParams->{rc} };
+            }
+            elsif ( $refType eq 'HASH' ) {
+                return %{ $callParams->{rc} };
+            }
+            return $callParams->{rc};
         }
         elsif ( defined $wantArray ) {
             return $callParams->{rc};
@@ -1653,17 +1661,75 @@ sub registerPlugMethod {
         "Unknown plug method type $where"
     );
 
+    # No point of processing other plugs if the extension is already disabled.
+    return if $extDisabled{$extModule};
+
     $pluggableMethod =~ /^(.+)::([^:]+)$/;
     my ( $target, $method ) = ( $1, $2 );
 
-    $plugMethods{$extModule}{$target}{$method}{$where} = $code;
+    if ( $method =~ /^_/ ) {
+
+        # TODO Generate a warning for private methods.
+    }
+
+    my $modLoaded = 0;
+    my $disableReason;
+    try {
+        Foswiki::load_class($target);
+        $modLoaded = 1;
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa("Foswiki::Exception::ModLoad") ) {
+            $disableReason =
+              "cannot register a plug for $pluggableMethod: " . $e->stringify;
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    if ($modLoaded) {
+        if ( $target->isa("Foswiki::Object") ) {
+            unless ( defined $pluggables{$target}{$method} ) {
+                my $methodCode;
+
+                try {
+                    $methodCode = fetchGlobal("&${pluggableMethod}");
+                }
+                catch {
+                    my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+                    $disableReason =
+                        "Register a plug for "
+                      . $pluggableMethod
+                      . " failed: "
+                      . $e->stringify;
+                };
+
+                unless ($disableReason) {
+
+                    # Convert non-pluggable method into pluggable.
+                    registerPluggable( $target, $method, $methodCode );
+                }
+            }
+            $plugMethods{$extModule}{$target}{$method}{$where} = $code
+              unless $disableReason;
+        }
+        else {
+            $disableReason =
+              "attempt to register plug for a non-Foswiki::Object class";
+        }
+    }
+
+    $extDisabled{$extModule} = $disableReason if $disableReason;
 }
 
 =begin TML
 
 ---++ RELATED
 
-%PERLDOC{Foswiki::Extension::Empty}% : a source of information on practical details of extension development
+%PERLDOC{Foswiki::Extension::Empty}% : a source of information on practical
+details of extension development
 
 %PERLDOC{Foswiki::Class}%
 
