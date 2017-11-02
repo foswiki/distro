@@ -233,7 +233,7 @@ sub create {
 
 sub _cloneData {
     my $this = shift;
-    my ( $val, $attr ) = @_;
+    my ( $val, $attr, %params ) = @_;
 
     my $heap = $this->__clone_heap;
 
@@ -266,7 +266,8 @@ sub _cloneData {
                     # clone()
                     try {
                         $val->__clone_heap($heap);
-                        local $val->__clone_heap->{parent} = $this;
+                        local $val->__clone_heap->{parent}   = $this;
+                        local $val->__clone_heap->{attrPath} = $attr;
                         $cloned = $val->clone;
                     }
                     catch {
@@ -289,34 +290,45 @@ sub _cloneData {
                     # $val's class.
                     # SMELL Pretty much unreliable for complex classes.
                     my $reftype = reftype($val);
+
+                    # To avoid confusion, next _cloneData call must not record
+                    # on the heap inforamtion about the cloned data because it
+                    # is cloning temporary object. The main record is the one
+                    # we're processing now.
                     if ( $reftype eq 'HASH' ) {
                         $cloned =
-                          $this->_cloneData( {%$val}, "$attr.blessed($class)" );
+                          $this->_cloneData( {%$val}, "$attr.blessed($class)",
+                            noRecord => 1, );
                     }
                     elsif ( $reftype eq 'ARRAY' ) {
                         $cloned =
-                          $this->_cloneData( [@$val], "$attr.blessed($class)" );
+                          $this->_cloneData( [@$val], "$attr.blessed($class)",
+                            noRecord => 1, );
                     }
                     elsif ( $reftype eq 'SCALAR' ) {
                         $cloned =
-                          $this->_cloneData( \$$val, "$attr.blessed($class)" );
+                          $this->_cloneData( \$$val, "$attr.blessed($class)",
+                            noRecord => 1, );
                     }
                     else {
                         # Cannot clone unknown datatypes, just copy the original
                         # ref.
                         $cloned = $val;
                     }
-                    bless $cloned, ref($val) if $cloned != $val;
+                    bless $cloned, ref($val) if $cloned ne $val;
                 }
             }
             else {
                 if ( $dataType eq 'ARRAY' ) {
                     $cloned = [];
-                    my $idx = 0;
-                    foreach my $item (@$val) {
+                    for ( my $i = 0 ; $i < @$val ; $i++ ) {
                         push @$cloned,
-                          $this->_cloneData( $item, "${attr}.array[$idx]" );
-                        $idx++;
+                          $this->_cloneData( $val->[$i], "${attr}.array[$i]" );
+                        if ( isweak( $val->[$i] ) ) {
+
+                            #say STDERR "Weakening ${attr}.array[$i]";
+                            weaken( $cloned->[$i] );
+                        }
                     }
                 }
                 elsif ( $dataType eq 'HASH' ) {
@@ -325,6 +337,11 @@ sub _cloneData {
                         $cloned->{$key} =
                           $this->_cloneData( $val->{$key},
                             "${attr}.hash{$key}" );
+                        if ( isweak( $val->{$key} ) ) {
+
+                            #say STDERR "Weakening ${attr}.hash{$key}";
+                            weaken( $cloned->{$key} );
+                        }
                     }
                 }
                 elsif ( $dataType eq 'SCALAR' ) {
@@ -336,13 +353,44 @@ sub _cloneData {
                 }
             }
 
-            # Record the cloned reference.
-            $heap->{cloned_ref}{$refAddr} = $cloned;
+            unless ( $params{noRecord} ) {
+
+                # Record the cloned reference.
+                my $cloneAddr = refaddr($cloned);
+
+                #if ( defined $heap->{seenAddr}{$cloneAddr} ) {
+                #    my $seenAddr = $heap->{seenAddr}{$cloneAddr};
+                #    say STDERR "!!! ALARM !!! ", $attr, " Cloned addr ",
+                #      $cloneAddr, " was seen with ",
+                #      $heap->{ref2attr}{$seenAddr},
+                #      " ", $seenAddr;
+                #}
+                #if ( $heap->{cloned_ref}{$cloneAddr} ) {
+                #    say STDERR "!!! ALARM !!! ", $attr, " cloned addr ",
+                #      $cloneAddr, " is recorded as a source addr of ",
+                #      $heap->{ref2attr}{$cloneAddr};
+                #}
+                #say STDERR ">>> cloned_ref of ", $attr, ": ", $val, " (",
+                #  $refAddr, ") into ", $cloned, " (", refaddr($cloned), ")"
+                #  if ref($cloned) eq 'File::stat';
+                #say STDERR
+                #  "!!! ALARM !!! Overwriting occupied cloned_ref slot at ",
+                #  $refAddr, " for ", $attr
+                #  if defined $heap->{cloned_ref}{$refAddr};
+                #say STDERR
+                #  "!!! ALARM !!! Overwriting occupied ref2attr slot at ",
+                #  $refAddr, " for ", $attr
+                #  if defined $heap->{ref2attr}{$refAddr};
+                #say STDERR "!!! ALARM !!! Cloned type differs from source: ",
+                #  ref($val), " => ", ref($cloned)
+                #  if ref($val) ne ref($cloned);
+                $heap->{ref2attr}{$refAddr}   = $attr;
+                $heap->{seenAddr}{$cloneAddr} = $refAddr;
+                $heap->{cloned_ref}{$refAddr} = $cloned;
+            }
 
             #delete $heap->{cloning_ref}{$refAddr};
         }
-
-        weaken($cloned) if isweak($val);
     }
     else {
         $cloned = $val;
@@ -353,7 +401,7 @@ sub _cloneData {
 
 =begin TML
 
----++ ClassMethod classAttributes -> \@attributes
+---+++ ClassMethod classAttributes -> \@attributes
 
 A convenience shortcat to =Foswiki::Class::getClassAttributes()=.
 
@@ -381,7 +429,7 @@ sub classAttributes {
 
 =begin TML
 
----++ ObjectMethod clone() -> $clonedObject
+---+++ ObjectMethod clone() -> $clonedObject
 
 This method tries to do it's best to create an exact copy of existing object.
 For that purpose this method considers a object as a data structure and
@@ -435,39 +483,113 @@ ruled by the following statements:
       then
       <verbatim>$cloned->attr1 &#61;&#61; $cloned->attr2->subattr->[3]</verbatim>
       too.
-   1. Circular dependecies are raising =Foswiki::Exception::Fatal=.
+      
+%X% *IMPORTANT NOTE:* <em>Clonging is a very complicated and thus slow process.
+Especially on big data structures like =Foswiki::App= instances or even smaller
+=Foswiki::Config=. It is better be avoided for real-life application. Its main
+purpose is to serve testing framework where speed is not that critical but the
+ability to duplicate an object in its current state and play with it may prove
+to be very useful.
+
+It is also to be kept in mind that despite all the efforts to maintain
+consistent state of the cloned object there is no warranty that the objective
+would be achieved. Just consider all possible combinations of weak references,
+backreferences, tied objects (which are not been checked for and treated as
+simple data structures), file handles, etc.
+
+So, if there is a need to clone something in run-time code, then:
+
+   1 Think of other ways to get the job done first.
+   1 If cloning is still looking like a better solution then try to make
+   sure that the cloned object is average or small in size and doesn't containt
+   strange/overcomplicated sub-structures.
+   1 But if there is something complicated then consider use of _clone_attr()
+   method to handle the data manually as you might be the only one knowing
+   how exactly is should be cloned.
+</em>
 
 =cut
 
+sub __dumpCloneHeap {
+    my $this = shift;
+
+    my $heap = $this->__clone_heap;
+    my %toAddrSeen;
+    foreach my $fromAddr ( keys %{ $heap->{cloned_ref} } ) {
+        my $attr   = $heap->{ref2attr}{$fromAddr} // "unknown attribute";
+        my $toRef  = $heap->{cloned_ref}{$fromAddr};
+        my $toAddr = refaddr($toRef);
+        say STDERR "   : ", $attr, "(", $fromAddr, ") => ",
+          $toRef, " ", $toAddr;
+        if ( $toAddrSeen{$toAddr} ) {
+            say STDERR "      -> to addr seen with ",
+              join( ", ", @{ $toAddrSeen{$toAddr} } );
+        }
+        push @{ $toAddrSeen{$toAddr} }, $fromAddr;
+    }
+}
+
 sub _doFixRef {
-    my $this   = shift;
-    my $heap   = shift;
-    my $val    = $_[0];
-    my $isWeak = isweak( $_[0] );
+    my $this = shift;
+    my $heap = shift;
+    my $val  = $_[0];
+    my $attr = $_[1];
 
     return unless ref($val);
 
-#say STDERR indentMsg("-> Fixing ", ( $isWeak ? " weak" : "" ), "value: ", $val);
+    my $valAddr = refaddr($val);
 
-    my $refaddr = refaddr($val);
-    if ( defined $heap->{cloned_ref}{$refaddr} ) {
-        $_[0] = $heap->{cloned_ref}{$refaddr};
+    my $cloned     = $heap->{cloned_ref}{$valAddr};
+    my $clonedAddr = refaddr($cloned);
+    if ( defined $clonedAddr && $clonedAddr != $valAddr ) {
+        $_[0] = $cloned;
 
-        #say STDERR indentMsg( $val, " -> ", $_[0] );
+        #say STDERR indentMsg(
+        #    $attr, " has been fixed: ",
+        #    $val, " (", $valAddr, ") -> ", $heap->{cloned_ref}{$valAddr},
+        #    " (", $clonedAddr, ")"
+        #);
+
+        #if ( ref($val) ne ref($cloned) ) {
+        #    say STDERR "!!! Fix to a different data type: from ", $val,
+        #      " into ", $cloned;
+        #    say STDERR "!!! From attr: ",   $heap->{ref2attr}{$valAddr};
+        #    say STDERR "!!! Object attr: ", $attr;
+        #    use Data::Dumper;
+        #    say STDERR Dumper($val);
+        #    my %toAddrSeen;
+        #    foreach my $fromAddr ( keys %{ $heap->{cloned_ref} } ) {
+        #        my $attr = $heap->{ref2attr}{$fromAddr} // "unknown attribute";
+        #        my $toRef = $heap->{cloned_ref}{$fromAddr};
+        #        my $toAddr = refaddr($toRef);
+        #        say STDERR "   : ", $attr, "(", $fromAddr, ") => ",
+        #          $toRef, " ", $toAddr;
+        #        if ( $toAddrSeen{$toAddr} ) {
+        #            say STDERR "      -> to addr seen with ",
+        #              join( ", ", @{ $toAddrSeen{$toAddr} } );
+        #        }
+        #        push @{ $toAddrSeen{$toAddr} }, $fromAddr;
+        #    }
+        #}
     }
 
-    # Skip weak references – they're always pointing back to parent objects.
-    $this->_fixRefs( $heap, $_[0] ) unless $isWeak;
+    $cloned //= $_[0];
+    unless ( $heap->{unchanged_ref}{ refaddr($cloned) } ) {
+        $this->_fixRefs( $heap, $cloned, $attr );
+    }
+    else {
+        #say STDERR indentMsg("Skipping unchanged $attr");
+    }
 }
 
 # Fix all references in the structure to point to cloned copies.
 sub _fixRefs {
     my $this = shift;
-    my ( $heap, $obj ) = @_;
+    my ( $heap, $obj, $attr ) = @_;
 
-    #say STDERR indentMsg( "+ FIXING REFS FOR ", $obj // '*undef*' );
-    my $indHold = indentInc;    # Increase messaging indent
-                                #say STDERR indentMsg("NEW INC LEVEL");
+    #my $indHold = indentInc;    # Increase messaging indent
+    #say STDERR indentMsg( "+ FIXING REFS FOR ", $attr, " (", $obj // '*undef*',
+    #    ")" );
 
     my $reftype = reftype($obj);
     return unless $reftype && $reftype =~ /^(HASH|ARRAY)$/;
@@ -485,10 +607,10 @@ sub _fixRefs {
 
             #say STDERR indentMsg( "Fixing ", ( $isWeak ? "weak " : "" ),
             #    "key: ", $key, " of ", ref($obj) );
-            $this->_doFixRef( $heap, $obj->{$key} );
+            $this->_doFixRef( $heap, $obj->{$key}, $attr . ".$key" );
             if ( $isWeak && !isweak( $obj->{$key} ) ) {
 
-                #say STDERR indentMsg("Weakness is lost");
+            #say STDERR indentMsg("Weakness is lost for $attr.$key, restoring");
                 weaken( $obj->{$key} );
 
                 #say STDERR indentMsg("Weakness is restored")
@@ -497,8 +619,8 @@ sub _fixRefs {
         }
     }
     else {
-        foreach my $val (@$obj) {
-            $this->_doFixRef( $heap, $val );
+        for ( my $i = 0 ; $i < @$obj ; $i++ ) {
+            $this->_doFixRef( $heap, $obj->[$i], $attr . "[$i]" );
         }
     }
 }
@@ -508,10 +630,15 @@ sub clone {
     my $this = shift;
 
     $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
-    my @profile;
-    my $heap = $this->__clone_heap;
+    my $cloned = {};
+    my $heap   = $this->__clone_heap;
 
-    local $heap->{cloning_ref}{ refaddr($this) } = $this;
+    my $thisAddr = refaddr($this);
+
+    my $attrPath =
+      ( defined $heap->{attrPath} ? $heap->{attrPath} : ref($this) );
+
+    local $heap->{cloning_ref}{$thisAddr} = $this;
 
     #my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
     foreach my $attr ( keys %$this ) {
@@ -531,21 +658,52 @@ sub clone {
         my $attrVal;
         if ( my $method = $this->can($clone_method) ) {
             $attrVal = $method->($this);
+
+            #$heap->{manually_cloned}{ refaddr($attrVal) } = 1;
         }
         else {
-            $attrVal = $this->_cloneData( $this->{$attr}, $attr );
+            $attrVal = $this->_cloneData( $this->{$attr}, "$attrPath.$attr" );
         }
 
-        push @profile, $destAttr, $attrVal;
+        # Attribute value has been unchanged, remember this for later analysis
+        # by _fixRef
+        if ( ref($attrVal) && ( $attrVal eq $this->{$attr} ) ) {
+            $heap->{unchanged_ref}{ refaddr( $this->{$attr} ) } = 1;
+        }
+
+        $cloned->{$destAttr} = $attrVal;
+        if ( isweak( $this->{$attr} ) ) {
+
+            #say STDERR "Weakening $attrPath attribute ", $destAttr;
+            weaken( $cloned->{$destAttr} );
+        }
     }
 
-    # SMELL Should it be better to use same approach as in _cloneData - just
-    # bless a profile hash?
-    my $newObj = ref($this)->new(@profile);
+    #unless ( $heap->{parent} ) {
+    #    say STDERR "---------------- DRY RUN START FOR ", $attrPath;
+    #    $this->_fixRefs(
+    #        $heap, {@profile},
+    #        "{$attrPath PROFILE}",
+    #        dryRun => 1,
+    #    );
+    #    say STDERR "---------------- DRY RUN END FOR ", $attrPath;
+    #}
 
-    $heap->{cloned_ref}{ refaddr($this) } = $newObj;
+    my $newObj = bless $cloned, ref($this);
 
-    $this->_fixRefs( $heap, $newObj ) unless $heap->{parent};
+    unless ( $heap->{parent} ) {
+
+        #say STDERR "********* FIXING ", $attrPath, " REFS";
+        #say STDERR "+++ Storing ", $this, " to cloned_ref at ", $thisAddr,
+        #  " as ", $newObj, " (", refaddr($newObj), ")";
+        $heap->{ref2attr}{$thisAddr} = $attrPath || ref($this);
+        $heap->{cloned_ref}{$thisAddr} = $newObj;
+
+        #$this->__dumpCloneHeap;
+        $this->_fixRefs( $heap, $newObj, $attrPath );
+
+        #say STDERR "********* FIXING ", $attrPath, " REFS FINISHED";
+    }
 
     $this->_clear__clone_heap unless defined $this->__clone_heap->{parent};
 
@@ -590,7 +748,7 @@ sub guessApp {
 
 =begin TML
 
----++ ObjectMethod to_str => $string
+---+++ ObjectMethod to_str => $string
 
 This method is used to overload stringification operator "" (see
 [[CPAN:overload][=perldoc overload=]]).
@@ -724,7 +882,7 @@ sub isaARRAY {
 
 =begin TML
 
----++ StaticMethod isaHASH( $attributeName, \%params )
+---+++ StaticMethod isaHASH( $attributeName, \%params )
 
 isa validator generator checking for hashrefs.
 
@@ -753,7 +911,7 @@ sub isaHASH {
 
 =begin TML
 
----++ StaticMethod isaCLASS( $attributeName, $className, \%params )
+---+++ StaticMethod isaCLASS( $attributeName, $className, \%params )
 
 isa validator generator checking if attribute is a class =$className= or it's
 descendant.
