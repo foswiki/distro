@@ -68,6 +68,7 @@ data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersionForOldIEs.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Bgiframe/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Corner/Enabled.pm 0644

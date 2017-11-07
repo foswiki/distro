@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1497953719" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1510027045" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -80,13 +80,14 @@ Install as needed.
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
+| mod_perl2 | =libapache2-mod-perl2= | Required if using Apache 2 and mod_perl |
 | Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
 | DBI | =libdbi-perl= | Used for the Foswiki Page cache |
 | DBD::mysql | =libdbd-mysql-perl= | Used for !MySQL based Page Cache |
 | DBD::Pg | =libdbd-pg-perl= | Used for !PostgreSQL based Page Cache |
 | DBD::SQLite | =libdbd-sqlite3-perl= | Used for SQLite based Page Cache |
 | FCGI | =libfcgi-perl= | Optional, needed for fastcgi / fcgi apache modules |
-| FCGI::ProcManager | =libfcgi-procmanager-perl= | Optional, needed for fastcgi / fcgi process management |
+| FCGI::ProcManager | =libfcgi-procmanager-perl= | Optional, needed for fastcgi / fcgi process management on nginx |
 | Crypt::SMIME | =libcrypt-smime-perl= | Optional, used for S/MIME email signing |
 | Crypt::X509 | =libcrypt-x509-perl= | Optional, used for S/MIME email signing |
 | Convert::PEM | =libconvert-pem-perl= | Optional, used for S/MIME email signing |
@@ -159,13 +160,14 @@ Install as needed.
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
+| mod_perl2 | =mod_perl= | Required if using Apache2 and mod_perl |
 | Apache2::Request | =perl-libapreq2= | Required if using Apache 2 and mod_perl |
 | DBI | =perl-DBI= | Used for the Foswiki Page cache |
 | DBD::mysql | =perl-DBD-mysql= | Used for !MySQL based Page Cache |
 | DBD::Pg | =perl-DBD-Pg= | Used for !PostgreSQL based Page Cache |
 | DBD::SQLite | =perl-DBD-SQLite= | Used for SQLite based Page Cache |
 | FCGI | =perl-FCGI= | Optional, needed for fastcgi / fcgi apache modules |
-| FCGI::ProcManager | =perl-FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management |
+| FCGI::ProcManager | =perl-FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management on nginx |
 | Crypt::SMIME | =perl-Crypt-SMIME= | Optional, used for S/MIME email signing%BR% _(Not available in default repositories)_ |
 | Crypt::X509 | =perl-Crypt-X509= | Optional, used for S/MIME email signing |
 | Convert::PEM | =perl-Convert-PEM= | Optional, used for S/MIME email signing |
@@ -221,13 +223,14 @@ Install as needed.
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
+| mod_perl2 | =www-apache/mod_perl= | Required if using Apache 2 and mod_perl |
 | Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
 | DBI | =dev-perl/DBI= | Optional - Used for the Foswiki Page cache |
 | DBD::mysql | =dev-perl/DBD-mysql= | Optional - Used for MySQL based Page Cache |
 | DBD::Pg | =dev-perl/DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
 | DBD::SQLite | =dev-perl/DBD-SQLite= | Optional - Used for SQLite based Page Cache |
 | FCGI | =dev-perl/FCGI= | Optional, needed for fastcgi / fcgi apache modules |
-| FCGI::ProcManager | =dev-perl/FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management |
+| FCGI::ProcManager | =dev-perl/FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management on nginx |
 | Crypt::SMIME | =dev-perl/Crypt-SMIME= | Optional, used for S/MIME email signing |
 | Crypt::X509 | =dev-perl/Crypt-X509= | Optional, used for S/MIME email signing |
 | Convert::PEM | =dev-perl/convert-pem= | Optional, used for S/MIME email signing |
@@ -286,14 +289,15 @@ Install as needed.
 
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
-| Apache2::Request | | Required if using Apache 2 and mod_perl (Not available?  Use cpanm ) |
+| mod_perl2 | =ap24-mod_perl2= | Required if using Apache 2 and mod_perl |
+| Apache2::Request | =libapreq2= | Required if using Apache 2 and mod_perl |
 | BSD-Resource | =p5-BSD-Resource= | Optional - used for FCGI process handler resource limits |
 | DBI | =p5-DBI= | Optional - Used for the Foswiki Page cache |
 | DBD::mysql | =p5-DBD-mysql= | Optional - Used for MySQL based Page Cache |
 | DBD::Pg | =p5-DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
 | DBD::SQLite | =p5-DBD-SQLite= | Optional - Used for SQLite based Page Cache |
 | FCGI | =p5-FCGI= | Optional, needed for fastcgi / fcgi apache modules |
-| FCGI::ProcManager | =p5-FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management |
+| FCGI::ProcManager | =p5-FCGI-ProcManager= | Optional, needed for fastcgi / fcgi process management on nginx |
 | Crypt::SMIME | =p5-Crypt-SMIME= | Optional, used for S/MIME email signing |
 | Crypt::X509 | =p5-Crypt-X509= | Optional, used for S/MIME email signing |
 | Convert::PEM | =p5-Convert-PEM= | Optional, used for S/MIME email signing |
@@ -353,7 +357,7 @@ Install as needed.
 | DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
 | DBD::SQLite | | Optional - Used for SQLite based Page Cache |
 | FCGI | | Optional, needed for fastcgi / fcgi apache modules |
-| FCGI::ProcManager | | Optional, needed for fastcgi / fcgi process management |
+| FCGI::ProcManager | | Optional, needed for fastcgi / fcgi process management on nginx |
 | Crypt::SMIME | | Optional, used for S/MIME email signing |
 | Crypt::X509 | | Optional, used for S/MIME email signing |
 | Convert::PEM | | Optional, used for S/MIME email signing |
