@@ -55,8 +55,8 @@ ports tree.
 use Assert;
 use Data::Dumper;
 use Try::Tiny;
-use Carp         ();
-use Scalar::Util ();
+use Carp ();
+use Scalar::Util qw(blessed);
 
 use Foswiki::Class;
 extends qw(Foswiki::Object);
@@ -152,6 +152,7 @@ sub BUILD {
     my $this = shift;
 
     unless ( $this->has_stacktrace ) {
+        local $Carp::CarpLevel = 1;
         my $trace = Carp::longmess('');
         $this->_set_stacktrace($trace);
     }
@@ -302,7 +303,7 @@ catch {
         #
         # $_->rethrow( text => "Try to override error text" );
         #
-        # is no different of the uncommented code.
+        # is no different from the uncommented code.
     }
     # Any other kind of exception is converted into
     # Foswiki::Exception::SomeOtherException and propagaded.
@@ -317,18 +318,18 @@ catch {
 =cut
 
 sub rethrow {
-    my $class = shift;
+    my $exception = shift;
 
-    if ( ref($class) && $class->isa('Foswiki::Exception') ) {
+    if ( blessed($exception) ) {
 
         # Never call transmute on a Foswiki::Exception descendant because this
         # is not what is expected from rethrow.
-        $class->throw;
+        $exception->throw;
     }
 
-    my $e = shift;
+    my $srcException = shift;
 
-    $class->transmute( $e, 0, @_ )->throw;
+    $exception->transmute( $srcException, 0, @_ )->throw;
 }
 
 =begin TML
@@ -336,9 +337,9 @@ sub rethrow {
 ---+++ ClassMethod rethrowAs($class, $exception[, %params])
 
 Similar to the =rethrow()= method but always reinstantiates $exception into
-$class using =transmute()=. Note that if =%params= are defined and =$exception=
-is a =Foswiki::Exception= descendant then they will override =$exception= object
-attributes unless =$exception= class is equal to =$class=.
+$class using =transmute()=. Note that if =%params= is defined and =$exception=
+is a =Foswiki::Exception= descendant then =%params= would override =$exception=
+object attributes unless =$exception= class is same as =$class=.
 
 =cut
 
@@ -440,7 +441,7 @@ sub errorStr {
     my $str = $err;
 
     if ( ref($err) ) {
-        if ( Scalar::Util::blessed($err) ) {
+        if ( blessed($err) ) {
             if ( $err->can('stringify') ) {
                 $str = $err->stringify;
             }
