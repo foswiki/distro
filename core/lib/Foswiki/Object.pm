@@ -69,6 +69,72 @@ original method preserves Perl's standard behavior but could be overridden
 by inheriting classes to achieve their goals. Check the
 %PERLDOC{Foswiki::Exception}% code for an example use of this method.
 
+---+++ Exceptions Support
+
+The class provides four wrappers for basic =%PERLDOC{"Foswiki::Exception"}%=
+exception throwing and manipulation methods:
+
+   * Throw
+   * Transmute
+   * Rethrow
+   * !RethrowAs
+   
+These four are highly recommended for use instead of the originals from
+=Foswiki::Exception=. They are presetting exception constructor profile with
+information which a developer would normally be lazy enough to set manually but
+which significantly adds to the ease of debugging and tracing down problems.
+
+The methods are setting the following profile attributes:
+
+   * =%PERLDOC{"Foswiki::Exception" attr="object"}%=
+   * =%PERLDOC{"Foswiki::Exception" attr="file"}%=
+   * =%PERLDOC{"Foswiki::Exception" attr="line"}%=
+   * =%PERLDOC{"Foswiki::Exception" attr="stacktrace"}%=
+   * =app=
+   
+Though =app= is not commonly used by exceptions but it could serve for some
+specific ones. For example, for those with %PERLDOC{"Foswiki::AppObject"}% role
+applied.
+
+The =stacktrace= attribute normally doesn't contain frames belonging to the
+exception processing and starts with the frame where one of the methods
+above is called. But in case a error is detected within one of the four then
+only the last call to =Throw()= would be skipped. This is intentional behavior
+to prevent obscuration of the new problem being reported. See notes on errors
+below.
+
+Methods are validating exception classes to have =[[CPAN:Throwable][Throwable]]=
+role. Failing to conform this condition is a reason for raising
+=%PERLDOC{"Foswiki::Exception::Fatal"}%= with corresponding error text. The
+original exception information would be lost then.
+
+All four methods are allowing short exception names if full ones are starting
+with _Foswiki::Exception::_. I.e., instead of
+_Foswiki::Exception::SomeException_ one could use just _SomeException_:
+
+<verbatim>
+$this->Throw('SomeException', "error message");
+</verbatim>
+
+Methods are accepting manually defined exception constructor profile at the end
+of the arguments list, following the mandatory ones:
+
+<verbatim>
+$this->Transmute(
+    'SomeException',
+    $sourceException,
+    1,
+    attr1 => 'a value',
+    line  => $lineNum,
+);
+</verbatim>
+
+In this example constructor profile starts with =attr1= key following the _1_.
+
+%X% *NOTE:* User-supplied attributes in profile override the defaults generated
+by the wrapper methods. In the example above the resulting exception object
+will have its =line= attribute set to the value of =$lineNum= variable.
+
 =cut
 
 require Carp;
@@ -761,6 +827,159 @@ behavior.
 sub to_str {
     my @c = caller;
     return $_[0];
+}
+
+sub __makeExceptionParams {
+    my $this = shift;
+    my ( $pkg, $fileName, $line );
+
+    my $backFrames = 1;
+    my $thisPkg    = ref($this);
+  SCANSTACK: while ( !defined $pkg ) {
+        my @ci = caller($backFrames);
+
+        last SCANSTACK unless @ci;
+
+        if ( $ci[3] =~ /::(?:Throw|Transmute|Rethrow|RethrowAs)$/ ) {
+
+            # Found the stack frame.
+            ( $pkg, $fileName, $line ) = @ci[ 0, 1, 2 ];
+        }
+        else {
+            $backFrames++;
+        }
+    }
+
+    local $Carp::CarpLevel = $backFrames;
+
+    return (
+        object     => $this,
+        file       => $fileName,
+        line       => $line,
+        stacktrace => Carp::longmess(""),
+    );
+}
+
+sub _appProfile {
+    my $this = shift;
+
+    # Be strict, don't use $Foswiki::app
+    my $app = $this->getApp;
+
+    return $app ? ( app => $app ) : ();
+}
+
+sub _normalizeExceptionName {
+    my $this      = shift;
+    my $exception = shift;
+
+    return $exception if ref($exception);      # Not a string - no normalizing.
+    return $exception if $exception =~ /::/;
+    return "Foswiki::Exception::$exception";
+}
+
+sub _validateException {
+    my $this = shift;
+    my ( $exception, $txtPrefix, @params ) = @_;
+
+    unless ( Role::Tiny::does_role( $exception, 'Throwable' ) ) {
+        my $excptName = ref($exception) // $exception;
+        $this->Throw( 'Fatal', @params,
+                text => $txtPrefix
+              . " exception '"
+              . $excptName
+              . "': it's not a Throwable", );
+    }
+}
+
+=begin TML
+
+---+++ ObjectMethod Throw( $exception, $text [, %profile] )
+
+See [[?%QUERYSTRING%#Exceptions_Support][Exceptions Support]] section above.
+
+A wrapper method for %PERLDOC{"Foswiki::Exception" method="throw"}%.
+
+=cut
+
+sub Throw {
+    my $this = shift;
+    my ( $exception, $text, @profile ) = @_;
+
+    $exception = $this->_normalizeExceptionName($exception);
+    $this->_validateException( $exception, "Cannot throw" );
+
+    $exception->throw(
+        text => $text,
+        $this->_appProfile,
+        $this->__makeExceptionParams,
+        @profile
+    );
+
+}
+
+=begin TML
+
+---+++ ObjectMethod Transmute( $exceptionClass, $sourceException, $enforce [, %profile] )
+
+See [[?%QUERYSTRING%#Exceptions_Support][Exceptions Support]] section above.
+
+A wrapper method for %PERLDOC{"Foswiki::Exception" method="transmute"}%.
+
+=cut
+
+sub Transmute {
+    my $this = shift;
+    my ( $class, $exception, $force, @profile ) = @_;
+
+    $class = $this->_normalizeExceptionName($class);
+    $this->_validateException( $class, "Cannot transmute into" );
+
+    return $class->transmute( $exception, $force,
+        $this->_appProfile, $this->__makeExceptionParams, @profile );
+
+}
+
+=begin TML
+
+---+++ ObjectMethod Rethrow( $exceptionClass, $sourceException, $enforce [, %profile] )
+
+See [[?%QUERYSTRING%#Exceptions_Support][Exceptions Support]] section above.
+
+A wrapper method for %PERLDOC{"Foswiki::Exception" method="rethrow"}%.
+
+=cut
+
+sub Rethrow {
+    my $this = shift;
+    my ( $exception, $srcException, @profile ) = @_;
+
+    $exception = $this->_normalizeExceptionName($exception);
+    $this->_validateException( $exception, "Cannot rethrow as" );
+
+    $exception->rethrow( $srcException, $this->_appProfile,
+        $this->__makeExceptionParams, @profile );
+}
+
+=begin TML
+
+---+++ ObjectMethod RethrowAs( $exceptionClass, $sourceException, $enforce [, %profile] )
+
+See [[?%QUERYSTRING%#Exceptions_Support][Exceptions Support]] section above.
+
+A wrapper method for %PERLDOC{"Foswiki::Exception" method="rethrowAs"}%.
+
+=cut
+
+sub RethrowAs {
+    my $this = shift;
+    my ( $class, $srcException, @profile ) = @_;
+
+    $class = $this->_normalizeExceptionName($class);
+    $this->_validateException( $class, "Cannot rethrow as" );
+
+    $class->rethrowAs( $srcException, $this->_appProfile,
+        $this->__makeExceptionParams, @profile );
 }
 
 # Fixes __orig_file and __orig_line to bypass ::create() and point directly to
