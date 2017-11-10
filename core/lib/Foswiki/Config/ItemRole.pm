@@ -2,11 +2,26 @@
 
 package Foswiki::Config::ItemRole;
 
+=begin TML
+
+---+!! Role Foswiki::Config::ItemRole
+
+Base role for specs item classes. Defines basic functionality of a specs item
+object.
+
+=cut
+
 require Foswiki::Object;
 
 use Foswiki::Exception::Config;
 
 use Moo::Role;
+
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
 
 =begin TML
 
@@ -55,12 +70,30 @@ has parent => (
     builer    => 'prepareParent',
 );
 
+=begin TML
+
+---+++ ObjectAttribute options
+
+Hash of =option => value= pairs. See more on options in specs documentation.
+
+=cut
+
 # Hash of option => value pairs
 has options => (
     is      => 'rw',
     builder => 'prepareOptions',
     isa     => Foswiki::Object::isaHASH( 'options', noUndef => 1, ),
 );
+
+=begin TML
+
+---+++ ObjectAttribute optDefs
+
+This is option meta-data hash. For each option (hash key) accepted by the class
+a subhash of its attributes is stored. See more in
+%PERLDOC{method="optionDefinitions"}% documentation.
+
+=cut
 
 # Hash of option => definitionHash pairs defining options accepted by this
 # object. Hash is a ref to a subhash in %classOptDefinitions unless
@@ -74,11 +107,21 @@ has optDefs => (
 # Hash of class => optionsMap where optionsMap is a hash of option => 1 values.
 my %classOptDefinitions;
 
+=begin TML
+
+---++ METHODS
+
+Required method:
+   
+   $ =prepareParent= : Initializer for the =parent= attribute.
+
+=cut
+
 requires qw(prepareParent);
 
 =begin TML
 
----+++ ObejctMethod allowedOpt($opt) -> bool
+---+++ ObjectMethod allowedOpt($opt) -> bool
 
 Checks if option =$opt= is valid for this object.
 
@@ -93,7 +136,7 @@ sub allowedOpt {
 
 =begin TML
 
----+++ ObjectMethod optArities -> @arities
+---+++ ObjectMethod optArities() -> @arities
 
 Returns a list of =option => arity= values.
 
@@ -206,7 +249,7 @@ sub addText {
 
 =begin TML
 
----+++ ObjectMethod addSource
+---+++ ObjectMethod addSource()
 
 Adds a new entry to the attribute =sources= list. Parameters could be in one
 of the following form:
@@ -243,7 +286,7 @@ sub addSource {
 
 =begin TML
 
----+++ ObjectMethod source
+---+++ ObjectMethod source()
 
 A wrapper for the =addSource()= method, used to handle =-source= spec attribute.
 
@@ -280,7 +323,7 @@ sub setOpt_sources {
 
 =begin TML
 
----+++ ClassMethod optionDefinitions -> @optionDefs
+---+++ ClassMethod optionDefinitions() -> @optionDefs
 
 Returns a list of option definitions for a class. Note that a option definition
 is a pair of =option => definition= where =option= is a option name; and
@@ -312,7 +355,7 @@ The following option preferences are supported:
 
 | *Preference* | *Description* | *Mandatory* | *Note* |
 | =arity= | Number of option parameters. Usually one but could be 0 for boolean\
-  options (then an option could be prefixed with 'no') or 2+ for some specific\
+  options (then the option could be prefixed with 'no') or 2+ for some specific\
   cases like section definition. | %Y% | |
 | =leaf= | Options is valid in a leaf node only. | | =Foswiki::Config::Node=\
   only |
@@ -332,6 +375,36 @@ sub optionDefinitions {
         source  => { arity => 1, dual => 1, },
         sources => { arity => 1, dual => 1, },
     );
+}
+
+=begin TML
+
+---+++ ObjectMethod validateOpt( $option [, $value ] )
+
+Checks if =$option= is allowed for this item. If item's class implements
+method with name _"validateOpt_" . $option_ then the method is called with
+the same arguments, as =validateOpt()=.
+
+In case of failure raises
+=%PERLDOC{"Foswiki::Exception::Config::BadSpecData"}%=.
+
+=cut
+
+sub validateOpt {
+    my $this = shift;
+    my $opt  = shift;
+    Foswiki::Exception::Config::BadSpecData->throw(
+            text => "Unsupported option '"
+          . $opt
+          . "' by type "
+          . $this->getOpt('type'), )
+      unless $this->allowedOpt($opt);
+
+    my $valMethod = "validateOpt_$opt";
+
+    if ( my $sub = $this->can($valMethod) ) {
+        $sub->( $this, $opt, @_ );
+    }
 }
 
 =begin TML
@@ -384,23 +457,6 @@ sub _setClassOptDefs {
     my %options = $class->optionDefinitions;
 
     $classOptDefinitions{$class} = \%options;
-}
-
-sub validateOpt {
-    my $this = shift;
-    my $opt  = shift;
-    Foswiki::Exception::Config::BadSpecData->throw(
-            text => "Unsupported option '"
-          . $opt
-          . "' by type "
-          . $this->getOpt('type'), )
-      unless $this->allowedOpt($opt);
-
-    my $valMethod = "validateOpt_$opt";
-
-    if ( my $sub = $this->can($valMethod) ) {
-        $sub->( $this, $opt, @_ );
-    }
 }
 
 1;

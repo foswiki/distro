@@ -36,8 +36,8 @@ Though this structure may seem a bit complicated but it serves two purposes:
    1 Use of tied hashes keeps the structure transparent for code using config
    data. The code would deal with config data hash as usual and doesn't care
    whether it's a plain data hash or specs loaded in memory.
-   1 Separate actual container (a =Foswiki::Config::DataHash= object) from specs
-   data. 
+   1 Separates actual container (a =Foswiki::Config::DataHash= object) from
+   specs data. 
 
 =cut
 

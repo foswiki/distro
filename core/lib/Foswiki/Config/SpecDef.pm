@@ -8,6 +8,8 @@ Supporting class for parsing specs data structure.
 
 ---++ DESCRIPTION
 
+Object of this class are containers of raw spec data – i.e., of a list
+
 =cut
 
 package Foswiki::Config::SpecDef;
@@ -16,6 +18,12 @@ use Foswiki::Exception::Config;
 
 use Foswiki::Class;
 extends qw(Foswiki::Object);
+
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
 
 =begin TML
 
@@ -117,9 +125,10 @@ has _lastFetch => ( is => 'rw', );
 
 =begin TML
 
----+++ ObjectMethod fetch
+---+++ ObjectMethod fetch( [ $count ] )
 
-Fetches the next item from the specs.
+Fetches the next =$count= items from the specs. If argument is omitted then
+only one item is fetched.
 
 =cut
 
@@ -146,7 +155,7 @@ sub fetch {
 
 =begin TML
 
----+++ ObjectMethod count
+---+++ ObjectMethod count()
 
 Returns a number of unprocessed yet elements in $this->specDef
 
@@ -160,9 +169,10 @@ sub count {
 
 =begin TML
 
----+++ ObjectMethod hasNext
+---+++ ObjectMethod hasNext( [ $count ] )
 
-Returns true if there're still specs to fetch. 
+Returns true if there're still =$count= more spec items to fetch. Checks for
+a single item if argument is omitted.
 
 =cut
 
@@ -175,10 +185,10 @@ sub hasNext {
 
 =begin TML
 
----+++ ObjectMethod badSubSpecElem
+---+++ ObjectMethod badSubSpecElem( $element )
 
 Returns undef if element is ok to be used as a subspec. Otherwise returns
-error text about elem type suitable to be used in a error message.
+error text about element type suitable to be used in a error message.
 
 =cut
 
@@ -195,6 +205,19 @@ sub badSubSpecElem {
         : "undefined element"
     );
 }
+
+=begin TML
+
+---+++ ObjectMethod subSpecs( %profile )
+
+Create a new =Foswiki::Config::SpecDef= object of the current spec item. The
+item has to be an arrayref.
+
+The method is used to parse a section body.
+
+=%profile= will be passed to the sub-specs object constructor.
+
+=cut
 
 sub subSpecs {
     my $this    = shift;
@@ -230,6 +253,20 @@ sub subSpecs {
     );
     return $subSpecs;
 }
+
+=begin TML
+
+---+++ ObjectMethod inject( %params )
+
+Insert a list of spec items into current position. The only key of =%params=
+supported is =specDef= with arrayref of spec items to be inserted.
+
+Returns _true_ only if =specDef= exists and contains array.
+
+Could be used to insert dynamically generated specs for further processing by
+the configuration framework.
+
+=cut
 
 sub inject {
     my $this   = shift;

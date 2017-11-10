@@ -2,9 +2,46 @@
 
 package Foswiki::Config::CfgObject;
 
+=begin TML
+
+---+!! Role Foswiki::Config::CfgObject
+
+This role is similar in nature to %PERLDOC{"Foswiki::AppObject"}%. But instead
+of providing backlinking to the parent application object it backlinks to the
+configuration object. The point is to support early stages of config life
+cycle when application's =%PERLDOC{"Foswiki::App" attr="cfg" text="cfg"}%=
+attribute is not set yet; or cases when a temporary/secondary config object
+is needed which won't ever be stored in the application's attribute.
+
+%X% *NOTE:* The case where the application's =cfg= attribute is not initialized
+yet has to be carefully considered by a developer. Because it is a _lazy_ one
+any attempt to read from it would cause a deep recursion case. So, if you by
+any chance mangle with configuration or specs reading then remember to use
+this role and =$this->cfg= notation.
+
+---+++ Cloning
+
+Upon cloning this role returns the value in =cfg= attribute as is.
+
+=cut
+
 require Foswiki::Object;
 
 use Moo::Role;
+
+=begin TML
+
+---++ ATTRIBUTES
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute cfg
+
+Backlink to the parent configuration object.
+
+=cut
 
 has cfg => (
     is  => 'ro',

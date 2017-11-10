@@ -4,7 +4,7 @@
 
 ---+!! Class Foswiki::Config::Node
 
-A class defining config spec node.
+Class defining config spec node.
 
 ---++ SYNOPSIS
 

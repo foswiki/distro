@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1508205637" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1510282385" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -417,6 +417,14 @@ Things to keep in mind about the exceptions:
    * Any thrown exception tries not only to signal about an event but does its
    best to collect the information about the point in code where it's been
    raised.
+
+---+++ TODOs For Consideration
+
+The following ideas are considered for future development:
+
+   * Parent/Child roles to be used for structures with corresponding relations.
+   Basically, could be incorporated by by the =Foswiki::App= class and classes
+   instantiated directly by it.
 
 ---+++ Related
 
