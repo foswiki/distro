@@ -748,7 +748,7 @@ sub BUILD {
 # TODO It's not clear yet as how to deal with logger configuration - see Foswiki::BUILDARGS().
 
     unless ( defined $this->engine ) {
-        Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
+        $this->Throw( 'Foswiki::Exception::Fatal', "Cannot initialize engine" );
     }
 
     $this->_constructDispatcher;
@@ -2047,8 +2047,8 @@ sub prepareRequest {
     state $preparing = 0;
 
     if ($preparing) {
-        Foswiki::Exception::Fatal->throw(
-            text => 'Circular call to prepareRequest' );
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            'Circular call to prepareRequest' );
     }
     $preparing = 1;
 
@@ -2101,12 +2101,13 @@ sub _constructDispatcher {
     my $dispatcher =
       $this->cfg->data->{SwitchBoard}{ $this->engine->pathData->{action} };
     unless ( defined $dispatcher ) {
-        Foswiki::Exception::HTTPError->throw(
-            status => 404,
-            header => 'Not Found',
-            text   => 'The requested URL '
+        $this->Throw(
+            "Foswiki::Exception::HTTPError",
+            'The requested URL '
               . ( $this->request->uri // 'action:' . $this->request->action )
               . ' was not found on this server.',
+            status => 404,
+            header => 'Not Found',
         );
     }
 
@@ -3425,7 +3426,7 @@ sub readAttachment {
 
     ( $web, $topic, $attachment ) =
       $this->_validateWTA( $web, $topic, $attachment );
-    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+    $this->( 'Foswiki::Exception::Fatal', "Invalid attachment" )
       unless $attachment;
 
     my $result;
