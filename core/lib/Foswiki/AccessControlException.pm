@@ -85,7 +85,8 @@ use v5.14;
 use Assert;
 
 use Foswiki::Class;
-extends qw(Foswiki::Exception);
+extends qw<Foswiki::Exception>;
+with qw<Foswiki::Exception::Deadly>;
 
 #our @_newParameters = qw( mode user web topic reason );
 
