@@ -232,12 +232,12 @@ sub _cleanUpFilePath {
         $component ||= '';
         next if $component eq '.';
         if ( $component eq '..' ) {
-            Foswiki::Exception::Fatal->throw(
-                text => 'relative path in filename ' . $string );
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                'relative path in filename ' . $string );
         }
         elsif ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
-            Foswiki::Exception::Fatal->throw(
-                    text => 'illegal characters in file name component "'
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                    'illegal characters in file name component "'
                   . $component
                   . '" of filename '
                   . $string );
@@ -322,6 +322,7 @@ sub sanitizeAttachmentName {
             my $encoded = Foswiki::Store::encode( $fileName, 1 );
         }
         catch {
+            # SMELL Use of gloval $Foswiki::app
             Foswiki::OopsException->throw(
                 app      => $Foswiki::app,
                 template => 'attention',

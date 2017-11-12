@@ -111,7 +111,7 @@ sub makeLoginManager {
         }
         $use .= '; use CGI::Cookie ()';
         eval $use;
-        Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
+        $this->Throw( 'Foswiki::Exception::Fatal', $@ ) if $@;
         if ( $req->https() ) {
             $sessionname = 'SFOSWIKISID';
         }
@@ -703,7 +703,8 @@ sub checkAccess {
                 user   => $app->user,
                 web    => $web,
                 topic  => $topic,
-                reason => $action . ' requires authentication'
+                reason => $action . ' requires authentication',
+                object => $this,
             );
         }
     }

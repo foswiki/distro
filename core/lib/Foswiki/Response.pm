@@ -543,8 +543,8 @@ sub as_array {
         $val = [$val] unless ref($val) eq 'ARRAY';
 
         # Generate multiple header entries – one per value.
-        Foswiki::Exception::Fatal->throw(
-            text => "Header $hdr: val isn't an arrayref but:" . ref($val) )
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "Header $hdr: val isn't an arrayref but:" . ref($val) )
           unless ref($val) eq 'ARRAY';
         push @{ $rc[1] }, $hdr => $_ foreach @$val;
     }

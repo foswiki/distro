@@ -112,7 +112,7 @@ sub registerTagHandler {
     $this->app->logger->log( 'warning', "Re-registering existing tag " . $tag, )
       if exists $this->registered->{$tag};
 
-    Foswiki::Exception::Fatal->throw( text =>
+    $this->Throw( 'Foswiki::Exception::Fatal',
 "Invalid tag handler object: must be a code, a Foswiki::Macro, or a Foswiki::Extension"
       )
       unless ref($handler) eq 'CODE'

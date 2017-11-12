@@ -3426,7 +3426,7 @@ sub readAttachment {
 
     ( $web, $topic, $attachment ) =
       $this->_validateWTA( $web, $topic, $attachment );
-    $this->( 'Foswiki::Exception::Fatal', "Invalid attachment" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Invalid attachment" )
       unless $attachment;
 
     my $result;
@@ -3881,7 +3881,7 @@ sub saveAttachment {
     my ( $web, $topic, $attachment, $data ) = @_;
     ( $web, $topic, $attachment ) =
       $this->_validateWTA( $web, $topic, $attachment );
-    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Invalid attachment" )
       unless $attachment;
 
     my $topicObject = $this->create(
@@ -3947,7 +3947,7 @@ sub moveAttachment {
 
     ( $web, $topic, $attachment ) =
       $this->_validateWTA( $web, $topic, $attachment );
-    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Invalid attachment" )
       unless $attachment;
 
     ( $newWeb, $newTopic, $newAttachment ) = $this->_validateWTA(
@@ -4042,7 +4042,7 @@ sub copyAttachment {
 
     ( $web, $topic, $attachment ) =
       $this->_validateWTA( $web, $topic, $attachment );
-    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Invalid attachment" )
       unless $attachment;
 
     ( $newWeb, $newTopic, $newAttachment ) = $this->_validateWTA(
@@ -4291,8 +4291,8 @@ sub expandCommonVariables {
     if (DEBUG) {
         for ( my $i = 4 ; $i <= 7 ; $i++ ) {
             my $caller = ( caller($i) )[3];
-            Foswiki::Exception::Fatal->throw(
-                text => "expandCommonVariables called during registration" )
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                "expandCommonVariables called during registration" )
               if ( defined $caller
                 && $caller eq 'Foswiki::Plugin::registerHandlers' );
         }

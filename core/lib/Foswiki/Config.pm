@@ -965,9 +965,9 @@ sub expandAll {
 
     my $data = defined $params{data} ? $params{data} : $this->data;
 
-    Foswiki::Exception::Fatal->throw(
-        text => "data key must be a hashref in call to expandAll() method", )
-      unless ref($data) eq 'HASH';
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "data key must be a hashref in call to expandAll() method",
+    ) unless ref($data) eq 'HASH';
 
     $this->_expandAll( $data, %params );
 }
@@ -1605,7 +1605,7 @@ sub _expandValue {
 sub _handleExpand {
     my $this = shift;
     my $val  = eval( $_[0] );
-    Foswiki::Exception::Fatal->throw( text => "Error expanding $_[0]: $@" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Error expanding $_[0]: $@" )
       if ($@);
 
     return $val                                      if ( defined $val );
@@ -1650,14 +1650,14 @@ sub _doExpandStr {
             }
             else {
                 if ( $params{undefFail} ) {
-                    Foswiki::Exception::Fatal->throw(
-                            text => "Failed to expand string '"
+                    $this->Throw( 'Foswiki::Exception::Fatal',
+                            "Failed to expand string '"
                           . $str
                           . "': key "
                           . $key
                           . " value is undefined" );
                 }
-                Foswiki::Exception::_expandStr::UndefVal->throw( text => $key )
+                $this->Throw( 'Foswiki::Exception::_expandStr::UndefVal', $key )
                   unless defined $params{undef};
                 $expStr .= $params{undef};
             }
@@ -1750,10 +1750,8 @@ pluggable expandStr => sub {
 
     if ( $params{str} ) {
         if ( my $rt = ref( $params{str} ) ) {
-            Foswiki::Exception::Fatal->throw(
-                    text => "expandStr method's str parameter cannot be "
-                  . $rt
-                  . " ref" )
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                "expandStr method's str parameter cannot be " . $rt . " ref" )
               unless $rt eq 'ARRAY';
             push @strs, @{ $params{str} };
             $isList = 1;
@@ -1766,7 +1764,7 @@ pluggable expandStr => sub {
 
     if ( $params{key} ) {
         if ( my $rt = ref( $params{key} ) ) {
-            Foswiki::Exception::Fatal->throw(
+            $this->Throw( 'Foswiki::Exception::Fatal',
                 "expandStr method's key parameter cannot be " . $rt . " ref" )
               unless $rt eq 'ARRAY';
             push @strs, $this->get($_) foreach @{ $params{key} };
@@ -1824,8 +1822,8 @@ sub bootstrapSystemSettings {
     }
     else {
         eval('require FindBin');
-        Foswiki::Exception::Fatal->throw( text =>
-              "Could not load FindBin to support configuration recovery: $@" )
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "Could not load FindBin to support configuration recovery: $@" )
           if $@;
         FindBin::again();    # in case we are under mod_perl or similar
         $FindBin::Bin =~ m/^(.*)$/;
@@ -1919,7 +1917,7 @@ sub bootstrapSystemSettings {
 
     if ($fatal) {
         my $lscFile = $this->lscFile;
-        Foswiki::Exception::Fatal->throw( text => <<EPITAPH );
+        $this->Throw( 'Foswiki::Exception::Fatal', <<EPITAPH );
 Unable to bootstrap configuration. $lscFile could not be loaded,
 and Foswiki was unable to guess the locations of the following critical
 directories: $fatal
@@ -2355,10 +2353,8 @@ sub _validateCfgKey {
     my $errText = $this->_isBadCfgKey($keyName);
 
     if ($errText) {
-        Foswiki::Exception::Config::InvalidKeyName->throw(
-            text    => $errText,
-            keyName => $keyName,
-        );
+        $this->Throw( 'Foswiki::Exception::Config::InvalidKeyName',
+            $errText, keyName => $keyName, );
     }
 }
 
@@ -2416,9 +2412,9 @@ sub parseKeys {
     if ( @path == 1 ) {
         return () unless defined $path[0];
         if ( ref( $path[0] ) ) {
-            Foswiki::Exception::Config::InvalidKeyName->throw(
-                text => "Reference passed is not an arrayref but "
-                  . ref( $path[0] ),
+            $this->Throw(
+                'Foswiki::Exception::Config::InvalidKeyName',
+                "Reference passed is not an arrayref but " . ref( $path[0] ),
                 keyName => $path[0],
             ) unless ref( $path[0] ) eq 'ARRAY';
             @keys = $this->parseKeys( @{ $path[0] } );
@@ -2454,8 +2450,8 @@ sub arg2keys {
 
     my @keys = $this->parseKeys(@_);
 
-    Foswiki::Exception::Fatal->throw(
-        text => "No valid config keys found in the method arguments" )
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "No valid config keys found in the method arguments" )
       unless @keys > 0;
 
     $this->_validateCfgKey($_) foreach @keys;
@@ -3388,7 +3384,7 @@ sub makeSpecsHash {
     my $this   = shift;
     my %params = @_;
 
-    Foswiki::Exception::Fatal->throw( text => "'data' must be a hash ref", )
+    $this->Throw( 'Foswiki::Exception::Fatal', "'data' must be a hash ref" )
       if $params{data} && ref( $params{data} ) ne 'HASH';
 
     my %newData;
@@ -3583,29 +3579,31 @@ pluggable spec => sub {
     my $this   = shift;
     my %params = @_;
 
-    Foswiki::Exception::Fatal->throw(
-        text => "Spec source parameter is required and cannot be empty", )
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "Spec source parameter is required and cannot be empty" )
       unless defined( $params{source} )
       && ( ref( $params{source} ) || length( $params{source} ) );
 
-    Foswiki::Exception::Fatal->throw( text =>
-          "Spec source parameter is a ref but not a Foswiki::File instance", )
-      if ref( $params{source} ) && !$params{source}->isa('Foswiki::File');
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "Spec source parameter is a ref but not a Foswiki::File instance",
+    ) if ref( $params{source} ) && !$params{source}->isa('Foswiki::File');
 
     my ( $data, $section, $localData );
 
     if ( $params{dataObj} ) {
-        Foswiki::Exception::Fatal->throw( text =>
-              "The dataObj key must be a Foswiki::Config::DataHash instance", )
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "The dataObj key must be a Foswiki::Config::DataHash instance",
+          )
           unless UNIVERSAL::isa( $params{dataObj},
             'Foswiki::Config::DataHash' );
 
-        Foswiki::Exception::Fatal->throw(
-            text => "The section key must be defined when data key is used", )
-          unless defined $params{section};
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "The section key must be defined when data key is used",
+        ) unless defined $params{section};
 
-        Foswiki::Exception::Fatal->throw( text =>
-              "The section key must be a Foswiki::Config::Section instance", )
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "The section key must be a Foswiki::Config::Section instance",
+          )
           unless UNIVERSAL::isa( $params{section}, 'Foswiki::Config::Section' );
 
         $data    = $params{dataObj};
@@ -3644,8 +3642,10 @@ pluggable spec => sub {
         my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
         if ( $e->isa('Foswiki::Exception::Config::NoNextDef') ) {
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text => "Incomlete spec data", );
+            $this->Throw(
+                'Foswiki::Exception::Config::BadSpecData',
+                "Incomlete spec data",
+            );
         }
 
         $e->rethrow;
@@ -3862,8 +3862,8 @@ sub _specSectionBody {
                     );
                 }
                 else {
-                    Foswiki::Exception::Config::BadSpecData->throw(
-                        text =>
+                    $this->Throw(
+                        'Foswiki::Exception::Config::BadSpecData',
 "Don't know how to handle section's multi-param option $option",
                         section => $section,
                     );
@@ -3882,8 +3882,9 @@ sub _specSectionBody {
                               [ $expandable->( $this, section => $section, ) ];
                         }
                         else {
-                            Foswiki::Exception::Config::BadSpecData->throw(
-                                text => "Unallowed reference type "
+                            $this->Throw(
+                                'Foswiki::Exception::Config::BadSpecData',
+                                "Unallowed reference type "
                                   . $refType
                                   . " for -expandable",
                                 section => $section,
@@ -3901,8 +3902,9 @@ sub _specSectionBody {
 
                             my $composeSub = $expMod->can('compose');
 
-                            Foswiki::Exception::Config::BadSpecData->throw(
-                                text => "Module "
+                            $this->Throw(
+                                'Foswiki::Exception::Config::BadSpecData',
+                                "Module "
                                   . $expMod
                                   . " doesn't have 'compose' method",
                                 section => $section,
@@ -3965,8 +3967,9 @@ sub _specSection {
     my ( @secProfile, @subSecElems );
     my $secName = $params{secName};
 
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text => "Section name must be a plain string, not "
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Section name must be a plain string, not "
           . ref($secName)
           . " reference",
         section => $section,
@@ -3974,9 +3977,10 @@ sub _specSection {
 
     my $secData       = $params{secData};
     my $badValTypeTxt = $specs->badSubSpecElem($secData);
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text => "Cannot create section '$secName' from $badValTypeTxt", )
-      if $badValTypeTxt;
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Cannot create section '$secName' from $badValTypeTxt",
+    ) if $badValTypeTxt;
 
     my $secLevel = $section->level + 1;
 
@@ -4007,8 +4011,9 @@ sub _isCompleteKeyDef {
     my $this = shift;
     my ( $specs, $section, $keyName ) = @_;
 
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text    => "Incomplete key '$keyName': missing definition",
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Incomplete key '$keyName': missing definition",
         section => $section,
     ) unless $specs->hasNext;
 }
@@ -4051,16 +4056,18 @@ sub _fetchOptVal {
 
     my $argCount = $arity->{$option};
 
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text => "Don't know how to handle key option '"
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Don't know how to handle key option '"
           . $option . "' "
           . $errorSuffix,
         section => $spec->section,
         srcFile => $spec->source,
     ) unless defined $argCount;
 
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text    => "Incomplete option '" . $option . "' " . $errorSuffix,
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Incomplete option '" . $option . "' " . $errorSuffix,
         section => $spec->section,
     ) unless $spec->hasNext($argCount);
 
@@ -4150,8 +4157,9 @@ sub _specCfgKey {
     }
 
     my $badValTypeTxt = $specs->badSubSpecElem($value);
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text    => "Cannot create spec key '$keyFullName' from $badValTypeTxt",
+    $this->Throw(
+        'Foswiki::Exception::Config::BadSpecData',
+        "Cannot create spec key '$keyFullName' from $badValTypeTxt",
         section => $section,
         srcFile => $specs->source,
     ) if $badValTypeTxt;
@@ -4170,14 +4178,15 @@ sub _specCfgKey {
     while ( $keySpecs->hasNext ) {
         my $elem = $keySpecs->fetch;
 
-        Foswiki::Exception::Config::BadSpecData->throw(
-            text =>
+        $this->Throw(
+            'Foswiki::Exception::Config::BadSpecData',
 "Undefined value encountered where an element is expected for key '$keyFullName'",
             section => $section,
         ) unless defined $elem;
 
-        Foswiki::Exception::Config::BadSpecData->throw(
-            text => "Unexpected reference to "
+        $this->Throw(
+            'Foswiki::Exception::Config::BadSpecData',
+            "Unexpected reference to "
               . ref($elem)
               . " where scalar is expected for key '$keyFullName'",
             section => $section,
@@ -4200,8 +4209,9 @@ sub _specCfgKey {
                     push @keyOptions, $option, $keyType;
                 }
                 elsif ( $keyType ne $ktype[0] ) {
-                    Foswiki::Exception::Config::BadSpecData->throw(
-                        text => "Conflicting types in key definition: '"
+                    $this->Throw(
+                        'Foswiki::Exception::Config::BadSpecData',
+                        "Conflicting types in key definition: '"
                           . $keyType
                           . "' vs. '"
                           . $ktype[0] . "'",
@@ -4236,9 +4246,9 @@ sub _specCfgKey {
                 # to be passed over to its constructor. Most likely variants
                 # would be returning pairs ( $option => \@values ) or ( $option
                 # => { @values } ).
-                Foswiki::Exception::Config::BadSpecData->throw(
-                    text =>
-                      "Multiple arities are not handled yet; though option '"
+                $this->Throw(
+                    'Foswiki::Exception::Config::BadSpecData',
+                    "Multiple arities are not handled yet; though option '"
                       . $option
                       . "' is declared as a "
                       . $arity->{$option}
@@ -4248,8 +4258,9 @@ sub _specCfgKey {
             }
         }
         else {
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text => "Subkey '"
+            $this->Throw(
+                'Foswiki::Exception::Config::BadSpecData',
+                "Subkey '"
                   . $elem
                   . "' cannot be declared in a leaf key definition",
                 section => $section,
@@ -4273,8 +4284,9 @@ sub _specCfgKey {
     }
 
     if ($isEnhancing) {
-        Foswiki::Exception::Config::BadSpecData->throw(
-            text    => "Cannot enhance key, no original found",
+        $this->Throw(
+            'Foswiki::Exception::Config::BadSpecData',
+            "Cannot enhance key, no original found",
             section => $section,
             key     => $keyFullName,
             srcFile => $specs->source,
@@ -4283,8 +4295,9 @@ sub _specCfgKey {
 
     if ( defined $keyNode ) {
         if ( $keyNode->isLeaf && defined $keyType ) {
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text => "Key type '"
+            $this->Throw(
+                'Foswiki::Exception::Config::BadSpecData',
+                "Key type '"
                   . $keyType
                   . "' is different from the previously declared '"
                   . $prevKeyType . "'",

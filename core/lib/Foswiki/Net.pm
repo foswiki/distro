@@ -432,10 +432,8 @@ sub _installMailHandler {
 #_logMailError('debug', "Testing $this->{MAIL_HOST} with $this->{MAIL_METHOD}");
 
         $this->MAIL_METHOD =~ m/^([\w:_()\s]+)$/ or    # Config or intruder
-          Foswiki::Exception::Fatal->throw(
-                text => "Invalid {Email}{MailMethod} "
-              . $this->MAIL_METHOD
-              . "\n" );
+          $this->Throw( 'Foswiki::Exception::Fatal',
+            "Invalid {Email}{MailMethod} " . $this->MAIL_METHOD . "\n" );
         $this->MAIL_METHOD($1);
 
         Foswiki::load_package('Foswiki::IP');

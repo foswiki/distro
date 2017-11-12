@@ -369,9 +369,8 @@ sub getKeyObject {
                 nodeProfile => { leafState => 0, },
             );
 
-            Foswiki::Exception::Fatal->throw(
-                text => "Failed to auto-vivify key '$key' on "
-                  . $keyObj->fullName )
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                "Failed to auto-vivify key '$key' on " . $keyObj->fullName )
               unless defined $node;
         }
 
@@ -465,10 +464,8 @@ sub tieNode {
 
     my $node = $this->nodes->{$key};
 
-    Foswiki::Exception::Fatal->throw(
-            text => "Cannot tie non-existent key '$key' on '"
-          . $this->fullName
-          . "'" )
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "Cannot tie non-existent key '$key' on '" . $this->fullName . "'" )
       unless defined $node;
 
     my %newHash;
@@ -479,9 +476,9 @@ sub tieNode {
       parent => $node->parent,
       @_;
 
-    Foswiki::Exception::Fatal->throw(
-        text => "Failed to create a tied " . $class . " hash", )
-      unless $tieObj;
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "Failed to create a tied " . $class . " hash",
+    ) unless $tieObj;
 
     # XXX This drops any old value previously stored in the key! But this is
     # intended behaviour. After all, it's an assignment operation.
@@ -509,9 +506,9 @@ sub createNode {
 
     if ( defined $type ) {
         $nodeClass = $nodeClass->type2class($type);
-        Foswiki::Exception::Fatal->throw(
-            text => "Cannot get node class for type " . $type, )
-          unless $nodeClass;
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "Cannot get node class for type " . $type,
+        ) unless $nodeClass;
     }
 
     # Set this node type to branch because this is what it is.

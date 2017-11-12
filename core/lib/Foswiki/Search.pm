@@ -329,7 +329,7 @@ sub searchWeb {
                 $searchString =~ s/(&#(39|34|60|62|37);)/chr($2)/ge;
             }
             else {
-                Foswiki::Exception->throw( text =>
+                $this->Throw( 'Foswiki::Exception::Fatal',
 'Unknown decode type requested: Valid types are entity, entities, safe and url.'
                 );
             }

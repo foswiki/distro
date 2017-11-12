@@ -686,7 +686,8 @@ sub _loadFromSubDir {
     my $extDirPath =
       File::Spec->catdir( $subDir, split( /::/, $this->extPrefix ) );
     my $extDir = IO::Dir->new($extDirPath);
-    Foswiki::Exception::FileOp->throw(
+    $this->Throw(
+        'Foswiki::Exception::FileOp', undef,
         file => $extDirPath,
         op   => "opendir",
     ) unless defined $extDir;
@@ -707,8 +708,8 @@ sub _loadFromSubDir {
                 # SMELL Bad extension file name, shall we do something about it?
                 # Note that logging isn't possible yet. But we can rely upon
                 # server logging perhaps.
-                Foswiki::Exception::Ext::BadName->throw(
-                    extension => $dirEntry );
+                $this->Throw( 'Foswiki::Exception::Ext::BadName',
+                    undef, extension => $dirEntry );
             }
         }
         catch {
@@ -960,8 +961,8 @@ sub _topoSort {
         $marked{$node} = NODE_DISABLED unless $this->extEnabled($node);
 
         # At this stage there must be no temporary marks.
-        Foswiki::Exception::Fatal->throw(
-            text => "Temp. mark for node $node is impossible here" )
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "Temp. mark for node $node is impossible here" )
           if defined $marked{$node} && $marked{$node} == NODE_TEMP_MARK;
         next if $marked{$node};
         push @list,
@@ -1067,7 +1068,8 @@ sub _disabled2List {
 
     my @list;
     if ( my $reftype = reftype($disabled) ) {
-        Foswiki::Exception::Fatal->throw( text => $msg
+        $this->Throw( 'Foswiki::Exception::Fatal',
+                $msg
               . " is a ref to "
               . $reftype
               . " but ARRAY or scalar string expected" )
@@ -1226,8 +1228,8 @@ sub prepareRegisteredMethods {
                 foreach
                   my $where ( keys %{ $plugMethods{$ext}{$target}{$method} } )
                 {
-                    Foswiki::Exception::Fatal->throw(
-                            text => "Duplicate registration of "
+                    $this->Throw( 'Foswiki::Exception::Fatal',
+                            "Duplicate registration of "
                           . $where
                           . " method "
                           . $target . "::"
@@ -1319,8 +1321,8 @@ sub _execMethodList {
                         $lastIteration = $restart = 1;
                     }
                     else {
-                        Foswiki::Exception::Fatal->throw(
-                                text => "Cannot handle flow control exception "
+                        $this->Throw( 'Foswiki::Exception::Fatal',
+                                "Cannot handle flow control exception "
                               . ref($e)
                               . " thrown by "
                               . $mEntry->{extension} );
@@ -1610,8 +1612,8 @@ sub registerPluggable {
 
     ASSERT( ref($code) eq 'CODE' ) if DEBUG;
 
-    Foswiki::Exception::Fatal->throw(
-            text => "Attempt to register duplicate pluggable method "
+    $this->Throw( 'Foswiki::Exception::Fatal',
+            "Attempt to register duplicate pluggable method "
           . $method
           . " for class "
           . $target )

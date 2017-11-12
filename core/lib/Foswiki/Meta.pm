@@ -949,22 +949,23 @@ sub populateNewWeb {
 
     if ($parent) {
         unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
-            Foswiki::Exception->throw( text => 'Unable to create '
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                    'Unable to create '
                   . $this->web
                   . ' - Hierarchical webs are disabled' );
         }
 
         unless ( $store->webExists($parent) ) {
-            Foswiki::Exception->throw(
-                text => 'Parent web ' . $parent . ' does not exist' );
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                'Parent web ' . $parent . ' does not exist' );
         }
     }
 
     # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
         unless ( $store->webExists($templateWeb) ) {
-            Foswiki::Exception->throw(
-                text => 'Template web ' . $templateWeb . ' does not exist' );
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                'Template web ' . $templateWeb . ' does not exist' );
         }
     }
 
@@ -2172,7 +2173,8 @@ sub saveAs {
         # Don't verify web existance for WebPreferences, as saving
         # WebPreferences creates the web.
         unless ( $this->app->store->webExists( $this->web ) ) {
-            Foswiki::Exception->throw( text => 'Unable to save topic '
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                    'Unable to save topic '
                   . $this->topic
                   . ' - web '
                   . $this->web
@@ -2708,18 +2710,19 @@ sub removeFromStore {
     ASSERT( $this->web, 'this is not a removable object' ) if DEBUG;
 
     if ( !$store->webExists( $this->web ) ) {
-        Foswiki::Exception->throw( text => 'No such web ' . $this->web );
+        $this->Throw( 'Foswiki::Exception', 'No such web ' . $this->web );
     }
     if ( $this->topic
         && !$store->topicExists( $this->web, $this->topic ) )
     {
-        Foswiki::Exception->throw(
-            text => 'No such topic ' . $this->web . '.' . $this->topic );
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            'No such topic ' . $this->web . '.' . $this->topic );
     }
 
     if ( $attachment && !$this->hasAttachment($attachment) ) {
         ASSERT( $this->topic, 'this is not a removable object' ) if DEBUG;
-        Foswiki::Exception->throw( text => 'No such attachment '
+        $this->Throw( 'Foswiki::Exception::Fatal',
+                'No such attachment '
               . $this->web . '.'
               . $this->topic . '.'
               . $attachment );
@@ -2958,11 +2961,11 @@ sub attach {
 
         # no stream given, but a file was given; open it.
         open( $opts{stream}, '<', $opts{file} )
-          || Foswiki::Exception->throw(
-            text => 'Could not open ' . $opts{file} );
+          || $this->Throw( 'Foswiki::Exception::Fatal',
+            'Could not open ' . $opts{file} );
         binmode( $opts{stream} )
-          || Foswiki::Exception->throw(
-            text => $opts{file} . ' binmode failed: ' . $! );
+          || $this->Throw( 'Foswiki::Exception::Fatal',
+            $opts{file} . ' binmode failed: ' . $! );
     }
 
     my $attrs;
@@ -3011,7 +3014,8 @@ sub attach {
                 while ( $r = sysread( $opts{stream}, $transfer, 0x80000 ) ) {
                     if ( !defined $r ) {
                         next if ( $! == Errno::EINTR );
-                        Foswiki::Exception::FileOp->throw(
+                        $this->Throw(
+                            'Foswiki::Exception::FileOp', undef,
                             file => "(a temporary handle)",
                             op   => "sysread"
                         );
@@ -3019,7 +3023,8 @@ sub attach {
                     my $offset = 0;
                     while ($r) {
                         my $w = syswrite( $fh, $transfer, $r, $offset );
-                        Foswiki::Exception::FileOp->throw(
+                        $this->Throw(
+                            'Foswiki::Exception::FileOp', undef,
                             file => "(a temporary handle)",
                             op   => "syswrite",
                         ) unless ( defined $w );

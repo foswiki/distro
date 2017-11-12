@@ -126,13 +126,13 @@ sub getWorkArea {
     # attachment names.
     $key = Foswiki::Sandbox::untaint( $key,
         \&Foswiki::Sandbox::validateAttachmentName );
-    Foswiki::Exception->throw( text => "Bad work area name $key" )
+    $this->Throw( 'Foswiki::Exception::Fatal', "Bad work area name $key" )
       unless ($key);
 
     my $dir = $this->app->cfg->data->{WorkingDir} . "/work_areas/$key";
 
     unless ( -d $dir ) {
-        mkdir($dir) || Foswiki::Exception->throw( text => <<ERROR);
+        mkdir($dir) || $this->Throw( 'Foswiki::Exception', <<ERROR);
 Failed to create $key work area. Check your setting of {WorkingDir}
 in =configure=.
 ERROR

@@ -152,9 +152,10 @@ sub preload {
                         $pn,
                         sub {
                             my $pn = shift;
-                            Foswiki::Exception::Fatal->throw(
-                                text => 'Bad debugenableplugins' )
-                              unless $pn =~ m/^[a-zA-Z0-9_]+$/;
+                            $this->Throw(
+                                'Foswiki::Exception::Fatal',
+                                'Bad debugenableplugins'
+                            ) unless $pn =~ m/^[a-zA-Z0-9_]+$/;
                             return $pn;
                         }
                     )

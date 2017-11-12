@@ -203,8 +203,8 @@ sub invalidatePath {
             $path = $_[0]->getPath;
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                    text => 'Invalid argument of type '
+            $this->Throw( 'Foswiki::Exception::Fatal',
+                    'Invalid argument of type '
                   . ref( $_[0] )
                   . ' passed to '
                   . ref($this)
@@ -480,8 +480,8 @@ framework is properly initialized and defaults are read.
 
 sub addPresets {
     my $this = shift;
-    Foswiki::Exception::Fatal->throw(
-        text => "Odd number of elements in preset" )
+    $this->Throw( 'Foswiki::Exception::Fatal',
+        "Odd number of elements in preset" )
       if scalar(@_) % 2 == 1;
     $this->_presets( { %{ $this->_presets }, @_ } );
 }
