@@ -866,12 +866,18 @@ sub query {
                 Foswiki::load_class($module);
             }
             catch {
-                Foswiki::Exception::Fatal->throw(
-                        text => "Bad {Store}{QueryAlgorithm} (set to "
+                my $e = $_;
+                $this->Throw(
+                    'Foswiki::Exception::Fatal',
+                    "Bad {Store}{QueryAlgorithm} (set to "
                       . $module
                       . "); suggest you run configure and select a different algorithm\n"
-                      . ( ref($_) ? $_->stringify : $_ ) )
-                  if defined $_;
+                      . (
+                        UNIVERSAL::ISA( $_, 'Foswiki::Exception' )
+                        ? $e->stringify
+                        : $e
+                      )
+                );
             };
             $this->queryObj( $this->create($module) );
         }
@@ -886,12 +892,17 @@ sub query {
             }
             catch {
                 my $e = $_;
-                Foswiki::Exception::Fatal->throw(
-                        text => "Bad {Store}{SearchAlgorithm} (set to "
+                $this->Throw(
+                    'Foswiki::Exception::Fatal',
+                    "Bad {Store}{SearchAlgorithm} (set to "
                       . $module
                       . "); suggest you run configure and select a different algorithm\n"
-                      . ( ref($_) ? $_->stringify : $_ ) )
-                  if defined $_;
+                      . (
+                        UNIVERSAL::ISA( $e, 'Foswiki::Exception' )
+                        ? $e->stringify
+                        : $e
+                      )
+                );
             };
             $this->searchQueryObj( $this->create($module) );
         }
@@ -1496,13 +1507,13 @@ sub _mkPathTo {
         );
     };
     if ( scalar @{$err} ) {
-        Foswiki::Exception::Fatal->throw(
-            text => "PlainFile: failed to create ${path}: $!" );
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "PlainFile: failed to create ${path}: $!" );
     }
 
     if ($@) {
-        Foswiki::Exception::Fatal->throw(
-            text => "PlainFile: failed to create ${path}: $!" );
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            "PlainFile: failed to create ${path}: $!" );
     }
 }
 
