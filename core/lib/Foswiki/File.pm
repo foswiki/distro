@@ -425,7 +425,8 @@ sub _createException {
 
     my $exception = $profile{exception} // 'Foswiki::Exception::FileOp';
     delete $profile{exception};
-    $profile{file} //= $this->path;
+    $profile{file}   //= $this->path;
+    $profile{object} //= $this;
 
     return $this->create( $exception, %profile );
 }
