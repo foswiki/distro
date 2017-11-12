@@ -831,6 +831,7 @@ sub to_str {
 
 sub __makeExceptionParams {
     my $this = shift;
+    my ($text) = @_;
     my ( $pkg, $fileName, $line );
 
     my $backFrames = 1;
@@ -857,6 +858,7 @@ sub __makeExceptionParams {
         file       => $fileName,
         line       => $line,
         stacktrace => Carp::longmess(""),
+        ( defined $text ? ( text => $text ) : () ),
     );
 }
 
@@ -900,6 +902,9 @@ See [[?%QUERYSTRING%#Exceptions_Support][Exceptions Support]] section above.
 
 A wrapper method for %PERLDOC{"Foswiki::Exception" method="throw"}%.
 
+=$text= argument will be passed to the exception constructor as =text= attribute
+unless undefined.
+
 =cut
 
 sub Throw {
@@ -909,12 +914,8 @@ sub Throw {
     $exception = $this->_normalizeExceptionName($exception);
     $this->_validateException( $exception, "Cannot throw" );
 
-    $exception->throw(
-        text => $text,
-        $this->_appProfile,
-        $this->__makeExceptionParams,
-        @profile
-    );
+    $exception->throw( $this->_appProfile, $this->__makeExceptionParams($text),
+        @profile );
 
 }
 
