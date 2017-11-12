@@ -51,7 +51,8 @@
       self.options.endpointUrl = foswiki.getScriptUrl("rest", "UpdatesPlugin", "check");
     }
 
-    self.options.cookieDomain = foswiki.getPreference('COOKIEREALM'); // Allow domain override
+    // Don't override the domain. Each host most likely needs it's own check
+    //self.options.cookieDomain = foswiki.getPreference('COOKIEREALM'); // Allow domain override
     self.options.cookieSecure = foswiki.getPreference('URLHOST').indexOf('https://') === 0;
 
     // events
