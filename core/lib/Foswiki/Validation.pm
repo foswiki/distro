@@ -63,7 +63,9 @@ use constant TRACE => 0;
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript
 sub _getSecretCookieName {
-    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . 'FOSWIKISTRIKEONE';
+    my $secure = ( $Foswiki::Plugins::SESSION->{request}->https() ) ? 'S' : '';
+    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . $secure
+      . 'FOSWIKISTRIKEONE';
 }
 
 =begin TML

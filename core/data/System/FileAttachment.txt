@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1489539478" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1510549663" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -114,23 +114,23 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
 
    * Once a file is attached it can be referenced in the topic. Example:
       1. ==[Attach]== a file, for example: =Sample.txt=
-      1. ==[Edit]== the topic you attached the file to and enter: =%<nop>ATTACHURL%/Sample.txt=
-      1. ==[Preview]==: the =%<nop>ATTACHURL%/Sample.txt= text appears as: %PUBURL%/%WEB%/%TOPIC%/Sample.txt, a link to the text file.
+      1. ==[Edit]== the topic you attached the file to and enter: =%<nop>ATTACHURL{"Sample.txt"}%=
+      1. ==[Preview]==: the =%<nop>ATTACHURL{"Sample.txt"}%= text appears as: %ATTACHURL{"Sample.txt"}%, a link to the text file.
 
    * To reference an attachment located in another topic, enter:
-      * =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/Sample.txt= (if it's within the same web)
-      * =%<nop>PUBURL%/Otherweb/OtherTopic/Sample.txt= (if it's in a different web)
+      * =%<nop>PUBURL{"Sample.txt" topic="%<nop>WEB%.OtherTopic"}%= (if it's within the same web)
+      * =%<nop>PUBURL{"Sample.txt" topic="Otherweb.OtherTopic"}%= (if it's in a different web)
 
    * Attached HTML files and text files can be inlined in a topic. Example:
       1. ==[Attach]== file: =Sample.txt=
       1. ==[Edit]== topic and write text: =%<nop>INCLUDE{"%<nop>ATTACHURL%/Sample.txt"}%=
-         * Content of attached file is shown inlined.
-         * [[VarINCLUDE][Read more about INCLUDE]].
+         * Content of attached file is shown inlined.  ([[VarINCLUDE][Read more about INCLUDE]]).
+         * <blockquote> %INCLUDE{"%ATTACHURL{"Sample.txt"}%"}% </blockquote>
 
    * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
       1. ==[Attach]== an image file, for example: =Smile.gif=
-      1. ==[Edit]== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
-      1. ==[Preview]==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
+      1. ==[Edit]== topic and write text: =%<nop>ATTACHURL{"Smile.gif"}%=
+      1. ==[Preview]==: text appears as %ATTACHURL{"Smile.gif"}%, an image.
 
 ---++ Securing Attachments
 In most installations, attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
@@ -263,5 +263,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1489539478" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1489539478" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr=""  date="1510549663" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr=""  date="1510549663" size="94" user="ProjectContributor" version="1"}%
