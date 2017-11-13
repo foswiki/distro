@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490749805" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1510549663" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -458,7 +458,7 @@ Email addresses are also linked automatically,  see further details below.
    * nntp://foswiki.org
    * telnet://foswiki.org
    * name@foswiki.org
-   * %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png
+   * %PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%
 </verbatim>
 </td>
 <td>
@@ -471,7 +471,7 @@ Email addresses are also linked automatically,  see further details below.
    * nntp://foswiki.org
    * telnet://foswiki.org
    * name@foswiki.org
-   * %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png
+   * %PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%
 </td>
 </tr>
 <tr valign="top">
@@ -492,7 +492,7 @@ Email addresses are also linked automatically,  see further details below.
 
 <b>https://foswiki.org</b>
 
-_%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
+_%PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%_
 </verbatim>
 </td><td>
 
@@ -506,7 +506,7 @@ _%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
 
 <b>https://foswiki.org</b>
 
-_%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
+_%PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%_
 </td>
 </tr>
 <tr valign="top">
