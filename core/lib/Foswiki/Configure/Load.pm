@@ -197,6 +197,7 @@ CODE
     if ( $^O eq 'MSWin32' ) {
 
         #force paths to use '/'
+        $Foswiki::cfg{RootDir}     =~ s|\\|/|g;
         $Foswiki::cfg{PubDir}      =~ s|\\|/|g;
         $Foswiki::cfg{DataDir}     =~ s|\\|/|g;
         $Foswiki::cfg{ToolsDir}    =~ s|\\|/|g;

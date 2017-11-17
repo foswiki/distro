@@ -101,13 +101,14 @@ sub setBootstrap {
 
     # Bootstrap works out the correct values of these keys
     my @BOOTSTRAP =
-      qw( {DataDir} {DefaultUrlHost} {ForceDefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
-      {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
-      {ScriptSuffix} {LocalesDir} {Store}{Implementation} {NFCNormalizeFilenames}
+      qw( {DefaultUrlHost} {ForceDefaultUrlHost} {DetailedOS} {OS} {PubUrlPath}
+      {ScriptUrlPath} {ScriptUrlPaths}{view}
+      {ScriptSuffix} {Store}{Implementation} {NFCNormalizeFilenames}
       {Store}{SearchAlgorithm} {Site}{Locale} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
+    push( @{ $Foswiki::cfg{BOOTSTRAP} }, keys %{ $Foswiki::cfg{BSDIRS} } );
 }
 
 =begin TML
@@ -189,6 +190,11 @@ sub bootstrapConfig {
             dir           => 'bin',
             required      => 1,
             validate_file => 'setlib.cfg'
+        },
+        RootDir => {
+            dir           => '',
+            required      => 1,
+            validate_file => 'bin'
         }
     );
 
@@ -196,8 +202,9 @@ sub bootstrapConfig {
     # confuse soft links
     my $root = File::Spec->catdir( $bin, File::Spec->updir() );
     $root =~ s{\\}{/}g;
-    my $fatal = '';
-    my $warn  = '';
+    my $fatal  = '';
+    my $warn   = '';
+    my %bsdirs = ();
     while ( my ( $key, $def ) = each %rel_to_root ) {
         $Foswiki::cfg{$key} = File::Spec->rel2abs( $def->{dir}, $root );
         $Foswiki::cfg{$key} = abs_path( $Foswiki::cfg{$key} );
@@ -227,6 +234,17 @@ sub bootstrapConfig {
             $warn .=
               "\n      * Note: {$key} could not be guessed. Set it manually!";
         }
+
+        # Redirect all subdirs to be relative to the RootDir
+        if ( $key ne 'RootDir' ) {
+            $bsdirs{"{$key}"} = '$Foswiki::cfg{RootDir}/' . $def->{dir};
+        }
+        else {
+            $bsdirs{"{$key}"} = $Foswiki::cfg{$key};
+        }
+
+        # But we need to keep those unexpanded values out of $Foswiki::cfg
+        # until after the last expansion via readConfig().
     }
 
     # Bootstrap the Site Locale and CharSet
@@ -248,6 +266,13 @@ EPITAPH
 # JQueryPlugin. Without the Config.spec, no plugins get registered)
 # Don't load LocalSite.cfg if it exists (should normally not exist when bootstrapping)
     Foswiki::Configure::Load::readConfig( 0, 0, 1, 1 );
+
+    # (At the moment of writing this line,)
+    # the line above is the **last expansion of $Foswiki::cfg**
+    $Foswiki::cfg{BSDIRS} = \%bsdirs;
+    print STDERR "AUTOCONFIG BSDIRS: "
+      . Data::Dumper->Dump( [ $Foswiki::cfg{BSDIRS} ] )
+      if (TRAUTO);
 
     # Detect the OS and DetailedOS
     workOutOS();

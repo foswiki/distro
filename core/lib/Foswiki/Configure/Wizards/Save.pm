@@ -211,6 +211,7 @@ sub save {
     }
 
     my %save;
+    my %set = %{ $this->param('set') };
 
     # Clear out the configuration and re-initialize it either
     # with or without the .spec expansion.  This also clears the
@@ -222,8 +223,13 @@ sub save {
         foreach my $key ( @{ $Foswiki::cfg{BOOTSTRAP} } ) {
             eval("(\$save$key)=\$Foswiki::cfg$key=~m/^(.*)\$/");
             ASSERT( !$@, $@ ) if DEBUG;
-            delete $Foswiki::cfg{BOOTSTRAP};
         }
+        delete $Foswiki::cfg{BOOTSTRAP};
+        print STDERR "BSDIRS set = "
+          . Data::Dumper->Dump( [ $Foswiki::cfg{BSDIRS} ] )
+          if TRACE_SAVE;
+        %set = ( %set, %{ $Foswiki::cfg{BSDIRS} } );
+        delete $Foswiki::cfg{BSDIRS};
 
         %Foswiki::cfg = ();
 
@@ -244,8 +250,10 @@ sub save {
 
     # Get changes from 'set' *without* expanding values. this is
     # a cut-down from Foswiki::Configure::Query::_getSetParams
-    if ( $this->param('set') ) {
-        while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
+    if (%set) {
+        print STDERR "Save set = " . Data::Dumper->Dump( [ \%set ] )
+          if TRACE_SAVE;
+        while ( my ( $k, $v ) = each %set ) {
             my $spec = $root->getValueObject($k);
             eval("\$spec->{old_value} = \$Foswiki::cfg$k") if $spec;
             if ( $spec && defined $v && !ref($v) ) {
