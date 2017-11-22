@@ -485,6 +485,9 @@ function _id_ify(id) {
 
         wizard_finished(params);
 
+        // Remove the wait cursor.
+        $('body').css('cursor','auto');
+
         $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
         $dlg.dialog({
