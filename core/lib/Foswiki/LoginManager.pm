@@ -111,7 +111,7 @@ sub makeLoginManager {
         }
         $use .= '; use CGI::Cookie ()';
         eval $use;
-        $this->Throw( 'Foswiki::Exception::Fatal', $@ ) if $@;
+        Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
         if ( $req->https() ) {
             $sessionname = 'SFOSWIKISID';
         }

@@ -232,12 +232,12 @@ sub _cleanUpFilePath {
         $component ||= '';
         next if $component eq '.';
         if ( $component eq '..' ) {
-            $this->Throw( 'Foswiki::Exception::Fatal',
-                'relative path in filename ' . $string );
+            Foswiki::Exception::Fatal->throw(
+                text => 'relative path in filename ' . $string );
         }
         elsif ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
-            $this->Throw( 'Foswiki::Exception::Fatal',
-                    'illegal characters in file name component "'
+            Foswiki::Exception::Fatal->throw(
+                    text => 'illegal characters in file name component "'
                   . $component
                   . '" of filename '
                   . $string );

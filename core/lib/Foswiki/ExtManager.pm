@@ -1612,8 +1612,8 @@ sub registerPluggable {
 
     ASSERT( ref($code) eq 'CODE' ) if DEBUG;
 
-    $this->Throw( 'Foswiki::Exception::Fatal',
-            "Attempt to register duplicate pluggable method "
+    Foswiki::Exception::Fatal->throw(
+            text => "Attempt to register duplicate pluggable method "
           . $method
           . " for class "
           . $target )
