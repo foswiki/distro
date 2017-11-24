@@ -203,7 +203,7 @@ alphanumerics and underscores.
 
 If you fail to create a new user (for eg your Mapper has read only access),
 <pre>
-    Foswiki::Exception->throw(text => 'Failed to add user: '.$error);
+    Foswiki::Exception::Fatal->throw(text => 'Failed to add user: '.$error);
 </pre>
 where $error is a descriptive string.
 
@@ -328,7 +328,7 @@ adds the user specified by the cuid to the group.
 Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the group does not exist, and the create flag is not supplied:
 <pre>
-    Foswiki::Exception->throw( text => $this->app
+    Foswiki::Exception::Fatal->throw( text => $this->app
         ->i18n->maketext('Group does not exist and create not permitted')
     ) unless ($create);
 </pre>
@@ -342,7 +342,7 @@ if the group does not exist, and the create flag is not supplied:
 Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the user does not exist in the group:
 <pre>
-   Foswiki::Exception->throw(
+   Foswiki::Exception::Fatal->throw(
       text => $this->app->i18n->maketext(
          'User [_1] not in group, cannot be removed', $cuid
       )
