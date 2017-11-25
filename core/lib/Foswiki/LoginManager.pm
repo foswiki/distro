@@ -361,8 +361,6 @@ sub loadSession {
 
     my $tokenUser = $this->_getTokenCredentials($session);
     if ($tokenUser) {
-        $tokenUser =
-          $session->{users}->getLoginName($tokenUser);    # Returns a cUID
         _trace( $this,
             "Replacing current user with $tokenUser from authtoken" );
         $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
@@ -467,7 +465,7 @@ $Foswiki::cfg{WorkingDir}/tmp/authtoken_$tokenid
 The token credentials are obtained from the file system using Storable.
 
 Note:  The cUID contained in the token will be granted access, even if the user is
-not known to the Password Manager / Mapper.  
+not known to the Password Manager / Mapper.
 
 =cut
 
@@ -496,8 +494,11 @@ sub _getTokenCredentials {
 
             my $expires = $tokenhash->{expires};
             if ( !defined $expires || $expires > time() ) {
-                $authUser = $tokenhash->{cUID};
-                _trace( $this, "User $authUser accepted from auth token" );
+                $authUser =
+                  $session->{users}->getLoginName( $tokenhash->{cUID} );
+                _trace( $this,
+"User $authUser  (cUID $tokenhash->{cUID}) accepted from auth token"
+                );
 
                 # create new session if necessary
                 unless ( $this->{_cgisession} ) {
@@ -889,8 +890,12 @@ sub complete {
 
 ---++ StaticMethod expireDeadSessions()
 
-Delete sessions and passthrough files that are sitting around but are really expired.
-This *assumes* that the sessions are stored as files.
+Delete stale sessions, passthrough and tokenauth files that are sitting around but are really expired.
+This *assumes* that the sessions are stored as files.  It uses the file timestamp
+to determine if the session is expired.
+
+The setting ={Sessions}{ExpireAfter}= time as used as a universal expiration time.  Typically,
+expiration of tokenauth files will be much shorter.
 
 This is a static method, but requires Foswiki::cfg. It is designed to be
 run from a session or from a cron job.
@@ -1765,13 +1770,13 @@ As this can be used to bypass password authentication, it is critical that the
 token is sent to the user using a highly trusted channel.
 
 Note:  The cUID contained in the token will be granted access, even if the user is
-not known to the Password Manager / Mapper.  The caller of this function should 
+not known to the Password Manager / Mapper.  The caller of this function should
 ensure that the user exists before creating the token.
 
-Valid time in minutes, defaults to 15 minutes, as configured in $Foswiki::cfg{Login}{TokenLifetime} 
+Valid time in minutes, defaults to 15 minutes, as configured in $Foswiki::cfg{Login}{TokenLifetime}
 
 The $sessionVars hash is used to set Session Variables. Options hash currently includes:
-   $ FOSWIKI_TOPICRESTRICTION => "Web.Topic": Access will be redirected to this topic    
+   $ FOSWIKI_TOPICRESTRICTION => "Web.Topic": Access will be redirected to this topic
 
 When the user accesses the site and presents the authentication token, the data is loaded and
 deleted to prevent reuse.  Expiration is checked, and if still valid, a new session is established
