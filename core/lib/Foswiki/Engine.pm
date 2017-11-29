@@ -502,6 +502,107 @@ sub write {
     ASSERT('Pure virtual method - should never be called');
 }
 
+=begin TML
+
+---++ _getConnectionData($detectProxy) = ( $client, $proto, $host, $port, $proxy )
+
+Utility routine obtains the connection information from the headers.
+
+If $Foswiki::cfg{PROXY}{UseForwardedHeaders} is true, or if the $detectProxy flag is set
+this routine will return the connection data from the X-Forwarded-* or Forwarded: headers.
+
+Headers: 
+   * HTTP_X_FORWARDED_HOST 
+   * HTTP_X_FORWARDED_PORT
+   * HTTP_X_FORWARDED_FOR
+   * HTTP_X_FORWARDED_PROTO
+
+=cut
+
+sub _getConnectionData {
+
+    my $detectProxy = shift;
+
+    my ( $client, $proto, $host, $port, $proxy );
+
+    # These are the defaults populated in a conventional server, no proxy
+    $client = $ENV{REMOTE_ADDR};
+    $proto  = ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) ? 'https' : 'http';
+    $host   = $ENV{HTTP_HOST} || $ENV{SERVER_NAME};
+    $port   = $ENV{SERVER_PORT};
+
+    if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+        my ( $fwdClient, $fwdProto, $fwdHost, $fwdPort, $hostport );
+
+        if ( my $hdr = $ENV{HTTP_X_FORWARDED_FOR} ) {
+            my $ip = ( split /,\s?/, $hdr )[0];
+            if ( defined $ip ) {
+                $fwdClient = $ip;
+                print STDERR
+"AUTOCONFIG: Client IP detected from Proxy header ($hdr): $ip\n"
+                  if ($detectProxy);
+                $proxy = 1;
+            }
+        }
+
+        if ( my $hdr = $ENV{HTTP_X_FORWARDED_HOST} ) {
+            my $first = ( split /,\s?/, $hdr )[0];
+            if ( defined $first ) {
+                $first =~ s/:(\d+)$//;
+                $hostport = $1 if ($1);
+                $fwdHost = $first;
+                print STDERR
+"AUTOCONFIG: Hostname detected from Proxy header ($hdr): $fwdHost\n"
+                  if ($detectProxy);
+                $proxy = 1;
+            }
+        }
+
+        if ( my $hdr = $ENV{HTTP_X_FORWARDED_PROTO} ) {
+            my $first = ( split /,\s?/, $hdr )[0];
+            if ( defined $first ) {
+                $fwdProto = $first;
+                print STDERR
+"AUTOCONFIG: Protocol detected from Proxy header ($hdr): $fwdProto\n"
+                  if ($detectProxy);
+                $proxy = 1;
+            }
+        }
+
+        if ( my $hdr = $ENV{HTTP_X_FORWARDED_PORT} ) {
+            my $first = ( split /,\s?/, $hdr )[0];
+            if ( defined $first ) {
+                $fwdPort = $first;
+                print STDERR
+"AUTOCONFIG: Port detected from Proxy header ($hdr): $fwdPort\n"
+                  if ($detectProxy);
+                $proxy = 1;
+            }
+        }
+        elsif ($hostport) {
+            $fwdPort = $hostport;
+            print STDERR
+"AUTOCONFIG: Port recovered from Proxy FOWARDED_HOST header: $fwdPort\n"
+              if ($detectProxy);
+        }
+
+        $client = $fwdClient if $fwdClient;
+
+        $host = $fwdHost if $fwdHost;
+        $port = $fwdPort if $fwdPort;
+
+        if ( !defined $fwdProto && defined $fwdPort && $fwdPort == 443 ) {
+            $fwdProto = 'https';
+            print STDERR
+              "AUTOCONFIG: proto overridden to https due to port 443 detected\n"
+              if ($detectProxy);
+        }
+        $proto = $fwdProto if $fwdProto;
+    }
+
+    return ( $client, $proto, $host, $port, $proxy );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

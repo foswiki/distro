@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1502239930" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1511982212" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -60,7 +60,7 @@ At some point, you will want to re-visit [[#ConfigureFoswiki][Configuring Foswik
       * If you have shell access, you can download the distribution directly using using this command: <pre>wget  https://sourceforge.net/projects/foswiki/files/latest/download</pre>
       * If you do not have shell access to your web server host, see the section [[#UploadingFoswikiDistribution][Uploading the Foswiki distribution to your web server host]] below.
    3 *Unpack the distribution file:*
-      * go to your web directory (usually /var/www) or in any directory you what to install Foswiki (designed after by  /path/to/foswiki/)
+      * go to your web directory (usually /var/www) or in any directory you what to install Foswiki (designated after by =/path/to/foswiki/=)
       * Untar and gunzip the distribution using this command: (modify to match version number)<verbartim>
        tar -xzvf foswiki-VERSION.tgz
       </verbatim>A new subdirectory called Foswiki-VERSION will be created.
@@ -162,13 +162,16 @@ In details:
 
 <div class='foswikiHelp'>
    * %T% If the Foswiki installation can be accessed by more than one !protocol://domain, ensure the additional alternative URLs are set in ={PermittedRedirectHostUrls}=. *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class='html'>https://company.com, http://111.222.123.234</verbatim>
-   * If your server requires a Proxy in order to access external resources like your mail server, this is configured on the "Security and Authentication" tab, "Proxies" sub-tab. Complete that before proceeding with the E-mail configuration.
+   * If your Foswiki server is hidden behind a reverse proxy, you should check [[https://foswiki.org/Support/FoswikiBehindReverseProxy][Foswiki Behind Reverse Proxy]] for more configuration hints.
    * If you do not want to or are unable to configure from the web interface, there is an alternate command line configuration documented in %IF{"$skin = 'plain'" then="<nop>System.<nop>InstallationGuide#ConfiguringFoswikiManually in your installation" else="[[InstallationGuide#ConfiguringFoswikiManually]]"}%.
 </div>
 
 %IF{"$skin = 'plain'" then="<div class='foswikiHelp' style='border:2px orange solid' >$percntT$percntNow that your Foswiki installation is functional, you are encouraged to view this installation guide on your Foswiki site rather than the static =INSTALL.html= file included in the distribution. This will make it easier to implement the steps which follow because you will be able to use the embedded hyperlinks to jump directly to the referenced pages in your installation. To view this guide in your installation, follow the link provided in the bootstrap banner, or enter =System.InstallationGuide= in the jump-box.</div>"}%
 
 ---+++ Step 6: Configure email
+
+<div class='foswikiHelp'> %T% If your server requires a Proxy in order to access external resources like your mail server, this is configured on the "Security and Authentication" tab, "Proxies" sub-tab.
+Complete that before proceeding with the E-mail configuration. </div>
 
 Outgoing e-mail is required for Foswiki to send registration confirmations, notifications of changes, password reset requests, etc.
 

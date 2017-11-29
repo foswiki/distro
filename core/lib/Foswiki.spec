@@ -1075,16 +1075,24 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
-# **BOOLEAN LABEL="Client IP" **
-# Foswiki normally uses the REMOTE_ADDRESS as the client IP.  If Foswiki is behind
-# a proxy, Foswiki will see the proxy's address as the Client IP.  Enable this switch if you
-# want foswiki to recover the real Client IP from the =X-Forwarded-For= header. 
-# *Caution:* This header is easily spoofed. Only enable this flag if you are certain that
-# you trust the Proxy server.
+# **BOOLEAN LABEL="Forwarded Headers" **
+# Use the =Forwarded-*= headers to determine the Client IP, URL Protocol, Hostname and Port.
+# Foswiki normally uses the local server information for identifying the connection information.
+# However when a proxy server, load balancer, SSL Accelerator or other intermediate
+# devices are present, this local information will most likely be incorrect.
+# Enable this setting to make use of the Proxy headers provided by the Client or intermediate devices:
+#    * =X-Forwarded-For= _Identifies the client IP, overrides REMOTE_ADDRESS variable._
+#    * =X-Forwarded-Host= _Captures the hostname used by the client in it's initial request._
+#    * =X-Forwarded-Proto= _Specifies if the client used an HTTP or HTTPS secure connection._
+#    * =X-Forwarded-Port= _Specifies the original port used by the client._
+#    * =Forwarded:= _New standards based header replaces the X-Forwarded* headers._
+# <p/>
+# *Caution:* These headers are easily spoofed. Only enable this flag if you are certain that
+# a proxy server exists and that you trust the Proxy server.
 # <p/>
 # Note that this setting also impacts CGI Session IP matching. Changing this setting
 # will break all active sessions behind the proxy and require re-authentication.
-$Foswiki::cfg{PROXY}{UseForwardedForHeader} = $FALSE;
+$Foswiki::cfg{PROXY}{UseForwardedHeaders} = $FALSE;
 
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect

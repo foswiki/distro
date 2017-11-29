@@ -105,24 +105,15 @@ sub run {
 sub prepareConnection {
     my ( $this, $req ) = @_;
 
-    $req->remoteAddress( $ENV{REMOTE_ADDR} );
-    if ( $Foswiki::cfg{PROXY}{UseForwardedForHeader}
-        && defined $ENV{HTTP_X_FORWARDED_FOR} )
-    {
-        my @addrs = split /,\s?/, $ENV{HTTP_X_FORWARDED_FOR};
-        $req->remoteAddress( $addrs[0] );
-    }
+    my ( $client, $protocol, $host, $port ) =
+      Foswiki::Engine::_getConnectionData();
 
+    $req->remoteAddress($client);
     $req->method( $ENV{REQUEST_METHOD} );
-
-    if ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) {
+    if ( $protocol eq 'https' ) {
         $req->secure(1);
     }
-
-    if ( $ENV{SERVER_PORT} && $ENV{SERVER_PORT} == 443 ) {
-        $req->secure(1);
-    }
-    $req->serverPort( $ENV{SERVER_PORT} );
+    $req->serverPort($port);
 }
 
 sub prepareQueryParameters {
