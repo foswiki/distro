@@ -483,6 +483,9 @@ PROXY
 
     $Foswiki::cfg{DefaultUrlHost} = "$protocol://" . $host . $port;
 
+    print STDERR
+      "AUTOCONFIG: Set ($Foswiki::cfg{DefaultUrlHost}) from detected\n";
+
 # Examine the CGI path.   The 'view' script it typically removed from the
 # URL when using "Short URLs.  If this BEGIN block is being run by
 # 'view',  then $Foswiki::cfg{ScriptUrlPaths}{view} will be correctly

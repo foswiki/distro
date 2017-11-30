@@ -109,6 +109,8 @@ sub prepareConnection {
       Foswiki::Engine::_getConnectionData();
 
     $req->remoteAddress($client);
+    $req->serverPort($port);
+    $req->header( -name => 'Host', -value => $host );
     $req->method( $ENV{REQUEST_METHOD} );
     if ( $protocol eq 'https' ) {
         $req->secure(1);
@@ -127,6 +129,7 @@ sub prepareHeaders {
     foreach my $header ( keys %ENV ) {
         next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^HTTPS?_//;
+        next if ( $field eq 'HOST' );    # HOST set in prepareConnection
         $req->header( $field => $ENV{$header} );
     }
     $req->remoteUser( $ENV{REMOTE_USER} );

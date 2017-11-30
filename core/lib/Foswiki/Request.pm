@@ -294,16 +294,17 @@ sub url {
     }
     $name =~ s(//+)(/)g;
     if ($full) {
-
         if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
             $url = $Foswiki::cfg{DefaultUrlHost};
         }
         else {
-            my ( $client, $protocol, $host, $port ) =
-              Foswiki::Engine::_getConnectionData();
+            my $host = $this->header('Host');
+            my $port = $this->serverPort();
             $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
-
-            $url = $protocol . '://' . $host . $port;
+            $url =
+                $host
+              ? $this->protocol . '://' . $host . $port
+              : $Foswiki::cfg{DefaultUrlHost};
         }
         return $url if $base;
         $url .= $name;

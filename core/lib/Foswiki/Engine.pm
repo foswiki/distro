@@ -526,10 +526,27 @@ sub _getConnectionData {
     my ( $client, $proto, $host, $port, $proxy );
 
     # These are the defaults populated in a conventional server, no proxy
-    $client = $ENV{REMOTE_ADDR};
-    $proto  = ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) ? 'https' : 'http';
-    $host   = $ENV{HTTP_HOST} || $ENV{SERVER_NAME};
-    $port   = $ENV{SERVER_PORT};
+    $client = $ENV{REMOTE_ADDR} || '';
+    $proto =
+      ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' || $ENV{HTTPS} eq '1' ) )
+      ? 'https'
+      : 'http';
+    $host = $ENV{HTTP_HOST} || $ENV{SERVER_NAME};
+    unless ($host) {
+        if ( defined $ENV{SCRIPT_URI}
+            && $ENV{SCRIPT_URI} =~ m#^(https?)://([^/]+)#i )
+        {
+            $proto = $1;
+            $host  = $2;
+        }
+    }
+
+    #SMELL:  Give up - no obvious hostname in the request.
+    unless ($host) {
+        $host = 'localhost';
+    }
+    $port = $ENV{SERVER_PORT} || 80;
+    $proxy = '';
 
     if (   $detectProxy
         || $Foswiki::cfg{PROXY}{UseForwardedFor}

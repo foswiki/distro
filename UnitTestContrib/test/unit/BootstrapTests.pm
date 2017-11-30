@@ -381,7 +381,8 @@ sub test_DefaultHostUrl {
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
+        qr{AUTOCONFIG: Set \(http://foobar.com\) from detected},
+
         $msg
     );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
@@ -398,8 +399,7 @@ qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-        qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from SERVER_NAME},
-        $msg );
+        qr{AUTOCONFIG: Set \(http://foobar.com\) from detected}, $msg );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
         'http://foobar.com' );
 
@@ -414,8 +414,7 @@ qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-        qr{AUTOCONFIG: Set DefaultUrlHost https://foobar.com from SCRIPT_URI},
-        $msg );
+        qr{AUTOCONFIG: Set \(https://foobar.com\) from detected}, $msg );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
         'https://foobar.com' );
 
