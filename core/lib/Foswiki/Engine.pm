@@ -531,8 +531,11 @@ sub _getConnectionData {
     $host   = $ENV{HTTP_HOST} || $ENV{SERVER_NAME};
     $port   = $ENV{SERVER_PORT};
 
-    if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
-        my ( $fwdClient, $fwdProto, $fwdHost, $fwdPort, $hostport );
+    if (   $detectProxy
+        || $Foswiki::cfg{PROXY}{UseForwardedFor}
+        || $Foswiki::cfg{PROXY}{UseForwardedHeaders} )
+    {
+        my $fwdClient;
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_FOR} ) {
             my $ip = ( split /,\s?/, $hdr )[0];
@@ -540,11 +543,15 @@ sub _getConnectionData {
                 $fwdClient = $ip;
                 print STDERR
 "AUTOCONFIG: Client IP detected from Proxy header ($hdr): $ip\n"
-                  if ($detectProxy);
+                  if ( $detectProxy && $detectProxy eq 'b' );
                 $proxy = 1;
             }
         }
+        $client = $fwdClient if $fwdClient;
+    }
 
+    if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+        my ( $fwdProto, $fwdHost, $fwdPort, $hostport );
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_HOST} ) {
             my $first = ( split /,\s?/, $hdr )[0];
             if ( defined $first ) {
@@ -553,7 +560,7 @@ sub _getConnectionData {
                 $fwdHost = $first;
                 print STDERR
 "AUTOCONFIG: Hostname detected from Proxy header ($hdr): $fwdHost\n"
-                  if ($detectProxy);
+                  if ( $detectProxy && $detectProxy eq 'b' );
                 $proxy = 1;
             }
         }
@@ -564,7 +571,7 @@ sub _getConnectionData {
                 $fwdProto = $first;
                 print STDERR
 "AUTOCONFIG: Protocol detected from Proxy header ($hdr): $fwdProto\n"
-                  if ($detectProxy);
+                  if ( $detectProxy && $detectProxy eq 'b' );
                 $proxy = 1;
             }
         }
@@ -575,7 +582,7 @@ sub _getConnectionData {
                 $fwdPort = $first;
                 print STDERR
 "AUTOCONFIG: Port detected from Proxy header ($hdr): $fwdPort\n"
-                  if ($detectProxy);
+                  if ( $detectProxy && $detectProxy eq 'b' );
                 $proxy = 1;
             }
         }
@@ -583,10 +590,8 @@ sub _getConnectionData {
             $fwdPort = $hostport;
             print STDERR
 "AUTOCONFIG: Port recovered from Proxy FOWARDED_HOST header: $fwdPort\n"
-              if ($detectProxy);
+              if ( $detectProxy && $detectProxy eq 'b' );
         }
-
-        $client = $fwdClient if $fwdClient;
 
         $host = $fwdHost if $fwdHost;
         $port = $fwdPort if $fwdPort;
@@ -595,7 +600,7 @@ sub _getConnectionData {
             $fwdProto = 'https';
             print STDERR
               "AUTOCONFIG: proto overridden to https due to port 443 detected\n"
-              if ($detectProxy);
+              if ( $detectProxy && $detectProxy eq 'b' );
         }
         $proto = $fwdProto if $fwdProto;
     }

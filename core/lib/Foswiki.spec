@@ -41,7 +41,9 @@
 # be browseable from the web - if you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
 
-# **URL LABEL="Default Url Host" CHECK="noemptyok \
+# **URL LABEL="Default Url Host" CHECK_ON_CHANGE="{PermittedRedirectHostUrls}" \
+#       CHECK="also:{PermittedRedirectHostUrls} \
+#              noemptyok \
 #              parts:scheme,authority \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
@@ -65,7 +67,10 @@
 # to return the {DefaultUrlHost}.
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URILIST LABEL="Permitted Redirect Host Urls" EXPERT CHECK='emptyok \
+# **URILIST LABEL="Permitted Redirect Host Urls" EXPERT \
+#       CHECK_ON_CHANGE="{DefaultUrlHost}" \
+#       CHECK='also:{DefaultUrlHost} \
+#              emptyok \
 #              parts:scheme,authority \
 #              authtype:hostip' **
 # If your host has aliases (such as both =www.mywiki.net= and =mywiki.net=
@@ -1075,23 +1080,38 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
-# **BOOLEAN LABEL="Forwarded Headers" **
-# Use the =Forwarded-*= headers to determine the Client IP, URL Protocol, Hostname and Port.
+# **BOOLEAN LABEL="Forwarded For" **
+# Use the =Forwarded-For*= header to determine the Client IP.
 # Foswiki normally uses the local server information for identifying the connection information.
 # However when a proxy server, load balancer, SSL Accelerator or other intermediate
-# devices are present, this local information will most likely be incorrect.
+# devices are present, this connection information will most likely be incorrect.
 # Enable this setting to make use of the Proxy headers provided by the Client or intermediate devices:
 #    * =X-Forwarded-For= _Identifies the client IP, overrides REMOTE_ADDRESS variable._
+#    * =Forwarded For=...= _Identifies the client IP, overrides REMOTE_ADDRESS variable._
+# <p/>
+# *Caution:* These headers are easily spoofed. Only enable this flag if you are certain that
+# a proxy server exists and that you trust the Proxy server. 
+# *The proxy server should strip any spoofed =x-Forwarded-*= headers sent by the client.*
+# <p/>
+# Note that this setting also impacts Logging, and CGI Session IP matching. Changing this setting
+# will break all active sessions behind the proxy and require re-authentication.
+$Foswiki::cfg{PROXY}{UseForwardedFor} = $FALSE;
+
+# **BOOLEAN LABEL="Forwarded Headers" **
+# Use the =Forwarded-*= headers to determine the URL Protocol, Hostname and Port.
+# Foswiki normally uses the local server information for identifying the connection information.
+# A reverse proxy will hide the URL used by the client.
+# <p/>
+# Enable this setting to make use of the Proxy headers provided by the Client or intermediate devices:
 #    * =X-Forwarded-Host= _Captures the hostname used by the client in it's initial request._
 #    * =X-Forwarded-Proto= _Specifies if the client used an HTTP or HTTPS secure connection._
 #    * =X-Forwarded-Port= _Specifies the original port used by the client._
 #    * =Forwarded:= _New standards based header replaces the X-Forwarded* headers._
 # <p/>
 # *Caution:* These headers are easily spoofed. Only enable this flag if you are certain that
-# a proxy server exists and that you trust the Proxy server.
-# <p/>
-# Note that this setting also impacts CGI Session IP matching. Changing this setting
-# will break all active sessions behind the proxy and require re-authentication.
+# a proxy server exists and that you trust the Proxy server.  If all users are behind the same
+# proxy server, the preferred configuration is to enable {ForceDefaultURLHost} instead of using these
+# headers for dynamic resolution.
 $Foswiki::cfg{PROXY}{UseForwardedHeaders} = $FALSE;
 
 #---++ Anti-spam

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::PROXY::UseForwardedForHeader;
+package Foswiki::Configure::Checkers::PROXY::UseForwardedFor;
 
 use strict;
 use warnings;
@@ -10,21 +10,30 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $ENV{HTTP_X_FORWARDED_FOR} ) {
+    my ( $client, $protocol, $host, $port, $proxy ) =
+      Foswiki::Engine::_getConnectionData(1);
 
-        if ( $Foswiki::cfg{PROXY}{UseForwardedForHeader} ) {
-            $reporter->NOTE("Real client IP is =$ENV{HTTP_X_FORWARDED_FOR}=.");
+    if ($proxy) {
+
+        if ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
+            $reporter->WARN(
+"Be sure you trust the proxy server. Clients can use this header to spoof their IP addresses."
+            );
         }
         else {
             $reporter->WARN(
-"Proxy detected, Enable this switch if Foswiki should use the =HTTP_X_FORWARDED_FOR= header to obtain the real client IP address."
-            );
-            $reporter->NOTE(
-"Remote Address is $ENV{REMOTE_ADDR}, Real client IP is =$ENV{HTTP_X_FORWARDED_FOR}=."
+"Proxy detected, Enable this switch if Foswiki should use the =X-Forwarded-For= header to obtain the real client IP address."
             );
         }
+        $reporter->NOTE(
+            "Remote Address is $ENV{REMOTE_ADDR}, Real client IP is =$client=."
+        );
     }
-
+    elsif ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
+        $reporter->WARN(
+"You have enabled ={PROXY}{UseForwardedFor}= but a proxy was not detected. The =X-Forwarded-For= header can be used by clients to mask their real IP address. Be sure this is what you want to do."
+        );
+    }
 }
 
 1;

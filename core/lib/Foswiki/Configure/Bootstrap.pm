@@ -443,8 +443,9 @@ sub bootstrapWebSettings {
 
     $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
+    # Probe the connection data in bootstrap mode
     my ( $client, $protocol, $host, $port, $proxy ) =
-      Foswiki::Engine::_getConnectionData(1);
+      Foswiki::Engine::_getConnectionData('b');
 
     print STDERR
 "AUTOCONFIG: Engine detected:  client ($client) proto ($protocol) host ($host) port ($port) proxy ($proxy) )\n"
