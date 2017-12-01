@@ -1084,6 +1084,10 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
+# **STRING 50 LABEL="No Proxy" CHECK="undefok emptyok"**
+# List of domains that are accessed directly instead of going by the proxy.
+$Foswiki::cfg{PROXY}{NoProxy} = '';
+
 # **BOOLEAN LABEL="Client IP" **
 # Foswiki normally uses the REMOTE_ADDRESS as the client IP.  If Foswiki is behind
 # a proxy, Foswiki will see the proxy's address as the Client IP.  Enable this switch if you

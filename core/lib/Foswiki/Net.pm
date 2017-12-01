@@ -116,6 +116,11 @@ sub getExternalResource {
     my $uri       = URI::URL->new($url);
     my $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
     my $puri      = $proxyHost ? URI::URL->new($proxyHost) : undef;
+    my @noProxy =
+      ( $puri && $Foswiki::cfg{PROXY}{NoProxy} )
+      ? split( /\s*,\s*/, $Foswiki::cfg{PROXY}{NoProxy} )
+      : undef;
+
     my $request;
 
     require HTTP::Request;
@@ -138,6 +143,7 @@ sub getExternalResource {
       if ( $uri->can("userinfo") && defined $uri->userinfo() );
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
+    $ua->no_proxy(@noProxy) if @noProxy;
     my $response = $ua->request($request);
     return $response;
 }
