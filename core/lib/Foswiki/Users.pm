@@ -730,8 +730,14 @@ sub getWikiName {
         # SMELL: is this really needed?
         $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
 
-        $this->{cUID2WikiName}->{$cUID}     = $wikiname;
-        $this->{wikiName2cUID}->{$wikiname} = $cUID;
+      # Only add it to the internal cache if these two values are different
+      # they might be identical when apis have been called with wrong parameters
+      # which are then cached here. This test prevents that from happening.
+        if ( $wikiname ne $cUID ) {
+            $this->{cUID2WikiName}->{$cUID}     = $wikiname;
+            $this->{wikiName2cUID}->{$wikiname} = $cUID;
+        }
+
     }
     return $wikiname;
 }
