@@ -581,6 +581,21 @@ sub getEmails {
 
 =begin TML
 
+---++ ObjectMethod getRegistrationDate($name) -> $string
+
+returns the date this user has registered.
+
+=cut
+
+sub getRegistrationDate {
+    my ( $this, $name ) = @_;
+
+    return unless $name;
+    return $this->_getMapping($name)->getRegistrationDate($name);
+}
+
+=begin TML
+
 ---++ ObjectMethod setEmails($cUID, @emails)
 
 Set the email address(es) for the given user.
