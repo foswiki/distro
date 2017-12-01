@@ -1,4 +1,7 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
 BEGIN {
     foreach my $pc ( split( /:/, $ENV{FOSWIKI_LIBS} ) ) {
         unshift @INC, $pc;
@@ -6,6 +9,6 @@ BEGIN {
 }
 
 use Foswiki::Contrib::Build;
-$build = new Foswiki::Contrib::Build('NatEditPlugin');
+my $build = new Foswiki::Contrib::Build('NatEditPlugin');
 $build->build( $build->{target} );
 

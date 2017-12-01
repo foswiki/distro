@@ -1,8 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 # Build class for WysiwygPlugin
 #
 use strict;
+use warnings;
 
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );

@@ -1,8 +1,9 @@
-#!/usr/bin/perl 
+#!/usr/bin/env perl
 # Analyse who fixed what
 # Copyright (C) 2008-2010 Foswiki Contributors
 # Author: Crawford Currie
 use strict;
+use warnings;
 use Data::Dumper;
 use List::Util;
 use Time::Local;

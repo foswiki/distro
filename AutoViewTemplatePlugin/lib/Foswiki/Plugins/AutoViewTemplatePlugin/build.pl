@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 # Example build class. Copy this file to the equivalent place in your
 # plugin or contrib and edit.
@@ -16,6 +16,9 @@
 # -n Don't actually do anything, just print commands
 # -v Be verbose
 #
+
+use strict;
+use warnings;
 
 # Standard preamble
 BEGIN {
@@ -46,7 +49,7 @@ sub target_build {
 package main;
 
 # Create the build object
-$build = new BuildBuild();
+my $build = new BuildBuild();
 
 # Build the target on the command line, or the default target
 $build->build( $build->{target} );

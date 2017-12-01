@@ -1,11 +1,14 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }
 use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new Foswiki::Contrib::Build('FamFamFamContrib');
+my $build = new Foswiki::Contrib::Build('FamFamFamContrib');
 
 # name of web to upload to
 $build->{UPLOADTARGETWEB} = 'Extensions';
