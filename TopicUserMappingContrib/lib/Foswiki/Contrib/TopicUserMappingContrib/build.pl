@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 use strict;
-use warning;
+use warnings;
 
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );

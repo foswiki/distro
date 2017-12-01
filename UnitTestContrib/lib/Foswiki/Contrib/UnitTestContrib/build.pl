@@ -1,11 +1,14 @@
 #!/usr/bin/env perl
+use strict;
+use warnings;
+
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }
 use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new Foswiki::Contrib::Build('UnitTestContrib');
+my $build = new Foswiki::Contrib::Build('UnitTestContrib');
 
 # Build the target on the command line, or the default target
 $build->build( $build->{target} );

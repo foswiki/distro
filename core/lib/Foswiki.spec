@@ -1084,6 +1084,21 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
+# **STRING 50 LABEL="No Proxy" CHECK="undefok emptyok"**
+# List of domains that are accessed directly instead of going by the proxy.
+$Foswiki::cfg{PROXY}{NoProxy} = '';
+
+# **BOOLEAN LABEL="Client IP" **
+# Foswiki normally uses the REMOTE_ADDRESS as the client IP.  If Foswiki is behind
+# a proxy, Foswiki will see the proxy's address as the Client IP.  Enable this switch if you
+# want foswiki to recover the real Client IP from the =X-Forwarded-For= header. 
+# *Caution:* This header is easily spoofed. Only enable this flag if you are certain that
+# you trust the Proxy server.
+# <p/>
+# Note that this setting also impacts CGI Session IP matching. Changing this setting
+# will break all active sessions behind the proxy and require re-authentication.
+$Foswiki::cfg{PROXY}{UseForwardedForHeader} = $FALSE;
+
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots, which

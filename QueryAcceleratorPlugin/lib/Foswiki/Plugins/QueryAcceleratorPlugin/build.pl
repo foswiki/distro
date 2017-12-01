@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
 
+use strict;
+use warnings;
+
 # Standard preamble
 BEGIN {
     foreach my $pc ( split( /:/, $ENV{FOSWIKI_LIBS} ) ) {
@@ -9,5 +12,5 @@ BEGIN {
 
 use Foswiki::Contrib::Build;
 
-$build = new Foswiki::Contrib::Build("QueryAcceleratorPlugin");
+my $build = new Foswiki::Contrib::Build("QueryAcceleratorPlugin");
 $build->build( $build->{target} );

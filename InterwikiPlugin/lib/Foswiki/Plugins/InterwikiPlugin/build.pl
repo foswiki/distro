@@ -3,6 +3,7 @@
 # Build for InterwikiPlugin
 #
 use strict;
+use warnings;
 
 BEGIN {
     foreach my $pc ( split( /:/, $ENV{FOSWIKI_LIBS} ) ) {

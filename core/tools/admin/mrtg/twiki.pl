@@ -1,5 +1,4 @@
-#!/usr/bin/perl
-#!/opt/csw/bin/perl
+#!/usr/bin/env perl
 # twiki.pl ####################################################
 #
 # MRTG Performance Enhancements v1.0.2
@@ -14,6 +13,7 @@
 # Sven Dowideit, SvenDowideit@home.org.au
 #####################################################################
 use strict;
+use warnings;
 
 #settings that should be moved to the mrtg cfg file, and read using mrtglib?
 my $numberOfMinutesToScan = 5;    #mrtg will not allow less than 5...
