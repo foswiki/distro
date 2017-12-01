@@ -1,9 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # Author: Crawford Currie http://c-dot.co.uk
 #
 # Generates WebNotify from the WaitingFor and ReportedBy fields
 #
 use strict;
+use warnings;
 
 my $ROOT = '/var/www/trunk.foswiki.org';
 my $PROD = '/var/www/foswiki.org';

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 #
 # manifest_to_debian_install [destination-prefix]
 #  <{manifestfile} >>{debian/package.install}
@@ -9,6 +9,7 @@
 # var/lib/foswiki/ is the usual destination directory prefix.
 
 use strict;
+use warnigns;
 
 my ($prefix) = @ARGV;
 

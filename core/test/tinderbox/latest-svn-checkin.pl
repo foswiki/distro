@@ -1,5 +1,6 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 use strict;
+use warnings;
 ################################################################################
 # latest-svn-checkin.pl - parses output returned by svnlog.xslt
 # Copyright 2005,2006 Will Norris.  All Rights Reserved.
