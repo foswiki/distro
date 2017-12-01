@@ -464,6 +464,21 @@ sub getEmails {
 
 =begin TML
 
+---++ ObjectMethod getRegistrationDate($name) -> $string
+
+If $name is a cUID, return that user's email addresses. If it is a group,
+return the addresses of everyone in the group.
+
+Duplicates should be removed from the list.
+
+=cut
+
+sub getRegistrationDate {
+    return;
+}
+
+=begin TML
+
 ---++ ObjectMethod setEmails($cUID, @emails)
 
 Set the email address(es) for the given user.
