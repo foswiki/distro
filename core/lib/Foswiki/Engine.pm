@@ -539,9 +539,12 @@ sub _getConnectionData {
             $proto = $1;
             $host  = $2;
         }
+        elsif ( defined $Foswiki::cfg{DefaultUrlHost} ) {
+            ($host) = $Foswiki::cfg{DefaultUrlHost} =~ m#https?://([^:/]+)#i;
+        }
     }
 
-    #SMELL:  Give up - no obvious hostname in the request.
+    #SMELL:  Give up - no obvious hostname in the request and no default.
     unless ($host) {
         $host = 'localhost';
     }

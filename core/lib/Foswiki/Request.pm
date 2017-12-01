@@ -298,12 +298,12 @@ sub url {
             $url = $Foswiki::cfg{DefaultUrlHost};
         }
         else {
-            my $host = $this->header('Host');
-            my $port = $this->serverPort();
+            my ( $client, $protocol, $host, $port ) =
+              Foswiki::Engine::_getConnectionData();
             $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
             $url =
                 $host
-              ? $this->protocol . '://' . $host . $port
+              ? $protocol . '://' . $host . $port
               : $Foswiki::cfg{DefaultUrlHost};
         }
         return $url if $base;
