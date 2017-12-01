@@ -13,11 +13,8 @@ sub check {
     my $e         = '';
     my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
 
-    if ( !$jqversion ) {
-        return $this->ERROR(<<'MESSAGE');
-There is no configured jQuery version
-MESSAGE
-    }
+    # not supporting browsers < IE9 is just fine
+    return '' if $jqversion eq '';
 
     if ( $jqversion =~ /^jquery-(\d+)\.(\d+)/ && defined $1
         and ( $1 * 1000 + $2 ) <= 1003 )
