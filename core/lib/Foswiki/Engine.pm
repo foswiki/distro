@@ -558,7 +558,7 @@ sub _getConnectionData {
         my $fwdClient;
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_FOR} ) {
-            my $ip = ( split /,\s?/, $hdr )[0];
+            my $ip = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $ip ) {
                 $fwdClient = $ip;
                 print STDERR
@@ -573,10 +573,11 @@ sub _getConnectionData {
     if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
         my ( $fwdProto, $fwdHost, $fwdPort, $hostport );
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_HOST} ) {
-            my $first = ( split /,\s?/, $hdr )[0];
+            my $first = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $first ) {
-                $first =~ s/:(\d+)$//;
-                $hostport = $1 if ($1);
+                if ( $first =~ s/:(\d+)$// ) {
+                    $hostport = $1 if ($1);
+                }
                 $fwdHost = $first;
                 print STDERR
 "AUTOCONFIG: Hostname detected from Proxy header ($hdr): $fwdHost\n"
@@ -586,7 +587,7 @@ sub _getConnectionData {
         }
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_PROTO} ) {
-            my $first = ( split /,\s?/, $hdr )[0];
+            my $first = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $first ) {
                 $fwdProto = $first;
                 print STDERR
@@ -597,7 +598,8 @@ sub _getConnectionData {
         }
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_PORT} ) {
-            my $first = ( split /,\s?/, $hdr )[0];
+            print STDERR "HEADER $hdr\n";
+            my $first = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $first ) {
                 $fwdPort = $first;
                 print STDERR

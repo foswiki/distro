@@ -470,8 +470,7 @@ PROXY
         if (
             ( $ENV{QUERY_STRING} && $ENV{QUERY_STRING} =~ m/\bSSL=1\b/i )
             || (   $ENV{HTTP_REFERER}
-                && $ENV{HTTP_REFERER} =~
-                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E# )
+                && $ENV{HTTP_REFERER} =~ m#^https://\Q$host\E# )
           )
         {
         # Browser is asking for https or refered from https, so override protcol
