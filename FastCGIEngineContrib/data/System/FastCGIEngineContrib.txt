@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1496065343" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512262721" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -232,6 +232,7 @@ After the update, each process will still serve one more request before reloadin
 ---++ Info
 
 | Change History: | |
+|  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task. |
 |  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>\
                         Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
@@ -252,7 +253,7 @@ After the update, each process will still serve one more request before reloadin
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2016 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2017 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
