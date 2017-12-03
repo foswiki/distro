@@ -1,7 +1,7 @@
 # FastCGI Runtime Engine Component of Foswiki - The Free and Open Source Wiki,
 # http://foswiki.org/
 #
-# Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -43,29 +43,27 @@ sub sig_manager {
 }
 
 sub pm_die {
-    my ($this, $msg, $n) = @_;
+    my ( $this, $msg, $n ) = @_;
 
-    $msg ||= ''; # protect against error in FCGI.pm
+    $msg ||= '';    # protect against error in FCGI.pm
 
     if ($Foswiki::Engine::FastCGI::hupRecieved) {
         Foswiki::Engine::FastCGI::reExec();
     }
     else {
-        $this->SUPER::pm_die($msg, $n);
+        $this->SUPER::pm_die( $msg, $n );
     }
 }
 
 sub pm_notify {
-    my ($this, $msg) = @_;
+    my ( $this, $msg ) = @_;
 
-    return if $this->{quiet};    
+    return if $this->{quiet};
     $this->SUPER::pm_notify($msg);
 }
 
 sub pm_change_process_name {
-    my ($this,$name) = @_;
-
-    $name =~ s/perl/foswiki/g;
+    my ( $this, $name ) = @_;
     $0 = $name;
 }
 
