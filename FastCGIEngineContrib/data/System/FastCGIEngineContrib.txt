@@ -74,11 +74,14 @@ mod_fastcgi resources
 <div class="foswikiHelp"> 
 %X% It is strongly recommended that users work from
 Foswiki:Support.ApacheConfigGenerator to create initial Apache configurations.
-This config generator is comprehensive and well tested.
+This config generator is comprehensive and well tested.</div>
+
+There is one important parameter which should be consistent with the largest ATTACHFILESIZELIMIT of any web.  =FcgidMaxRequestLen= must be large enough to
+permit upload of the largest possible attachment, or the upload will fail with a 500 status.  Be sure the =FcgidMaxRequestLen= is larger so that the user will get a
+friendly error message from Foswiki.  The default limit on recent Apache releases is 131072 bytes.  It is _not_ possible to override this in a =.htaccess= file.
 
 Foswiki also ships  with an example apache configuration, and example
 =.htaccess= files which include Fcgi example configurations.
-</div>
 
 ---+++ Lighttpd
 <div class="foswikiHelp">
@@ -232,7 +235,8 @@ After the update, each process will still serve one more request before reloadin
 ---++ Info
 
 | Change History: | |
-|  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task. |
+|  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task.<br/>\
+                        Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=. |
 |  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>\
                         Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
