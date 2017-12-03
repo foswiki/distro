@@ -46,8 +46,11 @@ my @argv = @ARGV;
 
 my (
     $listen,  $nproc,  $max,  $size,  $check, $pidfile,
-    $manager, $detach, $help, $quiet, $pname
+    $manager, $detach, $help, $quiet
 );
+
+my $pname = 'foswiki';  # Default process name.
+
 GetOptions(
     'listen|l=s'  => \$listen,
     'nproc|n=i'   => \$nproc,
@@ -59,7 +62,7 @@ GetOptions(
     'daemon|d'    => \$detach,
     'help|?'      => \$help,
     'quiet|q'     => \$quiet,
-    'pname|N=s'   => \$pname,
+    'pname|a=s'   => \$pname,
 );
 
 pod2usage(1) if $help;
