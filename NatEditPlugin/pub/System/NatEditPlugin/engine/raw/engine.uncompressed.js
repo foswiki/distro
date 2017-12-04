@@ -306,7 +306,11 @@ RawEngine.prototype.init = function() {
     }
   }); 
 
-  dfd.resolve(self);
+  $.when(
+    self.parent.init()
+  ).done(function() {
+    dfd.resolve(self);
+  });
 
   return dfd.promise();
 };

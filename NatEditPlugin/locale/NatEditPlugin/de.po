@@ -109,7 +109,7 @@ msgstr "Datum"
 
 #: templates/edit.natedit.tmpl:116 templates/edit.natedit.tmpl:152
 msgid "Default"
-msgstr "Default"
+msgstr "Standard"
 
 #: data/System/NatEditWordHelpText.txt:16
 msgid "Documentation"
@@ -561,7 +561,7 @@ msgstr "kennzeichnet Pflichtfelder"
 
 #: templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr "Neu"
+msgstr "neu"
 
 #: templates/edit.natedit.tmpl:119
 msgid "public view access"

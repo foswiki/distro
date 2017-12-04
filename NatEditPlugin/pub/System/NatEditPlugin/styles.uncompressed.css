@@ -15,10 +15,6 @@
   z-index:99;
 }
 
-.ui-natedit-container {
-  margin-top:14px;
-}
-
 .natEditPreviewDialog,
 .ui-natedit-container .jqTabContents {
   overflow-x:hidden;
@@ -216,7 +212,7 @@
   width:100%;
   bottom:0;
   left:0;
-  padding:0.5em 1em 1.5em;
+  padding:0.5em 1em 1.7em;
   background:#fff;
   z-index:999;
 }
@@ -307,6 +303,9 @@ table.mceToolbar {
   font-size:127%;
 }
 
+.foswikiSelect.natEditAttachmentSelector {
+  max-width:25em;
+}
 /* prosemirror */
 .ui-natedit .ProseMirror {
   resize: none;

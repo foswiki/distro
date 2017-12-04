@@ -28,7 +28,7 @@ function TinyMCENativeEngine(shell, opts) {
   self.shell = shell;
   self.opts = $.extend({}, TinyMCENativeEngine.defaults, opts);
   self.opts.natedit.showToolbar = false;
-  self.editor = tinymce.editors[0];
+  self.editor = tinymce.editors[0]; // SMELL
   
   $.extend(self.shell.opts, self.opts.natedit);
 }
@@ -40,9 +40,8 @@ TinyMCENativeEngine.prototype.initGui = function() {
   var self = this, $txtarea = $(self.shell.txtarea);
 
   $txtarea.on("fwSwitchToRaw", function(/*ev, editor*/) {
-    self.shell.showToolbar().then(function() {
-      self.shell.toolbar.find(".ui-natedit-switch-to-wysiwyg").show();
-    });
+    self.shell.showToolbar();
+    self.shell.toolbar.find(".ui-natedit-switch-to-wysiwyg").show();
   }).on("fwSwitchToWYSIWYG", function() {
     self.shell.hideToolbar();
     $(document).trigger("resize");

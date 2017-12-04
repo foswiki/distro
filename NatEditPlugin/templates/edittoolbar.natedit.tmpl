@@ -25,16 +25,26 @@
 
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::paragraphmenu"}%<ul class="ui-natedit-menu ui-natedit-paragraph-menu">
-  <li class="ui-natedit-normal"><a href="#" data-markup="normalMarkup" data-type="line">%MAKETEXT{"Normal"}%</a></li>
-  <li class="ui-natedit-h1"><a href="#" data-markup="h1Markup" data-type="line">%MAKETEXT{"Heading 1"}%</a></li>
-  <li class="ui-natedit-h2"><a href="#" data-markup="h2Markup" data-type="line">%MAKETEXT{"Heading 2"}%</a></li>
-  <li class="ui-natedit-h3"><a href="#" data-markup="h3Markup" data-type="line">%MAKETEXT{"Heading 3"}%</a></li>
-  <li class="ui-natedit-h4"><a href="#" data-markup="h4Markup" data-type="line">%MAKETEXT{"Heading 4"}%</a></li>
-  <li class="ui-natedit-h5"><a href="#" data-markup="h5Markup" data-type="line">%MAKETEXT{"Heading 5"}%</a></li>
-  <li class="ui-natedit-h6"><a href="#" data-markup="h6Markup" data-type="line">%MAKETEXT{"Heading 6"}%</a></li>
-  <li class="ui-natedit-verbatim"><a href="#" data-markup="verbatimMarkup">%MAKETEXT{"Verbatim"}%</a></li>
-  <li class="ui-natedit-quoted"><a href="#" data-markup="quoteMarkup">%MAKETEXT{"Blockquote"}%</a></li>
+%TMPL:P{"edittoolbar::paragraphmenu::normal"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h1"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h2"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h3"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h4"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h5"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::h6"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::verbatim"}%%{}%
+%TMPL:P{"edittoolbar::paragraphmenu::quote"}%%{}%
 </ul>%TMPL:END%
+
+%TMPL:DEF{"edittoolbar::paragraphmenu::normal"}%<li class="ui-natedit-normal"><a href="#" data-markup="normalMarkup" data-type="line">%MAKETEXT{"Normal"}%</a></li>%TMPL:END%
+%TMPL:DEF{"edittoolbar::paragraphmenu::h1"}%<li class="ui-natedit-h1"><a href="#" data-markup="h1Markup" data-type="line">%MAKETEXT{"Heading 1"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::h2"}%<li class="ui-natedit-h2"><a href="#" data-markup="h2Markup" data-type="line">%MAKETEXT{"Heading 2"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::h3"}%<li class="ui-natedit-h3"><a href="#" data-markup="h3Markup" data-type="line">%MAKETEXT{"Heading 3"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::h4"}%<li class="ui-natedit-h4"><a href="#" data-markup="h4Markup" data-type="line">%MAKETEXT{"Heading 4"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::h5"}%<li class="ui-natedit-h5"><a href="#" data-markup="h5Markup" data-type="line">%MAKETEXT{"Heading 5"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::h6"}%<li class="ui-natedit-h6"><a href="#" data-markup="h6Markup" data-type="line">%MAKETEXT{"Heading 6"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::verbatim"}%<li class="ui-natedit-verbatim"><a href="#" data-markup="verbatimMarkup">%MAKETEXT{"Verbatim"}%</a></li>
+%TMPL:DEF{"edittoolbar::paragraphmenu::quote"}%<li class="ui-natedit-quoted"><a href="#" data-markup="quoteMarkup">%MAKETEXT{"Blockquote"}%</a></li>
 
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::typobuttons"}%<div class="ui-natedit-buttons ui-natedit-typo-buttons">
@@ -127,7 +137,6 @@
 %TMPL:END%
 %TMPL:DEF{"restorebutton"}%%BUTTON{
   "%MAKETEXT{"Restore"}%" 
-  title="%MAKETEXT{"Restore and exit"}%" 
   icon="tick" 
   class="ui-natedit-save" 
   href="#save"
@@ -135,7 +144,6 @@
 }%%TMPL:END%
 %TMPL:DEF{"savebutton"}%%BUTTON{
   "%MAKETEXT{"Save"}%" 
-  title="%MAKETEXT{"Save and exit"}%" 
   icon="tick" 
   class="ui-natedit-save" 
   href="#save"
@@ -143,14 +151,12 @@
 }%%TMPL:END%
 %TMPL:DEF{"restoreandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Restore and Continue"}%" 
-  title="%MAKETEXT{"Restore and continue editing"}%" 
   icon="disk" 
   class="ui-natedit-checkpoint" 
   accesskey="w" 
 }%%TMPL:END%
 %TMPL:DEF{"saveandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Save and Continue"}%" 
-  title="%MAKETEXT{"Save and continue editing"}%" 
   icon="disk"
   class="ui-natedit-checkpoint" 
   href="#checkpoint"
@@ -166,7 +172,6 @@
 }%</li>%TMPL:END%
 %TMPL:DEF{"previewbutton"}%<li class="natEditPreviewButton">%BUTTON{
   "%MAKETEXT{"Preview"}%" 
-  title="%MAKETEXT{"Preview your changes"}%" 
   icon="eye" 
   class="ui-natedit-preview" 
   href="#preview"
@@ -174,7 +179,6 @@
 }%</li>%TMPL:END%
 %TMPL:DEF{"cancelbutton"}%<li class="natEditCancelButton">%BUTTON{
   "%MAKETEXT{"Cancel"}%" 
-  title="%MAKETEXT{"Abandon changes and exit"}%" 
   icon="cross" 
   class="ui-natedit-cancel" 
   href="#cancel"
@@ -183,7 +187,6 @@
 %TMPL:DEF{"formbutton"}%<li class="natEditFormButton">%NATFORMBUTTON{
   "$percntBUTTON{\"$action\" 
     accesskey=\"f\" 
-    title=\"$title\" 
     icon=\"application_form\" 
     class=\"ui-natedit-$id\"
     href=\"#$id\"

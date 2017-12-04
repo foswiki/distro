@@ -36,7 +36,7 @@ CodemirrorEngine.prototype.parent = BaseEngine.prototype;
 function CodemirrorEngine(shell, opts) {
   var self = this;
 
-  self.shell = shell;
+  self.shell = self.parent.shell = shell; // SMELL
   self.searchState = undefined;
   self.opts = $.extend({}, CodemirrorEngine.defaults, self.shell.opts.codemirror, opts);
 }
@@ -50,6 +50,7 @@ CodemirrorEngine.prototype.init = function() {
       systemWeb = foswiki.getPreference('SYSTEMWEB'),
       editorPath = pubUrlPath+'/'+systemWeb+'/CodeMirrorContrib',
       dfd = $.Deferred();
+
 
   $('<link>')
     .appendTo('head')
@@ -75,6 +76,7 @@ CodemirrorEngine.prototype.init = function() {
     CodeMirror.modeURL = editorPath+'/'+'/mode/%N/%N.js';
 
     $.when(
+      self.parent.init(),
       self.shell.getScript(editorPath+"/addon/mode/loadmode.js"),
       self.shell.getScript(editorPath+"/addon/fold/foldcode.js"),
       self.shell.getScript(editorPath+"/addon/fold/foldgutter.js"),
@@ -85,7 +87,7 @@ CodemirrorEngine.prototype.init = function() {
       self.shell.getScript(editorPath+"/addon/dialog/dialog.js"),
       self.shell.getScript(editorPath+"/widgets/widgets.js"),
       self.shell.getScript(editorPath+"/keymap/vim.js"),
-      self.shell.preloadDialog("searchdialog")
+      self.shell.preloadTemplate("editdialog", "searchdialog")
     ).done(function() {
 
         // extend vim mode to make :w and :x work

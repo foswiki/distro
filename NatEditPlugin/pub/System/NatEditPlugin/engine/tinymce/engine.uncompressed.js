@@ -51,7 +51,10 @@ TinyMCEEngine.prototype.init = function() {
     .attr({type : 'text/css', rel : 'stylesheet'})
     .attr('href', editorPath + '/wysiwyg.css');
 
-  self.shell.getScript(editorPath+'/tinymce/js/tinymce/tinymce.min.js').done(function() {
+  $.when(
+    self.parent.init(),
+    self.shell.getScript(editorPath+'/tinymce/js/tinymce/tinymce.min.js')
+  ).done(function() {
 
     self.opts.tinymce.init_instance_callback = function(editor) {
 

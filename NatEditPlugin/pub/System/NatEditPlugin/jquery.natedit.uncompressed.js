@@ -41,15 +41,11 @@ $.NatEditor = function(txtarea, opts) {
     // init shell and engine
     $txtarea.addClass("ui-widget");
 
-    self.createEngine().done(function() {
-
-      if (self.opts.showToolbar) {
-        self.initToolbar().then(function() {
-          self.initGui();
-        });
-      } else {
-        self.initGui();
-      }
+    $.when(
+      self.preloadTemplate(self.opts.toolbar),
+      self.createEngine()
+    ).done(function() {
+      self.initGui();
     });
   }
 };
@@ -207,6 +203,9 @@ $.NatEditor.prototype.initGui = function() {
   var self = this,
       $txtarea = $(self.txtarea);
 
+  /* init the toolbar if it is there */
+  self.initToolbar();
+
   /* flag enabled plugins */
   if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
     self.container.addClass("ui-natedit-colorpicker-enabled");
@@ -292,164 +291,155 @@ $.NatEditor.prototype.initGui = function() {
  * init the toolbar
  */
 $.NatEditor.prototype.initToolbar = function() {
-  var self = this, 
-      url = foswiki.getScriptUrl("rest", "JQueryPlugin", "tmpl", {
-        topic: self.opts.web+"."+self.opts.topic,
-        load: self.opts.toolbar
-      });
+  var self = this;
 
-  // load toolbar
-  return $.loadTemplate({
-    url:url
-  }).then(function(tmpl) {
+  if (typeof(self.toolbar) !== 'undefined' || typeof($.templates[self.opts.toolbar]) === 'undefined') {
+    return;
+  }
 
-    // init it
-    self.toolbar = $(tmpl.render({
-      web: self.opts.web,
-      topic: self.opts.topic
-    }));
+  // init it
+  self.toolbar = $($.templates[self.opts.toolbar].render({
+    web: self.opts.web,
+    topic: self.opts.topic
+  }));
 
-    if (self.opts.showFullscreen) {
-      self.toolbar.find(".ui-natedit-fullscreen-button").show();
-    } else {
-      self.toolbar.find(".ui-natedit-fullscreen-button").hide();
-    }
+  if (self.opts.showFullscreen) {
+    self.toolbar.find(".ui-natedit-fullscreen-button").show();
+  } else {
+    self.toolbar.find(".ui-natedit-fullscreen-button").hide();
+  }
 
-    self.container.prepend(self.toolbar);
+  if (!self.opts.showToolbar) {
+    self.toolbar.hide();
+  } 
 
-    // buttonsets
-    self.toolbar.find(".ui-natedit-buttons").buttonset({}).on("click", function(ev) {
-      self.handleToolbarAction(ev, $(ev.target).closest("a:not(.ui-natedit-menu-button)"));
-      return false;
-    });
+  self.container.prepend(self.toolbar);
 
-    // a simple button
-    self.toolbar.find(".ui-natedit-button").button().on("click", function(ev) {
-      self.handleToolbarAction(ev, $(this));
-      return false;
-    });
-
-    // a button with a menu next to it
-    self.toolbar.find(".ui-natedit-menu-button").not(".ui-button").button().end()
-      .button("option", {
-        icon: 'ui-icon-triangle-1-s',
-        iconPosition: 'end'
-      })
-      .on("mousedown", function() {
-        var $this = $(this),
-          $menu = (typeof($this.data("menu")) === 'undefined') ? $this.next() : $(self.container.find($this.data("menu"))),
-          state = $menu.data("state") || false;
-
-        $menu.data("menu-button", this);
-        self.hideMenus();
-
-        if (!state) {
-          $this.addClass("ui-state-highlight");
-          $menu.show().position({
-            my: "left top",
-            at: "left bottom+10",
-            of: $this
-          });
-          $menu.data("state", true);
-        } else {
-          $this.removeClass("ui-state-highlight");
-        }
-
-        return false;
-      }).on("click", function() {
-        return false;
-      });
-
-    // markup menus
-    self.toolbar.find(".ui-natedit-menu").each(function() {
-      var $menu =
-        $(this),
-        timer,
-        enableSelect = false;
-
-      $menu.menu().on("mouseleave", function() {
-        timer = window.setTimeout(function() {
-          //$menu.hide().data("state", false);
-        }, 1000);
-
-      }).on("mouseenter", function() {
-        if (typeof(timer) !== 'undefined') {
-          window.clearTimeout(timer);
-          timer = undefined;
-        }
-      }).on("menuselect", function(ev, ui) {
-        ev.target = $menu.data("menu-button"); // SMELL: patch in menu button that triggered this event
-        if (enableSelect) {
-          self.hideMenus();
-          self.handleToolbarAction(ev, ui.item.children("a:first"));
-        }
-      }).children().on("mouseup", function(ev) {
-        enableSelect = true;
-        $menu.menu("select", ev);
-        enableSelect = false;
-      }).on("click", function() {
-        return false;
-      });
-    });
-
-    // close menus clicking the container 
-    $(self.container).on("click", function() {
-      self.hideMenus();
-    });
-
-    // close menus clicking into the engine 
-    self.engine.on("click", function() {
-      self.hideMenus();
-    });
-
-    if (self.opts.autoHideToolbar) {
-      //self.log("toggling toolbar on hover event");
-      self.toolbar.hide();
-
-      self.engine.on("focus",
-        function() {
-          window.setTimeout(function() {
-            self.showToolbar();
-          });
-        }
-      ).on("blur",
-        function() {
-          window.setTimeout(function() {
-            self.hideToolbar();
-          });
-        }
-      );
-    }
-
-    // set trigger resize again as the toolbar changed its height
-    $(window).trigger("resize");
+  // buttonsets
+  self.toolbar.find(".ui-natedit-buttons").buttonset({onlyVisible:false}).on("click", function(ev) {
+    self.handleToolbarAction(ev, $(ev.target).closest("a:not(.ui-natedit-menu-button)"));
+    return false;
   });
+
+  // a simple button
+  self.toolbar.find(".ui-natedit-button").button({onlyVisible:false}).on("click", function(ev) {
+    self.handleToolbarAction(ev, $(this));
+    return false;
+  });
+
+  // a button with a menu next to it
+  self.toolbar.find(".ui-natedit-menu-button").not(".ui-button").button().end()
+    .button("option", {
+      icon: 'ui-icon-triangle-1-s',
+      iconPosition: 'end'
+    })
+    .on("mousedown", function() {
+      var $this = $(this),
+        $menu = (typeof($this.data("menu")) === 'undefined') ? $this.next() : $(self.container.find($this.data("menu"))),
+        state = $menu.data("state") || false;
+
+      $menu.data("menu-button", this);
+      self.hideMenus();
+
+      if (!state) {
+        $this.addClass("ui-state-highlight");
+        $menu.show().position({
+          my: "left top",
+          at: "left bottom+10",
+          of: $this
+        });
+        $menu.data("state", true);
+      } else {
+        $this.removeClass("ui-state-highlight");
+      }
+
+      return false;
+    }).on("click", function() {
+      return false;
+    });
+
+  // markup menus
+  self.toolbar.find(".ui-natedit-menu").each(function() {
+    var $menu =
+      $(this),
+      timer,
+      enableSelect = false;
+
+    $menu.menu().on("mouseleave", function() {
+      timer = window.setTimeout(function() {
+        //$menu.hide().data("state", false);
+      }, 1000);
+
+    }).on("mouseenter", function() {
+      if (typeof(timer) !== 'undefined') {
+        window.clearTimeout(timer);
+        timer = undefined;
+      }
+    }).on("menuselect", function(ev, ui) {
+      ev.target = $menu.data("menu-button"); // SMELL: patch in menu button that triggered this event
+      if (enableSelect) {
+        self.hideMenus();
+        self.handleToolbarAction(ev, ui.item.children("a:first"));
+      }
+    }).children().on("mouseup", function(ev) {
+      enableSelect = true;
+      $menu.menu("select", ev);
+      enableSelect = false;
+    }).on("click", function() {
+      return false;
+    });
+  });
+
+  // close menus clicking the container 
+  $(self.container).on("click", function() {
+    self.hideMenus();
+  });
+
+  // close menus clicking into the engine 
+  self.engine.on("click", function() {
+    self.hideMenus();
+  });
+
+  if (self.opts.autoHideToolbar) {
+    //self.log("toggling toolbar on hover event");
+    self.toolbar.hide();
+
+    self.engine.on("focus",
+      function() {
+        window.setTimeout(function() {
+          self.showToolbar();
+        });
+      }
+    ).on("blur",
+      function() {
+        window.setTimeout(function() {
+          self.hideToolbar();
+        });
+      }
+    );
+  }
+
+  // set trigger resize again as the toolbar changed its height
+  $(window).trigger("resize");
 };
 
 /*************************************************************************
   * show the toolbar, constructs it if it hasn't been initialized yet
   */
 $.NatEditor.prototype.showToolbar = function() {
-  var self = this;
+  var self = this, tmp;
 
-  function _continue() {
-    var tmp = self.txtarea.value; 
-
-    self.toolbar.show();
-    self.txtarea.value = tmp;
-
-    if (self.opts.autoMaxExpand) {
-      $(window).trigger("resize");
-    }
+  if (!self.toolbar) {
+    return;
   }
 
-  if (typeof(self.toolbar) === 'undefined') {
-    return self.initToolbar().then(_continue);
-  } else {
-    _continue();
-  }
+  tmp = self.txtarea.value; 
+  self.toolbar.show();
+  self.txtarea.value = tmp;
 
-  return $.Deferred().resolve().promise();
+  if (self.opts.autoMaxExpand) {
+    $(window).trigger("resize");
+  }
 };
 
 /*************************************************************************
@@ -871,6 +861,7 @@ $.NatEditor.prototype.save = function(action) {
                 });
               }
               document.title = origTitle;
+              $(".natEditTitleStatus").fadeOut();
               $.unblockUI();
             }
           });
@@ -910,7 +901,7 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
     return;
   }
 
-  self.log("handleToolbarAction data=",itemData)
+  //self.log("handleToolbarAction data=",itemData)
 
   // insert markup mode
   if (typeof(itemData.markup) !== 'undefined') {
@@ -1335,15 +1326,17 @@ $.NatEditor.prototype.htmlEntities = function(text) {
 };
 
 /*****************************************************************************
- * pre-load dialog, so that actually calling it later is fastr
+ * pre-load template, so that actually calling it later is fastr
  */
-$.NatEditor.prototype.preloadDialog = function(name) {
+$.NatEditor.prototype.preloadTemplate = function(template, name) {
   var self = this,
       url;
 
+  name = name || template;
+
   url = foswiki.getScriptUrl("rest", "JQueryPlugin", "tmpl", {
     topic: self.opts.web+"."+self.opts.topic,
-    load: "editdialog",
+    load: template,
     name: name
   });
  

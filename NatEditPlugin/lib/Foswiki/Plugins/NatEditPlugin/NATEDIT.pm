@@ -106,6 +106,7 @@ sub init {
   }
 }</script>
 HERE
+
 }
 
 # SMELL: see for Foswiki::Plugins::TinyMCEPLugin::_notAvailable
