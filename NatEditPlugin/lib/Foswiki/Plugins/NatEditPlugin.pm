@@ -30,12 +30,10 @@ BEGIN {
     }
 }
 
-our $VERSION           = '9.9';
-our $RELEASE           = '04 May 2017';
+our $VERSION           = '9.91';
+our $RELEASE           = '04 Dec 2017';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
-our $baseWeb;
-our $baseTopic;
 our $doneNonce;
 
 use constant TRACE => 0;    # toggle me
@@ -50,7 +48,6 @@ sub writeDebug {
 
 ###############################################################################
 sub initPlugin {
-    ( $baseTopic, $baseWeb ) = @_;
 
     Foswiki::Func::registerTagHandler(
         'NATFORMBUTTON',
@@ -100,42 +97,19 @@ sub initPlugin {
 
 ###############################################################################
 # This function will store the TopicTitle in a preference variable if it isn't
-# part of the DataForm of this topic. In a way, we do the reverse of
-# WebDB::onReload() where the TopicTitle is extracted and put into the cache.
+# part of the DataForm of this topic.
 sub beforeSaveHandler {
     my ( $text, $topic, $web, $meta ) = @_;
 
     writeDebug("called beforeSaveHandler($web, $topic)");
 
-    my $session   = $Foswiki::Plugins::SESSION;
-    my $baseWeb   = $session->{webName};
-    my $baseTopic = $session->{topicName};
-
-    if ( $web ne $baseWeb || $topic ne $baseTopic ) {
-        writeDebug("not operating on the base topic");
-        return;
-    }
-
     # find out if we received a TopicTitle
     my $request = Foswiki::Func::getCgiQuery();
+    my $topicTitleField =
+      Foswiki::Func::getPreferencesValue("TOPICTITLE_FIELD") || "TopicTitle";
 
-    my $newTopic = $request->param('newtopic');
-    $newTopic = Foswiki::Sandbox::untaint( $newTopic,
-        \&Foswiki::Sandbox::validateTopicName );
-
-    my $topicTitle = $request->param('TopicTitle');
+    my $topicTitle = $request->param($topicTitleField);
     $topicTitle = Foswiki::Sandbox::untaintUnchecked($topicTitle);
-
-# the "newtopic" urlparam either holds a new topic name in case of a rename action,
-# or a boolean flag indicating that the topic being created is a new topic
-    if (   defined($newTopic)
-        && $newTopic ne ''
-        && $newTopic ne '1'
-        && $newTopic ne $topic )
-    {
-        writeDebug("not saving the topic being rename ... no action");
-        return;
-    }
 
     unless ( defined $topicTitle ) {
         writeDebug("didn't get a TopicTitle, nothing do here");
@@ -147,12 +121,12 @@ sub beforeSaveHandler {
         return;
     }
 
-    my $fieldTopicTitle = $meta->get( 'FIELD', 'TopicTitle' );
+    my $fieldTopicTitle = $meta->get( 'FIELD', $topicTitleField );
     writeDebug("topic=$web.$topic, topicTitle=$topicTitle");
 
     if ( $topicTitle eq $topic ) {
         writeDebug("same as topic name ... nulling");
-        $request->param( "TopicTitle", "" );
+        $request->param( $topicTitleField, "" );
         $topicTitle = '';
         if ( defined $fieldTopicTitle ) {
             $fieldTopicTitle->{value} = "";
