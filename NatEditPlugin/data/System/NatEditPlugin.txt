@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1495512067" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512407001" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,6 +56,7 @@ is sufficient.
 
 |  Copyright &copy;: | 2007-2017 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
+|  04 Dec 2017 | Foswikitask:Item13835: enable !TopicTitle field when feature available |
 |  04 May 2017 | Foswikitask:Item14388: NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs.<br/>
                  Foswikitask:Item14404: NatEdit Save and Continue action fails on mod_perl systems. |
 |  20 Jan 2017 | Foswikitask:Item14265: NatEdit plugin leaves UI blocked after some save errors<br/>\
@@ -183,4 +184,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1495512067" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1512407001" size="64487" user="ProjectContributor" version="1"}%
