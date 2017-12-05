@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1486607275" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512466074" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
-<a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
+<img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
 
 Allows users to "subscribe" to regularly scheduled emails containing either:
    * A report on changes to all topics that have changed within a particular Foswiki web.
@@ -260,7 +260,7 @@ And we create a topic in the web called !WebNotifyCustomTemplate which contains 
 
 ---+++ Info
 
-Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
@@ -313,5 +313,5 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1486607275" size="11437" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1486607275" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1512466074" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512466074" size="1343" user="ProjectContributor" version="1"}%
