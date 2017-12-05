@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PUBURL -- generate an URL for an attachment
 Generate an absolute URL for an attachment, or for a web or topic within the attachment database.
@@ -12,7 +12,7 @@ Generate an absolute URL for an attachment, or for a web or topic within the att
    | =attachment_version= | Select attachment version, if supported | most recent |
 ---++ Examples
    * =%<nop>PUBURL%= expands to =%PUBURL%=
-   * =%<nop>PUBURL{"icon_plus.png"}%= expands to ==%<nop>PUBURL{"icon_plus.png"}%=
+   * =%<nop>PUBURL{"icon_plus.png"}%= expands to =%PUBURL{"icon_plus.png"}%= _(attachment name is ignored if topic name is not provided.)_
    * =%<nop>PUBURL{web="%SYSTEMWEB%"}%= expands to =%PUBURL{web="%SYSTEMWEB%"}%=
    * =%<nop>PUBURL{topic="%SYSTEMWEB%.MainFeatures"}%= expands to =%PUBURL{topic="%SYSTEMWEB%.MainFeatures"}%=
    * =%<nop>PUBURL{web="%SYSTEMWEB%" topic="MainFeatures"}%= expands to =%PUBURL{web="%SYSTEMWEB%" topic="MainFeatures"}%=

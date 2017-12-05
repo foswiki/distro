@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512490670" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -142,7 +142,7 @@ CSS files are gererally attachments to the skin topic that are included in the s
     id="MySkin/mystyle"
     text="
         <style type='text/css' media='all'>
-            @import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');
+            @import url('%PUBURLPATH{"mystyle.css" topic="%SYSTEMWEB%.MySkin"}%');
         </style>"
 }%</verbatim>
 
@@ -163,7 +163,7 @@ Here is an example form that has a select box and the "Go" box for illustration 
   "script"
   id="SkinNavigation"
   requires="JQUERYPLUGIN"
-  text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/Skins/js.js'></script>"
+  text="<script type='text/javascript' src='%PUBURLPATH{"js.js" topic="%SYSTEMWEB%.Skins"}%'></script>"
 }%
 
 Navigate:
@@ -211,7 +211,7 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 | =%A_URL%= | =viewfile= URL that will recover the file |
 | =%A_REV%= | Revision of this file |
 | =%A_ICON%= | A file icon suitable for representing the attachment content |
-| =%A_FILE%= | The name of the file. To get the 'pub' URL of the file, use =%<nop>PUBURL%/%<nop>WEB%/%<nop>TOPIC%/%<nop>A_FILE%= |
+| =%A_FILE%= | The name of the file. To get the 'pub' URL of the file, use =%<nop>PUBURL{"A_FILE" topic="%<nop>WEB%/%<nop>TOPIC%"}%= |
 | =%A_SIZE%= | The size of the file |
 | =%A_DATE%= | The date the file was uploaded |
 | =%A_USER%= | The user who uploaded it |
@@ -238,14 +238,14 @@ See Foswiki:Development/ExtensionDeveloperGuide
 
 For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 <verbatim class='tml'><a href="https://foswiki.org/">
-     <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png"\
+     <img src="%PUBURLPATH{"foswiki-badge.png" topic="%SYSTEMWEB%.ProjectLogos"}%"\
           alt="Powered by Foswiki" height="42"\
           title="Powered by Foswiki" />
 </a></verbatim>
 
 Generating:
 
-[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png' title='Powered by Foswiki' />]]
+[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURLPATH{"foswiki-badge.png" topic="%SYSTEMWEB%.ProjectLogos"}%' title='Powered by Foswiki' />]]
 
 ---++ Browsing Installed Skins
 
@@ -309,4 +309,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1512490670" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1512501336" size="178" user="ProjectContributor" version="1"}%
