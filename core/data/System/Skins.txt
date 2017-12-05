@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512490670" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -245,7 +245,7 @@ For your own skin you are encouraged to show a small 88x31 pixel logo at the bot
 
 Generating:
 
-[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png' title='Powered by Foswiki' />]]
+[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png' title='Powered by Foswiki' />]]
 
 ---++ Browsing Installed Skins
 
@@ -309,4 +309,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1502239930" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1512490670" size="178" user="ProjectContributor" version="1"}%
