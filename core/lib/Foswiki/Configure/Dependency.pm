@@ -894,7 +894,7 @@ sub checkPerlModules {
             $mod->{check_result} .= '*' unless $ok;
             $mod->{check_result} .= " $msg"
               if $msg
-              && ( !$ok || $mod->{installedVersion} eq 'Unknown version' );
+              && ( !$ok || "$mod->{installedVersion}" eq 'Unknown version' );
         }
         else {
             $mod->{ok}               = 0;
