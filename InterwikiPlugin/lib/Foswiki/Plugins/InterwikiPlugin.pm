@@ -86,6 +86,9 @@ sub initPlugin {
         my ( $meta, $text ) =
           Foswiki::Func::readTopic( $interWeb, $interTopic );
 
+        $text = ''
+          unless defined $topic;    # prevent use of uninitialized variable
+
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
         $text =~ s/
               ^\|\s*              # Start of table
