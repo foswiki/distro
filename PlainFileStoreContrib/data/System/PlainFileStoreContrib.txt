@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457287372" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512466074" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 %TOC%
-<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Open_cardboard_box_husky.png" style="float:right" height="200px"/>
+<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Open_cardboard_box_husky.png" class="foswikiRight" height="200" />
 %SHORTDESCRIPTION%
 
 This is a full implementation of a Foswiki store that uses nothing more sophisticated than plain files and directories In the Foswiki spirit these files are organised in a simple and clear structure using intention-revealing file names.

@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443532867" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512466074" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
-<a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH% \logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
+<img src="%ATTACHURLPATH%/logo.gif" alt="WikiRing" class="foswikiRight" />
 %FORMFIELD{"Description"}%
 
 
@@ -651,13 +651,14 @@ You are strongly recommended to use this Contrib to help split your code develop
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Info
-Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH% \wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
+
+Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
 
 See the repository for full change history.
 
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443532867" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1443532867" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512466074" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1512466074" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
