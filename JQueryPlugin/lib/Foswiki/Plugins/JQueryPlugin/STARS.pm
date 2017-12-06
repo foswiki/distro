@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Stars',
-            version    => '2.00',
+            version    => '2.10',
             author     => 'Michael Daum',
             homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
             css        => [ 'jquery.stars.css', ],

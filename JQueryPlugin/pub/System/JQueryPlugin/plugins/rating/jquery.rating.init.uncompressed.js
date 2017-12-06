@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($) {
 
   $(".jqRating:not(.jqInitedRating)").livequery(function() {
@@ -20,7 +21,7 @@ jQuery(function($) {
                 title = $link.attr("title") || $link.attr("value");
             $this.find(".jqRatingValue").text(title);
           } 
-        }, $this.metadata()),
+        }, $this.data(), $this.metadata()),
         $link = $this.find(":checked"),
         val = $link.attr("title") || $link.attr("value") || '';
 

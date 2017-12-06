@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512570593" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -23,10 +23,10 @@ Then add the ==jqLoader== css class to the div (or verbatim) element which will 
 a container for the content to be loaded. Any ==jqLoader== container requires either
 an ==url== or a ==section== parameter to specify the location from where to load the content.
 
-Parameter are specified using JQueryMetadata, as in 
+Parameter are specified using HTML5 data, as in 
 
 <verbatim class="html">
-<div class="jqLoader {key:'value', ....}"></div>
+<div class="jqLoader" data-key1="value1" data-key2="value2" ...></div>
 </verbatim>
 
 | *Parameter* | *Description* | *Default* |
@@ -61,7 +61,7 @@ events can be used to hook your own callbacks to be processed when they are fire
 
 <verbatim class="tml">
 %JQREQUIRE{"loader"}%
-<div class="jqLoader {section:'recentchanges'}" id="myLoader">
+<div class="jqLoader" data-section="recentchanges" id="myLoader">
 <verbatim>
 %STARTSECTION{"recentchanges"}%<!-- -->
 %SEARCH{
@@ -82,7 +82,7 @@ events can be used to hook your own callbacks to be processed when they are fire
 ... if installed:
 
 %JQREQUIRE{"loader"}%
-<div class="jqLoader {section:'recentchanges', effect:'%CALCULATE{$FILTER([^a-zA-Z0-9 ], %URLPARAM{"effect" default="fade" }%)}%'}" id="myLoader"></div>
+<div class="jqLoader" id="myLoader" data-section="recentchanges" data-effect="%URLPARAM{"effect" default="fade" encode="safe"}%" ></div>
 
 <div class="foswikiLeft">
   <label for="effect"><b>Effect:</b></label>
