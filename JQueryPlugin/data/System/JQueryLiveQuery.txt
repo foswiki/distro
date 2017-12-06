@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512570593" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"livequery"
@@ -160,10 +160,9 @@ processed by an event handler registered using =livequery=.
 %STARTSECTION{"loadme"}% <div class="trigger">hello world</div> %ENDSECTION{"loadme"}%
 </verbatim>
 
-
 This is a JQueryLoader that will load the content of the =loadme= section below one with a delay of two second.
 
-<div id="loader" class="jqLoader {section:'loadme', delay:2000}">
+<div id="loader" class="jqLoader" data-section="loadme" data-delay="2000">
 %ICON{"processing"}%
 </div>
 

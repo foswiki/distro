@@ -1,6 +1,6 @@
 // initializer for the ui-datepicker plugin
+"use strict";
 jQuery(function($) {
-'use strict';
   
   var datepickerDefaults = {
     dateFormat:'yy/mm/dd',
