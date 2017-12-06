@@ -320,7 +320,7 @@
 			// setread-only status
 			control.readOnly = toggle || toggle==undefined ? true : false;
 			// enable/disable control value submission
-			if(disable) $(control.inputs).pop("disabled", true);
+			if(disable) $(control.inputs).prop("disabled", true);
 			else     			$(control.inputs).removeAttr("disabled");
 			// Update rating control state
 			this.data('rating', control);
