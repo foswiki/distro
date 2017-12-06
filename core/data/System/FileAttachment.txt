@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1510549663" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -176,7 +176,7 @@ The file attachment table is normally displayed at the bottom of the page, or op
   </tr>
   <tr class="foswikiTableOdd">
     <td style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> 
-      <img width="16" alt="txt" align="top" src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/txt.gif" height="16" border="0" /><span class="foswikiHidden">txt</span> 
+      <img width="16" alt="txt" align="top" src="%PUBURLPATH{"txt.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%" height="16" border="0" /><span class="foswikiHidden">txt</span> 
     </td>
     <td style="text-align:left;vertical-align:top;"> 
       <a href="#FileAttachmentTable">Sample.txt</a> 
@@ -199,7 +199,7 @@ The file attachment table is normally displayed at the bottom of the page, or op
   </tr>
   <tr class="foswikiTableEven">
     <td style="text-align:center;vertical-align:top;" class="foswikiFirstCol foswikiLast"> 
-      <img width="16" alt="gif" align="top" src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> 
+      <img width="16" alt="gif" align="top" src="%PUBURLPATH{"gif.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%" height="16" border="0" /><span class="foswikiHidden">gif</span> 
     </td>
     <td style="text-align:left;vertical-align:top;" class="foswikiLast"> 
       <a href="#FileAttachmentTable">Smile.gif</a> 
@@ -263,5 +263,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr=""  date="1510549663" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr=""  date="1510549663" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr=""  date="1512501336" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr=""  date="1512501336" size="94" user="ProjectContributor" version="1"}%

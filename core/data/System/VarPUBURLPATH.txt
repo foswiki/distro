@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ PUBURLPATH -- generate a relative URL for an attachment
 Generate a relative URL for an attachment, or for a web or topic within the attachment database.
@@ -12,11 +12,12 @@ Generate a relative URL for an attachment, or for a web or topic within the atta
    | =attachment_version= | Select attachment version, if supported | most recent |
 ---++ Examples
    * =%<nop>PUBURLPATH%= expands to =%PUBURLPATH%=
-   * =%<nop>PUBURLPATH{"icon_plus.png"}%= expands to ==%<nop>PUBURLPATH{"icon_plus.png"}%=
+   * =%<nop>PUBURLPATH{"icon_plus.png"}%= expands to =%PUBURLPATH{"icon_plus.png"}%=  _(attachment name is ignored when topic name is not provided)_
    * =%<nop>PUBURLPATH{web="%SYSTEMWEB%"}%= expands to =%PUBURLPATH{web="%SYSTEMWEB%"}%=
    * =%<nop>PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures"}%= expands to =%PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures"}%=
    * =%<nop>PUBURLPATH{web="%SYSTEMWEB%" topic="MainFeatures"}%= expands to =%PUBURLPATH{web="%SYSTEMWEB%" topic="MainFeatures"}%=
    * =%<nop>PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures" "icon_plus.png"}%= expands to =%PUBURLPATH{topic="%SYSTEMWEB%.MainFeatures" "icon_plus.png"}%=
+   * =%<nop>PUBURLPATH{"icon_plus.png" topic="%SYSTEMWEB%.MainFeatures"}%= expands to =%PUBURLPATH{"icon_plus.png" topic="%SYSTEMWEB%.MainFeatures"}%=
    * Also supports =topic_version= and =attachment_version= parameters. These can be used with advanced store implements to select specific attachment versions. However simple file-based stores do not normally support them.
 <div class="foswikiHelp">
 %X% This macro will only generate a relative URL if the store supports them, and the context allows it. Otherwise it will generate the same as =[[VarPUBURL][PUBURL]]=

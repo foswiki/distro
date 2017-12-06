@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Why am I being asked to confirm?"}%
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">
@@ -179,7 +179,7 @@
 	border-top:2px solid #6e7b97;
 	border-bottom:2px solid #6e7b97;
 	background-color:#fff;
-	background-image:url(%PUBURLPATH%/%BASEWEB%/%BASETOPIC%/WhyYouAreAskedToConfirm.jpg);
+	background-image:url(%PUBURLPATH{"WhyYouAreAskedToConfirm.jpg" topic="%BASEWEB%.%BASETOPIC%"}%);
 	background-repeat:no-repeat;
 	font-style:arial,sans-serif;
 	font-size:15px;
@@ -258,4 +258,4 @@
 </style>"}%
 
 
-%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1437500521" size="91581" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="WhyYouAreAskedToConfirm.jpg" attr="h" comment="" date="1512501336" size="91581" user="ProjectContributor" version="1"}%
