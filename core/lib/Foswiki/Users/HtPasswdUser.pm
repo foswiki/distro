@@ -843,6 +843,14 @@ sub checkPassword {
         $this->{error} = 'Invalid user/password';
         return 0;
     }
+
+    if (   $Foswiki::cfg{Htpasswd}{ForceChangeEncoding}
+        && $entry->{enc} ne $Foswiki::cfg{Htpasswd}{Encoding} )
+    {
+        Foswiki::Func::setSessionValue( 'FOSWIKI_TOPICRESTRICTION',
+            'System.ChangePassword' );
+    }
+
     return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
 
     # pw may validly be '', and must match an unencrypted ''. This is
