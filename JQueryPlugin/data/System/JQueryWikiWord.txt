@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512571883" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -27,7 +27,8 @@ to derive the !WikiWord using HTML5 meta data:
   prefix:'string to be prefixed to the wiki word', /* e.g. 'Project' */
   suffix:'string to be appended to the wiki word', /* e.g. 'AUTOINC0' */
   transliterate: true,
-  allow:'characters that are allowed in a wiki word' /* e.g. 'a-zA-Z\\d' */
+  allowedRegex:'characters that are allowed in a wiki word', /* e.g. 'a-zA-Z\\d' */
+  forbiddenRegex:'characters that are not allowed in a wiki word' /* e.g. '[^a-zA-Z\\d]' */
 }
 </verbatim>
 
