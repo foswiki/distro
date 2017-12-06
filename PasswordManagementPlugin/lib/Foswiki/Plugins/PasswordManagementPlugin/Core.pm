@@ -32,7 +32,8 @@ my @notsupported = (
     'UnknownUser',
     $Foswiki::cfg{DefaultUserLogin},
     $Foswiki::cfg{DefaultUserWikiName},
-    $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+    $Foswiki::cfg{Register}{RegistrationAgentWikiName},
+    'BaseUserMapping_333',
 );
 
 =begin TML
@@ -410,7 +411,8 @@ sub _RESTchangePassword {
     }
 
     if (   $login eq $Foswiki::cfg{AdminUserLogin}
-        || $login eq $Foswiki::cfg{AdminUserWikiName} )
+        || $login eq $Foswiki::cfg{AdminUserWikiName}
+        || $login eq 'BaseUserMapping_333' )
     {
         throw Foswiki::OopsException(
             'password',
