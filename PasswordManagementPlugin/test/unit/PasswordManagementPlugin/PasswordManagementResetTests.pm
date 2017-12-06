@@ -52,6 +52,15 @@ THIS
     return;
 }
 
+sub loadExtraConfig {
+    my ( $this, $context, @args ) = @_;
+    $this->SUPER::loadExtraConfig( $context, @args );
+    $Foswiki::cfg{EnableEmail} = 1;
+
+    return;
+}
+
+
 ################################################################################
 ################################ RESET PASSWORD TESTS ##########################
 
