@@ -292,6 +292,12 @@ Utility method. Passed a user name and list of emails, generate the reset token
 and email it to the email addresses for that user.  This is intended for sending
 to a *single* user with one or more registered email addresses.
 
+The reset token sets two session variables when it is used during login:
+   * FOSWIKI_TOPICRESTRICTION = System.ChangePassword
+   * FOSWIKI_PASSWORDRESET => 1
+The first limits the login to access only a single topic - the ChangePassword topic.
+and the PASSWORDRESET variable allows password change without entering the old password.
+
 This sends one email per address.  If multiple email addresses are listed, some
 agents can fail the entire email.
 
@@ -399,7 +405,7 @@ sub _RESTchangePassword {
             params => [$login],
         );
     }
-    elsif ( !defined $login ) {
+    elsif ( !defined $login || !length($login) ) {
         $login = $requestUser;
     }
 

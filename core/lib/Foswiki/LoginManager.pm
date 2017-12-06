@@ -1777,6 +1777,7 @@ Valid time in minutes, defaults to 15 minutes, as configured in $Foswiki::cfg{Lo
 
 The $sessionVars hash is used to set Session Variables. Options hash currently includes:
    $ FOSWIKI_TOPICRESTRICTION => "Web.Topic": Access will be redirected to this topic
+   $ FOSWIKI_PASSWORDRESET => 1; lets password change bypass checking of old password.
 
 When the user accesses the site and presents the authentication token, the data is loaded and
 deleted to prevent reuse.  Expiration is checked, and if still valid, a new session is established
