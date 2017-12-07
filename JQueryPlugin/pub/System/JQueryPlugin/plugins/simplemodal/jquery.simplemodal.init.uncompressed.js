@@ -1,3 +1,4 @@
+"use strict";
 (function($) { 
   /**************************************************************************/
   foswiki.openDialog = function(data, opts) { 
@@ -86,7 +87,7 @@
     dialog.container.find(".jqSimpleModalDraggable").each(function() {
       var opts = $.extend({
         handle: '.jqSimpleModalDraggable'
-      }, $(this).metadata());
+      }, $(this).data(), $(this).metadata());
       dialog.container.draggable(opts);
     });
 

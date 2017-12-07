@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($){
   $(".jqTreeview:not(.jqInitedTreeview)").livequery(function() {
     var $this = $(this),
@@ -27,7 +28,7 @@ jQuery(function($){
     }
 
     $this.addClass("jqInitedTreeview");
-    $this.find("> ul").treeview(opts);
+    $this.find("ul:first").treeview(opts);
     $this.css('display', 'block');
   });
 });

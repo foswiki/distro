@@ -1,13 +1,14 @@
 /*
- * jQuery Loader plugin 2.11
+ * jQuery Loader plugin 2.13
  *
- * Copyright (c) 2011-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
+"use strict";
 jQuery(function($) {
 
   // global defaults
@@ -55,7 +56,7 @@ jQuery(function($) {
         self.load();
       }
     }
-  };
+  }
 
   // init method
   JQLoader.prototype.init = function() {
@@ -65,7 +66,13 @@ jQuery(function($) {
     // add refresh listener
     $elem.bind("refresh.jqloader", function(e, opts) {
       $.extend(self.options, opts);
-      self.load();
+      if (self.options.delay) {
+        window.setTimeout(function() {
+          self.load();
+        }, self.options.delay);
+      } else  {
+        self.load();
+      }
     });
 
     // add onload listener 
@@ -135,7 +142,6 @@ jQuery(function($) {
   // load method
   JQLoader.prototype.load = function() {
     var self = this,
-        pubUrlPath = foswiki.getPreference("PUBURLPATH"),
         $elem = $(self.element),
         web = self.options.web || foswiki.getPreference("WEB"),
         topic = self.options.topic || foswiki.getPreference("TOPIC"),
@@ -225,7 +231,7 @@ jQuery(function($) {
         );
       }
     });
-  }
+  };
 
   // register css class 
   $(".jqLoader:not(.jqLoaderInited)").livequery(function() {

@@ -1,4 +1,5 @@
 // initializer for the ui-slider plugin
+"use strict";
 jQuery(function($) {
 
   var sliderDefaults = {

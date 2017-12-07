@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512570593" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -13,7 +13,7 @@
 
 ---++ Description
 %STARTSECTION{"summary"}%
-Turns a text input into a Facebook like list widget with autocompletion.
+Turns a text input into a list widget with autocompletion.
 This plugin adds a new formfield type =textboxlist= to DataForms.
 %ENDSECTION{"summary"}%
 
@@ -48,7 +48,7 @@ In both cases =options= is a json object to customized the textboxlist to your n
 | listValueClass | css class of values in the list | jqTextboxListValue |
 | closeClass | css class of the close button of a list value | jqTextboxListClose |
 | enableClose | boolean flag toggling the display of a close button on a list value | true |
-| doSort | boolean flag enabling to sort list values when displaying them | false |
+| sorting | option to enable sorting of the list of values, can =true=, =false= or =manual= | manual |
 | inputName | name of the input element used for list values; equals to the name of the original input field if undefined | undefined |
 | resetControl | jquery selector to specify a reset button; will revert changes to the initial list of values | undefined |
 | clearControl | jquery selector to specify a clear button that will empty the textboxlist | undefined |

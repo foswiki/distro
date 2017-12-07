@@ -1,13 +1,14 @@
 /*
- * jQuery WikiWord plugin 3.10
+ * jQuery WikiWord plugin 3.20
  *
- * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
+"use strict";
 
 /***************************************************************************
  * plugin definition 
@@ -41,7 +42,7 @@ $.wikiword = {
 
       // either a string or a jQuery object
       if (typeof(thisOpts.source) === 'string') {
-        $source = $(thisOpts.source);
+        $source = $this.parents("form:first").find(thisOpts.source);
       } else {
         $source = thisOpts.source;
       }
@@ -54,7 +55,7 @@ $.wikiword = {
         thisOpts.forbiddenRegex = new RegExp(thisOpts.forbiddenRegex, "g");
       }
 
-      $source.change(function() {
+      $source.on("change", function() {
         $.wikiword.handleChange($source, $this, thisOpts);
       }).keyup(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -66,7 +67,7 @@ $.wikiword = {
    * handler for source changes
    */
   handleChange: function(source, target, opts) {
-    var result = []
+    var result = [];
 
     // gather all sources
     source.each(function() {
@@ -77,7 +78,7 @@ $.wikiword = {
     if (result || !opts.initial) {
       result = $.wikiword.wikify(result, opts);
 
-      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) == -1) {
+      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) === -1) {
         result += opts.suffix;
       }
       if (opts.prefix && result.indexOf(opts.prefix) !== 0) {
@@ -93,7 +94,7 @@ $.wikiword = {
       } else {
         $(this).text(result);
       }
-    });
+    }).trigger("change");
   },
 
   /***************************************************************************
@@ -175,8 +176,8 @@ jQuery.wikiword.downgradeMap = {
       'Ϋ':'Y',
 
       // TURKISH
-      'ş':'s', 'Ş':'S', 'ı':'i', 'İ':'I', 'ç':'c', 'Ç':'C', 'ü':'ue', 'Ü':'Ue',
-      'ö':'oe', 'Ö':'Oe', 'ğ':'g', 'Ğ':'G',
+      'ş':'s', 'Ş':'S', 'ı':'i', 'İ':'I', /*'ç':'c', 'Ç':'C', 'ü':'ue', 'Ü':'Ue',
+      'ö':'oe', 'Ö':'Oe',*/ 'ğ':'g', 'Ğ':'G',
 
       // RUSSIAN
       'а':'a', 'б':'b', 'в':'v', 'г':'g', 'д':'d', 'е':'e', 'ё':'yo', 'ж':'zh',
@@ -199,14 +200,14 @@ jQuery.wikiword.downgradeMap = {
       'Ů':'U', 'Ž':'Z',
 
       // POLISH
-      'ą':'a', 'ć':'c', 'ę':'e', 'ł':'l', 'ń':'n', 'ó':'o', 'ś':'s', 'ź':'z',
-      'ż':'z', 'Ą':'A', 'Ć':'C', 'Ę':'e', 'Ł':'L', 'Ń':'N', 'Ó':'o', 'Ś':'S',
+      'ą':'a', 'ć':'c', 'ę':'e', 'ł':'l', 'ń':'n', /*'ó':'o',*/ 'ś':'s', 'ź':'z',
+      'ż':'z', 'Ą':'A', 'Ć':'C', 'Ę':'e', 'Ł':'L', 'Ń':'N', /*'Ó':'o',*/ 'Ś':'S',
       'Ź':'Z', 'Ż':'Z',
 
       // LATVIAN
-      'ā':'a', 'č':'c', 'ē':'e', 'ģ':'g', 'ī':'i', 'ķ':'k', 'ļ':'l', 'ņ':'n',
-      'š':'s', 'ū':'u', 'ž':'z', 'Ā':'A', 'Č':'C', 'Ē':'E', 'Ģ':'G', 'Ī':'i',
-      'Ķ':'k', 'Ļ':'L', 'Ņ':'N', 'Š':'S', 'Ū':'u', 'Ž':'Z',
+      'ā':'a', /*'č':'c',*/ 'ē':'e', 'ģ':'g', 'ī':'i', 'ķ':'k', 'ļ':'l', 'ņ':'n',
+      /*'š':'s',*/ 'ū':'u', /*'ž':'z',*/ 'Ā':'A', /*'Č':'C',*/ 'Ē':'E', 'Ģ':'G', 'Ī':'i',
+      'Ķ':'k', 'Ļ':'L', 'Ņ':'N', /*'Š':'S',*/ 'Ū':'u', /*'Ž':'Z',*/
 
       // Symbols
       '©':'(c)',

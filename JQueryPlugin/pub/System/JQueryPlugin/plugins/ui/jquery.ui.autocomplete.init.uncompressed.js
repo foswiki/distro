@@ -1,5 +1,6 @@
 // initializer for the ui-autocomplete plugin;
 // adds limited backwards compatibility to old jquery.autocomplete
+"use strict";
 jQuery(function($) {
 
   var defaults = {

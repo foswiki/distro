@@ -1,5 +1,5 @@
+"use strict";
 jQuery(function($) {
-'use strict';
 
   $(".jqButton:not(.jqInitedButton)").livequery(function() {
     var $this = $(this), 

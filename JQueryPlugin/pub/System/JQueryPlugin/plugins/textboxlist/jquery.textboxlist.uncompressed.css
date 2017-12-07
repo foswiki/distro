@@ -32,3 +32,10 @@ a.jqTextboxListClose {
 a.jqTextboxListClose:hover {
   background-position:-21px 50%;
 }
+.jqTextboxListPlaceholder {
+  padding:1px 5px;
+  vertical-align:middle;
+  display:inline-block;
+  margin:0 15px 0 0;
+  border:1px solid transparent;
+}
