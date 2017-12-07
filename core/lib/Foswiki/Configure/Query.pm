@@ -248,8 +248,9 @@ sub getspec {
         %Foswiki::cfg = %$upper_cfg;
 
         # Reset all bootstrap subdirs to be relative to RootDir
-        foreach my $bsdir ( keys $Foswiki::cfg{BSDIRS} ) {
-            eval "\$Foswiki::cfg$bsdir = \$Foswiki::cfg{BSDIRS}->{'$bsdir'}";
+        foreach my $bsdir ( keys $Foswiki::cfg{BOOTSTRAPDIRS} ) {
+            eval
+"\$Foswiki::cfg$bsdir = \$Foswiki::cfg{BOOTSTRAPDIRS}->{'$bsdir'}";
         }
     }
     Foswiki::Configure::Load::readConfig( 1, 1 );

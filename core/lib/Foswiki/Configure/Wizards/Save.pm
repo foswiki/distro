@@ -225,11 +225,11 @@ sub save {
             ASSERT( !$@, $@ ) if DEBUG;
         }
         delete $Foswiki::cfg{BOOTSTRAP};
-        print STDERR "BSDIRS set = "
-          . Data::Dumper->Dump( [ $Foswiki::cfg{BSDIRS} ] )
+        print STDERR "BOOTSTRAPDIRS set = "
+          . Data::Dumper->Dump( [ $Foswiki::cfg{BOOTSTRAPDIRS} ] )
           if TRACE_SAVE;
-        %set = ( %set, %{ $Foswiki::cfg{BSDIRS} } );
-        delete $Foswiki::cfg{BSDIRS};
+        %set = ( %set, %{ $Foswiki::cfg{BOOTSTRAPDIRS} } );
+        delete $Foswiki::cfg{BOOTSTRAPDIRS};
 
         %Foswiki::cfg = ();
 
