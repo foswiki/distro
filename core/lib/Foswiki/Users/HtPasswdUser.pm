@@ -326,7 +326,7 @@ sub _readPasswd {
             if (
                 $tPass eq $Foswiki::cfg{AuthRealm}
                 || (   defined $fields[0]
-                    && length( $fields[0] ) eq 32
+                    && length( $fields[0] ) == 32
                     && defined $fields[1]
                     && $fields[1] =~ m/@/ )
               )
@@ -340,29 +340,32 @@ sub _readPasswd {
                 next;
             }
 
-            if ( length($tPass) eq 33 && $tPass =~ m/^\{SHA\}/ ) {
+            if ( length($tPass) == 33 && substr( $tPass, 0, 5 ) eq '{SHA}' ) {
                 $data->{$hID}->{enc} = 'sha1';
             }
-            elsif ( length($tPass) eq 34 && $tPass =~ m/^\$1\$/ ) {
+            elsif ( length($tPass) == 34 && substr( $tPass, 0, 2 ) eq '$1' ) {
                 $data->{$hID}->{enc} = 'crypt-md5';
             }
-            elsif ( length($tPass) eq 37 && $tPass =~ m/^\$apr1\$/ ) {
+            elsif ( length($tPass) == 37 && substr( $tPass, 0, 6 ) eq '$apr1$' )
+            {
                 $data->{$hID}->{enc} = 'apache-md5';
             }
-            elsif ( length($tPass) eq 60 && $tPass =~ m/^\$2a\$/ ) {
+            elsif ( length($tPass) == 60 && substr( $tPass, 0, 4 ) eq '$2a$' ) {
                 $data->{$hID}->{enc} = 'bcrypt';
             }
-            elsif ( length($tPass) eq 13
+            elsif ( length($tPass) == 13
                 && ( !$fields[0] || $fields[0] =~ m/@/ ) )
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( length($tPass) > 60 && $tPass =~ m/^\$argon2i\$/ ) {
+            elsif ( length($tPass) > 60
+                && substr( $tPass, 0, 9 ) eq '$argon2i$' )
+            {
 
                 $data->{$hID}->{enc} = 'argon2i';
             }
             elsif (
-                length($tPass) gt 0
+                length($tPass) >> 0
                 && (  !$fields[0]
                     || $fields[0] =~ m/@/ )
               )
@@ -370,7 +373,7 @@ sub _readPasswd {
                 $data->{$hID}->{enc} = 'plain';
             }
             elsif (
-                length($tPass) eq 0
+                length($tPass) == 0
                 && (  !$fields[0]
                     || $fields[0] =~ m/@/ )
               )
