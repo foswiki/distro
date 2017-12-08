@@ -108,7 +108,10 @@ sub setBootstrap {
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
     push( @{ $Foswiki::cfg{BOOTSTRAP} }, @BOOTSTRAP );
-    push( @{ $Foswiki::cfg{BOOTSTRAP} }, keys %{ $Foswiki::cfg{BSDIRS} } );
+    push(
+        @{ $Foswiki::cfg{BOOTSTRAP} },
+        keys %{ $Foswiki::cfg{BOOTSTRAPDIRS} }
+    );
 }
 
 =begin TML
@@ -269,9 +272,9 @@ EPITAPH
 
     # (At the moment of writing this line,)
     # the line above is the **last expansion of $Foswiki::cfg**
-    $Foswiki::cfg{BSDIRS} = \%bsdirs;
-    print STDERR "AUTOCONFIG BSDIRS: "
-      . Data::Dumper->Dump( [ $Foswiki::cfg{BSDIRS} ] )
+    $Foswiki::cfg{BOOTSTRAPDIRS} = \%bsdirs;
+    print STDERR "AUTOCONFIG BOOTSTRAPDIRS: "
+      . Data::Dumper->Dump( [ $Foswiki::cfg{BOOTSTRAPDIRS} ] )
       if (TRAUTO);
 
     # Detect the OS and DetailedOS

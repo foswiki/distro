@@ -244,8 +244,14 @@ sub getspec {
 
         # If we're bootstrapping, retain the values calculated in
         # the bootstrap process. They are almost certainly wrong,
-        # but are a better starting point that the .spec defaults.
+        # but are a better starting point than the .spec defaults.
         %Foswiki::cfg = %$upper_cfg;
+
+        # Reset all bootstrap subdirs to be relative to RootDir
+        foreach my $bsdir ( keys $Foswiki::cfg{BOOTSTRAPDIRS} ) {
+            eval
+"\$Foswiki::cfg$bsdir = \$Foswiki::cfg{BOOTSTRAPDIRS}->{'$bsdir'}";
+        }
     }
     Foswiki::Configure::Load::readConfig( 1, 1 );
 
