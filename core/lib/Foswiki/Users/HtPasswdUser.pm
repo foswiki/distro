@@ -89,6 +89,8 @@ sub new {
         $this->{APR} = 1 unless ($@);
         eval 'use Crypt::Eksblowfish::Bcrypt;';
         $this->{BCRYPT} = 1 unless ($@);
+        eval 'use Crypt::Argon2';
+        $this->{ARGON2} = 1 unless ($@);
     }
 
     if (   $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
@@ -122,6 +124,10 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'bcrypt' ) {
         eval 'use Crypt::Eksblowfish::Bcrypt;';
         $this->{BCRYPT} = 1 unless ($@);
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'argon2i' ) {
+        eval 'use Crypt::Argon2;';
+        $this->{ARGON2} = 1 unless ($@);
     }
     else {
         print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
@@ -277,7 +283,7 @@ sub _readPasswd {
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         print STDERR
           "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n"
-          if DEBUG;
+          if TRACE;
         return $data;
     }
 
@@ -351,7 +357,10 @@ sub _readPasswd {
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
+            elsif ( length($tPass) > 60 && $tPass =~ m/^\$argon2i\$/ ) {
 
+                $data->{$hID}->{enc} = 'argon2i';
+            }
             elsif (
                 length($tPass) gt 0
                 && (  !$fields[0]
@@ -644,6 +653,33 @@ sub encrypt {
             Foswiki::encode_utf8($passwd),
             Foswiki::encode_utf8($salt) );
     }
+    elsif ( $enc eq 'argon2i' ) {
+        unless ( $this->{ARGON2} ) {
+            $this->{error} = "Unsupported Encoding";
+            return 0;
+        }
+
+        my $cost = $Foswiki::cfg{Htpasswd}{Argon2Timecost};
+        $cost = 8 unless defined $cost;
+
+        my $threads = $Foswiki::cfg{Htpasswd}{Argon2Threads};
+        $threads = 2 unless defined $threads;
+
+        my $mem = $Foswiki::cfg{Htpasswd}{Argon2Memcost};
+        $mem = '512k' unless defined $mem;
+
+        my $salt;
+        $salt = $this->fetchPass($login) unless $fresh;
+        if ( $fresh || !$salt ) {
+            $salt = Foswiki::generateRandomChars(16);
+        }
+        print STDERR " ARGON2:  Cost:$cost Mem:$mem Threads:$threads \n"
+          if (TRACE);
+        my $encoded =
+          Crypt::Argon2::argon2i_pass( $passwd, $salt, $cost, $mem, $threads,
+            16 );
+        return $encoded if ($encoded);
+    }
     die 'Unsupported password encoding ' . $enc;
 }
 
@@ -716,6 +752,8 @@ sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
     ASSERT($login) if DEBUG;
 
+    $this->{error} = undef;
+
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -725,6 +763,10 @@ sub setPassword {
         $this->{error} = $login . ' already exists';
         return 0;
     }
+    $this->{error} =
+      undef;    # Clear {error} - fetchPass will set it for missing users!
+
+    my $hashed = $this->encrypt( $login, $newUserPassword, 1 );
 
     my $lockHandle;
     try {
@@ -734,8 +776,8 @@ sub setPassword {
         #  - Don't trust cache
         my $db = $this->_readPasswd( 0, 1 );
 
-        $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
-        $db->{$login}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
+        $db->{$login}->{pass} = $hashed;
+        $db->{$login}->{enc}  = $Foswiki::cfg{Htpasswd}{Encoding};
         $db->{$login}->{realm} =
           (      $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
               || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' )
@@ -760,7 +802,7 @@ sub setPassword {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
-    $this->{error} = undef;
+    return 0 if ( $this->{error} );
     return 1;
 }
 
@@ -829,6 +871,19 @@ sub checkPassword {
 
     # $pw will be 0 if there is no pw
     return 0 unless defined $pw && length($pw);
+
+    if ( $entry->{enc} eq 'argon2i' ) {
+        if ( $this->{ARGON2} ) {
+            $this->{error} = '';
+            return Crypt::Argon2::argon2i_verify( $pw, $password );
+        }
+        else {
+            $this->{error} =
+              'Internal error - Argon2 password routines not installed';
+            Foswiki::Func::writeWarning( $this->{error} );
+            return 0;
+        }
+    }
 
     my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
     return 0 unless ($encryptedPassword);

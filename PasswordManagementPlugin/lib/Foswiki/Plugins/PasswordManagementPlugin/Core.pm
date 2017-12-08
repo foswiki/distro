@@ -487,11 +487,13 @@ sub _RESTchangePassword {
         }
 
         unless ( $users->checkPassword( $login, $oldpassword ) ) {
+            my $error = $users->passwordError($login) || '';
             throw Foswiki::OopsException(
                 'password',
-                web   => $webName,
-                topic => $topic,
-                def   => 'wrong_password'
+                web    => $webName,
+                topic  => $topic,
+                def    => 'wrong_password',
+                params => [$error],
             );
         }
     }
@@ -515,8 +517,14 @@ sub _RESTchangePassword {
     }
     catch Error::Simple with {
         my $error = shift;
-        $result = $error->{-text};
+        Foswiki::Func::writeWarning( "Error in setPassword: ",
+            ( split /\n/, $error->{-text} )[0] );
+        $result = "Internal error";
     };
+
+    unless ($ok) {
+        $result ||= $users->passwordError($user) || '';
+    }
 
     if ( !$ok ) {
         throw Foswiki::OopsException(
@@ -646,9 +654,10 @@ sub _RESTchangeEmail {
         unless ( $users->checkPassword( $login, $password ) ) {
             throw Foswiki::OopsException(
                 'password',
-                web   => $webName,
-                topic => $topic,
-                def   => 'wrong_password'
+                web    => $webName,
+                topic  => $topic,
+                def    => 'wrong_password',
+                params => [ $users->passwordError($login) || '' ],
             );
         }
     }
