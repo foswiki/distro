@@ -671,11 +671,10 @@ sub encrypt {
         my $mem = $Foswiki::cfg{Htpasswd}{Argon2Memcost};
         $mem = '512k' unless defined $mem;
 
-        my $salt;
-        $salt = $this->fetchPass($login) unless $fresh;
-        if ( $fresh || !$salt ) {
-            $salt = Foswiki::generateRandomChars(16);
-        }
+        ASSERT( $fresh,
+'HtpasswdUser::encrypt() Called without "fresh" flag. Argon2i cannot recreate hash from encoded salt!'
+        ) if DEBUG;
+        my $salt = Foswiki::generateRandomChars(16);
         print STDERR " ARGON2:  Cost:$cost Mem:$mem Threads:$threads \n"
           if (TRACE);
         my $encoded =
