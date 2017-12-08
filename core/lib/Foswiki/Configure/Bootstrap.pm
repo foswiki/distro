@@ -461,8 +461,9 @@ sub bootstrapWebSettings {
             print STDERR "AUTOCONFIG: Detected HTTPS\n";
         }
 
-        $Foswiki::cfg{DefaultUrlHost} =
-          "$protocol://" . $ENV{HTTP_X_FORWARDED_HOST};
+        my $vh = ( split /[, ]+/, $ENV{HTTP_X_FORWARDED_HOST} )[0];
+
+        $Foswiki::cfg{DefaultUrlHost} = "$protocol://" . $vh;
         $Foswiki::cfg{ForceDefaultUrlHost} =
           1;    # Force the URL host when behind a proxy
 

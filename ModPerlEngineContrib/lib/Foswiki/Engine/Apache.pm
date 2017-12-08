@@ -128,7 +128,7 @@ sub prepareHeaders {
     $req->remoteUser( $this->{r}->user );
     if ( $Foswiki::cfg{BehindProxy} ) {
         if ( my $source = $req->header('X-Forwarded-For') ) {
-            my $ip = ( split /[, ]+/, $source )[-1];
+            my $ip = ( split /[, ]+/, $source )[0];
             $req->remoteAddress($1)
               if defined $ip and $ip =~ /^((?:\d{1,3}\.){3}\d{1,3})$/;
         }
