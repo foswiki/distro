@@ -18,8 +18,8 @@ use warnings;
 
 use Foswiki::Func ();    # The plugins API
 
-our $VERSION = '1.55';
-our $RELEASE = '1.55';
+our $VERSION = '1.56';
+our $RELEASE = '08 Dec 2017';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 

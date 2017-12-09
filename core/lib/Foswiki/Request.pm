@@ -311,6 +311,7 @@ sub url {
         }
         else {
             my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
+            $vh = ( split /[, ]+/, $vh )[0];
             $url =
                 $vh
               ? $this->protocol . '://' . $vh

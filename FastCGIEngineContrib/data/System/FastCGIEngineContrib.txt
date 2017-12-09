@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512262721" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512792823" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -51,7 +51,7 @@ See SystemRequirements (Foswiki:System.SystemRequirements) for a detailed requir
 </noautolink>
 ---+++ Apache
 
----++++ Apache Module
+---++++!! Apache Module
 
 There are two options that basicly do the same thing
 
@@ -66,10 +66,7 @@ mod_fcgid resources
    * Sources - http://httpd.apache.org/mod_fcgid/
    * Debian - http://packages.debian.org/search?searchon=names&keywords=libapache2-mod-fcgid
 
-mod_fastcgi resources
-   * !RedHat/Centos - http://rugmonster.org/2009/03/building-mod_fastcgi-on-rhel5/ and http://www.nagare.org/trac/blog/apache_mod_fastcgi
-
----++++ Apache Configuration
+---++++!! Apache Configuration
 
 <div class="foswikiHelp"> 
 %X% It is strongly recommended that users work from
@@ -128,7 +125,7 @@ In contrast to Apache or Lighttpd, Nginx does not control the life time of the =
 have to start it yourself using the system's init process. The FCGI::ProcManager class will then take care of (re-)spawning 
 enough child processes as required.
 
-First, let's configure nginx to contact a =foswiki.fcgi= process on some socket on the localhost:
+---++++!! Configure nginx to contact a =foswiki.fcgi= process on some socket on the localhost:
 
 <div class="foswikiHelp">
 Edit the file system paths (=/var/www/foswiki=, =/var/log/nginx=) below as appropriate for your system.  This configuration
@@ -185,11 +182,12 @@ server {
 }
 </pre>
 
-Next, to integrate the =foswiki.fgi= process into the system's init process use the two helper scripts in the =tools= directory:
+---++++!! Add the =foswiki.fcgi= process into the system init.
+Integrate the =foswiki.fgi= process into the system's init process use the two helper scripts in the =tools= directory:
 
    * Conventional init scripts (Should also work with systemd)
       * =tools/foswiki.init-script=: copy this to =/etc/init.d/foswiki=; make the file executable using =chmod +x /etc/init.d/foswiki=, and ensure that it is assigned to user/group root.
-      * =tools/foswiki.defaults=: copy this to =/etc/default/foswiki= and make appropriate adjustmenst; 
+      * =tools/foswiki.defaults=: copy this to =/etc/default/foswiki= and make appropriate adjustments; 
          * make sure the process uses the same socket as configured in nginx (see above, defaults to =127.0.0.1:9000=)
          * verify that the =FOSWIKI_ROOT= setting points to your foswiki installation.
 
@@ -212,6 +210,19 @@ You should now be able to control the backend processes using either:
    * =/etc/init.d/foswiki start/stop/reload/restart/status=
 
 Finally, add the service to the runlevels using =update-rc.d foswiki defaults= to make sure the service is started on system startup time.
+
+---+++++!! Customizing the fcgi process
+
+   * Changing the name of the process / init script
+      * Copy =/etc/init.d/foswiki=, =/etc/defaults/foswiki= and if used, =/etc/systemd/system/foswiki.service=, to a new name   (ex. myfoswiki)
+      * Edit the init script to use the new name internally. (The =foswiki.service= file would need similar changes not detailed here.) <verbatim>
+# Provides:          myfoswiki
+# Short-Description: Start the myfoswiki backend server.
+NAME=myfoswiki                <== Should match script name
+# The following defaults are overridden in etc/default/foswiki
+FOSWIKI_PNAME=myfoswiki       <== Process name displayed in =ps aux=
+</verbatim>
+      * Make sure the new instance is using a unique =fastcgi_pass= and matching =FOSWIKI_BIND=
 
 ---++ Tuning
 

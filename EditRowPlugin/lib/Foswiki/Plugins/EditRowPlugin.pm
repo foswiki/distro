@@ -32,8 +32,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '3.318';
-our $RELEASE           = '15 May 2017';
+our $VERSION           = '3.319';
+our $RELEASE           = '08 Dec 2017';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
