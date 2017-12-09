@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1504609147" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,7 +42,8 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
-|  05 Sep 2017: | (1.09) Foswikitask:Item14472: replaced use of =attr()= with =prop()= where needed; fixed use of =null= value trying to trim values |
+|  08 Dec 2017: | (1.09) Foswikitask:Item14536: Configure leaves "wait" cursor spinning while waiting for user action.<br/>\
+                         Foswikitask:Item14472: replaced use of =attr()= with =prop()= where needed; fixed use of =null= value trying to trim values |
 |  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page.<br/>\
                          Foswikitask:Item13339: Warning or errors icons in configure get stuck unless page is reloaded.<br/>\ 
                          Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp |
