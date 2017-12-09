@@ -189,9 +189,9 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  8 Dec 2017 | v.6.11:  Foswikitask:Item14434: Translated text with reserved characters used in System.WebCreateNewTopicComponents will create wrong HTML<br/>\ 
-                         Foswikitask:Item14488: PatternSkin is missing "body" zone used by NatSkin and many extensions.<br/>\ 
-                         Foswikitask:Item14556: clean up header area. |  
+|  8 Dec 2017 | v.6.11:  Foswikitask:Item14434: Translated text with reserved characters used in System.WebCreateNewTopicComponents will create wrong HTML<br/>\
+                         Foswikitask:Item14488: PatternSkin is missing "body" zone used by NatSkin and many extensions.<br/>\
+                         Foswikitask:Item14556: clean up header area. |
 |  4 Apr 2017 | V.6.10:  Foswikitask:Item13883: Fix HTML errors in PatternSkinElements. |
 |  8 Feb 2017 | v.6.09:  Foswikitask:Item14315: Attachment count always shows latest revision when viewing prior versions.<br/>\
                          Foswikitask:Item14235: Sanitize some template fields. |

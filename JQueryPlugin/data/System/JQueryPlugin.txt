@@ -125,9 +125,9 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|   8 Dec 2017: | (7.24) - Releaseed with Foswiki 2.1.5<br>\ 
-                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.<br/>\ 
-                           Item14555: make build work with latest uglifyjs 3.<br/>\ 
+|   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5<br>\
+                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.<br/>\
+                           Item14555: make build work with latest uglifyjs 3.<br/>\
                            Item14559: regression via Item13898 - broken topic selectors.<br/>\
                            Item14560: wikiword changes don't trigger a change event on the target element. |
 |   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
@@ -195,7 +195,7 @@ required for Foswiki 1.1 or later.
                   Item12583: revert version string to simple float not to break installation on RHEL and SLES \
                   Item12599: use jQuery-1.9x (not 2.0.x) for IE9 \
                   Item12600: various minor changes to jquery components |
-|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) | 
+|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) |
 |  07 Jun 2013: | (4.82) - Item12528: fixed char mapping in jquery.wikiword |
 |  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
 |  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |
@@ -220,7 +220,7 @@ required for Foswiki 1.1 or later.
 |  01 Jun 2012: | (4.42) - Item11917: simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
 |  23 May 2012: | (4.41) - Item11889: \
                   added means to hide the close button on textboxlist values; \
-                  docu improvements to textboxlixst and pnotify | 
+                  docu improvements to textboxlixst and pnotify |
 |  10 Apr 2012: | (4.40) - Item11397, Item11742: \
                   use a JSON instead of &lt;meta> to export preferences to javascript; \
                   add jquery-1.7.2 (new default); \
@@ -296,7 +296,7 @@ required for Foswiki 1.1 or later.
                   added new jquery-ui theme flickr; \
                   update forms plugin to 2.49 to improve jQuery 1.4 compatibility |
 |  27 Oct 2010: | (3.75) fixed IE error in chili recipe for TML |
-|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |   
+|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |
 |  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
                   removed JQueryBgiframe and JQueryEasing plugins from default plugins |
 |  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \
