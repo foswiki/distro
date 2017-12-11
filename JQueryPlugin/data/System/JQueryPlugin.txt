@@ -125,9 +125,10 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
-|  11 Dec 2017: | (8.00) - Item14564: added jquery-3 and the matching migrate module |
+|  12 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module |
                            Item14567: added keyboard navigation to jquery.stars |
+                           Item14568: add chili recipes for autolisp and ini |
+|  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
                            Item14570: add "use strict" to farbtastic's init and fix js errors <br /> \
