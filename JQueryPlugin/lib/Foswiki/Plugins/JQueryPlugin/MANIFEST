@@ -1,3 +1,4 @@
+!noci
 data/System/JQueryAjaxHelper.txt 0644
 data/System/JQueryAutocomplete.txt 0644
 data/System/JQueryBgiframe.txt 0644
@@ -67,8 +68,8 @@ data/System/VarJQTHEME.txt 0644
 data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersionForOldIEs.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Bgiframe/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Corner/Enabled.pm 0644
@@ -242,6 +243,9 @@ pub/System/JQueryPlugin/jquery-2.2.3.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-2.2.4.js 0644
 pub/System/JQueryPlugin/jquery-2.2.4.js.gz 0644
 pub/System/JQueryPlugin/jquery-2.2.4.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-3.2.1.js 0644
+pub/System/JQueryPlugin/jquery-3.2.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-3.2.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/noconflict.js 0644
@@ -465,6 +469,9 @@ pub/System/JQueryPlugin/plugins/metadata/jquery.metadata.js 0644
 pub/System/JQueryPlugin/plugins/metadata/jquery.metadata.js.gz 0644
 pub/System/JQueryPlugin/plugins/metadata/jquery.metadata.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/metadata/Makefile 0644
+pub/System/JQueryPlugin/plugins/migrate/jquery.migrate-3.js 0644
+pub/System/JQueryPlugin/plugins/migrate/jquery.migrate-3.js.gz 0644
+pub/System/JQueryPlugin/plugins/migrate/jquery.migrate-3.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/migrate/jquery.migrate.js 0644
 pub/System/JQueryPlugin/plugins/migrate/jquery.migrate.js.gz 0644
 pub/System/JQueryPlugin/plugins/migrate/jquery.migrate.patch 0644
@@ -638,6 +645,13 @@ pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.js.gz 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/textboxlist/Makefile 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js.gz 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js.gz 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/tmpl/Makefile 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css.gz 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.init.js 0644
@@ -680,13 +694,6 @@ pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.js.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/treeview/Makefile 0644
-pub/System/JQueryPlugin/plugins/tmpl/Makefile 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js.gz 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js.gz 0644
-pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-af.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar-DZ.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar.js 0644
