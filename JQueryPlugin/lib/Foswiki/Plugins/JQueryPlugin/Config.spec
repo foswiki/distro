@@ -142,9 +142,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Migrate}{Enabled} = 1;
 # **BOOLEAN LABEL="MouseWheel"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{MouseWheel}{Enabled} = 1;
 
-# **BOOLEAN LABEL="Placeholder"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 1;
-
 # **BOOLEAN LABEL="PNotify"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{PNotify}{Enabled} = 1;
 
@@ -260,6 +257,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 0;
 # **BOOLEAN LABEL="Nifty" EXPERT**
 # Warning: This plugin is deprecated. Use Corner instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
+
+# **BOOLEAN LABEL="Placeholder"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Rating" EXPERT**
 # Warning: This plugin is deprecated. Use Stars instead.

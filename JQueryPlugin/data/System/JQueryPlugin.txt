@@ -126,8 +126,9 @@ required for Foswiki 1.1 or later.
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
 |  11 Dec 2017: | (8.00) - Item14564: added jquery-3 and the matching migrate module <br /> \
-                           Item14567: added keyboard navigation to jquery.stars <br />\
-                           Item14568: add chili recipes for autolisp and ini |
+                           Item14567: added keyboard navigation to jquery.stars <br /> \
+                           Item14568: add chili recipes for autolisp and ini <br /> \
+                           Item14569: deprecate jquery.placeholder |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br />\
                            Item14566: don't cache a null result in foswiki.getPreference() |
 |   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5<br />\
