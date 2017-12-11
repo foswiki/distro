@@ -1,5 +1,5 @@
 /*
- * jQuery textbox list plugin 2.11
+ * jQuery textbox list plugin 2.20
  *
  * Copyright (c) 2009-2017 Foswiki Contributors http://foswiki.org
  *
