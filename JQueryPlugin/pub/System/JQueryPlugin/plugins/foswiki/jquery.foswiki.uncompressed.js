@@ -1,6 +1,6 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 2.12
+ * Version: 2.13
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
@@ -111,8 +111,7 @@ var foswiki = foswiki || {
       return foswiki.preferences[key];
     }
 
-    foswiki.preferences[key] = null;
-    return null;
+    return;
   };
 
   /**
