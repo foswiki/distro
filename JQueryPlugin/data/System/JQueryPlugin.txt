@@ -129,7 +129,8 @@ required for Foswiki 1.1 or later.
                            Item14567: added keyboard navigation to jquery.stars <br /> \
                            Item14568: added chili recipes for autolisp and ini <br /> \
                            Item14569: deprecated jquery.placeholder <br /> \
-                           Item14571: added manual sorting mode to textboxlist |
+                           Item14571: added manual sorting mode to textboxlist <br /> \
+                           Item14572: upgraded jquery.livequery |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
                            Item14570: add "use strict" to farbtastic's init and fix js errors |
