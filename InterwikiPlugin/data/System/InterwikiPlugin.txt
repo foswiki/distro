@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1486602810" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -67,6 +67,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   8 Dec 2017: (1.25)  | Foswikitask:Item14395: Failure to check result from readTopic causes error. |
 |   8 Feb 2071: (1.24)  | Foswikitask:Item14321: Fix some stale default Interwiki links. |
 |   8 Apr 2016: (1.23)  | Foswikitask:Item14022: Change foswiki.org links to https. |
 |  14 Jun 2014: (1.22)  | Foswikitask:Item13287: Foswikitask:Item13387: Regular expression enhancements, better UTF-8 support. |

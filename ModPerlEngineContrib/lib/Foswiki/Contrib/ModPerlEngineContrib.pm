@@ -23,8 +23,8 @@ use strict;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
-$VERSION          = '1.05';
-$RELEASE          = '30 Apr 2017';
+$VERSION          = '1.10';
+$RELEASE          = '08 Dec 2017';
 $SHORTDESCRIPTION = 'Permits Foswiki to be executed under mod_perl';
 
 1;
