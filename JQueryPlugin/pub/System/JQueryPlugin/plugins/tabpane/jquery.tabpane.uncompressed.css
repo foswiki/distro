@@ -1,18 +1,18 @@
 .foswikiFormSteps .jqTabPane {
-  margin:0px;
+  margin:0;
 }
 .jqTabLabel {
   display:none;
 }
 .jqTabPane form {
-  margin:0px;
-  padding:0px;
+  margin:0;
+  padding:0;
 }
 .jqTab {
   display:none;
   border:1px solid #BDBEC5;
-  padding:0px;
-  margin:0px;
+  padding:0;
+  margin:0;
 }
 .foswikiNoJs .jqTab {
   display:block;
@@ -28,16 +28,22 @@
   padding:0;
 }
 ul.jqTabGroup {
-  margin:0px;
-  padding:0px;
+  margin:0;
+  padding:0;
   list-style:none;
   display:block;
   float:left;
   overflow:visible !important;
+  position:relative;
+  bottom:-1px;
 }
 ul.jqTabGroup li {
   float:left;
   list-style:none;
+  position:relative;
+}
+ul.jqTabGroup li.current {
+  z-index:1;
 }
 ul.jqTabGroup a:hover,
 ul.jqTabGroup a {
@@ -45,14 +51,14 @@ ul.jqTabGroup a {
   white-space:nowrap;
   float:left;
   display:block;
-  text-shadow:0px 1px #fff;
+  text-shadow:0 1px #fff;
 }
 .foswikiFormSteps ul.jqTabGroup li.current {
   background-color: inherit;
 }
 
 .jqTabPane .fltMakeIndexWrapper {
-  margin:0px;
+  margin:0;
 }
 
 .jqAjaxLoader {
@@ -68,9 +74,9 @@ ul.jqTabGroup a {
   background-image: url('tab_right.png');
   background-repeat: no-repeat;
   background-position: right top;
-  padding:0px 3px 0px 0px;
-  margin:0px 4px -1px 0px;
-  *margin:5px 4px -6px 0px; /* IE7 */
+  padding:0 3px 0 0;
+  margin:0 4px 0 0;
+  *margin:5px 4px -6px 0; /* IE7 */
   height:28px;
 }
 .jqTabPaneDefault > .jqTabGroup a:hover,
@@ -80,8 +86,8 @@ ul.jqTabGroup a {
   background-repeat: no-repeat;
   background-position: left top;
   color:#111;
-  margin:0px 0px 0px 0px;
-  padding:5px 8px 0px 18px;
+  margin:0 0 0 0;
+  padding:5px 8px 0 18px;
   height:23px;
   font-size:12px;
   line-height:100%;
@@ -148,7 +154,7 @@ ul.jqTabGroup a {
 .jqTabPanePlain > .jqTabGroup li,
 .jqTabPaneSimple > .jqTabGroup li {
   background:transparent;
-  margin:0px 0.4615em -1px 0; /* 0px 6px ... */
+  margin:0 0.4615em 0 0; /* 0 6px ... */
   *height:2.3077em; /* IE7 ... 30px */
 }
 .jqTabPanePlain > .jqTabGroup li.current a,
@@ -173,9 +179,9 @@ ul.jqTabGroup a {
 
 /* plain theme */
 .jqTabPanePlain .jqTab {
-  border-left:0px;
-  border-right:0px;
-  border-bottom:0px;
+  border-left:0;
+  border-right:0;
+  border-bottom:0;
   border-top-color:#ccc;
 }
 .jqTabPanePlain .jqTabContents {
