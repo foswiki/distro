@@ -253,7 +253,7 @@ After the update, each process will still serve one more request before reloadin
 | Change History: | |
 |  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task.<br/>\
                         Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=.<br/>\
-                        Foswikitask:Item14577 - Add sample init scripts for FreeBSD. |
+                        Foswikitask:Item14577 - Add sample init scripts for !FreeBSD. |
 |  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>\
                         Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
