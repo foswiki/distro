@@ -49,48 +49,55 @@ sub USERLIST {
       Foswiki::convertTopicPatternToRegex( $params->{exclude} )
       if ( $params->{exclude} );
 
-    my $it = $Foswiki::Plugins::SESSION->{users}->eachUser();
-    $it->{process} = sub {
-        return $Foswiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
-    };
+    my $it = $session->{users}->eachUser();
 
     my @users;
 
     while ( $it->hasNext() ) {
-        my $user = $it->next();
+        my $cUID     = $it->next();
+        my $wikiName = $session->{users}->getWikiName($cUID);
         if ( length($filter) ) {
-            next unless ( $user =~ m/$casesensitive$filter/ );
+            next unless ( $wikiName =~ m/$casesensitive$filter/ );
         }
         if ( defined $excludeTopics ) {
-            next if $user =~ m/$casesensitive$excludeTopics/;
+            next if $wikiName =~ m/$casesensitive$excludeTopics/;
         }
-        push @users, $user;
+        push @users,
+          {
+            wikiname => $wikiName,
+            username => $session->{users}->getLoginName($cUID),
+            sorting  => NFKD($wikiName),
+          };
     }
 
-    return '' unless scalar @users;
-
     my $count   = 0;
-    my $results = $header;
-    foreach my $user ( sort { NFKD($a) cmp NFKD($b) } @users ) {
+    my @results = ();
+    foreach my $user ( sort { $a->{sorting} cmp $b->{sorting} } @users ) {
         $count++;
         last if ( $limit && $count > $limit );
         if ($checkaccess) {
-            if ( $session->topicExists( $Foswiki::cfg{UsersWebName}, $user ) ) {
+            if (
+                $session->topicExists(
+                    $Foswiki::cfg{UsersWebName},
+                    $user->{wikiname}
+                )
+              )
+            {
                 my $userto =
                   Foswiki::Meta->load( $session, $Foswiki::cfg{UsersWebName},
-                    $user );
+                    $user->{wikiname} );
                 next unless $userto->haveAccess('VIEW');
             }
         }
 
         my $temp = $format;
-        $temp =~ s/\$wikiname/$user/g;
-        $results .= $temp;
-        $results .= $separator if ($separator);
+        $temp =~ s/\$wikiname/$user->{wikiname}/g;
+        $temp =~ s/\$username/$user->{username}/g;
+        push @results, $temp;
     }
-    $results = substr( $results, 0, -length($separator) ) if length($separator);
-    $results .= $footer;
+    return '' unless scalar @results;
 
+    my $results = $header . join( $separator, @results ) . $footer;
     return Foswiki::expandStandardEscapes($results);
 }
 
