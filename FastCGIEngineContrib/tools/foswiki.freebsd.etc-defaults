@@ -1,0 +1,20 @@
+# foswiki_bind=/var/run/foswiki/foswiki.sock
+foswiki_bind=127.0.0.1:9000
+
+foswiki_check_size=10
+foswiki_children=3
+foswiki_fcgi=foswiki.fcgi
+foswiki_group=foswiki
+foswiki_max_requests=-1
+foswiki_max_size=250000
+foswiki_user=foswiki
+foswiki_pidfile=/var/run/foswiki/foswiki.pid
+foswiki_quiet=YES
+foswiki_root=/usr/local/www/foswiki
+foswiki_procname=foswiki
+
+foswiki_sock_user=foswiki
+foswiki_sock_group=nginx
+foswiki_sock_mode=660
+
+

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513094554" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
@@ -29,6 +29,14 @@ Allows users to "subscribe" to regularly scheduled emails containing either:
    1 changes within the respective webs.
 
 The mailer collates the changes so that each subscriber only receives one email notification for all changes in all webs in the wiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
+
+Notifications are only sent for changes that are not considered "minor".  This is controlled by several factors:
+   * Changes to the same topic by the same user, when made within the configure setting =$Foswiki::cfg{ReplaceIfEditedAgainWithin}= (default 3600 seconds / 1 hour), will be recorded as minor.
+   * Changes with the "force new revision" flag set are never logged as minor.
+   * Old releases of Foswiki allowed users to select a "Don't notify" checkbox during save.  This feature was removed from Foswiki 2.x.
+If the =mailnotify= process runs in the interm between a recorded change, and a subsequent minor change, then the 2nd minor change will not trigger a new notification.
+
+---+++ How notifications are requested
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
 <!-- Included by %SYSTEMWEB%.WebNotifyHelp -->
@@ -93,8 +101,6 @@ If a _group_ is listed for notification, the group will be recursively expanded 
 
 <div class="foswikiHelp"> *%T% Tip:* List names in alphabetical order to make it easier to find the names.</div>
 %STOPINCLUDE%
-
-In the future, it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However, at present, the notification schedule is controlled by the frequency of activation of the mailer.
 
 Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The newsletter template is used to generate the content in this email, using whichever skin is selected in the topic being mailed.
 
@@ -314,5 +320,5 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1512791273" size="11437" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512791273" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1513094554" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1513094554" size="1343" user="ProjectContributor" version="1"}%
