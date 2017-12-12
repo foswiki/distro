@@ -1110,15 +1110,9 @@ sub _createCssStyles {
     if ( defined $inAttrs->{tableBorderColor} ) {
         my $attr;
         $attr = 'border-color:' . $inAttrs->{tableBorderColor};
-        &$setAttribute( $tableSelector, '', $attr );
-        $attr = 'border-top-color:' . $inAttrs->{tableBorderColor};
-        &$setAttribute( $tableSelector, '', $attr );
-        $attr = 'border-bottom-color:' . $inAttrs->{tableBorderColor};
-        &$setAttribute( $tableSelector, '', $attr );
-        $attr = 'border-left-color:' . $inAttrs->{tableBorderColor};
-        &$setAttribute( $tableSelector, '', $attr );
-        $attr = 'border-right-color:' . $inAttrs->{tableBorderColor};
-        &$setAttribute( $tableSelector, '', $attr );
+        &$setAttribute( $tableSelector, '',   $attr );
+        &$setAttribute( $tableSelector, 'td', $attr );
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # cellSpacing
@@ -1126,6 +1120,9 @@ sub _createCssStyles {
 
         # do not use border-collapse:collapse
         my $attr = 'border-collapse:separate';
+        &$setAttribute( $tableSelector, '', $attr );
+        $attr =
+          'border-spacing:' . addDefaultSizeUnit( $inAttrs->{cellspacing} );
         &$setAttribute( $tableSelector, '', $attr );
     }
 
@@ -1140,6 +1137,9 @@ sub _createCssStyles {
     if ( defined $inAttrs->{cellBorder} ) {
         my $cellBorderWidth = $inAttrs->{cellBorder} || 0;
         my $attr = 'border-width:' . addDefaultSizeUnit($cellBorderWidth);
+        &$setAttribute( $tableSelector, 'td', $attr );
+        &$setAttribute( $tableSelector, 'th', $attr );
+        $attr = "border-style:solid";
         &$setAttribute( $tableSelector, 'td', $attr );
         &$setAttribute( $tableSelector, 'th', $attr );
     }
@@ -1415,11 +1415,8 @@ sub emitTable {
     }
 
     my $tableTagAttributes = {};
-    $tableTagAttributes->{class}       = $combinedTableAttrs->{class};
-    $tableTagAttributes->{border}      = $combinedTableAttrs->{border};
-    $tableTagAttributes->{cellspacing} = $combinedTableAttrs->{cellspacing};
-    $tableTagAttributes->{cellpadding} = $combinedTableAttrs->{cellpadding};
-    $tableTagAttributes->{id}          = $combinedTableAttrs->{id}
+    $tableTagAttributes->{class} = $combinedTableAttrs->{class};
+    $tableTagAttributes->{id}    = $combinedTableAttrs->{id}
       || undef;
     $tableTagAttributes->{summary} = $combinedTableAttrs->{summary};
     $tableTagAttributes->{frame}   = $combinedTableAttrs->{frame};
