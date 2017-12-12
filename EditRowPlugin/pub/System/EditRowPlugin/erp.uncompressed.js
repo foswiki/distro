@@ -35,7 +35,7 @@
                     input.width(settings.width);
                 if (settings.height != 'none')
                     input.height(settings.height);
-                input.attr('autocomplete', 'off');
+                input.prop('autocomplete', false);
                 $(this).append(input);
                 return(input);
             },
@@ -130,7 +130,7 @@
                 $('select', this).children().each(function() {
                     if ($(this).val() == json.selected || 
                         $(this).text() == $.trim(original.revert)) {
-                        $(this).attr('selected', 'selected');
+                        $(this).prop('selected', true);
                     }
                 });
             }
