@@ -130,7 +130,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # *SCRIPTHASH*
 
 # ---++ File System Paths
-# Configure the file system locations of key Foswiki directories here (Display expert parameters to 
+# Configure the file system locations of key Foswiki directories here (_Show expert options_ to 
 # see the detailed paths).  These are all usually guessed 
 # correctly during bootstrap. Other file locations are configured within their related sections.
 # There are also Wizards available to check the access permissions of each directory and its contents.
