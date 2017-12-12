@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1451454504" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1513079351" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABLE -- control attributes of tables and sorting of table columns
 The =%<nop>TABLE{}%= macro is handled by the TablePlugin
@@ -7,7 +7,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Parameter*         | *Description*  | *Default*  | *Example*  |
      | =tableborder=      | Table border width (pixels). | ="1"= | =tableborder="2"= |
-     | =tablebordercolor= | Table border color . Is only visible when =cellspacing= is larger than 1, or =cellborder= is =0=, or =tablerules= is =none=, otherwise the cell borders overlap the table border. | <span class="foswikiGrayText">unspecified</span> | =tablebordercolor="#333"= |
+     | =tablebordercolor= | Table border color. | <span class="foswikiGrayText">unspecified</span> | =tablebordercolor="#333"= |
      | =tableframe=       | Table frame, set to ="void"= (no sides), ="above"= (the top side only), ="below"= (the bottom side only), ="hsides"= (the top and bottom sides only), ="lhs"= (the left-hand side only), ="rhs"= (the right-hand side only), ="vsides"= (the right and left sides only), ="box"= (all four sides), ="border"= (all four sides). | <span class="foswikiGrayText">unspecified</span> | =tableframe="hsides"= |
      | =tablerules=       | Table rules, set to ="none"= (no rules), ="groups"= (rules will appear between row groups and column groups only), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). See also: =headerrules= and =datarules=. | <span class="foswikiGrayText">unspecified</span>  | =tablerules="rows"= |
      | =tablewidth=       | Table width: percentage of window width, or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =tablewidth="100%"= |
