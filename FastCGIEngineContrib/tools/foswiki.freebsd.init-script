@@ -12,7 +12,6 @@
 . /etc/rc.subr
 name="foswiki"
 rcvar=foswiki_enable
-procname="foswiki-fcgi-pm"
 
 load_rc_config ${name}
 : ${foswiki_enable:="NO"}
@@ -34,6 +33,8 @@ load_rc_config ${name}
 : ${foswiki_sock_user:="foswiki"}
 : ${foswiki_sock_group:="nginx"}
 : ${foswiki_sock_mode:="660"}
+
+procname="${foswiki_procname}-fcgi-pm"
 
 command="${foswiki_root}/bin/${foswiki_fcgi}"
 command_args=" -n ${foswiki_children}  -l ${foswiki_bind}  -p ${foswiki_pidfile}  -d -c ${foswiki_check_size}  -x ${foswiki_max_requests}  -s ${foswiki_max_size} -a ${foswiki_procname}"
