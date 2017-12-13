@@ -16,7 +16,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'View',
-            version    => '0.9.83',
+            version    => '0.9.90',
             author     => 'Boris Moore',
             homepage   => 'http://www.jsviews.com',
             dependencies => [ 'render' ],
