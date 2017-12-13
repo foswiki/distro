@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1492704403" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -177,7 +177,7 @@ If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing onl
 
 ---++ Plugin Info
 
-This plugin is brought to you by a [[http://wikiring.com][WikiRing <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" title="WikiRing: Professional Wiki Innovation and Support" /></a>]] partner - working together to improve your wiki experience!
+This plugin is brought to you by a <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing: Professional Wiki Innovation and Support" /> *WikiRing Partner* - working together to improve your wiki experience!
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
@@ -187,6 +187,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
                &copy; 2008-2015 Foswiki Contributors |
 |  Change History: | |  
+|  1.36   (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain |
 |  1.35   (04 Apr 2017) | Foswikitask:Item2489: WysiwygPlugin Constants should use export instead of aliasing it to some WC module <br/>\
                           Foswikitask:Item9651: wysiwyg converts bold table content to table heads - Waiting for Release <br/>\
                           Foswikitask:Item10239: Class Attribute is missing after Wysiwyg Transfer of Table Nodes <br/>\
@@ -287,4 +288,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1492704403" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512791273" size="1343" user="ProjectContributor" version="1"}%

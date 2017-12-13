@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449867281" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1500085204" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -105,7 +105,7 @@ This is the code used in the [[%SANDBOXWEB%.%HOMETOPIC%]] form:
 }%%ADDTOZONE{"head" 
 	tag="WebCreateNewTopicTemplate:META" 
 	text="<noautolink><literal><meta name='foswiki.webTopicCreator.nameFeedback' content='%MAKETEXT{"Topic will be named: "}%' />
-<meta name='foswiki.webTopicCreator.errorFeedbackNoWikiName' content='<p class=\"foswikiGrayText\">%MAKETEXT{"Enter the topic name as WikiWord or check the allow non-Wiki Word box."}%</p>' /></literal></noautolink>"
+<meta name='foswiki.webTopicCreator.errorFeedbackNoWikiName' content='<p class=\"foswikiGrayText\">%ENCODE{"%MAKETEXT{"Enter the topic name as WikiWord or check the allow non-Wiki Word box."}%" type="entity"}%</p>' /></literal></noautolink>"
 	requires=""
 }%%ENDSECTION{"js"}%
 

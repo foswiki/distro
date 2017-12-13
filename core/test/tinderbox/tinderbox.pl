@@ -1,7 +1,8 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 # Copyright 2005 Will Norris.  All Rights Reserved.
 # License: GPL
 use strict;
+use warnings;
 use Data::Dumper qw( Dumper );
 
 # run the (unit) tests

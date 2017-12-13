@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -21,7 +21,7 @@ Preferences can be defined in a number of places:
    1 In the topic being accessed
 In this list, =Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ in this case, the macro is locked to the value at that level; =set= statements at higher-numbered levels are ignored.
 
-     <img src="%PUBURLPATH%/%WEB%/%TOPIC%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
+     <img src="%PUBURLPATH{"prefs-stack.jpg" topic="%WEB%.%TOPIC%"}%" alt="prefs-stack.jpg" width='467' height='373' />
 
 ---++ Writing preference settings
 Preference settings are written as a simple bullet. In TopicMarkupLanguage
@@ -133,5 +133,5 @@ be used, and the EDITBOX* settings will be ignored.
 </div>
 
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1437500521" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1437500521" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1512501336" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1512501336" size="15256" user="ProjectContributor" version="1"}%

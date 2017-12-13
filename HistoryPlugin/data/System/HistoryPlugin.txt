@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1441729129" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
-%$SHORTDESCRIPTION%.
+%FORMFIELD{"Description"}%.
 
 The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.
 
@@ -63,10 +63,11 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 
 ---++ Plugin Info
 <!--
-      * Set SHORTDESCRIPTION = Shows a complete history of a document
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  01 Sep 2017: | 1.14 Foswikitask:Item14471: HistoryPlugin not properly rendering date tokens. |
 |  08 Sep 2015: | 1.13 Remove RevCommentPlugin hooks from the templates. |
 |  15 Mar 2015: | 1.12 Version released with Foswiki 2.0 Foswikitask:Item12881: Add HISTORYPLUGIN_NREV setting. |
 |  28 Nov 2012: | 1.11 Version released with Foswiki 1.1.6. Change to perl version strings |
@@ -86,20 +87,16 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  19 Jan 2007: | 1.002 Corrected coding error that causes the plugin to fail with HISTORY tag in topic |
 |  9 Apr 2006: | 1.001 Updated for new <nop>PatternSkin |
 |  17 Feb 2005: | Initial version |
-|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.024 |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 
 __Related Topics:__ %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2015 Kenneth Lavrsen and Foswiki Contributors"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HistoryPlugin"}%
+%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2017 Kenneth Lavrsen and Foswiki Contributors"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/HistoryPlugin"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/HistoryPlugin"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/HistoryPlugin"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1441729129" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1512791273" size="72043" user="ProjectContributor" version="1"}%

@@ -8,7 +8,7 @@
 </script>%TMPL:END%
 
 %TMPL:DEF{"messagetmpl::icon"}%%JQICON{"error"}%%TMPL:END%
-%TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s): [_2]" arg1="{{:nrPlugins}}" arg2="{{:outdatedPlugins}}"}%%TMPL:END%
+%TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s): [_2]" args="{{:nrPlugins}}, {{:outdatedPlugins}}"}%%TMPL:END%
 %TMPL:DEF{"messagetmpl::buttons"}%<a href="%SCRIPTURLPATH{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
 <a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a>%TMPL:END%
 

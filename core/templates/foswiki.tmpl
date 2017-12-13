@@ -72,6 +72,7 @@ but may be used in derived templates.
 #PageTop %TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"bodyend"}%</div>
+%RENDERZONE{"body"}%
 </body></html>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"broadcastmessage"}%%IF{"defined FOSWIKI_BROADCAST and $FOSWIKI_BROADCAST != ''" then="$percntTMPL:P{$quotbroadcastmessage:system$quot}$percnt"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
@@ -161,11 +162,6 @@ title string in page:
 formatting macros
 webListIndent - used in WEBLIST
 }%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%%{
----------------------------------------------------
-icon:image - uses double quotes required for legacy reasons :/ 
-}%%TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%%{
 ---------------------------------------------------
 support for default skin's webtopiclist
 }%%TMPL:DEF{"defaultwebtopiclist"}%[[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />%TMPL:END%%{

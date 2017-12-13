@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1494206626" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1502239930" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
-<div class='foswikiHelp'>
-This guide describes the steps for installing Foswiki, with __specific steps for installations on Linux with the Apache web server__.%BR%
+This guide describes the steps for installing Foswiki using Apache as the web server, on Linux.
+<div class='foswikiHelp' style='border:2px orange solid' >
+This guide describes the __specific steps for installations on Linux with the Apache web server__.%BR%
 If you would prefer to use a different web server, please refer to supplemental documentation when you reach the Apache-specific steps:
    * *Nginx:* [[https://foswiki.org/System/FastCGIEngineContrib#Nginx][FastCGIEngineContrib#Nginx]] and[[https://foswiki.org/Support/FoswikiOnNginx][Foswiki on Nginx]]
    * *Lighttpd:* [[https://foswiki.org/Support/LighttpdBestPractice][Foswiki on Lighttpd]]

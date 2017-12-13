@@ -90,6 +90,7 @@ sub run {
                     n_processes => $args->{nproc},
                     pid_fname   => $args->{pidfile},
                     quiet       => $args->{quiet},
+                    pm_title    => ( $args->{pname} || 'foswiki' ) . '-fcgi-pm',
 
                     max_requests =>
                       ( defined $args->{max} ? $args->{max} : $maxRequests ),
@@ -103,6 +104,8 @@ sub run {
             );
 
             $manager->pm_manage();
+            $manager->pm_change_process_name(
+                ( $args->{pname} || 'foswiki' ) . '-fcgi' );
         }
         else {    # No ProcManager
 
@@ -263,7 +266,7 @@ __END__
 FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 http://foswiki.org/
 
-Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 contributors. Foswiki contributors are listed in the AUTHORS file in the root
 of Foswiki distribution.
 

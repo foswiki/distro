@@ -1,7 +1,7 @@
 /*
- * jQuery fluid font plugin 1.0
+ * jQuery fluid font plugin 1.01
  *
- * Copyright (c) 2009-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2017 Foswiki Contributors http://foswiki.org
  *
  * inspired by TextZooming by James Newbery http://www.tinnedfruit.com/sandbox/textzoom.html
  *
@@ -11,6 +11,7 @@
  *
  */
 
+"use strict";
 /***************************************************************************
  * plugin definition 
  */
@@ -47,7 +48,7 @@
 
       fontSize = $this.css('font-size');
       fontRatio = getRatio(fontSize);
-      lineHeight = $this.css('line-height')
+      lineHeight = $this.css('line-height');
       lineRatio = getRatio(lineHeight);
       lineRatio = lineRatio / fontRatio;
       //$.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
@@ -97,7 +98,7 @@
   /* initialisation */
   $(function() {
     $(".jqFluidFont").not(".jqInitedFluidFont").each(function() {
-      var $this = $(this), opts = $.extend({}, $this.metadata());
+      var $this = $(this), opts = $.extend({}, $this.data(), $this.metadata());
       $this.addClass("jqInitedFluidFont");
       $this.fluidfont(opts);
     });

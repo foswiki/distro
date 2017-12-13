@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Contribs
@@ -21,7 +21,7 @@ Foswiki contribs may
    * Foswiki:Extensions - list of all contributed contrib packages
    * Foswiki:Development - where developers get started
 
-*See other types of extensions:* ContributedAddOns, [[Plugins]], [[Skins]]
+*See other types of extensions:* [[ContributedAddOns][AddOns]], [[Plugins]], [[Skins]]
 
 ---++ Foswiki Contribs Installed on this site
 
@@ -36,9 +36,10 @@ Foswiki contribs may
 
 ---++ Installing Contribs
 
-   * Use =configure= to browse to the list of extensions available from Foswiki.org
-   * Or, download an extension package from some other source, and unzip it
-   * Follow the installation instructions in the contrib topic.
+   * Use [[%SCRIPTURLPATH{"configure"}%]] to browse or search the list of extensions available from Foswiki.org, and to install the extension.
+   * Or, use the =tools/extension_installer= script to download and install the extension.
+   * Or, download an extension package from some other source, and unzip it.
+   * Follow any special installation instructions in the Contrib topic.
 
 %STOPINCLUDE%
 ---

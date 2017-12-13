@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2015 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -44,7 +44,13 @@ our ($dir)    = Cwd::cwd() =~ /^(.*)$/;
 
 my @argv = @ARGV;
 
-my ( $listen, $nproc, $max, $size, $check, $pidfile, $manager, $detach, $help, $quiet );
+my (
+    $listen,  $nproc,  $max,  $size,  $check, $pidfile,
+    $manager, $detach, $help, $quiet
+);
+
+my $pname = 'foswiki';  # Default process name.
+
 GetOptions(
     'listen|l=s'  => \$listen,
     'nproc|n=i'   => \$nproc,
@@ -56,13 +62,14 @@ GetOptions(
     'daemon|d'    => \$detach,
     'help|?'      => \$help,
     'quiet|q'     => \$quiet,
+    'pname|a=s'   => \$pname,
 );
 
 pod2usage(1) if $help;
 
 # untaint
-if (defined $pidfile) {
-  $pidfile =~ /^(.*)$/ and $pidfile = $1;
+if ( defined $pidfile ) {
+    $pidfile =~ /^(.*)$/ and $pidfile = $1;
 }
 
 @ARGV = @argv;
@@ -79,6 +86,7 @@ $Foswiki::engine->run(
         max     => $max,
         size    => $size,
         check   => $check,
+        pname   => $pname,
     }
 );
 
@@ -99,6 +107,7 @@ foswiki.fcgi [options]
     -d --daemon     Detach from terminal and keeps running as a daemon
     -q --quiet      Disable notification messages
     -? --help       Display this help and exits
+    -N --pname      Process name to display in ps output for the process-manager task.
 
   Note:
     FCGI manager class defaults to Foswiki::Engine::FastCGI::ProcManager, a

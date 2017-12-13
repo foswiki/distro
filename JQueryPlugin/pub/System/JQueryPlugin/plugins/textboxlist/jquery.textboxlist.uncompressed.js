@@ -1,7 +1,7 @@
 /*
- * jQuery textbox list plugin 2.1
+ * jQuery textbox list plugin 2.20
  *
- * Copyright (c) 2009-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -13,6 +13,7 @@
 /***************************************************************************
  * plugin definition 
  */
+"use strict";
 (function($) {
 
   // extending jquery 
@@ -24,7 +25,9 @@
 
       // create textbox lister for each jquery hit
       return this.each(function() {
-        var txtboxlist = new $.TextboxLister(this, opts);
+        if (!$.data(this, "textboxlist")) {
+          $.data(this, "textboxlist", new $.TextboxLister(this, opts));
+        }
       });
     }
   });
@@ -37,8 +40,7 @@
 
     // build element specific options. 
     // note you may want to install the Metadata plugin
-    self.opts = $.extend({
-    }, self.input.metadata(), opts);
+    self.opts = $.extend({}, self.input.data(), self.input.metadata(), opts);
 
     if(!self.opts.inputName) {
       self.opts.inputName = self.input.attr('name');
@@ -48,11 +50,34 @@
     self.container = self.input.wrap("<div />")
       .parent()
       .addClass(self.opts.containerClass)
-      .append("<span class='foswikiClear'></span>");
+      .addClass("clearfix");
 
     if (self.opts.enableClose) {
       self.container.addClass("jqTextboxListEnableClose");
     }
+
+    if (self.opts.sorting === "manual") {
+      self.container.sortable({
+        items: "> ."+self.opts.listValueClass,
+        placeholder: "jqTextboxListPlaceholder",
+        forcePlaceholderSize: true,
+        update: function(ev, ui) {
+          var vals = [];
+          $.each(self.container.sortable("toArray", {attribute: "class"}), function(i, classes) {
+            var selector = [];
+            $.map(classes.split(/\s+/), function(cls) {
+              selector.push("."+cls);
+            });
+            selector = selector.join("");
+            $(selector).find("input").each(function() {
+              vals.push($(this).val());
+            });
+          });
+          self.currentValues = vals;
+        }
+      });
+    }
+
 
     // clear button
     if (self.opts.clearControl) {
@@ -90,7 +115,7 @@
     // keypress event
     self.input.bind("keydown.textboxlist", function(event) {
       // track last key pressed
-      if(event.keyCode == 13) {
+      if(event.keyCode === 13) {
         var val = self.input.val();
         if (val) {
           $.log("TEXTBOXLIST: closing suggestion list");
@@ -120,12 +145,12 @@
     });
 
     // reset event
-    self.input.bind("Reset", function(e) {
+    self.input.bind("Reset", function() {
       self.reset();
     });
 
     // clear event
-    self.input.bind("Clear", function(e) {
+    self.input.bind("Clear", function() {
       self.clear();
     });
 
@@ -133,7 +158,7 @@
     self.currentValues = [];
     self.titleOfValue = [];
     if (self.input.val()) {
-      self.select(self.input.val().split(/\s*,\s*/).sort(), true);
+      self.select(self.input.val().split(/\s*,\s*/), true);
     }
     self.initialValues = self.currentValues.slice();
     self.input.removeClass('foswikiHidden').show();
@@ -175,13 +200,10 @@
     $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
     var self = this, i, j, val, title, found, currentVal, input, close, className;
 
-    if (typeof(values) === 'object') {
-      values = values.join(',');
-    } 
-    if (typeof(values) !== 'undefined' && typeof(values) !== 'null') {
-      values = values.split(/\s*,\s*/).sort();
-    } else {
-      values = '';
+    if (typeof(values) === 'string') {
+      values = values.split(/\s*,\s*/);
+    } else if (typeof(values) === 'undefined') {
+      values = [];
     }
 
     // parse values
@@ -193,8 +215,8 @@
       }
       title = val;
       if (val.match(/^(.*)=(.*)$/)) {
-        values[i] = val = RegExp.$1
-        self.titleOfValue["_"+val] = RegExp.$2
+        values[i] = val = RegExp.$1;
+        self.titleOfValue["_"+val] = RegExp.$2;
       }
     }
 
@@ -208,7 +230,7 @@
         }
         for (j = 0; j < self.currentValues.length; j++) {
           currentVal = self.currentValues[j];
-          if (currentVal == val) {
+          if (currentVal === val) {
             found = true;
             break;
           }
@@ -227,7 +249,7 @@
       }
     }
 
-    if (self.opts.doSort) {
+    if (self.opts.sorting === true) {
       self.currentValues = self.currentValues.sort();
     }
 
@@ -243,7 +265,10 @@
       title = self.titleOfValue["_"+val] || val;
       $.log("TEXTBOXLIST: val="+val+" title="+title);
       className = "tag_"+title.replace(/["' ]/, "_");
-      input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />";
+      input = $("<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />");
+      if (self.input.is(".foswikiMandatory")) {
+        input.addClass("foswikiMandatory");
+      }
       if (self.opts.enableClose) {
         close = $("<a href='#' title='remove "+title+"'></a>").
           addClass(self.opts.closeClass).
@@ -276,10 +301,9 @@
 
     var self = this, newValues = [], i, j, currentVal, found, val;
 
-    if (typeof(values) == 'object') {
-      values = values.join(',');
+    if (typeof(values) == 'string') {
+      values = values.split(/\s*,\s*/);
     }
-    values = values.split(/\s*,\s*/);
     if (!values.length) {
       return;
     }
@@ -292,7 +316,7 @@
       found = false;
       for (j = 0; j < values.length; j++) {
         val = values[j];
-        if (val && currentVal == val) {
+        if (val && currentVal === val) {
           found = true;
           break;
         }
@@ -318,7 +342,7 @@
     listValueClass: 'jqTextboxListValue',
     closeClass: 'jqTextboxListClose',
     enableClose: true,
-    doSort: false,
+    sorting: 'manual',
     inputName: undefined,
     resetControl: undefined,
     clearControl: undefined,

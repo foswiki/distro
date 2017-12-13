@@ -29,8 +29,8 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 # Also change Version/Release in Plugins/MailerContrib.pm
-our $VERSION          = '2.84';
-our $RELEASE          = '2.84';
+our $VERSION          = '2.85';
+our $RELEASE          = '8 Dec 2017';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised
@@ -249,9 +249,20 @@ sub _processSubscriptions {
     my ( $web, $notify, $db, $options ) = @_;
 
     my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
+    die <<EMSG unless -w $metadir;
+ERROR: Working directory is not writable: $metadir
+Ensure that directory is writable before running mailnotify!"
+EMSG
     my $notmeta = $web;
     $notmeta =~ s#/#.#g;
     $notmeta = "$metadir/$notmeta";
+
+    if ( -f $notmeta ) {
+        die <<EMSG unless -w $notmeta;
+ERROR: Workarea file is not writable: $notmeta
+Ensure that file is writable before running mailnotify!
+EMSG
+    }
 
     my $timeOfLastNotify = 0;
     if ( open( F, '<', $notmeta ) ) {
@@ -259,6 +270,8 @@ sub _processSubscriptions {
         $timeOfLastNotify = <F>;
         close(F);
     }
+
+# SMELL:  we don't check if read fails.  But that just means there was no prior run.
 
     if ( $options->{verbose} ) {
         _UTF8print( "\tLast notification was at "
@@ -333,6 +346,13 @@ sub _processSubscriptions {
         if ( open( F, '>', $notmeta ) ) {
             print F $timeOfLastChange;
             close(F);
+        }
+        else {
+            die <<EMSG;
+ERROR: Write of workarea file failed.
+Write $timeOfLastChange to $notmeta to prevent duplicate email
+$!
+EMSG
         }
     }
 }

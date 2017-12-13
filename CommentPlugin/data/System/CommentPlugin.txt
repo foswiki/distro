@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485009132" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -276,9 +276,11 @@ This plugin has been significantly changed from the =10 April 2011= version ship
    * The plugin no longer processes %COMMENT macros during save.  If you have developed any forms using the [[%SANDBOXWEB%.CommentPluginExamples#NoForm][=noform= and =templatetopic= examples]] they must be revised.
 
 ---++ Info
-Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
 
 |  Change History: | |
+|  2.93 (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain. | 
 |  2.92 (21 Jan 2017) | Foswikitask:Item14009: Comment plugin does not properly identify location to insert comment when specified as an anchor. |
 |  2.91 (08 Apr 2016) | Foswikitask:Item14022: Update Foswiki.org links to https. Released with Foswiki 2.1.1. |
 |  2.9 (03 Feb 2016) | Foswikitask:Item13854: Set ALLOWTOPICVIEW = "*" on Comment Template.  *Requires compatibility patch on Foswiki 1.x or Foswiki 1.1.10.* |
@@ -333,8 +335,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1485009132" size="70" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1485009132" size="1931" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1485009132" size="60" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1485009132" size="5134" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1485009132" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1512791273" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1512791273" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1512791273" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1512791273" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512791273" size="1343" user="ProjectContributor" version="1"}%

@@ -196,13 +196,18 @@ DEFAULT
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
 
-    # SMELL: Item11912 These are left behind by TMCE as zero width characters
-    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
-    # We really ought to have a better solution.  TMCE is supposed
-    # to handle this it the cleanup routine, but it doesn't happen,
-    # and cleanup routine has been deprecated.
-    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
-    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
+    # Item11912 Item14420 Zero-width space (x200B) and Non-breaking
+    # zero-width space (xFEFF) are left behind by TinyMCE with
+    # italics and bold inserted by Ctrl-i and Ctrl-b. This is probably
+    # a TinyMCE bug, but in general these characters are useless in TML
+    # so we strip them in all their forms anyway.
+    foreach my $d ( 0xFEFF, 0x200B ) {
+        $text =~ s/&#$d;//g;    # decimal entity
+        my $c = chr($d);
+        $text =~ s/$c//g;
+        my $h = sprintf( "%04x", $d );
+        $text =~ s/&#x$h;//g;    # hex entity
+    }
 
     HTML::Entities::_decode_entities( $text, safeEntities() );
 

@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 # Example build class. Copy this file to the equivalent place in your
 # plugin or contrib and edit.

@@ -26,8 +26,8 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-our $VERSION           = '1.24';
-our $RELEASE           = '8 Feb 2017';
+our $VERSION           = '1.25';
+our $RELEASE           = '8 Dec 2017';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -85,6 +85,9 @@ sub initPlugin {
         }
         my ( $meta, $text ) =
           Foswiki::Func::readTopic( $interWeb, $interTopic );
+
+        $text = ''
+          unless defined $topic;    # prevent use of uninitialized variable
 
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
         $text =~ s/

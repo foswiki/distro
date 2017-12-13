@@ -77,8 +77,10 @@ a.erp_drag_button:hover {
 }
 
 .erp-edittable {
-    width: 27px;
-    height: 13px;
+    padding:0;
+    display:inline-block;
+    width: 47px;
+    height: 19px;
     background-image: url("icons.png") !important;
     background-position:0 -16px;
 }

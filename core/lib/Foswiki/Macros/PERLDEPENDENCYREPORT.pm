@@ -303,6 +303,8 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
             my $prevVer = $info->{minimumVersion};
             $prevVer =~ s/(\d+(\.\d*)?).*/$1/;
             $ver     =~ s/(\d+(\.\d*)?).*/$1/;
+            $ver     ||= 0;
+            $prevVer ||= 0;
             if ( $ver > $prevVer ) {
                 $info->{minimumVersion} = $ver;
                 $info->{minVersionUser} = $who;

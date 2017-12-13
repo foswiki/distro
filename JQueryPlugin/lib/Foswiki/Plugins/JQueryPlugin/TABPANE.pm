@@ -29,7 +29,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Tabpane',
-            version      => '2.00',
+            version      => '2.01',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
@@ -56,7 +56,7 @@ sub handleTabPane {
 
     my $select        = $params->{select}        || 1;
     my $autoMaxExpand = $params->{automaxexpand} || 'off';
-    my $minHeight     = $params->{minheight}     || 230;
+    my $minHeight     = $params->{minheight}     || 0;
     my $animate       = $params->{animate}       || 'off';
     my $class         = $params->{class}         || 'jqTabPaneDefault';
 
@@ -168,7 +168,7 @@ sub handleEndTabPane {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -7,8 +7,8 @@ use warnings;
 
 use Assert;
 
-our $VERSION           = '2.00';
-our $RELEASE           = '2.00';
+our $VERSION           = '2.05';
+our $RELEASE           = '13 Dec 2017';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 

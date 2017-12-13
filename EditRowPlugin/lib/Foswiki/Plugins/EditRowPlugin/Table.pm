@@ -355,7 +355,7 @@ sub render {
                     {
                         href  => $url,
                         name  => "erp_edit_${id}",
-                        class => 'erp-edittable foswikiButton',
+                        class => 'erp-edittable',
                         title => $title
                     },
                     ''

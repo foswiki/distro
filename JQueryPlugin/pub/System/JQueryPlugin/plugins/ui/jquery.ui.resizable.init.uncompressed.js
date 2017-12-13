@@ -1,4 +1,5 @@
 // initializer for the ui-resizable plugin
+"use strict";
 jQuery(function($) {
 
   $(".jqUIResizable").livequery(function() {

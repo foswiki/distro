@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418974752" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ <nop>%WIKITOOLNAME% Sitemap
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
@@ -75,17 +75,17 @@ This table is updated automatically based on <nop>WebPreferences settings of the
 %STARTSECTION{"renderweb"}%<hr />
 <div class='row'>
   <div class='tools'>
-    [[%web%.WebSearch][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif' title='Search this web' />]]
-    [[%web%.WebChanges][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/hourglass.gif' title='Recent changes in this web' />]]
-    [[%web%.%NOTIFYTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif' title='Get notified of changes to this web' />]]
-    [[%web%.%WEBPREFSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif' title='Preferences of this web' />]]
+    [[%web%.WebSearch][<img src='%PUBURLPATH{"searchtopic.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Search this web' />]]
+    [[%web%.WebChanges][<img src='%PUBURLPATH{"hourglass.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Recent changes in this web' />]]
+    [[%web%.%NOTIFYTOPIC%][<img src='%PUBURLPATH{"notify.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Get notified of changes to this web' />]]
+    [[%web%.%WEBPREFSTOPIC%][<img src='%PUBURLPATH{"wrench.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Preferences of this web' />]]
     %IF{"istopic '%web%.%STATISTICSTOPIC%'"
-      then="[[%web%.%STATISTICSTOPIC%][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif' title='Statistics of this web' />]]"
+      then="[[%web%.%STATISTICSTOPIC%][<img src='%PUBURLPATH{"statistics.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Statistics of this web' />]]"
       else="<!-- -->"
     }%
-    [[%web%.WebTopicList][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif' title='Bullet list of all topics' />]]
+    [[%web%.WebTopicList][<img src='%PUBURLPATH{"indexlist.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Bullet list of all topics' />]]
     %IF{"istopic '%web%.WebIndex'"
-      then="[[%web%.WebIndex][<img src='%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif' title='Index of all topics' />]]"
+      then="[[%web%.WebIndex][<img src='%PUBURLPATH{"index.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%' title='Index of all topics' />]]"
       else="<!-- -->"
     }%
   </div>

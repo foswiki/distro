@@ -255,7 +255,7 @@ msgstr "(=all= um alle Topics anzuzeigen)"
 
 #: core/templates/backlinkchildren.tmpl:2
 msgid "(Children in %1 Web)"
-msgstr "(Unter-Topics im %1 Web)"
+msgstr "(Untertopics im %1 Web)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "(This message will be removed automatically)"
@@ -1222,7 +1222,7 @@ msgstr "Untertopics im %1-Web"
 
 #: core/templates/backlinkchildren.tmpl:5
 msgid "Children of %1 in %2 Web"
-msgstr "Unter-Topics von %1 im %2 Web"
+msgstr "Untertopics von %1 im %2 Web"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
@@ -1922,7 +1922,7 @@ msgstr "Ähnliche Topics finden"
 
 #: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
-msgstr "Unter-Topics von %1 finden..."
+msgstr "Untertopics von %1 finden..."
 
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
@@ -2956,7 +2956,7 @@ msgstr "Keine Änderungen"
 
 #: core/templates/backlinks.tmpl:28
 msgid "No child topics found."
-msgstr "Keine Unter-Topics gefunden."
+msgstr "Keine Untertopics gefunden."
 
 #: core/templates/registermessages.tmpl:382
 #: core/templates/registermessages.tmpl:433
@@ -3931,7 +3931,7 @@ msgstr "Suchausdruck"
 
 #: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
-msgstr "Das %1 Web nach Unter-Topics von diesem Topic durchsuchen."
+msgstr "Das %1 Web nach Untertopics von diesem Topic durchsuchen."
 
 #: core/templates/more.tmpl:89
 msgid "Search the %1 Web for topics that link to here"

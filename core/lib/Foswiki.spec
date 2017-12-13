@@ -420,7 +420,7 @@ $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 # Write debugging output to the webserver error log.
 $Foswiki::cfg{Trace}{LoginManager} = 0;
 
-# **STRING 100 LABEL="Authenticated Scripts" DISPLAY_IF="{LoginManager}=='Foswiki::LoginManager::TemplateLogin'" CHECK="iff:'{LoginManager} =~ /TemplateLogin$/'" CHECK_ON_CHANGE="{LoginManager}" **
+# **STRING 100 LABEL="Authenticated Scripts" CHECK_ON_CHANGE="{LoginManager}" **
 # Comma-separated list of scripts in the bin directory that require the user to
 # authenticate. This setting is used with TemplateLogin; any time an
 # unauthenticated user attempts to access one of these scripts, they will be
@@ -753,11 +753,12 @@ $Foswiki::cfg{AuthRealm} =
 # mod_perl. This option is not compatible with =plain= text passwords.
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
-# **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
+# **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 max:99 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
 # Specify the cost that should be incurred when computing the hash of a
 # password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256
-# iterations.
+# iterations.  *CAUTION* Larger values than 10 or 12 (1024 and 4096 iterations)
+# can require extreme amounts of CPU time.
 $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 
 # **PASSWORD LABEL="Internal Admin Password" CHECK_ON_CHANGE="{FeatureAccess}{Configure}" CHECK="also:{FeatureAccess}{Configure}" ONSAVE**
@@ -1082,6 +1083,10 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # If your proxy requires authentication, simply put it in the URL, as in:
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
+
+# **STRING 50 LABEL="No Proxy" CHECK="undefok emptyok"**
+# List of domains that are accessed directly instead of going by the proxy.
+$Foswiki::cfg{PROXY}{NoProxy} = '';
 
 # **BOOLEAN LABEL="Client IP" **
 # Foswiki normally uses the REMOTE_ADDRESS as the client IP.  If Foswiki is behind

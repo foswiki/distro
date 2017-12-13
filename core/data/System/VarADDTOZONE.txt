@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1505759671" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ADDTOZONE -- add content to a named zone on the page
 
 ---++ Parameters
    | *Parameter* | *Description* | *Default* |
-   | ="zone"= | comma-separated list of the names of zones that the content should be added to. The only zones guaranteed to exist are =head= and =script= | =head= |
+   | ="zone"= | comma-separated list of the names of zones that the content should be added to. The only zones guaranteed to exist are =head=, =script= and =body=.| =head= |
    | =id= | =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls. %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call. | |
    | =requires= | comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.  The content will be rendered even if a specified =id= is missing.| |
    | =text= | text to be added to the named zone, mutually exclusive with =topic=.| |
@@ -17,7 +17,7 @@ _Zones_ are specific places in the output HTML that are marked by calls to the
 together, such as Javascript and CSS, that must be included in the output HTML
 in a specific order, and in a specific place.
 
-There are two special zones called =head= and =script=. The =head= zone is rendered
+There are three special zones called =head=, =script= and =body=. The =head= zone is rendered
 as part of the HTML head section. It is the catch-all container for any content supposed
 to be placed into the HTML head section, except Javascript, which is collected in the
 =script= zone. 
@@ -26,7 +26,7 @@ All Javascript _must_ always be added to the =script= zone exclusively, in order
 grant ordering constraints among scripts are resolved properly. Never add Javascript to
 the =head= zone -- never add non-Javascript content to the =script= zone.
 
-Both zones are added to the HTML head section automatically just before the
+Both =head= and =script= zones are added to the HTML head section automatically just before the
 closing &lt;/head> tag as if they were specified explicitly in the skin templates using:
 <verbatim class="tml">
 <head>
@@ -35,6 +35,12 @@ closing &lt;/head> tag as if they were specified explicitly in the skin template
 %RENDERZONE{"script"}%
 </head>
 </verbatim>
+
+The =body= zone is added to the end of the rendered page just prior to the
+closing =&lt;body&gt;= tag.  
+
+<div class="foswikiHelp">The =body= zone is new with Foswiki 2.1.5.  It was
+added for improved compatibility with the NatSkin. </div>
 
 You may create as many zones in addition to the standard =head= and =script=
 zones as you like.  For any non-standard zone specified in

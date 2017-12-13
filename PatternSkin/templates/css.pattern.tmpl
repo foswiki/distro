@@ -5,7 +5,8 @@
 %TMPL:DEF{"styles:screen"}%%IF{ "$ FOSWIKI_LAYOUT_URL" then="<link rel='stylesheet' href='%FOSWIKI_LAYOUT_URL%' media='all' type='text/css' />"}%
 %IF{ "$ FOSWIKI_STYLE_URL"  then="<link rel='stylesheet' href='%FOSWIKI_STYLE_URL%' media='all' type='text/css' />"}%
 %IF{ "$ FOSWIKI_COLORS_URL" then="<link rel='stylesheet' href='%FOSWIKI_COLORS_URL%' media='all' type='text/css' />"}%
-%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
+%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%
+%TMPL:P{"styles:dynamic"}%%TMPL:END%
 
 
 %TMPL:DEF{"styles:print"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css' media='%IF{"$'URLPARAM{cover}'='print'" then="all" else="print"}%' type='text/css' />%TMPL:END%
@@ -30,7 +31,8 @@
 %IF{ "$ PATTERNSKIN_THEME_VARIANT" then="<link rel='stylesheet' href='%PATTERNSKIN_THEME_VARIANT%' media='all' type='text/css' />"}%%TMPL:END%
 
 
-%TMPL:DEF{"styles:iespecific"}%<!--[if IE 7 ]><style type="text/css" media="screen">
+%TMPL:DEF{"styles:iespecific"}%%TMPL:END%
+%TMPL:DEF{"styles:ie7specific"}%<!--[if IE 7 ]><style type="text/css" media="screen">
 .foswikiAttachments,
 .foswikiForm,
 .foswikiHelp,

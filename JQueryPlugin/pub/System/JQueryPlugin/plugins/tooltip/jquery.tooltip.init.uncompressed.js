@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($) {
   var defaults = {
     delay:350,
@@ -10,14 +11,14 @@ jQuery(function($) {
 
   function initTooltip(elem) {
     var $elem = $(elem);
-    var opts = $.extend({}, globalOpts, $elem.metadata());
+    var opts = $.extend({}, globalOpts, $this.data(), $elem.metadata());
     $elem.tooltip(opts);
   }
 
   $(".jqTooltip:not(.jqInitedTooltip)").livequery(function() {
     var $this = $(this);
     $this.addClass("jqInitedTooltip");
-    globalOpts = $.extend({}, defaults , $this.metadata());
+    globalOpts = $.extend({}, defaults , $this.data(), $this.metadata());
     initTooltip(this);
     $this.find("[title]").each(function() {
       initTooltip(this);

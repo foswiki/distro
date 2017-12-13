@@ -38,8 +38,8 @@ $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 # **SELECT , jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-1.12.0, jquery-1.12.1, jquery-1.12.2, jquery-1.12.3, jquery-1.12.4**
 # Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
 # Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
-# library version for all browsers.
-$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = 'jquery-1.12.4';
+# library version for all browsers. Leave it empty in case you don't need to support these old browsers anymore.
+$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = '';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
@@ -141,9 +141,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Migrate}{Enabled} = 1;
 
 # **BOOLEAN LABEL="MouseWheel"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{MouseWheel}{Enabled} = 1;
-
-# **BOOLEAN LABEL="Placeholder"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 1;
 
 # **BOOLEAN LABEL="PNotify"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{PNotify}{Enabled} = 1;
@@ -260,6 +257,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 0;
 # **BOOLEAN LABEL="Nifty" EXPERT**
 # Warning: This plugin is deprecated. Use Corner instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
+
+# **BOOLEAN LABEL="Placeholder"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Rating" EXPERT**
 # Warning: This plugin is deprecated. Use Stars instead.

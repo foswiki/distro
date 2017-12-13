@@ -26,12 +26,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'Superfish',
-            version    => '1.7.7',
-            author     => 'Joel Birch',
-            homepage   => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
-            javascript => ['jquery.superfish.js'],
-            css        => ['jquery.superfish.css'],
+            name         => 'Superfish',
+            version      => '1.7.7',
+            author       => 'Joel Birch',
+            homepage     => 'https://superfish.joelbirch.co/',
+            javascript   => ['jquery.superfish.js'],
+            css          => ['jquery.superfish.css'],
             dependencies => ['hoverintent'],
         ),
         $class

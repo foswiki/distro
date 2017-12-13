@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Reference Manual
 
@@ -22,7 +22,7 @@ Manual sections in separate pages:
    1. [[Skin Templates]]
    1. [[Skins][Skins (visual layout)]]
    1. [[Meta Data]]
-   1. [[ContributedAddOns][Contributed Add-Ons]]
+   1. [[ContributedAddOns][AddOns]]
    1. [[Contribs][Contribs]]
    1. [[Plugins][Plugins]]
    1. [[Developing Plugins]]

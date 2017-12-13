@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'LiveQuery',
-            version    => '1.3.1',
+            version    => '1.3.6',
             author     => 'Brandon Aaron, Alexander Zaytsev',
             homepage   => 'https://github.com/hazzik/livequery',
             javascript => ['jquery.livequery.js'],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

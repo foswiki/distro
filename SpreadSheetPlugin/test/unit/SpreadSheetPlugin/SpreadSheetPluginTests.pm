@@ -89,6 +89,13 @@ sub CALC {
     my $rsltR = Foswiki::Func::expandCommonVariables($calcR);
 
     if ($ne) {
+        my $i = 1;
+        while ( $rsltC eq $rsltR ) {
+            $rsltR = Foswiki::Func::expandCommonVariables($calcR);
+            print STDERR "RETRY For NE\n";
+            $i++;
+            last if ( $i == 5 );
+        }
         $this->assert_str_not_equals( $rsltC, $rsltR );
     }
     else {

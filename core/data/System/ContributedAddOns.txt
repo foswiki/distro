@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Add-Ons
 
-Add functionality with extensions not based on the Foswiki scripts.
+Deprecated name for the [[System.Contribs]] type of extension.  Some older extensions will still be named as an !AddOn.
 
 %TOC%
 
@@ -23,16 +23,17 @@ An add-on runs separately from the Foswiki scripts, e.g. for data import, export
    format="   * [[$topic]]"
  }%
 
----++ Installing Add-Ons
+---++ Installing !AddOns
 
-   * Download an add-on from Foswiki:Extensions.
-   * Follow the installation instructions in the add-on topic.
+   * Use [[%SCRIPTURLPATH{"configure"}%]] to browse or search the list of extensions available from Foswiki.org, and to install the extension.
+   * Or, use the =tools/extension_installer= script to download and install the extension.
+   * Or, download an extension package from some other source, and unzip it.
+   * Follow any special installation instructions in the !AddOn topic.
 
 ---++ Creating new Add-Ons
 
-   * Visit Foswiki:Development/ExtensionDeveloperGuide and follow the instructions.
+   * New extensions in this category should be created as a [[Contribs][Contrib]]. !AddOns are deprecated. Visit Foswiki:Development/ExtensionDeveloperGuide for more details.
 
 %STOPINCLUDE%
 ---
 *Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory
-

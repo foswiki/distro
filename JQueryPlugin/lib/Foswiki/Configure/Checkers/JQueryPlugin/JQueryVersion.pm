@@ -40,6 +40,14 @@ The configured jQuery version does not exist
 MESSAGE
     }
 
+    # SMELL: Not sure if this is how to get a default value, but it works.
+    my $jqdefault = $this->{item}{default};
+    $jqdefault =~ s/'//g;
+    if ( $jqversion ne $jqdefault ) {
+        $e .= $this->WARN(
+            'The selected JQuery version is not the recommended version.');
+    }
+
     return $e;
 }
 
@@ -47,7 +55,7 @@ MESSAGE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

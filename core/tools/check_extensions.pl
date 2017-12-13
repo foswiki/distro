@@ -10,6 +10,7 @@ use Data::Dumper;
 use LWP::Simple;
 use JSON;
 
+my $extensionWeb = 'Extensions';
 my $extension;
 my $start;
 my $nostate;
@@ -17,23 +18,27 @@ my $verbose;
 
 my %items;    # Hash to cache item # & descriptions.
 
+# Tasks that are typically left open and not documented in release notes,  eg. Documentation, Translation, etc.
+our @omit = (qw(Item000 Item13883 Item13884 Item13504));
+
 use Getopt::Long;
 
 GetOptions(
+    "web=s"       => \$extensionWeb,
     "extension=s" => \$extension,
-    "tag=s"       => \$start,       # string
+    "tag=s"       => \$start,          # string
     "nostate"     => \$nostate,
     "verbose"     => \$verbose,
-    'help'        => sub {
+    "omit=s"      => sub {
+        push @omit, split( /\s,/, $_[1] );
+    },
+    'help' => sub {
         help();
         exit;
 
         #Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
     },
 ) or die("Error in command line arguments\n");
-
-# Tasks that are typically left open and not documented in release notes,  eg. Documentation, Translation, etc.
-my @omit = (qw(Item000 Item13883 Item13884 Item13504));
 
 unless ($start) {
 
@@ -68,6 +73,8 @@ The following command line options are accepted:
    * -n | --nostate:     Don't report incorrect task state.  
    * -v | --verbose:     Report unmodified extensions
    * -h | --help:        This help text.
+   * -o | --omit:        Add to the list of tasks to omit from the check. Comma-separated task Items.
+   * -w | --web:         Extensions web name - defaults to Extensions
 
 END
 }
@@ -188,13 +195,20 @@ else {
         my $lv = extractModuleVersion("lib/Foswiki/$class/$ext");
         my $exthash = get_ext_info($ext);
 
+        $exthash->{version} ||= '(none)';
+
         print "\n\n";
         print
-"$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv\n";
+"$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv Commits: "
+          . scalar @itemlist . "\n";
 
-        if ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
-            print
-"ERROR: $ext: Identical versions, but commits logged since last release\n";
+        if ( $exthash->{version} eq '(none)' ) {
+            print "WARNING: $ext has not been uploaded!\n";
+        }
+        elsif ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
+            print "ERROR: $ext: Identical versions, but "
+              . scalar @itemlist
+              . " commit(s) logged since last release\n";
         }
     }
 
@@ -333,7 +347,7 @@ sub get_ext_info {
     my $ext = shift;
 
     my $url =
-"https://foswiki.org/Extensions/JsonReport?contenttype=application/json;skin=text;name=^$ext\$";
+"https://foswiki.org/$extensionWeb/JsonReport?contenttype=application/json;skin=text;name=^$ext\$";
     my $jsondata = get $url;
 
     unless ( defined $jsondata ) {

@@ -361,7 +361,6 @@ lib/Foswiki/AccessControlException.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
-lib/Foswiki/Aux/MuteOut.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Auth.pm 0444
 lib/Foswiki/Configure/Bootstrap.pm 0444
@@ -720,6 +719,7 @@ lib/Foswiki/Users.pm 0444
 lib/Foswiki/Users/BaseUserMapping.pm 0444
 lib/Foswiki/Users/HtPasswdUser.pm 0444
 lib/Foswiki/Users/Password.pm 0444
+lib/Foswiki/Util/MuteOut.pm 0444
 lib/Foswiki/Validation.pm 0444
 lib/Foswiki/ValidationException.pm 0444
 lib/Foswiki/WebFilter.pm 0444
@@ -825,6 +825,7 @@ templates/edittext.tmpl 0444
 templates/form.tmpl 0444
 templates/formtables.tmpl 0444
 templates/foswiki.tmpl 0444
+templates/icons.tmpl 0444
 templates/itemview.tmpl 0444
 templates/login.sudo.tmpl 0444
 templates/login.tmpl 0444
