@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1496325739" format="1.1" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513189072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 
 ---+!! %TOPIC%
@@ -118,7 +118,6 @@ Pretty cool!
 
 !JsViews templates are very similar to !JsRender templates, but with minor changes to the tag structure.
    * For data-dependent linking, <code>{{:name}}</code> becomes this <code>{^{:name}}</code>
-   * For two-way linking, <code>{{:name}}</code> becomes this <code></code>
    * Tag attributes can also be data-linked: <code><button data-link="disabled{:disableButton} title{:theTitle} data-myvalue{:myVal} class{:disableButton ? 'class2' : 'class1'}"></code>
    * If you are data-linking tags, you might be interested in two-way binding: <code><input data-link="{:name}" /></code> becomes this <code><input data-link="{:name:}" /></code>
       * (Actually, the default for <input> elements is two-way binding, so you can just use the shorthand <code><input data-link="name" /></code>. The more explicit form is only necessary if you want to force it to one-way binding.)
