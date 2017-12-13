@@ -959,6 +959,9 @@ pub/System/JQueryPlugin/plugins/validate/localization/messages_zh_TW.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/methods_de.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/methods_nl.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/methods_pt.js 0644
+pub/System/JQueryPlugin/plugins/validate/pkg.js 0644
+pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644
+pub/System/JQueryPlugin/plugins/validate/pkg.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/validate/Makefile 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644

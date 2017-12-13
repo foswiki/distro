@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512792823" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513046660" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -193,6 +193,11 @@ Integrate the =foswiki.fgi= process into the system's init process use the two h
 
    * systemd specific service files (Used _in place of the init scripts_. Don't use both!)
       * =tools/systemd/foswiki-fastcgi.service=: copy this to =/etc/systemd/system/foswiki.service=.
+
+   * !FreeBSD init scripts
+      * =tools/foswiki.freebsd.init-script=:
+      * =tools/foswiki.freebsd.etc-defaults=:
+
 <div class="foswikiHelp">%X% *Note:* The service file does not honor all of
 the variables in =tools/foswiki.defaults=.  If you need to override any of:
    * The user/group - defaults to =www-data=
@@ -247,7 +252,8 @@ After the update, each process will still serve one more request before reloadin
 
 | Change History: | |
 |  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task.<br/>\
-                        Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=. |
+                        Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=.<br/>\
+                        Foswikitask:Item14577 - Add sample init scripts for !FreeBSD. |
 |  21 May 2017 | (1.04) Foswikitask:Item14346 - Fix issues in the systemd service file. Improve documentation.<br/>\
                         Foswikitask:Item14402 - Fix default Foswiki root location. along with more doc improvements. |
 |  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates, Foswikitask:Item14086 - Add a systemd example service file. |
