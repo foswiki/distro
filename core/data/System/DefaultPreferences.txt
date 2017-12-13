@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512501336" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1513171638" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -253,7 +253,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 
    * Themes that add upon the global skin styles. See the Theme Browser in PatternSkin.
       * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
-      * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH{"variant_foswiki_noframe.css "topic="%SYSTEMWEB%.PatternSkinTheme"}%
+      * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH{"variant_foswiki_noframe.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
       * Set PATTERNSKIN_COLUMNS = %PUBURLPATH{"column_left.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
       * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinHorizontalNavigationExample
    * Deprecated (use =PATTERNSKIN_THEME_VARIANT=):
