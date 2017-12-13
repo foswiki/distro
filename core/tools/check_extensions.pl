@@ -195,12 +195,17 @@ else {
         my $lv = extractModuleVersion("lib/Foswiki/$class/$ext");
         my $exthash = get_ext_info($ext);
 
+        $exthash->{version} ||= '(none)';
+
         print "\n\n";
         print
 "$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv Commits: "
           . scalar @itemlist . "\n";
 
-        if ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
+        if ( $exthash->{version} eq '(none)' ) {
+            print "WARNING: $ext has not been uploaded!\n";
+        }
+        elsif ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
             print "ERROR: $ext: Identical versions, but "
               . scalar @itemlist
               . " commit(s) logged since last release\n";
