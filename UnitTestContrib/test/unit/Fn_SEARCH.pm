@@ -6220,6 +6220,19 @@ FOO  <nop>$this->{test_web}.RevTopic
 EXP
     $this->assert_equals( $expected, $result );
 
+    #Simple $changes -  compare Rev 2 - Rev 3 (using -1)
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes(-1)$n"
+}%'
+    );
+
+    $this->assert_equals( $expected, $result );
+
     #$changes(1) -  compare Rev 1 - Rev 3
     $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{"1"
@@ -6236,6 +6249,31 @@ FOO  <nop>$this->{test_web}.RevTopic
 -Drums Beat
 +<nop>BELLS Ring
 EXP
+    $this->assert_equals( $expected, $result );
+
+    #$changes(-2) -  compare Rev 1 - Rev 3
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes(-2)$n"
+}%'
+    );
+
+    $this->assert_equals( $expected, $result );
+
+    #$changes(-42) -  compare Rev 1 - Rev 3
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes(-42)$n"
+}%'
+    );
     $this->assert_equals( $expected, $result );
 
     #$changes() -  undef rev,  generate a summary
