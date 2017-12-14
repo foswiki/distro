@@ -3580,6 +3580,7 @@ sub _summariseTextWithSearchContext {
 Generate a (max 3 line) summary of the differences between the revs.
 
    * =$orev= - older rev, if not defined will use ($nrev - 1)
+   *  - $orev can also be an offset  (-n) from current rev.
    * =$nrev= - later rev, if not defined defaults to latest
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs.
      If false will generate a summary suitable for use in plain text
@@ -3607,9 +3608,13 @@ sub summariseChanges {
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev =~ m/^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    ASSERT( $orev >= 0 ) if DEBUG;
+    ASSERT( $orev =~ m/^\s*-?\d+\s*/ ) if DEBUG;    # looks like a number
     ASSERT( $nrev >= $orev ) if DEBUG;
+
+    if ( $orev =~ m/\s*-(\d+)\s*/ ) {
+        my $offset = $1;
+        $orev = ( $offset < $nrev ) ? $nrev - $offset : 1;
+    }
 
     unless ( defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev ) {
         $this = $this->load($nrev);
