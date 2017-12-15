@@ -56,6 +56,7 @@ data/System/JQueryUIDialog.txt 0644
 data/System/JQueryUITooltip.txt 0644
 data/System/JQueryUI.txt 0644
 data/System/JQueryValidate.txt 0644
+data/System/JQueryView.txt 0644
 data/System/JQueryWikiWord.txt 0644
 data/System/VarBUTTON.txt 0644
 data/System/VarENDTABPANE.txt 0644
@@ -159,6 +160,7 @@ lib/Foswiki/Plugins/JQueryPlugin/UI/SPINNER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/TABS.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/TOOLTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/VALIDATE.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/VIEW.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/WIKIWORD.pm 0644
 pub/System/JQueryCycle/beach1.jpg 0644
 pub/System/JQueryCycle/beach2.jpg 0644
@@ -963,6 +965,13 @@ pub/System/JQueryPlugin/plugins/validate/Makefile 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.observable.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.observable.js.gz 0644
+pub/System/JQueryPlugin/plugins/view/jquery.observable.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.views.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.views.js.gz 0644
+pub/System/JQueryPlugin/plugins/view/jquery.views.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/Makefile 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.small.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/jquery.wikiword.uncompressed.js 0644
