@@ -226,6 +226,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Tooltip'}{Enabled} = 1;
 # **BOOLEAN LABEL="UI::Validate"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Validate}{Enabled} = 1;
 
+# **BOOLEAN LABEL="View"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{View}{Enabled} = 1;
+
 # **BOOLEAN LABEL="WikiWord"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 
