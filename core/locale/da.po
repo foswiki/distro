@@ -79,7 +79,7 @@ msgstr "%1 tilføjet til %2 gruppen."
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1112
 msgid "%1 cannot be removed from %2"
 msgstr "%1 kunne ikke fjernes fra %2"
 
@@ -192,6 +192,10 @@ msgstr "%1 for at komme i gang med at arbejde med det nye web"
 #: core/templates/messages.tmpl:466 core/templates/messages.tmpl:479
 msgid "%1 topic does not exist"
 msgstr "siden %1 eksisterer ikke"
+
+#: core/templates/registermessages.tmpl:459
+msgid "%1 topic not found. No users registered."
+msgstr ""
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -401,6 +405,12 @@ msgstr ""
 "*Vedhæft ny fil:* Hvis du vælger en anden fil i browseren, er det denne fil "
 "der vil blive opdateret eller tilføjet."
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
+#, fuzzy
+msgid "*Bulk registration is restricted to Administrators.*"
+msgstr ""
+"Adgang til igangværende registreringer er begrænset til administratorerne."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -444,6 +454,11 @@ msgstr ""
 "*Attributter:* Kommentaren og synligheden (om den aktuelle vedhæftede fil "
 "skjules ved sidevisning) kan opdateres uden at uploade en ny fil, ved at "
 "klikke \"Opdatér kun attributter\"."
+
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid "*This text will be sent to users in their "
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -598,7 +613,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1363
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En e-mail med en bekræftelse er sendt til %1"
 
@@ -674,7 +689,7 @@ msgstr "Handling"
 msgid "Action %1: %2 by user %3."
 msgstr "Handling %1: %2 af bruger %3."
 
-#: core/data/Main/WikiGroups.txt:64
+#: core/data/System/WikiGroupsComponents.txt:58
 msgid "Actions"
 msgstr "Handlinger"
 
@@ -691,7 +706,7 @@ msgstr "Aktivering for kode %1 fejlede ved en intern fejl."
 msgid "Add"
 msgstr "Tilføj"
 
-#: core/data/Main/GroupViewTemplate.txt:203
+#: core/data/System/GroupViewTemplate.txt:207
 msgid "Add Members to %1"
 msgstr "Tilføj medlemmer til %1"
 
@@ -705,11 +720,11 @@ msgstr "Vælg en ny formular for <nop>%1"
 msgid "Add form"
 msgstr "Tilføj formular"
 
-#: core/data/Main/GroupViewTemplate.txt:212
+#: core/data/System/GroupViewTemplate.txt:216
 msgid "Add members"
 msgstr "Tilføj medlemmer"
 
-#: core/data/Main/GroupViewTemplate.txt:163
+#: core/data/System/GroupViewTemplate.txt:167
 msgid "Add members..."
 msgstr "Tilføj medlemmer..."
 
@@ -718,7 +733,7 @@ msgstr "Tilføj medlemmer..."
 msgid "Add row"
 msgstr "Tilføj række"
 
-#: core/data/Main/GroupViewTemplate.txt:189
+#: core/data/System/GroupViewTemplate.txt:193
 msgid "Add user management options to this topic."
 msgstr "Tilføj brugerhåndtering til denne side."
 
@@ -734,7 +749,7 @@ msgstr "Foswiki Administrator-bruger login"
 msgid "Admin Maintenance"
 msgstr "Administrative emner"
 
-#: core/data/Main/GroupViewTemplate.txt:161
+#: core/data/System/GroupViewTemplate.txt:165
 msgid "Administration"
 msgstr "Administration"
 
@@ -937,6 +952,11 @@ msgstr "Tilgængelige skabeloner i %1-webbet:"
 msgid "Back to topic"
 msgstr "Tilbage til siden"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
+#, fuzzy
+msgid "Back to:"
+msgstr "Tilbage til siden"
+
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "Referencer"
@@ -976,6 +996,16 @@ msgstr "Fed"
 #: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:143
 msgid "Both body and title"
 msgstr "Både kildetekst og sidenavn"
+
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
+#, fuzzy
+msgid "Bulk Register these users"
+msgstr "Registrerede brugere"
+
+#: core/templates/registermessages.tmpl:468
+msgid ""
+"Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
@@ -1036,12 +1066,12 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:192
-#: core/data/Main/GroupViewTemplate.txt:213
-#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
-#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+#: core/data/System/GroupViewTemplate.txt:196
+#: core/data/System/GroupViewTemplate.txt:217
+#: core/data/System/GroupViewTemplate.txt:244 core/templates/edit.tmpl:46
+#: core/templates/foswiki.tmpl:112 core/templates/settings.tmpl:12
+#: core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Fortryd"
 
@@ -1078,7 +1108,8 @@ msgstr "Case-sensitiv søgning (forskel på STORE og små bogstaver)"
 msgid "Categories"
 msgstr "Kategorier"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:142
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:7
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
@@ -1178,7 +1209,7 @@ msgid "Changes"
 msgstr "Seneste ændringer"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:620
+#: core/lib/Foswiki/UI/RDiff.pm:621
 msgid "Changes from r%1 to r%2"
 msgstr "Ændringer fra r%1 til r%2"
 
@@ -1401,7 +1432,7 @@ msgstr "Opret ny side i %1-webbet"
 msgid "Create a link to the attached file"
 msgstr "Lav et link til den vedhæftede fil"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/System/WikiGroupsComponents.txt:11
 msgid "Create a new group"
 msgstr "Opret en ny gruppe"
 
@@ -1413,7 +1444,7 @@ msgstr "Opret en ny tabel"
 msgid "Create account"
 msgstr "Opret konto"
 
-#: core/data/Main/WikiGroups.txt:42
+#: core/data/System/WikiGroupsComponents.txt:36
 msgid "Create group"
 msgstr "Opret gruppe"
 
@@ -1691,6 +1722,11 @@ msgstr "Editér denne tabel"
 msgid "Edit this topic text (e)"
 msgstr "Editér denne sides tekst (e)"
 
+#: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
+#, fuzzy
+msgid "Edit this topic to add a description to the %1"
+msgstr "Editér denne sides tekst (e)"
+
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Editér præferencer for siden"
@@ -1784,7 +1820,7 @@ msgstr ""
 "Vælg et sidenavn der er et WikiWord eller afkryds non-WikiWord i "
 "afkrydsningsfeltet."
 
-#: core/data/Main/GroupViewTemplate.txt:209
+#: core/data/System/GroupViewTemplate.txt:213
 msgid "Enter users or groups to add to this group"
 msgstr "Vælg brugere eller grupper for at tilføje til denne gruppe"
 
@@ -2037,7 +2073,7 @@ msgstr "Gode eksempler:"
 msgid "GoodStyle"
 msgstr "GodStil"
 
-#: core/data/Main/WikiGroups.txt:62
+#: core/data/System/WikiGroupsComponents.txt:56
 msgid "Group"
 msgstr "Gruppe"
 
@@ -2046,7 +2082,7 @@ msgstr "Gruppe"
 msgid "Group does not exist and create not permitted"
 msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
 
-#: core/data/Main/WikiGroups.txt:28
+#: core/data/System/WikiGroupsComponents.txt:22
 msgid "Group name"
 msgstr "Gruppenavn"
 
@@ -2323,7 +2359,8 @@ msgstr ""
 "modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst "
 "%1."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:143
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:8
 msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
@@ -2555,7 +2592,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Kursiv"
 
-#: core/data/Main/GroupViewTemplate.txt:256
+#: core/data/System/GroupViewTemplate.txt:260
 msgid "Join %1"
 msgstr "Sammenføj %1"
 
@@ -2615,7 +2652,7 @@ msgstr "Efternavn:"
 msgid "Latest revision: %1"
 msgstr "Seneste revision: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:268
+#: core/data/System/GroupViewTemplate.txt:272
 msgid "Leave %1"
 msgstr "Forlad %1"
 
@@ -2629,12 +2666,12 @@ msgstr "Begræns antallet af resultater til:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+#: core/lib/Foswiki/UI/RDiff.pm:176 core/lib/Foswiki/UI/RDiff.pm:177
 msgid "Line: %1"
 msgstr "Linje: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:331
+#: core/lib/Foswiki/UI/RDiff.pm:332
 msgid "Line: %1 to %2"
 msgstr "Linje: %1 til %2"
 
@@ -2664,7 +2701,7 @@ msgstr "Log ind"
 msgid "Log Out"
 msgstr "Log ud"
 
-#: core/data/Main/GroupViewTemplate.txt:144
+#: core/data/System/GroupViewTemplate.txt:148
 msgid "Log in to continue."
 msgstr "Log ind for at fortsætte."
 
@@ -2709,8 +2746,9 @@ msgstr "Opret søgning:"
 msgid "Maximum %1 items per web"
 msgstr "Maksimalt %1 resultater per web"
 
-#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
-#: core/data/Main/WikiGroups.txt:63
+#: core/data/System/GroupViewTemplate.txt:25
+#: core/data/System/WikiGroupsComponents.txt:31
+#: core/data/System/WikiGroupsComponents.txt:57
 msgid "Members"
 msgstr "Medlemmer"
 
@@ -2926,7 +2964,7 @@ msgstr "Ingen dattersider er fundet."
 msgid "No group name specified"
 msgstr "Intet gruppenavn angivet"
 
-#: core/data/Main/GroupViewTemplate.txt:52
+#: core/data/System/GroupViewTemplate.txt:56
 msgid "No members"
 msgstr "Ingen medlemmer"
 
@@ -3082,7 +3120,7 @@ msgstr "Kun administratorer kan fjerne andre konti."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer af %1 må udføre denne handling."
 
-#: core/data/Main/GroupViewTemplate.txt:147
+#: core/data/System/GroupViewTemplate.txt:151
 msgid "Only members or admins may update group."
 msgstr "Kun medlemmer eller administratorer kan opdatere gruppe."
 
@@ -3304,6 +3342,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:461
 msgid "Please go back in your browser and try again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
@@ -3482,11 +3521,16 @@ msgstr "Registrerede brugere"
 msgid "Registration"
 msgstr "Registrering"
 
+#: core/templates/registermessages.tmpl:467
+#, fuzzy
+msgid "Registration Results Summary"
+msgstr "Registrering"
+
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
 msgstr "Godkendelse af brugerregistrering er ikke aktiveret."
 
-#: core/lib/Foswiki/UI/Register.pm:790
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3536,21 +3580,22 @@ msgstr "Afvis"
 msgid "Related Topics for Administrators:"
 msgstr "Relaterede sider for administratorer:"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:37
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
 msgid "Related Topics:"
 msgstr "Relaterede sider:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:149
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:705
-#: core/data/System/FormattedSearch.txt:401
+#: core/data/System/CommandAndCGIScripts.txt:758
+#: core/data/System/FormattedSearch.txt:402
 #: core/data/System/GlossaryOfTerms.txt:27
+#: core/data/System/GroupViewTemplate.txt:38
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
 #: core/templates/messages.tmpl:428
@@ -3577,7 +3622,7 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Kan du huske din adgangskode?"
 
-#: core/data/Main/GroupViewTemplate.txt:225
+#: core/data/System/GroupViewTemplate.txt:229
 msgid "Remove Members from %1"
 msgstr "Fjern medlemmer fra %1"
 
@@ -3585,7 +3630,7 @@ msgstr "Fjern medlemmer fra %1"
 msgid "Remove User"
 msgstr "Fjern bruger"
 
-#: core/data/Main/GroupViewTemplate.txt:165
+#: core/data/System/GroupViewTemplate.txt:169
 msgid "Remove members..."
 msgstr "Fjern medlemmer..."
 
@@ -3593,7 +3638,7 @@ msgstr "Fjern medlemmer..."
 msgid "Remove of user account other than your own is denied"
 msgstr "Det er ikke tilladt at fjerne en brugerkonto andet end ens egen"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/System/GroupViewTemplate.txt:243
 msgid "Remove selected members"
 msgstr "Fjern valgte medlemmer"
 
@@ -3646,6 +3691,11 @@ msgstr "Udskift formular..."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Bed om bekræftelse"
+
+#: core/templates/registermessages.tmpl:457
+#, fuzzy
+msgid "Requested bulk registration topic not found."
+msgstr "Eksisterende brugerregistrering ikke fundet"
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3710,6 +3760,10 @@ msgstr ""
 #: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "Gendannelse er ikke mulig fordi denne side er version 1."
+
+#: core/templates/registermessages.tmpl:471
+msgid "Results"
+msgstr ""
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -3958,7 +4012,7 @@ msgstr "Vælg hvilke grupper som skal tilmeldes:"
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
-#: core/data/Main/GroupViewTemplate.txt:234
+#: core/data/System/GroupViewTemplate.txt:238
 msgid "Select members to remove from this group:"
 msgstr "Vælg medlemmer som skal fjernes fra denne gruppe:"
 
@@ -4212,7 +4266,7 @@ msgstr "Skift til WYSIWYG"
 msgid "Symbol"
 msgstr "Symbol"
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/System/GroupViewTemplate.txt:145
 msgid "System user list."
 msgstr "Liste over systembrugere."
 
@@ -4299,11 +4353,11 @@ msgstr ""
 "underskrive og datere med sit %4."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
-#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:6
 #: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
-#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
-#: core/data/_default/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:6 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:6
 msgid "The %1 web of %2."
 msgstr "Nummer %1 web af %2."
 
@@ -4675,7 +4729,7 @@ msgstr ""
 "ved hjælp af denne formular bliver holdt hemmelige af systemet og vil ikke "
 "kunne ses nogen steder på dette site."
 
-#: core/data/Main/GroupViewTemplate.txt:138
+#: core/data/System/GroupViewTemplate.txt:142
 msgid "This group should not have members."
 msgstr "Denne gruppe bør ikke have nogen medlemmer."
 
@@ -4930,7 +4984,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Siden kan ikke opgraderes fra den gamle 'category table'-stil"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:72
 msgid "Topic data"
 msgstr "Sidedata"
 
@@ -5086,12 +5140,12 @@ msgid "Update links"
 msgstr "Opdatér links"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:12
-#: core/data/Main/GroupViewTemplate.txt:182
-#: core/data/Main/GroupViewTemplate.txt:191
+#: core/data/System/GroupViewTemplate.txt:186
+#: core/data/System/GroupViewTemplate.txt:195
 msgid "Upgrade"
 msgstr "Opgradér"
 
-#: core/data/Main/GroupViewTemplate.txt:172
+#: core/data/System/GroupViewTemplate.txt:176
 msgid "Upgrade group topic..."
 msgstr "Opgradér gruppeside..."
 
@@ -5156,12 +5210,12 @@ msgstr ""
 "ellers kig på WebChanges siden for hvert web."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1145
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Brugeren %1 har ikke CHANGE rettigheder til %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1134
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Brugeren %1 er ikke medlem af gruppen og kan ikke fjernes"
@@ -5221,7 +5275,7 @@ msgstr "Brugere kan ikke tilføjes til %1"
 #   $date,
 #   $by)
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1104
 msgid "Users cannot be removed from %1"
 msgstr "Brugere kan ikke fjernes fra %1"
 
@@ -5352,11 +5406,11 @@ msgstr "Advarsel: Kan ikke finde siden %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advarsel: Kan ikke finde web %1 for siden %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1356
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekræftelses-e-mail"
 
-#: core/lib/Foswiki/UI/Register.pm:1368
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Advarsel: Kunne ikke sende bekræftelses-e-mail, e-mail er ikke slået til"
@@ -5838,32 +5892,36 @@ msgstr ""
 "[3 mellemrum (et antal gange)] * [mellemrum] Set [mellemrum] VARIABELNAVN "
 "[mellemrum] = [værdi]"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
+msgid "_Be sure to remember to save any table changes!_"
+msgstr ""
+
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Dansk"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:166
 msgid "access denied on root"
 msgstr "adgang til root nægtet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:102
 msgid "access denied on topic"
 msgstr "adgang til siden nægtet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:138
 msgid "access denied on web"
 msgstr "adgang til webbet nægtet"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:176
 msgid "access not allowed on root"
 msgstr "adgang til root ikke tilladt"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:125
 msgid "access not allowed on topic"
 msgstr "adgang til siden ikke tilladt"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:150
 msgid "access not allowed on web"
 msgstr "adgang til webbet ikke tilladt"
 
