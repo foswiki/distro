@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2017-06-15 06:35+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgstr "%1 tilføjet til %2 gruppen."
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
 msgid "%1 cannot be removed from %2"
 msgstr "%1 kunne ikke fjernes fra %2"
 
@@ -214,7 +214,7 @@ msgstr "%1: Sidenavnet for templaten (%2) indeholder ugyldige tegn."
 msgid "&Cancel"
 msgstr "&Fortryd"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "&Historik"
 
@@ -1000,12 +1000,12 @@ msgstr ""
 "=ALLOWWEBVIEW= begrænsningen i WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "CHANGE ikke tilladt af %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "CHANGE ikke tilladt for %1 af %2"
 
@@ -1040,7 +1040,7 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Fortryd"
@@ -1757,7 +1757,7 @@ msgstr "Humørikon"
 msgid "End presentation"
 msgstr "Afslut præsentation"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Forstør edit-boks"
 
@@ -2004,7 +2004,7 @@ msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 msgid "Globe"
 msgstr "Globus"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Tilbage"
@@ -2041,7 +2041,7 @@ msgstr "GodStil"
 msgid "Group"
 msgstr "Gruppe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
@@ -2050,7 +2050,7 @@ msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
 msgid "Group name"
 msgstr "Gruppenavn"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "Gruppenavne skal ende med Group"
 
@@ -2091,7 +2091,7 @@ msgstr "Overskrift 5"
 msgid "Heading 6"
 msgstr "Overskrift 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
@@ -2334,7 +2334,7 @@ msgstr ""
 "masseregistrering måske stadig være brugbart. Kontakt venligst %1, hvis du "
 "er i tvivl."
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "Ignorer i 7 dage"
 
@@ -2726,7 +2726,7 @@ msgstr "Manglende aktionskommando (action command)"
 msgid "Missing or illegal web name"
 msgstr "Manglende eller illegalt webnavn"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Tilpas søgning"
@@ -3023,7 +3023,7 @@ msgstr "Notificeringer"
 msgid "Number of changes for each Web"
 msgstr "Antal ændringer for hvert web"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3045,7 +3045,7 @@ msgstr "OEmbed"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3465,7 +3465,7 @@ msgstr "Genopfrisk"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Registrér dig"
 
@@ -4019,7 +4019,7 @@ msgstr "Vis hjælp"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Formindsk edit boks"
 
@@ -4200,7 +4200,7 @@ msgstr "Sammendrag"
 msgid "Superscript"
 msgstr "Hævet"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Switch to monotype or proportional font"
 msgstr "Skift til monospace eller proportional skrift"
 
@@ -5085,7 +5085,7 @@ msgstr "Opdatér den vedhæftede fil %1 på siden %2"
 msgid "Update links"
 msgstr "Opdatér links"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
@@ -5156,12 +5156,12 @@ msgstr ""
 "ellers kig på WebChanges siden for hvert web."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Brugeren %1 har ikke CHANGE rettigheder til %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Brugeren %1 er ikke medlem af gruppen og kan ikke fjernes"
@@ -5213,7 +5213,7 @@ msgstr "Brugere"
 #   $date,
 #   $by)
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "Brugere kan ikke tilføjes til %1"
 
@@ -5221,7 +5221,7 @@ msgstr "Brugere kan ikke tilføjes til %1"
 #   $date,
 #   $by)
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
 msgid "Users cannot be removed from %1"
 msgstr "Brugere kan ikke fjernes fra %1"
 
@@ -5261,7 +5261,7 @@ msgstr "Versionshistorik for %1"
 msgid "View"
 msgstr "Vis"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "Vis komplet historik for siden"
 
@@ -5367,8 +5367,9 @@ msgstr ""
 "Advarsel: Dette websted tillader ikke brug af %<nop>INCLUDE% til inkludering "
 "af URL'er"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#, fuzzy
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr "Advarsel: Opdateringer fundet for %1 extension(s)."
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -5975,7 +5976,7 @@ msgid "now %1"
 msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

@@ -75,7 +75,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 přidáno do %2 skupiny."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
 msgid "%1 cannot be removed from %2"
 msgstr "%1 nemůže být odstraněn z %2"
 
@@ -204,7 +204,7 @@ msgstr "Název článku (%1) obsahoval nepovolené znaky."
 msgid "&Cancel"
 msgstr "&Cancel (ponechej beze změny)"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "Historie"
 
@@ -985,12 +985,12 @@ msgstr ""
 "WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "Změna nepovolena díky %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "Změna nepovolena pro %1 díky %2"
 
@@ -1024,7 +1024,7 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Přerušit"
@@ -1738,7 +1738,7 @@ msgstr "Emotikon"
 msgid "End presentation"
 msgstr "Spusť prezentaci"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Zvětšit editovací prostor"
 
@@ -1987,7 +1987,7 @@ msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 msgid "Globe"
 msgstr "Glóbus"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Jdi zpět"
@@ -2024,7 +2024,7 @@ msgstr "DobrýStyl"
 msgid "Group"
 msgstr "Skupina"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Skupina neexistuje a vytvoření není povoleno"
@@ -2033,7 +2033,7 @@ msgstr "Skupina neexistuje a vytvoření není povoleno"
 msgid "Group name"
 msgstr "Jméno skupiny"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "Názvy skupin musí končit na Skupina"
 
@@ -2074,7 +2074,7 @@ msgstr "Nadpis 5"
 msgid "Heading 6"
 msgstr "Nadpis 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Vítejte %1!"
 
@@ -2311,7 +2311,7 @@ msgid ""
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "Ignorujte následujících 7 dní"
 
@@ -2701,7 +2701,7 @@ msgstr "Chybí příkaz akce"
 msgid "Missing or illegal web name"
 msgstr "Chybějící nebo neplatné jméno webu"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Změň hledání"
@@ -3006,7 +3006,7 @@ msgstr "Oznámení"
 msgid "Number of changes for each Web"
 msgstr "Počet změn pro každý Web"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3028,7 +3028,7 @@ msgstr "OEmbed"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3444,7 +3444,7 @@ msgstr "Obnov"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Registruj"
 
@@ -4003,7 +4003,7 @@ msgstr "Ukaž nápovědu"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
@@ -4184,7 +4184,7 @@ msgstr "Shrnutí"
 msgid "Superscript"
 msgstr "Horní index"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Použijte monotype nebo proporcionální font"
@@ -5049,7 +5049,7 @@ msgstr "Změna přílohy %1 v %2"
 msgid "Update links"
 msgstr "Aktualizuj odkazy"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
@@ -5121,12 +5121,12 @@ msgstr ""
 "skutečně potřebujete, jinak si prohlédněte změny webu na každém z nich."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Uživatel %1 nemá právo měnit %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Uživatel %1 není v žádné skupině, a nemůže být proto vyjmut"
@@ -5175,12 +5175,12 @@ msgid "Users"
 msgstr "Uživatelé"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "Uživatelé nemohou být přidáni do %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
 msgid "Users cannot be removed from %1"
 msgstr "Uživatelé nemohou být odebráni z %1"
 
@@ -5220,7 +5220,7 @@ msgstr "Historické verze %1"
 msgid "View"
 msgstr "Náhled"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "Zobraz celou historii článku"
 
@@ -5322,8 +5322,9 @@ msgstr "Varování: Nemohu zaslat potvrzovací email, zasílání emailů je vyp
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#, fuzzy
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr "Varování: Nalezeny aktualizace pro %1 rozšíření."
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -5924,7 +5925,7 @@ msgid "now %1"
 msgstr "nyní je %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
