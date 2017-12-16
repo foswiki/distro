@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505759671" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1513393570" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.4
+---+!! Foswiki Release 2.1.5-Beta1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -56,6 +56,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.2 was built on 02 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
+   * Foswiki 2.1.5-Beta1 was built on 16 Dec 2017. It is a release that contains 35 fixes and 5 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -90,6 +91,17 @@ of the body, just before the =&lt;body&gt= tag.  This improves compatibity of Pa
 function correctly without this zone.   No changes are required unless you
 have replaced the =foswiki.tmpl= or =foswiki.pattern.tmpl= with a local
 version.
+
+---+++ Cnange in HTTP status return for authentication failures.
+
+The fix for Foswikitask:Item14445 changes the HTTP status return for authentiation errors from =401 - Unauthorized= to =200 - OK=
+when returning the Template Login screen. The 401 status is not valid unless it returns a WWW-Authentication challenge that can be processed by the
+_agent_. This is only valid when using HTTP authentication. The REST and JSONRPC actions will still return a 401, so that it can be handled by javascript.
+
+---+++ Running Foswiki on a Windows based web server
+
+This release fixes a critical error that prevented Foswiki from being installed on Windows.  Foswiki mistakenly used a reserved filename for 
+a module which blocked installaion on Windows.   This has been corrected in this release.
 
 ---++ Important changes in Foswiki 2.1.3
 
@@ -526,6 +538,54 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14404][Item14404]] | NatEdit Save and Continue action fails on mod_perl systems. |
 | [[%BUGS%/Item14405][Item14405]] | Redirect after validation with HTTPS proxy for HTTP site results in unsafe redirect. |
 | [[%BUGS%/Item14406][Item14406]] | Configue LANGUAGES pluggable crashes in Locale::Code for unknown languages with Perl 5.26. |
+
+---++ Foswiki Release 2.1.5 Details
+
+---+++ Fixes
+
+| [[%BUGS%/Item11491][Item11491]] | FCGI has de facto file upload limit - add note in documentation for fix. |
+| [[%BUGS%/Item12495][Item12495]] | In form fields of type "select", space after a value and before the delimiting comma makes the value selectable and it saves but will reset on next edit. |
+| [[%BUGS%/Item13350][Item13350]] | Document why Mailnotify appears to skip notification of some changes. |
+| [[%BUGS%/Item13835][Item13835]] | Title Field in Natedit gone, even when used. |
+| [[%BUGS%/Item14395][Item14395]] | InterwikiPlugin failure to check result from readTopic causes error. |
+| [[%BUGS%/Item14415][Item14415]] | TopicUserMapping places non-ASCII users in wrong position in WikiUsersTopic. |
+| [[%BUGS%/Item14429][Item14429]] | tools/configure generates invalid perl structure. |
+| [[%BUGS%/Item14431][Item14431]] | Dependencies check for DBD and DBI::Pg are broken by unexpected VERSION strings. |
+| [[%BUGS%/Item14434][Item14434]] | Translated text with reserved characters used in System.WebCreateNewTopicComponents will create wrong HTML. |
+| [[%BUGS%/Item14445][Item14445]] | Excel fails to open a password protected link to Foswiki. |
+| [[%BUGS%/Item14446][Item14446]] | Unwritable =work_area= results in mega-spam with mailnotify run. |
+| [[%BUGS%/Item14448][Item14448]] | UpdatesPlugin plugin list is empty on page reload. |
+| [[%BUGS%/Item14455][Item14455]] | Malformed System.AdminDocumentationCategory. |
+| [[%BUGS%/Item14460][Item14460]] | Login/Logon actions should create session when guest sessions are disabled. |
+| [[%BUGS%/Item14461][Item14461]] | Formfield select values containing entities will reset on next save. |
+| [[%BUGS%/Item14462][Item14462]] | {AuthScripts} is hidden unless Template Login is in use.  |
+| [[%BUGS%/Item14471][Item14471]] | HistoryPlugin not properly rendering date tokens as stated in documentation. |
+| [[%BUGS%/Item14472][Item14472]] | Use jquery.prop instead of attr to get/set properties. |
+| [[%BUGS%/Item14488][Item14488]] | PatternSkin is missing "body" zone used by NatSkin and many extensions |
+| [[%BUGS%/Item14490][Item14490]] | EditRowPlugin Edit button image not displaying correctly. |
+| [[%BUGS%/Item14492][Item14492]] | HtPasswdUser implements bcrypt with a hard coded cost.  {Htpasswd}{BCryptCost} is ignored. |
+| [[%BUGS%/Item14515][Item14515]] | Foswiki 2.1.3 cannot run on Windows   "Aux" is a reserved filename on windows. |
+| [[%BUGS%/Item14529][Item14529]] | UpdatesPlugin should not use the cookie realm. |
+| [[%BUGS%/Item14536][Item14536]] | Configure leaves "wait" cursor spinning while waiting for user action. |
+| [[%BUGS%/Item14544][Item14544]] | SCRIPTURL breaks when X-FORWARDED-HOST has multiple values. |
+| [[%BUGS%/Item14549][Item14549]] | Prevent User/WikiName cache pollution by faulty call of internal user api. |
+| [[%BUGS%/Item14550][Item14550]] | Wrong initialization of {_options} hash reference in list formfields. |
+| [[%BUGS%/Item14554][Item14554]] | Remove link to unused wikiring.com domain. |
+| [[%BUGS%/Item14556][Item14556]] | Clean up page header area with PatternSkin. |
+| [[%BUGS%/Item14557][Item14557]] | PerlDependencyReport crashes under some conditions. |
+| [[%BUGS%/Item14559][Item14559]] | Regression via [[Tasks.Item13898][Item13898]] -  broken topic selectors. |
+| [[%BUGS%/Item14560][Item14560]] | WikiWord changes don't trigger a change event on the target element. |
+| [[%BUGS%/Item14566][Item14566]] | Don't cache a null result in foswiki.getPreference(). |
+| [[%BUGS%/Item14573][Item14573]] | Fix auto-height calculation of tabpane. |
+| [[%BUGS%/Item14574][Item14574]] | HTML cellspacing attribute has no effect. |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item14518][Item14518]] | JQueryPlugin should warn configure if an older version of jquery is selected. |
+| [[%BUGS%/Item14532][Item14532]] | Allow process name override for FCGI task. |
+| [[%BUGS%/Item14565][Item14565]] | Bundle jquery.validate js files into one. |
+| [[%BUGS%/Item14570][Item14570]] | Add "use strict" to farbtastic's init and fix js errors. |
+| [[%BUGS%/Item14577][Item14577]] | Add user contributed sartup script for FreeBSD. |
 
 </noautolink>
 
