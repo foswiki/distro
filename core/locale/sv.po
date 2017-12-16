@@ -79,7 +79,7 @@ msgstr "%1 tillagd i gruppen %2."
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 borttagen från gruppen %2."
@@ -221,7 +221,7 @@ msgstr "Sidans namn får inte vara tomt."
 msgid "&Cancel"
 msgstr "Avbryt (&C)"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "&Historik"
 
@@ -1021,12 +1021,12 @@ msgstr ""
 "WebPreferences"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1060,7 +1060,7 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Avbryt"
@@ -1809,7 +1809,7 @@ msgstr ""
 msgid "End presentation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Förstora redigeringsruta"
 
@@ -2066,7 +2066,7 @@ msgstr "Bli informerad om ändringar i den här sökningen"
 msgid "Globe"
 msgstr "Stäng"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Gå tillbaka"
@@ -2101,7 +2101,7 @@ msgstr ""
 msgid "Group"
 msgstr "Grupper"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -2111,7 +2111,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Enbart sidnamn"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2152,7 +2152,7 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
@@ -2382,7 +2382,7 @@ msgid ""
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr ""
 
@@ -2787,7 +2787,7 @@ msgstr "Tangentbordskommandon som saknas"
 msgid "Missing or illegal web name"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Anpassa sökning"
@@ -3102,7 +3102,7 @@ msgstr "Meddelanden"
 msgid "Number of changes for each Web"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3126,7 +3126,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3575,7 +3575,7 @@ msgstr "Uppdatera"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Registrera dig"
 
@@ -4162,7 +4162,7 @@ msgstr "Visa hjälp"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Minska redigeringsrutan"
 
@@ -4347,7 +4347,7 @@ msgstr "Sammanställningar"
 msgid "Superscript"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Ändra till typsnitt med fast eller proportionell bredd"
@@ -5208,7 +5208,7 @@ msgstr "Uppdatera den bifogade filen %1 på sidan %2"
 msgid "Update links"
 msgstr "Uppdatera referenser"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
@@ -5277,12 +5277,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5333,12 +5333,12 @@ msgid "Users"
 msgstr "Användare"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -5378,7 +5378,7 @@ msgstr "Versionshistorik för %1"
 msgid "View"
 msgstr "visa"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 #, fuzzy
 msgid "View complete topic history"
 msgstr "Visa komplett historik för sidan"
@@ -5493,8 +5493,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr ""
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -6088,7 +6088,7 @@ msgid "now %1"
 msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

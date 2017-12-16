@@ -81,7 +81,7 @@ msgstr "%1 加入群組 %2。"
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
 msgid "%1 cannot be removed from %2"
 msgstr "%1 不能自 %2 移除"
 
@@ -215,7 +215,7 @@ msgstr "%1: 無效的範本名稱 (%2) - 包含無效字元。"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "歷史(&H)"
 
@@ -952,12 +952,12 @@ msgstr ""
 "WebPreferences 中 =ALLOWWEBVIEW= 的相關限制。"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "%1 不能變更"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%2 不能變更 %1"
 
@@ -990,7 +990,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "取消"
@@ -1675,7 +1675,7 @@ msgstr "表情"
 msgid "End presentation"
 msgstr "簡報結束"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "放大編輯框"
 
@@ -1917,7 +1917,7 @@ msgstr "得到此搜尋的修改通知"
 msgid "Globe"
 msgstr "球形"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "返回"
@@ -1950,7 +1950,7 @@ msgstr "好格式"
 msgid "Group"
 msgstr "群組"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "群組不存在，且不能建立"
@@ -1959,7 +1959,7 @@ msgstr "群組不存在，且不能建立"
 msgid "Group name"
 msgstr "群組名稱"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "群組名稱必須以 Group 結尾"
 
@@ -2000,7 +2000,7 @@ msgstr "標題 5"
 msgid "Heading 6"
 msgstr "標題 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -2217,7 +2217,7 @@ msgstr ""
 "若您的維基系統使用外部密碼管理程式，且密碼管理程式知道您將註冊的用戶們，此時"
 "批次註冊仍可能有用。如果您不確定，請聯繫 %1 。"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "忽略七天"
 
@@ -2599,7 +2599,7 @@ msgstr "缺少功能命令"
 msgid "Missing or illegal web name"
 msgstr "無子網或名稱不符"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "修改搜尋"
@@ -2890,7 +2890,7 @@ msgstr "通知"
 msgid "Number of changes for each Web"
 msgstr "各子網改變的數目"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -2912,7 +2912,7 @@ msgstr "嵌入"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3318,7 +3318,7 @@ msgstr "更新"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "註冊者"
 
@@ -3858,7 +3858,7 @@ msgstr "顯示說明"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
@@ -4035,7 +4035,7 @@ msgstr "摘要"
 msgid "Superscript"
 msgstr "上標"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Switch to monotype or proportional font"
 msgstr "切換到等寬或等比的字體"
 
@@ -4849,7 +4849,7 @@ msgstr "在 %2 更新附件 %1"
 msgid "Update links"
 msgstr "更新連結"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
@@ -4918,12 +4918,12 @@ msgstr ""
 "才載入內容，否則請參考各子網的 WebChanges 主題。"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "使用者 ％1 無變更 %2 的權限。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "使用者 %1 不在群組中，無法移除"
@@ -4971,12 +4971,12 @@ msgid "Users"
 msgstr "用戶"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "使用者無法加入 %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
 msgid "Users cannot be removed from %1"
 msgstr "使用者無法自 ％1 移除"
 
@@ -5014,7 +5014,7 @@ msgstr "%1 的版本歷史"
 msgid "View"
 msgstr "瀏覽"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "檢視主題完整修訂史"
 
@@ -5114,8 +5114,9 @@ msgstr "警告: 無法寄送確認郵件，郵件已禁用"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#, fuzzy
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr "警告: 找到擴充 %1 的更新。"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -5668,7 +5669,7 @@ msgid "now %1"
 msgstr "現在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

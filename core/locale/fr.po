@@ -76,7 +76,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 ajouté au groupe %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1103
 msgid "%1 cannot be removed from %2"
 msgstr "%1 ne peut être retiré de %2"
 
@@ -210,7 +210,7 @@ msgstr ""
 msgid "&Cancel"
 msgstr "Annuler"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "&Historique"
 
@@ -1003,12 +1003,12 @@ msgstr ""
 "ligne =ALLOWWEBVIEW= de la page WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "Modification (CHANGE) non permise par %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "Modification (CHANGE) de %1 non permise par %2"
 
@@ -1043,7 +1043,7 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Annuler"
@@ -1768,7 +1768,7 @@ msgstr "Émoticône"
 msgid "End presentation"
 msgstr "Finir présentation"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Agrandir le cadre d&&#39;édition"
 
@@ -2020,7 +2020,7 @@ msgstr "Etre informé lorsque le résultat de cette recherche change"
 msgid "Globe"
 msgstr "Globe"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Revenir en arrière"
@@ -2059,7 +2059,7 @@ msgstr "Conseils pour la rédaction collaborative (GoodStyle)"
 msgid "Group"
 msgstr "Groupe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Le groupe n'existe pas et la création n'est pas permise"
@@ -2068,7 +2068,7 @@ msgstr "Le groupe n'existe pas et la création n'est pas permise"
 msgid "Group name"
 msgstr "Nom du groupe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "Les noms de groupes doivent se terminer par Group"
 
@@ -2109,7 +2109,7 @@ msgstr "Titre 5"
 msgid "Heading 6"
 msgstr "Titre 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Bonjour, %1 !"
 
@@ -2364,7 +2364,7 @@ msgstr ""
 "de passe, alors l'enregistrement en masse (bulk registration) peut toujours "
 "être utile. Veuillez contacter %1 si vous n'êtes pas sûr."
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "Ignorer pendant 7 jours"
 
@@ -2762,7 +2762,7 @@ msgstr "Commande manquante"
 msgid "Missing or illegal web name"
 msgstr "Nom de web manquant ou invalide"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Modifier la recherche"
@@ -3061,7 +3061,7 @@ msgstr "Notifications"
 msgid "Number of changes for each Web"
 msgstr "Nombre de changements pour chaque Web"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3083,7 +3083,7 @@ msgstr "OEmbed"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3503,7 +3503,7 @@ msgstr "Rafraîchir"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Inscription"
 
@@ -4071,7 +4071,7 @@ msgstr "Afficher l'aide"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Liste des versions %1 - %2 (sur un total de %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Rétrécir le cadre d'édition"
 
@@ -4256,7 +4256,7 @@ msgstr "Les résumés"
 msgid "Superscript"
 msgstr "Exposant"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Switch to monotype or proportional font"
 msgstr "Passer en police à espacement fixe ou proportionnel"
 
@@ -5175,7 +5175,7 @@ msgstr "Mettre à jour le fichier %1 attaché à la page %2"
 msgid "Update links"
 msgstr "Mettre à jour les liens"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
 #: core/data/Main/GroupViewTemplate.txt:182
 #: core/data/Main/GroupViewTemplate.txt:191
 msgid "Upgrade"
@@ -5248,13 +5248,13 @@ msgstr ""
 "WebChanges sur chaque Web."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1136
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 "L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1125
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Utilisateur %1 pas dans le groupe, ne peut être supprimé"
@@ -5304,12 +5304,12 @@ msgid "Users"
 msgstr "Utilisateurs"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "On ne peut pas ajouter des utilisateur à %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1095
 msgid "Users cannot be removed from %1"
 msgstr "Les utilisateurs ne peuvent pas être supprimés de %1"
 
@@ -5350,7 +5350,7 @@ msgstr "Historique des versions de %1"
 msgid "View"
 msgstr "Visualiser"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
@@ -5458,8 +5458,9 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Attention : ce site n'autorise pas l'inclusion d'URLs avec %<nop>INCLUDE%"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+#, fuzzy
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr "Attention : Mises à jour trouvées pour %1 extension(s)."
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -6082,7 +6083,7 @@ msgid "now %1"
 msgstr "maintenant %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
