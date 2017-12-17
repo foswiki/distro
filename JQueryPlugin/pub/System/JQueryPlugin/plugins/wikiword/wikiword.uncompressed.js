@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 3.20
+ * jQuery WikiWord plugin 3.21
  *
  * Copyright (c) 2008-2017 Foswiki Contributors http://foswiki.org
  *
@@ -42,7 +42,12 @@ $.wikiword = {
 
       // either a string or a jQuery object
       if (typeof(thisOpts.source) === 'string') {
+        // first try to find the source within the same form
         $source = $this.parents("form:first").find(thisOpts.source);
+        // if that fails, try in a global scope
+        if ($source.length === 0) {
+          $source = $(thisOpts.source);
+        }
       } else {
         $source = thisOpts.source;
       }

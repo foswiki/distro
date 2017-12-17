@@ -1,39 +1,29 @@
 # See bottom of file for license and copyright information
-package Foswiki::Plugins::JQueryPlugin::WIKIWORD;
+
+package Foswiki::Plugins::JQueryPlugin::VIEW;
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki                                ();
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
-
-=begin TML
-
----+ package Foswiki::Plugins::JQueryPlugin::WIKIWORD
-
-This is the perl stub for the jquery.wikiword plugin.
-
-=cut
-
-=begin TML
-
----++ ClassMethod new( $class, ... )
-
-Constructor
-
-=cut
 
 sub new {
     my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'WikiWord',
-            version    => '3.21',
-            author     => 'Michael Daum',
-            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript => ['wikiword.js'],
-            dependencies =>
-              [ 'JQUERYPLUGIN', 'FOSWIKI', 'livequery', 'metadata' ]
+            $session,
+            name         => 'View',
+            version      => '0.9.90',
+            author       => 'Boris Moore',
+            homepage     => 'http://www.jsviews.com',
+            dependencies => ['render'],
+            javascript   => [
+                'jquery.observable.uncompressed.js',
+                'jquery.views.uncompressed.js'
+            ],
         ),
         $class
     );
@@ -44,11 +34,10 @@ sub new {
 1;
 
 __END__
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
