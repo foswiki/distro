@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1513393570" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1513438812" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.5-Beta1
 
@@ -566,7 +566,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14554][Item14554]] | Remove link to unused wikiring.com domain. |
 | [[%BUGS%/Item14556][Item14556]] | Clean up page header area with PatternSkin. |
 | [[%BUGS%/Item14557][Item14557]] | PerlDependencyReport crashes under some conditions. |
-| [[%BUGS%/Item14559][Item14559]] | Regression via [[Tasks.Item13898][Item13898]] -  broken topic selectors. |
+| [[%BUGS%/Item14559][Item14559]] | Regression via Item13898 -  broken topic selectors. |
 | [[%BUGS%/Item14560][Item14560]] | WikiWord changes don't trigger a change event on the target element. |
 | [[%BUGS%/Item14566][Item14566]] | Don't cache a null result in foswiki.getPreference(). |
 | [[%BUGS%/Item14573][Item14573]] | Fix auto-height calculation of tabpane. |
