@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1513530743" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513534380" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
-
 ---+!! %TOPIC%
 
 %JQPLUGINS{"view"
@@ -14,7 +13,7 @@
 %TOC%
 
 %STARTSECTION{"summary"}%
-This plugin adds JsViews functionality to the JsRender plugin. JsViews builds off of standard JsRender templates, but adds
+This plugin adds !JsViews functionality to the !JsRender plugin. !JsViews builds off of standard !JsRender templates, but adds
 two-way declarative data-binding, MVVM, and MVP.
 
 See System.JQueryRender and https://www.jsviews.com/#jsviews for more details.
@@ -25,7 +24,7 @@ See System.JQueryRender and https://www.jsviews.com/#jsviews for more details.
 %JQREQUIRE{"view"}%
 
 ---+++ In the SCRIPT head
-<verbatim>
+<verbatim class="js">
 var data = [
   {
     "name": "Robert",
@@ -45,7 +44,7 @@ template.link("#result", data);
 </verbatim>
 
 ---+++ In the BODY
-<verbatim>
+<verbatim class="html">
 <div id="result"></div>
 
 <script id="theTmpl" type="text/x-jsrender">
@@ -126,6 +125,6 @@ Pretty cool!
 
  Other functionality includes the <code>$.observe()</code> method for assigning callback functions to respond to observable 
  changes, and the <code>$.view()</code> method for retrieving the data slice associated with a particular View object.
- 
+
  (see http://www.jsviews.com/#jsvapi for lots of details and examples)
  
