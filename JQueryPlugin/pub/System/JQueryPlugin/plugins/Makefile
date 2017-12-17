@@ -53,6 +53,7 @@ SUBDIRS=\
   treeview \
   ui \
   validate \
+  view \
   wikiword  \
 
 -include ../Makefile.include
