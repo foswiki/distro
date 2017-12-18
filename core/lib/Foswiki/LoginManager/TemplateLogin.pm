@@ -119,7 +119,7 @@ sub loginUrl {
     my $session = $this->{session};
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
-    return $session->getScriptUrl( 0, 'login', $web, $topic,
+    return $session->getScriptUrl( 0, 'login', undef, undef,
         foswiki_origin => _packRequest($session) );
 }
 
