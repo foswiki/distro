@@ -93,6 +93,18 @@ sub forceAuthentication {
         my $query    = $session->{request};
         my $response = $session->{response};
 
+        # SMELL: This breaks some applications such as MS Excel. Return
+        # A 200 instead of a 401.
+        #   Respond with a 401 with an appropriate WWW-Authenticate
+        #   that won't be snatched by the browser, but can be used
+        #   by JS to generate login info.
+        $response->header(
+            -status => 200,
+
+            #-WWW_Authenticate => 'FoswikiBasic realm="'
+            #  . ( $Foswiki::cfg{AuthRealm} || "" ) . '"'
+        );
+
         $query->param(
             -name  => 'foswiki_origin',
             -value => _packRequest($session)
