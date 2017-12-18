@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1513438812" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.5-Beta1
+---+!! Foswiki Release 2.1.5-Beta2
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -56,7 +56,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.2 was built on 02 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
-   * Foswiki 2.1.5-Beta1 was built on 16 Dec 2017. It is a release that contains 35 fixes and 5 enhancements.
+   * Foswiki 2.1.5-Beta2 was built on 18 Dec 2017. It is a release that contains 38 fixes and 5 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -92,11 +92,14 @@ function correctly without this zone.   No changes are required unless you
 have replaced the =foswiki.tmpl= or =foswiki.pattern.tmpl= with a local
 version.
 
----+++ Cnange in HTTP status return for authentication failures.
+---+++ Change in HTTP status return for authentication failures.
 
 The fix for Foswikitask:Item14445 changes the HTTP status return for authentiation errors from =401 - Unauthorized= to =200 - OK=
 when returning the Template Login screen. The 401 status is not valid unless it returns a WWW-Authentication challenge that can be processed by the
 _agent_. This is only valid when using HTTP authentication. The REST and JSONRPC actions will still return a 401, so that it can be handled by javascript.
+
+*Note:* This change requires a corresponding fix for the !LdapContrib.  If you use the !LdapContrib, you should not apply this release until an update of
+!LdapContrib is available.
 
 ---+++ Running Foswiki on a Windows based web server
 
@@ -546,6 +549,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item11491][Item11491]] | FCGI has de facto file upload limit - add note in documentation for fix. |
 | [[%BUGS%/Item12495][Item12495]] | In form fields of type "select", space after a value and before the delimiting comma makes the value selectable and it saves but will reset on next edit. |
 | [[%BUGS%/Item13350][Item13350]] | Document why Mailnotify appears to skip notification of some changes. |
+| [[%BUGS%/Item13380][Item13380]] | Remove the Web/Topic from the login URL to prevent flooding the browser password cache. |
 | [[%BUGS%/Item13835][Item13835]] | Title Field in Natedit gone, even when used. |
 | [[%BUGS%/Item14395][Item14395]] | InterwikiPlugin failure to check result from readTopic causes error. |
 | [[%BUGS%/Item14415][Item14415]] | TopicUserMapping places non-ASCII users in wrong position in WikiUsersTopic. |
@@ -578,6 +582,8 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14566][Item14566]] | Don't cache a null result in foswiki.getPreference(). |
 | [[%BUGS%/Item14573][Item14573]] | Fix auto-height calculation of tabpane. |
 | [[%BUGS%/Item14574][Item14574]] | HTML cellspacing attribute has no effect. |
+| [[%BUGS%/Item14584][Item14584]] | jquery.wikiword changed interpretation of source parameter in a incompatible way. |
+| [[%BUGS%/Item14586][Item14586]] | Blinking scrollbar in natedit caused by incorrect window height. |
 
 ---+++ Enhancements
 
