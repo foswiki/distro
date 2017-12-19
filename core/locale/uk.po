@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-29 22:21+0200\n"
+"PO-Revision-Date: 2017-12-18 16:38+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -190,7 +190,7 @@ msgstr "тема %1 не існує"
 
 #: core/templates/registermessages.tmpl:459
 msgid "%1 topic not found. No users registered."
-msgstr ""
+msgstr "Топік %1 не знайдено. Користувачі не зареєстровані."
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -398,9 +398,8 @@ msgstr ""
 "браузері."
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
-#, fuzzy
 msgid "*Bulk registration is restricted to Administrators.*"
-msgstr "Тільки адміністратори мають доступ до відкладених реєстрацій."
+msgstr "*Масова реєстрація доступна лише адміністраторам.*"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -449,7 +448,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
 msgid "*This text will be sent to users in their "
-msgstr ""
+msgstr "*Цей текст буде надіслано користувачам у їх "
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -946,9 +945,8 @@ msgid "Back to topic"
 msgstr "Назад до теми"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
-#, fuzzy
 msgid "Back to:"
-msgstr "Назад до теми"
+msgstr "Назад до:"
 
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
@@ -991,14 +989,13 @@ msgid "Both body and title"
 msgstr "Включно у тексті та заголовку"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
-#, fuzzy
 msgid "Bulk Register these users"
-msgstr "Зареєстровані користувачі"
+msgstr "Зареєструвати цих користувачів"
 
 #: core/templates/registermessages.tmpl:468
 msgid ""
 "Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
-msgstr ""
+msgstr "Масову реєстрацію виконано %1 о %2. Більше інформації у [[%3]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
@@ -1709,9 +1706,8 @@ msgid "Edit this topic text (e)"
 msgstr "Редагувати текст цієї теми (e)"
 
 #: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
-#, fuzzy
 msgid "Edit this topic to add a description to the %1"
-msgstr "Редагувати текст цієї теми (e)"
+msgstr "Щоб додати опис до %1 змініть цю тему"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -3495,9 +3491,8 @@ msgid "Registration"
 msgstr "Реєстрація"
 
 #: core/templates/registermessages.tmpl:467
-#, fuzzy
 msgid "Registration Results Summary"
-msgstr "Реєстрація"
+msgstr "Підсумок результатів реєстрації"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
@@ -3667,9 +3662,8 @@ msgid "Request Validation"
 msgstr "Запит на перевірку"
 
 #: core/templates/registermessages.tmpl:457
-#, fuzzy
 msgid "Requested bulk registration topic not found."
-msgstr "Очікувана реєстрація не знайдена"
+msgstr "Не знайдено потрібний топік масової реєстрації."
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3737,7 +3731,7 @@ msgstr "Відновлення відключено тому, що ця тема
 
 #: core/templates/registermessages.tmpl:471
 msgid "Results"
-msgstr ""
+msgstr "Результати"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5388,9 +5382,8 @@ msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-#, fuzzy
 msgid "Warning: Updates found for %1 extension(s): %2"
-msgstr "Увага: Знайдено оновлення для %1 розширень(я)."
+msgstr "Увага! Знайдено оновлення для %1 розширень(я): %2"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
@@ -5850,7 +5843,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
 msgid "_Be sure to remember to save any table changes!_"
-msgstr ""
+msgstr "_Не забудьте зберегти зміни до таблиці!_"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
