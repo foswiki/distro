@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-develop@lists.foswiki.org\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-12-20 02:28+0200\n"
+"PO-Revision-Date: 2017-12-20 02:31+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -939,7 +939,7 @@ msgstr "基本子網 %1 遺失或不存在"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:35
 msgid "Blockquote"
-msgstr "區塊引用"
+msgstr "引用區塊"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:42
 msgid "Bold"
