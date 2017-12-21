@@ -68,9 +68,9 @@ sub renderJS {
 
     $text = $this->SUPER::renderJS($text);
 
-    # TinyMCE has different naming conventions
+    # Uncompressed is not available any more.
     $text =~ s(/tinymce/js/tinymce/tinymce\.min\.uncompressed\.js)
-        (/tinymce_dev/js/tinymce/tinymce.dev.js);
+        (/tinymce/js/tinymce/tinymce.min.js);
 
     return $text;
 }
