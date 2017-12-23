@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1513438812" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1514044811" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.5-Beta2
 
@@ -56,7 +56,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.2 was built on 02 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
-   * Foswiki 2.1.5-Beta2 was built on 18 Dec 2017. It is a release that contains 38 fixes and 5 enhancements.
+   * Foswiki 2.1.5-RC was built on xx Dec 2017. It is a release that contains 39 fixes and 5 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -584,6 +584,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14574][Item14574]] | HTML cellspacing attribute has no effect. |
 | [[%BUGS%/Item14584][Item14584]] | jquery.wikiword changed interpretation of source parameter in a incompatible way. |
 | [[%BUGS%/Item14586][Item14586]] | Blinking scrollbar in natedit caused by incorrect window height. |
+| [[%BUGS%/Item14588][Item14588]] | mailnotify fills debug log with errors about "surprising mapping" and "missing mapping". |
 
 ---+++ Enhancements
 
