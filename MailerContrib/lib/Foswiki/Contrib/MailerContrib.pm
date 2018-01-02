@@ -375,7 +375,7 @@ sub _loadUserPreferences {
 
     my $meta = $email2meta->{$email};
     unless ( defined $meta ) {
-        my @wn = Foswiki::Func::emailToWikiNames($email);
+        my @wn = Foswiki::Func::emailToWikiNames( $email, 1 );
 
         # If the email maps to a single user, we can use their
         # preferences.
