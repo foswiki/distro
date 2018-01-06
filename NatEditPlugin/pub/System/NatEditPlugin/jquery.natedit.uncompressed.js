@@ -445,7 +445,7 @@ $.NatEditor.prototype.initGui = function() {
   self.container.data("natedit", self);
 
   /* flag enabled plugins */
-  if (typeof(tinymce) !== 'undefined') {
+  if (typeof(tinyMCE) !== 'undefined') {
     self.container.addClass("ui-natedit-wysiwyg-enabled");
   }
   if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
@@ -508,16 +508,19 @@ $.NatEditor.prototype.initGui = function() {
     setPermissionSet($(this).data());
   });
 
-  // Catch events emitted by TinyMCE foswiki plugin
-  $txtarea
-    .on("fwSwitchToRaw", function(ev, editor) {
-      self.tinyMCEEditor = editor;
+  // SMELL:monkey patch FoswikiTiny
+  if (typeof(FoswikiTiny) !== 'undefined') {
+    self.origSwitchToRaw = FoswikiTiny.switchToRaw;
+
+    FoswikiTiny.switchToRaw = function(inst) {
+      self.tinyMCEInstance = inst;
+      self.origSwitchToRaw(inst);
       self.showToolbar();
-    })
-    .on("fwTxError", function(ev, message) {
-      // Problem converting back to WYSIWYG; editor has not been
-      // switched. Deal with the (string) report and plough on.
-    });
+      $("#"+inst.id+"_2WYSIWYG").remove(); // SMELL: not required ... shouldn't create it in the first place
+    };
+  } else {
+    $txtarea.removeClass("foswikiWysiwygEdit");
+  }
 };
 
 /*************************************************************************
@@ -525,9 +528,10 @@ $.NatEditor.prototype.initGui = function() {
 $.NatEditor.prototype.switchToWYSIWYG = function(ev) {
   var self = this;
 
-  if (typeof(self.tinyMCEEditor) !== 'undefined') {
+  if (typeof(self.tinyMCEInstance) !== 'undefined') {
     self.hideToolbar();
-    self.tinyMCEEditor.execCommand("fwSwitchToWYSIWYG");
+    tinyMCE.execCommand("mceToggleEditor", null, self.tinyMCEInstance.id);
+    FoswikiTiny.switchToWYSIWYG(self.tinyMCEInstance);
   }
 };
 
@@ -845,9 +849,9 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     StrikeOne.submit(self.form[0]);
   }
 
-  if (typeof(tinymce) !== 'undefined') {
-    $.each(tinymce.editors, function(index, editor) { 
-        editor.execCommand("fwsave"); 
+  if (typeof(tinyMCE) !== 'undefined') {
+    $.each(tinyMCE.editors, function(index, editor) { 
+        editor.onSubmit.dispatch(); 
     }); 
   }
 
@@ -1707,16 +1711,11 @@ $.NatEditor.prototype.autoMaxExpand = function() {
 $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem,
-    windowHeight = $(window).height() || window.innerHeight,
-    tmceEdContainer = (typeof(tinymce) !== 'undefined' && tinymce.activeEditor)?$(tinymce.activeEditor.contentAreaContainer):null,
-    newHeight,
-    $debug = $("#DEBUG");
+    tmceEdContainer = (typeof(tinyMCE) !== 'undefined' && tinyMCE.activeEditor)?$(tinyMCE.activeEditor.contentAreaContainer):null,
+    bottomBar = self.form.find(".natEditBottomBar"),
+    newHeight;
 
-  if (typeof(self.bottomHeight) === 'undefined') {
-    self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
-  }
-
-  if (tmceEdContainer && !tinymce.activeEditor.getParam('fullscreen_is_enabled') && tmceEdContainer.is(":visible")) {
+  if (tmceEdContainer && !tinyMCE.activeEditor.getParam('fullscreen_is_enabled') && tmceEdContainer.is(":visible")) {
     /* resize tinyMCE. */
     tmceEdContainer.closest(".mceLayout").height('auto'); // remove local height properties
     elem = tmceEdContainer.children('iframe');
@@ -1726,11 +1725,16 @@ $.NatEditor.prototype.fixHeight = function() {
     elem = $(self.txtarea);
   }
 
-  newHeight = windowHeight - elem.offset().top - self.bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
-
-  if ($debug.length) {
-    newHeight -= $debug.height();
+  if (!elem || !elem.length) {
+    return;
   }
+
+  newHeight = 
+    (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
+    - elem.position().top // editor's top position
+    - (elem.outerHeight(true) - elem.height()) // elem's padding
+    - (self.container.outerHeight(true) - self.container.height()) // container's padding
+    - 4;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
@@ -1741,10 +1745,10 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
-    $.log("NATEDIT: fixHeight height=",newHeight);
+    //$.log("fixHeight height=",newHeight,"container.height=",self.container.height());
     elem.height(newHeight);
   } else {
-    $.log("NATEDIT: not fixHeight elem not yet visible");
+    //$.log("not fixHeight elem not yet visible");
   }
 };
 
@@ -2630,7 +2634,7 @@ $.fn.natedit = function(opts) {
   // build main options before element iteration
   var thisOpts = $.extend({}, $.NatEditor.defaults, opts);
 
-  if (this.is(".foswikiWysiwygEdit") && typeof(tinymce) !== 'undefined') {
+  if (this.is(".foswikiWysiwygEdit") && typeof(tinyMCE) !== 'undefined') {
     thisOpts.showToolbar = false;
   }
 

@@ -789,8 +789,8 @@ THIS
     # Check we got a 401
     my ($status) = $text =~ m/^Status: (\d+)\r?$/m;
     $this->assert_not_null( $status, "Request did not return a Status header" );
-    $this->assert_equals( 401, $status,
-        "Request should have returned a 401, not a $status" );
+    $this->assert_equals( 200, $status,
+        "Request should have returned a 200, not a $status" );
 
     # Extract what we've been redirected to
     my ($formAction) =

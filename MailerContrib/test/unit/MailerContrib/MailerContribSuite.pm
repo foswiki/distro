@@ -303,6 +303,13 @@ sub set_up {
     # OK, we should have a bunch of changes
 }
 
+sub loadExtraConfig {
+    my $this = shift;
+    $this->SUPER::loadExtraConfig(@_);
+
+    $Foswiki::cfg{WebMasterEmail} = 'admin@foswikitest.net';
+}
+
 sub checkSpecs {
     my $this = shift;
 
