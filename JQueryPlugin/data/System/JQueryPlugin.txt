@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1515396964" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -134,7 +134,8 @@ required for Foswiki 1.1 or later.
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
                            Item14570: add "use strict" to farbtastic's init and fix js errors <br /> \
-                           Item14573: fixed auto-height calculation of tabpane |
+                           Item14573: fixed auto-height calculation of tabpane<br/>\
+                           Item14584: jquery.wikiword changed interpretation of source parameter in a incompatible way. |
 |   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5<br />\
                            Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.<br />\
                            Item14555: make build work with latest uglifyjs 3.<br />\

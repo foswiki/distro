@@ -185,6 +185,7 @@ sub loadExtraConfig {
     $Foswiki::cfg{Register}{EmailFilter}      = '';
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{Register}{NeedApproval}     = 0;
+    $Foswiki::cfg{WebMasterEmail}             = 'admin@foswikitest.net';
 }
 
 sub tear_down {

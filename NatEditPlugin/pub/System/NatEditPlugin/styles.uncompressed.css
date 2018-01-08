@@ -280,6 +280,9 @@ table.mceToolbar {
 #topic_tbl, #topic_ifr {
   width:100% !important; 
 }
+.ui-natedit .mce-container {
+  box-sizing:border-box;
+}
 
 /* pattern skin tweaks */
 .patternEditPage #patternMainContents {

@@ -1210,6 +1210,11 @@ $.NatEditor.prototype.fixHeight = function() {
     bottomBar = self.form.find(".natEditBottomBar"),
     newHeight;
 
+  // find elem, child of this
+  while (elem && elem.length && elem.parent().attr("id") != self.id) {
+    elem = elem.parent();
+  }
+
   if (!elem || !elem.length) {
     return;
   }
@@ -1217,8 +1222,9 @@ $.NatEditor.prototype.fixHeight = function() {
   newHeight = 
     (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
     - elem.position().top // editor's top position
-    - (elem.outerHeight(true) - elem.outerHeight()) // editor's padding
-    - (self.container.outerHeight(true) - self.container.outerHeight()); // container's padding
+    - (elem.outerHeight(true) - elem.height()) // elem's padding
+    - ((self.container.is(".ui-natedit-fullscreen"))?0:(self.container.outerHeight(true) - self.container.height())) // container's padding
+  ;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
