@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2017-12-16 21:41+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -448,8 +448,10 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
-msgid "*This text will be sent to users in their "
-msgstr "*Questo testo verrà inviato agli utenti nel loro "
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -6260,6 +6262,9 @@ msgstr "vista"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "il motivo per cui ti è stato chiesto di confermare"
+
+#~ msgid "*This text will be sent to users in their "
+#~ msgstr "*Questo testo verrà inviato agli utenti nel loro "
 
 #~ msgid "%1 has been approved and registered with e-mail %2"
 #~ msgstr "%1 è stato approvato e registrato con e-mail %2"

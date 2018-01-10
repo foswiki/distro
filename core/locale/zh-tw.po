@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
-"Report-Msgid-Bugs-To: foswiki-develop@lists.foswiki.org\n"
+"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2017-12-20 02:31+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -446,8 +446,10 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
-msgid "*This text will be sent to users in their "
-msgstr "*內文將會寄給使用者們到他們的 "
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -5904,6 +5906,9 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid "*This text will be sent to users in their "
+#~ msgstr "*內文將會寄給使用者們到他們的 "
 
 #~ msgid "%1 has been approved and registered with e-mail %2"
 #~ msgstr "%1 已使用電子郵件地址 %2 註冊並已認證"

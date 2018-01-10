@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-01-20 09:20+0200\n"
+"PO-Revision-Date: 2018-01-09 12:53+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/fr/>\n"
@@ -192,7 +192,7 @@ msgstr "La page %1 n'existe pas"
 
 #: core/templates/registermessages.tmpl:459
 msgid "%1 topic not found. No users registered."
-msgstr ""
+msgstr "Page %1 introuvable. Aucun utilisateur n'a été inscrit."
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -402,9 +402,10 @@ msgstr ""
 "votre ordinateur, c'est celui-là qui sera mis à jour ou ajouté."
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
-#, fuzzy
 msgid "*Bulk registration is restricted to Administrators.*"
-msgstr "L'accès aux inscriptions en attente est restreint aux administrateurs."
+msgstr ""
+"*L'accès aux inscriptions en masse (bulk registration) est restreint aux "
+"administrateurs.*"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -454,7 +455,9 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
-msgid "*This text will be sent to users in their "
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
@@ -955,9 +958,8 @@ msgid "Back to topic"
 msgstr "Revenir à la page"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
-#, fuzzy
 msgid "Back to:"
-msgstr "Revenir à la page"
+msgstr "Retour à :"
 
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
@@ -1000,14 +1002,15 @@ msgid "Both body and title"
 msgstr "Dans le titre et dans le texte"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
-#, fuzzy
 msgid "Bulk Register these users"
-msgstr "Utilisateurs inscrits"
+msgstr "Inscrire ces utilisateurs"
 
 #: core/templates/registermessages.tmpl:468
 msgid ""
 "Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
 msgstr ""
+"Inscription en masse (Bulk Registration) exécutée par %1 en date du %2. Voir "
+"[[%3]] pour plus d'informations."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
@@ -1734,9 +1737,8 @@ msgid "Edit this topic text (e)"
 msgstr "Modifier le texte de cette page (e)"
 
 #: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
-#, fuzzy
 msgid "Edit this topic to add a description to the %1"
-msgstr "Modifier le texte de cette page (e)"
+msgstr "Modifiez cette page pour ajouter une description au %1"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -3559,9 +3561,8 @@ msgid "Registration"
 msgstr "Inscription"
 
 #: core/templates/registermessages.tmpl:467
-#, fuzzy
 msgid "Registration Results Summary"
-msgstr "Inscription"
+msgstr "Récapitulatif des résultats de l'inscription"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
@@ -3730,9 +3731,8 @@ msgid "Request Validation"
 msgstr "Demande validation"
 
 #: core/templates/registermessages.tmpl:457
-#, fuzzy
 msgid "Requested bulk registration topic not found."
-msgstr "Inscription en cours non trouvée"
+msgstr "Page d'inscription en masse (Bulk Registration) demandée introuvable."
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3803,7 +3803,7 @@ msgstr "La restauration est désactivée car cette page est en version 1."
 
 #: core/templates/registermessages.tmpl:471
 msgid "Results"
-msgstr ""
+msgstr "Résultats"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5512,9 +5512,8 @@ msgstr ""
 "Attention : ce site n'autorise pas l'inclusion d'URLs avec %<nop>INCLUDE%"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-#, fuzzy
 msgid "Warning: Updates found for %1 extension(s): %2"
-msgstr "Attention : Mises à jour trouvées pour %1 extension(s)."
+msgstr "Attention : Mises à jour trouvées pour %1 extension(s): %2"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
@@ -6000,7 +5999,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
 msgid "_Be sure to remember to save any table changes!_"
-msgstr ""
+msgstr "_Assurez vous de sauvegarder tous changements à la table !_"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
