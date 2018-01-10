@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -447,8 +447,10 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
-msgid "*This text will be sent to users in their "
-msgstr "*Цей текст буде надіслано користувачам у їх "
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -6176,6 +6178,9 @@ msgstr "проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "чому у Вас запитують підтвердження"
+
+#~ msgid "*This text will be sent to users in their "
+#~ msgstr "*Цей текст буде надіслано користувачам у їх "
 
 #~ msgid "%1 has been approved and registered with e-mail %2"
 #~ msgstr "%1 було підтверджено та зареєстровано з адресою %2"

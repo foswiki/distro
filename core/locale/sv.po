@@ -464,7 +464,9 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
 #: core/templates/registermessages.tmpl:482
-msgid "*This text will be sent to users in their "
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
