@@ -870,6 +870,7 @@ Returns 1 on success, 0 on failure.
 sub checkPassword {
     my ( $this, $login, $password ) = @_;
     my ( $pw, $entry ) = $this->fetchPass($login);
+    my $passed = 0;
 
     # $pw will be 0 if there is no pw
     return 0 unless defined $pw && length($pw);
@@ -877,7 +878,7 @@ sub checkPassword {
     if ( $entry->{enc} eq 'argon2i' ) {
         if ( $this->{ARGON2} ) {
             $this->{error} = '';
-            return Crypt::Argon2::argon2i_verify( $pw, $password );
+            $passed = Crypt::Argon2::argon2i_verify( $pw, $password );
         }
         else {
             $this->{error} =
@@ -886,34 +887,27 @@ sub checkPassword {
             return 0;
         }
     }
+    else {
+        my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
+        return 0 unless ($encryptedPassword);
 
-    my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
-    return 0 unless ($encryptedPassword);
+        $this->{error} = undef;    # encrypt() will set the error string
 
-    $this->{error} = undef;
-
-    #print STDERR "Checking $pw against $encryptedPassword\n" if (TRACE);
-
-    if ( length($pw) != length($encryptedPassword) ) {
-
-    #print STDERR "Fail on length mismatch ($pw) vs enc ($encryptedPassword)\n";
-        $this->{error} = 'Invalid user/password';
-        return 0;
+        if ( length($pw) == length($encryptedPassword) ) {
+            $passed = 1 if ( $pw && ( $encryptedPassword eq $pw ) );
+        }
     }
 
-    if (   $Foswiki::cfg{Htpasswd}{ForceChangeEncoding}
-        && $entry->{enc} ne $Foswiki::cfg{Htpasswd}{Encoding} )
-    {
-        Foswiki::Func::setSessionValue( 'FOSWIKI_TOPICRESTRICTION',
-            'System.ChangePassword' );
+    if ($passed) {
+        if (   $Foswiki::cfg{Htpasswd}{ForceChangeEncoding}
+            && $entry->{enc} ne $Foswiki::cfg{Htpasswd}{Encoding} )
+        {
+            $this->{error} = 'Password change required';
+            Foswiki::Func::setSessionValue( 'FOSWIKI_TOPICRESTRICTION',
+                'System.ChangePassword' );
+        }
+        return 1;
     }
-
-    return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
-
-    # pw may validly be '', and must match an unencrypted ''. This is
-    # to allow for sysadmins removing the password field in .htpasswd in
-    # order to reset the password.
-    return 1 if ( defined $password && $pw eq '' && $password eq '' );
 
     $this->{error} = 'Invalid user/password';
     return 0;

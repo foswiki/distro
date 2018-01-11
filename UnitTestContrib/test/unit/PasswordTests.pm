@@ -127,7 +127,7 @@ sub doTests {
             $this->{users2}->{$user}->{pass}
         );
         $this->assert( !$added );
-        $this->assert_not_null( $impl->error() );
+        $this->assert_str_equals( 'Invalid user/password', $impl->error() );
     }
     if ($salted) {
 
@@ -159,7 +159,7 @@ sub doTests {
         $this->assert_null( $impl->error() );
     }
     $this->assert( !$impl->removeUser('notauser') );
-    $this->assert_not_null( $impl->error() );
+    $this->assert_str_equals( 'No such user notauser', $impl->error() );
 
     #findUserByEmail - new API method added in 2012 (1.2.0
     if ( $impl->isManagingEmails() ) {
@@ -290,6 +290,42 @@ sub test_random_Pass {
     my $pass3 = Foswiki::Users::randomPassword();
     $this->assert_str_not_equals( $pass3, $pass2,
         'Should not return same password twice' );
+
+}
+
+sub test_forced_change {
+    my $this = shift;
+
+    my %encrapted;
+    my $user = 'budgie';
+
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt-md5';
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache() if $impl->can('ClearCache');
+    $this->assert($impl);
+
+    my $added = $impl->setPassword( $user, $this->{users1}->{$user}->{pass} );
+
+    $this->assert_null( $impl->error() );
+    $this->assert($added);
+    $impl->setEmails( $user, $this->{users1}->{$user}->{emails} );
+    $this->assert_null( $impl->error() );
+    $encrapted{$user} = $impl->fetchPass($user);
+    $this->assert_null( $impl->error() );
+    $this->assert( $encrapted{$user} );
+
+    $this->assert(
+        $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
+        "checkPass failed" );
+
+    $Foswiki::cfg{Htpasswd}{ForceChangeEncoding} = 1;
+    $Foswiki::cfg{Htpasswd}{Encoding}            = 'htdigest-md5';
+
+    $this->assert(
+        $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
+        "checkPass failed" );
+    $this->assert_str_equals( 'Password change required', $impl->error() );
 
 }
 
