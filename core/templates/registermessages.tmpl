@@ -139,16 +139,6 @@
 %MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"passwords_disabled"}%
----+++ %MAKETEXT{"Passwords disabled"}%
-
-%MAKETEXT{"The Administrator has disabled password changes."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"Your password has not been changed."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"thanks"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
    * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
@@ -272,14 +262,6 @@
 %MAKETEXT{"The prefix you entered for the deleted user is not valid as a topic name."}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"reset_ok"}%
-%PARAM1%
-
-%MAKETEXT{"Users with automatically generated passwords should proceed immediately to ~[~[[_1]~]~[change password~]~] to change their password to something memorable." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ChangePassword"}%
-
-*[[%BASEWEB%.%BASETOPIC%][%MAKETEXT{"OK"}%]]*
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"user_param_required"}%

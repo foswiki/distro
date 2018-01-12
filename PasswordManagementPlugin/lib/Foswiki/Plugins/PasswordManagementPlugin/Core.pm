@@ -632,9 +632,19 @@ sub _RESTchangeEmail {
         throw Foswiki::OopsException(
             'password',
             status => 200,
-            topic  => $Foswiki::cfg{hometopicname},
+            topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'not_a_user',
-            params => [$user],
+            params => [$login],
+        );
+    }
+
+    if ( $users->isInUserList( $user, \@notsupported ) ) {
+        throw Foswiki::OopsException(
+            'password',
+            status => 200,
+            topic  => $Foswiki::cfg{HomeTOpicName},
+            def    => 'no_change_base',
+            params => [$login],
         );
     }
 
@@ -684,6 +694,41 @@ sub _RESTchangeEmail {
             web    => $webName,
             topic  => $topic,
             def    => 'bad_email',
+            params => [$email]
+        );
+    }
+
+    # Optional check if email address is already registered
+    if ( $Foswiki::cfg{Register}{UniqueEmail} ) {
+        my @existingNames = Foswiki::Func::emailToWikiNames($email);
+        if ( scalar(@existingNames) ) {
+            $session->logger->log( 'warning',
+                "Email change rejected: $email already registered by: "
+                  . join( ', ', @existingNames ) );
+            throw Foswiki::OopsException(
+                'password',
+                web    => $webName,
+                topic  => $topic,
+                def    => 'dup_email',
+                params => [$email]
+            );
+        }
+    }
+
+    my $emailFilter;
+    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix
+      if ( length( $Foswiki::cfg{Register}{EmailFilter} ) );
+    if ( defined $emailFilter
+        && $email =~ $emailFilter )
+    {
+        $session->logger->log( 'warning',
+"Email change rejected: $email rejected by the {Register}{EmailFilter}."
+        );
+        throw Foswiki::OopsException(
+            'password',
+            def    => 'rej_email',
+            web    => $webname,
+            topic  => $topic,
             params => [$email]
         );
     }
