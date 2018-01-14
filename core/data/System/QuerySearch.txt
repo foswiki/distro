@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1480472285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1515946105" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -234,9 +234,9 @@ will return an array of the values of the Published field in all versions author
    * =lc(name)=~'.*ann.*'= - Would match Anne, Maryann, !MaryAnn,  !AnnMarie...
 
 ---+++ Search examples
-Find all topics that are children of this topic in the current web
+Find all topics that are children of this topic in the current web. (The parent can be stored with or without the web name. The web name is typically added if a topic or its parent is moved/renamed.)
 <verbatim class="tml">
-%SEARCH{"parent.name = '%TOPIC%'" web="%WEB%" type="query"}%
+%SEARCH{"parent.name='%TOPIC%' OR parent.name='%WEB%.%TOPIC%'" web="%WEB%" type="query"}%
 </verbatim>
 Find all topics that have an attachment called 'grunge.gif'
 <verbatim class="tml">
