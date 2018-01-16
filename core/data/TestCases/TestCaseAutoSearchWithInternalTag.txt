@@ -7,7 +7,7 @@ Description: Tags embedded in the format option must expand correcly
 Designed by: Crawford Currie
 
 <verbatim>
-%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%
+%SEARCH{"%TOPIC%" topic="%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%
 </verbatim>
 
 <!--
@@ -22,14 +22,14 @@ Fixture for test: TestCaseAutoSearchWithInternalTag
 <!-- expected -->Test Passed Ok<!-- /expected -->
 </td>
 <td>
-<!-- actual -->%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
+<!-- actual -->%SEARCH{"%TOPIC%" topic="%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
 </td>
 </tr>
 <tr><td>
 <!-- expected -->Test Passed Ok<!-- /expected -->
 </td>
 <td>
-<!-- actual -->%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop$percnt" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
+<!-- actual -->%SEARCH{"%TOPIC%" topic="%TOPIC%" format="$percntINCLUDE{ $topic }$nop$percnt" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
 </td>
 </tr>
 </table>
