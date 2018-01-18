@@ -65,7 +65,6 @@ sub _handleURLPARAMValue {
     my ( $value, $newLine, $encode, $default ) = @_;
 
     if ( defined $value ) {
-        $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
         foreach my $e ( split( /\s*,\s*/, $encode ) ) {
             if ( $e =~ m/entit(y|ies)/i ) {
                 $value = entityEncode($value);
@@ -86,6 +85,7 @@ sub _handleURLPARAMValue {
                 $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
             }
         }
+        $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
     }
     unless ( defined $value ) {
         $value = $default;
