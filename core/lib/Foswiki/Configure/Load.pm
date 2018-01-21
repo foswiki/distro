@@ -338,7 +338,7 @@ sub findDependencies {
         }
     }
     else {
-        while ( $fwcfg =~ m/\$Foswiki::cfg(({[^}]*})+)/g ) {
+        while ( $fwcfg =~ m/\$Foswiki::cfg((\{[^}]*\})+)/g ) {
             push( @{ $deps->{forward}->{$1} },       $keypath );
             push( @{ $deps->{reverse}->{$keypath} }, $1 );
         }

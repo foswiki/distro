@@ -104,7 +104,7 @@ use constant OPS => qw (match and eq lc lte not ref d2n gte length lt ob
 sub new {
     my ( $class, $options ) = @_;
 
-    $options->{words}     ||= qr/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i;
+    $options->{words}     ||= qr/([A-Z:][A-Z0-9_:]*|(\{[A-Z][A-Z0-9_]*\})+)/i;
     $options->{nodeClass} ||= 'Foswiki::Query::Node';
     my $this = $class->SUPER::new($options);
     foreach my $op ( OPS() ) {

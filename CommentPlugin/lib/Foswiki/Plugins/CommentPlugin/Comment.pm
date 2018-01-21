@@ -342,7 +342,7 @@ sub comment {
                 # Position relative to index'th comment
                 my $idx = 0;
                 unless (
-                    $text =~ s((%COMMENT({.*?})?%.*\n))
+                    $text =~ s((%COMMENT(\{.*?\})?%.*\n))
                           (&_nth($1,\$idx,$position,$index,$output))eg
                   )
                 {
@@ -360,7 +360,7 @@ sub comment {
 
         # remove the index'th comment box
         my $idx = 0;
-        $text =~ s/(%COMMENT({.*?})?%)/_remove_nth($1,\$idx,$remove)/eg;
+        $text =~ s/(%COMMENT(\{.*?\})?%)/_remove_nth($1,\$idx,$remove)/eg;
     }
 
     return ( $meta, $text, $position, $output );
