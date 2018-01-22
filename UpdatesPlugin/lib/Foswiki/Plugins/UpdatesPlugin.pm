@@ -40,9 +40,10 @@ sub initPlugin {
     my $outdatedPlugins;
     $outdatedPlugins = $request->cookie("FOSWIKI_UPDATESPLUGIN") unless TRACE;
 
-    return 1
-      if defined($outdatedPlugins)
-      && scalar( split( /\s*,\s*/, $outdatedPlugins ) ) <= 0;    # 0: DoNothing
+    if ( defined $outdatedPlugins ) {
+        my @staleplugins = split( /\s*,\s*/, $outdatedPlugins );
+        return 1 if scalar(@staleplugins) <= 0;
+    }
 
     Foswiki::Func::readTemplate("updatesplugin");
 
