@@ -11,7 +11,7 @@ use Foswiki::AccessControlException ();
 # =========================
 #   Simple decimal version,  no leading "v"
 our $VERSION           = "1.14";
-our $RELEASE           = '01 Sep 2017';
+our $RELEASE           = '22 Jan 2018';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
