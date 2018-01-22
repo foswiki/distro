@@ -50,8 +50,8 @@ If compression is enabled, it also compresses the language file.
 sub onSave {
     my ( $this, $reporter, $key, $d, $old_dir ) = @_;
 
-    $d       =~ s/\$Foswiki::cfg({\w+})+/eval( "\$Foswiki::cfg$1")/ge;
-    $old_dir =~ s/\$Foswiki::cfg({\w+})+/eval( "\$Foswiki::cfg$1")/ge;
+    $d       =~ s/\$Foswiki::cfg(\{\w+\})+/eval( "\$Foswiki::cfg$1")/ge;
+    $old_dir =~ s/\$Foswiki::cfg(\{\w+\})+/eval( "\$Foswiki::cfg$1")/ge;
 
     return if ( $d eq $old_dir );
 
@@ -109,7 +109,7 @@ sub onSave {
 
     # Automatic upgrade of work_areas
     my $existing = $old_dir || $Foswiki::cfg{Store}{WorkAreaDir} || '';
-    $existing =~ s/\$Foswiki::cfg({\w+})+/eval( "$Foswiki::cfg$1")/ge;
+    $existing =~ s/\$Foswiki::cfg(\{\w+\})+/eval( "$Foswiki::cfg$1")/ge;
     if ( $existing && -d $existing ) {
 
         # Try and move the contents of the old workarea

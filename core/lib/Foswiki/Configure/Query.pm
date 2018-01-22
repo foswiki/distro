@@ -446,7 +446,7 @@ sub check_current_value {
             $e = $e->[0];
 
             # Expand {x} as $Foswiki::cfg{x}
-            $e =~ s/(({[^}]+})+)/\$Foswiki::cfg$1/g;
+            $e =~ s/((\{[^}]+\})+)/\$Foswiki::cfg$1/g;
             if ( $e =~ m/\S/ ) {
                 my $only_if;
                 eval("\$only_if=$e");
