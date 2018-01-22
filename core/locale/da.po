@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: foswiki-developers@lists.foswiki.org\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-06-15 06:35+0200\n"
+"PO-Revision-Date: 2018-01-22 21:59+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5368,9 +5368,8 @@ msgstr ""
 "af URL'er"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-#, fuzzy
 msgid "Warning: Updates found for %1 extension(s): %2"
-msgstr "Advarsel: Opdateringer fundet for %1 extension(s)."
+msgstr "Advarsel: Opdateringer fundet for %1 extension(s): %2"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
