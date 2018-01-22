@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1513079351" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1516634672" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -193,7 +193,7 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 
 %TABLE{columnwidths="10%,90%"}%
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  12 Dec 2017 | 1.160: Foswikitask:Item14574 - fixed cellspacing, cellpadding and tableborder using css properties instead of html attributes now |
+|  22 Jan 2018 | 1.160: Foswikitask:Item14574 - fixed cellspacing, cellpadding and tableborder using css properties instead of html attributes now |
 |  03 Feb 2016 | 1.154: Foswikitask:Item13881 - Unicode column heading are incorrectly encoded,<br/>\
                         Foswikitask:Item13405 - Unicode NFC normalization |
 |  30 Dec 2015 | 1.153: Foswikitask:Item13436 - Add class parameter to the TABLE macro to permit custom class specifications. |
