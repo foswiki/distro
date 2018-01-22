@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1515465502" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1516632401" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.5-RC
+---+!! Foswiki Release 2.1.5
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -56,7 +56,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.2 was built on 02 May 2016. It is a release that contains 1 fix.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
-   * Foswiki 2.1.5-RC was built on 9 Jan 2018. It is a release that contains 42 fixes and 5 enhancements.
+   * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -588,6 +588,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14589][Item14589]] | Invalid help link when editing topic preferences. |
 | [[%BUGS%/Item14590][Item14590]] | Missing closing tag in html diff of mailnotify. |
 | [[%BUGS%/Item14591][Item14591]] | Store fails to read old revisions with RcsWrap store, if <code>.txt</code> file is modified. |
+| [[%BUGS%/Item14605][Item14605]] | Unescaped brace in Regular Expression, Perl 5.27.8. |
 
 ---+++ Enhancements
 
