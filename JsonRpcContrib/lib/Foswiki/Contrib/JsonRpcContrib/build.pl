@@ -6,7 +6,5 @@ use Foswiki::Contrib::Build;
 
 # Create the build object
 my $build = new Foswiki::Contrib::Build('JsonRpcContrib');
-
-# Build the target on the command line, or the default target
 $build->build( $build->{target} );
 
