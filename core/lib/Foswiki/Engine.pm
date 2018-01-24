@@ -523,6 +523,8 @@ sub _getConnectionData {
 
     my $detectProxy = shift;
 
+    # $detectProxy = 'b';     #Force debug tracing (ie bootstrap mode)
+
     my ( $client, $proto, $host, $port, $proxy );
 
     # These are the defaults populated in a conventional server, no proxy
@@ -598,7 +600,6 @@ sub _getConnectionData {
         }
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_PORT} ) {
-            print STDERR "HEADER $hdr\n";
             my $first = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $first ) {
                 $fwdPort = $first;

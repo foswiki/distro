@@ -55,13 +55,16 @@ sub setUrl {
         my $host     = $2;
         if ( $protocol =~ /https/i ) {
             $this->secure(1);
+            $ENV{HTTPS} = 'ON';
         }
         else {
             $this->secure(0);
+            $ENV{HTTPS} = undef;
         }
 
         #print STDERR "setting Host to $host\n";
         $this->header( -name => 'Host', -value => $host );
+        $ENV{HTTP_HOST} = $host;
     }
 
     my @pairs = split /[&;]/, $urlParams;

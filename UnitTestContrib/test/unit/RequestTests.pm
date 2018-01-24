@@ -236,10 +236,71 @@ sub test_queryString {
     );
 }
 
+sub test_forwarded_for {
+    my $this = shift;
+    $ENV{HOST}                   = "myhost.com";
+    $ENV{HTTP_X_FORWARDED_FOR}   = '1.2.3.4';
+    $ENV{HTTP_X_FORWARDED_HOST}  = 'hop1.com, hop2.com';
+    $ENV{HTTP_X_FORWARDED_PROTO} = 'https';
+
+    #$ENV{HTTP_X_FORWARDED_PORT}  = '443';
+    $Foswiki::cfg{PROXY}{UseForwardedFor}     = 1;
+    $Foswiki::cfg{PROXY}{UseForwardedHeaders} = 1;
+
+    my $req = new Foswiki::Request("");
+    $req->secure('1');
+    $req->action('view');
+    $req->path_info('/Main/WebHome');
+
+    # These are not needed.   HTTP_ env variables are parsed from the headers
+    # by the server.  Foswiki::Request::url calls Engine::_getConnectionData
+    # which processes the headers
+    #$req->header( Host               => 'myhost.com' );
+    #$req->header( 'X-Forwarded-Host' => 'hop1.com,  hop2.com' );
+
+    my $base = 'https://hop1.com';
+    $this->assert_str_equals(
+        $base,
+        $req->url( -base => 1 ),
+        'Wrong BASE url with Forwarded-Host header'
+    );
+
+    # Verify that port is recovered from first forwarded host
+    $ENV{HTTP_X_FORWARDED_HOST} = 'onehop.com:8080, hop2.com';
+    $base = 'https://onehop.com:8080';
+    $this->assert_str_equals(
+        $base,
+        $req->url( -base => 1 ),
+        'Wrong BASE url with Forwarded-Host multiple header'
+    );
+
+    # Verify that Forwarded-Port overrides forwarded host port
+    $ENV{HTTP_X_FORWARDED_HOST} = 'onehop.com:8080, hop2.com';
+    $ENV{HTTP_X_FORWARDED_PORT} = '443';
+    $base                       = 'https://onehop.com';
+    $this->assert_str_equals(
+        $base,
+        $req->url( -base => 1 ),
+        'Wrong BASE url with Forwarded-Host multiple header'
+    );
+
+    $base = 'http://your.domain.com';
+    $Foswiki::cfg{ForceDefaultUrlHost} = 1;
+    $this->assert_str_equals(
+        $base,
+        $req->url( -base => 1 ),
+        'Wrong BASE url with Forwarded-Host single header + forceDefaultUrlHost'
+    );
+
+}
+
 sub perform_url_test {
     my $this = shift;
     my $req  = new Foswiki::Request("");
     my ( $secure, $host, $action, $path ) = @_;
+    $ENV{HTTP_HOST} = $host;
+    $ENV{HTTPS} = ($secure) ? 'ON' : undef;
+
     $req->secure($secure);
     $req->header( Host => $host );
     $req->action($action);
