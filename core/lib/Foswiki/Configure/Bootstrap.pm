@@ -421,7 +421,8 @@ Called by bootstrapConfig.  This handles the web environment specific settings o
 =cut
 
 sub bootstrapWebSettings {
-    my $script = shift;
+    my $script   = shift;
+    my $proxyMsg = '';
 
     local $Data::Dumper::Sortkeys = 1;
     local $Data::Dumper::Varname  = 'ENV';
@@ -440,66 +441,49 @@ sub bootstrapWebSettings {
         return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
     }
 
-    my $protocol = $ENV{HTTPS} ? 'https' : 'http';
     $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
-# Figure out the DefaultUrlHost - First check if there is a proxy forwarding requests
-# SMELL: This fails to account for multiple proxies where the forwarded_host is a list of proxies.
-    if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
+    # Probe the connection data in bootstrap mode
+    my ( $client, $protocol, $host, $port, $proxy ) =
+      Foswiki::Engine::_getConnectionData('b');
 
-# Detect if HTTPS in use.  Browsers appear to set the UPGRADE flag, and the json requests
-# for configure all come in with a https referer.
+    print STDERR
+"AUTOCONFIG: Engine detected:  client ($client) proto ($protocol) host ($host) port ($port) proxy ($proxy) )\n"
+      if (TRAUTO);
+    $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
+
+    if ($proxy) {
+        $Foswiki::cfg{ForceDefaultUrlHost} = 1;
+        $proxyMsg = <<PROXY;
+%BR% A Proxy server was detected. {ForceDefaultUrlHost} has been enabled. 
+
+If this page is rendered without any styles and you are using SSL (https), your proxy server may be misconfigured.
+It must generate the =X-Forwarded-Proto header=. Try adding ?SSL=1 to the Foswiki URL to bypass this issue.
+PROXY
+        print STDERR
+"AUTOCONFIG: Proxy configuration detected. {ForceDefaultUrlHost} has been enabled.\n"
+          if (TRAUTO);
+    }
+
+    # Double-check protocol in case headers are incomplete
+    if ( $protocol eq 'http' ) {
         if (
             ( $ENV{QUERY_STRING} && $ENV{QUERY_STRING} =~ m/\bSSL=1\b/i )
             || (   $ENV{HTTP_REFERER}
-                && $ENV{HTTP_REFERER} =~
-                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E# )
+                && $ENV{HTTP_REFERER} =~ m#^https://\Q$host\E# )
           )
         {
         # Browser is asking for https or refered from https, so override protcol
             $protocol = 'https';
-            print STDERR "AUTOCONFIG: Detected HTTPS\n";
+            print STDERR
+"AUTOCONFIG: Overriding protocol to HTTPS from QUERY_STRING or REFERRER\n";
         }
+    }
 
-        my $vh = ( split /[, ]+/, $ENV{HTTP_X_FORWARDED_HOST} )[0];
+    $Foswiki::cfg{DefaultUrlHost} = "$protocol://" . $host . $port;
 
-        $Foswiki::cfg{DefaultUrlHost} = "$protocol://" . $vh;
-        $Foswiki::cfg{ForceDefaultUrlHost} =
-          1;    # Force the URL host when behind a proxy
-
-        print STDERR "AUTOCONFIG: Forcing DefaultUrlHost "
-          . $Foswiki::cfg{DefaultUrlHost}
-          . " from Proxy HTTP_X_FORWARDED_HOST "
-          . $ENV{HTTP_X_FORWARDED_HOST} . " \n"
-          if (TRAUTO);
-    }
-    elsif ( $ENV{HTTP_HOST} ) {
-        $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
-        print STDERR
-"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from HTTP_HOST $ENV{HTTP_HOST} \n"
-          if (TRAUTO);
-    }
-    elsif ( $ENV{SERVER_NAME} ) {
-        $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{SERVER_NAME}";
-        print STDERR
-"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from SERVER_NAME $ENV{SERVER_NAME} \n"
-          if (TRAUTO);
-    }
-    elsif ( $ENV{SCRIPT_URI} ) {
-        ( $Foswiki::cfg{DefaultUrlHost} ) =
-          $ENV{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
-        print STDERR
-"AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from SCRIPT_URI $ENV{SCRIPT_URI} \n"
-          if (TRAUTO);
-    }
-    else {
-
-        # OK, so this is barfilicious. Think of something better.
-        $Foswiki::cfg{DefaultUrlHost} = "$protocol://localhost";
-        print STDERR
-"AUTOCONFIG: barfilicious: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} \n"
-          if (TRAUTO);
-    }
+    print STDERR
+      "AUTOCONFIG: Set ($Foswiki::cfg{DefaultUrlHost}) from detected\n";
 
 # Examine the CGI path.   The 'view' script it typically removed from the
 # URL when using "Short URLs.  If this BEGIN block is being run by
@@ -646,6 +630,7 @@ To complete the bootstrap process you should either:
 %BR% *You have been logged in as a temporary administrator.*
 Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
 Your temporary administrator rights will "stick" until you've logged out from this session.
+$proxyMsg
 BOOTS
 
     #'

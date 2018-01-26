@@ -105,24 +105,17 @@ sub run {
 sub prepareConnection {
     my ( $this, $req ) = @_;
 
-    $req->remoteAddress( $ENV{REMOTE_ADDR} );
-    if ( $Foswiki::cfg{PROXY}{UseForwardedForHeader}
-        && defined $ENV{HTTP_X_FORWARDED_FOR} )
-    {
-        my @addrs = split /,\s?/, $ENV{HTTP_X_FORWARDED_FOR};
-        $req->remoteAddress( $addrs[0] );
-    }
+    my ( $client, $protocol, $host, $port ) =
+      Foswiki::Engine::_getConnectionData();
 
+    $req->remoteAddress($client);
+    $req->serverPort($port);
+    $req->header( -name => 'Host', -value => $host );
     $req->method( $ENV{REQUEST_METHOD} );
-
-    if ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) {
+    if ( $protocol eq 'https' ) {
         $req->secure(1);
     }
-
-    if ( $ENV{SERVER_PORT} && $ENV{SERVER_PORT} == 443 ) {
-        $req->secure(1);
-    }
-    $req->serverPort( $ENV{SERVER_PORT} );
+    $req->serverPort($port);
 }
 
 sub prepareQueryParameters {
@@ -136,6 +129,7 @@ sub prepareHeaders {
     foreach my $header ( keys %ENV ) {
         next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^HTTPS?_//;
+        next if ( $field eq 'HOST' );    # HOST set in prepareConnection
         $req->header( $field => $ENV{$header} );
     }
     $req->remoteUser( $ENV{REMOTE_USER} );

@@ -310,16 +310,12 @@ sub url {
             $url = $Foswiki::cfg{DefaultUrlHost};
         }
         else {
-            my $host;
-            if ( $this->header('X-Forwarded-Host') ) {
-                $host = ( split /[, ]+/, $this->header('X-Forwarded-Host') )[0];
-            }
-            else {
-                $host = $this->header('Host');
-            }
+            my ( $client, $protocol, $host, $port ) =
+              Foswiki::Engine::_getConnectionData();
+            $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
             $url =
                 $host
-              ? $this->protocol . '://' . $host
+              ? $protocol . '://' . $host . $port
               : $Foswiki::cfg{DefaultUrlHost};
         }
         return $url if $base;

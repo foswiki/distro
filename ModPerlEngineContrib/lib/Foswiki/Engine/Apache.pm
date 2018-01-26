@@ -102,6 +102,16 @@ sub prepareConnection {
         ? $this->{r}->connection->remote_ip
         : $this->{r}->connection->client_ip
     );
+
+    # SMELL:  Mod_perl should do this automatically ... see
+    # http://search.cpan.org/dist/Apache2-xForwardedFor/lib/Apache2/xForwardedFor.pm
+    if ( $Foswiki::cfg{PROXY}{UseForwardedFor}
+        && defined $ENV{HTTP_X_FORWARDED_FOR} )
+    {
+        my @addrs = split /,\s?/, $ENV{HTTP_X_FORWARDED_FOR};
+        $req->remoteAddress( $addrs[0] );
+    }
+
     if ( $INC{'Apache2/ModSSL.pm'} ) {
         $req->secure( $this->{r}->connection->is_https ? 1 : 0 );
     }
@@ -126,13 +136,6 @@ sub prepareHeaders {
         $req->header( $header => $value );
     }
     $req->remoteUser( $this->{r}->user );
-    if ( $Foswiki::cfg{BehindProxy} ) {
-        if ( my $source = $req->header('X-Forwarded-For') ) {
-            my $ip = ( split /[, ]+/, $source )[0];
-            $req->remoteAddress($1)
-              if defined $ip and $ip =~ /^((?:\d{1,3}\.){3}\d{1,3})$/;
-        }
-    }
 }
 
 sub preparePath {
