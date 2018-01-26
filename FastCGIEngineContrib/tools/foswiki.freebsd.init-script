@@ -1,0 +1,67 @@
+#!/bin/sh
+#
+# Foswiki startup script for freebsd - dave@jetcafe.org
+# For more details see https://foswiki.org/Support/FoswikiOnFreeBSD
+#
+### BEGIN INIT INFO
+# PROVIDE:	foswiki
+# REQUIRE:	LOGIN
+# KEYWORD:	shutdown
+### END INIT INFO
+
+. /etc/rc.subr
+name="foswiki"
+rcvar=foswiki_enable
+
+load_rc_config ${name}
+: ${foswiki_enable:="NO"}
+
+#: ${foswiki_bind:="/var/run/foswiki/foswiki.sock"}
+: ${foswiki_bind:="127.0.0.1:9000"}
+: ${foswiki_check_size:=10}
+: ${foswiki_children:=3}
+: ${foswiki_fcgi:="foswiki.fcgi"}
+: ${foswiki_group:="foswiki"}
+: ${foswiki_max_requests:=-1}
+: ${foswiki_max_size:=250000}
+: ${foswiki_user:="foswiki"}
+: ${foswiki_pidfile:="/var/run/foswiki/foswiki.pid"}
+: ${foswiki_quiet:="YES"}
+: ${foswiki_root:="/usr/local/www/foswiki"}
+: ${foswiki_procname:="foswiki"}
+
+: ${foswiki_sock_user:="foswiki"}
+: ${foswiki_sock_group:="nginx"}
+: ${foswiki_sock_mode:="660"}
+
+procname="${foswiki_procname}-fcgi-pm"
+
+command="${foswiki_root}/bin/${foswiki_fcgi}"
+command_args=" -n ${foswiki_children}  -l ${foswiki_bind}  -p ${foswiki_pidfile}  -d -c ${foswiki_check_size}  -x ${foswiki_max_requests}  -s ${foswiki_max_size} -a ${foswiki_procname}"
+
+if [ "x${foswiki_quiet}" = "xYES" ] ; then
+  commmand_args="${command_args} -q"
+fi
+
+extra_commands="reload"
+
+foswiki_chdir="${foswiki_root}/bin"
+
+# This allows setting the permissions of the actual unix domain socket
+start_postcmd="foswiki_socket_perms"
+foswiki_socket_perms() 
+{
+    case `echo ${foswiki_bind} | cut -c 1` in
+    /)
+       chown ${foswiki_sock_user}:${foswiki_sock_group} ${foswiki_bind} 
+       chmod ${foswiki_sock_mode} ${foswiki_bind}
+       ls -l ${foswiki_bind}
+       return 0
+       ;;
+    *)
+       return 0
+       ;;
+    esac
+}
+
+run_rc_command "$1"

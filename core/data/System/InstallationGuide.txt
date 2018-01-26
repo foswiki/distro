@@ -241,14 +241,12 @@ perl tools/dependencies </verbatim>
    * Ask for help on [[Foswiki:Community.InternetRelayChat][IRC]] (irc.freenode.net, channel #foswiki). There are often a number of people waiting to help.
    * Ask a question in the Foswiki:Support web
 
-
 ---++ Supplemental Information For Installation
 
 #SystemRequirements
 ---+++ System Requirements
 
 %INCLUDE{"SystemRequirements"}%
-
 
 #UploadingFoswikiDistribution
 ---+++ Uploading the Foswiki distribution to your web server host
@@ -440,7 +438,6 @@ If a plugin exists both in a TWiki version and a Foswiki version, it is strongly
 
 #TWikiTrademark
 TWiki is a registered trademark of Peter Thoeny.
-
 
 *Related Topics:* %IF{"$skin = 'plain'" then="<nop>System.<nop>InstallationGuidePart2 in your installation" else="[[InstallationGuidePart2]]"}%, %IF{"$skin = 'plain'" then="<nop>System.<nop>AdminDocumentationCategory in your installation" else="[[AdminDocumentationCategory]]"}%, Foswiki:Support.SupplementalDocuments
 

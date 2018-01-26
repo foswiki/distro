@@ -135,11 +135,15 @@ sub readConfig {
                 $errorMessage = "Failed to parse $file: $@";
                 warn "couldn't parse $file: $@" if $@;
             }
-            next if ( !DEBUG && ( $file =~ m/Config\.spec$/ ) );
+
+            # Survive an unparseable Config.spec. It has been warned above.
+            next unless $file eq 'LocalSite.cfg';
+
             if ( not defined $return ) {
+
+                # Non-existant LocalSite.cfg is OK
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
-                    # LocalSite.cfg doesn't exist, which is OK
                     warn "couldn't do $file: $!";
                     $errorMessage = "Could not do $file: $!";
                 }
@@ -338,7 +342,7 @@ sub findDependencies {
         }
     }
     else {
-        while ( $fwcfg =~ m/\$Foswiki::cfg(({[^}]*})+)/g ) {
+        while ( $fwcfg =~ m/\$Foswiki::cfg((\{[^}]*\})+)/g ) {
             push( @{ $deps->{forward}->{$1} },       $keypath );
             push( @{ $deps->{reverse}->{$keypath} }, $1 );
         }

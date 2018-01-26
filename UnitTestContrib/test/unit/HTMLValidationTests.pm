@@ -8,6 +8,9 @@ use warnings;
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
+use Unit::Request;
+use Unit::Request::Attachment;
+
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::View();
@@ -16,6 +19,7 @@ use Error qw( :try );
 
 my $UI_FN;
 my $SCRIPT_NAME;
+my $REQUEST;
 my $SKIN_NAME;
 my %expected_status = (
     search => 302,
@@ -117,7 +121,8 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
         }
         next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
-        my $package  = $dispatcher->{package} || 'Foswiki::UI';
+        my $package = $dispatcher->{package} || 'Foswiki::UI';
+        my $request = $dispatcher->{request} || 'Foswiki::Request';
         my $function = $dispatcher->{function};
         my $sub      = $package . '::' . $function;
 
@@ -130,6 +135,7 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
                         eval "require $package" if ( defined($package) );
                         $UI_FN       = $sub;
                         $SCRIPT_NAME = $script;
+                        $REQUEST     = $request;
                     };
                     use strict 'refs';
                     1;
@@ -174,7 +180,13 @@ sub call_UI_FN {
     if ($params) {
         %constructor = ( %constructor, %{$params} );
     }
-    my $query = Unit::Request->new( \%constructor );
+    my $query;
+
+    my $request = $REQUEST || 'Foswiki::Request';
+    $request =~ s/^Foswiki::/Unit::/;
+    eval "require $request; 1;";
+
+    $query = $request->new( \%constructor );
     $query->path_info("/$web/$topic");
     $query->method('GET');
 

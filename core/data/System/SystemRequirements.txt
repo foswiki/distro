@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1510027045" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1516511288" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -361,6 +361,7 @@ Install as needed.
 | Crypt::SMIME | | Optional, used for S/MIME email signing |
 | Crypt::X509 | | Optional, used for S/MIME email signing |
 | Convert::PEM | | Optional, used for S/MIME email signing |
+| Locale::Language | Optional, =Locale::Language= will be removed from the Perl core distribution in 5.28. |
 
 ---++++!! Installation using =cpanminus=
 

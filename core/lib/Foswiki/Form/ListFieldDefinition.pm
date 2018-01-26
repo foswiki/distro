@@ -109,7 +109,7 @@ sub getOptions {
 
         # create a values map
         $this->{valueMap} = ();
-        $this->{_options} = ();
+        $this->{_options} = [];
         my $str;
         foreach my $val (@vals) {
             if ( $val =~ m/^(.*[^\\])*=(.*)$/ ) {

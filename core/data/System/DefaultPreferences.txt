@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1513171638" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -24,7 +24,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WEBBGCOLOR = #FFD8AA
 
    * [[http://en.wikipedia.org/wiki/Favicon][favicon]]: Attach a =favicon.ico= to a web's %WEBPREFSTOPIC% or add a =FAVICON= setting to %WEBPREFSTOPIC%
-      * Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico
+      * Set FAVICON = %PUBURLPATH{"favicon.ico" topic="%SYSTEMWEB%.ProjectLogos"}%
 
    * Image, URL and alternate tooltip text of web's logo.
       * Set WEBLOGOIMG = %WIKILOGOIMG%
@@ -37,7 +37,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WEBSUMMARY = %IF{"defined SITEMAPWHAT" then="$percentSITEMAPWHAT$percent"}% %IF{"defined SITEMAPUSETO" then="$percentSITEMAPUSETO$percent"}%
 <sticky>
    * Copyright notice:
-      * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="https://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%
+      * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="https://foswiki.org/"><img src="%PUBURLPATH{"foswiki-badge.png" topic="%SYSTEMWEB%.ProjectLogos"}%" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%
 
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
@@ -113,16 +113,16 @@ been removed from Foswiki 2.0.
       * Set ATTACHLINKBOX =
 
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
-   <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</div>
+   <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets). See %SYSTEMWEB%.FileAttachment for details.</div>
    <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
    <verbatim class="tml">
-      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
+      * Set ATTACHEDFILELINKFORMAT = \n   * [[$percntATTACHURL$percnt/$fileurl][$filename]]%IF{"'$comment'=''" else=": $comment"}%
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
-      <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).</div>
+      <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets). See %SYSTEMWEB%.FileAttachment for details.</div>
       <verbatim class="tml">
-      * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
+      * Set ATTACHEDIMAGEFORMAT = \n%IF{"'$comment'=''" else="   * $comment: <br />\n"}%     <img src="$percntATTACHURLPATH$percnt/$fileurl" alt="$filename" $size />
 </verbatim>
 
 ---++ Platform Settings
@@ -132,7 +132,7 @@ been removed from Foswiki 2.0.
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in <nop>%WEBPREFSTOPIC% for individual webs by defining these settings there.
       * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
-      * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
+      * Set WIKILOGOURL = %SCRIPTURL{"view" topic="%USERSWEB%.%HOMETOPIC%"}%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
    * Home page of this site
@@ -177,7 +177,7 @@ been removed from Foswiki 2.0.
 
    * URL for current topic
       * Shortcut TOPICURL -- absolute URL for the current topic
-      * Set TOPICURL = %SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%
+      * Set TOPICURL = %SCRIPTURL{"view" topic="%BASEWEB%.%BASETOPIC%"}%
 
 #RegistrationOptions
 ---+++ Registration configuration options
@@ -211,7 +211,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 
    * ==http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts:
       * #Set HTTP_EQUIV_ON_VIEW =
-      * Set HTTP_EQUIV_ON_VIEW = <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="%SCRIPTURLPATH{"view"}%/%WEB%/WebRss" />
+      * Set HTTP_EQUIV_ON_VIEW = <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="%SCRIPTURLPATH{"view" topic="%WEB%.WebRss"}%" />
 
    * ==http-equiv== meta tags for ==edit== script:
       * Set HTTP_EQUIV_ON_EDIT =
@@ -247,14 +247,14 @@ Note, this feature also must be enabled on the UserRegistration page by adding
 ---+++ PatternSkin
 
    * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.
-      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
-      * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css
-      * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css
+      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH{"layout.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
+      * Set FOSWIKI_STYLE_URL = %PUBURLPATH{"style.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
+      * Set FOSWIKI_COLORS_URL = %PUBURLPATH{"colors.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
 
    * Themes that add upon the global skin styles. See the Theme Browser in PatternSkin.
       * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
-      * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css
-      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/column_left.css
+      * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH{"variant_foswiki_noframe.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
+      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH{"column_left.css" topic="%SYSTEMWEB%.PatternSkinTheme"}%
       * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinHorizontalNavigationExample
    * Deprecated (use =PATTERNSKIN_THEME_VARIANT=):
       * Set PATTERNSKIN_THEME = %PATTERNSKIN_THEME_VARIANT%
@@ -265,7 +265,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
       * Set USERCOLORSURL =
 
    * Top bar background image and color
-      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif
+      * Set WEBHEADERART = %PUBURLPATH{"header5.gif" topic="%SYSTEMWEB%.PatternSkin"}%
       * Set WEBHEADERBGCOLOR = #ffffff
 
 ---+++ Skin icons
@@ -285,7 +285,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
       
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
-      * Set EDITURL = %SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%
+      * Set EDITURL = %SCRIPTURLPATH{"edit" topic="%WEB%.%TOPIC%" t="%GMTIME{"$epoch"}%"}%
       * Set EDITTOPIC = <a href="%EDITURL%" title="Edit Topic - deprecated usage - please see release notes">Edit</a>
    * Support for MAINWEB which is often used in older legacy webs that have been upgraded to Foswiki
       * Set MAINWEB = %USERSWEB%
@@ -405,10 +405,10 @@ Note, this feature also must be enabled on the UserRegistration page by adding
    * Format of a NewWikiWord link:
    * Note that =$text= is the topic link text, =$topic= is the name of the new topic, and =$web= is the name of the web for the new topic. Values for the 3 are taken from the link syntax =[<nop>[$web.$topic][$text]]=. For normal plain !WikiWord links =$text= and =$topic= are the same. The value of =$web= is the current web unless the link is in the format =$web.$topic=.
       * Default setting:
-         * Set NEWLINKFORMAT = <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%ENCODE{"%WEB%.%TOPIC%"}%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">$text</a>
+         * Set NEWLINKFORMAT = <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit" topic="$web.$topic" topicparent="%WEB%.%TOPIC%"}%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">$text</a>
 
    * %SYSTEMWEB%.PreviewBackground image:
-      * Set PREVIEWBGIMAGE = %PUBURLPATH%/%SYSTEMWEB%/PreviewBackground/preview2bg.gif
+      * Set PREVIEWBGIMAGE = %PUBURLPATH{"preview2bg.gif" topic="%SYSTEMWEB%.PreviewBackground"}%
 
    * User-friendly synonyms for system webs
       * Set DOCWEB = %SYSTEMWEB%
@@ -416,7 +416,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
    * Show extra help for !ApacheLogin users for %USERSWEB%.AdminUser login
       * Set ADMINLOGIN = %IF{"{LoginManager} = 'Foswiki::LoginManager::ApacheLogin' AND NOT context authenticated"
         then="Foswiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
-        else="[[%SCRIPTURL{login}%/%BASEWEB%/%BASETOPIC%?sudo=sudo][internal admin login]] (use the password set in [[%SCRIPTURLPATH{"configure"}%][configure]])."}%
+        else="[[%SCRIPTURLPATH{"login" topic="%BASEWEB%.%BASETOPIC%" sudo="sudo"}%][internal admin login]] (use the password set in [[%SCRIPTURLPATH{"configure"}%][configure]])."}%
 
    * Formatting of revision comparison: =sequential=, =sidebyside= or =debug=
       * Set DIFFRENDERSTYLE = sequential

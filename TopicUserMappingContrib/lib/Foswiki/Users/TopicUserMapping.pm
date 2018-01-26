@@ -581,7 +581,7 @@ sub userExists {
     ASSERT($cUID) if DEBUG;
 
     # Do this to avoid a password manager lookup
-    return 1 if $cUID eq $this->{session}->{user};
+    return 1 if $this->{session}->{user} && $cUID eq $this->{session}->{user};
 
     my $loginName = $this->getLoginName($cUID);
     return 0 unless defined($loginName);
@@ -956,8 +956,17 @@ sub addUserToGroup {
             )
           );
 
-        $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
+        if ( Foswiki::Func::topicExists( $groupWeb, 'GroupTemplate' ) ) {
+            $groupTopicObject =
+              Foswiki::Meta->load( $this->{session}, $groupWeb,
+                'GroupTemplate' );
+        }
+        else {
+            $groupTopicObject =
+              Foswiki::Meta->load( $this->{session},
+                $Foswiki::cfg{SystemWebName},
+                'GroupTemplate' );
+        }
 
         # expand the GroupTemplate as best we can.
         $this->{session}->{request}
@@ -1330,6 +1339,24 @@ sub getEmails {
 
 =begin TML
 
+---++ ObjectMethod getRegistrationDate($name) -> @emailAddress
+
+returns the date this user has registered. 
+
+=cut
+
+sub getRegistrationDate {
+    my ( $this, $cUID ) = @_;
+
+    $this->_loadMapping();
+
+    my $user = $this->getLoginName($cUID);
+
+    return $this->{L2D}{$user};
+}
+
+=begin TML
+
 ---++ ObjectMethod setEmails($cUID, @emails) -> boolean
 
 Set the email address(es) for the given user.
@@ -1597,7 +1624,7 @@ sub validateRegistrationField {
 
 # TODO: and probably flawed in light of multiple cUIDs mapping to one wikiname
 sub _cacheUser {
-    my ( $this, $wikiname, $login ) = @_;
+    my ( $this, $wikiname, $login, $date ) = @_;
     ASSERT($wikiname) if DEBUG;
 
     $login ||= $wikiname;
@@ -1615,6 +1642,8 @@ sub _cacheUser {
     $this->{U2W}->{$cUID}     = $wikiname;
     $this->{L2U}->{$login}    = $cUID;
     $this->{W2U}->{$wikiname} = $cUID;
+    $this->{L2D}->{$login}    = $date;
+    $this->{W2D}->{$wikiname} = $date;
 
     return $cUID;
 }
@@ -1704,7 +1733,7 @@ sub _loadMapping {
             #   * WikiGuest - guest - 10 Mar 2005
             #   * WikiGuest - 10 Mar 2005
             $text =~
-s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*(\S+)\s*)?-.*$/(_cacheUser( $this, $1, $2)||'')/gme;
+s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*(\S+)\s*)?-\s*(.*?)\s*$/(_cacheUser( $this, $1, $2, $3)||'')/gme;
         }
     }
     else {

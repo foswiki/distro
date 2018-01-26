@@ -57,6 +57,7 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{jsonrpc} = {
         package  => 'Foswiki::Contrib::JsonRpcContrib',
         function => 'dispatch',
+        request  => 'Foswiki::Request::JSON',
         context  => { jsonrpc => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{login} = {
@@ -117,6 +118,7 @@ BEGIN {
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
+        request  => 'Foswiki::Request::Rest',
         function => 'rest',
         context  => { rest => 1 },
     };
@@ -145,6 +147,7 @@ BEGIN {
     };
     $Foswiki::cfg{SwitchBoard}{viewfile} = {
         package  => 'Foswiki::UI::Viewfile',
+        request  => 'Foswiki::Request::Attachment',
         function => 'viewfile',
         context  => { viewfile => 1 },
     };
@@ -152,6 +155,7 @@ BEGIN {
       $Foswiki::cfg{SwitchBoard}{viewfile};
     $Foswiki::cfg{SwitchBoard}{view} = {
         package  => 'Foswiki::UI::View',
+        request  => 'Foswiki::Request',
         function => 'view',
         context  => { view => 1 },
     };
@@ -548,14 +552,14 @@ sub checkWebExists {
     my ( $session, $webName, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidWeb} ) {
+    if ( my $badWeb = $session->{request}->invalidWeb() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'bad_web_name',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $session->{invalidWeb} ]
+            params => [ $op, $badWeb ]
         );
     }
     unless ($webName) {
@@ -594,14 +598,14 @@ sub checkTopicExists {
     my ( $session, $web, $topic, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidTopic} ) {
+    if ( my $badTopic = $session->{request}->invalidTopic() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $op, $session->{invalidTopic} ]
+            params => [ $op, $badTopic ]
         );
     }
 

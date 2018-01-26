@@ -534,6 +534,13 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_session};
+    undef $this->{_loadedRev};
+    undef $this->{_latestIsLoaded};
+    undef $this->{_text};
+    undef $this->{_preferences};
+    undef $this->{_indices};
+    undef $this->{FILEATTACHMENT};
+
     if (DEBUG) {
 
     #someone keeps adding random references to Meta so to shake them out..
@@ -1930,10 +1937,12 @@ sub haveAccess {
 
 =begin TML
 
----++ ObjectMethod save( %options  )
+---++ ObjectMethod save( %options  ) -> $rev
 
 Save the current object, invoking appropriate plugin handlers
    * =%options= - Hash of options, see saveAs for list of keys
+
+Returns the new revision number.
 
 =cut
 
@@ -3571,6 +3580,7 @@ sub _summariseTextWithSearchContext {
 Generate a (max 3 line) summary of the differences between the revs.
 
    * =$orev= - older rev, if not defined will use ($nrev - 1)
+   *  - $orev can also be an offset  (-n) from current rev.
    * =$nrev= - later rev, if not defined defaults to latest
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs.
      If false will generate a summary suitable for use in plain text
@@ -3598,9 +3608,13 @@ sub summariseChanges {
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev =~ m/^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    ASSERT( $orev >= 0 ) if DEBUG;
+    ASSERT( $orev =~ m/^\s*-?\d+\s*/ ) if DEBUG;    # looks like a number
     ASSERT( $nrev >= $orev ) if DEBUG;
+
+    if ( $orev =~ m/\s*-(\d+)\s*/ ) {
+        my $offset = $1;
+        $orev = ( $offset < $nrev ) ? $nrev - $offset : 1;
+    }
 
     unless ( defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev ) {
         $this = $this->load($nrev);
@@ -3813,45 +3827,16 @@ sub isValidEmbedding {
 
 ---++ StaticMethod dataDecode( $encoded ) -> $decoded
 
-Decode escapes in a string that was encoded using dataEncode
+Decode escapes in a string that was encoded using
+Foswiki::Serialise::Embedded::dataEncode
 
-The encoding has to be exported because Foswiki (and plugins) use
-encoded field data in other places e.g. RDiff, mainly as a shorthand
-for the properly parsed meta object. Some day we may be able to
-eliminate that....
+DEPRECATED - DO NOT USE!
 
 =cut
 
 sub dataDecode {
-    my $datum = shift;
-
-    $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-    return $datum;
-}
-
-=begin TML
-
----++ ClassMethod type() => $resourcetype
-
-(see Foswiki::Address::type)
-
-Returns the resource type name.
-   * webpath, Eg. =Web/SubWeb/=
-   * topic, Eg. =Web/SubWeb.
-   * undef, I have no idea whats going on, we're not there yet
-
-=cut
-
-sub type {
-    my ($this) = @_;
-
-    if ( defined( $this->{_web} ) ) {
-        if ( defined( $this->{_topic} ) ) {
-            return 'topic';
-        }
-        return 'webpath';
-    }
-    return;
+    require Foswiki::Serialise::Embedded;
+    return Foswiki::Serialise::Embedded::dataDecode(@_);
 }
 
 1;

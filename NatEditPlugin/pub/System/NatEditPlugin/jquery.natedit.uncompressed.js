@@ -1711,14 +1711,9 @@ $.NatEditor.prototype.autoMaxExpand = function() {
 $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     elem,
-    windowHeight = $(window).height() || window.innerHeight,
     tmceEdContainer = (typeof(tinyMCE) !== 'undefined' && tinyMCE.activeEditor)?$(tinyMCE.activeEditor.contentAreaContainer):null,
-    newHeight,
-    $debug = $("#DEBUG");
-
-  if (typeof(self.bottomHeight) === 'undefined') {
-    self.bottomHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($('.jqTabContents').css('padding-bottom'), 10) * 2 + 2; 
-  }
+    bottomBar = self.form.find(".natEditBottomBar"),
+    newHeight;
 
   if (tmceEdContainer && !tinyMCE.activeEditor.getParam('fullscreen_is_enabled') && tmceEdContainer.is(":visible")) {
     /* resize tinyMCE. */
@@ -1730,11 +1725,16 @@ $.NatEditor.prototype.fixHeight = function() {
     elem = $(self.txtarea);
   }
 
-  newHeight = windowHeight - elem.offset().top - self.bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
-
-  if ($debug.length) {
-    newHeight -= $debug.height();
+  if (!elem || !elem.length) {
+    return;
   }
+
+  newHeight = 
+    (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
+    - elem.position().top // editor's top position
+    - (elem.outerHeight(true) - elem.height()) // elem's padding
+    - (self.container.outerHeight(true) - self.container.height()) // container's padding
+    - 4;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
@@ -1745,10 +1745,10 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
-    $.log("NATEDIT: fixHeight height=",newHeight);
+    //$.log("fixHeight height=",newHeight,"container.height=",self.container.height());
     elem.height(newHeight);
   } else {
-    $.log("NATEDIT: not fixHeight elem not yet visible");
+    //$.log("not fixHeight elem not yet visible");
   }
 };
 

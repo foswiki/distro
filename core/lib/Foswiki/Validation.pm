@@ -62,7 +62,11 @@ use constant TRACE => 0;
 
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript
-sub _getSecretCookieName { 'FOSWIKISTRIKEONE' }
+sub _getSecretCookieName {
+    my $secure = ( $Foswiki::Plugins::SESSION->{request}->https() ) ? 'S' : '';
+    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . $secure
+      . 'FOSWIKISTRIKEONE';
+}
 
 =begin TML
 
@@ -201,7 +205,7 @@ sub getCookie {
     my $cookie = CGI::Cookie->new(
         -name  => _getSecretCookieName(),
         -value => $secret,
-        -path  => '/',
+        -path  => $Foswiki::cfg{Sessions}{CookiePath} || '/',
         -httponly => 0,    # we *want* JS to be able to read it!
         -domain => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -secure => $Foswiki::Plugins::SESSION->{request}->secure,

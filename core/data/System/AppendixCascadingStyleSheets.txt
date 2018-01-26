@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437331638" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490666627" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
@@ -214,7 +214,7 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 #TestFoswikiFocus
 ---++++ Troubleshooting foswikiFocus
    * Test for loading error of focus plugin (no message means ok): %JQREQUIRE{"focus"}%
-   * [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?testfocus=1#TestFoswikiFocus][Test foswikiFocus]]
+   * [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" testfocus="1" #="TestFoswikiFocus"}%][Test foswikiFocus]]
 
 %IF{"$'URLPARAM{testfocus}'='1'" then="
 $percntJQREQUIRE{$quotfocus$quot}$percnt

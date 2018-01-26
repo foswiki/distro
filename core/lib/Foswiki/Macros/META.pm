@@ -4,8 +4,8 @@ package Foswiki;
 use strict;
 use warnings;
 
-use Foswiki::Address ();
-use Foswiki::Meta    ();
+use Foswiki::Meta ();
+use Foswiki::Func ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -22,13 +22,11 @@ sub META {
 
     my $option = $params->{_DEFAULT} || '';
     if ( defined( $params->{topic} ) ) {
-        my $addrObj = Foswiki::Address->new(
-            web    => $topicObject->web,
-            string => $params->{topic}
-        );
-        if ( !$addrObj->equiv($topicObject) ) {
-            my $meta =
-              new Foswiki::Meta( $this, $addrObj->web, $addrObj->topic );
+        my ( $nweb, $ntopic ) =
+          Foswiki::Func::normalizeWebTopicName( $topicObject->web,
+            $params->{topic} );
+        if ( $nweb ne $topicObject->web || $ntopic ne $topicObject->topic ) {
+            my $meta = new Foswiki::Meta( $this, $nweb, $ntopic );
             $topicObject = $meta;
         }
     }

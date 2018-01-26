@@ -301,8 +301,8 @@
 			var lastipt = $( control.inputs ).filter(':checked');
 			var deadipt = $( control.inputs ).not(current);
 			// check and uncheck elements as required
-			deadipt.prop('checked',false);//.removeAttr('checked');
-			current.prop('checked',true);//.attr('checked','checked');
+			deadipt.prop('checked',false);
+			current.prop('checked',true);
 			// trigger change on current or last selected input
 			$(current.length? current : lastipt ).trigger({ type:'change', selfTriggered:true });
 			// click callback, as requested here: http://plugins.jquery.com/node/1655
@@ -320,7 +320,7 @@
 			// setread-only status
 			control.readOnly = toggle || toggle==undefined ? true : false;
 			// enable/disable control value submission
-			if(disable) $(control.inputs).attr("disabled", "disabled");
+			if(disable) $(control.inputs).prop("disabled", true);
 			else     			$(control.inputs).removeAttr("disabled");
 			// Update rating control state
 			this.data('rating', control);

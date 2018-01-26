@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491353912" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1515149448" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -65,6 +65,7 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.10 (5 Jan 2018): | Foswikitask:Item14591: Fixed loading old revisions |
 |  1.06 (4 Apr 2017): | Foswikitask:Item14368: Failure to handle edge cases leads to obscure bug. |
 |  1.05 (26 Nov 2016): | Released wth Foswiki 2.1.3<br>\
                          Foswikitask:Item14066: performance issue sorting topic list based on NFKD. |

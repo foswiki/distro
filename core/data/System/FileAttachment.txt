@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -90,6 +90,7 @@ Attachment names are stored directly in the server native file system, so filena
          * Any standard [[FormatTokens][formatting tokens]]: =$n=, =$comma=, =$lt=, etc.
          * Any standard [[VarGMTIME][time format specifiers]]: =$year=, =$hours=, etc. 
          * =$name=: (deprecated, should no longer be used)
+         * [[Macros][Standard variables]]: =%<nop>WIKIUSER%=, etc.
 
 ---++ Downloading files
 
@@ -113,23 +114,23 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
 
    * Once a file is attached it can be referenced in the topic. Example:
       1. ==[Attach]== a file, for example: =Sample.txt=
-      1. ==[Edit]== the topic you attached the file to and enter: =%<nop>ATTACHURL%/Sample.txt=
-      1. ==[Preview]==: the =%<nop>ATTACHURL%/Sample.txt= text appears as: %PUBURL%/%WEB%/%TOPIC%/Sample.txt, a link to the text file.
+      1. ==[Edit]== the topic you attached the file to and enter: =%<nop>ATTACHURL{"Sample.txt"}%=
+      1. ==[Preview]==: the =%<nop>ATTACHURL{"Sample.txt"}%= text appears as: %ATTACHURL{"Sample.txt"}%, a link to the text file.
 
    * To reference an attachment located in another topic, enter:
-      * =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/Sample.txt= (if it's within the same web)
-      * =%<nop>PUBURL%/Otherweb/OtherTopic/Sample.txt= (if it's in a different web)
+      * =%<nop>PUBURL{"Sample.txt" topic="%<nop>WEB%.OtherTopic"}%= (if it's within the same web)
+      * =%<nop>PUBURL{"Sample.txt" topic="Otherweb.OtherTopic"}%= (if it's in a different web)
 
    * Attached HTML files and text files can be inlined in a topic. Example:
       1. ==[Attach]== file: =Sample.txt=
       1. ==[Edit]== topic and write text: =%<nop>INCLUDE{"%<nop>ATTACHURL%/Sample.txt"}%=
-         * Content of attached file is shown inlined.
-         * [[VarINCLUDE][Read more about INCLUDE]].
+         * Content of attached file is shown inlined.  ([[VarINCLUDE][Read more about INCLUDE]]).
+         * <blockquote> %INCLUDE{"%ATTACHURL{"Sample.txt"}%"}% </blockquote>
 
    * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
       1. ==[Attach]== an image file, for example: =Smile.gif=
-      1. ==[Edit]== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
-      1. ==[Preview]==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
+      1. ==[Edit]== topic and write text: =%<nop>ATTACHURL{"Smile.gif"}%=
+      1. ==[Preview]==: text appears as %ATTACHURL{"Smile.gif"}%, an image.
 
 ---++ Securing Attachments
 In most installations, attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
@@ -175,7 +176,7 @@ The file attachment table is normally displayed at the bottom of the page, or op
   </tr>
   <tr class="foswikiTableOdd">
     <td style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> 
-      <img width="16" alt="txt" align="top" src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/txt.gif" height="16" border="0" /><span class="foswikiHidden">txt</span> 
+      <img width="16" alt="txt" align="top" src="%PUBURLPATH{"txt.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%" height="16" border="0" /><span class="foswikiHidden">txt</span> 
     </td>
     <td style="text-align:left;vertical-align:top;"> 
       <a href="#FileAttachmentTable">Sample.txt</a> 
@@ -198,7 +199,7 @@ The file attachment table is normally displayed at the bottom of the page, or op
   </tr>
   <tr class="foswikiTableEven">
     <td style="text-align:center;vertical-align:top;" class="foswikiFirstCol foswikiLast"> 
-      <img width="16" alt="gif" align="top" src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> 
+      <img width="16" alt="gif" align="top" src="%PUBURLPATH{"gif.gif" topic="%SYSTEMWEB%.DocumentGraphics"}%" height="16" border="0" /><span class="foswikiHidden">gif</span> 
     </td>
     <td style="text-align:left;vertical-align:top;" class="foswikiLast"> 
       <a href="#FileAttachmentTable">Smile.gif</a> 
@@ -262,5 +263,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1457496285" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1457496285" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr=""  date="1512501336" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr=""  date="1512501336" size="94" user="ProjectContributor" version="1"}%

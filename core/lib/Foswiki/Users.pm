@@ -581,6 +581,21 @@ sub getEmails {
 
 =begin TML
 
+---++ ObjectMethod getRegistrationDate($name) -> $string
+
+returns the date this user has registered.
+
+=cut
+
+sub getRegistrationDate {
+    my ( $this, $name ) = @_;
+
+    return unless $name;
+    return $this->_getMapping($name)->getRegistrationDate($name);
+}
+
+=begin TML
+
 ---++ ObjectMethod setEmails($cUID, @emails)
 
 Set the email address(es) for the given user.
@@ -730,8 +745,14 @@ sub getWikiName {
         # SMELL: is this really needed?
         $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
 
-        $this->{cUID2WikiName}->{$cUID}     = $wikiname;
-        $this->{wikiName2cUID}->{$wikiname} = $cUID;
+      # Only add it to the internal cache if these two values are different
+      # they might be identical when apis have been called with wrong parameters
+      # which are then cached here. This test prevents that from happening.
+        if ( $wikiname ne $cUID ) {
+            $this->{cUID2WikiName}->{$cUID}     = $wikiname;
+            $this->{wikiName2cUID}->{$wikiname} = $cUID;
+        }
+
     }
     return $wikiname;
 }

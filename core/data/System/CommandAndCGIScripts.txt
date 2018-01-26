@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1484612966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490435890" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -162,7 +162,7 @@ __New topic creation %ICON{"wip"}%:__
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web. However this doesn't happen until the topic is saved.
 
 When a new topic is created using edit, the topic isn't actually created until the edit is saved. The content of the new topic is initialised according to the parameters you pass.
-   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TopicTemplates)
+   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TemplateTopics)
    * =text= - use this as the text of the topic. Macros are *not* expanded in this text. Overrides any text set in the =templatetopic=.
    * =formtemplate= - Overrides any form set in the =templatetopic=.
    * =notemplateexpansion= - given by =templatetopic=. Use this when you want a verbatim copy of a topic.
@@ -229,7 +229,9 @@ If neither =action_save= or =action_cancel= are provided, an oops error is issue
 See BulkRegistration.
 | *Parameter* | *Description* | *Default* |
 | =logtopic= | Topic to save the log in | _same as topic name, with 'Result' appended_ |
-| =overwritehometopics= | Whether to overwrite existing home topics or not | _do not overwrite_ |
+| =templatetopic= | Template used to create the new user topics.  This can be fully specified as Webname.Topicname. Simple topic name is retrieved from %USERSWEB% and if not found, %SYSTEMWEB%. | !NewUserTemplate |
+| =redirectto= | Redirect to this topic or URL after successfully running the bulkRegister function. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% \
+*Note:* Redirect to a URL only works if it is enabled in =configure= (Expert setting: Security and Authentication > Environment > ={AllowRedirectUrl}=). | =logtopic= |
 
 ---++++ =action=changePassword=
 Change password, email address, or both, of a user.
@@ -239,7 +241,7 @@ Change password, email address, or both, of a user.
 | =password= | new password | |
 | =passwordA= | new password confirmation | _required if =password= is given_ |
 | =username= | login name of user to change password/email for | _required_ |
-=password, =passwordA= and =email= are optional. If neither or =password= and =passwordA= is set, then the user password is left unchanged. If =email= is unset, their email is left unchanged.
+=password=, =passwordA= and =email= are optional. If neither or =password= and =passwordA= is set, then the user password is left unchanged. If =email= is unset, their email is left unchanged.
 
 ---++++ =action=resetPassword=
 Reset the password for a single or multiple users
@@ -462,10 +464,10 @@ The =rest= script assumes that it will be called with URL in the form:
 where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function. If you need to
 pass a topic name, then this is passed in the =topic= URL parameter.
 
-As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
+As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. (The EmptyPlugin is not enabled by default.)
 
 The URL to call this function from a browser would be:
-   * =%SCRIPTURL{rest}%/EmptyPlugin/example?topic=My.TopicName=
+   * =%SCRIPTURL{"rest" subject="EmptyPlugin" verb="example" topic="My.TopicName"}%=
 alternatively, to run it from the commandline:
    * =cd foswiki/bin ; ./rest /EmptyPlugin/example -topic=My.TopicName=
 
@@ -542,7 +544,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
 
 <verbatim class="html">
-<form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
+<form name='new' action='%SCRIPTURLPATH{"save" topic="%SANDBOXWEB%.SomeTopic"}%' method='post'>
     ...
 </form>
 </verbatim>
@@ -622,7 +624,7 @@ Used for viewing topics.
 | =rev= | Revision to view (e.g. =rev=45=) | _latest_ |
 | =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through | |
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
-| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
+| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%][%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" template="edit"}%]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | _&lt;any name&gt;_ | It can be expanded in the topic text during rendering and referenced in IF statements  - See the %SYSTEMWEB%.VarURLPARAM macro and %SYSTEMWEB%.IfStatements | |
 
 <div class="foswikiHelp"> 
@@ -634,13 +636,21 @@ Used for viewing attachments. Normally, a site will publish the attachments (=pu
 
 | *Parameter* | *Description* | *Default* |
 | =filename= | name of attachment | _required_ |
+| =topic= | Name of the Web.Topc | _optional_ |
 | =rev= | Revision to view | _latest_ |
 
 Instead of using the =filename= parameter, you can append the attachment name
-to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=
+to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=. However, when writing a link to an attachment
+it's recommended to use the fully canonical form: =%<nop>SCRIPTURLPATH{"viewfile" topic="Webname.Topicname" filename="Attachment.gif"}%.  
 
 ---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.
+
+---+++ =bulk_copy.pl=
+Script for bulk copying of topics, complete with histories, between
+any two local Foswiki installations.
+
+Run the script without parameters to get detailed help.
 
 ---+++ =configure=
 This is a fully functional command line interface to the Foswiki configuration.  It is able to set and check configuration values, and to run wizards.
@@ -660,11 +670,44 @@ Note: if you need to pass in international characters, it needs to be run with t
 
 For full help, run =tools/configure -help=.
 
+---+++ =convertTopicSettings.pl=
+
+Convert inline topic settings into META settings.
+
+This tool should be run after a Foswiki site is upgraded from 1.x to
+Foswiki 2.0 or newer.  It can also be used on a Foswik 1.1.x
+installation if the PatchItem12849Contrib is installed.
+
+Run the script without parameters for detailed help.
+
 ---+++ =dependencies=
 Generates a report of missing or all dependencies.  This report is also available to administrators at [[%SYSTEMWEB%.PerlDependencyReport]]
 
    $ =tools/dependencies=: Generates a report on the missing dependencies
    $ =tools/dependencies -all=: Generates a report on all dependencies, installed or missing, along with information on the installation location.
+
+---+++ =extender.pl=
+
+Command-line extension installer, not designed to be run stand-alone, but as part of a *_installer shipped with an extension.
+
+---+++ =extension_installer=
+This script will download and install, or remove an extension.
+
+For more details, execute it from the Foswiki root directory with the =usage= parameter:
+<verbatim>
+./tools/extension_installer usage
+</verbatim>
+This script is a generic version of the =_installer= script shipped with each extension.
+
+There are a number of different ways to install an extension (e.g. _SomeExtension_). In decreasing order of complexity:
+   * Download the _SomeExtension_ package (.zip or .tgz), unpack it in the Foswiki root, manually correct permissions and run the =<i>SomeExtension</i>_installer= script (shipped with <i>SomeExtension</i>) from the Foswiki root directory
+   * Download the _SomeExtension_ package, unpack it in the Foswiki root, manually correct permissions and run the =configure= web interface to complete installation.
+   * Run =tools/extension_installer= _SomeExtension_ from the Foswiki root.
+   * Use the =configure= web interface to install _SomeExtension_ (recommended)
+
+---+++ =fix_file_permissions.sh=
+
+UNIX shell script to correct file permissions on a Foswiki install. It should be run from the root of the installation.
 
 ---+++ =geturl.pl=
 This is a very simple script to get the content of a web site, either using GET or POST. It is marked as _deprecated_ and might be removed in a future release. Its functions are covered by the standard =wget= and =curl= commands, which have the added advantage of performing authentication..
@@ -674,8 +717,32 @@ This is a very simple script to get the content of a web site, either using GET 
    * Example:  =geturl.pl POST some.domain /bin/statistics?webs=%SANDBOXWEB%=
    * Will post: =http://some.domain/bin/statistics?webs=%SANDBOXWEB%= triggering a statistics run
 
+---+++ =lighttpd.pl=
+
+Run Foswiki with the lighttpd web server.
+
+Options:
+   *        -f --fastcgi                 Use FastCGI instead of plain CGI
+   *         -h --help                    Displays this help and exits
+   *        -p PORT, --port PORT         Runs the server in the given port.
+                                     (default: 8080)
+   *        -s /path/to/lighttpd ,
+   *        --server /path/to/lighttpd   Location to lighttpd if not on path
+                                     (default: lighttpd)
+If lighttpd is not found on the default path, provide the complete path
+to the server eg.
+        =lighttpd.pl --fastcgi --server /usr/sbin/lighttpd=
+
 ---+++ =rewriteshebang.pl=
-Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
+
+Simple Perl script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter.
+
+Run it without parameters for usage information.
+
+---+++ =save-pending-checkins=
+
+On some sites, Foswiki may not be the only tool that writes files in the data
+directory. For example, external jobs may write =.txt= files without checking them in. This results in =.txt= files that have a more recent timestamp than the corresponding version control file - this is called a 'pending checkin'. Pending checkins are dangerous, as they confuse Foswiki's version control systems. This tool will traverse all webs in your install locating files with pending checkins, and checking them in.
 
 ---+++ =tick_foswiki.pl=
 This script executes a number of non-essential regular administration tasks that will help keep your site healthy and happy, such as removing expired sessions and lease files.
@@ -686,18 +753,6 @@ It is intended to be run as a cron job or a scheduled task once a week. Example 
 *Note:* The script has to be run by a user who can write files created by the webserver user.
 
 Extensions, such as the MailerContrib, also install tool scripts. Check the documentation of the extension for details.
-
----+++ =extension_installer=
-This script will download and install, or remove an extension.
-
-For more details, execute it from the Foswiki root directory with the =usage= parameter:
-<verbatim>
-./tools/extension_installer usage
-</verbatim>
-Note that this script is a generic version of the =_installer= script shipped with each extension.  There are 3 ways to install a script using these scripts:
-   * Download =SomePlugin_installer= and execute it from the Foswiki root directory
-   * run =./tools/extension_installer !SomePlugin= - the extension will be downloaded and installed
-   * Use the configure web interface to the Extensions Installer.
 
 ---
 *%MAKETEXT{"Related topics:"}%* AdminDocumentationCategory, DeveloperDocumentationCategory

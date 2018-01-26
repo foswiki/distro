@@ -35,7 +35,6 @@ bin/viewfileauth 0555
 data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
-data/Main/GroupViewTemplate.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
@@ -112,6 +111,7 @@ data/System/FrequentlyAskedQuestions.txt 0644
 data/System/GlossaryOfTerms.txt 0644
 data/System/GoBox.txt 0644
 data/System/GoodStyle.txt 0644
+data/System/GroupViewTemplate.txt 0644
 data/System/HierarchicalNavigation.txt 0644
 data/System/HierarchicalNavigationChildExample.txt 0644
 data/System/IfStatements.txt 0644
@@ -153,6 +153,7 @@ data/System/ReleaseNotes01x00.txt 0644
 data/System/ReleaseNotes01x01.txt 0644
 data/System/ReleaseNotes02x00.txt 0644
 data/System/ReleaseNotes02x01.txt 0644
+data/System/ReleaseNotes02x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
@@ -234,6 +235,7 @@ data/System/VarMETASEARCH.txt 0644
 data/System/VarNONCE.txt 0644
 data/System/VarNOP.txt 0644
 data/System/VarNOTIFYTOPIC.txt 0644
+data/System/VarPARENTTOPIC.txt 0644
 data/System/VarPERLDEPENDENCYREPORT.txt 0644 System dependency report
 data/System/VarPLUGINDESCRIPTIONS.txt 0644
 data/System/VarPLUGINVERSION.txt 0644
@@ -315,6 +317,7 @@ data/System/WebTopicEditTemplate.txt 0644
 data/System/WebTopicList.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WikiCulture.txt 0644
+data/System/WikiGroupsComponents.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
 data/System/WikiWord.txt 0644
@@ -355,7 +358,6 @@ lib/Foswiki/Access/AdminOnlyAccess.pm 0444
 lib/Foswiki/Access/TopicACLAccess.pm 0444
 lib/Foswiki/Access/TopicACLReadOnlyAccess.pm 0444
 lib/Foswiki/AccessControlException.pm 0444
-lib/Foswiki/Address.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
@@ -569,8 +571,9 @@ lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
+lib/Foswiki/Macros/PARENTTOPIC.pm 0444
 lib/Foswiki/Macros/PENDINGREGISTRATIONS.pm 0444
-lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
+lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/PUBURLPATH.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
@@ -602,7 +605,6 @@ lib/Foswiki/Merge.pm 0444
 lib/Foswiki/Meta.pm 0444
 lib/Foswiki/MetaCache.pm 0444
 lib/Foswiki/Net.pm 0444
-lib/Foswiki/Net/HTTPResponse.pm 0444
 lib/Foswiki/Net/UserCredAgent.pm 0444
 lib/Foswiki/OopsException.pm 0444
 lib/Foswiki/PageCache.pm 0444
@@ -665,7 +667,9 @@ lib/Foswiki/Render/Parent.pm 0444
 lib/Foswiki/Render/ToolTip.pm 0444
 lib/Foswiki/Render/Zones.pm 0444
 lib/Foswiki/Request.pm 0444
+lib/Foswiki/Request/Attachment.pm 0444
 lib/Foswiki/Request/Cache.pm 0444
+lib/Foswiki/Request/Rest.pm 0444
 lib/Foswiki/Request/Upload.pm 0444
 lib/Foswiki/Response.pm 0444
 lib/Foswiki/Sandbox.pm 0444
@@ -823,6 +827,7 @@ templates/edittext.tmpl 0444
 templates/form.tmpl 0444
 templates/formtables.tmpl 0444
 templates/foswiki.tmpl 0444
+templates/icons.tmpl 0444
 templates/itemview.tmpl 0444
 templates/login.sudo.tmpl 0444
 templates/login.tmpl 0444

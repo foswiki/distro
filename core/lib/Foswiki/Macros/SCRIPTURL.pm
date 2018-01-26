@@ -14,25 +14,51 @@ BEGIN {
 }
 
 sub SCRIPTURL {
-    my ( $this, $params, $topicObject, $relative ) = @_;
-    my ( $web, $topic, $script );
+    my ( $this, $params, $path2Object, $relative ) = @_;
+    my ( $path1, $path2, $script );
+
     $script = $params->{_DEFAULT};
-    $web    = $params->{web};
 
-    my $jsonrest = ( defined $script && $script =~ m/^jsonrpc|rest(:?auth)?$/ );
-
-    if ( !$jsonrest && defined $params->{topic} ) {
-        my @path = split( /[\/.]+/, $params->{topic} );
-        $topic = pop(@path) if scalar(@path);
-        if ( scalar(@path) ) {
-            $web = join( '/', @path )
-              ;    # web= is ignored, so preserve it in the query string
+    if ( defined $script && substr( $script, 0, 4 ) eq 'rest' ) {
+        if ( defined $params->{subject} ) {
+            $path1 = $params->{subject};
+            delete $params->{subject};
         }
-        else {
+        if ( defined $params->{verb} ) {
+            $path2 = $params->{verb};
+            delete $params->{verb};
+        }
+    }
+    elsif ( defined $script && $script eq 'jsonrpc' ) {
+        if ( defined $params->{namespace} ) {
+            $path1 = $params->{namespace};
+            delete $params->{namespace};
+        }
+        if ( defined $params->{method} ) {
+            $path2 = $params->{method};
+            delete $params->{method};
+        }
+    }
+    else {
+        if ( defined $params->{topic} ) {
+            my @path = split( /[\/.]+/, $params->{topic} );
+            $path2 = pop(@path) if scalar(@path);
+            if ( scalar(@path) ) {
+                $path1 = join( '/', @path )
+                  ;    # web= is ignored, so preserve it in the query string
+            }
+            else {
+                $path1 = $params->{web};
+                delete $params
+                  ->{web};    # web= used, so drop the duplicate query param.
+            }
+            delete $params->{topic};
+        }
+        elsif ( defined $params->{web} ) {
+            $path1 = $params->{web};
             delete
               $params->{web};    # web= used, so drop the duplicate query param.
         }
-        delete $params->{topic};
     }
 
     my @p =
@@ -40,12 +66,18 @@ sub SCRIPTURL {
       grep { !/^(_.*|path)$/ }
       keys %$params;
 
-    if ( $jsonrest && ( $params->{web} || $params->{topic} || scalar @p ) ) {
-        return
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>";
+    if ( defined $script && scalar @p ) {
+        if ( substr( $script, 0, 4 ) eq 'rest' && ( !$path1 || !$path2 ) ) {
+            return
+"<div class='foswikiAlert'>$script requires both 'subject' and 'verb' parameters if other parameters are supplied.</div>";
+        }
+        if ( $script eq 'jsonrpc' && !$path1 && scalar @p ) {
+            return
+"<div class='foswikiAlert'>$script requires the 'namespace' parameter if other parameters are supplied.</div>";
+        }
     }
 
-    return $this->getScriptUrl( !$relative, $script, $web, $topic, @p );
+    return $this->getScriptUrl( !$relative, $script, $path1, $path2, @p );
 }
 
 1;

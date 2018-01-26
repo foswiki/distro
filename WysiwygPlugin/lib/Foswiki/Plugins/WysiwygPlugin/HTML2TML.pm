@@ -34,6 +34,8 @@ use Encode;
 use HTML::Parser;
 use HTML::Entities;
 
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants;
+
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node;
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
 
@@ -108,7 +110,7 @@ sub convert {
     $this->{opts} = $options;
 
     my $opts = 0;
-    $opts = WC::VERY_CLEAN
+    $opts = VERY_CLEAN
       if ( $options->{very_clean} );
 
     # See the WysiwygPluginSettings for information on stickybits
@@ -133,7 +135,7 @@ p=align;
 param=name,type,value,valuetype;
 pre=width;
 q=cite;
-table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
+table=align,bgcolor,class,.*?background-color:.*,frame,rules,summary,width;
 tbody=align,char,charoff,valign;
 td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
 tfoot=align,char,charoff,valign;
@@ -169,7 +171,7 @@ DEFAULT
         }
     }
 
-    #print STDERR "input     [". WC::encode_specials($text). "]\n\n";
+    #print STDERR "input     [". encode_specials($text). "]\n\n";
 
     # Convert (safe) named entities back to the
     # site charset. Numeric entities are mapped straight to the
@@ -194,15 +196,22 @@ DEFAULT
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
 
-    # SMELL: Item11912 These are left behind by TMCE as zero width characters
-    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
-    # We really ought to have a better solution.  TMCE is supposed
-    # to handle this it the cleanup routine, but it doesn't happen,
-    # and cleanup routine has been deprecated.
-    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
-    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
+    # Item11912 Item14420 Zero-width space (x200B) and Non-breaking
+    # zero-width space (xFEFF) are left behind by TinyMCE with
+    # italics and bold inserted by Ctrl-i and Ctrl-b. This is probably
+    # a TinyMCE bug, but in general these characters are useless in TML
+    # so we strip them in all their forms anyway.
+    foreach my $d ( 0xFEFF, 0x200B ) {
+        $text =~ s/&#$d;//g;    # decimal entity
+        my $c = chr($d);
+        $text =~ s/$c//g;
+        my $h = sprintf( "%04x", $d );
+        $text =~ s/&#x$h;//g;    # hex entity
+    }
 
-    HTML::Entities::_decode_entities( $text, WC::safeEntities() );
+    HTML::Entities::_decode_entities( $text, safeEntities() );
+
+    $text =~ s/\&apos;/\&\#39;/go;
 
     # get rid of nasties
     $text =~ s/\r//g;

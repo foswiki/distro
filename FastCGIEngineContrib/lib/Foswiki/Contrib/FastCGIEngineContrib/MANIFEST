@@ -9,4 +9,6 @@ lib/Foswiki/Engine/FastCGI.pm 0664
 lib/Foswiki/Engine/FastCGI/ProcManager.pm 0664
 tools/foswiki.defaults 0664
 tools/foswiki.init-script 0664
+tools/foswiki.freebsd.init-script 0664
+tools/foswiki.freebsd.etc-defaults 0644
 tools/systemd/foswiki.service 0664

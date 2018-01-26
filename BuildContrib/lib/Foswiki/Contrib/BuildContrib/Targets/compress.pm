@@ -347,13 +347,11 @@ sub _uglifyjs {
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
-    $cmd = "uglifyjs $from";
+    $cmd = "uglifyjs -m -c -- $from";
 
     unless ( $this->{-n} ) {
-        $cmd .= " -o $to";
+        $cmd .= " > $to";
     }
-
-    $cmd .= ' -b beautify=false,ascii-only=true ';
 
     warn "$cmd\n";
     my $out = `$cmd`;

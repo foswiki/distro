@@ -3,10 +3,6 @@
   margin:0;
 }
 
-.ui-natedit-container {
-  margin-top:14px;
-}
-
 .natEditPreviewDialog,
 .ui-natedit-container .jqTabContents {
   overflow-x:hidden;
@@ -163,8 +159,13 @@
 
 /* bottom bar on save screen */
 .natEditBottomBar {
-  margin-top:10px;
-  margin-bottom:10px;
+  position:fixed;
+  width:100%;
+  bottom:0;
+  left:0;
+  padding:0.5em 1em 1.5em;
+  background:#fff;
+  z-index:999;
 }
 .natEditBottomBar ul {
   margin:0px;

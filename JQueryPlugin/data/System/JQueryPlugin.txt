@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1493947845" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513634809" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -114,7 +114,7 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-<div class="foswikiHelp"> 
+<div class="foswikiHelp">
 %X% For Foswiki versions before 1.1, this plugin requires the
 Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not*
 required for Foswiki 1.1 or later.
@@ -125,6 +125,22 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  11 Dec 2017: | (8.00) - Item14564: added jquery-3 and the matching migrate module <br /> \
+                           Item14567: added keyboard navigation to jquery.stars <br /> \
+                           Item14568: added chili recipes for autolisp and ini <br /> \
+                           Item14569: deprecated jquery.placeholder <br /> \
+                           Item14571: added manual sorting mode to textboxlist <br /> \
+                           Item14572: upgraded jquery.livequery |
+|  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
+                           Item14566: don't cache a null result in foswiki.getPreference() <br /> \
+                           Item14570: add "use strict" to farbtastic's init and fix js errors <br /> \
+                           Item14573: fixed auto-height calculation of tabpane<br/>\
+                           Item14584: jquery.wikiword changed interpretation of source parameter in a incompatible way. |
+|   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5<br />\
+                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.<br />\
+                           Item14555: make build work with latest uglifyjs 3.<br />\
+                           Item14559: regression via Item13898 - broken topic selectors.<br />\
+                           Item14560: wikiword changes don't trigger a change event on the target element. |
 |   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
 |   8 Feb 2017: | (7.22) - Item14312: don't destroy dialogs on close. |
 |  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
@@ -158,8 +174,8 @@ required for Foswiki 1.1 or later.
                            externalized imagesLoaded from masonry; \
                            do a deep merge gathering foswikiPreferences from the header; \
                            added new jquery.i18n module for client-side translations |
-|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working <br/> \
-                           Item12560: Split !NameFilter into !AttachmentNameFilter <br/> \
+|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working <br /> \
+                           Item12560: Split !NameFilter into !AttachmentNameFilter <br /> \
                            Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
 |  06 Nov 2015: | (6.31) - Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
 |  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
@@ -190,7 +206,7 @@ required for Foswiki 1.1 or later.
                   Item12583: revert version string to simple float not to break installation on RHEL and SLES \
                   Item12599: use jQuery-1.9x (not 2.0.x) for IE9 \
                   Item12600: various minor changes to jquery components |
-|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) | 
+|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) |
 |  07 Jun 2013: | (4.82) - Item12528: fixed char mapping in jquery.wikiword |
 |  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
 |  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |
@@ -215,7 +231,7 @@ required for Foswiki 1.1 or later.
 |  01 Jun 2012: | (4.42) - Item11917: simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
 |  23 May 2012: | (4.41) - Item11889: \
                   added means to hide the close button on textboxlist values; \
-                  docu improvements to textboxlixst and pnotify | 
+                  docu improvements to textboxlixst and pnotify |
 |  10 Apr 2012: | (4.40) - Item11397, Item11742: \
                   use a JSON instead of &lt;meta> to export preferences to javascript; \
                   add jquery-1.7.2 (new default); \
@@ -291,7 +307,7 @@ required for Foswiki 1.1 or later.
                   added new jquery-ui theme flickr; \
                   update forms plugin to 2.49 to improve jQuery 1.4 compatibility |
 |  27 Oct 2010: | (3.75) fixed IE error in chili recipe for TML |
-|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |   
+|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |
 |  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
                   removed JQueryBgiframe and JQueryEasing plugins from default plugins |
 |  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \

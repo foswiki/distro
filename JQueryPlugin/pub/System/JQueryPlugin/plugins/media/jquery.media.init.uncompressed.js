@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($) {
   var pubUrlPath = foswiki.getPreference("PUBURLPATH")+'/'+foswiki.getPreference("SYSTEMWEB")+'/JQueryPlugin';
 
@@ -13,7 +14,7 @@ jQuery(function($) {
         options = $.extend({
           caption: '',
           skin: 'stormtrooper'
-        }, $this.metadata());
+        }, $this.data(), $this.metadata());
 
     if (options.autoplay) {
       options.flashvars = $.extend({}, options.flashvars, {

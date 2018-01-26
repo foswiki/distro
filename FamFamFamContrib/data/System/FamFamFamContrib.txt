@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1454519814" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512490670" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -53,7 +53,7 @@ eg
 <img src="%ATTACHURLPATH%/silk-companion-II.png" alt="silk-companion-II.png"  />
 
 ---+++ preview FamFamFamSilkGeoSilkIcons
-<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkGeoSilkIcons/geosilk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkGeoSilkIcons/geosilk.png" />
 
 ---+++ Foswiki Extra Icons FamFamFamFoswikiExtras
 %INCLUDE{%SYSTEMWEB%.FamFamFamFoswikiExtras}%
@@ -111,9 +111,9 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1454519814" size="169896" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1454519814" size="24969" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1454519814" size="13799" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1454519814" size="3242" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1454519814" size="14996" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1454519814" size="22024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1512490670" size="169896" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1512490670" size="24969" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1512490670" size="13799" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1512490670" size="3242" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1512490670" size="14996" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1512490670" size="22024" user="ProjectContributor" version="1"}%

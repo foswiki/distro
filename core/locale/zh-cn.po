@@ -85,7 +85,7 @@ msgstr "%1 由 %4 从 %2 移到 %3"
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1112
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -207,6 +207,10 @@ msgstr "%1 开始使用新子网"
 msgid "%1 topic does not exist"
 msgstr "%1 主题不存在"
 
+#: core/templates/registermessages.tmpl:459
+msgid "%1 topic not found. No users registered."
+msgstr ""
+
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
 msgstr "%1 试着以电子邮件 %2 注册"
@@ -230,7 +234,7 @@ msgstr "主题的名字不能空白。"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "历史(&H)"
 
@@ -419,6 +423,10 @@ msgid ""
 "that will be updated or added."
 msgstr "*本地档案:* 若您选择不同的 _本地档案:_ ，这个档案将被更新或新增。"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
+msgid "*Bulk registration is restricted to Administrators.*"
+msgstr ""
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -458,6 +466,13 @@ msgid ""
 msgstr ""
 "*属性:* 点 \"只改变档属性\" 可以变更评论和显示（如：隐藏附件）而不用再上传档"
 "案；参考 %1."
+
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -594,7 +609,7 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1305
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
@@ -668,7 +683,7 @@ msgstr "功能"
 msgid "Action %1: %2 by user %3."
 msgstr "功能 %1: %2."
 
-#: core/data/Main/WikiGroups.txt:64
+#: core/data/System/WikiGroupsComponents.txt:58
 #, fuzzy
 msgid "Actions"
 msgstr "功能"
@@ -688,7 +703,7 @@ msgstr ""
 msgid "Add"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:203
+#: core/data/System/GroupViewTemplate.txt:207
 #, fuzzy
 msgid "Add Members to %1"
 msgstr "加一列"
@@ -704,12 +719,12 @@ msgstr "为 %1 选个新表单"
 msgid "Add form"
 msgstr "增加表单"
 
-#: core/data/Main/GroupViewTemplate.txt:212
+#: core/data/System/GroupViewTemplate.txt:216
 #, fuzzy
 msgid "Add members"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:163
+#: core/data/System/GroupViewTemplate.txt:167
 msgid "Add members..."
 msgstr ""
 
@@ -718,7 +733,7 @@ msgstr ""
 msgid "Add row"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:189
+#: core/data/System/GroupViewTemplate.txt:193
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "编辑本主题的设定"
@@ -736,7 +751,7 @@ msgstr "Foswiki 管理员认证"
 msgid "Admin Maintenance"
 msgstr "管理员维护"
 
-#: core/data/Main/GroupViewTemplate.txt:161
+#: core/data/System/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Administration"
 msgstr "注册"
@@ -940,6 +955,11 @@ msgstr " %1 子网可用的范本"
 msgid "Back to topic"
 msgstr "回到主题"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
+#, fuzzy
+msgid "Back to:"
+msgstr "回到主题"
+
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "反向连结"
@@ -981,6 +1001,16 @@ msgstr ""
 msgid "Both body and title"
 msgstr "内容和标题"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
+#, fuzzy
+msgid "Bulk Register these users"
+msgstr "注册"
+
+#: core/templates/registermessages.tmpl:468
+msgid ""
+"Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
 msgstr ""
@@ -1001,12 +1031,12 @@ msgstr ""
 "WebPreferences 中 =ALLOWWEBVIEW= 的相关限制。"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1035,12 +1065,12 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:192
-#: core/data/Main/GroupViewTemplate.txt:213
-#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
-#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+#: core/data/System/GroupViewTemplate.txt:196
+#: core/data/System/GroupViewTemplate.txt:217
+#: core/data/System/GroupViewTemplate.txt:244 core/templates/edit.tmpl:46
+#: core/templates/foswiki.tmpl:112 core/templates/settings.tmpl:12
+#: core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "取消"
 
@@ -1078,7 +1108,8 @@ msgstr "区分字母大小写"
 msgid "Categories"
 msgstr "类别"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:142
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:7
 #, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
@@ -1185,7 +1216,7 @@ msgid "Changes"
 msgstr "更新"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:620
+#: core/lib/Foswiki/UI/RDiff.pm:621
 msgid "Changes from r%1 to r%2"
 msgstr "由 r%1 改成 r%2"
 
@@ -1401,7 +1432,7 @@ msgstr "在 %1 子网中建立新主题"
 msgid "Create a link to the attached file"
 msgstr "建立附件连结"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/System/WikiGroupsComponents.txt:11
 #, fuzzy
 msgid "Create a new group"
 msgstr "建立新主题"
@@ -1416,7 +1447,7 @@ msgstr "建立新主题"
 msgid "Create account"
 msgstr "建立新主题"
 
-#: core/data/Main/WikiGroups.txt:42
+#: core/data/System/WikiGroupsComponents.txt:36
 #, fuzzy
 msgid "Create group"
 msgstr "建立新主题"
@@ -1659,12 +1690,12 @@ msgid "Each preference has the syntax"
 msgstr "个属性都有语法"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/data/System/VarMAKETEXT.txt:12
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "编辑"
 
-#: core/data/System/VarMAKETEXT.txt:42
+#: core/data/System/VarMAKETEXT.txt:50
 #, fuzzy
 msgid "Edit %*(%1,file)"
 msgstr "%*(%1,分钟) "
@@ -1695,6 +1726,11 @@ msgstr "编辑这个表格"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
 #, fuzzy
 msgid "Edit this topic text (e)"
+msgstr "编辑这个主题"
+
+#: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
+#, fuzzy
+msgid "Edit this topic to add a description to the %1"
 msgstr "编辑这个主题"
 
 #: core/templates/more.tmpl:13
@@ -1759,7 +1795,7 @@ msgstr ""
 msgid "End presentation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "放大编辑框"
 
@@ -1787,7 +1823,7 @@ msgstr ""
 "请返回浏览器的上一页，并选择一个 %1.WikiWord 的主题名，或是点选 \"允许非"
 "WikiWord\"选项。"
 
-#: core/data/Main/GroupViewTemplate.txt:209
+#: core/data/System/GroupViewTemplate.txt:213
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "请先将用户从 %1 群组删除。"
@@ -1858,7 +1894,7 @@ msgstr ""
 msgid "External"
 msgstr ""
 
-#: core/lib/Foswiki/Plugins.pm:455
+#: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
 msgstr ""
 
@@ -2015,7 +2051,7 @@ msgstr "得到此搜寻的修改通知"
 msgid "Globe"
 msgstr "关闭"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "返回"
@@ -2045,22 +2081,22 @@ msgstr "好范例:"
 msgid "GoodStyle"
 msgstr ""
 
-#: core/data/Main/WikiGroups.txt:62
+#: core/data/System/WikiGroupsComponents.txt:56
 #, fuzzy
 msgid "Group"
 msgstr "群组"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
 
-#: core/data/Main/WikiGroups.txt:28
+#: core/data/System/WikiGroupsComponents.txt:22
 #, fuzzy
 msgid "Group name"
 msgstr "主题名称"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2101,7 +2137,7 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -2149,7 +2185,7 @@ msgstr ""
 msgid "How about attaching your photo?"
 msgstr "附上您的照片吗?"
 
-#: core/templates/registerconfirm.tmpl:3
+#: core/templates/registerconfirm.tmpl:4
 msgid "How to activate your %1 registration"
 msgstr "如何启动 %1 您的注册"
 
@@ -2249,7 +2285,7 @@ msgstr "若您未在一小时内收到确认的电子邮件，"
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "如果您输入不同的名称，请确认该主题不存在。"
 
-#: core/templates/registerconfirm.tmpl:14 core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:15 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2268,7 +2304,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "任何问题，请联系 %1。"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13 core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:14 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "任何问题，请联系 %1。"
 
@@ -2314,14 +2350,15 @@ msgstr ""
 "如果您的旧邮件地址失效（您无法收到任何邮件）而又忘记密码的话，请联系 %1 协"
 "助。"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:143
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:8
 msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr ""
 
@@ -2540,7 +2577,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:256
+#: core/data/System/GroupViewTemplate.txt:260
 msgid "Join %1"
 msgstr ""
 
@@ -2607,7 +2644,7 @@ msgstr "姓:"
 msgid "Latest revision: %1"
 msgstr "(修订版 %1)"
 
-#: core/data/Main/GroupViewTemplate.txt:268
+#: core/data/System/GroupViewTemplate.txt:272
 msgid "Leave %1"
 msgstr ""
 
@@ -2621,12 +2658,12 @@ msgstr "限制结果于:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+#: core/lib/Foswiki/UI/RDiff.pm:176 core/lib/Foswiki/UI/RDiff.pm:177
 msgid "Line: %1"
 msgstr "行: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:331
+#: core/lib/Foswiki/UI/RDiff.pm:332
 msgid "Line: %1 to %2"
 msgstr "行: %1 到 %2"
 
@@ -2657,7 +2694,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:144
+#: core/data/System/GroupViewTemplate.txt:148
 msgid "Log in to continue."
 msgstr ""
 
@@ -2703,8 +2740,9 @@ msgstr "搜寻:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
-#: core/data/Main/WikiGroups.txt:63
+#: core/data/System/GroupViewTemplate.txt:25
+#: core/data/System/WikiGroupsComponents.txt:31
+#: core/data/System/WikiGroupsComponents.txt:57
 msgid "Members"
 msgstr ""
 
@@ -2720,7 +2758,7 @@ msgstr "缺少功能命令"
 msgid "Missing or illegal web name"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "修改搜寻:"
@@ -2937,7 +2975,7 @@ msgstr "无子主题"
 msgid "No group name specified"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:52
+#: core/data/System/GroupViewTemplate.txt:56
 #, fuzzy
 msgid "No members"
 msgstr "加一列"
@@ -3003,7 +3041,7 @@ msgstr "移动后，任何引用此附件的 URL 都将失效。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -3033,7 +3071,7 @@ msgstr "通知"
 msgid "Number of changes for each Web"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3057,7 +3095,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3094,7 +3132,7 @@ msgstr "只有 %1 的成员允许使用这些功能。"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成员允许使用这些功能。"
 
-#: core/data/Main/GroupViewTemplate.txt:147
+#: core/data/System/GroupViewTemplate.txt:151
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3334,6 +3372,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:461
 msgid "Please go back in your browser and try again."
 msgstr "请返回浏览器的上一页，并再试一次."
 
@@ -3363,7 +3402,7 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "请至 %1 将您的密码设成自己较容易记的."
 
-#: core/lib/Foswiki/Plugins.pm:501
+#: core/lib/Foswiki/Plugins.pm:505
 msgid "Plugin handlers"
 msgstr ""
 
@@ -3497,7 +3536,7 @@ msgstr "更新"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "注册"
 
@@ -3515,12 +3554,17 @@ msgstr "注册"
 msgid "Registration"
 msgstr "注册"
 
+#: core/templates/registermessages.tmpl:467
+#, fuzzy
+msgid "Registration Results Summary"
+msgstr "注册"
+
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 #, fuzzy
 msgid "Registration approval is not enabled."
 msgstr "禁止新用户注册"
 
-#: core/lib/Foswiki/UI/Register.pm:732
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3570,6 +3614,7 @@ msgstr ""
 msgid "Related Topics for Administrators:"
 msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:37
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
@@ -3577,15 +3622,15 @@ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
 msgid "Related Topics:"
 msgstr "相关主题"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:149
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:703
-#: core/data/System/FormattedSearch.txt:401
+#: core/data/System/CommandAndCGIScripts.txt:758
+#: core/data/System/FormattedSearch.txt:402
 #: core/data/System/GlossaryOfTerms.txt:27
+#: core/data/System/GroupViewTemplate.txt:38
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
 #: core/templates/messages.tmpl:428
@@ -3611,7 +3656,7 @@ msgstr "请记得更新您用户主题中的邮件位址，以反应实情。"
 msgid "Remember your password?"
 msgstr "记住密码?"
 
-#: core/data/Main/GroupViewTemplate.txt:225
+#: core/data/System/GroupViewTemplate.txt:229
 #, fuzzy
 msgid "Remove Members from %1"
 msgstr "请先将用户从 %1 群组删除。"
@@ -3620,7 +3665,7 @@ msgstr "请先将用户从 %1 群组删除。"
 msgid "Remove User"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:165
+#: core/data/System/GroupViewTemplate.txt:169
 msgid "Remove members..."
 msgstr ""
 
@@ -3628,7 +3673,7 @@ msgstr ""
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/System/GroupViewTemplate.txt:243
 msgid "Remove selected members"
 msgstr ""
 
@@ -3686,6 +3731,11 @@ msgstr "取代表单..."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "请求验证"
+
+#: core/templates/registermessages.tmpl:457
+#, fuzzy
+msgid "Requested bulk registration topic not found."
+msgstr "不支援新用户注册"
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3747,6 +3797,10 @@ msgstr ""
 
 #: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
+msgstr ""
+
+#: core/templates/registermessages.tmpl:471
+msgid "Results"
 msgstr ""
 
 #: PatternSkin/templates/search.pattern.tmpl:27
@@ -3980,7 +4034,7 @@ msgstr "编辑此页请参考以下说明."
 msgid "See changes since:"
 msgstr "检查最近的更新:"
 
-#: core/lib/Foswiki/Plugins.pm:296
+#: core/lib/Foswiki/Plugins.pm:300
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -4006,7 +4060,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "选择父主题:"
 
-#: core/data/Main/GroupViewTemplate.txt:234
+#: core/data/System/GroupViewTemplate.txt:238
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "请先将用户从 %1 群组删除。"
@@ -4073,7 +4127,7 @@ msgstr "显示说明"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "缩小编辑框"
 
@@ -4255,7 +4309,7 @@ msgstr "摘要"
 msgid "Superscript"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "切换到等宽或等比的字体"
@@ -4268,7 +4322,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/System/GroupViewTemplate.txt:145
 msgid "System user list."
 msgstr ""
 
@@ -4322,7 +4376,7 @@ msgid ""
 "e-mail for future reference."
 msgstr "谢谢您在 %1 合作平台注册。请保留本邮件以供未来参考。"
 
-#: core/templates/registerconfirm.tmpl:9
+#: core/templates/registerconfirm.tmpl:10
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -4352,11 +4406,11 @@ msgstr ""
 "%3 的工具。在页面底端加上您的签名、姓名 %4 和日期，是个好习惯."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
-#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:6
 #: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
-#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
-#: core/data/_default/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:6 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:6
 #, fuzzy
 msgid "The %1 web of %2."
 msgstr "子网 %1 不存在"
@@ -4457,7 +4511,7 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4685,7 +4739,7 @@ msgstr ""
 "用本表单修改注册邮件地址。系统会发送邮件至您的注册邮箱，包括：密码变更通知。"
 "表中的注册邮件地址将会隐藏保密，并*不会*显示于网站的其他网页内。"
 
-#: core/data/Main/GroupViewTemplate.txt:138
+#: core/data/System/GroupViewTemplate.txt:142
 msgid "This group should not have members."
 msgstr ""
 
@@ -4929,7 +4983,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "主题无法由旧风格的类别表格升级"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:72
 #, fuzzy
 msgid "Topic data"
 msgstr "主题名称"
@@ -5085,13 +5139,13 @@ msgstr "在 %2 更新附件 %1"
 msgid "Update links"
 msgstr "更新连结"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:182
-#: core/data/Main/GroupViewTemplate.txt:191
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
+#: core/data/System/GroupViewTemplate.txt:186
+#: core/data/System/GroupViewTemplate.txt:195
 msgid "Upgrade"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:172
+#: core/data/System/GroupViewTemplate.txt:176
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "复制主题 "
@@ -5154,12 +5208,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1145
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1134
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5210,12 +5264,12 @@ msgid "Users"
 msgstr "用户"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1104
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -5253,7 +5307,7 @@ msgstr "%1 的版本历史"
 msgid "View"
 msgstr "浏览"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 #, fuzzy
 msgid "View complete topic history"
 msgstr "检视主题完整修订史"
@@ -5349,11 +5403,11 @@ msgstr "警告: 找不到主题%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1298
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:1310
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
@@ -5361,8 +5415,8 @@ msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:12
-msgid "Warning: Updates found for %1 extension(s)."
+#: UpdatesPlugin/templates/updatesplugin.tmpl:11
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr ""
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -5646,7 +5700,7 @@ msgstr ""
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:11
+#: core/templates/registerconfirm.tmpl:12
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
@@ -5789,33 +5843,37 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
+msgid "_Be sure to remember to save any table changes!_"
+msgstr ""
+
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "简体中文"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:166
 msgid "access denied on root"
 msgstr "禁止浏览根目录"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:102
 msgid "access denied on topic"
 msgstr "禁止浏览主题"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:138
 msgid "access denied on web"
 msgstr "禁止浏览子网"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:176
 msgid "access not allowed on root"
 msgstr "不允许浏览根目录"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:125
 msgid "access not allowed on topic"
 msgstr "不允许浏览主题"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:150
 msgid "access not allowed on web"
 msgstr "不允许浏览子网"
 
@@ -5933,7 +5991,7 @@ msgid "now %1"
 msgstr "现在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

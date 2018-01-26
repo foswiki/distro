@@ -1,0 +1,39 @@
+%META:TOPICINFO{author="ProjectContributor" date="1487907314" format="1.1" version="1"}%
+%META:TOPICPARENT{name="BulkRegister"}%
+%{<verbatim class="tml">
+===================================================
+    BulkRegister view "UnprocessedRegistrations"
+===================================================
+}%%{
+---------------------------------------------------
+	Include the default view templates from your current SKIN and COVER paths
+---------------------------------------------------
+}%%TMPL:INCLUDE{"view"}%%{
+---------------------------------------------------
+    Override the content template DEFinition. This normally just contains %TEXT%,
+    but we add some more here to help decorate all the [[FAQForm]] topics in the
+    same way
+---------------------------------------------------
+}%%TMPL:DEF{"content"}%
+---+ %SPACEOUT{"%TOPIC%"}% 
+%TEXT%
+---
+%MAKETEXT{"_Be sure to remember to save any table changes!_"}%
+%IF{"context isadmin" then="
+<form name='bulkRegister' action='%SCRIPTURLPATH{"manage"}%/%TOPIC%' method='post'>
+<input type='hidden' name='action' value='bulkRegister' /><sticky>&nbsp;</sticky>
+<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Bulk Register these users"}%' />
+<input type='hidden' name='topic' value='%USERSWEB%.%TOPIC%' />
+<input type='hidden' name='redirectto' value='%TOPIC%#RegResults' />
+<input type='hidden' name='LogTopic' value='%TOPIC%Log' />
+<input type='hidden' name='templatetopic' value='%USER_TEMPLATE{default=""}%' />
+</form> "
+else="<div class='foswikiAlert'> %MAKETEXT{"*Bulk registration is restricted to Administrators.*"}% </div>"}%
+
+%IF{"'%WEB%.%TOPIC%'/info.date < '%WEB%.%TOPIC%Log'/info.date" then="$percntINCLUDE{\"%TOPIC%Log\" warn=\"off\"}$percnt"}%
+
+*%MAKETEXT{"Back to:"}%* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
+----
+*%MAKETEXT{"Related Topics:"}%* [[System.BulkResetPassword]], [[System.ManagingUsers]]%TMPL:END%%{
+===================================================
+</verbatim>}%

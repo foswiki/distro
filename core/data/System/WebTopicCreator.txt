@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490657423" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"'Create New Topic' page has moved"}%
 
-*[[%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%?create=on&newtopic=&topicparent=%URLPARAM{"parent"}%&template=WebCreateNewTopic][%MAKETEXT{"Continue to create the new page"}%]]*
+*[[%SCRIPTURLPATH{"view" topic="%BASEWEB%.%BASETOPIC%" create="on" newtopic="" topicparent="%URLPARAM{"parent"}%" template="WebCreateNewTopic"}%][%MAKETEXT{"Continue to create the new page"}%]]*
 
 
 <div class="foswikiNotification">
@@ -22,6 +22,6 @@ All !WebTopicCreator topics on this site:
    scope="topic" 
    nonoise="on" 
    web="all,-%SYSTEMWEB%" 
-   format="   * [[%SCRIPTURL{edit}%/$web/$topic?t=%GMTIME{$epoch}%][Edit $web.$topic]]"
+   format="   * [[%SCRIPTURLPATH{"edit" topic="$web/$topic" t="%GMTIME{$epoch}%"}%][Edit $web.$topic]]"
  }%
 </div>

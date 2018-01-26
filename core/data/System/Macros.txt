@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452350387" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489246418" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -17,6 +17,9 @@ Macros are text strings in one of three basic forms:
   param1+="and even more"
 }%
 </verbatim>
+
+Parameter names may be upper or lower case, and may consist of the ascii alphas, numbers, and the symbol #,  Other characters and Unicode extended
+alpha characters are not valid.
 
 The third form is a new feature in Foswiki 2.1 to significantly improve readability with complex macros, see [[#Readable_Macros][Readable Macros]] for details.
 
@@ -512,6 +515,9 @@ This gives:
   header+="|"
   format+="|"
 }%
+---++ Comments
+
+You can add comments anywhere in macros (and outside them) using the standard =#<nop>{...}<nop>#= comment delimiters. Comments are removed *before* any macros are processed, so you can't use macros to generate comments. Any macros inside comments will be ignored.
 
 %STOPINCLUDE%
 

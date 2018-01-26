@@ -68,6 +68,13 @@ THIS
     return;
 }
 
+sub loadExtraConfig {
+    my $this = shift;
+    $this->SUPER::loadExtraConfig();
+
+    $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = 1;
+}
+
 sub DENIED {
     my ( $this, $mode, $user, $web, $topic ) = @_;
     $web   ||= $this->{test_web};
@@ -77,7 +84,6 @@ sub DENIED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        require Foswiki::Address;
         $this->assert(
             !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic"
@@ -85,16 +91,6 @@ sub DENIED {
         $this->assert(
             !$this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
-            ),
-            "$user $mode $web.$topic"
-        );
-        $this->assert(
-            !$this->{session}->access->haveAccess(
-                $mode, $user,
-                Foswiki::Address->new(
-                    web   => $topicObject->web,
-                    topic => $topicObject->topic
-                )
             ),
             "$user $mode $web.$topic"
         );
@@ -113,7 +109,6 @@ sub PERMITTED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        require Foswiki::Address;
         $this->assert(
             $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic"
@@ -121,16 +116,6 @@ sub PERMITTED {
         $this->assert(
             $this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
-            ),
-            "$user $mode $web.$topic"
-        );
-        $this->assert(
-            $this->{session}->access->haveAccess(
-                $mode, $user,
-                Foswiki::Address->new(
-                    web   => $topicObject->web,
-                    topic => $topicObject->topic
-                )
             ),
             "$user $mode $web.$topic"
         );
@@ -616,6 +601,91 @@ THIS
     return;
 }
 
+# Ensure additive topic ACL overrides web allow
+sub test_allow_web_additive_topic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(
+        <<'THIS'
+If ALLOWWEB is set to a list of wikinames
+    * people in the list will be PERMITTED
+    * everyone else will be DENIED
+   * Set ALLOWWEBVIEW = MrGreen
+THIS
+    );
+    $topicObject->save();
+    $topicObject->finish();
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(
+        <<'THIS'
+If ALLOWTOPIC is set
+   1. people in the list are PERMITTED
+   2. everyone else is DENIED
+   * Set ALLOWTOPICVIEW = +MrWhite, %USERSWEB%.MrBlue
+THIS
+    );
+    $topicObject->save();
+    $topicObject->finish();
+
+    $this->DENIED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrYellow );
+    $this->PERMITTED( "view", $MrBlue );
+
+    return;
+}
+
+# Ensure additive topic ACL overrides web deny & allow
+sub test_deny_web_additive_topic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(
+        <<'THIS'
+If ALLOWWEB is set to a list of wikinames
+    * people in the list will be PERMITTED
+    * everyone else will be DENIED
+   * Set DENYWEBVIEW = MrGreen
+   * Set ALLOWWEBVIEW = MrOrange
+THIS
+    );
+    $topicObject->save();
+    $topicObject->finish();
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(
+        <<'THIS'
+If ALLOWTOPIC is set
+   1. people in the list are PERMITTED
+   2. everyone else is DENIED
+   * Set ALLOWTOPICVIEW = +MrWhite, %USERSWEB%.MrGreen
+THIS
+    );
+    $topicObject->save();
+    $topicObject->finish();
+
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrYellow );
+    $this->DENIED( "view", $MrBlue );
+
+    return;
+}
+
 # Test that Web.UserName is equivalent to UserName in ACLs
 sub test_webDotUserName {
     my $this = shift;
@@ -946,8 +1016,8 @@ THIS
         my ($status) = $text =~ m/^Status: (\d+)\r?$/m;
         $this->assert_not_null( $status,
             "Request did not return a Status header" );
-        $this->assert_equals( 401, $status,
-            "Request should have returned a 401, not a $status" );
+        $this->assert_equals( 200, $status,
+            "Request should have returned a 200, not a $status" );
 
         # Extract what we've been redirected to
         my ($formAction) =

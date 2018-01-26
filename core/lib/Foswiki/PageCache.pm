@@ -419,7 +419,9 @@ sub isCacheable {
     $isCacheable = 0 if $session->inContext('command_line');
 
     # check for errors parsing the url path
-    $isCacheable = 0 if $session->{invalidWeb} || $session->{invalidTopic};
+    $isCacheable = 0
+      if $session->{request}->invalidWeb()
+      || $session->{request}->invalidTopic();
 
     # POSTs and HEADs aren't cacheable
     if ($isCacheable) {

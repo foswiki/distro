@@ -872,8 +872,9 @@ HERE
     my $hashRef = eval
 "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
     use Data::Dumper;
-    print STDERR "------ $html\n";
-    print STDERR "------ " . Dumper($hashRef) . "\n";
+
+    #print STDERR "------ $html\n";
+    #print STDERR "------ " . Dumper($hashRef) . "\n";
 
 #this is what we have - and it shows that you need to call expandMacros before calling renderText
     $this->assert_deep_equals(

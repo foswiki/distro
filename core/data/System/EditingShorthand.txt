@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1473352704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1510549663" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -395,7 +395,9 @@ ACRONYM
 %BR% 
 Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[wiki word]]= links to topic WikiWord.  You can also refer to a different web and use anchors.
 %BR%
-%T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
+%T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point. 
+%BR%
+%T% To use a square bracket inside another URL, they need to be URL encoded.  Replace [ with =%5B= and ] with =%5D=.
 </td><td>
 <pre class="tml">
 [[wiki syntax]]
@@ -456,7 +458,7 @@ Email addresses are also linked automatically,  see further details below.
    * nntp://foswiki.org
    * telnet://foswiki.org
    * name@foswiki.org
-   * %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png
+   * %PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%
 </verbatim>
 </td>
 <td>
@@ -469,7 +471,7 @@ Email addresses are also linked automatically,  see further details below.
    * nntp://foswiki.org
    * telnet://foswiki.org
    * name@foswiki.org
-   * %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png
+   * %PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%
 </td>
 </tr>
 <tr valign="top">
@@ -490,7 +492,7 @@ Email addresses are also linked automatically,  see further details below.
 
 <b>https://foswiki.org</b>
 
-_%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
+_%PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%_
 </verbatim>
 </td><td>
 
@@ -504,7 +506,7 @@ _%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
 
 <b>https://foswiki.org</b>
 
-_%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
+_%PUBURL{"foswiki-logo-icon.png" topic="%SYSTEMWEB%.ProjectLogos"}%_
 </td>
 </tr>
 <tr valign="top">
@@ -782,6 +784,13 @@ required
 ---++!! offset was 1, so offset is now 0
 </td>
 </tr>
+<tr>
+<td>
+=#<nop>{ ... comment ... }<nop>#=
+</td><td>
+*Comments:* %BR%
+Comments will be removed from content before the topic is displayed.
+</td>
 </table>
 <!-- %JQREQUIRE{"chili"}% -->
 

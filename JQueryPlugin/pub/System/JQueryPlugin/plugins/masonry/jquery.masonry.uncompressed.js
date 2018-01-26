@@ -3185,7 +3185,7 @@ return Outlayer;
 
 }));
 
-'use strict';
+"use strict";
 jQuery(function($) {
   var defaults = {
     waitForImages: true

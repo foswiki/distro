@@ -14,6 +14,8 @@ use Foswiki::EngineException();
 use Carp();
 use Error ':try';
 
+use Unit::Request::Rest;
+
 our $UI_FN;
 
 sub set_up {
@@ -111,7 +113,7 @@ sub test_authmethods {
         description => 'Example handler for Empty Plugin'
     );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
 
     $query->setUrl( '/'
           . __PACKAGE__
@@ -210,7 +212,7 @@ sub test_simple {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -224,7 +226,7 @@ sub test_endPoint {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => "$this->{test_web}/$this->{test_topic}",
@@ -247,7 +249,7 @@ sub test_redirectto {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action     => ['rest'],
             redirectto => "$this->{test_web}/$this->{test_topic}",
@@ -270,7 +272,7 @@ sub test_endPoint_Anchor {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => "$this->{test_web}/$this->{test_topic}#MyAnch",
@@ -293,7 +295,7 @@ sub test_redirectto_Anchor {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action     => ['rest'],
             redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
@@ -316,7 +318,7 @@ sub test_endPoint_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
@@ -340,7 +342,7 @@ sub test_redirectto_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action => ['rest'],
             redirectto =>
@@ -365,7 +367,7 @@ sub test_endPoint_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => 'http://this/that?blah=1;q=2',
@@ -395,7 +397,7 @@ sub test_redirectto_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action     => ['rest'],
             redirectto => 'http://this/that?blah=1;q=2',
@@ -426,7 +428,7 @@ sub test_http_allow {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         http_allow => 'GET' );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('POST');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -453,7 +455,7 @@ sub test_validate {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         validate => 1 );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -483,7 +485,7 @@ sub test_authenticate {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         authenticate => 1 );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( undef, $query );
@@ -516,7 +518,7 @@ sub test_endPoint_URL {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => "http://lolcats.com/funny?pussy=cat",
@@ -540,7 +542,7 @@ sub test_redirectto_URL {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action     => ['rest'],
             redirectto => "http://lolcats.com/funny?pussy=cat",
@@ -565,7 +567,7 @@ sub test_endPoint_badURL {
         with_dep => 'Foswiki,<,1.2' );
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action   => ['rest'],
             endPoint => "http://lolcats.com/funny?pussy=cat",
@@ -586,7 +588,7 @@ sub test_redirectto_badURL {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             action     => ['rest'],
             redirectto => "http://lolcats.com/funny?pussy=cat",
@@ -607,7 +609,7 @@ sub test_500 {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_and_be_thankful );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -623,7 +625,7 @@ sub test_topic_context {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'context', \&rest_context );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/context' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );

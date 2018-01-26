@@ -1,9 +1,10 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 ## Copyright 2004 Sven Dowideit.  All Rights Reserved.
 ## License: GPL
 #please output results and errors to the dir specified on the command line
 
 use strict;
+use warnings;
 use LWP;
 
 my $URL = "http://ntwiki.ethermage.net/~develop/cgi-bin";

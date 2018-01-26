@@ -211,8 +211,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.4');
-    $RELEASE = 'Foswiki-2.1.4';
+    use version 0.77; $VERSION = version->declare('v2.1.999_001');
+    $RELEASE = 'Foswiki-2.2.0 Alpha';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
@@ -257,20 +257,24 @@ BEGIN {
 
           #deprecated functionality, now implemented using %ENV%
           sub { $_[0]->{request}->header('Host') || '' },
-        HTTP                 => undef,
-        HTTPS                => undef,
-        ICON                 => undef,
-        ICONURL              => undef,
-        ICONURLPATH          => undef,
-        IF                   => undef,
-        INCLUDE              => undef,
-        INTURLENCODE         => undef,
-        LANGUAGE             => sub { $_[0]->i18n->language(); },
-        LANGUAGES            => undef,
-        MAKETEXT             => undef,
-        META                 => undef,                              # deprecated
-        METASEARCH           => undef,                              # deprecated
-        NONCE                => undef,
+        HTTP         => undef,
+        HTTPS        => undef,
+        ICON         => undef,
+        ICONURL      => undef,
+        ICONURLPATH  => undef,
+        IF           => undef,
+        INCLUDE      => undef,
+        INTURLENCODE => undef,
+        LANGUAGE     => sub { $_[0]->i18n->language(); },
+        LANGUAGES    => undef,
+        MAKETEXT     => undef,
+        META         => undef,                              # deprecated
+        METASEARCH   => undef,                              # deprecated
+        NONCE        => undef,
+
+        # Can't do this, because %P% means 'pencil'
+        #P                    => sub { $_[0]->templates->tmplP( $_[1] ) },
+        PARENTTOPIC          => undef,
         PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
         NOP =>
@@ -520,10 +524,10 @@ BEGIN {
     $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
     $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
+    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/o;
 
     $regex{topicNameRegex} =
-      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
+      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
@@ -576,8 +580,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # See RobustnessTests::test_sanitizeAttachmentName
     #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/;
+    $regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/o;
+    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/o;
 
     # Multi-character alpha-based regexes
     $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
@@ -688,6 +692,7 @@ sub writeCompletePage {
     # rendered from the cache
     my $binary_body = 0;
 
+    $contentType ||= $this->{response}->getHeader("Content-Type");
     $contentType ||= 'text/html';
 
     my $cgis = $this->{users}->getCGISession();
@@ -1516,14 +1521,16 @@ sub getSkin {
 
 =begin TML
 
----++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
+---++ ObjectMethod getScriptUrl( $absolute, $script, $path1, $path2, ... ) -> $scriptURL
 
 Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
-"http://host/foswiki/bin/$script/$web/$topic".
-   * =...= - an arbitrary number of name,value parameter pairs that will
+   * ="http://host/foswiki/bin/$script/$path1/$path2".=
+
+=...= is an arbitrary number of name,value parameter pairs that will
 be url-encoded and added to the url. The special parameter name '#' is
 reserved for specifying an anchor. e.g.
+
 =getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)= will give
 =.../view/x/y?a=1&b=2#XXX=
 
@@ -1539,6 +1546,10 @@ are relative, then they will be converted to absolute when required (e.g.
 when running from the command line, or when generating rss). If
 $script is not given, absolute URLs will always be generated.
 
+$path1 and $path2 are interpreted based upon the script name:
+   * =rest=,  $path1 is the subject, and $path2 is the verb
+   * =jsonrpc=, $path1 is the Namespace and $path2 (optional) is the method.
+For all other scripts, $path1 is the Web, and Path2 is the Topic.
 If either the web or the topic is defined, will generate a full url (including web and topic). Otherwise will generate only up to the script name. An undefined web will default to the main web name.
 
 As required by RFC3986, the returned URL will only contain the
@@ -1547,7 +1558,7 @@ allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
 =cut
 
 sub getScriptUrl {
-    my ( $this, $absolute, $script, $web, $topic, @params ) = @_;
+    my ( $this, $absolute, $script, $path1, $path2, @params ) = @_;
 
     $absolute ||=
       ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
@@ -1580,14 +1591,23 @@ sub getScriptUrl {
         $url = $this->{urlHost} . $url;
     }
 
-    if ($topic) {
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-
-        $url .= urlEncode( '/' . $web . '/' . $topic );
-
+    if ( defined $script && ( $script eq 'rest' || $script eq 'jsonrpc' ) ) {
+        if ( defined $path1 ) {
+            $url .= urlEncode( '/' . $path1 );
+            $url .= urlEncode( '/' . $path2 ) if defined $path2;
+        }
     }
-    elsif ($web) {
-        $url .= urlEncode( '/' . $web );
+    else {
+        if ($path2) {
+            my ( $web, $topic ) =
+              $this->normalizeWebTopicName( $path1, $path2 );
+
+            $url .= urlEncode( '/' . $web . '/' . $topic );
+
+        }
+        elsif ($path1) {
+            $url .= urlEncode( '/' . $path1 );
+        }
     }
     $url .= make_params(@params);
 
@@ -1780,187 +1800,6 @@ sub load_package {
     $fullname =~ s{::}{/}g;
     $fullname .= '.pm';
     require $fullname;
-}
-
-=begin TML
-
----++ Private _parsePath( $this, $webtopic, $defaultweb, $topicOverride )
-
-Parses the Web/Topic path parameters to safely establish a valid web and topic,
-or assign safe defaults.
-
-   * $webtopic - A "web/topic" path.  It might have originated from the query path_info,
-   or from the topic= URL parameter. (only when the topic param contained a web component)
-   * $defaultweb - The default web to use if the web part of webtopic is missing or invalid.
-   This can be from the default UsersWebName,  or from the url parameter defaultweb.
-   * $topicOverride - A topic name to use instead of any topic provided in the pathinfo.
-
-Note if $webtopic ends with a trailing slash, it provides a hint that the last component should be
-considered web.  This allows disambiguation between a topic and subweb with the same name.
-Trailing slash forces it to be recognized as a webname, otherwise the topic is shown.
-Note. If the web doesn't exist, the force will be ignored.  It's not possible to create a missing web
-by referencing it in a URL.
-
-This routine sets two variables when encountering invalid input:
-   * $this->{invalidWeb}  contains original invalid web / pathinfo content when validation fails.
-   * $this->{invalidTopic} Same function but for topic name
-When invalid / illegal characters are encountered, the session {webName} and {topicName} will be
-defaulted to safe defaults.  Scripts using those fields should also test if the corresponding
-invalid* versions are defined, and should throw an oops exception rathern than allowing execution
-to proceed with defaulted values.
-
-The topic name will always have the first character converted to upper case, to prevent creation of
-or access to invalid topics.
-
-=cut
-
-sub _parsePath {
-    my $this          = shift;
-    my $webtopic      = shift;
-    my $defaultweb    = shift;
-    my $topicOverride = shift;
-
-    #print STDERR "_parsePath called WT ($webtopic) DEF ($defaultweb)\n";
-
-    my $trailingSlash = ( $webtopic =~ s/\/$// );
-
-    #print STDERR "TRAILING = $trailingSlash\n";
-
-    # Remove any leading slashes or dots.
-    $webtopic =~ s/^[\/.]+//;
-
-    my @parts = split /[\/.]+/, $webtopic;
-    my $cur = 0;
-    my @webs;         # Collect valid webs from path
-    my @badpath;      # Collect all webs, including illegal
-    my $temptopic;    # Candidate topicname extracted from path, defaults.
-
-    foreach (@parts) {
-
-        # Lax check on name to eliminate evil characters.
-        my $p = Foswiki::Sandbox::untaint( $_,
-            \&Foswiki::Sandbox::validateTopicName );
-        unless ($p) {
-            push @badpath, $_;
-            next;
-        }
-
-        if ( \$_ == \$parts[-1] ) {    # This is the last part of path
-
-            if ( $this->topicExists( join( '/', @webs ) || $defaultweb, $p )
-                && !$trailingSlash )
-            {
-
-                #print STDERR "Exists and no trailing slash\n";
-
-                # It exists in Store as a topic and there is no trailing slash
-                $temptopic = $p || '';
-            }
-            elsif ( $this->webExists( join( '/', @webs, $p ) ) ) {
-
-                #print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n";
-
-                # It exists in Store as a web
-                push @badpath, $p;
-                push @webs,    $p;
-            }
-            elsif ($trailingSlash) {
-
-                #print STDERR "Web forced ...\n";
-                if ( !$this->webExists( join( '/', @webs, $p ) )
-                    && $this->topicExists( join( '/', @webs ) || $defaultweb,
-                        $p ) )
-                {
-
-                    #print STDERR "Forced, but no such web, and topic exists";
-                    $temptopic = $p;
-                }
-                else {
-
-                    #print STDERR "Append it to the webs\n";
-                    $p = Foswiki::Sandbox::untaint( $p,
-                        \&Foswiki::Sandbox::validateWebName );
-
-                    unless ($p) {
-                        push @badpath, $_;
-                        next;
-                    }
-                    else {
-                        push @badpath, $p;
-                        push @webs,    $p;
-                    }
-                }
-            }
-            else {
-                #print STDERR "Just a topic. " . scalar @webs . "\n";
-                $temptopic = $p;
-            }
-        }
-        else {
-            $p = Foswiki::Sandbox::untaint( $p,
-                \&Foswiki::Sandbox::validateWebName );
-            unless ($p) {
-                push @badpath, $_;
-                next;
-            }
-            else {
-                push @badpath, $p;
-                push @webs,    $p;
-            }
-        }
-    }
-
-    my $web    = join( '/', @webs );
-    my $badweb = join( '/', @badpath );
-
-    # Set the requestedWebName before applying defaults - used by statistics
-    # generation.   Note:  This is validated using Topic name rules to permit
-    # names beginning with lower case.
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaint( $badweb,
-        \&Foswiki::Sandbox::validateTopicName );
-
-    #print STDERR "Set requestedWebName to $this->{requestedWebName} \n"
-    #  if $this->{requestedWebName};
-
-    if ( length($web) != length($badweb) ) {
-
-        #print STDERR "RESULTS:\nPATH: $web\nBAD:  $badweb\n";
-        $this->{invalidWeb} = $badweb;
-    }
-
-    unless ($web) {
-        $web = Foswiki::Sandbox::untaint( $defaultweb,
-            \&Foswiki::Sandbox::validateWebName );
-        unless ($web) {
-            $this->{invalidWeb} = $defaultweb;
-            $web = $Foswiki::cfg{UsersWebName};
-        }
-    }
-
-    # Override topicname if urlparam $topic is provided.
-    $temptopic = $topicOverride if ($topicOverride);
-
-    # Provide a default topic if none specified
-    $temptopic = $Foswiki::cfg{HomeTopicName} unless defined($temptopic);
-
-    # Item3270 - here's the appropriate place to enforce spec
-    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
-    my $topic =
-      Foswiki::Sandbox::untaint( ucfirst($temptopic),
-        \&Foswiki::Sandbox::validateTopicName );
-
-    unless ($topic) {
-        $this->{invalidTopic} = $temptopic;
-        $topic = $Foswiki::cfg{HomeTopicName};
-
-        #print STDERR "RESULTS:\nTOPIC  $topic\nBAD:  $temptopic\n";
-        $this->{invalidTopic} = $temptopic;
-    }
-
-    #print STDERR "PARSE returns web $web topic $topic\n";
-
-    return ( $web, $topic );
 }
 
 =begin TML
@@ -2207,55 +2046,19 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-    # The web/topic can be provided by either the query path_info,
-    # or by URL Parameters:
-    # topic:       Specifies web.topic or topic.
-    #              Overrides the path given in the URL
-    # defaultweb:  Overrides the default web, for use when topic=
-    #              does not provide a web.
-    # path_info    Defaults to the Users web Home topic
-
-    # Note that the jsonrpc script does none of these. A default
-    # web/topic is part of the posted json request.
-
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $defaultweb =
+      Foswiki::Sandbox::untaint( $query->param('defaultweb')
+          || $Foswiki::cfg{UsersWebName},
+        \&Foswiki::Sandbox::validateWebName );
 
-    # rest doesn't use web/topic path, but pick up a default.
-    my $webtopic = '';
+    # See Foswiki::Request for parsing of the path
 
-   # SMELL: It is completely bogus that we do this for the jsonrpc script.
-   # But we must, because jsonrpc depends upon the bogus path_info to trigger
-   # a bug in core which results in an unassigned default BASEWEB and BASETOPIC.
-   # If jsonrpc gets a default web/topic, it will pick up settings for the
-   # wrong topic and fail.
-    unless ( $query->action() eq 'rest' ) {
-        $webtopic = urlDecode( $query->path_info() || '' );
-    }
-
-    my $topicOverride = '';
-    my $topic         = $query->param('topic');
-    if ( defined $topic ) {
-        if ( $topic =~ m/[\/.]+/ ) {
-            $webtopic = $topic;
-
-           #print STDERR "candidate webtopic set to $webtopic by query param\n";
-        }
-        else {
-            $topicOverride = $topic;
-
-            #print STDERR
-            #  "candidate topic set to $topicOverride by query param\n";
-        }
-    }
-
-    ( my $web, $topic ) =
-      $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
-
-    $this->{topicName} = $topic;
-    $this->{webName}   = $web;
+    $this->{topicName} = $query->topic()
+      || $Foswiki::cfg{HomeTopicName};
+    $this->{webName} = $query->web() || $defaultweb;
 
     if (   !$Foswiki::cfg{Sessions}{EnableGuestSessions}
         && defined $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
@@ -2574,8 +2377,6 @@ sub finish {
     undef $this->{topic};
     undef $this->{webName};
     undef $this->{topicName};
-    undef $this->{invalidWeb};
-    undef $this->{invalidTopic};
     undef $this->{_ICONSPACE};
     undef $this->{_EXT2ICON};
     undef $this->{_KNOWNICON};
@@ -2585,6 +2386,8 @@ sub finish {
     undef $this->{requestedWebName};    # Web name before renaming
     undef $this->{scriptUrlPath};
     undef $this->{user};
+    $this->{users}->finish() if $this->{users};
+    undef $this->{users};
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
@@ -2592,6 +2395,10 @@ sub finish {
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
     undef $this->{_ffCache};
+    $this->{zones}->finish() if $this->{zones};
+    undef $this->{zones};
+    $this->{renderer}->finish() if $this->{renderer};
+    undef $this->{renderer};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {
@@ -3347,13 +3154,14 @@ sub putBackBlocks {
 # can be performed on expanded tags.
 sub _processMacros {
     my ( $this, $text, $tagf, $topicObject, $depth ) = @_;
-    my $tell = 0;
 
     return '' if ( ( !defined($text) )
         || ( $text eq '' ) );
 
     #no tags to process
     return $text unless ( $text =~ m/%/ );
+
+    #my $grunt = 1; uncomment lines mentioning $grunt for tracing
 
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
@@ -3368,6 +3176,9 @@ sub _processMacros {
     my $verbatim = {};
     $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
+    # Remove comments
+    $text =~ s/#\{.*?\}#//gs;
+
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
       if $topicObject->isCacheable();
@@ -3380,16 +3191,16 @@ sub _processMacros {
 
     while ( scalar(@queue) ) {
 
-        #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
+  #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n" if $grunt;
         my $token = shift(@queue);
 
-        #print STDERR ' ' x $tell,"PROCESSING $token \n";
+        #print STDERR "UNQUEUE $token \n" if $grunt;
 
         # each % sign either closes an existing stacked context, or
         # opens a new context.
         if ( $token eq '%' ) {
 
-            #print STDERR ' ' x $tell,"CONSIDER $stackTop\n";
+            #print STDERR " STACKTOP $stackTop\n" if $grunt;
             # If this is a closing }%, try to rejoin the previous
             # tokens until we get to a valid tag construct. This is
             # a bit of a hack, but it's hard to think of a better
@@ -3401,78 +3212,75 @@ sub _processMacros {
                 {
                     my $top = $stackTop;
 
-                    #print STDERR ' ' x $tell,"COLLAPSE $top \n";
+                    #print STDERR " COLLAPSE $top \n" if $grunt;
                     $stackTop = pop(@stack) . $top;
                 }
             }
 
             # /s so you can have newlines in parameters
-            if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
+            if ( $stackTop !~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
 
-                # SMELL: unchecked implicit untaint?
-                my ( $expr, $tag, $args ) = ( $1, $2, $3 );
-
-                #Foswiki::Func::writeDebug("POP $tag") if $tracing;
-                #Monitor::MARK("Before $tag");
-                my $e = &$tagf( $this, $tag, $args, $topicObject );
-
-                #Monitor::MARK("After $tag");
-
-                if ( defined($e) ) {
-
-                  #Foswiki::Func::writeDebug("EXPANDED $tag -> $e") if $tracing;
-                    $stackTop = pop(@stack);
-
-                    # Don't bother recursively expanding unless there are
-                    # unexpanded tags in the result.
-                    unless ( $e =~ m/%$regex{tagNameRegex}(?:{.*})?%/s ) {
-                        $stackTop .= $e;
-                        next;
-                    }
-
-                    # Recursively expand tags in the expansion of $tag
-                    $stackTop .=
-                      $this->_processMacros( $e, $tagf, $topicObject,
-                        $depth - 1 );
-                }
-                else {
-
-                   #Foswiki::Func::writeDebug("EXPAND $tag FAILED") if $tracing;
-                   # To handle %NOP
-                   # correctly, we have to handle the %VAR% case differently
-                   # to the %VAR{}% case when a variable expansion fails.
-                   # This is so that recursively define variables e.g.
-                   # %A%B%D% expand correctly, but at the same time we ensure
-                   # that a mismatched }% can't accidentally close a context
-                   # that was left open when a tag expansion failed.
-                   # However TWiki didn't do this, so for compatibility
-                   # we have to accept that %NOP can never be fixed. if it
-                   # could, then we could uncomment the following:
-
-                    #if( $stackTop =~ m/}$/ ) {
-                    #    # %VAR{...}% case
-                    #    # We need to push the unexpanded expression back
-                    #    # onto the stack, but we don't want it to match the
-                    #    # tag expression again. So we protect the %'s
-                    #    $stackTop = "&#37;$expr&#37;";
-                    #} else
-                    #{
-
-                    # %VAR% case.
-                    # In this case we *do* want to match the tag expression
-                    # again, as an embedded %VAR% may have expanded to
-                    # create a valid outer expression. This is directly
-                    # at odds with the %VAR{...}% case.
-                    push( @stack, $stackTop );
-                    $stackTop = '%';    # open new context
-                                        #}
-                }
-            }
-            else {
+                # Not a valid tag expr
                 push( @stack, $stackTop );
-                $stackTop = '%';        # push a new context
-                                        #$tell++;
+                $stackTop = '%';    # push a new context
+                next;               # token
             }
+
+            # SMELL: unchecked implicit untaint?
+            my ( $expr, $tag, $args ) = ( $1, $2, $3 );
+
+            #print STDERR " POP $tag\n" if $grunt;
+            my $e = &$tagf( $this, $tag, $args, $topicObject );
+
+            #Monitor::MARK("After $tag");
+
+            if ( defined($e) ) {
+
+                #print STDERR " EXPANDED $tag -> $e\n" if $grunt;
+                $stackTop = pop(@stack);
+
+                # Don't bother recursively expanding unless there are
+                # unexpanded tags in the result.
+                unless ( $e =~ m/%($regex{tagNameRegex})(?:{.*})?%/s ) {
+                    $stackTop .= $e;
+                    next;
+                }
+
+                # Recursively expand tags in the expansion of $tag
+                $stackTop .=
+                  $this->_processMacros( $e, $tagf, $topicObject, $depth - 1 );
+                next;    # token
+            }
+
+            #print STDERR " EXPAND $tag FAILED\n" if $grunt;
+            # To handle %NOP
+            # correctly, we have to handle the %VAR% case differently
+            # to the %VAR{}% case when a variable expansion fails.
+            # This is so that recursively define variables e.g.
+            # %A%B%D% expand correctly, but at the same time we ensure
+            # that a mismatched }% can't accidentally close a context
+            # that was left open when a tag expansion failed.
+            # However TWiki didn't do this, so for compatibility
+            # we have to accept that %NOP can never be fixed. if it
+            # could, then we could uncomment the following:
+
+            #if( $stackTop =~ m/}$/ ) {
+            #    # %VAR{...}% case
+            #    # We need to push the unexpanded expression back
+            #    # onto the stack, but we don't want it to match the
+            #    # tag expression again. So we protect the %'s
+            #    $stackTop = "&#37;$expr&#37;";
+            #} else
+            #{
+
+            # %VAR% case.
+            # In this case we *do* want to match the tag expression
+            # again, as an embedded %VAR% may have expanded to
+            # create a valid outer expression. This is directly
+            # at odds with the %VAR{...}% case.
+            push( @stack, $stackTop );
+            $stackTop = '%';    # open new context
+                                #}
         }
         else {
             $stackTop .= $token;
@@ -3491,7 +3299,7 @@ sub _processMacros {
 
     putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
-    #print STDERR "FINAL $stackTop\n";
+    #print STDERR "FINAL $stackTop\n" if $grunt;
 
     return $stackTop;
 }
@@ -3588,8 +3396,11 @@ sub _expandMacroOnTopicCreation {
     # correctly, but you need to think about this if you extend the set of
     # tags expanded here.
     return
-      unless $_[0] =~
-m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
+      unless ( $Foswiki::cfg{ExpandSomeMacrosOnTopicCreation}
+        && $_[0] =~
+m/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/
+      )
+      || $_[0] =~ s/^CREATE://;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }

@@ -49,6 +49,10 @@ my %USERINFO_tokens = (
 
         return $wikiusername;
     },
+    registrationdate => sub {
+        my ( $this, $user ) = @_;
+        return $this->{users}->getRegistrationDate($user) || "";
+    },
     emails => sub {
         my ( $this, $user ) = @_;
 

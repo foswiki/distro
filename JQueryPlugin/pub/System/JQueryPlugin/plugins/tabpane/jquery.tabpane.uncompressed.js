@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 2.00
+ * jQuery Tabpane plugin 2.01
  *
- * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -17,7 +17,7 @@ var bottomBarHeight = -1;
     select: 1,
     animate: false,
     autoMaxExpand: false,
-    minHeight: 230
+    minHeight: 0
   };
 
   /* plugin constructor *****************************************************/
@@ -346,42 +346,32 @@ var bottomBarHeight = -1;
    */
   TabPane.prototype.fixHeight = function() {
     var self = this,
-        $container = self.elem.find("> .jqTab.current .jqTabContents:first"),
-        paneOffset = $container.offset(),
-        paneTop, windowHeight, height, $debug;
+        elem = self.elem.find("> .jqTab.current .jqTabContents:first"),
+        windowHeight = $(window).height() || window.innerHeight,
+        newHeight;
 
     //$.log("TABPANE: called fixHeight()");
 
-    if (typeof(paneOffset) === 'undefined' || $container.is(".jqTabDisableMaxExpand")) {
+    if (elem.is(".jqTabDisableMaxExpand")) {
       return;
     }
 
-    paneTop = paneOffset.top; // || $container[0].offsetTop;
     if (bottomBarHeight <= 0) {
-      bottomBarHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($container.css('padding-bottom'), 10) *2.5;
+      bottomBarHeight = $(".natEditBottomBar").outerHeight(true) + elem.outerHeight(true) - elem.height();
     }
 
-    windowHeight = $(window).height();
-    if (!windowHeight) {
-      windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
-    }
+    newHeight = windowHeight - elem.offset().top - bottomBarHeight - 2;
 
-    height = windowHeight - paneTop - bottomBarHeight;
-    $debug = $("#DEBUG");
-    if ($debug.length) {
-      height -= $debug.outerHeight(true);
-    }
-    if (self.opts && self.opts.minHeight && height < self.opts.minHeight) {
+    if (self.opts && self.opts.minHeight && newHeight < self.opts.minHeight) {
       //$.log("tabpane: minHeight reached");
-      height = self.opts.minHeight;
+      newHeight = self.opts.minHeight;
     }
 
-    if (height < 0) {
+    if (newHeight < 0) {
       return;
     }
 
-    $.log("TABPANE: fixHeight height=",height);
-    $container.height(height);
+    elem.height(newHeight);
   };
 
   $.fn.tabpane = function (opts) {

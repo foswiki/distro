@@ -185,7 +185,7 @@ Foswiki:Extensions is an extensive library of [[Plugins]] for Foswiki that enhan
 ---++++ Installing extensions
 
 Extensions can be installed using any of several different methods:
-   * the [[%SCRIPTURL{configure}%][configure]] web interface under the Extensions tab
+   * the [[%SCRIPTURLPATH{configure}%][configure]] web interface under the Extensions tab
    * the generic shell installer =tools/extension_installer=
    * by manually downloading the attachments from the Foswiki:Extensions web
       * And running the _installer
@@ -200,7 +200,7 @@ To update an extension, simply re-run the installer. If prompted, tell it to dow
 
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
 
-The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -&gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on https://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+The simplest way is to visit [[%SCRIPTURLPATH{configure}%][configure -&gt; Extensions -&gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 ---+++++ When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used

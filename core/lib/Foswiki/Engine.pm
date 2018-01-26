@@ -67,6 +67,8 @@ sub run {
 Initialize a Foswiki::Request object by calling many preparation methods
 and returns it, or a status code in case of error.
 
+The actual request object is created in preparePath.
+
 =cut
 
 sub prepare {
@@ -99,12 +101,11 @@ sub prepare {
     }
 
     try {
-        $req = Foswiki::Request->new();
+        $req = $this->preparePath();
         $this->prepareConnection($req);
         $this->prepareQueryParameters($req);
         $this->prepareHeaders($req);
         $this->prepareCookies($req);
-        $this->preparePath($req);
         $this->prepareBody($req);
         $this->prepareBodyParameters($req);
         $this->prepareUploads($req);
@@ -223,12 +224,14 @@ sub prepareHeaders { }
 
 =begin TML
 
----++ ObjectMethod preparePath( $req )
+---++ ObjectMethod preparePath() -> $req
 
 Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
 
 Should fill $req's uri and pathInfo fields.
+
+Returns =$req= - Foswiki::Request object, populated with the action and the path.
+
 
 =cut
 

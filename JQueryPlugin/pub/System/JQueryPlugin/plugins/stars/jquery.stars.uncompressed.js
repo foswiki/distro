@@ -1,13 +1,15 @@
 /*
- * jQuery Stars plugin 2.01
+ * jQuery Stars plugin 2.10
  *
- * Copyright (c) 2014-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2014-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
+/* global sprintf:false */
+"use strict";
 (function($) {
 
 
@@ -41,12 +43,17 @@
   Plugin.prototype._toFixed = function(num) {
     num = Number(num);
     return Number(num.toFixed(this._prec));
-  }
+  };
 
   ////////////////////////////////////////////////////////////////////////////////
   // initializer 
   Plugin.prototype.init = function() {
     var self = this, key, values;
+
+    self.elem
+      .removeClass("jqStars")
+      .addClass("jqStarsInput")
+      .wrap("<div class='jqStars jqStarsInited' />");
 
     self.mapping = {};
 
@@ -124,6 +131,7 @@
       });
 
       self.container.on("mouseenter", function() {
+        self.elem.focus();
         self.blockMouseMove = false;
       });
 
@@ -163,6 +171,54 @@
         self.blockMouseMove = true;
         return false;
       });
+
+      $(document).on("keydown", function(ev) {
+        if (self.container.is(":hover")) {
+          var inc = 1 / self.opts.split, found = false;
+          //console.log("keycode=",ev.keyCode);
+          switch(ev.keyCode) {
+            case 38: /* up */
+            case 33: /* page up */
+              self._tmpIndex = Math.round(self._tmpIndex + 1);
+              found = true;
+              break;
+            case 40: /* down */
+            case 34: /* page down */
+              self._tmpIndex = Math.round(self._tmpIndex - 1);
+              found = true;
+              break;
+            case 35: /* end */
+              self._tmpIndex = self.opts.numStars;
+              found = true;
+              break;
+            case 36: /* pos 1 */
+              self._tmpIndex = 0;
+              found = true;
+              break;
+            case 37: /* left */
+              self._tmpIndex -= inc;
+              found = true;
+              break;
+            case 39: /* right */
+              self._tmpIndex += inc;
+              found = true;
+              break;
+            default:
+              found = false;
+          }
+          if (found) {
+            if (self._tmpIndex > self.opts.numStars) {
+              self._tmpIndex = self.opts.numStars;
+            }
+            if (self._tmpIndex < 0) {
+              self._tmpIndex = 0;
+            }
+            self._tmpIndex = self._toFixed(self._tmpIndex);
+            self.selectAtIndex(self._tmpIndex);
+            return false;
+          }
+        }
+      });
     }
 
     self.select(self.elem.val());
@@ -199,7 +255,7 @@
       label = self.getDisplayVal(index);
     }
 
-    if (index == self._tmpIndex) {
+    if (index === self._tmpIndex) {
       return;
     }
 
@@ -216,7 +272,7 @@
     var self = this,
       index;
 
-    if (typeof(val) === 'undefined' || val === '' || val == 0) {
+    if (typeof(val) === 'undefined' || val === '' || val === 0) {
       index = undefined;
     } else if (typeof(self.opts.values) !== 'undefined') {
       index = self.opts.values.indexOf(val)+1;
@@ -271,10 +327,10 @@
   ////////////////////////////////////////////////////////////////////////////////
   // live query DOM and construct the plugin 
   $(function() {
-    $(".jqStars:not(.jqInitedStars)").livequery(function() {
+    $(".jqStars:not(.jqStarsInited)").livequery(function() {
       var $this = $(this),
         opts = $.extend({}, $this.data(), $this.metadata());
-      $this.wrap("<div class='jqStars jqInitedStars' />").removeClass("jqStars").addClass("jqStarsInput").stars(opts);
+      $this.stars(opts);
     });
   });
 })(jQuery);

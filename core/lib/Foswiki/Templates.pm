@@ -10,14 +10,15 @@ Support for Skin Template directives
 
 =begin TML
 
-The following tokens are supported by this language:
+The following macros are supported by this language:
 
-| %<nop>TMPL:P% | Instantiates a previously defined template |
-| %<nop>TMPL:DEF% | Opens a template definition |
-| %<nop>TMPL:END% | Closes a template definition |
-| %<nop>TMPL:INCLUDE% | Includes another file of templates |
-
-Note; the template cache does not get reset during initialisation, so
+| =<nop>TMPL:P= | Instantiates a previously defined template |
+| =<nop>TMPL:DEF= | Opens a template definition |
+| =<nop>TMPL:END= | Closes a template definition |
+| =<nop>TMPL:INCLUDE= | Includes another file of templates |
+| =%{ ... }%= | Delimits a comment (non-greedy), eats surrounding whitespace |
+| =#{ ... }#= | Delimits a comment (non-greedy), does not touch whitespace |
+Note: the template cache does not get reset during initialisation, so
 the haveTemplate test will return true if a template was loaded during
 a previous run when used with mod_perl or speedycgi. Frustrating for
 the template author, but they just have to switch off
@@ -63,7 +64,9 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    $this->{VARS}                = {};
+    $this->{VARS} = {};
+
+    # The only default DEF, used by %SEP% and by unit tests (hack)
     $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
     return $this;
@@ -370,8 +373,8 @@ sub readTemplate {
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
-    $this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
-      if (TRACE);
+    #$this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
+    #  if (TRACE);
     return $result;
 }
 
@@ -381,7 +384,7 @@ sub _readTemplateFile {
     my $session = $this->{session};
 
     # zap anything suspicious
-    $name =~ s/$Foswiki::regex{webTopicInvalidCharRegex}//g;
+    $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
@@ -389,8 +392,9 @@ sub _readTemplateFile {
         my $text =
           _decomment(
             _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
-        $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-          if (TRACE);
+
+        #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+        #  if (TRACE);
         return $text;
     }
 
@@ -423,8 +427,9 @@ sub _readTemplateFile {
               if (TRACE);
 
             $text = _decomment($text);
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
             return $text;
         }
     }
@@ -501,30 +506,17 @@ sub _readTemplateFile {
             push(
                 @candidates,
                 {
-                    primary   => $isSkinned,
-                    secondary => $idx,
-                    tertiary  => $templateixd,
-                    file      => $file,
-                    userdir   => $userdir,
-                    skin      => $skin
+                    file    => $file,
+                    userdir => $userdir,
+                    skin    => $skin,
+                    order => $isSkinned * 1000000 + $idx * 1000 + $templateixd,
                 }
             );
         }
     }
 
     # sort
-    @candidates = sort {
-        foreach my $i (qw/primary secondary tertiary/)
-        {
-            if ( $a->{$i} < $b->{$i} ) {
-                return -1;
-            }
-            elsif ( $a->{$i} > $b->{$i} ) {
-                return 1;
-            }
-        }
-        return 0;
-    } @candidates;
+    @candidates = sort { $a->{order} <=> $b->{order} } @candidates;
 
     foreach my $candidate (@candidates) {
         my $file = $candidate->{file};
@@ -558,9 +550,9 @@ sub _readTemplateFile {
                   if (TRACE);
 
                 $text = _decomment($text);
-                $this->saveTemplateToCache( '_cache', $name, $skins, $web,
-                    $text )
-                  if (TRACE);
+
+                #$this->saveTemplateToCache( '_cache', $name, $skins, $web,
+                #    $text ) if (TRACE);
                 return $text;
             }
         }
@@ -571,8 +563,9 @@ sub _readTemplateFile {
             $this->{files}->{$file} = 1;
 
             my $text = _decomment( _readFile( $session, $file ) );
-            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-              if (TRACE);
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
             return $text;
         }
     }
@@ -605,52 +598,13 @@ sub _decomment {
 
     return $text unless $text;
 
-    # Kill comments, marked by %{ ... }%
-    # (and remove whitespace either side of the comment)
-    $text =~ s/\s*%\{.*?\}%\s*//sg;
+    # Whitespace eating comments, marked by %{ ... }%
+    $text =~ s/\s*(%)\{.*?\}%\s*//sg;
+
+    # Standard comment delimiters (whitespace preserving)
+    $text =~ s/#\{.*?\}#//sg;
+
     return $text;
-}
-
-#See http://wikiring.com/Blog/BlogEntry8?cat=WikiRing
-#used for debugging templates, and later maybe for speed.
-sub saveTemplateToCache {
-    my ( $this, $cacheName, $name, $skins, $web, $tmplText ) = @_;
-    $skins = '' unless ( defined($skins) );
-    $web   = '' unless ( defined($web) );
-
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . $cacheName;
-    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
-    my $filename = Foswiki::Sandbox::untaintUnchecked(
-        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
-
-    open( my $file, '>:encoding(utf-8)', $filename ) or do {
-        die "Can't create file $filename - $!\n" if DEBUG;
-        print STDERR "Can't create file $filename - $!\n";
-
-        return;
-    };
-    print $file $tmplText;
-    close($file);
-}
-
-#unused, but can be used for a speedup by caching the expanded Template
-sub getTemplateFromCache {
-    my ( $this, $name, $skins, $web ) = @_;
-    $skins = '' unless ( defined($skins) );
-    $web   = '' unless ( defined($web) );
-
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . '_cache';
-    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
-    my $filename = Foswiki::Sandbox::untaintUnchecked(
-        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
-
-    if ( -e $filename ) {
-        open( my $in_file, '<:encoding(utf-8)', $filename ) or return;
-        local $/ = undef;    # set to read to EOF
-        my $data = <$in_file>;
-        close($in_file);
-        return $data;
-    }
 }
 
 1;

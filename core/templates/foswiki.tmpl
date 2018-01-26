@@ -53,9 +53,9 @@ but may be used in derived templates.
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> %HTTP_EQUIV_ON_VIEW%
 <link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
-<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
+<link rel='alternate' href='%SCRIPTURLPATH{"edit" topic="%BASEWEB%.%BASETOPIC%" t="%GMTIME{"$epoch"}%"}%' type='application/x-wiki' title='edit %BASETOPIC%' />
 <meta name="description" content="%TOPIC%" />
-    <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
+    <base href='%SCRIPTURLPATH{"%SCRIPTNAME%" topic="%WEB%.%TOPIC%"}%' /><!--[if IE]></base><![endif]-->
 %TMPL:P{"defaultstyle"}%
 %RENDERZONE{"head"}%
 %RENDERZONE{"script"}%
@@ -87,9 +87,9 @@ but may be used in derived templates.
 <div>
 <div class="foswikiLeft" style="padding-right:2em;"><noautolink><a href="%WEBLOGOURL%" rel='nofollow'><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></a></noautolink></div>
 <div class="foswikiLeft">
-<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%WEB%</a> &gt; %META{"parent" nowebhome="on" suffix=" &gt;"}% <b>%TOPIC%</b> %TMPL:P{"titleaction"}%</div>
+<a href='%SCRIPTURLPATH{"view" topic="%WEB%.%HOMETOPIC%"}%'>%WEB%</a> &gt; %META{"parent" nowebhome="on" suffix=" &gt;"}% <b>%TOPIC%</b> %TMPL:P{"titleaction"}%</div>
 <div class="foswikiRight foswikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><div class="foswikiClear"></div></div>
-<form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" method="post">
+<form name="main" action='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%"}%' method="post">
 %TMPL:P{"webaction"}%</form><div class="foswikiRight foswikiToolBar">%TMPL:P{"top:toolbarbuttons"}%</div></div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"simpleheader"}%
@@ -138,7 +138,7 @@ Container displayed just below the topic text: }%
 ---------------------------------------------------
 }%%TMPL:DEF{"contentfooterstylewrapper"}%<div class="foswikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View complete topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%%{
+}%%TMPL:DEF{"revisions"}%<a href='%SCRIPTURLPATH{"rdiff" topic="WEB%.%TOPIC%" type=history"}%' title="%MAKETEXT{"View complete topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"login"}%%TMPL:P{context="can_login" then="login_actions"}%%TMPL:END%%{
 ---------------------------------------------------
@@ -162,11 +162,6 @@ title string in page:
 formatting macros
 webListIndent - used in WEBLIST
 }%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%%{
----------------------------------------------------
-icon:image - uses double quotes required for legacy reasons :/ 
-}%%TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%%{
 ---------------------------------------------------
 support for default skin's webtopiclist
 }%%TMPL:DEF{"defaultwebtopiclist"}%[[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />%TMPL:END%%{

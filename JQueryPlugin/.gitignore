@@ -38,6 +38,7 @@
 /pub/System/JQueryPlugin/jquery-2.2.2.js
 /pub/System/JQueryPlugin/jquery-2.2.3.js
 /pub/System/JQueryPlugin/jquery-2.2.4.js
+/pub/System/JQueryPlugin/jquery-3.2.1.js
 /pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css
 /pub/System/JQueryPlugin/noconflict.js
 /pub/System/JQueryPlugin/plugins/animate/animate.css
@@ -91,6 +92,7 @@
 /pub/System/JQueryPlugin/plugins/media/jquery.media.js
 /pub/System/JQueryPlugin/plugins/metadata/jquery.metadata.js
 /pub/System/JQueryPlugin/plugins/migrate/jquery.migrate.js
+/pub/System/JQueryPlugin/plugins/migrate/jquery.migrate-3.js
 /pub/System/JQueryPlugin/plugins/mousewheel/jquery.mousewheel.js
 /pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.css
 /pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.js
@@ -141,6 +143,7 @@
 /pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.css
 /pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.init.js
 /pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.js
+/pub/System/JQueryPlugin/plugins/validate/pkg.js
 /pub/System/JQueryPlugin/plugins/validate/jquery.validate.init.js
 /pub/System/JQueryPlugin/plugins/validate/jquery.validate.js
 /pub/System/JQueryPlugin/plugins/validate/jquery.validate.methods.js
@@ -165,3 +168,5 @@
 /pub/System/JQueryPlugin/plugins/ui/jquery.ui.spinner.init.js
 /pub/System/JQueryPlugin/plugins/ui/jquery.ui.tabs.init.js
 /pub/System/JQueryPlugin/plugins/ui/jquery.ui.tooltip.init.js
+/pub/System/JQueryPlugin/plugins/view/jquery.observable.js
+/pub/System/JQueryPlugin/plugins/view/jquery.views.js

@@ -1,4 +1,7 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
 
 # Standard preamble
 BEGIN {
@@ -9,5 +12,5 @@ BEGIN {
 
 use Foswiki::Contrib::Build;
 
-$build = new Foswiki::Contrib::Build("QueryAcceleratorPlugin");
+my $build = new Foswiki::Contrib::Build("QueryAcceleratorPlugin");
 $build->build( $build->{target} );

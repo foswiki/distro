@@ -139,9 +139,11 @@ sub prepareHeaders {
 }
 
 sub preparePath {
-    my ( $this, $req ) = @_;
+    my ($this)   = @_;
     my $action   = ( File::Spec->splitpath( $this->{r}->filename ) )[2];
     my $pathInfo = $this->{r}->path_info;
+
+    my $req = Foswiki::Request->new();
     if ( defined $Foswiki::cfg{SwitchBoard}{$action} ) {
         $req->action($action);
     }
@@ -160,6 +162,7 @@ sub preparePath {
     my $qs  = $this->{r}->args;
     $uri .= '?' . $qs if $qs;
     $req->uri($uri);
+    return $req;
 }
 
 sub prepareBody {

@@ -1,18 +1,22 @@
 // initializer for the ui-button plugin
+"use strict";
 jQuery(function($) {
-'use strict';
+
+  var defaults = {
+    onlyVisible: false
+  };
   
   // button
   $(".jqUIButton").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, defaults, $this.data(), $this.metadata());
     $this.removeClass("jqUIButton").button(opts);    
   });
   
   // button set
   $(".jqUIButtonset").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, defaults, $this.data(), $this.metadata());
 
     $this.removeClass("jqUIButtonset").buttonset(opts);    
   });

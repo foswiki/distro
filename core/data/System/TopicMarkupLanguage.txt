@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460513988" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487613457" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is Topic Markup Language (!TML)?
 
@@ -38,6 +38,8 @@ A quick introduction:
  and more of it!
  </verbatim></verbatim>
 
+   * Comments start with =#<nop>{= and end with =}<nop>#=. Comments are not displayed when the topic is viewed, but can be seen when it is edited.
+   
 ---++ Formatting text
 
 Full list of text formatting capabilities:

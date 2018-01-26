@@ -14,8 +14,8 @@ use warnings;
 use Foswiki::Configure::FileUtil;
 use Foswiki::Configure::Load;
 
-our $VERSION          = '1.45';
-our $RELEASE          = '2016-03-06';
+our $VERSION          = '1.46';
+our $RELEASE          = '08 Dec 2017';
 our $SHORTDESCRIPTION = 'Store Foswiki data using plain text files';
 
 1;
@@ -89,7 +89,7 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Author: CrawfordCurrie
 
-Copyright (C) 2012-2016 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2012-2017 Crawford Currie http://c-dot.co.uk
 and Foswiki Contributors
 
 This program is free software; you can redistribute it and/or

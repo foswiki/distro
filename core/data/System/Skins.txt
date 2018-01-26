@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
@@ -11,7 +11,7 @@ Skins overlay regular templates to give different looks and feels to Foswiki scr
 
 Foswiki uses [[skin templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
 
-Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for skins that can be selected to give different, more sophisticated, look and feel. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
+Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for skins that can be selected to give different, more sophisticated, look and feel. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" skin="not_a_skin"}%][view this topic with a non-existant skin]].
 
 Topic text is not affected by the choice of skin, though a skin can be defined to use a CSS (Cascading Style Sheet), which can sometimes give a radically different appearance to the text.
 
@@ -142,7 +142,7 @@ CSS files are gererally attachments to the skin topic that are included in the s
     id="MySkin/mystyle"
     text="
         <style type='text/css' media='all'>
-            @import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');
+            @import url('%PUBURLPATH{"mystyle.css" topic="%SYSTEMWEB%.MySkin"}%');
         </style>"
 }%</verbatim>
 
@@ -163,15 +163,15 @@ Here is an example form that has a select box and the "Go" box for illustration 
   "script"
   id="SkinNavigation"
   requires="JQUERYPLUGIN"
-  text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/Skins/js.js'></script>"
+  text="<script type='text/javascript' src='%PUBURLPATH{"js.js" topic="%SYSTEMWEB%.Skins"}%'></script>"
 }%
 
 Navigate:
 <select class="foswikiSelect" id="navigate" name="sel">
   <option selected="selected" value="">choose</option>
   <option value="%SCRIPTURLPATH{"view"}%">Home</option>
-  <option value="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">Users</option>
-  <option value="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/%HOMETOPIC%">%SYSTEMWEB% web</option>
+  <option value="%SCRIPTURLPATH{"view" topic="%USERSWEB%.%WIKIUSERSTOPIC%"}%">Users</option>
+  <option value="%SCRIPTURLPATH{"view" topic="%SYSTEMWEB%.%HOMETOPIC%"}%">%SYSTEMWEB% web</option>
   <option value="https://www.google.com/">Google</option>
   <option value="https://www.youtube.com/">YouTube</option>
 </select>
@@ -211,7 +211,7 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 | =%A_URL%= | =viewfile= URL that will recover the file |
 | =%A_REV%= | Revision of this file |
 | =%A_ICON%= | A file icon suitable for representing the attachment content |
-| =%A_FILE%= | The name of the file. To get the 'pub' URL of the file, use =%<nop>PUBURL%/%<nop>WEB%/%<nop>TOPIC%/%<nop>A_FILE%= |
+| =%A_FILE%= | The name of the file. To get the 'pub' URL of the file, use =%<nop>PUBURL{"A_FILE" topic="%<nop>WEB%/%<nop>TOPIC%"}%= |
 | =%A_SIZE%= | The size of the file |
 | =%A_DATE%= | The date the file was uploaded |
 | =%A_USER%= | The user who uploaded it |
@@ -238,14 +238,14 @@ See Foswiki:Development/ExtensionDeveloperGuide
 
 For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 <verbatim class='tml'><a href="https://foswiki.org/">
-     <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png"\
+     <img src="%PUBURLPATH{"foswiki-badge.png" topic="%SYSTEMWEB%.ProjectLogos"}%"\
           alt="Powered by Foswiki" height="42"\
           title="Powered by Foswiki" />
 </a></verbatim>
 
 Generating:
 
-[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png' title='Powered by Foswiki' />]]
+[[https://foswiki.org/][<img alt='Powered by Foswiki' height='42' src='%PUBURLPATH{"foswiki-badge.png" topic="%SYSTEMWEB%.ProjectLogos"}%' title='Powered by Foswiki' />]]
 
 ---++ Browsing Installed Skins
 
@@ -263,7 +263,7 @@ The basic skin is defined by the =SKIN= preference:
 
 You can override this using the URL parameter =skin=, such as
 =?skin=catskin,bearskin=:
-   * %SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=catskin,bearskin
+   * %SCRIPTURL{"view" topic="%WEB%.%TOPIC%" skin="catskin,bearskin"}%
 
 Setting the =?skin= parameter in the URL replaces the existing skin path setting for the current request only.
 
@@ -309,4 +309,4 @@ Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1502239930" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1512501336" size="178" user="ProjectContributor" version="1"}%

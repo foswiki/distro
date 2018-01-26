@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1281665178" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1490663609" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
-<channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
+<channel rdf:about="%SCRIPTURL{"view" web="%WEB%"}%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
-  <link>%SCRIPTURL{"view"}%/%WEB%</link>
+  <link>%SCRIPTURL{"view" web="%WEB%"}%</link>
   <description><literal>%MAKETEXT{"The [_1] web of [_2]." args="<nop>%WEB%,<nop>%WIKITOOLNAME%"}% <nop>%WEBSUMMARY%</literal></description>
 %INCLUDE{"%SYSTEMWEB%.WebRssBase"}%<!--
    * Set SKIN = rss

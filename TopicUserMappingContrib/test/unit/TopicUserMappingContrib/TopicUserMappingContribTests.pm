@@ -289,7 +289,17 @@ sub std_tests {
 
     #TODO: redo this with custom tmpl and check each username
     my $output;
-    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+    if ( $this->check_dependency('Foswiki,>=,2.1.999') ) {
+        $output = <<'THIS';
+%TMPL:P{"settmltablesummary" 
+   SUMMARY="%MAKETEXT{"Attachments"}%"
+}%<div class="foswikiAttachments">
+| *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
+| %ICON{"home.org.au.png" default="else"}%<span class="foswikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%"><noautolink>home.org.au.png</noautolink></a> | <a href='%SCRIPTURLPATH{"attach" topic="%WEB%.%TOPIC%" filename="home.org.au.png" revInfo="1"}%' title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4 K|<span class="foswikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |  |
+</div>
+THIS
+    }
+    elsif ( $this->check_dependency('Foswiki,>=,1.2') ) {
         $output = <<'THIS';
 %TMPL:P{"settmltablesummary" 
    SUMMARY="%MAKETEXT{"Attachments"}%"

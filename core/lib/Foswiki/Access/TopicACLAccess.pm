@@ -18,10 +18,9 @@ use constant MONITOR => 0;
 use strict;
 use Assert;
 
-use Foswiki          ();
-use Foswiki::Address ();
-use Foswiki::Meta    ();
-use Foswiki::Users   ();
+use Foswiki        ();
+use Foswiki::Meta  ();
+use Foswiki::Users ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -42,7 +41,6 @@ sub new {
 
 ---++ ObjectMethod haveAccess($mode, $User, $web, $topic, $attachment) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $meta) -> $boolean
----++ ObjectMethod haveAccess($mode, $User, $address) -> $boolean
 
    * =$mode=  - 'VIEW', 'CHANGE', 'CREATE', etc. (defaults to VIEW)
    * =$cUID=    - Canonical user id (defaults to current user)
@@ -59,6 +57,7 @@ sub haveAccess {
     my $session = $this->{session};
     undef $this->{failure};
 
+    # If site doesn't permit login authentication, everything is allowed.
     return 1
       if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' );
@@ -74,13 +73,7 @@ sub haveAccess {
           ;    #attachment ACL not currently supported in traditional topic ACL
     }
     else {
-        if ( ref($param1) eq 'Foswiki::Address' ) {
-            $meta =
-              Foswiki::Meta->load( $session, $param1->web(), $param1->topic() );
-        }
-        else {
-            $meta = $param1;
-        }
+        $meta = $param1;
     }
     ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
 
@@ -212,6 +205,18 @@ sub _getACL {
     my $text = $meta->getPreference($mode);
     return undef unless defined $text;
 
+    if ( $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules}
+        && substr( $text, 0, 1 ) eq '+' )
+    {
+        $text = substr $text, 1;
+        print STDERR "Additive enabled, checking WEB level\n" if MONITOR;
+
+        if ( $mode =~ m/^ALLOWTOPIC(.*)/ ) {
+            my $tmptext = $meta->getContainer()->getPreference("ALLOWWEB$1");
+            $text .= ", " . $tmptext if $tmptext;
+        }
+    }
+
     # Remove HTML tags (compatibility, inherited from Users.pm
     $text =~ s/(<[^>]*>)//g;
 
@@ -221,7 +226,7 @@ sub _getACL {
         $_
     } split( /[,\s]+/, $text );
 
-    #print STDERR "getACL($mode): ".join(', ', @list)."\n";
+    #print STDERR "getACL($mode): ".join(', ', @list)."\n" if MONITOR;
 
     return \@list;
 }

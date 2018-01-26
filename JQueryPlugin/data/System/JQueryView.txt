@@ -1,0 +1,130 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1513534380" format="1.1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+
+%JQPLUGINS{"view"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%TOC%
+
+%STARTSECTION{"summary"}%
+This plugin adds !JsViews functionality to the !JsRender plugin. !JsViews builds off of standard !JsRender templates, but adds
+two-way declarative data-binding, MVVM, and MVP.
+
+See System.JQueryRender and https://www.jsviews.com/#jsviews for more details.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+%JQREQUIRE{"view"}%
+
+---+++ In the SCRIPT head
+<verbatim class="js">
+var data = [
+  {
+    "name": "Robert",
+    "nickname": "Bob",
+    "showNickname": true
+  },
+  {
+    "name": "Susan",
+    "nickname": "Sue",
+    "showNickname": false
+  }
+];
+
+var template = $.templates("#theTmpl");
+
+template.link("#result", data);
+</verbatim>
+
+---+++ In the BODY
+<verbatim class="html">
+<div id="result"></div>
+
+<script id="theTmpl" type="text/x-jsrender">
+<div>
+  Edit: <input type="checkbox" data-link="editable"/>
+  <em>Name:</em> {^{:name}}
+  {^{if showNickname && nickname}}
+    (Goes by <em data-link="nickname"></em>)
+  {{/if}}
+  {^{if editable}}
+    <div>
+      <input data-link="name"/>
+      <input data-link="nickname"/>
+      Show nickname: <input type="checkbox" data-link="showNickname"/>
+    </div>
+  {{/if}}
+</div>
+</script>
+</verbatim>
+
+---+++ See the demo
+<div id="result"></div>
+
+<script id="theTmpl" type="text/x-jsrender">
+<div>
+  Edit: <input type="checkbox" data-link="editable"/>
+  <em>Name:</em> {^{:name}}
+  {^{if showNickname && nickname}}
+    (Goes by <em data-link="nickname"></em>)
+  {{/if}}
+  {^{if editable}}
+    <div>
+      <input data-link="name"/>
+      <input data-link="nickname"/>
+      Show nickname: <input type="checkbox" data-link="showNickname"/>
+    </div>
+  {{/if}}
+</div>
+</script>
+
+<script type="text/javascript">
+(function($) {
+  var data = [
+    {
+      "name": "Robert",
+      "nickname": "Bob",
+      "showNickname": true
+    },
+    {
+      "name": "Susan",
+      "nickname": "Sue",
+      "showNickname": false
+    }
+  ];
+
+  $(function() {
+    var template = $.templates("#theTmpl");
+    template.link("#result", data);
+  });
+})(jQuery);
+</script>
+
+Pretty cool!
+
+---++ Further reading
+   * http://www.jsviews.com
+   * [[http://borismoore.github.io/jsviews/demos/][JsViews Demos]]
+
+---++ Syntax 
+
+!JsViews templates are very similar to !JsRender templates, but with minor changes to the tag structure.
+   * For data-dependent linking, <code>{{:name}}</code> becomes this <code>{^{:name}}</code>
+   * Tag attributes can also be data-linked: <code>&lt;button data-link="disabled{:disableButton} title{:theTitle} data-myvalue{:myVal} class{:disableButton ? 'class2' : 'class1'}"&gt;</code>
+   * If you are data-linking tags, you might be interested in two-way binding: <code>&lt;input data-link="{:name}" /&gt;</code> becomes this <code>&lt;input data-link="{:name:}" /&gt;</code>
+      * (Actually, the default for &lt;input&gt; elements is two-way binding, so you can just use the shorthand <code>&lt;input data-link="name" /&gt;</code>. The more explicit form is only necessary if you want to force it to one-way binding.)
+   * You can also use this for contenteditable elements: <code>&lt;span data-link="name" contenteditable="true"&gt;&lt;/span&gt;</code>
+   * As with !JsRender, there is support for converters and helpers as well.
+
+ Other functionality includes the <code>$.observe()</code> method for assigning callback functions to respond to observable 
+ changes, and the <code>$.view()</code> method for retrieving the data slice associated with a particular View object.
+
+ (see http://www.jsviews.com/#jsvapi for lots of details and examples)
+ 

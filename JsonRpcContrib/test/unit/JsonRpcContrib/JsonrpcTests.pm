@@ -14,7 +14,7 @@ use Foswiki::EngineException();
 use Carp();
 use Error ':try';
 
-use Unit::Request;
+use Unit::Request::JSON;
 
 our $UI_FN;
 
@@ -29,14 +29,12 @@ sub set_up {
 # A simple REST handler
 sub json_handler {
     my ( $session, $request ) = @_;
-    die "No Foswiki Session" unless $session->isa('Foswiki');
-
-    #die "Not a JSON Request"     unless $request->isa('Unit::Request');
-    #die "incorrect jsonmethod()" unless $request->jsonmethod() eq 'trial';
-    die "incorrect method()" unless $request->method() eq 'trial';
-    die "Incorrect topic" unless $session->{topicName} eq 'WebChanges';
-
-#die "Incorrect web $session->{webName}"          unless $session->{webName} eq 'System';
+    die "No Foswiki Session"     unless $session->isa('Foswiki');
+    die "Not a JSON Request"     unless $request->isa('Unit::Request::JSON');
+    die "incorrect jsonmethod()" unless $request->jsonmethod() eq 'trial';
+    die "incorrect method()"     unless $request->method() eq 'trial';
+    die "Incorrect topic"        unless $session->{topicName} eq 'WebChanges';
+    die "Incorrect web"          unless $session->{webName} eq 'System';
     return 'SUCCESS';
 }
 
@@ -82,7 +80,7 @@ sub test_simple_postdata {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $query->param( 'POSTDATA',
@@ -102,7 +100,7 @@ sub test_simple_query_params {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $query->param( 'topic',      'WebChanges' );
@@ -121,7 +119,7 @@ sub test_method_missing {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/saywhat' );
     $query->method('post');
     $query->param( 'topic',      'WebChanges' );
@@ -141,7 +139,7 @@ sub test_invalid_request {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/saywhat' );
     $query->param( 'POSTDATA',
 '{"jsonrpc":"2.0","method":"trial","params":"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
@@ -162,7 +160,7 @@ sub test_post_required {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->method('get');
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->param( 'POSTDATA',
@@ -184,7 +182,7 @@ sub test_500 {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_and_be_thankful );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -202,7 +200,7 @@ sub test_redirectto {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new( { action => ['jsonrpc'], } );
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $query->param( 'POSTDATA',
@@ -227,7 +225,7 @@ sub test_redirectto_Anchor {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action     => ['jsonrpc'],
             redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
@@ -264,7 +262,7 @@ sub future_test_authmethods {
         description => 'Example handler for Empty Plugin'
     );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::JSON->new( { action => ['rest'], } );
 
     $query->setUrl( '/'
           . __PACKAGE__
@@ -363,7 +361,7 @@ sub future_test_redirectto_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action => ['rest'],
             redirectto =>
@@ -388,7 +386,7 @@ sub future_test_redirectto_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action     => ['rest'],
             redirectto => 'http://this/that?blah=1;q=2',
@@ -419,7 +417,7 @@ sub future_test_http_allow {
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler,
         http_allow => 'GET' );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::JSON->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('POST');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -446,7 +444,7 @@ sub future_test_validate {
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler,
         validate => 1 );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::JSON->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -476,7 +474,7 @@ sub future_test_authenticate {
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler,
         authenticate => 1 );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::JSON->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
     $this->createNewFoswikiSession( undef, $query );
@@ -507,7 +505,7 @@ sub future_test_redirectto_URL {
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action     => ['rest'],
             redirectto => "http://lolcats.com/funny?pussy=cat",
@@ -530,7 +528,7 @@ sub future_test_redirectto_badURL {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action     => ['rest'],
             redirectto => "http://lolcats.com/funny?pussy=cat",
@@ -552,7 +550,7 @@ sub future_test_topic_context {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'context', \&json_context );
 
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::JSON->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/context' );
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );

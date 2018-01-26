@@ -1,27 +1,29 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1491830850" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 #MetaData
 ---+ Meta data
 
-Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedded in the topic text using =META:= macros
+Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedded in the topic text using _embedded meta-data_.
 
 %TOC%
 
 ---++ Overview
 
-The default store engines store topics in plain-text files on disk, in a simple and obvious directory structure. The big advantage of this approach is that it makes it very easy to manipulate topics from outside Foswiki, and it is also very robust; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
+The default store engine stores topics in plain-text files on disk, in a simple and obvious directory structure. The big advantage of this approach is that it makes it very easy to manipulate topics from outside Foswiki, and it is also very robust; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
 
-To keep everything together in one place, meta-data (Foswiki-generated or from [[DataForms][forms]]) is embedded directly in topics, using special macros. These macros are easy to spot, as they all start with the reserved =META:= prefix.
-
-=META:= data includes information such as file attachments, topic movement history, and [[DataForms][form field]] values. For efficiency reasons, the topic history is *not* stored in this meta-data, but is expected to be implemented elsewhere by the store engine.
+To keep everything together in one place, meta-data (Foswiki-generated, or from [[DataForms][forms]]) is embedded directly in topic text, using a special syntax.
 
 ---++ Meta data syntax
-   * Format is the same as for any other [[%SYSTEMWEB%.Macros][macros]] *except* that each meta-data macro *must* be on a line on its own.
-      * =%<nop>META:&lt;type&gt;{key1="value1" key2="value2" ...}%=
-   * The characters =%"\r\n{}= are encoded in argument values, using the standard URL encoding.
-   * Meta-data is divided into _core_ meta-data, described below, and _extension_ meta-data, which shares the same syntax but is used by extensions.
-   * Dates are stored as "epoch times" i.e. the integer number of seconds since 1st January 1970.
+   * Each meta-data statement *must* be on a line on its own. The format of a meta-data line is:
+      * =%<nop>META:&lt;type&gt;{key1="value 1" key2="value 2" ...}%=
+   * The type name and key names may contain any Perl unicode "word" character (see http://perldoc.perl.org/perlrecharclass.html for more information)
+   * The only space outside of parameter values is a single space between each key-value pair.
+   * Parameter values support the standard URL encoding for characters, which will be used for all characters such as ", }, newlines, and %. Note that the range of representable characters might be limited by the ={Store}{Encoding}= set in the Foswiki configuration.
+
+Meta-data includes information such as file attachments, topic movement history, and [[DataForms][form field]] values. The topic history is *not* stored in this meta-data, but is expected to be implemented elsewhere by the store engine.
+
+Meta-data is divided into _core_ meta-data, described below, and _extension_ meta-data, which shares the same syntax but is used by extensions.
 
 *Example of core meta-data*
 <pre class="tml">
@@ -41,20 +43,20 @@ To keep everything together in one place, meta-data (Foswiki-generated or from [
 
 ---++ Core meta-data
 
-The following meta-data macros are supported by the Foswiki core. Other macros may be used by extensions; see the extension documentation for more details. The core will read and write these extension macros, but will otherwise ignore them.
+The following meta-data are used by the Foswiki core. Other meta-data may be used by extensions; see the extension documentation for more details. The core will read and write these extension meta-data, but will otherwise ignore them.
 
-Some fields are required by macros, while others are optional. Required fields are marked with a %REG% symbol. The %REG% character is *not* part of the attribute name.
+Some fields are required by meta-data, while others are optional. Required fields are marked with a %REG% symbol. The %REG% character is *not* part of the attribute name.
 
 ---+++ META:TOPICINFO
 
-This macro caches some of the information that would normally be derived from the underlying store engine. It does this for efficiency reasons. 
+This meta-datum caches some of the information that would normally be derived from the underlying store engine. It does this for efficiency reasons. 
 
 |  *Key*  |  *Comment*          |
 | author%REG%  | Canonical user identifier of last user to change the topic. The exact format of this depends on the user mapping manager. |
 | version | Topic version; a plain integer. |
 | date    | epoch time |
 | format  | Format of this topic, will be used for automatic format conversion |
-| reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURL{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
+| reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURLPATH{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
 
 Note that the *version and date fields are advisory only* and cannot be trusted. This is because processes outside of Foswiki's control may write topic files without maintaining these fields.
 
@@ -125,7 +127,7 @@ Out-of-band [[PreferenceSettings][preference]].
 
 ---+++ Recommended sequence
 
-There is no absolute need for meta-data macros to be listed in a specific order within a topic, but it makes sense to do so, because form fields are displayed in the order they are defined when the topic is viewed.
+There is no absolute need for meta-data to be listed in a specific order within a topic, but it makes sense to do so, because form fields are displayed in the order they are defined when the topic is viewed.
 
 The recommended sequence is:
 
@@ -140,7 +142,7 @@ The recommended sequence is:
 
 ---++ Viewing meta-data embedded in page source
 
-You can append the <code>raw=debug</code> parameter to the URL to view the topic text with embedded meta-data, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>. <code>raw=all</code> lets you view the topic source as plain text, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=all">plain text view for this topic</a>.
+You can append the <code>raw=debug</code> parameter to the URL to view the topic text with embedded meta-data, e.g: [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" raw="debug"}%][debug view for this topic]]. <code>raw=all</code> lets you view the topic source as plain text, e.g: [[%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%" raw="all"}%][plain text view for this topic]].
 
 #MetaDataRendering
 ---++ Including meta data in viewed topics
@@ -156,7 +158,10 @@ The =%FORMFIELD= macro lets you inspect the values of form field meta-data in ot
 
 ---++ Extending meta-data in Extensions
 Extensions can extend meta-data with information of their own. See 
-[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
+[[%SCRIPTURL{"view" topic="%SYSTEMWEB%.PerlDoc" module="Foswiki::Func"}%#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
+
+---++ Meta-data and Plugin Handlers
+A few plugin handlers (=beforeSaveHandler=, =afterSaveHandler=, =beforeEditHandler=,) are passed text containing embedded meta-data, as described here. However plugin authors are recommended not to rely on embedded meta-data if it can be avoided, as it will be removed at some point in the future.
 
 ---
 *Related Topics:* DeveloperDocumentationCategory

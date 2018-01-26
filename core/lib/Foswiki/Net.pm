@@ -28,10 +28,6 @@ BEGIN {
     }
 }
 
-our $LWPAvailable;
-our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
-our $SSLAvailable;      # Set to defined false to prevent using SSL
-
 # note that the session is *optional*
 sub new {
     my ( $class, $session ) = @_;
@@ -89,12 +85,6 @@ the following subset of methods is available:
 | =is_error()= |
 | =is_redirect()= |
 
-Note that if LWP is *not* available, this function:
-   1 can only really be trusted for HTTP/1.0 urls. If HTTP/1.1 or another
-     protocol is required, you are *strongly* recommended to =require LWP=.
-   1 Will not parse multipart content
-   1 Will not process redirects (configure relies on this)
-
 In the event of the server returning an error, then =is_error()= will return
 true, =code()= will return a valid HTTP status code
 as specified in RFC 2616 and RFC 2518, and =message()= will return the
@@ -121,176 +111,18 @@ sub getExternalResource {
     my ( $this, $url, %options ) = @_;
 
     require URI::URL;
+    require LWP;
 
     my $uri       = URI::URL->new($url);
     my $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
     my $puri      = $proxyHost ? URI::URL->new($proxyHost) : undef;
-
-    # Don't remove $LWPAvailable; it is required to disable LWP when unit
-    # testing
-    unless ( defined $LWPAvailable ) {
-        eval 'require LWP';
-        die $@ if $@;
-        $LWPAvailable = ($@) ? 0 : 1;
-    }
-    if ($LWPAvailable) {
-        return _GETUsingLWP( $this, $uri, $puri, %options );
-    }
-
-    # Fallback mechanism
-    if ( $uri->scheme() ne 'http' ) {
-        if ( $uri->scheme() eq 'https' && !defined $SSLAvailable ) {
-            eval 'require IO::Socket::SSL';
-            $SSLAvailable = $@ ? 0 : 1;
-        }
-        unless ( $uri->scheme() eq 'https' && $SSLAvailable ) {
-            require Foswiki::Net::HTTPResponse;
-            return new Foswiki::Net::HTTPResponse(
-                "LWP not available for handling protocol: $url");
-        }
-    }
-
-    my $method = $options{method} || 'GET';
-    my $response;
-
-    try {
-        my $sclass;
-        eval {
-            require IO::Socket::IP;
-            $sclass = 'IO::Socket::IP';
-        };
-        if ($@) {
-            require IO::Socket::INET;
-            $sclass = 'IO::Socket::INET';
-        }
-        my @ssloptions;
-        if ( $uri->scheme() eq 'https' ) {
-            $sclass     = 'IO::Socket::SSL';
-            @ssloptions = (
-                SSL_hostname    => $uri->host(),
-                SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
-            );
-        }
-
-        $url = '/' unless ($url);
-
-        my $req = "$method $url HTTP/1.0\r\nHost: " . $uri->host();
-        if (   $uri->scheme() eq 'http' && $uri->port() == 80
-            || $uri->scheme() eq 'https' && $uri->port() == 443 )
-        {
-            $req .= "\r\n";
-        }
-        else {
-            $req .= ":" . $uri->port() . "\r\n";
-        }
-
-        if ($puri) {
-            if ( !defined $puri->scheme()
-                || $puri->scheme() eq 'https' && !$SSLAvailable )
-            {
-                require Foswiki::Net::HTTPResponse;
-                return new Foswiki::Net::HTTPResponse(
-                    "Proxy settings are invalid, check configure ({PROXY}{HOST}"
-                );
-            }
-            elsif ( $puri->scheme() eq 'https' ) {
-                $puri->port() = 443 if ( !$puri->port() );
-                if ( !defined $SSLAvailable ) {
-                    eval 'require IO::Socket::SSL';
-                    $SSLAvailable = $@ ? 0 : 1;
-                }
-                $sclass = 'IO::Socket::SSL';
-            }
-            elsif ( !$puri->port() ) {
-                $puri->port(8080);
-            }
-            $req =
-                "$method $uri->scheme()://"
-              . $uri->host() . ":"
-              . $uri->port()
-              . "$url HTTP/1.0\r\n";
-            $uri->scheme( $puri->scheme() );
-            $uri->host( $puri->host() );
-            $uri->port( $puri->port() );
-            if ( $puri->can("userinfo") && defined $puri->userinfo() ) {
-                require MIME::Base64;
-                my $base64 =
-                  MIME::Base64::encode_base64( $puri->userinfo(), '' );
-                $req .= "Proxy-Authorization: Basic $base64\r\n";
-            }
-        }
-
-        if ( $uri->can("userinfo") && defined $uri->userinfo() ) {
-            require MIME::Base64;
-            my $base64 = MIME::Base64::encode_base64( $uri->userinfo(), '' );
-            $req .= "Authorization: Basic $base64\r\n";
-        }
-
-        $req .= 'User-Agent: Foswiki::Net/' . $Foswiki::VERSION . "\r\n";
-        if ( $options{headers} ) {
-            while ( my ( $name, $value ) = each %{ $options{headers} } ) {
-                $name =~ s/_/-/g;
-                $req .= "$name: $value\r\n";
-            }
-        }
-
-        if ( defined $options{content} ) {
-
-            # Force body encoding to octets
-            $options{content} = Foswiki::encode_utf8( $options{content} );
-            $req .= 'Content-length: ' . length( $options{content} ) . "\r\n";
-        }
-
-        $req .= "\r\n";
-        $req .= $options{content} if defined $options{content};
-
-        my $sock = $sclass->new(
-            PeerAddr => $uri->host(),
-            PeerPort => $uri->port(),
-            Proto    => 'tcp',
-            Timeout  => 120,
-            @ssloptions,
-        );
-        unless ($sock) {
-            die "Unable to connect to "
-              . $uri->host() . ": $!"
-              . ( @ssloptions ? ' - ' . IO::Socket::SSL::errstr() : '' ) . "\n";
-        }
-        $sock->autoflush(1);
-
-        local $/ = undef;
-        print $sock $req;
-        my $result;
-        $result = <$sock>;
-        $result = '' unless ( defined $result );
-        unless ( close($sock) ) {
-            die "close failed: $!";
-        }
-
-        # No LWP, but may have HTTP::Response which would make life easier
-        # (it has a much more thorough parser)
-        eval 'require HTTP::Response' unless ($noHTTPResponse);
-        if ( $@ || $noHTTPResponse ) {
-
-            # Nope, no HTTP::Response, have to do things the hard way :-(
-            require Foswiki::Net::HTTPResponse;
-            $response = Foswiki::Net::HTTPResponse->parse($result);
-        }
-        else {
-            $response = HTTP::Response->parse($result);
-        }
-    }
-    catch Error with {
-        require Foswiki::Net::HTTPResponse;
-        $response = new Foswiki::Net::HTTPResponse(shift);
-    };
-    return $response;
-}
-
-sub _GETUsingLWP {
-    my ( $this, $uri, $puri, %options ) = @_;
+    my @noProxy =
+      ( $puri && $Foswiki::cfg{PROXY}{NoProxy} )
+      ? split( /\s*,\s*/, $Foswiki::cfg{PROXY}{NoProxy} )
+      : undef;
 
     my $request;
+
     require HTTP::Request;
     my $method = $options{method} || 'GET';
     $request = HTTP::Request->new( $method => $uri->as_string() );
@@ -311,6 +143,7 @@ sub _GETUsingLWP {
       if ( $uri->can("userinfo") && defined $uri->userinfo() );
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
+    $ua->no_proxy(@noProxy) if @noProxy;
     my $response = $ua->request($request);
     return $response;
 }

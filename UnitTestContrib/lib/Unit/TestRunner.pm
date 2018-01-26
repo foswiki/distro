@@ -604,11 +604,6 @@ sub runOne {
                 $tester->tear_down($test);
                 if (CHECKLEAK) {
                     _finish_singletons();
-
-                    #require Devel::FindRef;
-                    #foreach my $s (@Foswiki::Address::THESE) {
-                    #    print STDERR Devel::FindRef::track($s);
-                    #}
                 }
             }
         }

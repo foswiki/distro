@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1489521912" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -213,6 +213,25 @@ For example if you want completely open access to a topic __for logged in users_
 
 See "How Foswiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
 
+---++++ Additive ALLOWTOPIC rules
+
+An optional EXPERT level configuration parameter is avalable to enable Additive ALLOWTOPIC ACLs.   As described above, ALLOWTOPIC* rules will
+override the corresponding ALLOWWEB* settings.  If {AccessControlACL}{EnableAdditiveRules} is enabled, then ALLOWTOPIC settings can be defined
+as additive by beginning the setting with the plus symbol (+).
+
+%IF{"{AccessControlACL}{EnableAdditiveRules}" then=""
+  else="<div class='foswikiHelp'>Additive Access Control Rules are *not* enabled on this system.</div>"
+}%
+
+   * #Set ALLOWWEBVIEW = !SomeUser
+   * #Set ALLOWTOPICVIEW = + !AnotherUser !AThirdUser
+
+With the setting enabled, the TOPIC level settings _add_ to the Web level settings resulting in the equivalent:
+   * #Set ALLOWTOPICVIEW = !SomeUser !AnotherUser !AThirdUser
+
+Note that Additive ACLS only apply to ALLOWTOPIC* settings.
+
+
 ---+++ Controlling access to attachments
 
 Attachments are referred to directly, and are not normally indirected via Foswiki scripts. This means that the above instructions for access control will _not_ apply to attachments. It is possible that someone may inadvertently publicise a URL that they expected to be access-controlled.
@@ -304,7 +323,7 @@ If needed, you can further restrict access to selected webs with ALLOWWEBVIEW an
 ---++++ When using Template Login
 
 [[UserAuthentication#TemplateLogin][User authentication with TemplateLogin]] is enabled on your site.   To require login for *all* scripts:
-   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%][configure]], =Security And Authentication= tab, =Login= sub-tab, For a default Foswiki installation:
+   * Add all scripts in the =foswiki/bin= directory (except for =jsonrpc=, =login= and =logon=) to the list of ={AuthScripts}= in [[%SCRIPTURLPATH{"configure"}%][configure]], =Security And Authentication= tab, =Login= sub-tab, For a default Foswiki installation:
 
    * Default (open) site:
 <verbatim>
@@ -350,7 +369,7 @@ Use the following setup is used to "lock down" the Wiki to logged in users, whil
 ---+++ Control access to topic History and Raw text.
 
 Foswiki 2.0 now restricts the guest user from access to topic history and raw topic text.  This is configurable.  See:
-[[%SCRIPTURLPATH{configure}][configure]] =Security and Authentication > Access Control > {FeatureAccess}{AllowRaw}=  and ={FeatureAccess}{AllowHistory}=  (They are expert level settings, so the "Show expert options" button in the lower left corner must be pressed.)
+[[%SCRIPTURLPATH{"configure"}][configure]] =Security and Authentication > Access Control > {FeatureAccess}{AllowRaw}=  and ={FeatureAccess}{AllowHistory}=  (They are expert level settings, so the "Show expert options" button in the lower left corner must be pressed.)
 
 Each of these setting has 3 choices:
    * =authenticated= - This is the default.  Anyone who is logged in has access

@@ -1,13 +1,14 @@
 /*
- * jQuery WikiWord plugin 3.10
+ * jQuery WikiWord plugin 3.21
  *
- * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2017 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
+"use strict";
 
 /***************************************************************************
  * plugin definition 
@@ -41,7 +42,12 @@ $.wikiword = {
 
       // either a string or a jQuery object
       if (typeof(thisOpts.source) === 'string') {
-        $source = $(thisOpts.source);
+        // first try to find the source within the same form
+        $source = $this.parents("form:first").find(thisOpts.source);
+        // if that fails, try in a global scope
+        if ($source.length === 0) {
+          $source = $(thisOpts.source);
+        }
       } else {
         $source = thisOpts.source;
       }
@@ -54,7 +60,7 @@ $.wikiword = {
         thisOpts.forbiddenRegex = new RegExp(thisOpts.forbiddenRegex, "g");
       }
 
-      $source.change(function() {
+      $source.on("change", function() {
         $.wikiword.handleChange($source, $this, thisOpts);
       }).keyup(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -66,7 +72,7 @@ $.wikiword = {
    * handler for source changes
    */
   handleChange: function(source, target, opts) {
-    var result = []
+    var result = [];
 
     // gather all sources
     source.each(function() {
@@ -77,7 +83,7 @@ $.wikiword = {
     if (result || !opts.initial) {
       result = $.wikiword.wikify(result, opts);
 
-      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) == -1) {
+      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) === -1) {
         result += opts.suffix;
       }
       if (opts.prefix && result.indexOf(opts.prefix) !== 0) {
@@ -93,7 +99,7 @@ $.wikiword = {
       } else {
         $(this).text(result);
       }
-    });
+    }).trigger("change");
   },
 
   /***************************************************************************

@@ -48,7 +48,7 @@
 <input type="hidden" name="editaction" value="%IF{"$'action'='form'" then="form" else=""}%" />
 <input type="hidden" name="action_save" value="" />%TMPL:END%
 
-%TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" data-min-height="300" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
+%TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
 
 %TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 
@@ -64,7 +64,7 @@
 %TMPL:P{"help"}%
 %TMPL:END%
 
-%TMPL:DEF{"tabpane"}%%TABPANE{automaxexpand="on" minheight="330" animate="on" select="%URLPARAM{"natedittab" default="%TMPL:P{"selectedtab"}%"}%"}%
+%TMPL:DEF{"tabpane"}%%TABPANE{class="plain" automaxexpand="on" animate="on" select="%URLPARAM{"natedittab" default="%TMPL:P{"selectedtab"}%"}%"}%
 %TMPL:P{"tabs"}%%ENDTABPANE%%TMPL:END%
 
 %TMPL:DEF{"tabs"}%%TMPL:P{"firsttab"}%%TMPL:P{"formfields"}%%TMPL:P{"settingstab"}%%TMPL:P{"permissionstab"}%%TMPL:P{"helptab"}%%TMPL:END%
@@ -81,11 +81,11 @@
 </literal></div>%TMPL:END%
 
 %TMPL:DEF{"firsttab"}%%TAB{"%MAKETEXT{"Text"}%" id="text"}%
-%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
+%TMPL:P{context="TopicTitleEnabled" then="topicmeta"}%%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
 
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" 
   id="help"
-  url="%SCRIPTURL{"view"}%/%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%?skin=text;section=default"
+  url="%SCRIPTURLPATH{"view"}%/%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%?skin=text;section=default"
   container=".natEditHelp"
 }%%TMPL:P{"edithelp"}%%ENDTAB%%TMPL:END%
 

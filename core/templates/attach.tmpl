@@ -48,7 +48,7 @@
 
 %TMPL:DEF{"hiddenfields"}%%{"space to put extra hidden form fields"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%<form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">
+%TMPL:DEF{"content"}%<form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload" topic="%WEB%.%TOPIC%"}%" method="post">
 %TMPL:P{"previousdetails"}%
 %TMPL:P{"attachform"}%
 %TMPL:P{"notes"}%
