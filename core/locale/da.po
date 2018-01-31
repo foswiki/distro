@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: foswiki-developers@lists.foswiki.org\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-06-15 06:35+0200\n"
+"PO-Revision-Date: 2018-01-22 22:06+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,7 +195,7 @@ msgstr "siden %1 eksisterer ikke"
 
 #: core/templates/registermessages.tmpl:459
 msgid "%1 topic not found. No users registered."
-msgstr ""
+msgstr "%1 siden ikke fundet. Ingen brugere er registreret."
 
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
@@ -406,10 +406,8 @@ msgstr ""
 "der vil blive opdateret eller tilføjet."
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
-#, fuzzy
 msgid "*Bulk registration is restricted to Administrators.*"
-msgstr ""
-"Adgang til igangværende registreringer er begrænset til administratorerne."
+msgstr "*Mængde registrering er begrænset til administratorerne.*"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -461,6 +459,8 @@ msgid ""
 "*This text will be sent to users in their reset e-mail.* The login name and "
 "password will be filled in automatically."
 msgstr ""
+"*Denne tekst vil blive sendt til brugerne i deres password reset email.* "
+"Brugernavn og kode vil blive udfyldt automatisk."
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -955,9 +955,8 @@ msgid "Back to topic"
 msgstr "Tilbage til siden"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
-#, fuzzy
 msgid "Back to:"
-msgstr "Tilbage til siden"
+msgstr "Tilbage til:"
 
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
@@ -1000,14 +999,15 @@ msgid "Both body and title"
 msgstr "Både kildetekst og sidenavn"
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
-#, fuzzy
 msgid "Bulk Register these users"
-msgstr "Registrerede brugere"
+msgstr "Mængde registrering af brugere"
 
 #: core/templates/registermessages.tmpl:468
 msgid ""
 "Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
 msgstr ""
+"Mængde registrering udført af %1 den %2. Se [[%3]] for mere detaljeret "
+"information."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
@@ -1725,9 +1725,8 @@ msgid "Edit this topic text (e)"
 msgstr "Editér denne sides tekst (e)"
 
 #: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
-#, fuzzy
 msgid "Edit this topic to add a description to the %1"
-msgstr "Editér denne sides tekst (e)"
+msgstr "Editér denne sides overskrift for at tilføje en beskrivelse til %1"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -3524,9 +3523,8 @@ msgid "Registration"
 msgstr "Registrering"
 
 #: core/templates/registermessages.tmpl:467
-#, fuzzy
 msgid "Registration Results Summary"
-msgstr "Registrering"
+msgstr "Opsummering af registrerings resultat"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
@@ -3695,9 +3693,8 @@ msgid "Request Validation"
 msgstr "Bed om bekræftelse"
 
 #: core/templates/registermessages.tmpl:457
-#, fuzzy
 msgid "Requested bulk registration topic not found."
-msgstr "Eksisterende brugerregistrering ikke fundet"
+msgstr "Forespurgt mængde registrerings side blev ikke fundet."
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3765,7 +3762,7 @@ msgstr "Gendannelse er ikke mulig fordi denne side er version 1."
 
 #: core/templates/registermessages.tmpl:471
 msgid "Results"
-msgstr ""
+msgstr "Resultat"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -5424,9 +5421,8 @@ msgstr ""
 "af URL'er"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-#, fuzzy
 msgid "Warning: Updates found for %1 extension(s): %2"
-msgstr "Advarsel: Opdateringer fundet for %1 extension(s)."
+msgstr "Advarsel: Opdateringer fundet for %1 extension(s): %2"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
@@ -5896,7 +5892,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
 msgid "_Be sure to remember to save any table changes!_"
-msgstr ""
+msgstr "_Vær sikker på at huske at gemme tabel ændringer!_"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
