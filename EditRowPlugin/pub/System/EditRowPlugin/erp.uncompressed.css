@@ -21,21 +21,22 @@
     position: absolute !important; /* Item13766 */
     margin: 0;
     padding: 0;
+    z-index: 1;
+    height: 50%;
+    background: rgba(255, 255, 255, 0);
+}
+
+.erpJS_cell {
+    display: inline-block;
 }
 
 .erp_drag_button {
-    position: absolute;
-    display: none;
     left: -1.7em;
-    top: -1.25em;
 }
 
 a.erp_drag_button:hover {
     background-color: #FEE;
-    position: absolute;
-    display: block;
     left: -1.7em;
-    top: -1.25em;
 }
 
 .erp-button {
@@ -60,7 +61,7 @@ a.erp_drag_button:hover {
     width: 8px;
     background: url(icons.png) no-repeat transparent;
     background-position: -24px -35px;
-    z-index: 1;
+    z-index: 10;
     cursor: pointer;
 }
 
@@ -77,8 +78,8 @@ a.erp_drag_button:hover {
 }
 
 .erp-edittable {
-    padding:0;
-    display:inline-block;
+    padding: 0;
+    display: inline-block;
     width: 47px;
     height: 19px;
     background-image: url("icons.png") !important;

@@ -84,7 +84,7 @@ sub render {
             }
         }
 
-        if ( $this->{isHeader} ) {
+        if ( $this->{isHeader} && $this->{row}->isHeader ) {
 
             # Headers are never editable, but may be sortable
             my $attrs = {};
@@ -160,7 +160,11 @@ sub render {
                     $sopts->{class} = join( ' ', @css_classes );
                 }
             }
+            $text = "&nbsp;" if !$text;
             $text = Foswiki::Render::html( 'div', $sopts, " $text " );
+            if ( $this->{isHeader} ) {
+                $text = "*${text}*";
+            }
         }
     }
     $text =~ s/%/&#37;/g;    # prevent further macro expansion Item10770
