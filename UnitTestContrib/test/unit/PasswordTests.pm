@@ -91,11 +91,19 @@ sub doTests {
         $encrapted{$user} = $impl->fetchPass($user);
         $this->assert_null( $impl->error() );
         $this->assert( $encrapted{$user} );
-        $this->assert_str_equals(
-            $encrapted{$user},
-            $impl->encrypt( $user, $this->{users1}->{$user}->{pass} ),
-            "fails for $user"
-        );
+
+        $this->assert(
+            $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
+            "checkPass failed" );
+
+# argon2i generates a different key for each execution, cannot test by comparing hashes.
+        unless ( $encrapted{$user} =~ m/^\$argon2i\$/ ) {
+            $this->assert_str_equals(
+                $encrapted{$user},
+                $impl->encrypt( $user, $this->{users1}->{$user}->{pass} ),
+                "fails for $user"
+            );
+        }
         $this->assert_str_equals(
             $this->{users1}->{$user}->{emails},
             join( ";", $impl->getEmails($user) )
@@ -107,7 +115,8 @@ sub doTests {
         $this->assert(
             $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ) );
         $this->assert_str_equals( $encrapted{$user},
-            $impl->encrypt( $user, $this->{users1}->{$user}->{pass} ) );
+            $impl->encrypt( $user, $this->{users1}->{$user}->{pass} ) )
+          unless ( $encrapted{$user} =~ m/^\$argon2i\$/ );
     }
 
     # try changing with wrong pass
@@ -118,7 +127,7 @@ sub doTests {
             $this->{users2}->{$user}->{pass}
         );
         $this->assert( !$added );
-        $this->assert_not_null( $impl->error() );
+        $this->assert_str_equals( 'Invalid user/password', $impl->error() );
     }
     if ($salted) {
 
@@ -150,7 +159,7 @@ sub doTests {
         $this->assert_null( $impl->error() );
     }
     $this->assert( !$impl->removeUser('notauser') );
-    $this->assert_not_null( $impl->error() );
+    $this->assert_str_equals( 'No such user notauser', $impl->error() );
 
     #findUserByEmail - new API method added in 2012 (1.2.0
     if ( $impl->isManagingEmails() ) {
@@ -252,9 +261,14 @@ sub skip {
             condition => { without_dep => 'Crypt::Eksblowfish::Bcrypt' },
             tests     => {
                 'PasswordTests::test_htpasswd_bcrypt' =>
-                  'Missing Crypt::Eksblowfish::Bcrypt',
-                'PasswordTests::test_htpasswd_auto' =>
-                  'Missing Crypt::Eksblowfish::Bcrypt',
+                  'Missing Crypt::Argon2',
+            }
+        },
+        {
+            condition => { without_dep => 'Crypt::Argon2' },
+            tests     => {
+                'PasswordTests::test_htpasswd_argon2i' =>
+                  'Missing Crypt::Argon2',
             }
         },
     );
@@ -276,6 +290,42 @@ sub test_random_Pass {
     my $pass3 = Foswiki::Users::randomPassword();
     $this->assert_str_not_equals( $pass3, $pass2,
         'Should not return same password twice' );
+
+}
+
+sub test_forced_change {
+    my $this = shift;
+
+    my %encrapted;
+    my $user = 'budgie';
+
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt-md5';
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache() if $impl->can('ClearCache');
+    $this->assert($impl);
+
+    my $added = $impl->setPassword( $user, $this->{users1}->{$user}->{pass} );
+
+    $this->assert_null( $impl->error() );
+    $this->assert($added);
+    $impl->setEmails( $user, $this->{users1}->{$user}->{emails} );
+    $this->assert_null( $impl->error() );
+    $encrapted{$user} = $impl->fetchPass($user);
+    $this->assert_null( $impl->error() );
+    $this->assert( $encrapted{$user} );
+
+    $this->assert(
+        $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
+        "checkPass failed" );
+
+    $Foswiki::cfg{Htpasswd}{ForceChangeEncoding} = 1;
+    $Foswiki::cfg{Htpasswd}{Encoding}            = 'htdigest-md5';
+
+    $this->assert(
+        $impl->checkPassword( $user, $this->{users1}->{$user}->{pass} ),
+        "checkPass failed" );
+    $this->assert_str_equals( 'Password change required', $impl->error() );
 
 }
 
@@ -548,26 +598,73 @@ DONE
         $this->assert_str_equals( 'apache-md5', $encoded{$user}->{enc} );
     }
 
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'bcrypt';
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    if (
+        $this->check_conditions_met(
+            ( with_dep => 'Crypt::Eksblowfish::Bcrypt' )
+        )
+      )
+    {
+        $Foswiki::cfg{Htpasswd}{Encoding}   = 'bcrypt';
+        $Foswiki::cfg{Htpasswd}{BCryptCost} = 3;
+        $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
 
-    # force-change them to users2 password again, migrating to bcrypt.
-    foreach my $user (@users) {
-        my $added = $impl->setPassword(
-            $user,
-            $this->{users2}->{$user}->{pass},
-            $this->{users2}->{$user}->{pass}
-        );
-        $this->assert_null( $impl->error() );
-        $this->assert_str_not_equals( $encrapted{$user},
-            $impl->fetchPass($user) );
-        $this->assert_null( $impl->error() );
-        $this->assert_str_equals(
-            $this->{users1}->{$user}->{emails},
-            join( ";", $impl->getEmails($user) )
-        );
-        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
-        $this->assert_str_equals( 'bcrypt', $encoded{$user}->{enc} );
+        # force-change them to users2 password again, migrating to bcrypt.
+        foreach my $user (@users) {
+            my $added = $impl->setPassword(
+                $user,
+                $this->{users2}->{$user}->{pass},
+                $this->{users2}->{$user}->{pass}
+            );
+            $this->assert_null( $impl->error() );
+            $this->assert_str_not_equals( $encrapted{$user},
+                $impl->fetchPass($user) );
+            $this->assert_null( $impl->error() );
+            $this->assert_str_equals(
+                $this->{users1}->{$user}->{emails},
+                join( ";", $impl->getEmails($user) )
+            );
+            ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+            $this->assert_str_equals( 'bcrypt', $encoded{$user}->{enc} );
+            $this->assert_matches( qr'\$2a\$03\$', $encrapted{$user},
+                "bcrypt settings do not match" );
+        }
+    }
+    else {
+        print STDERR
+"SKIPPING bcrypt auto recognition, Crypt::Eksblowfish::Bcrypt is not installed.\n";
+    }
+
+    if ( $this->check_conditions_met( ( with_dep => 'Crypt::Argon2' ) ) ) {
+        $Foswiki::cfg{Htpasswd}{Encoding}       = 'argon2i';
+        $Foswiki::cfg{Htpasswd}{Argon2Memcost}  = '16M';
+        $Foswiki::cfg{Htpasswd}{Argon2Threads}  = 1;
+        $Foswiki::cfg{Htpasswd}{Argon2Timecost} = 2;
+        $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+        # force-change them to users2 password again, migrating to bcrypt.
+        foreach my $user (@users) {
+            my $added = $impl->setPassword(
+                $user,
+                $this->{users2}->{$user}->{pass},
+                $this->{users2}->{$user}->{pass}
+            );
+            $this->assert_null( $impl->error() );
+            $this->assert_str_not_equals( $encrapted{$user},
+                $impl->fetchPass($user) );
+            $this->assert_null( $impl->error() );
+            $this->assert_str_equals(
+                $this->{users1}->{$user}->{emails},
+                join( ";", $impl->getEmails($user) )
+            );
+            ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+            $this->assert_str_equals( 'argon2i', $encoded{$user}->{enc} );
+            $this->assert_matches( qr'\$m=16384,t=2,p=1\$', $encrapted{$user},
+                "Argon2i settings do not match" );
+        }
+    }
+    else {
+        print STDERR
+"SKIPPING argon2i auto recognition, Crypt::Argon2 is not installed.\n";
     }
 
     #dumpFile();
@@ -606,6 +703,22 @@ sub test_htpasswd_bcrypt {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'bcrypt';
+    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $this->assert($impl);
+    $impl->ClearCache() if $impl->can('ClearCache');
+    $this->doTests( $impl, $SALTED );
+
+    #dumpFile();
+}
+
+sub test_htpasswd_argon2i {
+    my $this = shift;
+
+    $Foswiki::cfg{Htpasswd}{AutoDetect}     = 0;
+    $Foswiki::cfg{Htpasswd}{Encoding}       = 'argon2i';
+    $Foswiki::cfg{Htpasswd}{Argon2Memcost}  = '16M';
+    $Foswiki::cfg{Htpasswd}{Argon2Threads}  = 2;
+    $Foswiki::cfg{Htpasswd}{Argon2Timecost} = 2;
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
     $impl->ClearCache() if $impl->can('ClearCache');

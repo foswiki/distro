@@ -1145,6 +1145,12 @@ sub target_pod {
 ---++++ build($target)
 Build the given target
 
+=pre= and =post= hooks will be executed before and after the target,
+repsectively. I.e., if =$target= is 'install' then method =pre_target_install()=
+will be executed before =target_install()=; and =post_target_install()= will be
+given control after the target. If target fails then post-hook will receive
+error object =$@= as it's single parameter.
+
 =cut
 
 sub build {
@@ -1154,7 +1160,9 @@ sub build {
     if ( $this->{-v} ) {
         print 'Building ', $target, "\n";
     }
-    my $fn = "target_$target";
+    my $fn      = "target_$target";
+    my $pre_fn  = "pre_" . $fn;
+    my $post_fn = "post_" . $fn;
     unless ( $this->can($fn) ) {
         my $file = 'Foswiki/Contrib/BuildContrib/Targets/' . $target . '.pm';
         unless ( do $file ) {
@@ -1166,13 +1174,26 @@ sub build {
             }
         }
     }
-    $this->$fn();
-    if ($@) {
-        die 'Failed to build ', $target, ': ', $@;
+    $this->$pre_fn() if $this->can($pre_fn);
+    if ( $this->{-v} ) {
+        print 'Executing pre-', $target, "\n";
     }
     if ( $this->{-v} ) {
+        print 'Executing ', $target, "\n";
+    }
+    $this->$fn();
+    my $error;
+    if ($@) {
+        $error = $@;
+    }
+    elsif ( $this->{-v} ) {
         print 'Built ', $target, "\n";
     }
+    if ( $this->{-v} ) {
+        print 'Executing post-', $target, "\n";
+    }
+    $this->$post_fn($error) if $this->can($post_fn);
+    die 'Failed to build ', $target, ': ', $error if $error;
 }
 
 1;

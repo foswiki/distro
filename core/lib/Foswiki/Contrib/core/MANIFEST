@@ -704,7 +704,6 @@ lib/Foswiki/UI/Configure.pm 0444
 lib/Foswiki/UI/Edit.pm 0444
 lib/Foswiki/UI/Manage.pm 0444
 lib/Foswiki/UI/Oops.pm 0444
-lib/Foswiki/UI/Passwords.pm 0444
 lib/Foswiki/UI/Preview.pm 0444
 lib/Foswiki/UI/RDiff.pm 0444
 lib/Foswiki/UI/Register.pm 0444

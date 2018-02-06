@@ -65,18 +65,6 @@ sub manage {
     }
 }
 
-sub _action_changePassword {
-    my $session = shift;
-    require Foswiki::UI::Passwords;
-    Foswiki::UI::Passwords::changePasswordAndOrEmail($session);
-}
-
-sub _action_resetPassword {
-    my $session = shift;
-    require Foswiki::UI::Passwords;
-    Foswiki::UI::Passwords::resetPassword($session);
-}
-
 sub _action_bulkRegister {
     my $session = shift;
     require Foswiki::UI::Register;
@@ -674,7 +662,7 @@ sub _action_restoreRevision {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

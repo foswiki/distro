@@ -2042,4 +2042,19 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     return;
 }
 
+sub test_tokenLogin {
+
+    my $this = shift;
+
+    my $token =
+      Foswiki::LoginManager::generateLoginToken( 'Foofoo',
+        { cUID => 'Foofoo', a => 'b' } );
+
+    use Storable qw(fd_retrieve);
+    my $hashref =
+      Storable::retrieve("$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token");
+    print STDERR Data::Dumper::Dumper( \$hashref );
+    print STDERR " token ($token) \n";
+
+}
 1;
