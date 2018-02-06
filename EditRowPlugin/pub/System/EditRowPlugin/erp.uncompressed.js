@@ -310,14 +310,14 @@
     var makeRowDraggable = function(tr) {
         // Add a "drag handle" element to the first cell of the row
         var container = tr.closest("thead,tbody,tfoot,table");
-        tr.find("td").first().each(
+        tr.find("td, th").first().each(
             function () {
-                var handle = $("<a href='#' class='ui-icon-arrow-2-n-s erp_drag_button ui-icon' title='Click and drag to move row'>move</a>");
+                var handle = $("<a href='#' class='erp_drag_button ui-icon-arrow-2-n-s ui-icon' title='Click and drag to move row'>move</a>");
                 // Note we need the extra <div class="erpJS_container" for positioning.
                 // It is *not* sufficient to set the class on the td
-                var div = $("<div class='erpJS_container'></div>");
+                var div = $("<div class='erpJS_container' style='display: inline-block; width: 0em;'></div>");
                 div.append(handle);
-                $(this).append(div);
+                $(this).prepend(div);
                 handle.draggable({
                     // constrain to the containing table
                     containment: container,
@@ -457,7 +457,7 @@
         var div = $("<div class='erpJS_container'></div>");
         var button = $('<div class="erp-edit-button" title="Click to edit"></div>');
         div.append(button);
-        el.closest("td").prepend(div);
+        el.closest("td, th").prepend(div);
 
         // Action on edit cell
         button.click(function() {
@@ -669,9 +669,9 @@
                 }
                 if (!current_row || tr[0] != current_row[0]) {
                     if (current_row) {
-                        current_row.find('.erpJS_container').fadeOut();
+                        current_row.find('.erpJS_container').fadeOut("fast");
                     }
-                    tr.find('.erp_drag_button,.erpJS_container').fadeIn();
+                    tr.find('.erp_drag_button,.erpJS_container').fadeIn("fast");
                     current_row = tr;
                 }
             });
