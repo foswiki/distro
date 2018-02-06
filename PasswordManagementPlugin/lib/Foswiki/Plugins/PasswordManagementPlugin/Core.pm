@@ -727,7 +727,7 @@ sub _RESTchangeEmail {
         throw Foswiki::OopsException(
             'password',
             def    => 'rej_email',
-            web    => $webname,
+            web    => $webName,
             topic  => $topic,
             params => [$email]
         );
