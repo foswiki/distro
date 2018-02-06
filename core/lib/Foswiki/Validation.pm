@@ -387,7 +387,8 @@ sub _getSecret {
     unless ($secret) {
 
         # Use hex encoding to make it cookie-friendly
-        $secret = Digest::MD5::md5_hex( $cgis->id(), rand(time) );
+        $secret =
+          Digest::MD5::md5_hex( $cgis->id(), Foswiki::generateRandomChars(12) );
         $cgis->param( _getSecretCookieName(), $secret );
     }
     return $secret;

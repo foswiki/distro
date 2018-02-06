@@ -110,12 +110,6 @@ BEGIN {
         # Rename is 2 stage; protect in Foswiki::UI::Rename
         #allow => { POST => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package  => 'Foswiki::UI::Passwords',
-        function => 'resetPassword',
-        context  => { resetpasswd => 1 },
-        allow    => { POST => 1 },
-    };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
         request  => 'Foswiki::Request::Rest',
@@ -633,6 +627,28 @@ web.topic is permissible, throwing a Foswiki::AccessControlException if not.
 sub checkAccess {
     my ( $session, $mode, $topicObject ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
+
+    # If this is checking the primary session topic, apply access restrictions
+    if ( $topicObject->isSessionTopic() ) {
+        my $topicRestriction =
+          $session->getLoginManager()
+          ->getSessionValue('FOSWIKI_TOPICRESTRICTION');
+
+        if ($topicRestriction) {
+
+            my ( $rWeb, $rTopic ) =
+              $session->normalizeWebTopicName( '', $topicRestriction );
+            unless (
+                   $rWeb   eq $topicObject->web()
+                && $rTopic eq $topicObject->topic()
+
+              )
+            {
+                my $url = $session->getScriptUrl( 1, 'view', $rWeb, $rTopic );
+                $session->redirect($url);
+            }
+        }
+    }
 
     unless ( $topicObject->haveAccess($mode) ) {
         throw Foswiki::AccessControlException( $mode, $session->{user},

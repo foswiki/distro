@@ -18,6 +18,7 @@
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
 !include ../ModPerlEngineContrib/lib/Foswiki/Contrib/ModPerlEngineContrib
 !include ../NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin
+!include ../PasswordManagementPlugin/lib/Foswiki/Plugins/PasswordManagementPlugin
 !include ../PatternSkin/lib/Foswiki/Contrib/PatternSkin
 !include ../PlainFileStoreContrib/lib/Foswiki/Contrib/PlainFileStoreContrib
 !include ../PreferencesPlugin/lib/Foswiki/Plugins/PreferencesPlugin

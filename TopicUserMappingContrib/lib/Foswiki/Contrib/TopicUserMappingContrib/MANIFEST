@@ -13,15 +13,12 @@ data/Main/UserListHeader.txt 0644
 data/System/BulkRegistration.txt 0644
 data/System/BulkRegistrationInputTemplate.txt 0644
 data/System/BulkRegistrationInputViewTemplate.txt 0644
-data/System/BulkResetPassword.txt 0644
 data/System/ChangeEmailAddress.txt 0644
-data/System/ChangePassword.txt 0644
 data/System/DefaultUserRegistration.txt 0644
 data/System/FAQRebuildingWikiUsersTopic.txt 0644
 data/System/GroupTemplate.txt 0644
 data/System/ManagingUsers.txt 0644
 data/System/NewUserTemplate.txt 0644
-data/System/ResetPassword.txt 0644
 data/System/RemoveUser.txt 0644
 data/System/TopicUserMappingContrib.txt 0644
 data/System/UserForm.txt 0644

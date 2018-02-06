@@ -28,21 +28,12 @@ Early in Foswiki::new, the login manager is created. The creation of the login m
    1 If sessions are in use, it loads CGI::Session but doesn't initialise the session yet.
    1 Creates the login manager object
 Slightly later in Foswiki::new, loginManager->loadSession is called.
-   1 Calls loginManager->getUser to get the username *before* the session is created
-      * Foswiki::LoginManager::ApacheLogin looks at REMOTE_USER (only for authenticated scripts)
-      * Foswiki::LoginManager::TemplateLogin just returns undef
-   1 If the NO_FOSWIKI_SESSION environment variable is defined, then no session is created and the username is returned. This might be defined for search engine bots, depending on how the web server is configured
-   1 Reads the FOSWIKISID cookie to get the SID (or the FOSWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
    1 Creates the CGI::Session object, and the session is thereby read.
    1 If the username still isn't known, reads it from the cookie. Thus Foswiki::LoginManager::ApacheLogin overrides the cookie using REMOTE_USER, and Foswiki::LoginManager::TemplateLogin *always* uses the session.
 
 Later again in Foswiki::new, plugins are given a chance to *override* the username found from the loginManager.
 
 The last step in Foswiki::new is to find the user, using whatever user mapping manager is in place.
-
----++ ObjectData =twiki=
-
-The Foswiki object this login manager is attached to.
 
 =cut
 
@@ -52,7 +43,10 @@ use strict;
 use warnings;
 use Assert;
 use Error qw( :try );
+use Fcntl;    # File control constants e.g. O_EXCL
+use Storable qw(store_fd fd_retrieve);
 
+use Digest::MD5      ();
 use Foswiki::Sandbox ();
 use CGI::Session     ();
 
@@ -71,7 +65,13 @@ our $M3 = chr(7);
 # Some session keys are secret (not to be given to the browser) and
 # others read only (not to be changed from the browser)
 our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
-our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
+our %readOnlySK = (
+    %secretSK,
+    AUTHUSER                 => 1,    # The authorized user.
+    SUDOFROMAUTHUSER         => 1,    # The user who initiated SUDO admin login
+    FOSWIKI_TOPICRESTRICTION => 1,    # Restricts all access to named web.topic
+    FOSWIKI_RESETPASSWORD    => 1,    # Skips validating old password
+);
 
 use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
 
@@ -289,11 +289,15 @@ Get the client session data, using the cookie and/or the request URL.
 Set up appropriate session variables in the session object and return
 the login name.
 
-$pwchecker is a pointer to an object that implements checkPassword
+$pwchecker is a pointer to the Foswiki::Users object that implements checkPassword
 
 $defaultUser is a username to use if one is not available from other
 sources. The username passed when you create a Foswiki instance is
 passed in here.
+   * Bootstrapping the config sets the =admin= user as the default.
+   * The CLI engine sets the =admin= user as the default.
+   * The unit tests set this as required for the test.
+   * Web and other environments default to the =guest= user.
 
 =cut
 
@@ -306,23 +310,242 @@ sub loadSession {
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
 
-    # Try and get the user from the webserver. This is referred to as
-    # the "webserver user". the webserver user is authenticated by some
-    # means beyond foswiki e.g. Basic Auth.  getUser is defined in the
-    # LoginManager.  The default returns undef.
+=begin TML
+   * Step 1: see if web server provides a user.  This is authenticated external to Foswiki by the web server before Foswiki is executed, for example, Basic Auth.
+      * Calls loginManager->getUser to get the username *before* the session is created
+         * Foswiki::LoginManager::ApacheLogin looks at REMOTE_USER (only for authenticated scripts)
+         * Foswiki::LoginManager::TemplateLogin just returns undef
+=cut
 
     my $authUser = $this->getUser($this);
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
-    # If the NO_FOSWIKI_SESSION environment variable is defined, then
-    # do not create the session. This might be defined if the request
-    # is made by a search engine bot, depending on how the web server
-    # is configured
+=begin TML
+   * Step 2: Implement the NO_FOSWIKI_SESSION feature
+      * If the NO_FOSWIKI_SESSION environment variable is defined, then no session is created and the username is returned. This might be defined for search engine bots, depending on how the web server is configured
+=cut
 
     if ( $ENV{NO_FOSWIKI_SESSION} ) {
         _trace( $this, "ENV{NO_FOSWIKI_SESSION} blocked the session" );
         return $authUser;
     }
+
+=begin TML
+   * Step 3: call _getCookieCredentials: Check if the cookie or IP to Seesion ID Mapping can provide a user.
+      * Reads the FOSWIKISID cookie to get the SID (or the FOSWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
+      * If Bootstrap config is active, then override it to 'admin', to prevent stale cookies from blocking bootstrap admin.
+      * Allow the session user to override the web server user (ie SUDO user support)
+=cut
+
+    my $sessionUser = $this->_getCookieCredentials( $session, $defaultUser );
+    _trace( $this, "Cookie processing returned user $authUser" )
+      if defined $authUser;
+
+    $authUser = $defaultUser
+      if ( $Foswiki::cfg{isBOOTSTRAPPING}
+        && $defaultUser eq 'admin' );
+
+    _trace( $this, "AUTHUSER after BOOTSTRAP check is $authUser" )
+      if defined $authUser;
+
+    $authUser = $sessionUser
+      if ( !defined($authUser)
+        || $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
+    _trace( $this, "AUTHUSER now $authUser after Cookie session check." )
+      if defined $authUser;
+
+=begin TML
+   * Step 4: Try Token authentication.  Allow the Token Auth to replace the current session user.  If a user provides a valid authentication token, it essentially logs them out and logs in a new user.
+      * If the user is currently running "sudo'd" to the admin user, clear that as well.
+=cut
+
+    my $tokenUser = $this->_getTokenCredentials($session);
+    if ($tokenUser) {
+        _trace( $this,
+            "Replacing current user with $tokenUser from authtoken" );
+        $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
+        $authUser = $tokenUser;
+    }
+
+=begin TML
+   * Step 5: Still no user?  Check for userid/password query parameters
+      * %X% Note: This routine will *always* return an authUser, This is where the default user is established.
+=cut
+
+    if ( !$authUser ) {
+        _trace( $this,
+            "No token auth user, checking URI Params for a username/password" );
+        $authUser =
+          $this->_getURICredentials( $session, $defaultUser, $pwchecker );
+    }
+
+=begin TML
+We should have a user at this point; or $defaultUser if there was no better information available.
+
+   * Step 6: Processs a logout request if needed.
+=cut
+
+    if (
+        ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
+        && (   $this->{_cgisession}
+            && $session->{request}
+            && $session->{request}->param('logout') )
+      )
+    {
+
+        # SMELL: is there any way to get evil data into the CGI session such
+        # that this untaint is less than safe?
+        my $sudoUser = Foswiki::Sandbox::untaintUnchecked(
+            $this->{_cgisession}->param('SUDOFROMAUTHUSER') );
+
+        if ($sudoUser) {
+            _trace( $this, "User is logging out from $sudoUser" );
+            $session->logger->log(
+                {
+                    level  => 'info',
+                    action => 'sudo logout',
+                    extra  => 'from ' . ( $authUser || '' ),
+                    user   => $sudoUser
+                }
+            );
+            $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
+            $authUser = $sudoUser;
+        }
+        else {
+            $this->{_cgisession}->delete();
+            $this->{_cgisession}->flush();
+            $this->{_cgisession} = undef;
+            $this->_delSessionCookieFromResponse();
+
+            $authUser =
+              $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
+        }
+    }
+    $session->{request}->delete('logout');
+
+=begin TML
+   * Step 7: Call userLoggedIn to establish a new session, and insert the auth user into the cgi session.
+      * If it's the guest user, and guest sessions are not required, then don't bother.
+      * *User will now be logged in, and a new session is created*
+   * Step 8: If there is a session, restore any CGI Session parameters.
+=cut
+
+    $this->userLoggedIn($authUser)
+      unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
+        && !$guestSessions
+        && !$session->inContext('sessionRequired') );
+
+    if ( $this->{_cgisession} ) {
+
+        # Restore CGI Session parameters
+        for ( $this->{_cgisession}->param ) {
+            my $value = $this->{_cgisession}->param($_);
+            $session->{prefs}->setInternalPreferences( $_ => $value );
+            $this->_trace( "Setting internal preference $_ to "
+                  . ( $value ? $value : 'null' ) );
+        }
+
+        # May end up doing this several times; but this is the only place
+        # if should really need to be done, unless someone allocates a
+        # new response object.
+        $this->_addSessionCookieToResponse();
+    }
+
+    return $authUser;
+}
+
+=begin TML
+
+---+++ Private ObjectMethod _getTokenCredentials   ( $session ) -> $authUser
+
+Attempts to establish user credentials using a cryptographic token provided
+as the authToken query parameter.  It checks for a token file:
+$Foswiki::cfg{WorkingDir}/tmp/authtoken_$tokenid
+
+The token credentials are obtained from the file system using Storable.
+
+Note:  The cUID contained in the token will be granted access, even if the user is
+not known to the Password Manager / Mapper.
+
+=cut
+
+sub _getTokenCredentials {
+
+    my ( $this, $session ) = @_;
+
+    my $authUser;
+
+    # Note that this code only applies to scripts other than login.
+    # The login script is handled separately.
+
+    if ( $session->{request}->param('authtoken') ) {
+
+        # Token auth requires a session for the access restrictions
+        $session->{context}{sessionRequired} = 1;
+
+        my $authtoken = $session->{request}->param('authtoken');
+        $session->{request}->delete("authtoken");
+
+        my $tokenfile = "$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$authtoken";
+
+        if ( -f $tokenfile && -r $tokenfile ) {
+            my $tokenhash = Storable::retrieve($tokenfile);
+            unlink $tokenfile;    # Single use only!
+
+            my $expires = $tokenhash->{expires};
+            if ( !defined $expires || $expires > time() ) {
+                $authUser =
+                  $session->{users}->getLoginName( $tokenhash->{cUID} );
+                _trace( $this,
+"User $authUser  (cUID $tokenhash->{cUID}) accepted from auth token"
+                );
+
+                # create new session if necessary
+                unless ( $this->{_cgisession} ) {
+
+                    _trace( $this,
+"Creating a new client session to support Token Auth - _cgisession is empty"
+                    );
+                    $this->{_cgisession} =
+                      $this->_loadCreateCGISession( $session->{request} );
+                }
+
+                foreach my $key ( keys %{$tokenhash} ) {
+                    next if $key eq 'expires';
+                    next if $key eq 'cUID';
+                    $this->setSessionValue( $key, $tokenhash->{$key} );
+                }
+
+            }
+            else {
+                $Foswiki::system_message =
+"<div class='foswikiHelp'> %X% Authentication Token has expired. Login not processed. </div>";
+            }
+        }
+        else {
+            $Foswiki::system_message =
+"<div class='foswikiHelp'> %X% Authentication Token was not found. Login not processed. </div>";
+        }
+    }
+
+    return $authUser;
+
+}
+
+=begin TML
+
+---+++ Private ObjectMethod _getCookieCredentials   ( $session ) -> $authUser
+
+Attempts to establish user credentials from the session cookie.
+It loads the cookie either from the cookie header, or, if configured
+it map's client IP to the session ID.
+
+=cut
+
+sub _getCookieCredentials {
+    my ( $this, $session ) = @_;
+
+    my $sessionUser;
 
     # Client sessions processing either cookie or IP2SID based:
     if (   $Foswiki::cfg{UseClientSessions}
@@ -372,228 +595,161 @@ sub loadSession {
 
             # Get the authorised user stored in the session
 
-            my $sessionUser = Foswiki::Sandbox::untaintUnchecked(
+            $sessionUser = Foswiki::Sandbox::untaintUnchecked(
                 $this->{_cgisession}->param('AUTHUSER') );
 
             _trace( $this, "AUTHUSER from session is $sessionUser" )
               if defined $sessionUser;
 
-    # If we are bootstrapping, and the defaultUser from Foswiki.pm is admin
-    # Then override the session user to become admin.   This gets around a stale
-    # browser cookie from blocking the bootstrap admin login.
+        }
 
-            $authUser = $defaultUser
-              if ( $Foswiki::cfg{isBOOTSTRAPPING}
-                && $defaultUser eq 'admin' );
+        return $sessionUser;
 
-            _trace( $this, "AUTHUSER after BOOTSTRAP check is $authUser" )
-              if defined $authUser;
+    }
+}
 
-            # An admin user stored in the session can override the webserver
-            # user; handy for sudo
+=begin TML
 
-            $authUser = $sessionUser
-              if ( !defined($authUser)
-                || $sessionUser
-                && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
+---+++ Private ObjectMethod _getURICredentials   ( $session ) -> $authUser
+
+Attempts to establish user credentials from query parameters.
+
+   * username / password parameters. Typically CLI sessions only.
+
+It's possible to configure Foswiki to accept these parameters in a CGI / Web
+session, however this is disabled by default and not recommended.  It can also
+be restricted to only POST type requests.
+
+   * The X-Authorzation header can pass in an encoded username / password.
+
+Once the username / password is available, the password is checked using the
+Password manager.
+
+Due to some requirements in CLI processing, this routine _always_ returns
+an authUser.  It shoulid be the last suthentication source checked during login.
+
+=cut
+
+sub _getURICredentials {
+    my ( $this, $session, $defaultUser, $pwchecker ) = @_;
+
+    my $authUser;
+
+    # Note that this code only applies to scripts other than login.
+    # The login script is handled separately.
+
+    my $script = $session->{request}->base_action();
+
+    my $login;    # username from CLI/URI parameters
+    my $pass;     # password from CLI/URI parameters
+
+    # If we are in the CLI environment, then
+    # the only option is to pass "URL parameters"
+    #  - The CLI overrides the "defaultUser" to
+    #    be admin.  CLI runs as admin by default.
+    #  - -username/-password parameters allow
+    #    CLI to use conventional authentication
+
+    if (   $session->inContext('command_line')
+        && $session->{request}->param('username') )
+    {
+        $login = $session->{request}->param('username');
+        $pass = $session->{request}->param('password') || '';
+        $session->{request}->delete( 'username', 'password' );
+
+        # CLI defaults to Admin User,  but if a
+        # user/pass was provided on the cli,  and was wrong,
+        # we probably don't want to fall back
+        # to Admin, so override the default.
+        $defaultUser = $Foswiki::cfg{DefaultUserLogin};
+
+        _trace( $this,
+"CLI Credentials $login accepted from command line for further validation"
+        );
+    }
+
+    # If the configuration allows URL params,
+    # and the correct HTTP method is in use,
+    # Then accept the username & password,
+    # and delete them from the request to avoid
+    # them being accessed later.
+
+    if ( !$login ) {
+        if (   defined $session->{request}->param('username')
+            && defined $Foswiki::cfg{Session}{AcceptUserPwParam}
+            && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
+        {
+            if (
+                $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
+                || ( defined $session->{request}->method()
+                    && uc( $session->{request}->method() ) eq 'POST' )
+              )
+            {
+                $login = $session->{request}->param('username');
+                $pass  = $session->{request}->param('password');
+                $session->{request}->delete( 'username', 'password' );
+                _trace( $this,
+                    "URI Credentials $login accepted for further validation" );
+            }
         }
     }
 
-    # Checking for URI parameters
-    if ( !$authUser ) {
+    # Implements the X-Authorization header if one is present
+    # Nothing was in the query params. Check query headers.
+    if ( !$login ) {
 
-        _trace( $this, "No session, checking URI Params for a user" );
+        my $auth = $session->{request}->http('X-Authorization');
+        if ( defined $auth ) {
+            _trace( $this, "X-Authorization: $auth" );
+            if ( $auth =~ m/^FoswikiBasic (.+)$/ ) {
 
-        # if we couldn't get the login manager or the http session to tell
-        # us who the user is, check the username and password URI params.
-        #
-        # Note that this code only applies to scripts other than login.
-        # The login script is handled separately.
-
-        my $script = $session->{request}->base_action();
-
-        my $login;    # username from CLI/URI parameters
-        my $pass;     # password from CLI/URI parameters
-
-        # If we are in the CLI environment, then
-        # the only option is to pass "URL parameters"
-        #  - The CLI overrides the "defaultUser" to
-        #    be admin.  CLI runs as admin by default.
-        #  - -username/-password parameters allow
-        #    CLI to use conventional authentication
-
-        if (   $session->inContext('command_line')
-            && $session->{request}->param('username') )
-        {
-            $login = $session->{request}->param('username');
-            $pass = $session->{request}->param('password') || '';
-            $session->{request}->delete( 'username', 'password' );
-
-            # CLI defaults to Admin User,  but if a
-            # user/pass was provided on the cli,  and was wrong,
-            # we probably don't want to fall back
-            # to Admin, so override the default.
-            $defaultUser = $Foswiki::cfg{DefaultUserLogin};
-
-            _trace( $this,
-"CLI Credentials $login accepted from command line for further validation"
-            );
-        }
-
-        # If the configuration allows URL params,
-        # and the correct HTTP method is in use,
-        # Then accept the username & password,
-        # and delete them from the request to avoid
-        # them being accessed later.
-
-        if ( !$login ) {
-            if (   defined $session->{request}->param('username')
-                && defined $Foswiki::cfg{Session}{AcceptUserPwParam}
-                && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
-            {
-                if (
-                    $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
-                    || ( defined $session->{request}->method()
-                        && uc( $session->{request}->method() ) eq 'POST' )
-                  )
-                {
-                    $login = $session->{request}->param('username');
-                    $pass  = $session->{request}->param('password');
-                    $session->{request}->delete( 'username', 'password' );
+                # If the user agent wishes to send the userid "Aladdin"
+                # and password "open sesame", it would use the following
+                # header field:
+                # Authorization: Foswiki QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+                require MIME::Base64;
+                my $cred = MIME::Base64::decode_base64($1);
+                if ( $cred =~ m/:/ ) {
+                    ( $login, $pass ) = split( ':', $cred, 2 );
                     _trace( $this,
-                        "URI Credentials $login accepted for further validation"
+"Login credentials taken from query headers for further validation"
                     );
                 }
-            }
-        }
-
-        # Implements the X-Authorization header if one is present
-        # Nothing was in the query params. Check query headers.
-        if ( !$login ) {
-
-            my $auth = $session->{request}->http('X-Authorization');
-            if ( defined $auth ) {
-                _trace( $this, "X-Authorization: $auth" );
-                if ( $auth =~ m/^FoswikiBasic (.+)$/ ) {
-
-                    # If the user agent wishes to send the userid "Aladdin"
-                    # and password "open sesame", it would use the following
-                    # header field:
-                    # Authorization: Foswiki QWxhZGRpbjpvcGVuIHNlc2FtZQ==
-                    require MIME::Base64;
-                    my $cred = MIME::Base64::decode_base64($1);
-                    if ( $cred =~ m/:/ ) {
-                        ( $login, $pass ) = split( ':', $cred, 2 );
-                        _trace( $this,
-"Login credentials taken from query headers for further validation"
-                        );
-                    }
-                }    # TODO: implement FoswikiDigest here
-            }
-        }
-
-        # A login credential was found,  verify the userid & password
-        if ( $login && defined $pass && $pwchecker ) {
-            _trace( $this, "Validating password for $login" );
-            my $validation = $pwchecker->checkPassword( $login, $pass );
-            unless ($validation) {
-                _trace( $this,
-                    "URI validation FAILED:  Falling back to $defaultUser" );
-
-                # Item1953: You might think that this is needed:
-                #    $res->header( -type => 'text/html', -status => '401' );
-                #    throw Foswiki::EngineException( 401, $err, $res );
-                # but it would be wrong, because it would require the
-                # exception to be handled before the session object is
-                # properly initialised, which would cause an error.
-                # Instead, we do this, and let the caller handle the error.
-                undef $login;
-            }
-            $authUser = $login || $defaultUser;
-            _trace( $this, "After password validation, user is: $authUser" );
-        }
-        else {
-
-            # Last ditch attempt; if a user was passed in to this function,
-            # then use it (it is normally {remoteUser} from the session object
-            # or the -user parameter in the command_line (defaults to admin)
-            # Also used in unit tests when creating a newFoswikiSession
-            $authUser = $defaultUser;
-            _trace( $this, "Falling back to DEFAULT USER: $defaultUser" )
-              if $authUser;
-
+            }    # TODO: implement FoswikiDigest here
         }
     }
 
-    # We should have a user at this point; or $defaultUser if there
-    # was no better information available.
+    # A login credential was found,  verify the userid & password
+    if ( $login && defined $pass && $pwchecker ) {
+        _trace( $this, "Validating password for $login" );
+        my $validation = $pwchecker->checkPassword( $login, $pass );
+        unless ($validation) {
+            _trace( $this,
+                "URI validation FAILED:  Falling back to $defaultUser" );
 
-    # is this a logout?
-    if (
-        ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
-        && (   $this->{_cgisession}
-            && $session->{request}
-            && $session->{request}->param('logout') )
-      )
-    {
-
-        # SMELL: is there any way to get evil data into the CGI session such
-        # that this untaint is less than safe?
-        my $sudoUser = Foswiki::Sandbox::untaintUnchecked(
-            $this->{_cgisession}->param('SUDOFROMAUTHUSER') );
-
-        if ($sudoUser) {
-            _trace( $this, "User is logging out from $sudoUser" );
-            $session->logger->log(
-                {
-                    level  => 'info',
-                    action => 'sudo logout',
-                    extra  => 'from ' . ( $authUser || '' ),
-                    user   => $sudoUser
-                }
-            );
-            $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
-            $authUser = $sudoUser;
+            # Item1953: You might think that this is needed:
+            #    $res->header( -type => 'text/html', -status => '401' );
+            #    throw Foswiki::EngineException( 401, $err, $res );
+            # but it would be wrong, because it would require the
+            # exception to be handled before the session object is
+            # properly initialised, which would cause an error.
+            # Instead, we do this, and let the caller handle the error.
+            undef $login;
         }
-        else {
-            $this->{_cgisession}->delete();
-            $this->{_cgisession}->flush();
-            $this->{_cgisession} = undef;
-            $this->_delSessionCookieFromResponse();
-
-            $authUser =
-              $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
-        }
+        $authUser = $login || $defaultUser;
+        _trace( $this, "After password validation, user is: $authUser" );
     }
-    $session->{request}->delete('logout');
+    else {
 
-    # SMELL:  EXPERIMENTAL - Guest sessions can be made optional:
-    #  - unset $Foswiki::cfg{Sessions}{EnableGuestSessions}
-    #
-    # Note that if guests can comment, update, or otherwise POST to
-    # Foswiki, then pages with forms should be listed in
-    # $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
+        # Last ditch attempt; if a user was passed in to this function,
+        # then use it (it is normally {remoteUser} from the session object
+        # or the -user parameter in the command_line (defaults to admin)
+        # Also used in unit tests when creating a newFoswikiSession
+        #
+        $authUser = $defaultUser;
+        _trace( $this, "Falling back to DEFAULT USER: $defaultUser" )
+          if $authUser;
 
-    # Call to getLoggedIn inserts the auth user into the cgi session
-    $this->userLoggedIn($authUser)
-      unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-        && !$guestSessions
-        && !$session->inContext('sessionRequired') );
-
-    if ( $this->{_cgisession} ) {
-
-        # Restore CGI Session parameters
-        for ( $this->{_cgisession}->param ) {
-            my $value = $this->{_cgisession}->param($_);
-            $session->{prefs}->setInternalPreferences( $_ => $value );
-            $this->_trace( "Setting internal preference $_ to "
-                  . ( $value ? $value : 'null' ) );
-        }
-
-        # May end up doing this several times; but this is the only place
-        # if should really need to be done, unless someone allocates a
-        # new response object.
-        $this->_addSessionCookieToResponse();
     }
 
     return $authUser;
@@ -734,8 +890,12 @@ sub complete {
 
 ---++ StaticMethod expireDeadSessions()
 
-Delete sessions and passthrough files that are sitting around but are really expired.
-This *assumes* that the sessions are stored as files.
+Delete stale sessions, passthrough and tokenauth files that are sitting around but are really expired.
+This *assumes* that the sessions are stored as files.  It uses the file timestamp
+to determine if the session is expired.
+
+The setting ={Sessions}{ExpireAfter}= time as used as a universal expiration time.  Typically,
+expiration of tokenauth files will be much shorter.
 
 This is a static method, but requires Foswiki::cfg. It is designed to be
 run from a session or from a cron job.
@@ -753,7 +913,7 @@ sub expireDeadSessions {
     foreach my $file ( readdir(D) ) {
 
         # Validate
-        next unless $file =~ m/^((passthru|cgisess)_[0-9a-f]{32})$/;
+        next unless $file =~ m/^((passthru|cgisess|tokenauth)_[0-9a-f]{32})$/;
         $file = $1;    # untaint validated file name
 
         my @stat = stat("$Foswiki::cfg{WorkingDir}/tmp/$file");
@@ -1179,7 +1339,7 @@ sub _delSessionCookieFromResponse {
 ---++ ObjectMethod rewriteRedirectUrl( $url ) ->$url
 
 Rewrite the URL used in a redirect if necessary to include any session
-identification. 
+identification.
    * =$url= - target of the redirection.
 
 =cut
@@ -1600,11 +1760,66 @@ sub removeUserSessions {
     return $msg;
 }
 
+=begin TML
+
+---++ StaticMethod generateLoginToken( $cUID, $validFor,  %sessionVars ) = $token
+
+Creates a login token and saves the authentication information into a corresponding
+file. This will allow the user to gain access for purposes of resetting a password.
+As this can be used to bypass password authentication, it is critical that the
+token is sent to the user using a highly trusted channel.
+
+Note:  The cUID contained in the token will be granted access, even if the user is
+not known to the Password Manager / Mapper.  The caller of this function should
+ensure that the user exists before creating the token.
+
+Valid time in minutes, defaults to 15 minutes, as configured in $Foswiki::cfg{Login}{TokenLifetime}
+
+The $sessionVars hash is used to set Session Variables. Options hash currently includes:
+   $ FOSWIKI_TOPICRESTRICTION => "Web.Topic": Access will be redirected to this topic
+   $ FOSWIKI_PASSWORDRESET => 1; lets password change bypass checking of old password.
+
+When the user accesses the site and presents the authentication token, the data is loaded and
+deleted to prevent reuse.  Expiration is checked, and if still valid, a new session is established
+for the identified user.  accessRestriction (and any other hash keys) will be written as session
+variables.
+
+=cut
+
+sub generateLoginToken {
+
+    my ( $cUID, $validFor, $options ) = @_;
+
+    $options->{cUID} = $cUID;
+
+    my $nonce     = Foswiki::generateRandomChars(32);
+    my $token     = Digest::MD5::md5_hex($nonce);
+    my $tokenFile = "$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token";
+
+    $validFor ||= $Foswiki::cfg{Login}{TokenLifetime} || 15;
+
+    $options->{expires} = time() + ( $validFor * 60 );
+
+    # login token file is only written to once, so if it already exists,
+    # suspect a security hack (O_EXCL)
+    my $F;
+    sysopen( $F, $tokenFile, O_RDWR | O_EXCL | O_CREAT, 0600 )
+      || die 'Unable to open '
+      . $tokenFile
+      . ' for write; check the setting of {WorkingDir} in configure,'
+      . ' and check file permissions: '
+      . $!;
+    store_fd( $options, $F );
+    close($F);
+
+    return $token;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

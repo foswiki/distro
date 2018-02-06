@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507866190" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %MAKETEXT{"Change E-mail Address"}%
 Change registered email address
@@ -23,7 +23,7 @@ Change registered email address
 %MAKETEXT{"*Administrators:* You can change user's e-mail address using this form. Enter the users [[[_1]][username]] or [[[_1]][WikiName]] and the new e-mail address." args="%SYSTEMWEB%.UserName, %SYSTEMWEB%.WikiName"}%
 "}%
 
-<form name="manage" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<form name="changeEmail" action="%SCRIPTURLPATH{"rest"}%/PasswordManagementPlugin/changeEmail" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 *%MAKETEXT{"After submitting this form your e-mail will be changed, and you will be returned to this form."}%*
@@ -35,7 +35,7 @@ Change registered email address
 %TABLE{databg="transparent" tableborder="0" tablerules="none"}%
 | | %MAKETEXT{"Fields marked [_1] are required" args="=<span class='foswikiAlert'>*</span>="}% |
 |  %IF{"$USERNAME ingroup 'AdminGroup'" then="%MAKETEXT{"[[[_1]][username]]:" args="%SYSTEMWEB%.UserName"}%" else="%MAKETEXT{"Your [[[_1]][username]]:" args="%SYSTEMWEB%.UserName"}%"}% | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<span class="foswikiAlert">*</span>= |%IF{"$USERNAME ingroup 'AdminGroup'" else="
-|  %MAKETEXT{"Password:"}% | <input %NOTMODIFYABLE% type=\"password\" name=\"oldpassword\" value=\"%URLPARAM{oldpassword}%\" size=\"40\" class=\"foswikiInputField\" /> =<span class=\"foswikiAlert\">*</span>= |"}%
+|  %MAKETEXT{"Password:"}% | <input %NOTMODIFYABLE% type=\"password\" name=\"password\" value=\"%URLPARAM{password}%\" size=\"40\" class=\"foswikiInputField\" /> =<span class=\"foswikiAlert\">*</span>= |"}%
 |  %MAKETEXT{"New e-mails (space-separated list):"}% | <input type="text" name="email" size="40" class="foswikiInputField" /> =<span class="foswikiAlert">*</span>= |
 </div>
 <div class="foswikiFormStep foswikiLast">
