@@ -68,12 +68,12 @@ jQuery(function($) {
 		// remove generated label
 		label.remove();
 		if (validator.numberOfInvalids() === 0) {
-		    $(':submit').removeClass('foswikiSubmitDisabled');
+		    //$(':submit').removeClass('foswikiSubmitDisabled');
 		    $('.expl').addClass('foswikiHidden');
 		}
 	    },
 	    showErrors: function(errorMap, errorList) {
-		$(':submit').addClass('foswikiSubmitDisabled');
+		//$(':submit').addClass('foswikiSubmitDisabled');
 		$('.expl').removeClass('foswikiHidden');
 		validator.defaultShowErrors();
 	    }
