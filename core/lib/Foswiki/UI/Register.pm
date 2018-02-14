@@ -2342,49 +2342,65 @@ sub _processDeleteUser {
 
     if ( $paramHash->{removeTopic} ) {
 
-        # Remove the users topic, moving it to trash web
-        ( my $web, $wikiname ) =
-          Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
-            $wikiname );
-        if ( Foswiki::Func::topicExists( $web, $wikiname ) ) {
+        my $topicList = $Foswiki::cfg{Register}{CleanupOnRemove}
+          || '$user,$userLeftBar';
+        my @remove = split( /,/, $topicList );
 
-            # Spoof the user so we can delete their topic. Don't need to
-            # do this for the REST handler, but we do for the registration
-            # abort.
-            my $safe = $Foswiki::Plugins::SESSION->{user};
-
-            my $newTopic = "$paramHash->{prefix}$wikiname" . time;
-            try {
-                Foswiki::Func::moveTopic( $web, $wikiname,
-                    $Foswiki::cfg{TrashWebName}, $newTopic );
-                $message .=
-" - user topic moved to $Foswiki::cfg{TrashWebName}.$newTopic \n";
-                $logMessage .=
-                  "User topic moved to $Foswiki::cfg{TrashWebName}.$newTopic, ";
-            }
-            finally {
-
-                # Restore the original user
-                $Foswiki::Plugins::SESSION->{user} = $safe;
-            };
-        }
-        else {
-            $message    .= " - user topic not found \n";
-            $logMessage .= " User topic not found, ";
+        foreach my $remTopic (@remove) {
+            $remTopic =~ s/\$user/$wikiname/;
+            my $retmsg = _removeUserTopic( $remTopic, $paramHash->{prefix} );
+            $message    .= " - $retmsg \n";
+            $logMessage .= " $retmsg, ";
         }
     }
     else {
-        $message    .= " - User topic not removed \n";
-        $logMessage .= " User topic not removed, ";
+        $message    .= " - User topics not removed \n";
+        $logMessage .= " User topics not removed, ";
     }
     return ( $message, $logMessage );
+}
+
+sub _removeUserTopic {
+    my $wikiname = shift;
+    my $prefix   = shift;
+    my $message  = '';
+
+    # Remove the users topic, moving it to trash web
+    ( my $web, $wikiname ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $wikiname );
+    if ( Foswiki::Func::topicExists( $web, $wikiname ) ) {
+
+        # Spoof the user so we can delete their topic. Don't need to
+        # do this for the REST handler, but we do for the registration
+        # abort.
+        my $safe = $Foswiki::Plugins::SESSION->{user};
+
+        my $newTopic = "$prefix$wikiname" . time;
+        try {
+            Foswiki::Func::moveTopic( $web, $wikiname,
+                $Foswiki::cfg{TrashWebName}, $newTopic );
+            $message .=
+              "$wikiname topic moved to $Foswiki::cfg{TrashWebName}.$newTopic";
+        }
+        finally {
+
+            # Restore the original user
+            $Foswiki::Plugins::SESSION->{user} = $safe;
+        };
+    }
+    else {
+        $message .= "User topic $wikiname not found";
+    }
+
+    return $message;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

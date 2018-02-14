@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489457633" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1518572853" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ %MAKETEXT{"Remove User"}%
 
@@ -8,7 +8,8 @@ The following form can be used by administrators to delete a user's account:
    * The user is removed from the user database.
    * The user's topic is moved to the trash web.
    * The user is removed from any groups.
-   * Other topics like the users !LeftBar are _not_ removed.
+   * Other topics derived from the user's !WikiName can be specified in configure. ={Register}{CleanupOnRemove}=
+   * %X% *Caution:* Individual Web/Topic ACLs, and !WebNotify subscriptions are *not* updated.
 
 *Note:* Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
 If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
@@ -30,9 +31,10 @@ The existence of the <nop>UserName topic should also prevent that username from 
 ---++++!! Enter user to be removed
 %INCLUDE{"%SYSTEMWEB%.JQueryAjaxHelper" section="userselector" INPUT_NAME="user" MULTI="false"}%
 <hr />
----++++!! Remove user topic?
-<input type="checkbox" id="removeTopic" name="removeTopic" checked="checked" class="foswikiCheckbox" /> _(Check to remove topic)_ 
-Prefix for deleted topic: <input type="text" name="topicPrefix" class="foswikiInputField" value="DeletedUser" /> _(Follow topic naming rules)_
+---++++!! Remove user topics?
+<input type="checkbox" id="removeTopic" name="removeTopic" class="foswikiCheckbox" /> _(Check to remove topic)_
+Prefix for deleted topics: <input type="text" name="topicPrefix" class="foswikiInputField" value="DeletedUser" /> _(Follow topic naming rules)_ %BR%
+_Removes:_  <tt>%QUERY{"{Register}{CleanupOnRemove}"}%</tt><br/>
 <hr />
 <input type="hidden" name="action" value="deleteUserAccount" />
 <input type="submit" class="foswikiSubmit" value="Remove User" />
