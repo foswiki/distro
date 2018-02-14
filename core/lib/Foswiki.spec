@@ -912,6 +912,13 @@ $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 # =@(?!(example\.com|example\.net)$)=
 $Foswiki::cfg{Register}{EmailFilter} = '';
 
+# **STRING LABEL="Topics to remove with User"**
+# Set to a comma separated list of topic names or Web.Topic names to remove, substituting the WikiName for the $user token.
+# When the System.RemoveUser topic is used to de-register a user,
+# a limited number of topics can be removed during cleanup.  Topics are moved
+# to the Trash web.  If a Web name is not provided, the Usersweb is used.
+$Foswiki::cfg{Register}{CleanupOnRemove} = '$user,$userLeftBar';
+
 #---++ Environment
 # Control some aspects of the environment Foswiki runs within.
 
@@ -963,6 +970,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{Register}{NeedApproval}',
     '{Register}{NeedVerification}',
     '{Register}{RegistrationAgentWikiName}',
+    '{Register}{CleanupOnRemove}',
     '{ReplaceIfEditedAgainWithin}',
     '{SandboxWebName}',
     '{ScriptSuffix}',
