@@ -2101,7 +2101,7 @@ sub saveAs {
     # doesn't let the topic name to be overridden, and this step changes
     # the topic name. So if we lock first, then we will unlock the wrong name.
     $this->{_topic} =
-      expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
+      _expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
     $this->_atomicLock($cUID);
 
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
@@ -2645,12 +2645,16 @@ sub removeFromStore {
 
 =begin TML
 
----++ StaticMethod expandAUTOINC($session, $web, $topic) -> $topic
+---++ StaticMethod _expandAUTOINC($session, $web, $topic) -> $topic
 Expand AUTOINC\d+ in the topic name to the next topic name available
+
+*CAUTION*: This routine depends on the store being locked until the topic has
+been saved into the Store.  This is marked as a private method, as it will return
+inconsistent results.
 
 =cut
 
-sub expandAUTOINC {
+sub _expandAUTOINC {
     my ( $session, $web, $topic ) = @_;
 
     # Do not remove, keep as undocumented feature for compatibility with

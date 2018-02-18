@@ -74,6 +74,104 @@ sub test_single {
     return;
 }
 
+sub test_Autoname_AUTOINC {
+    my $this = shift;
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'TestAutoAUTOINC001' );
+    $this->assert_str_equals( $meta->topic, "TestAutoAUTOINC001" );
+    $meta->save();
+    $this->assert_str_equals( $meta->topic, "TestAuto001" );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto001' ) );
+
+    # Reset name and inseret another, should create #2
+    $meta->topic('TestAutoAUTOINC001');
+    $meta->save();
+    $this->assert_str_equals( $meta->topic, "TestAuto002" );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto002' ) );
+
+    # Remove the first topic
+    $meta->topic('TestAuto001');
+    $meta->removeFromStore();
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto001' ) );
+
+    # Verify that we don't fill in missing holes.  Creates #3`
+    $meta->topic('TestAutoAUTOINC001');
+    $meta->save();
+    $this->assert_str_equals( $meta->topic, "TestAuto003" );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto003' ) );
+
+    # Verify that the suffix option works.
+    $meta->topic('TestAutoAUTOINC001SUFFIX');
+    $meta->save();
+    $this->assert_str_equals( $meta->topic, "TestAuto001SUFFIX" );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto001SUFFIX' ) );
+
+    $meta->topic('TestAutoAUTOINC001SUFFIX');
+    $meta->save();
+    $this->assert_str_equals( $meta->topic, "TestAuto002SUFFIX" );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto002SUFFIX' ) );
+
+    $meta->finish();
+
+    return;
+}
+
+sub test_Autoname_XXXXXXXXXX {
+    my $this = shift;
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'TestAutoXXXXXXXXXX' );
+    $this->assert_str_equals( $meta->topic, "TestAutoXXXXXXXXXX" );
+    $meta->save();
+    $this->assert_str_equals( 'TestAuto0', $meta->topic );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto0' ) );
+
+    # Reset name and inseret another, should create #2
+    $meta->topic('TestAutoXXXXXXXXXX');
+    $meta->save();
+    $this->assert_str_equals( 'TestAuto1', $meta->topic );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto1' ) );
+
+    # Remove the first topic
+    $meta->topic('TestAuto0');
+    $meta->removeFromStore();
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto0' ) );
+
+    # The old XXX method does fill in holes.
+    $meta->topic('TestAutoXXXXXXXXXX');
+    $meta->save();
+    $this->assert_str_equals( 'TestAuto0', $meta->topic );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto0' ) );
+
+    # At least 10 X.  9 just creates a topic.
+    $meta->topic('TestAutoXXXXXXXXX');
+    $meta->save();
+    $this->assert_str_equals( 'TestAutoXXXXXXXXX', $meta->topic );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAutoXXXXXXXXX' ) );
+
+    # 11 X,  also autoincrement.
+    $meta->topic('TestAutoXXXXXXXXXXX');
+    $meta->save();
+    $this->assert_str_equals( 'TestAuto2', $meta->topic );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'TestAuto2' ) );
+    $meta->finish();
+
+    return;
+}
+
 sub test_multiple {
     my $this = shift;
     my $meta =
