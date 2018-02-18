@@ -38,12 +38,6 @@ sub preview {
         );
     }
 
-    # SMELL: it's probably not good to do this here, because a preview may
-    # give enough time for a new topic with the same name to be created.
-    # It would be better to do it only on an actual save.
-
-    $topic = Foswiki::UI::Save::expandAUTOINC( $session, $web, $topic );
-
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
     my ( $saveOpts, $merged ) =

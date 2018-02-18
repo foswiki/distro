@@ -2097,7 +2097,13 @@ sub saveAs {
         }
     }
 
+    # SMELL: It would be better to atomicLock the AUTOINC name, but the API
+    # doesn't let the topic name to be overridden, and this step changes
+    # the topic name. So if we lock first, then we will unlock the wrong name.
+    $this->{_topic} =
+      expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
     $this->_atomicLock($cUID);
+
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
@@ -2635,6 +2641,54 @@ sub removeFromStore {
         path => $this->getPath(),
         attachment => $attachment
     );
+}
+
+=begin TML
+
+---++ StaticMethod expandAUTOINC($session, $web, $topic) -> $topic
+Expand AUTOINC\d+ in the topic name to the next topic name available
+
+=cut
+
+sub expandAUTOINC {
+    my ( $session, $web, $topic ) = @_;
+
+    # Do not remove, keep as undocumented feature for compatibility with
+    # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
+    # of at least 10 x's XXXXXX with a next-in-sequence number.
+    if ( $topic =~ m/X{10}/ ) {
+        my $n           = 0;
+        my $baseTopic   = $topic;
+        my $topicObject = Foswiki::Meta->new( $session, $web, $baseTopic );
+        $topicObject->clearLease();
+        do {
+            $topic = $baseTopic;
+            $topic =~ s/X{10}X*/$n/e;
+            $n++;
+        } while ( $session->topicExists( $web, $topic ) );
+    }
+
+    # Allow for more flexible topic creation with sortable names.
+    # See Codev.AutoIncTopicNameOnSave
+    if ( $topic =~ m/^(.*)AUTOINC(\d+)(.*)$/ ) {
+        my $pre         = $1;
+        my $start       = $2;
+        my $pad         = length($start);
+        my $post        = $3;
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        $topicObject->clearLease();
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $it = $webObject->eachTopic();
+
+        while ( $it->hasNext() ) {
+            my $tn = $it->next();
+            next unless $tn =~ m/^${pre}(\d+)${post}$/;
+            $start = $1 + 1 if ( $1 >= $start );
+        }
+        my $next = sprintf( "%0${pad}d", $start );
+        $topic =~ s/AUTOINC[0-9]+/$next/;
+    }
+    return $topic;
 }
 
 =begin TML
