@@ -612,6 +612,11 @@ sub web {
       * *Since* 28 Nov 2008
 Get/set the topic name associated with the object.
 
+The topic name be set to include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]].
+The mask will be converted to the next available topicname during save, and the
+saved name can be retrieved with this method.
+
 =cut
 
 sub topic {
@@ -1942,6 +1947,9 @@ sub haveAccess {
 Save the current object, invoking appropriate plugin handlers
    * =%options= - Hash of options, see saveAs for list of keys
 
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]]
+
 Returns the new revision number.
 
 =cut
@@ -2067,6 +2075,9 @@ Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
 so an extension author can in fact use all these options. However those
 marked "core only" are for core use only and should *not* be used in
 extensions.
+
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]]
 
 Returns the saved revision number.
 
