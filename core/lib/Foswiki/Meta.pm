@@ -2109,16 +2109,16 @@ sub saveAs {
         }
     }
 
-    # SMELL: It would be better to atomicLock the AUTOINC name, but the API
-    # doesn't let the topic name to be overridden, and this step changes
-    # the topic name. So if we lock first, then we will unlock the wrong name.
-    ( $this->{_topic}, my $autoinc ) =
+    $this->_atomicLock($cUID);    # Lock either topic name, or the AUTOINC mask
+    my $lockedTopic = $this->{_topic};    # Save the name for later unlock
+
+    $this->{_topic} =
       _expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
 
-    $opts{forceinsert} = 1
-      if ( $this->{_topic} ne $autoinc );    #Topicname changed
-
-    $this->_atomicLock($cUID);
+    if ( $this->{_topic} ne $lockedTopic ) {    #Topicname changed
+        $opts{forceinsert} = 1;
+        $this->_atomicLock($cUID);              # Lock the resolved name
+    }
 
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
@@ -2189,7 +2189,15 @@ sub saveAs {
         );
     }
     finally {
-        $this->_atomicUnlock($cUID);
+        $this->_atomicUnlock($cUID);    # Unlock the real topic
+
+        if ( $this->{_topic} ne $lockedTopic ) {
+            my $holdTopic = $this->{_topic};    # Stash the topic name
+            $this->{_topic} = $lockedTopic;
+            $this->_atomicUnlock($cUID);
+            $this->{_topic} = $holdTopic;       # Restore the topic name
+        }
+
         $this->fireDependency();
     };
     return $this->{_loadedRev};
@@ -2683,8 +2691,6 @@ inconsistent results.
 sub _expandAUTOINC {
     my ( $session, $web, $topic ) = @_;
 
-    my $autoinc = $topic;
-
     # Do not remove, keep as undocumented feature for compatibility with
     # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
     # of at least 10 x's XXXXXX with a next-in-sequence number.
@@ -2720,7 +2726,7 @@ sub _expandAUTOINC {
         my $next = sprintf( "%0${pad}d", $start );
         $topic =~ s/AUTOINC[0-9]+/$next/;
     }
-    return ( $topic, $autoinc );
+    return $topic;
 }
 
 =begin TML
