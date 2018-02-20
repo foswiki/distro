@@ -11,6 +11,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki::Func();
 use Foswiki::Store();
 use Foswiki::Meta();
+use Error qw( :try );
 
 my $args0 = {
     name  => "a",
@@ -70,6 +71,30 @@ sub test_single {
     $this->assert_equals( 2, $vals1->{"value"} );
     $this->assert_equals( 1, $meta->count("TOPICINFO"), "Should be one item" );
     $meta->finish();
+
+    return;
+}
+
+sub test_forceinsert {
+    my $this = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'ANewTtopic' );
+    $topicObject->save( forceinsert => 1 );
+    $topicObject->finish();
+
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'ANewTtopic' );
+    try {
+        $topicObject->save( forceinsert => 1 );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert_str_equals( $e->{-text},
+"Unable to save topic ANewTtopic - web $this->{test_web} exists and forceinsert specified."
+        );
+    };
+    $topicObject->finish();
 
     return;
 }

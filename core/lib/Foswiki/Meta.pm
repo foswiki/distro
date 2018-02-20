@@ -2064,6 +2064,7 @@ Save the current topic to a store location. Only works on topics.
    * =%options= - Hash of options, may include:
       * =forcenewrevision= - force an increment in the revision number,
         even if content doesn't change.
+      * =forceinsert= - Store will reject the save if the topic exists.
       * =dontlog= - don't include this change in statistics
       * =minor= - don't notify this change
       * =savecmd= - Save command (core use only)
@@ -2111,12 +2112,26 @@ sub saveAs {
     # SMELL: It would be better to atomicLock the AUTOINC name, but the API
     # doesn't let the topic name to be overridden, and this step changes
     # the topic name. So if we lock first, then we will unlock the wrong name.
-    $this->{_topic} =
+    ( $this->{_topic}, my $autoinc ) =
       _expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
+
+    $opts{forceinsert} = 1
+      if ( $this->{_topic} ne $autoinc );    #Topicname changed
+
     $this->_atomicLock($cUID);
 
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
+
+#if ($opts{forceinsert} && $this->{_session}->{store}->topicExists( $this->{_web}, $this->{_topic} )) {
+    if ( $opts{forceinsert} && $this->existsInStore() ) {
+        throw Error::Simple( 'Unable to save topic '
+              . $this->{_topic}
+              . ' - web '
+              . $this->{_web}
+              . ' exists and forceinsert specified.' );
+    }
+
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
 
@@ -2668,6 +2683,8 @@ inconsistent results.
 sub _expandAUTOINC {
     my ( $session, $web, $topic ) = @_;
 
+    my $autoinc = $topic;
+
     # Do not remove, keep as undocumented feature for compatibility with
     # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
     # of at least 10 x's XXXXXX with a next-in-sequence number.
@@ -2703,7 +2720,7 @@ sub _expandAUTOINC {
         my $next = sprintf( "%0${pad}d", $start );
         $topic =~ s/AUTOINC[0-9]+/$next/;
     }
-    return $topic;
+    return ( $topic, $autoinc );
 }
 
 =begin TML
