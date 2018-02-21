@@ -2346,8 +2346,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
         xhr = $.ajax({
           url: foswiki.getScriptUrl('rest', 'NatEditPlugin', 'attachments'),
           data: $.extend(request, {
-            // The topic autocomplete actually returns the Web.Topic
-            topic: $container.find("input[name='topic']").val()
+            topic: $container.find("input[name='web']").val()+"."+$container.find("input[name='topic']").val()
           }),
           dataType: "json",
           autocompleteRequest: ++requestIndex,
