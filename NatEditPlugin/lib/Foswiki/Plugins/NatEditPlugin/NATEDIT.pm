@@ -50,7 +50,8 @@ sub new {
             css           => ['styles.css'],
             documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
             javascript    => ['jquery.natedit.js'],
-            dependencies  => [
+            i18n => $Foswiki::cfg{SystemWebName} . "/NatEditPlugin/i18n",
+            dependencies => [
                 'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
                 'pnotify',                            'fontawesome',
                 'form',                               'validate',
