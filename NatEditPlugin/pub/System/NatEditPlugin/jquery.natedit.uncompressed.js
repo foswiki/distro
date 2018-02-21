@@ -951,14 +951,16 @@ $.NatEditor.prototype.initForm = function() {
   });
 
   self.form.find(".ui-natedit-replaceform").on("click", function() {
-    self.beforeSubmit("replaceform");
-    self.form.submit();
+    self.beforeSubmit("replaceform").then(function() {
+      self.form.submit();
+    });
     return false;
   });
 
   self.form.find(".ui-natedit-addform").on("click", function() {
-    self.beforeSubmit("addform");
-    self.form.submit();
+    self.beforeSubmit("addform").then(function() {
+      self.form.submit();
+    });
     return false;
   });
 
