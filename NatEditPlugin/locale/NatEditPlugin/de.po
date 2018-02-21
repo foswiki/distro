@@ -574,7 +574,7 @@ msgstr "kennzeichnet Pflichtfelder"
 
 #: templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr "Neu"
+msgstr "neu"
 
 #: templates/edit.natedit.tmpl:149
 msgid "public view access"
