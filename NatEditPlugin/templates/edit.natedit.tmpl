@@ -152,7 +152,7 @@
     </label>
 
     <div class="ui-natedit-details-container" %IF{"'%permset_view%'!='details'" then="style='display:none'"}%>
-      <input type="text" class="foswikiInputField" size="40" data-perm-type="view" data-perms='details' autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%IF{"('%permset_view%'='justauthor' and '%allowtopic_view%'!='%WIKINAME%') or ('%permset_view%' and '%allowtopic_view%'!='')" then="%allowtopic_view%" else="%permset_view_details%"}%" />
+      <input type="text" class="foswikiInputField" size="40" data-perm-type="view" data-perms='details' autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%IF{"('%permset_view%'='justauthor' and '%allowtopic_view%'!='%WIKINAME%') or ('%permset_view%'='' and '%allowtopic_view%'!='')" then="%allowtopic_view%" else="%permset_view_details%"}%" />
     </div>
   </div>
   <div class="foswikiFormStep ui-natedit-change-perms">
