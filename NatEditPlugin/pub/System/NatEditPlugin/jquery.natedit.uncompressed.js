@@ -982,9 +982,8 @@ $.NatEditor.prototype.initForm = function() {
       }
 
       if (errors) {
-        message = errors == 1 ? 'There\'s an error. It has been highlighted below.' : 'There are ' + errors + ' errors. They have been highlighted below.';
         $.unblockUI();
-        self.showMessage("error", message);
+        self.showMessage("error", $.i18n('One or more fields have not been filled correctly'));
         $.each(validator.errorList, function() {
           var $errorElem = $(this.element);
           $errorElem.parents(".jqTab").each(function() {
@@ -1922,10 +1921,10 @@ $.NatEditor.prototype.dialog = function(opts) {
   var self = this,
     defaults = {
       url: undefined,
-      title: "Confirmation required",
-      okayText: "Ok",
+      title: $.i18n("Confirmation required"),
+      okayText: $.i18n("OK"),
       okayIcon: "ui-icon-check",
-      cancelText: "Cancel",
+      cancelText: $.i18n("Cancel"),
       cancelIcon: "ui-icon-cancel",
       width: 'auto',
       modal: true,
@@ -2051,9 +2050,9 @@ $.NatEditor.prototype.handleSearchReplace = function(elem) {
   if (search.length) {
     count = self.searchReplace(search, replace, ignoreCase);
     if (count) {
-      self.showMessage("info", "replaced '"+search+"' "+count+" times");
+      self.showMessage("info", $.i18n("replaced %count% time(s)", {count: count}));
     } else {
-      self.showMessage("warning", "search string '"+search+"' not found");
+      self.showMessage("warning", $.i18n("search string '%search%' not found", {search: search}));
     }
   }
 };
@@ -2209,7 +2208,7 @@ $.NatEditor.prototype.openDatePicker = function() {
     try {
       date = new Date(selection);
     } catch (e) {
-      self.showMessage("error", "invalid date '"+selection+"'");
+      self.showMessage("error", $.i18n("invalid date '%date%'", {date:selection}));
     }
   }
 
@@ -2521,7 +2520,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
 
       if (self.uploader.state == plupload.STARTED) {
         $.log("started upload");
-        $input.attr("disabled", "disabled").val("uploading ...");
+        $input.attr("disabled", "disabled").val($.i18n("uploading ..."));
         $browseButton.hide();
         $cancelButton.show();
         self.hideMessages();
@@ -2530,7 +2529,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       if (self.uploader.state == plupload.STOPPED) {
         $.log("upload stopped");
         if (gotError || typeof(file) === 'undefined' || file.percent != 100) {
-          $input.val("abording transfer ...");
+          $input.val($.i18n("abording transfer ..."));
           window.setTimeout(function() {
             $input.removeAttr("disabled").val("").focus();
           }, 1000);
@@ -2554,18 +2553,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
         msg = err;
       }
 
-      self.showMessage("error", msg, "Error during upload");
-    });
-
-    self.uploader.bind("UploadProgress", function(up, file) {
-      //$.log("upload progress percent=",file.percent);
-      if (gotError || typeof(file) === 'undefined') {
-        $input.val("error ...");
-      } else if (file.percent == 100) {
-        $input.val("finishing upload ...");
-      } else {
-        $input.val("uploading ... "+file.percent+"%");
-      }
+      self.showMessage("error", msg, $.i18n("Error during upload"));
     });
   });
 };
