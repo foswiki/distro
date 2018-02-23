@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1513634809" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1519374726" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  23 Feb 2018: | (8.01) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (8.00) - Item14564: added jquery-3 and the matching migrate module <br /> \
                            Item14567: added keyboard navigation to jquery.stars <br /> \
                            Item14568: added chili recipes for autolisp and ini <br /> \
