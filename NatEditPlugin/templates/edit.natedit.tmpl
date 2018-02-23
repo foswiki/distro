@@ -71,14 +71,14 @@
 
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
-%TMPL:DEF{"topicmeta"}%<div class="natEditTopicInfo"><literal>
+%TMPL:DEF{"topicmeta"}%<div class="natEditTopicInfo">
   <table>
   <tr>
     <th>%MAKETEXT{"Title:"}%</th>
     <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="on"}%" encode="quote"}%" /></td>
   </tr>
   </table>
-</literal></div>%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"firsttab"}%%TAB{"%MAKETEXT{"Text"}%" id="text"}%
 %TMPL:P{context="TopicTitleEnabled" then="topicmeta"}%%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
@@ -100,12 +100,40 @@
   permset_view="%TMPL:P{"getpreference" name="PERMSET_VIEW"}%"
   permset_view_details="%TMPL:P{"getpreference" name="PERMSET_VIEW_DETAILS"}%"
   allowtopic_view="%TMPL:P{"getpreference" name="ALLOWTOPICVIEW"}%"
+  denytopic_view="%TMPL:P{"getpreference" name="DENYTOPICVIEW"}%"
   permset_change="%TMPL:P{"getpreference" name="PERMSET_CHANGE"}%"
   permset_change_details="%TMPL:P{"getpreference" name="PERMSET_CHANGE_DETALS"}%"
   allowtopic_change="%TMPL:P{"getpreference" name="ALLOWTOPICCHANGE"}%"
+  denytopic_change="%TMPL:P{"getpreference" name="DENYTOPICCHANGE"}%"
 }%%ENDTAB%%TMPL:END%
 
+%TMPL:DEF{"permissionstab::message"}%%IF{
+  "
+    ('%permset_view%'=~'^(default|)$' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='')) or
+    ('%permset_view%'='registeredusers' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='WikiGuest')) or
+    ('%permset_view%'='justauthor' and ('%allowtopic_view%'='' or '%denytopic_view%'!='')) or
+    ('%permset_view%'='nobody' and ('%allowtopic_view%'!='AdminUser' or '%denytopic_view%'!='')) or
+    ('%permset_view%'='details' and ('%allowtopic_view%'='' or '%denytopic_view%'!='')) or
+    ('%permset_change%'=~'^(default|)$' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='')) or
+    ('%permset_change%'='registeredusers' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='WikiGuest')) or
+    ('%permset_change%'='justauthor' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) or
+    ('%permset_change%'='nobody' and ('%allowtopic_change%'!='AdminUser' or '%denytopic_change%'!='')) or
+    ('%permset_change%'='details' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) 
+  "
+  then="<div class='foswikiMessage'>$percntX$percnt %MAKETEXT{"Warning: Incompatible permission settings detected."}%</div>"
+}%%TMPL:END%
+
 %TMPL:DEF{"permissionstab::impl"}%<noautolink>
+%TMPL:P{"permissionstab::message"
+  permset_view="%permset_view%"
+  permset_view_details="%permset_view_details%"
+  allowtopic_view="%allowtopic_view%"
+  denytopic_view="%denytopic_view%"
+  permset_change="%permset_change%"
+  permset_change_details="%permset_change_details%"
+  allowtopic_change="%allowtopic_change%"
+  denytopic_change="%denytopic_change%"
+}%%{}%
 <div class="foswikiFormSteps ui-natedit-permissions-form jqUITooltip" data-theme="info" data-arrow="true" data-position="right">
   <input type="hidden" name="Set+ALLOWTOPICVIEW" value="undefined" class="permset_view allow_view" />
   <input type="hidden" name="Set+DENYTOPICVIEW" value="undefined" class="permset_view deny_view" />
