@@ -96,7 +96,7 @@
 }%%TMPL:END%
 
 %TMPL:DEF{"permissionstab"}%%TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%
-%TMPL:P{"permissionstab::impl"
+%TMPL:P{"permissionstab::check"
   permset_view="%TMPL:P{"getpreference" name="PERMSET_VIEW"}%"
   permset_view_details="%TMPL:P{"getpreference" name="PERMSET_VIEW_DETAILS"}%"
   allowtopic_view="%TMPL:P{"getpreference" name="ALLOWTOPICVIEW"}%"
@@ -107,7 +107,7 @@
   denytopic_change="%TMPL:P{"getpreference" name="DENYTOPICCHANGE"}%"
 }%%ENDTAB%%TMPL:END%
 
-%TMPL:DEF{"permissionstab::message"}%%IF{
+%TMPL:DEF{"permissionstab::check"}%%IF{
   "
     ('%permset_view%'=~'^(default|)$' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='')) or
     ('%permset_view%'='registeredusers' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='WikiGuest')) or
@@ -120,20 +120,22 @@
     ('%permset_change%'='nobody' and ('%allowtopic_change%'!='AdminUser' or '%denytopic_change%'!='')) or
     ('%permset_change%'='details' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) 
   "
-  then="<div class='foswikiMessage'>$percntX$percnt %MAKETEXT{"Warning: Incompatible permission settings detected."}%</div>"
+  then="$percntTMPL:P{\"permissionstab::message\"}$percnt"
+  else="$percntTMPL:P{\"permissionstab::impl\"
+          permset_view=\"%permset_view%\"
+          permset_view_details=\"%permset_view_details%\"
+          allowtopic_view=\"%allowtopic_view%\"
+          denytopic_view=\"%denytopic_view%\"
+          permset_change=\"%permset_change%\"
+          permset_change_details=\"%permset_change_details%\"
+          allowtopic_change=\"%allowtopic_change%\"
+          denytopic_change=\"%denytopic_change%\"
+        }$percnt"
 }%%TMPL:END%
 
+%TMPL:DEF{"permissionstab::message"}%<div class='foswikiMessage'>%X% %MAKETEXT{"Warning: Incompatible permission settings detected."}%</div>%TMPL:END%
+
 %TMPL:DEF{"permissionstab::impl"}%<noautolink>
-%TMPL:P{"permissionstab::message"
-  permset_view="%permset_view%"
-  permset_view_details="%permset_view_details%"
-  allowtopic_view="%allowtopic_view%"
-  denytopic_view="%denytopic_view%"
-  permset_change="%permset_change%"
-  permset_change_details="%permset_change_details%"
-  allowtopic_change="%allowtopic_change%"
-  denytopic_change="%denytopic_change%"
-}%%{}%
 <div class="foswikiFormSteps ui-natedit-permissions-form jqUITooltip" data-theme="info" data-arrow="true" data-position="right">
   <input type="hidden" name="Set+ALLOWTOPICVIEW" value="undefined" class="permset_view allow_view" />
   <input type="hidden" name="Set+DENYTOPICVIEW" value="undefined" class="permset_view deny_view" />
