@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452350387" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1519431680" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -37,7 +37,7 @@ To use a macro type its name. For example,
    * To leave a macro unexpanded, precede it with an exclamation mark, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
       * Alternatively, insert a =&lt;nop&gt;= anywhere in the macro, Eg. =%&lt;nop&gt;TOPIC%=
    * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
-   * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
+   * Type =%<nop>SHOWPREFERENCE%= to get a full listing of all macros defined for a particular topic, or =%<nop>SHOWPREFERENCE{"foo"}%= to see an individual setting.
    * If a macro is not defined, then it will be left in the text _unless_ it is called with a =default= parameter, in which case the value of the =default= parameter will replace the macro call in the output. For example, =%<nop>UNDEFINED{default="blank"}%= will expand to =blank=.
 
 ---+++ Order of expansion
@@ -287,7 +287,7 @@ Macro names must start with an ASCII letter. The following characters can be ASC
 
 By convention all settings, predefined macros and macros registered by plugins are always UPPER-CASE.
 <!--
-   * Set CONDITIONS = According to [[%BASETOPIC%]], The %WHAT% is %STATE% today. (Set in [[Macros]]).
+   * Set CONDITIONS = According to [[%TOPIC%]], The %WHAT% is %STATE% today. (Set in [[Macros]]).
    * Set WEATHER = It's %DEFAULT{default="raining"}%.
 -->
 %INCLUDE{"PreferenceSettings"}%
@@ -518,4 +518,3 @@ This gives:
 ---
 *Related Topics:* MacrosQuickReference, PreferenceSettings, UserDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
-
