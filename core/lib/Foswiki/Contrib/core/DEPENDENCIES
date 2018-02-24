@@ -16,6 +16,7 @@ Crypt::PasswdMD5,>=0,cpan,Required, for admin password hash and .htpasswd encodi
 Crypt::SMIME,>=0,cpan,Optional S/MIME email signing feature.
 Crypt::X509,>=0,cpan,Optional S/MIME email signing feature.
 Convert::PEM,>=0,cpan,Optional S/MIME email signing feature.
+Email::Address,>1.00,cpan,Required for email addresses.
 Email::MIME,>=1.903,cpan,Required for correct handling of email MIME structure.
 Email::Simple,>=2.206,cpan,Required for compatibility with Email::MIME.
 Encode,>=2.01,cpan,Required for international characters.
