@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519431680" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1519485277" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -107,9 +107,10 @@ And especially important, *bullet style preference settings are never overridden
    * Set CONDITIONS = According to [[%TOPIC%]], the %WHAT% is %STATE% today (Set in PreferenceSettings).
    * Set WEATHER = It's %DEFAULT{default="raining"}%.
 -->
-Note that !%CONDITIONS% expands differently when this example is viewed in %IF{"'%BASETOPIC%'='Macros'" then="[[PreferenceSettings#MacroParam][PreferenceSettings]]" else="[[Macros#MacroParam][Macros]]"}%.  This is because Set statement are not active in included topics.  The including topic's set statements are used.
-
-Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output. For example, Both Macros and PreferenceSettings have a Set statement that defines the =%<nop>CONDITIONS%= macro as shown here:
+_The following block of code was read from [[%TOPIC%]], and the "Set" statements were defined in [[%BASETOPIC%]]_
+<blockquote>
+Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output.
+For example, Both [[Macros]] and [[PreferenceSettings]] have a Set statement that defines the =%<nop>CONDITIONS%= macro as shown here:
 
 <verbatim class='tml'> * Set CONDITIONS = According to [[%TOPIC%]] the %WHAT% is %STATE% today (Set in ...).</verbatim>
 The =%<nop>TOPIC%= shows where the CONDITIONS macro is expanded, and the ...  shows where the Set statement was actually defined.
@@ -117,6 +118,9 @@ The =%<nop>TOPIC%= shows where the CONDITIONS macro is expanded, and the ...  sh
 You can call this macro passing in values for =WHAT= and =STATE=. For example:
    * =%<nop>CONDITIONS{WHAT="sea" STATE="choppy"}%=
       * expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=
+</blockquote>
+Note that !%CONDITIONS% expands differently when this example is viewed in %IF{"'%BASETOPIC%'='Macros'" then="[[PreferenceSettings#MacroParam][PreferenceSettings]]" else="[[Macros#MacroParam][Macros]]"}%.
+This is because Set statement are not active in included topics.  The including topic's set statements are used.
 
 ---++++ Parameter defaults
    * The special parameter name =DEFAULT= gets the value of any unnamed parameter in the macro call.
@@ -128,6 +132,7 @@ Example:
    * =%<nop>WEATHER%= expands to =%WEATHER%=
    * =%<nop>WEATHER{"sunny"}%= expands to =%WEATHER{"sunny"}%=
 The standard [[FormatTokens][formatting tokens]] can be used in parameters. They will be expanded immediately when the macro is instantiated.
+
 
 %X% Note that parameters *override* all other macros, including system defined macros, in the expansion of the macro where they are used.
 
@@ -151,5 +156,5 @@ Then, when they are editing any other topic, they will get the Wysiwyg editor. H
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1519431680" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1519431680" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1519485277" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1519485277" size="15256" user="ProjectContributor" version="1"}%
