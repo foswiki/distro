@@ -1,15 +1,24 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1519485277" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 #SettingPrefs
 #PreferencesMacros
 ---++!! Preference Settings
-A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output.
 
-A preference setting looks like this: <p /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value= <p /> Example:
-   <verbatim class="tml">   * Set WEBBGCOLOR = #FFFFC0</verbatim>
+A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output. In addition: 
+   * preference settings are used by Plugins to control their features,
+   * preference settings are used for [[Access Control]].
+
+A preference setting looks like this:
+
+=[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
+
+Example:
+
+<verbatim class='tml'>   * Set WEBBGCOLOR = #FFFFC0</verbatim>
+
 Macros defined using preference settings are expanded by enclosing their name in percent signs. So when you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
 
-A preference macro is always taken from the most current topic revision, even when accessing previous revisions of a topic.
+Preferences can also be set dynamically by using the =%<nop>SET{"setting" value="value"}%= Macro. With the exception of these dynamic preference settings, preferences are always taken from the most current topic revision, __even when accessing previous revisions of a topic.__
 
 Preferences can be defined in a number of places:
    1 %SYSTEMWEB%.%WIKIPREFSTOPIC% (Foswiki upgrades overwrite this topic)
@@ -18,120 +27,134 @@ Preferences can be defined in a number of places:
    1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
    1 <nop>%WEBPREFSTOPIC% in each web.
    1 Sub-webs inherit the <nop>%WEBPREFSTOPIC% of their parent
-   1 In the topic being accessed
-In this list, =Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ in this case, the macro is locked to the value at that level; =set= statements at higher-numbered levels are ignored.
+   1 In the topic when it is loaded from the Store
+   1 In [[VarSET][SET]] macros for run-time preferences
 
-     <img src="%PUBURLPATH{"prefs-stack.jpg" topic="%WEB%.%TOPIC%"}%" alt="prefs-stack.jpg" width='467' height='373' />
+=Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ When a preference is _finalized_, the macro is locked to the value at that level; =SET= statements at higher-numbered levels are ignored.  Looking at it graphically:
 
+     <img alt='prefs-stack.jpg' width='560' height='432' src='%PUBURLPATH%/%WEB%/%TOPIC%/prefs-stack.jpg' />
+
+Access Control rules (ACLs) are also written as preference settings. *ACLs cannot be dynamically modified by the =%<nop>SET{}%= macro.*
+
+%STARTSECTION{"WritingSettings"}%
 ---++ Writing preference settings
-Preference settings are written as a simple bullet. In TopicMarkupLanguage
+
+Preference settings are written as a simple bullet. In TopicMarkupLanguage (TML)
 they are written as =3-spaces,asterisk,equals,value=
-   <verbatim class="tml">   * Set MYSETTING = My setting value</verbatim>
+
+<verbatim class='tml'>   * Set MYSETTING = My setting value</verbatim>
 
 When using the Wysiwyg editor, click the "Bullet" button and write the setting
-as a simple bullet.  Don't include the asterisk.
+as a simple bullet.  Don't include the asterisk or the leading spaces.
 
-Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
+Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line. (Not when using the Wysiwyg editor.)
 
 *Example:*
-<verbatim class="tml">   * Set MACRONAME = value starts here
-     and continues here
-</verbatim>
 
-Whatever you include in your macro will be expanded on display, exactly as if it had been entered directly (though see Parameters, below).
+<verbatim class='tml'>   * Set MACRONAME = value starts here
+     and continues here</verbatim>
 
-*Example: Create a custom logo macro* <br />
+%I% preference settings can easily be disabled with a # sign. Example:%BR%
+
+<verbatim class='tml'>   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
+
+%ENDSECTION{"WritingSettings"}%
+
+Whatever you include in your bullet style setting will be expanded on display, exactly as if it had been entered directly (though see Parameters, below). (%<nop>SET{}% settings are expanded during the set process. See VarSET for further information.
+
+*Example: Create a custom logo macro*
    * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's <nop>%WEBPREFSTOPIC% topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to %WEBPREFSTOPIC%, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in %WEBPREFSTOPIC%:
-<verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
+<verbatim class='tml'>   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
 
 Preference settings are *case sensitive*.   (Foswiki by convention always writes settings in upper case.)
-
-<verbatim class="tml">
+<verbatim class='tml'>
    * Set lower = This is LOWER
    * Set LOWER = This is UPPER
    * Set LoWeR = This is MIXED
-Expand %lower%, %LOWER% and %LoWeR%
-</verbatim>
+Expand %lower%, %LOWER% and %LoWeR%</verbatim>
+
 Expand %lower%, %LOWER% and %LoWeR%.
 
-%I% preference settings can easily be disabled with a # sign. Example:%BR%
-   <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
-
 ---+++ Hiding preference settings
-%I% You can hide preference settings in the output by enclosing them in HTML comments; for example,<verbatim>
+
+You can hide preference settings in the output by enclosing them in HTML comments; for example,
+<verbatim>
 <!--
    * Set HIDDEN = This will be invisible in the output
--->
-</verbatim>
+--></verbatim>
 
 You can also set preference settings in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
+*If the same setting appears as both an inline setting, and in topic meta settings,  the meta setting will override the inline setting!*  There is no warning when the setting is duplicate. This should be avoided to prevent confusion.
 
-<div class="foswikiHelp">%X% *Caution*  If your topic will be used in an INCLUDE, it is recommended to not use HTML comments.  instead, set preferences
-into the topic metadata  by using the "Edit Settings for this topic" button on the "More topic actions" page.  Settings in an included topic are always ignored,
-but nested comments will break the HTML.</div>
+<div class='foswikiHelp'>%X% *Caution* If your topic will be used in an INCLUDE, it is recommended to not use HTML comments. instead, set preferences
+into the topic metadata  by using the "Edit Settings for this topic" button on the "More topic actions" page.  Settings in an included topic are always ignored, but nested comments will break the HTML.</div>
 
 ---+++ Order of preference settings
 
-If you are setting a preference and using it in the same topic, note that Foswiki reads all the preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the bullet style preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.  (=%<nop>SET{}%= style settings _are_ assigned during the topic rendering, and their effect will be visible in the preview.)
 
 ---+++ Preference settings and topic revision history
 
-Foswiki always reads the settings from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
+Foswiki always reads the bullet style settings from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
-And especially important, *preference settings are never overridden or set in "%<nop>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
+And especially important, *bullet style preference settings are never overridden or set in when a topic content is obtained by "%<nop>INCLUDE{".*  However *%<nop>SET{ style settings can be overidden* when an INCLUDE is expanded.
+%IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
 
 #MacroParam
 ---+++ Parameters
+
 <!--
-   * Set CONDITIONS = According to [[%BASETOPIC%]], the %WHAT% is %STATE% today (Set in PreferenceSettings).
+   * Set CONDITIONS = According to [[%TOPIC%]], the %WHAT% is %STATE% today (Set in PreferenceSettings).
    * Set WEATHER = It's %DEFAULT{default="raining"}%.
 -->
-Note that !%CONDITIONS% expands differently when this example is viewed in %IF{"'%BASETOPIC%'='Macros'" then="[[PreferenceSettings#MacroParam][PreferenceSettings]]" else="[[Macros#MacroParam][Macros]]"}%.  This is because Set statement are not active in included topics.  The including topic's set statements are used.
+_The following block of code was read from [[%TOPIC%]], and the "Set" statements were defined in [[%BASETOPIC%]]_
+<blockquote>
+Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output.
+For example, Both [[Macros]] and [[PreferenceSettings]] have a Set statement that defines the =%<nop>CONDITIONS%= macro as shown here:
 
-Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output. For example,
-<verbatim class="tml">
-   * Set CONDITIONS = According to [[%BASETOPIC%]] the %WHAT% is %STATE% today (Set in ...).
-</verbatim>
+<verbatim class='tml'> * Set CONDITIONS = According to [[%TOPIC%]] the %WHAT% is %STATE% today (Set in ...).</verbatim>
+The =%<nop>TOPIC%= shows where the CONDITIONS macro is expanded, and the ...  shows where the Set statement was actually defined.
+
 You can call this macro passing in values for =WHAT= and =STATE=. For example:
    * =%<nop>CONDITIONS{WHAT="sea" STATE="choppy"}%=
-      * expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=.
+      * expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=
+</blockquote>
+Note that !%CONDITIONS% expands differently when this example is viewed in %IF{"'%BASETOPIC%'='Macros'" then="[[PreferenceSettings#MacroParam][PreferenceSettings]]" else="[[Macros#MacroParam][Macros]]"}%.
+This is because Set statement are not active in included topics.  The including topic's set statements are used.
 
 ---++++ Parameter defaults
    * The special parameter name =DEFAULT= gets the value of any unnamed parameter in the macro call.
    * Parameter macros can accept a =default= parameter so that they expand to something even when a value isn't passed for them in the call.
 Example:
-<verbatim class="tml">
-   * Set WEATHER = It's %DEFAULT{default="raining"}%.
-</verbatim>
+
+<verbatim class='tml'>
+   * Set WEATHER = It's %DEFAULT{default="raining"}%.</verbatim>
    * =%<nop>WEATHER%= expands to =%WEATHER%=
    * =%<nop>WEATHER{"sunny"}%= expands to =%WEATHER{"sunny"}%=
 The standard [[FormatTokens][formatting tokens]] can be used in parameters. They will be expanded immediately when the macro is instantiated.
+
 
 %X% Note that parameters *override* all other macros, including system defined macros, in the expansion of the macro where they are used.
 
 ---+++ Access Control Settings
 
-These are special types of preference settings to control access to content. AccessControl explains these security settings in detail. Parameters are *not* available in access control settings.
+These are special types of preference settings to control access to content. AccessControl explains these security settings in detail. Parameters are *not* available in access control settings. AccessControl settings cannot be set or changed by the =%<nop>SET{}%= macro.
 
 ---+++ Local values for preferences
-Certain topics (user, plugin, web, site and default preferences topics) have a problem; macros defined in those topics can have two meanings. For example, consider a user topic. A user may want to use a double-height edit box when they are editing their home topic - but *only* when editing their home topic. The rest of the time, they want to have a normal edit box. This separation is achieved using =Local= in place of =Set= in the macro definition. For example, if the user sets the following in their home topic:
-<verbatim class="tml">
-   * Set EDITBOXHEIGHT = 10
-   * Local EDITBOXHEIGHT = 20
-</verbatim>
-Then, when they are editing any other topic, they will get a 10 high edit box. However, when they are editing their home topic they will get a 20 high edit box.
+
+Certain topics (user, plugin, web, site and default preferences topics) have a problem; macros defined in those topics can have two meanings. For example, consider a user topic. A user may want to use the wiki text editor, but *only* when editing their home topic. The rest of the time, they want to use the default Wysiwyg editor. This separation is achieved using =Local= in place of =Set= in the macro definition. For example, if the user sets the following in their home topic:
+
+<verbatim class='tml'>   * Local NOWYSIWYG = 1</verbatim>
+
+Then, when they are editing any other topic, they will get the Wysiwyg editor. However, when they are editing their home topic they will get the wikitext editor.
 =Local= can be used wherever a preference needs to take a different value depending on where the current operation is being performed.
 
-Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
+=%<nop>SHOWPREFERENCE%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
+<verbatim class="tml">%SHOWPREFERENCE{"CONDITIONS"}%</verbatim> expands into:
+%SHOWPREFERENCE{"CONDITIONS"}%
+
 <!-- %JQREQUIRE{"chili"}% -->
 
-<div class="foswikiHelp"> *Deprecation warning*.  The setting used in
-this example, EDITBOXHEIGHT, is being deprecated and will be removed from
-Foswiki 2.0  Note that if the edit box size is changed using the javascript
-controls in the lower right corner of the edit box window, those settings will
-be used, and the EDITBOX* settings will be ignored.
-</div>
 
-
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1512501336" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1512501336" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1519485277" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1519485277" size="15256" user="ProjectContributor" version="1"}%
