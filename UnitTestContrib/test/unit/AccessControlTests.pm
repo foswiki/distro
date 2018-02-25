@@ -191,6 +191,51 @@ THIS
     return;
 }
 
+# Test Restricted Topic - Item14629
+sub test_restricted_Item14629 {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'UserRegistration' );
+    $topicObject->text(<<'THIS');
+Anyone can change
+   * Set ALLOWTOPICCHANGE = *
+
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    $this->createNewFoswikiSession();
+
+    # baseline
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, 'UserRegistrationx' ) );
+    $this->PERMITTED( "CHANGE", $MrGreen, $this->{test_web},
+        'UserRegistrationx' );
+    $this->PERMITTED(
+        "CHANGE",          'BaseUserMapping_333',
+        $this->{test_web}, 'UserRegistrationx'
+    );
+
+    # Change not permitted on restricted topic names
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'UserRegistration' ) );
+    $this->PERMITTED( "VIEW", $MrGreen, $this->{test_web}, 'UserRegistration' );
+    $this->DENIED( "CHANGE", $MrGreen, $this->{test_web}, 'UserRegistration' );
+    $this->PERMITTED(
+        "CHANGE",          'BaseUserMapping_333',
+        $this->{test_web}, 'UserRegistration'
+    );
+
+    # Change not allowed even on non-existing topic
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, 'ChangePassword' ) );
+    $this->DENIED( "CHANGE", $MrGreen, $this->{test_web}, 'ChangePassword' );
+    $this->PERMITTED( "CHANGE", 'BaseUserMapping_333', $this->{test_web},
+        'ChangePassword' );
+
+    return;
+}
+
 # Test that an empty DENYTOPIC doesn't deny anyone
 sub test_whitespace_denytopic {
     my $this = shift;

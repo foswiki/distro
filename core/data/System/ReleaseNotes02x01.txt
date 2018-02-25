@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1516632401" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519446557" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.5
+---+!! Foswiki Release 2.1.6
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -57,6 +57,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
    * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
+   * Foswiki 2.1.6 was built on 25 Feb 2018. It is a release that contains 10 fixes, including some critical security related fixes.
 
 
 ---++ Pre-installed Extensions
@@ -82,6 +83,17 @@ However the TinyMCEPlugin is still unable to render image links while editing a 
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
+---++ Important changes in Foswiki 2.1.6
+
+This is a critical Security Release, addressing CVE-2018-7446. In addition to installing this patch release, site adminstrators should follow the
+recommended changes in Support.SecurityAlert-CVE-2018-7446 to ensure that certain critical topic are protected.
+
+In addition, it was discovered that the NatEditPlugin under some conditions will lose topic ACLs:
+   * When a topic is copied, the ACLs in the source topic are not applied to the new topic.
+   * If a topic uses crafted ACLs set using the  =More topic actions= -> =Edit settings= dialog, they can be lost when the topic is edited by NatEdit.  Specifically:
+      * DENYTOPIC* ACLs (except for DENY = WikiGuest)  are not supported by NatEdit and are silently discarded.
+NatEditPlugin version 9.21 (shipped with this release) resolves this issue by disabling the "Permissions" tab when unsupported ACLs are detected.
+
 ---++ Important changes in Foswiki 2.1.5
 
 ---+++ New zone added as a default zone.
@@ -94,7 +106,7 @@ version.
 
 ---+++ Change in HTTP status return for authentication failures.
 
-The fix for Foswikitask:Item14445 changes the HTTP status return for authentiation errors from =401 - Unauthorized= to =200 - OK=
+The fix for [[%BUGS%/Item14445][Item14445]] changes the HTTP status return for authentiation errors from =401 - Unauthorized= to =200 - OK=
 when returning the Template Login screen. The 401 status is not valid unless it returns a WWW-Authentication challenge that can be processed by the
 _agent_. This is only valid when using HTTP authentication. The REST and JSONRPC actions will still return a 401, so that it can be handled by javascript.
 
@@ -597,6 +609,21 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14565][Item14565]] | Bundle jquery.validate js files into one. |
 | [[%BUGS%/Item14570][Item14570]] | Add "use strict" to farbtastic's init and fix js errors. |
 | [[%BUGS%/Item14577][Item14577]] | Add user contributed sartup script for FreeBSD. |
+
+---++ Foswiki Release 2.1.6 Details
+
+---+++ Fixes
+
+| [[%BUGS%/Item14537][Item14537]] | The EditRowPlugin makes tables "shaky". |
+| [[%BUGS%/Item14616][Item14616]] | The generic tools/extension_installer no longer functions on perl 5.26+. |
+| [[%BUGS%/Item14622][Item14622]] | UserRegistration validate.js is not compatible with CaptchaPlugin. |
+| [[%BUGS%/Item14626][Item14626]] | Incorrect example in System.Macros / System.PreferenceSettings. |
+| [[%BUGS%/Item14629][Item14629]] | Certain topics can be overridden without permission. |
+| [[%BUGS%/Item14630][Item14630]] | Topic ACLs are lost when copying to a new topic. |
+| [[%BUGS%/Item14632][Item14632]] | Topic autocompletion not functional anymore. |
+| [[%BUGS%/Item14633][Item14633]] | wrong language in &lt;html&gt; tag. |
+| [[%BUGS%/Item14634][Item14634]] | Use jquery.i18n for translations in jquery.natedit. |
+| [[%BUGS%/Item14636][Item14636]] | jquery.wikiword not setting the regex options correctly. |
 
 </noautolink>
 
