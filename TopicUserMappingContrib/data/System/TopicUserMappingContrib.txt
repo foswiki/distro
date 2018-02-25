@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519519781" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -63,8 +63,10 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2017 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2018 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.58 (25 Feb 2018) | Released with Foswiki 2.1.6<br/>\
+                        Foswikitask:Item14622: UserRegistration validate.js is not compatible with CaptchaPlugin. |
 |  4.57 (08 Dec 2017) | Release with Foswiki 2.1.5<br/>\
                         Foswikitask:Item14415: TopicUserMapping places non-ASCII users in wrong position in WikiUsers Topic.<br/>\
                         Foswikitask:Item14460: Login/Logon actions should create session when guest sessions are disabled. |
