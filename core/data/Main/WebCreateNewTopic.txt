@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252413407" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 <!--
    * Set VIEW_TEMPLATE = WebCreateNewTopic
 -->
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

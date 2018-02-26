@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519446557" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.6
 
@@ -57,7 +57,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
    * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
-   * Foswiki 2.1.6 was built on 25 Feb 2018. It is a release that contains 10 fixes, including some critical security related fixes.
+   * Foswiki 2.1.6 was built on 26 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
 
 
 ---++ Pre-installed Extensions
@@ -85,8 +85,19 @@ See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
 ---++ Important changes in Foswiki 2.1.6
 
+---+++ CVE-2018-7446
+
 This is a critical Security Release, addressing CVE-2018-7446. In addition to installing this patch release, site adminstrators should follow the
 recommended changes in Support.SecurityAlert-CVE-2018-7446 to ensure that certain critical topic are protected.
+
+---+++ Additional default topic protections
+
+A number of "operational" topics shipped in the Main and Sandbox web are not
+protected from modifications by users. This release adds an ACL to most of the
+default topics shipped in the Main and Sandbox webs to restrict modifications
+to the Admin group.
+
+---+++ Issues with NatEditPlugin Permissions tab not supporting certain ACLs.
 
 In addition, it was discovered that the NatEditPlugin under some conditions will lose topic ACLs:
    * When a topic is copied, the ACLs in the source topic are not applied to the new topic.
@@ -624,6 +635,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14633][Item14633]] | wrong language in &lt;html&gt; tag. |
 | [[%BUGS%/Item14634][Item14634]] | Use jquery.i18n for translations in jquery.natedit. |
 | [[%BUGS%/Item14636][Item14636]] | jquery.wikiword not setting the regex options correctly. |
+| [[%BUGS%/Item14639][Item14639]] | Operational topics in Main, Sandbox webs should be protected from editing non-admins. |
 
 </noautolink>
 
