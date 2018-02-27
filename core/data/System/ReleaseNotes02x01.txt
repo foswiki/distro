@@ -57,7 +57,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.3 was built on 12 Feb 2017. It is a release that contains 68 fixes and 21 enhancements.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
    * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
-   * Foswiki 2.1.6 was built on 26 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
+   * Foswiki 2.1.6 was built on 27 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
 
 
 ---++ Pre-installed Extensions
@@ -97,13 +97,22 @@ protected from modifications by users. This release adds an ACL to most of the
 default topics shipped in the Main and Sandbox webs to restrict modifications
 to the Admin group.
 
+The =_default= template web does not provide individual topic protections. The site
+administrators should customize the desired permissions before allowing users
+to create new webs.
+
 ---+++ Issues with NatEditPlugin Permissions tab not supporting certain ACLs.
 
-In addition, it was discovered that the NatEditPlugin under some conditions will lose topic ACLs:
+It was discovered that the NatEditPlugin under some conditions will lose topic ACLs:
    * When a topic is copied, the ACLs in the source topic are not applied to the new topic.
-   * If a topic uses crafted ACLs set using the  =More topic actions= -> =Edit settings= dialog, they can be lost when the topic is edited by NatEdit.  Specifically:
-      * DENYTOPIC* ACLs (except for DENY = WikiGuest)  are not supported by NatEdit and are silently discarded.
-NatEditPlugin version 9.21 (shipped with this release) resolves this issue by disabling the "Permissions" tab when unsupported ACLs are detected.
+   * If a topic contains crafted ACLs set using the  =More topic actions= -> =Edit settings= dialog, they can be lost when the topic is edited by NatEdit.  Specifically:
+      * DENYTOPIC* ACLs (except for DENY = WikiGuest)  are not supported by NatEdit and were silently discarded.
+NatEditPlugin version 9.21 (shipped with this release) resolves this issue by disabling the "Permissions" tab when unsupported ACLs are detected.a
+
+---+++ Support for CaptchaPlugin in User Registration
+
+A change has been made to the =validate.js= javascript used by the !UserRegistration page. This will permit easier integration
+of the [[%FO%/Extensions/CaptchaPlugin][Captcha Plugin]] to the default user registration page.
 
 ---++ Important changes in Foswiki 2.1.5
 

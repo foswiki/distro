@@ -9,9 +9,9 @@ The complete timeline of Foswiki Releases. Foswiki was forked from TWiki 4.2.4 a
 
 %TOC%
 
----++ Foswiki Release 2.1.6 - 26 Feb 2018
+---++ Foswiki Release 2.1.6 - 27 Feb 2018
 
-Foswiki 2.1.6 was built on 26 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
+Foswiki 2.1.6 was built on 27 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
 
 ---++ Foswiki Release 2.1.5 - 22 Jan 2018
 
