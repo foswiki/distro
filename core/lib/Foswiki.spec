@@ -584,7 +584,7 @@ $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = $FALSE;
 # **STRING LABEL="Sensitive Topic Names" **
 # A list of topic names that should never be created or edited by a non-admin
 # user. These topics will always be denied.
-$Foswiki::cfg{AccessControlACL}{RestrictedEdit} = 'UserRegistration,ChangePassword,ResetPassword,ChangeEmailAddress,GroupViewTemplate,Default$Foswiki::cfg{Stats}{TopicName}';
+$Foswiki::cfg{AccessControlACL}{RestrictedEdit} = 'ChangeEmailAddress,ChangePassword,Default$Foswiki::cfg{Stats}{TopicName},GroupTemplate,GroupViewTemplate,ResetPassword,SimpleUserRegistrationViewTemplate,UserRegistration,UserRegistrationViewTemplate,WikiGroupsComponents';
 
 # **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
