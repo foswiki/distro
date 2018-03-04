@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1433037425" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 Congratulations, you have finished installing Foswiki.
 
@@ -20,3 +20,4 @@ and [[%LOCALSITEPREFS%]]). Replace this text with a description of your new
    * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes %IF{"istopic '%STATISTICSTOPIC%'" then="
    * [[%STATISTICSTOPIC%]] - listing popular topics and top contributors"}%
    * [[WebPreferences]] - preferences of this web
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

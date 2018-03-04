@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1431315343" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -17,3 +17,4 @@
 %ENDSECTION{"topics"}%
 
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

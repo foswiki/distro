@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490663609" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 <channel rdf:about="%SCRIPTURL{"view" web="%WEB%"}%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
@@ -8,3 +8,4 @@
    * Set SKIN = rss
    * Set COVER = rss
 -->
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

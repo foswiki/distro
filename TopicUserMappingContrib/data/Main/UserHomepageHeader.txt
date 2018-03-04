@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1305681686" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Header of User Homepages
 
@@ -21,3 +21,4 @@ The part between the horizontal rules gets included at the top of every [[%WIKIU
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserForm][UserForm]], [[%SYSTEMWEB%.NewUserTemplate][NewUserTemplate]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]], [[%SYSTEMWEB%.DataForms][DataForms]]
 
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

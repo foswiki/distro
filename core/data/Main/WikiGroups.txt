@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489712653" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki groups dashboard
 Showing all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][access controls]] in <nop>%WIKITOOLNAME%.
@@ -14,3 +14,4 @@ With this enabled, adding and removing members and also topic upgrades for each 
 -->
 
 %INCLUDE{"%BASEWEB%.WikiGroupsComponents, %SYSTEMWEB%.WikiGroupsComponents"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
