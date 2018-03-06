@@ -599,6 +599,7 @@ Save a topic or attachment _without_ invoking plugin handlers.
 =$options= may include:
    * =forcenewrevision= - force a new revision even if one isn't needed
    * =forcedate= - force the revision date to be this (epoch secs)
+   * =forceinsert= - Prevents save if the topic exists in store.
     *X* =forcedate= must be equal to or later than the date of the most
     recent revision already stored for the topic.
    * =minor= - True if this is a minor change (used in log)

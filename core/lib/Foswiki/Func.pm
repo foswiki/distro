@@ -2107,6 +2107,11 @@ try {
 };
 </verbatim>
 
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]].
+If the actual name of the topic is required, the =Foswiki::Meta= API
+should be used to save the topic.
+
 In the event of an error an exception will be thrown. Callers can elect
 to trap the exceptions thrown, or allow them to propagate to the calling
 environment. May throw Foswiki::OopsException or Error::Simple.
