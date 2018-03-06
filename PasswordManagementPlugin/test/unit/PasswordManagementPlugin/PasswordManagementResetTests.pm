@@ -56,6 +56,7 @@ sub loadExtraConfig {
     my ( $this, $context, @args ) = @_;
     $this->SUPER::loadExtraConfig( $context, @args );
     $Foswiki::cfg{EnableEmail} = 1;
+    $Foswiki::cfg{WebMasterEmail} = 'dummyaddr@foswiki.org';
 
     return;
 }
@@ -111,7 +112,7 @@ sub test_resetPasswordOkay {
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
         $mess->header('From') );
     $this->assert_matches( qr/.*\bwhite\@example.com/, $mess->header('To') );
 
@@ -230,7 +231,7 @@ sub test_resetPasswordByEmail {
 
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
         $mess->header('From') );
     $this->assert_matches( qr/.*\bwhite\@example.com/, $mess->header('To') );
 
@@ -378,7 +379,7 @@ sub test_resetPasswordMultipleUsers {
 
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
         $mess->header('From') );
     $this->assert_matches( qr/.*\bwhite\@example.com/, $mess->header('To') );
 
