@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519219623" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1520455482" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -157,6 +157,7 @@ See the [[%ATTACHURLPATH%/tinymce/changelog.txt][TinyMCE Editor Change Log]] for
                 &copy; 2010-2018 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |             | This package also includes a complete release of the !TinyMCE editor which is covered by the [[https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html][GNU Lesser General Public License, Version 2.1] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2.08 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,9, |
 |  2.07 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,6, |
 |  2.06 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,5, |
 |  2.05 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,4, |
