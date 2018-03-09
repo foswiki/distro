@@ -1150,7 +1150,7 @@ sub verify_deleteUserAsAdmin {
             ${ $e->{params} }[0]
         );
         $this->assert_matches(
-qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.DeletedUserEricCartman[0-9]{10,10}/s,
+qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*EricCartman topic moved to $this->{trash_web}\.DeletedUserEricCartman[0-9]{10,10}.*User topic EricCartmanLeftBar not found/s,
             ${ $e->{params} }[1]
         );
     }
@@ -1294,7 +1294,7 @@ sub verify_deleteUserWithPrefix {
             ${ $e->{params} }[0]
         );
         $this->assert_matches(
-qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.KilledKennyEricCartman[0-9]{10,10}/s,
+qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*EricCartman topic moved to $this->{trash_web}\.KilledKennyEricCartman[0-9]{10,10}.*User topic EricCartmanLeftBar not found/s,
             ${ $e->{params} }[1]
         );
     }
