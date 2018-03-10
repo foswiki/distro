@@ -190,7 +190,9 @@ CODE
 
         # Must have upgraded from Foswiki 2.0/2.1. Set a default directory.
 
-        if ( substr( $Foswiki::cfg{LocalesDir}, 0, 8 ) ne '$Foswiki' ) {
+        if ( defined $Foswiki::cfg{LocalesDir}
+            && substr( $Foswiki::cfg{LocalesDir}, 0, 8 ) ne '$Foswiki' )
+        {
 
             # Make sure we don't use a recursive reference.
 
