@@ -24,7 +24,7 @@ sub construct {
 
     # Early in bootstrap if no script directory available.
     # Skip populating the SCRIPTHASH
-    return unless ($bindir);
+    return unless ( defined $Foswiki::cfg{RootDir} );
 
     my $dh;
     unless ( opendir( $dh, $bindir ) ) {

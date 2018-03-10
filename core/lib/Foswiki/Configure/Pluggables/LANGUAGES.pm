@@ -27,6 +27,10 @@ sub construct {
     # Insert a bunch of configuration items based on what's in
     # the locales dir
 
+    # Early in bootstrap if no script directory available.
+    # Skip populating the SCRIPTHASH
+    return unless ( defined $Foswiki::cfg{RootDir} );
+
     my $d =
          $Foswiki::cfg{LocalesDir}
       || Foswiki::Configure::FileUtil::findFileOnPath('../locale')
