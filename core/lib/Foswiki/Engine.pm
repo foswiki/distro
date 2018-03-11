@@ -536,7 +536,12 @@ sub _getConnectionData {
       ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' || $ENV{HTTPS} eq '1' ) )
       ? 'https'
       : 'http';
+
+# HTTP_HOST is the host targeted by the client,  SERVER_NAME is the configured name on the server.
     $host = $ENV{HTTP_HOST} || $ENV{SERVER_NAME};
+    if ($host) {
+        ( $host, $port ) = split( /:/, $host );
+    }
     unless ($host) {
         if ( defined $ENV{SCRIPT_URI}
             && $ENV{SCRIPT_URI} =~ m#^(https?)://([^/]+)#i )
@@ -553,7 +558,9 @@ sub _getConnectionData {
     unless ($host) {
         $host = 'localhost';
     }
-    $port = $ENV{SERVER_PORT} || 80;
+
+    # $port may have been detected from the HTTP_HOST variable
+    $port = $port || $ENV{SERVER_PORT} || 80;
     $proxy = '';
 
     if (   $detectProxy
