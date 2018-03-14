@@ -17,11 +17,14 @@ Implements authorization checking for access to configure.
 use strict;
 use warnings;
 
+use constant TRACE => 0;
+
 =begin TML
 
----++ StaticMethod checkAccess( $session, $die )
+---++ StaticMethod checkAccess( $session, $json )
 
 Throws an AccessControlException  if access is denied. 
+If $json is set, throws a JSON error instead of an access exception.
 
 =cut
 
@@ -35,6 +38,9 @@ sub checkAccess {
 
     my $wikiname = Foswiki::Func::getWikiName( $session->{user} );
 
+    print STDERR "Checking $wikiname ($session->{user}) for Configure access\n"
+      if TRACE;
+
     return
       if ( defined $Foswiki::cfg{AdminUserWikiName}
         && $Foswiki::cfg{AdminUserWikiName} eq $wikiname );
@@ -42,15 +48,22 @@ sub checkAccess {
     if ( defined $Foswiki::cfg{FeatureAccess}{Configure}
         && length( $Foswiki::cfg{FeatureAccess}{Configure} ) )
     {
+        print STDERR
+"Authorized configure users: '$Foswiki::cfg{FeatureAccess}{Configure}'\n"
+          if TRACE;
         my $authorized = '';
         foreach my $authuser (
-            split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
+            split( /[,\s]+/, $Foswiki::cfg{FeatureAccess}{Configure} ) )
         {
+            next unless $authuser;
             if ( $wikiname eq $authuser ) {
                 $authorized = 1;
                 last;
             }
         }
+        print STDERR "$wikiname ($session->{user}) "
+          . ( $authorized ? 'GRANTED' : 'DENIED' ) . "\n"
+          if TRACE;
         unless ($authorized) {
             if ($json) {
                 throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
@@ -83,7 +96,7 @@ sub checkAccess {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
