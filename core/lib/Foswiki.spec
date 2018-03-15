@@ -634,7 +634,7 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
 # **STRING 80 LABEL="Access to Configure"**
-# A list of users permitted to use the =bin/configure= configuration tool
+# A comma separated list of users WikiNames permitted to use the =bin/configure= configuration tool
 # If this is configured, then users attempting to access
 # configure are validated against this list. (The user must still first
 # login using the normal Foswiki authentication). If configured, it is
@@ -646,7 +646,7 @@ $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 # Because users with access to configure can install software on the server
 # and make changes that are potentially difficult to recover from, it is
 # strongly recommended that configure access be limited.   Examples:
-#    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdmin BobAdmin=
+#    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdminr,BobAdmin=
 # The super admin user can always use configure. provided you set the expert
 # Password setting under the Passwords tab.
 $Foswiki::cfg{FeatureAccess}{Configure} = '';
