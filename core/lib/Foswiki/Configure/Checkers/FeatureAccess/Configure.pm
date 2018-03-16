@@ -85,7 +85,7 @@ and the $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot 
 "   * Members of the $Foswiki::cfg{SuperAdminGroup} do *not* have access to configure."
     ) if $Foswiki::cfg{FeatureAccess}{Configure};
 
-    my @Authorized = split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} );
+    my @Authorized = split( /[,\s]+/, $Foswiki::cfg{FeatureAccess}{Configure} );
     my $passed = '';   # Set to true if current user is allowed to use configure
 
     my $cUID    = Foswiki::Func::getCanonicalUserID();
@@ -97,6 +97,7 @@ and the $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot 
 
     if ( scalar @Authorized ) {
         foreach my $user (@Authorized) {
+            next unless $user;
             if ( $user eq $curuser || $user eq $cUID ) {
                 $passed = 1;
             }
@@ -117,7 +118,7 @@ and the $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
