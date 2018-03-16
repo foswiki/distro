@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1493698648" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521204407" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -311,7 +311,7 @@ Create a list of annotated bookmarks
 Post to a different topic and return to here. The comment =target= is set in the =PROMPT=. In the form below the =redirectto= is set to the current (including) topic.
 
 <verbatim>
-%TMPL:DEF{returnpromptbox}%
+%TMPL:DEF{return_promptbox}%
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
 %TMPL:P{promptbox}%
 %TMPL:END%
