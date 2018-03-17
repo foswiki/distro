@@ -65,7 +65,7 @@
 # using SSL Accelerators, Reverse Proxys, and load balancers, the URL
 # entered by the user may have been altered, and foswiki should be forced
 # to return the {DefaultUrlHost}.
-$Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
+$Foswiki::cfg{ForceDefaultUrlHost} = $TRUE;
 
 # **URILIST LABEL="Permitted Redirect Host Urls" EXPERT \
 #       CHECK_ON_CHANGE="{DefaultUrlHost}" \
@@ -89,6 +89,12 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # port), for example =http://your.domain.com:8080,https://other.domain.com=.
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
+
+# **BOOLEAN LABEL="Strict URL Parsing" EXPERT **
+# Disable this setting to allow the Webname to be omitted from the URL, and
+# default to the Usersweb. Enable this setting to requre that a webname always
+# be provided. Enabling this makes Foswiki consistent with Foswiki 1.x URL handling.
+$Foswiki::cfg{StrictURLParsing} = $FALSE;
 
 # **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin

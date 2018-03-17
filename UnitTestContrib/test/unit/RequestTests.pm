@@ -134,6 +134,8 @@ EOF
 #
 sub test_Request_parse {
     my $this = shift;
+
+    $Foswiki::cfg{StrictURLParsing} = 0;
     my @paths = my @comparisons = (
 
         #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
@@ -171,6 +173,12 @@ sub test_Request_parse {
 
         # This next one  works because of auto fix-up of lower case topic name
         [ '/Blah/asdf', undef, 'Blah', 'Asdf', undef, undef ],
+
+        # non-Strict URL parsing tests
+        [ '/WebHome', undef, undef,    'WebHome', undef, undef ],
+        [ '/Notaweb', undef, undef,    'Notaweb', undef, undef ],
+        [ '/System',  undef, 'System', undef,     undef, undef ],
+
     );
     my $tn = 0;
     foreach my $set (@paths) {
@@ -353,7 +361,8 @@ sub test_forwarded_for {
         'Wrong BASE url with Forwarded-Host multiple header'
     );
 
-    $base = 'http://your.domain.com';
+    $base                              = 'http://your.domain.com';
+    $Foswiki::cfg{DefaultUrlHost}      = 'http://your.domain.com';
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;
     $this->assert_str_equals(
         $base,
