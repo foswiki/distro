@@ -65,7 +65,7 @@
 # using SSL Accelerators, Reverse Proxys, and load balancers, the URL
 # entered by the user may have been altered, and foswiki should be forced
 # to return the {DefaultUrlHost}.
-$Foswiki::cfg{ForceDefaultUrlHost} = $TRUE;
+$Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
 # **URILIST LABEL="Permitted Redirect Host Urls" EXPERT \
 #       CHECK_ON_CHANGE="{DefaultUrlHost}" \
