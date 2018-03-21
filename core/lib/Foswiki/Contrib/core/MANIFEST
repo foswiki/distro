@@ -36,7 +36,6 @@ data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
 data/Main/ProjectContributor.txt 0644
-data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
 data/Main/WebAtom.txt 0644
 data/Main/WebChanges.txt 0644
@@ -75,6 +74,19 @@ data/System/Category.txt 0644
 data/System/ClassMethod.txt 0644
 data/System/CommandAndCGIScripts.txt 0644
 data/System/CompleteDocumentation.txt 0644
+data/System/Config/SitePreferences.txt 0644
+data/System/Config/WebAtom.txt 0644
+data/System/Config/WebChanges.txt 0644
+data/System/Config/WebCreateNewTopic.txt 0644
+data/System/Config/WebHome.txt 0644
+data/System/Config/WebIndex.txt 0644
+data/System/Config/WebLeftBar.txt 0644
+data/System/Config/WebNotify.txt 0644
+data/System/Config/WebPreferences.txt 0644
+data/System/Config/WebRss.txt 0644
+data/System/Config/WebSearch.txt 0644
+data/System/Config/WebSearchAdvanced.txt 0644
+data/System/Config/WebTopicList.txt 0644
 data/System/Contribs.txt 0644
 data/System/ContributedAddOns.txt 0644
 data/System/CountryList.txt 0644
