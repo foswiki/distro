@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521606920" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -6,7 +6,7 @@ Include main navigation with:
 <verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.PatternSkinThemeFatWillyNavigation" section="main"}%
 </verbatim>
-This is done automatically in the templates by setting in the %CONFIGWEB%.SitePreferences:
+This is done automatically in the templates by setting in the %LOCALSITEPREFS%:
    * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinThemeFatWillyNavigation
 
 Include meta navigation with:

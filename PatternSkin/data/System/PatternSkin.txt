@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521606920" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+!! Pattern skin
@@ -80,7 +80,7 @@ The =Edit= and =Edit wiki text= buttons simply add =;action=text= or =;action=fo
 
 ---+++ Installation
 <div class="foswikiNotification"> *Compatibility with Foswiki 1.1 has been restored.  However system changes are required:*
-   * The SKIN must be overridden to "pattern01x01,pattern".  You can safely set this in your %CONFIGWEB%.SitePreferences before upgrading this extension.
+   * The SKIN must be overridden to "pattern01x01,pattern".  You can safely set this in your %LOCALSITEPREFS% before upgrading this extension.
       * #Set SKIN = pattern01x01,pattern
    * You must not manually install by extracting the archive directly into your Foswiki instance.  You must use the Extension Installer.  The installer will omit two files which are incompatible and must not be installed on Foswiki 1.1.
       * =data/System/WebCreateNewTopicComponents.txt=
@@ -278,20 +278,20 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1521596899" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1521596899" size="33112" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1521596899" size="129505" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1521596899" size="2618" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1521596899" size="20605" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1521596899" size="1305" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1521596899" size="41616" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1521596899" size="20639" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1521596899" size="1732" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1521596899" size="474" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1521596899" size="620" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1521596899" size="3869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1521596899" size="8499470" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1521596899" size="92238" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1521596899" size="177943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1521596899" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1521596899" size="5545" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1521606920" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1521606920" size="33112" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1521606920" size="129505" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1521606920" size="2618" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1521606920" size="20605" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1521606920" size="1305" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1521606920" size="41616" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1521606920" size="20639" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1521606920" size="1732" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1521606920" size="474" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1521606920" size="620" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1521606920" size="3869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1521606920" size="8499470" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1521606920" size="92238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1521606920" size="177943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1521606920" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1521606920" size="5545" user="ProjectContributor" version="1"}%

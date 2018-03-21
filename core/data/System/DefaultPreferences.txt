@@ -1,13 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1513171638" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521606920" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
 This topic defines *site-level* settings that apply to all users and webs on this site.
 
 <div class="foswikiNotification">
-*%X% Note:* This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
+*%X% Note: Do not edit this topic!* This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
 
-Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (this topic is pointed to by ={LocalSitePreferences}=, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface). Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings.
+Preference settings local to your site should be set in <nop>%LOCALSITEPREFS% (this topic is pointed to by ={LocalSitePreferences}=, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface).
+
+%IF{"istopic '%LOCALSITEPREFS%'" 
+then="Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings."
+else="Click here to [[%SCRIPTURLPATH{"edit" topic="%LOCALSITEPREFS%" templatetopic="%SYSTEMWEB%.SitePreferencesTemplate"}%][create the %LOCALSITEPREFS%]] topic.  
+"}% 
 
 [[Macros#SettingPrefs][Read more]] on how to set preferences.
 </div>

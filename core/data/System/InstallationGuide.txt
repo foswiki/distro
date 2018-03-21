@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1511982212" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521606920" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -223,7 +223,7 @@ Refer back to any page in your installation (such as the "AdminGroup" page you w
 
 ---+++ Congratulations! Your Foswiki Installation is Ready to Use!
 
-You now have set up your Foswiki installation! At this point you can start creating and editing pages. See InstallationGuidePart2 to proceed with further tailoring your site.
+You now have set up your Foswiki installation! At this point you can start creating and editing pages. See %IF{"$skin = 'plain'" then="<nop>System.<nop>InstallationGuidePart2 in your installation" else="[[InstallationGuidePart2]]"}% to proceed with further tailoring your site.
 
 In order to keep your user, group, and site configuration information separate from the actual content of your site, it is recommended that you create a new web in which your site's pages will reside. See %IF{"$skin = 'plain'" then="<nop>System.<nop>ManagingWebs in your installation" else="[[$percntSYSTEMWEB$percnt.ManagingWebs]]"}% for more information on Wiki webs and how to create one.
 

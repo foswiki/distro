@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1521606920" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -11,10 +11,14 @@ Once you have Foswiki installed and running, you can perform one or more of the 
 #SetPreferences
 ---+++ Set Foswiki Site Preferences
 
-Preferences for customizing many aspects of Foswiki are set by editing =[[%LOCALSITEPREFS%]]=. On that page you'll find some of the most common local site preferences such as the name for your site, the header logo image and, site tag line. However, there are many more site preference settings which you'll find in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=. If a given preference is *not* set in =[[%LOCALSITEPREFS%]]=, then it defaults to the value is defined in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]= (or in the case of [[InstalledPlugins][extensions]], in the respective extension topics).
+Preferences for customizing many aspects of Foswiki are set by 
+%IF{"istopic '%LOCALSITEPREFS%'" then="adding them to [[%LOCALSITEPREFS%]]" else="[[%SCRIPTURLPATH{"edit" topic="%LOCALSITEPREFS%" templatetopic="%SYSTEMWEB%.SitePreferencesTemplate"}%][clicking here to create the %LOCALSITEPREFS%]] topic and adding them there."}%
+On that page you'll find some of the most common local site preferences such as the name for your site, the header logo image and, site tag line. 
 
-Because =%WIKIPREFSTOPIC%= is included in Foswiki upgrade packages, you will simplify upgrades by *not* changing these ==%WIKIPREFSTOPIC%==. Instead, *copy* any settings you want to change and add them to =[[%LOCALSITEPREFS%]]=.
+There are many more site preference settings which you'll find in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=. If a given preference is *not* set in =[[%LOCALSITEPREFS%]]=, 
+then it defaults to the value is defined in =[[%SYSTEMWEB%.%WIKIPREFSTOPIC%]]=.
 
+%T% Because =%WIKIPREFSTOPIC%= is included in Foswiki upgrade packages, you will simplify upgrades by *not* changing the ==%WIKIPREFSTOPIC%== topic. 
 ---+++ Automating Routine Tasks
 
 Several Foswiki "house-keeping" tasks occur on daily basis and can be combined into a cron job (or equivalent). Here's a sample cron job that would combine the schedules for email notification, removal of expired sessions, and gathering of site statics:
