@@ -876,6 +876,7 @@ cuid be a groupname which is added like it was an unknown user
 
 sub addUserToGroup {
     my ( $this, $cuid, $Group, $create ) = @_;
+    my $configWeb = $Foswiki::cfg{ConfigWebName};
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
@@ -956,9 +957,9 @@ sub addUserToGroup {
             )
           );
 
-        if ( Foswiki::Func::topicExists( $groupWeb, 'GroupTemplate' ) ) {
+        if ( Foswiki::Func::topicExists( $configWeb, 'GroupTemplate' ) ) {
             $groupTopicObject =
-              Foswiki::Meta->load( $this->{session}, $groupWeb,
+              Foswiki::Meta->load( $this->{session}, $configWeb,
                 'GroupTemplate' );
         }
         else {

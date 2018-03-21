@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1520218740" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1521596899" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 <!--
 
@@ -8,21 +8,21 @@ DO NOT EDIT THIS TOPIC.
 -->
 
 %IF{
-"istopic '%USERSWEB%.%TOPIC%'"
-   then="$percentINCLUDE{$quot%USERSWEB%.%TOPIC%$quot warn=$quot%MAKETEXT{"User Registration is not available."}%$quot}$percent"
+"istopic '%CONFIGWEB%.%TOPIC%'"
+   then="$percentINCLUDE{$quot%CONFIGWEB%.%TOPIC%$quot warn=$quot%MAKETEXT{"User Registration is not available."}%$quot}$percent"
    else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot }$percent"
 }%
 
-%IF{"context isadmin AND NOT istopic '%USERSWEB%.%TOPIC%'" then='<div class="foswikiHelp">
+%IF{"context isadmin AND NOT istopic '%CONFIGWEB%.%TOPIC%'" then='<div class="foswikiHelp">
 *Tailoring instructions:* You are currently viewing the default registration page without local tailoring.  This topic looks whether a
-custom user registration page exists in %USERSWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.
-(This message is only visible to Site Administrators when the %USERSWEB%.UserRegistraion topic has not been created.)
+custom user registration page exists in %CONFIGWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.
+(This message is only visible to Site Administrators when the %CONFIGWEB%.UserRegistraion topic has not been created.)
 
 See detailed documentation at [[%SYSTEMWEB%.UserAuthentication#UserRegistration]]
 
 To create a custom UserRegistration page for your site:
    1 Visit [[%SYSTEMWEB%.DefaultUserRegistration?template=more&maxrev=1&currrev=1#Copy_topic][%SYSTEMWEB%.DefaultUserRegistration: More topic actions]]
-   1 Name the copy =%USERSWEB%.UserRegistration=  (Fully qualified with  both the %USERSWEB% Web name and !UserRegistration topic name)
+   1 Name the copy =%CONFIGWEB%.UserRegistration=  (Fully qualified with  both the %CONFIGWEB% Web name and !UserRegistration topic name)
    1 Edit as desired. Tailoring instructions appear between =&lt;-- HTML Comments --&gt;=
 Note: You must use the =SET{}= macro to set preferences because users visiting %SYSTEMWEB%.UserRegistration will be viewing the results of an INCLUDE.
 </div>'}%

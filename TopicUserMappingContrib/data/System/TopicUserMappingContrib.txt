@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -42,7 +42,7 @@ It includes the topics that are used when registering and managing users and gro
       * %SYSTEMWEB%.UsersTemplate
       * %USERSWEB%.UserHomepageHeader
       * %SYSTEMWEB%.UserSetting
-      * %USERSWEB%.GroupTemplate
+      * %SYSTEMWEB%.GroupTemplate
 
 If you are developing a non-topic based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506735457" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
 %{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
@@ -15,7 +15,7 @@ viewing an inactive Group topic. See the [[%USERSWEB%.%TOPIC%]] for the live ver
   AND {AdminUserWikiName} != '%WIKINAME%'"
   then="
       $percntINCLUDE{
-       \"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
+       \"%SYSTEMWEB%.GroupViewTemplate\"
        section=\"manageself\"
        groupname=\"%TOPIC%\"
       }$percnt
@@ -24,12 +24,12 @@ viewing an inactive Group topic. See the [[%USERSWEB%.%TOPIC%]] for the live ver
 %TEXT%
 ---++ %MAKETEXT{"Members"}%
 %INCLUDE{
-   "%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate"
+   "%SYSTEMWEB%.GroupViewTemplate"
    section="rendergroup"
    groupname="%TOPIC%"
    twisty="on"
 }%%INCLUDE{
-   "%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate"
+   "%SYSTEMWEB%.GroupViewTemplate"
    section="groupactions"
    groupname="%TOPIC%"
    twisty="on"
@@ -277,8 +277,8 @@ then='
 %STARTSECTION{"manageself"}%
 %IF{
     "'%GROUPINFO{"%groupname%" expand="0"}%'=~'\b%USERNAME%\b'"
-      then="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate" section="delme" groupname="%groupname%"}%"
-      else="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate" section="addme" groupname="%groupname%"}%"
+      then="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate" section="delme" groupname="%groupname%"}%"
+      else="%INCLUDE{"%SYSTEMWEB%.GroupViewTemplate" section="addme" groupname="%groupname%"}%"
 }%
 %ENDSECTION{"manageself"}%
 

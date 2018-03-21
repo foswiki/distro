@@ -959,6 +959,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{AuthRealm}',
     '{AuthScripts}',
     '{Cache}{Enabled}',
+    '{ConfigWebName}',
     '{DefaultDateFormat}',
     '{DefaultUrlHost}',
     '{DenyDotDotInclude}',
@@ -2239,7 +2240,7 @@ $Foswiki::cfg{Email}{SmimeCertOU} = '';
 # See 'Security and usability' in System.SkinTemplates for advice on
 # setting this path for increased security.
 $Foswiki::cfg{TemplatePath} =
-'$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
+'$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $Foswiki::cfg{ConfigWebName}.$skinSkin$nameTemplate, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $Foswiki::cfg{ConfigWebName}.$nameTemplate, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
 # **STRING 120 LABEL="Link-Protocol Pattern" EXPERT**
 # List of protocols (URI schemes) that Foswiki will
@@ -2366,6 +2367,12 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
+# **STRING 20 LABEL="Configuration WebName" EXPERT**
+# Name of the web where the web based site configuration is stored.
+# This web is normally hidden from guests. It can only be modified
+# by members of the AdminGroup.
+$Foswiki::cfg{ConfigWebName} = 'System/Config';
+
 # **STRING 20 LABEL="DefaultPreferences TopicName" EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # *If you change this setting you will have to
@@ -2383,7 +2390,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 # a {LocalSitePreferences} topic rather than changing DefaultPreferences,
 # as it will make upgrading a lot easier.
 $Foswiki::cfg{LocalSitePreferences} =
-  '$Foswiki::cfg{UsersWebName}.SitePreferences';
+  '$Foswiki::cfg{ConfigWebName}.SitePreferences';
 
 # **STRING 20 LABEL="WebPreferences TopicName" EXPERT**
 # Name of preferences topic in a web.

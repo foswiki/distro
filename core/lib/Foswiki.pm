@@ -404,7 +404,9 @@ BEGIN {
     # Constant tags dependent on the config
     $macros{ALLOWLOGINNAME} =
       sub { $Foswiki::cfg{Register}{AllowLoginName} || 0 };
-    $macros{AUTHREALM}      = sub { $Foswiki::cfg{AuthRealm} };
+    $macros{AUTHREALM} = sub { $Foswiki::cfg{AuthRealm} };
+    $macros{CONFIGWEB} =
+      sub { $Foswiki::cfg{ConfigWebName} || $Foswiki::cfg{UsersWebName} };
     $macros{DEFAULTURLHOST} = sub { $Foswiki::cfg{DefaultUrlHost} };
     $macros{HOMETOPIC}      = sub { $Foswiki::cfg{HomeTopicName} };
     $macros{LOCALSITEPREFS} = sub { $Foswiki::cfg{LocalSitePreferences} };

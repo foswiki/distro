@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506736562" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki groups components.  
 Contains the active components used by %USERSWEB%.WikiGroups.  To modify this
@@ -24,7 +24,7 @@ automatically be used.
     <div class="foswikiFormDescription">
       *Note:* 
       A group name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
-      New topics are based on %IF{"istopic %USERSWEB%.GroupTemplate" then="[[%USERSWEB%.GroupTemplate]]" else="[[%SYSTEMWEB%.GroupTemplate]]"}%
+      New topics are based on %IF{"istopic %CONFIGWEB%.GroupTemplate" then="[[%CONFIGWEB%.GroupTemplate]]" else="[[%SYSTEMWEB%.GroupTemplate]]"}%
     </div>
   </div>
   <div class="foswikiFormStep">
@@ -60,14 +60,14 @@ automatically be used.
    format="<tr>
      <td> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>$name\" else=\"[[%USERSWEB%.$name][$name]]\"}$percnt</td>
      <td> 
-       $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
+       $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
          groupname=\"$name\"
          allowschange=\"$allowschange\"
        }$percnt 
      </td>
      <td class=\"wikiGroupsActions\">
-        $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate, %USERSWEB%.GroupViewTemplate\"
+        $percntINCLUDE{\"%SYSTEMWEB%.GroupViewTemplate\"
          section=\"groupactions\"
          groupname=\"$name\"
          allowschange=\"$allowschange\"

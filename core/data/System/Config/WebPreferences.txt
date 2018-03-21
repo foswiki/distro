@@ -1,0 +1,60 @@
+%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
+---+!! <nop>%WEB% Web Preferences
+
+%TOC%
+
+---++ Appearance
+
+   * Set WEBBGCOLOR = #DDDDDD
+      * <sticky>web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span></sticky>
+
+   * Set SITEMAPLIST = off
+      * set to =off= to hide this web from the [[%SYSTEMWEB%.SiteMap][SiteMap]]
+
+   * Set WEBSUMMARY = System Configuration related topics. 
+      * description what this web is used for
+
+   * Set NOSEARCHALL = 
+      * if set to =on=, this web will be exclude web from a global search
+
+---++ Wiki application settings
+
+   * WebTopicEditTemplate
+      * default template for new topics in this web, if this topic does not exist,  [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
+
+   * Set WEBFORMS =
+      * Comma separated list of forms that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
+
+---++ Access control
+
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.  Empty settings are not meaningful.
+Remove the comment ==#== character to enable a settting.
+Use ==*== to indicate everyone including the guest users.   DENY the %USERSWEB%.WikiGuest user to restrict an action to authenticated (logged-in) users.
+
+By default the %CONFIGWEB% is restricted to the site adminstrators.
+Topics may be individually overridden for more permissive access.
+
+   * #Set DENYWEBVIEW = 
+   * Set ALLOWWEBVIEW =  %USERSWEB%.AdminGroup
+   * #Set DENYWEBCHANGE = 
+   * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
+   * #Set DENYWEBRENAME = 
+   * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
+
+If ={FeatureAccess}{AllowRaw}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBHISTORY = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBHISTORY =
+
+If ={FeatureAccess}{AllowHistory}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBRAW = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBRAW =
+
+Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
+
+   * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+   * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
+
+---
+%INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%
+
+
