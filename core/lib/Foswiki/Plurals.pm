@@ -50,6 +50,7 @@ sub singularForm {
     return
       unless ( $Foswiki::cfg{PluralToSingular}
         or $web eq $Foswiki::cfg{UsersWebName}
+        or $web eq $Foswiki::cfg{ConfigsWebName}
         or $web eq $Foswiki::cfg{SystemWebName} );
     return unless ( $pluralForm =~ m/s$/ );
 

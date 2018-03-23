@@ -437,12 +437,12 @@ sub _processWeb {
             my $statsTemplate = $statsTopic . 'Template';
             if (
                 $session->topicExists(
-                    $Foswiki::cfg{UsersWebName},
+                    $Foswiki::cfg{ConfigWebName},
                     $statsTemplate
                 )
               )
             {
-                $statsTemplateWeb = $Foswiki::cfg{UsersWebName};
+                $statsTemplateWeb = $Foswiki::cfg{ConfigWebName};
             }
             elsif (
                 $session->topicExists(
@@ -468,7 +468,7 @@ sub _processWeb {
             }
             else {
                 _printMsg( $session,
-"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{UsersWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
+"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{ConfigWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
                 );
                 return $web;
             }

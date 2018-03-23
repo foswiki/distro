@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1521596899" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521767422" format="1.1" version="1"}%
 %{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
 %ADDTOZONE{"script" text="<script src='/pub/System/JavascriptFiles/strikeone.js'></script>"}%
 ---+!! %NOP%%TOPIC%
-%IF{"'%USERSWEB%'='%WEB%'" else="<div class=\'foswikiAlert'>You are
+%IF{"'%USERSWEB%'!='%WEB%' AND '%TOPIC%'~'*Group'" then="<div class=\'foswikiAlert'>You are
 viewing an inactive Group topic. See the [[%USERSWEB%.%TOPIC%]] for the live version of this group.</div>"}%
 
 %IF{

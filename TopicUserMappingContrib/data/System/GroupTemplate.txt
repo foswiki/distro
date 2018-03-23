@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489712653" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521767422" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 %STARTSECTION{type="templateonly"}%
-To modify this template, first copy it to %USERSWEB%.%TOPIC% web, and edit that
-copy. If %USERSWEB%.%TOPIC% exists, it will automatically be used when
-creating new groups.
+To modify this template, first copy it to %CONFIGWEB%.%TOPIC% web, and edit that
+copy. If %CONFIGWEB%.%TOPIC% exists, it will automatically be used when
+creating new groups.  You can remove this =templateonly= section from the modified template.
 %ENDSECTION{type="templateonly"}%
 
 %MAKETEXT{"Edit this topic to add a description to the [_1]" args="!%URLPARAM{"topic"}%"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419139420" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1521767422" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Site Statistics
 %TOC%
@@ -165,7 +165,7 @@ The template topic contains an =%<nop>INCLUDE%= for help text and table headings
 
 To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired. This prevents your changes from being lost when Foswiki is updated.
 
-To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%USERSWEB%.WebStatisticsTemplate]] and tailor as desired. Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
+To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%CONFIGWEB%.WebStatisticsTemplate]] and tailor as desired. Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
 Alternatively you can edit the <nop>%STATISTICSTOPIC% in each web.
 
 Statistics are written into the <nop>%STATISTICSTOPIC% in the following order.
@@ -184,7 +184,7 @@ The =marker line= defines the order of the columns collected by the =statistics=
 <nop>%STATISTICSTOPIC% topics can have access controls like other topics.
 
 If you want to have these access settings copied to new <nop>%STATISTICSTOPIC% topics, follow these steps:
-   1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to %USERSWEB% web
+   1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to %CONFIGWEB% web
    1 Edit the topic settings (via the "More" link) and write (if you want to restrict topics views to logged in users):
    <pre>
       * Set%NOP% DENYTOPICVIEW = WikiGuest
