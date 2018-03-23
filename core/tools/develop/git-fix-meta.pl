@@ -36,6 +36,9 @@ chomp $rootdir;
 
 foreach my $f (@files) {
     if ($gitstatus) {
+        next if ( $f =~ m/^\sD/ );    # Skip deleted files
+
+        # Handle renamed files
         if ( ( my $pos = index( $f, '->' ) ) > 0 ) {
             $f = substr( $f, $pos );
         }
