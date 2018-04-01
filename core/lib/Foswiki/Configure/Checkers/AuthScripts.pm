@@ -11,6 +11,10 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
     my $msg = '';
 
+    my $notCLI =
+      ( defined $Foswiki::cfg{Engine}
+          && substr( $Foswiki::cfg{Engine}, -3 ) ne 'CLI' );
+
     my $templateLogin = eval {
         $Foswiki::cfg{LoginManager}
           ->isa('Foswiki::LoginManager::TemplateLogin');
@@ -25,14 +29,16 @@ other than 'none' or clear this setting.
 EOF
         }
 
-        unless ($templateLogin) {
-            $reporter->WARN(<<'EOF');
+        if ($notCLI) {
+            unless ($templateLogin) {
+                $reporter->WARN(<<'EOF');
 You have specified an alternative (non-TemplateLogin) login manager.
 It is critical that this list of scripts be consistent with the scripts
 protected by the Web Server. For example, if you are using Apache then
 verify that this setting is consistent with the =FilesMatch= or
 =LocationMatch= directive that requires a valid user for the scripts.
 EOF
+            }
         }
 
         unless ( $Foswiki::cfg{AuthScripts} =~ m/statistics/ ) {
