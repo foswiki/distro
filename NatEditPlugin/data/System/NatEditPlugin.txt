@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519519181" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1522901969" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,7 +56,8 @@ is sufficient.
 
 |  Copyright &copy;: | 2007-2018 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
-|  25 Feb 2018 | Foswikitask:Item14630: Topic ACLs are lost when copying to a new topic, and when editing some topics.<br/>\
+|  04 Apr 2018 (9.30) | Foswiki 2.2 - Foswikitask:Item14631: Compatibilty issues with new TinyMCE API. |
+|  25 Feb 2018 (9.21) | Foswikitask:Item14630: Topic ACLs are lost when copying to a new topic, and when editing some topics.<br/>\
                  Foswikitask:Item14632: Topic autocompletion not functional.<br/>\
                  Foswikitask:Item14634: Use jquery.i18n for translations in jquery.natedit |
 |  18 Dec 2017 | Foswikitask:Item14586: fixed height computation of natedit textarea |
@@ -188,4 +189,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1519519181" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1522901969" size="64487" user="ProjectContributor" version="1"}%
