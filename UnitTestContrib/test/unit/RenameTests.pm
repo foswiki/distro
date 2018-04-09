@@ -1338,6 +1338,7 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
 #    * In the new topic, the initial letter is changed to upper case
 sub test_renameTopic_with_lowercase_first_letter {
     my $this = shift;
+    $Foswiki::cfg{AllowLowerCaseNames} = 1;
 
     if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
@@ -1361,7 +1362,7 @@ THIS
             action           => 'rename',
             topic            => 'lowercase',
             newweb           => $this->{test_web},
-            newtopic         => 'upperCase',
+            newtopic         => 'UpperCase',
             referring_topics => ["$this->{test_web}.NewTopic"],
             path_info        => "/$this->{test_web}"
         }

@@ -282,13 +282,13 @@ sub sortTopics {
         # as all topics still need to be parsed to find permissions
         if ($revSort) {
             @{$listRef} = map { $_->[1] }
-              sort { NFKD( $a->[0] ) cmp NFKD( $b->[0] ) }
+              sort { NFKD( lc( $a->[0] ) ) cmp NFKD( lc( $b->[0] ) ) }
               map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }
         else {
             @{$listRef} = map { $_->[1] }
-              sort { NFKD( $b->[0] ) cmp NFKD( $a->[0] ) }
+              sort { NFKD( lc( $b->[0] ) ) cmp NFKD( lc( $a->[0] ) ) }
               map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }

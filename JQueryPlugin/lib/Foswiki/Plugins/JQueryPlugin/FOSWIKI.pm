@@ -105,6 +105,10 @@ sub init {
         $prefs{"COOKIENAMEPREFIX"} = $Foswiki::cfg{Sessions}{CookieNamePrefix}
           || '';
     }
+    if ( $Foswiki::cfg{AllowLowerCaseNames} ) {
+        $prefs{"ALLOWLOWERCASENAMES"} = 1;
+    }
+
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
 
     my $text =

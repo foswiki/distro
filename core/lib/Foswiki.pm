@@ -511,7 +511,12 @@ BEGIN {
             [[:upper:]]+
             [[:alnum:]]*
        )xo;
-    $regex{webNameBaseRegex} = qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    $regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
     if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
         $regex{webNameRegex} = qr(
                 $regex{webNameBaseRegex}

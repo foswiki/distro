@@ -279,10 +279,8 @@ sub _establishAddress {
 
     my $parse = Foswiki::Request::parse($topicParam);
 
-    # Item3270 - here's the appropriate place to enforce spec
-    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
     $this->{topic} = ucfirst( $parse->{topic} )
-      if ( defined $parse->{topic} );
+      if ( defined $parse->{topic} && !$Foswiki::cfg{AllowLowerCaseNames} );
 
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.

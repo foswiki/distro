@@ -11,9 +11,17 @@ use Foswiki::Request::Upload;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    $Foswiki::cfg{ScriptUrlPath} = '/fatwilly/bin';
+}
+
+sub loadExtraConfig {
+    my $this = shift;
+    $this->SUPER::loadExtraConfig(@_);
+    $Foswiki::cfg{ScriptUrlPath}         = '/fatwilly/bin';
     $Foswiki::cfg{Sessions}{CookieRealm} = 'weebles.wobble';
+    $Foswiki::cfg{AllowLowerCaseNames}   = 0;
+    $Foswiki::cfg{StrictURLParsing}      = 0;
     delete $Foswiki::cfg{ScriptUrlPaths};
+
 }
 
 # Test default empty constructor
@@ -135,7 +143,26 @@ EOF
 sub test_Request_parse {
     my $this = shift;
 
-    $Foswiki::cfg{StrictURLParsing} = 0;
+    # SMELL: The regexes are all initialized during the Foswiki.pm BEGIN block
+    # So this code is copied from Fosiwki.pm
+    # #####
+    $Foswiki::cfg{AllowLowerCaseNames} = 0;
+    $Foswiki::regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+
+    # #####
     my @paths = my @comparisons = (
 
         #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
@@ -173,6 +200,102 @@ sub test_Request_parse {
 
         # This next one  works because of auto fix-up of lower case topic name
         [ '/Blah/asdf', undef, 'Blah', 'Asdf', undef, undef ],
+
+        # non-Strict URL parsing tests
+        [ '/WebHome', undef, undef,    'WebHome', undef, undef ],
+        [ '/Notaweb', undef, undef,    'Notaweb', undef, undef ],
+        [ '/System',  undef, 'System', undef,     undef, undef ],
+
+    );
+    my $tn = 0;
+    foreach my $set (@paths) {
+        $tn++;
+        my $req = new Foswiki::Request( $set->[1] );
+        $req->pathInfo( $set->[0] );
+        $this->createNewFoswikiSession( 'AdminUser', $req );
+
+        #print STDERR $req->pathInfo() . " web "
+        #  . ( ( defined $req->web() ) ? $req->web() : 'undef' )
+        #  . " topic "
+        #  . ( ( defined $req->topic() ) ? $req->topic() : 'undef' ) . "\n";
+
+        $this->assert_str_equals( $set->[0], $req->pathInfo,
+            "Test $tn: Wrong pathInfo value" );
+        $this->assert_equals( $set->[2], $req->web(),
+            "Test $tn: Incorrect web returned" );
+        $this->assert_equals( $set->[3], $req->topic(),
+            "Test $tn: Incorrect topic returned" );
+
+        $this->assert_equals( $set->[4], $req->invalidWeb(),
+            "Test $tn: Unexpected invalid web" );
+        $this->assert_equals( $set->[5], $req->invalidTopic(),
+            "Test $tn: Unexpected invalid topic" );
+    }
+}
+
+#  Note, the ViewScriptTests also has some url parsing tests, so
+#  check there too!
+#
+sub test_Request_parse_lc {
+    my $this = shift;
+
+    # SMELL: The regexes are all initialized during the Foswiki.pm BEGIN block
+    # So this code is copied from Fosiwki.pm
+    # #####
+    $Foswiki::cfg{AllowLowerCaseNames} = 1;
+    $Foswiki::regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+
+    # #####
+    my @paths = my @comparisons = (
+
+        #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
+        [ '/', undef, '', undef, undef, undef ],
+        [ '/', { topic => 'Main.WebHome' }, 'Main', 'WebHome', undef, undef ],
+
+        # topic= overrides any pathinfo
+        [
+            '/Foo/Bar', { topic => 'Main.WebHome' },
+            'Main', 'WebHome',
+            undef,  undef
+        ],
+
+# defaultweb is not processed by the request object, so web is unset by the Request.
+        [
+            '/', { defaultweb => 'Sandbox', topic => 'WebHome' },
+            '', 'WebHome', undef, undef
+        ],
+
+        [ '/Main/WebHome',       undef, 'Main',       'WebHome', undef, undef ],
+        [ '//Main//WebHome',     undef, 'Main',       'WebHome', undef, undef ],
+        [ '//Sandbox///',        undef, 'Sandbox',    undef,     undef, undef ],
+        [ '/Main..WebHome',      undef, 'Main',       'WebHome', undef, undef ],
+        [ '/blah/asdf',          undef, 'blah',       'asdf',    undef, undef ],
+        [ '/Main.WebHome',       undef, 'Main',       'WebHome', undef, undef ],
+        [ '/Web/SubWeb.WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
+        [ '/Web/SubWeb/WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
+        [ '/Web.Subweb.WebHome', undef, 'Web/Subweb', 'WebHome', undef, undef ],
+        [
+            '/Web.Subweb.Webhome/', undef, 'Web/Subweb/Webhome', undef,
+            undef,                  undef
+        ],
+        [ '/3#/blah',          undef, undef, undef, '3#',  undef ],
+        [ '/Web.a<script>lah', undef, undef, undef, undef, 'a<script>lah' ],
+
+        # This next one  works because of auto fix-up of lower case topic name
+        [ '/Blah/asdf', undef, 'Blah', 'asdf', undef, undef ],
 
         # non-Strict URL parsing tests
         [ '/WebHome', undef, undef,    'WebHome', undef, undef ],

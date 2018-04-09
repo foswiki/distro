@@ -21,7 +21,8 @@ but may be used in derived templates.
 ---------------------------------------------------
 }%%TMPL:DEF{"LOG_OUT"}%%MAKETEXT{"Logout"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"onlywikinamewarning"}%<p class="foswikiAllowNonWikiWord"><label><input type="checkbox" name="onlywikiname" %IF{"$ 'URLPARAM{onlywikiname}'!='off'" then="checked=\"checked\""}% /> %MAKETEXT{"Allow only <nop>WikiWord for the new topic name"}%</label>%TMPL:P{"onlywikinamehelp"}%</p>%TMPL:END%%{
+}%%TMPL:DEF{"onlywikinamewarning"}%<p class="foswikiAllowNonWikiWord"><label><input type="checkbox" name="onlywikiname" %IF{"$ 'URLPARAM{onlywikiname}'!='off'" then="checked=\"checked\""}% />
+%MAKETEXT{"Require the new topic name to be a <nop>WikiWord"}%</label>%TMPL:P{"onlywikinamehelp"}%</p>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"onlywikinamehelp"}%%TWISTY{mode="span"}% %MAKETEXT{"It's usually best to choose a [_1] for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%POPUPWINDOW{"%SYSTEMWEB%.WikiWord" label="WikiWord"}%"}%%JQREQUIRE{"popupwindow"}%%ENDTWISTY%%TMPL:END%%{
 ---------------------------------------------------

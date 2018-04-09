@@ -30,12 +30,17 @@
             // or not.
             var inputName = $('input[name=topic]', $form).val(),
                 re = foswiki.getPreference('NAMEFILTER'),
+                ucfirst = true,          // False if lower case topic names supported
                 onlyWikiName = false,
                 finalName,
                 feedbackHeader,
                 feedbackText,
                 error,
                 cleanName = foswiki.String.trimSpaces(inputName);
+
+            if ( foswiki.getPreference('ALLOWLOWERCASENAMES') == 1 ) {
+                ucfirst = false;
+            }
 
             if (typeof(re) === 'string') {
                 re = new RegExp(re, "g");
@@ -56,15 +61,20 @@
                 return false;
             }
             if (onlyWikiName) {
-                // Take out all illegal chars
-                cleanName = inputName.replace(re, '');
-                // Capitalize just the first character
-                finalName = cleanName.substr(0, 1).toLocaleUpperCase() + cleanName.substr(1);
-            } else {
                 // Replace illegal chars with spaces
                 cleanName = inputName.replace(re, ' ');
                 finalName = foswiki.String.capitalize(cleanName);
                 finalName = finalName.replace(/\s+/g, '');
+            } else {
+                // Take out all illegal chars
+                cleanName = inputName.replace(re, '');
+                // Capitalize just the first character, unless lower case topic names permitted
+                if (ucfirst) {
+                    finalName = cleanName.substr(0, 1).toLocaleUpperCase() + cleanName.substr(1);
+                }
+                else {
+                    finalName = cleanName;
+                }
             }
             if (shouldConvertInput) {
                 $('input[name=topic]', $form).val(finalName);

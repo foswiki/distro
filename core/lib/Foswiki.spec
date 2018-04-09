@@ -1068,6 +1068,14 @@ $Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp
 # removed.
 $Foswiki::cfg{NameFilter} = '[\\\\\s*?~^$@%`"\'&|<:;>\[\]#\x00-\x1f]';
 
+# **BOOLEAN LABEL="Allow Lowercase Names" EXPERT**
+# Enable this parameter if you want to allow Topic and Web names to begin
+# with a lower-case alpha. *This is an experimental feature*. With this
+# setting enabled, the first character of Webs and Topic names will not be
+# forced to an upper-case alpha. These settings do not impact WikiWords and WikiWord
+# linking.  A WikiWord will always start with an upper alpha.
+$Foswiki::cfg{AllowLowerCaseNames} = $FALSE;
+
 # **REGEX LABEL="Attachment Name Filter" EXPERT**
 # Filter-out regex file attachment names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in an attachment name, they will be

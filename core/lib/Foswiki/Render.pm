@@ -181,8 +181,14 @@ sub internalLink {
     # Turn spaced-out names into WikiWords - upper case first letter of
     # whole link, and first of each word. TODO: Try to turn this off,
     # avoiding spaces being stripped elsewhere
-    $topic = ucfirst($topic);
-    $topic =~ s/\s([[:alnum:]])/\U$1/g;
+    if ( !$Foswiki::cfg{AllowLowerCaseNames} || index( $topic, ' ' ) > 0 ) {
+
+        # Capitalise first word
+        $topic = ucfirst($topic);
+
+        # Collapse spaces and capitalise following letter
+        $topic =~ s/\s([[:alnum:]])/\U$1/g;
+    }
 
     # If locales are in effect, the above conversions will taint the topic
     # name (Foswiki:Tasks:Item2091)
@@ -1591,11 +1597,16 @@ sub _handleSquareBracketedLink {
 
     ASSERT( UNTAINTED($link) ) if DEBUG;
 
-    # Capitalise first word
-    $link = ucfirst($link);
+    # Do auto-capitalization of the [[ link if lower-case names are not allowed
+    # or if they are allowed, but the link contains embedded spaces.
+    if ( !$Foswiki::cfg{AllowLowerCaseNames} || index( $link, ' ' ) > 0 ) {
 
-    # Collapse spaces and capitalise following letter
-    $link =~ s/\s([[:alnum:]])/\U$1/g;
+        # Capitalise first word
+        $link = ucfirst($link);
+
+        # Collapse spaces and capitalise following letter
+        $link =~ s/\s([[:alnum:]])/\U$1/g;
+    }
 
     # Get rid of remaining spaces, i.e. spaces in front of -'s and ('s
     $link =~ s/\s//g;

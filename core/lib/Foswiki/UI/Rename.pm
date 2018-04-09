@@ -120,19 +120,13 @@ sub _renameTopicOrAttachment {
 
     unless ( $session->topicExists( $oldWeb, $oldTopic ) ) {
 
-        # Item3270: check for the same name starting with a lower case letter.
-        unless ( $session->topicExists( $oldWeb, lcfirst($oldTopic) ) ) {
-            throw Foswiki::OopsException(
-                'accessdenied',
-                status => 403,
-                def    => 'no_such_topic_rename',
-                web    => $oldWeb,
-                topic  => $oldTopic
-            );
-        }
-
-        # Untaint is required is use locale is in force
-        $oldTopic = Foswiki::Sandbox::untaintUnchecked( lcfirst($oldTopic) );
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 403,
+            def    => 'no_such_topic_rename',
+            web    => $oldWeb,
+            topic  => $oldTopic
+        );
     }
 
     if ($newTopic) {
@@ -352,7 +346,7 @@ sub _safeTopicName {
     my ($topic) = @_;
 
     $topic =~ s/\s//g;
-    $topic = ucfirst $topic;    # Item3270
+    $topic = ucfirst $topic unless ( $Foswiki::cfg{AllowLowerCaseNames} );
     $topic =~ s![./]!_!g;
     $topic =~ s/($Foswiki::cfg{NameFilter})//g;
 

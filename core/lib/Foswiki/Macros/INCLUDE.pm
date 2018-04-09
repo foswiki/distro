@@ -123,8 +123,10 @@ m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Fosw
     return "[[$link][$label]]" if $link =~ m/^#/;
 
     # Collapse a spaced out wikiword
-    $link = ucfirst($link);
-    $link =~ s/\s([[:alnum:]])/\U$1/g;
+    if ( !$Foswiki::cfg{AllowLowerCaseNames} || index( $link, ' ' ) > 0 ) {
+        $link = ucfirst($link);
+        $link =~ s/\s([[:alnum:]])/\U$1/g;
+    }
 
     if ( Foswiki::isValidTopicName( $link, 1 ) ) {
         return "[[$web.$link][$label]]";

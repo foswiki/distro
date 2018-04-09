@@ -762,7 +762,7 @@ sub eachTopic {
     # that contain illegal characters as topic names.
     my @list =
       map { /^(.*)\.txt$/; $1; }
-      sort { NFKD($a) cmp NFKD($b) }    # unicode aware
+      sort { NFKD( lc($a) ) cmp NFKD( lc($b) ) }    # unicode aware
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } _readdir($dh);
     closedir($dh);
 

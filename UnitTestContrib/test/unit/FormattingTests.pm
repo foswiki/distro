@@ -111,6 +111,102 @@ my %link_tests = (
     },
 );
 
+my %link_tests_lc = (
+    ''           => { autolink => 0 },
+    '#'          => { autolink => 0, fragment => undef },
+    '#f'         => { autolink => 0, fragment => 'f' },
+    '#Foo.Bar'   => { autolink => 0, fragment => 'Foo.Bar' },
+    '?'          => { autolink => 0, query => '' },
+    '?q'         => { autolink => 0, query => 'q' },
+    '?q=r'       => { autolink => 0, query => 'q=r' },
+    '?q=r;s=t'   => { autolink => 0, query => 'q=r;s=t' },
+    '?q=r&s=t'   => { autolink => 0, query => 'q=r&s=t' },
+    '?#f'        => { query    => '', autolink => 0, fragment => 'f' },
+    '?q#f'       => { query    => 'q', autolink => 0, fragment => 'f' },
+    '?q=r#f'     => { query    => 'q=r', autolink => 0, fragment => 'f' },
+    '?q=r;s=t#f' => { query    => 'q=r;s=t', autolink => 0, fragment => 'f' },
+    '?q=r&s=t#f' => { query    => 'q=r&s=t', autolink => 0, fragment => 'f' },
+    '&aa . &amp; bb#' =>
+      { address => 'Aa.Bb', autolink => 0, fragment => undef },
+    '&aa . &amp; bb#f' =>
+      { address => 'Aa.Bb', autolink => 0, fragment => 'f' },
+    '&aa . &amp; bb?'  => { address => 'Aa.Bb', autolink => 0, query => '' },
+    '&aa . &amp; bb?q' => { address => 'Aa.Bb', autolink => 0, query => 'q' },
+    '&aa . &amp; bb?q=r' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r' },
+    '&aa . &amp; bb?q=r;s=t' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r;s=t' },
+    '&aa . &amp; bb?q=r&s=t' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r&s=t' },
+    '&aa . &amp; bb?#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => '', fragment => 'f' },
+    '&aa . &amp; bb?q#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q', fragment => 'f' },
+    '&aa . &amp; bb?q=r#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r', fragment => 'f' },
+    '&aa . &amp; bb?q=r;s=t#f' => {
+        address  => 'Aa.Bb',
+        autolink => 0,
+        query    => 'q=r;s=t',
+        fragment => 'f'
+    },
+    '&aa . &amp; bb?q=r&s=t#f' => {
+        address  => 'Aa.Bb',
+        autolink => 0,
+        query    => 'q=r&s=t',
+        fragment => 'f'
+    },
+
+    # Extra spacey
+    ' a a ' =>
+      { topic => 'AA', autolink => 0, relative => 'web', normal => undef },
+    ' a a / b b ' =>
+      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b ' =>
+      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b / cc ' =>
+      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a / b b . cc ' =>
+      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b . cc ' =>
+      { address => 'AA.BB.Cc', autolink => 0, relative => 0, normal => undef },
+
+    # Spacey
+    ' aa ' =>
+      { topic => 'aa', autolink => 0, relative => 'web', normal => undef },
+    ' aa / bb ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb / cc ' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' aa / bb . cc ' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb . cc ' =>
+      { address => 'Aa.Bb.Cc', autolink => 0, relative => 0, normal => undef },
+
+    #  Normalish
+    'Aa' => { topic => 'Aa', autolink => 0, relative => 'web', normal => 1 },
+    'Aa.Bb' =>
+      { address => 'Aa.Bb', autolink => 1, relative => 0, normal => 1 },
+    'Aa/Bb' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => 0 },
+    'Aa/Bb.Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => 1 },
+    'Aa.Bb/Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => 0 },
+    'Aa.Bb.Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 1, relative => 0, normal => 0 },
+    ' this (is). my! ?favourite=topic#ofcourse' => {
+        address  => 'This(is).My!',
+        autolink => 0,
+        query    => 'favourite=topic',
+        fragment => 'ofcourse',
+        relative => 0,
+        normal   => undef
+    },
+);
+
 # in       - input to renderTML
 # out      - renderTML output
 # out11316 - renderTML prior to Item11316 (orig. empty <p></p> tag behaviour)
@@ -290,6 +386,7 @@ sub _gen_sanity_tests {
         }
 
         no strict 'refs';
+        no warnings qw( redefine );
         *{$fn} = sub {
             my $this   = shift;
             my $result = $this->{test_topicObject}->renderTML($input);
@@ -297,6 +394,7 @@ sub _gen_sanity_tests {
             $this->assert_str_equals( $expected, $result );
         };
         use strict 'refs';
+        use warnings qw( redefine );
     }
 }
 
@@ -1993,9 +2091,12 @@ sub _create_topic {
 sub _create_link_test_fixtures {
     my $this = shift;
 
+    $this->_create_topic( $this->{test_web}, 'aa' );
     $this->_create_topic( $this->{test_web}, 'Aa' );
     $this->_create_topic( $this->{test_web}, 'AA' );
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    Foswiki::Func::createWeb('aa');
+    $this->_create_topic( 'aa', 'bb' );
     Foswiki::Func::createWeb('Aa');
     $this->_create_topic( 'Aa', 'Bb' );
     Foswiki::Func::createWeb('AA');
@@ -2018,6 +2119,7 @@ sub _create_link_test_fixtures {
 sub _remove_link_test_fixtures {
     my $this = shift;
 
+    $this->removeWebFixture( $this->{session}, 'aa' );
     $this->removeWebFixture( $this->{session}, 'Aa' );
     $this->removeWebFixture( $this->{session}, 'AA' );
     $this->removeWebFixture( $this->{session}, 'This(is)' );
@@ -2131,8 +2233,68 @@ sub _check_rendered_linktext {
 sub test_sanity_link_tests {
     my $this = shift;
 
+    # SMELL: The regexes are all initialized during the Foswiki.pm BEGIN block
+    # So this code is copied from Fosiwki.pm
+    # #####
+    $Foswiki::cfg{AllowLowerCaseNames} = 0;
+    $Foswiki::regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+
+    # #####
+
     $this->_create_link_test_fixtures();
     while ( my ( $linktext, $expected ) = each %link_tests ) {
+
+        if ($linktext) {
+            $this->_check_rendered_linktext( $linktext, $expected );
+        }
+    }
+    $this->_remove_link_test_fixtures();
+
+    return;
+}
+
+# Confirm that our test data matches up with the renderer's [[link]] behaviour
+# These tests were expected to be pass prior to re-working Foswiki link handling
+# See Item11356 Foswiki:Development.ImplementingLinkProposals
+sub test_sanity_link_lc_tests {
+    my $this = shift;
+
+    # SMELL: The regexes are all initialized during the Foswiki.pm BEGIN block
+    # So this code is copied from Fosiwki.pm
+    # #####
+    $Foswiki::cfg{AllowLowerCaseNames} = 1;
+    $Foswiki::regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+
+    # ######
+
+    $this->_create_link_test_fixtures();
+    while ( my ( $linktext, $expected ) = each %link_tests_lc ) {
 
         if ($linktext) {
             $this->_check_rendered_linktext( $linktext, $expected );

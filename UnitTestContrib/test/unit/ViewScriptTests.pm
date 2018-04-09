@@ -472,7 +472,12 @@ sub test_urlparsing {
         $this->urltest( '/Sandbox/WebIndex///', 'Sandbox/WebIndex', 'WebHome' );
     }
 
-    $this->urltest( '/Sandbox/WebIndex/ok',    'Sandbox/WebIndex', 'Ok' );
+    if ( $Foswiki::cfg{AllowLowerCaseNames} ) {
+        $this->urltest( '/Sandbox/WebIndex/ok', 'Sandbox/WebIndex', 'ok' );
+    }
+    else {
+        $this->urltest( '/Sandbox/WebIndex/ok', 'Sandbox/WebIndex', 'Ok' );
+    }
     $this->urltest( '/Sandbox/WebIndex/NotOk', 'Sandbox/WebIndex', 'NotOk' );
 
     $this->urltest( '/Sandbox/WebIndex?asd=w',    'Sandbox', 'WebIndex' );

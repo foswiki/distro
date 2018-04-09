@@ -142,8 +142,11 @@ sub _establishAddress {
     # Use the Request parser, since no filename is in the topic param.
     if ( $this->param('topic') ) {
         my $tparse = Foswiki::Request::parse( $this->param('topic') );
-        $this->{web}          = $tparse->{web};
-        $this->{topic}        = ucfirst( $tparse->{topic} );
+        $this->{web} = $tparse->{web};
+        $this->{topic} =
+          ( $Foswiki::cfg{AllowLowerCaseNames} )
+          ? $tparse->{topic}
+          : ucfirst( $tparse->{topic} );
         $this->{invalidWeb}   = $tparse->{invalidWeb};
         $this->{invalidTopic} = $tparse->{invalidTopic};
     }
@@ -161,7 +164,9 @@ sub _establishAddress {
 
     $this->{web}   = $parse->{web}   unless defined $this->{web};
     $this->{topic} = $parse->{topic} unless defined $this->{topic};
-    $this->{topic} = ucfirst( $this->{topic} ) if defined $this->{topic};
+    $this->{topic} = ucfirst( $this->{topic} )
+      if ( defined $this->{topic}
+        && !$Foswiki::cfg{AllowLowerCaseNames} );
     $this->{invalidWeb} = $parse->{invalidWeb} unless defined $this->{web};
     $this->{invalidTopic} = $parse->{invalidTopic}
       unless defined $this->{topic};

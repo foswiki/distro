@@ -65,6 +65,27 @@ sub set_up {
     $Foswiki::cfg{SystemWebName} = $systemWeb;
     $Foswiki::cfg{Plugins}{WebSearchPath} = $systemWeb;
 
+    # SMELL: The regexes are all initialized during the Foswiki.pm BEGIN block
+    # So this code is copied from Fosiwki.pm. Reinitialize regexes with
+    # Lower case names disabled.
+    # #####
+    $Foswiki::cfg{AllowLowerCaseNames} = 0;
+    $Foswiki::regex{webNameBaseRegex} =
+      ( $Foswiki::cfg{AllowLowerCaseNames} )
+      ? qr/[[:alnum:]_]+/
+      : qr/[[:upper:]]+[[:alnum:]_]*/;
+
+    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+
+    # #####
     return;
 }
 

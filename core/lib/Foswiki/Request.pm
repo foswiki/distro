@@ -950,10 +950,12 @@ sub _establishAddress {
       Foswiki::Request::parse( $topicParam
           || Foswiki::urlDecode( $this->path_info() ) );
 
-    # Item3270 - here's the appropriate place to enforce spec
-    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
-    $this->{topic} = ucfirst( $parse->{topic} )
-      if ( defined $parse->{topic} );
+    if ( defined $parse->{topic} ) {
+        $this->{topic} =
+          ( $Foswiki::cfg{AllowLowerCaseNames} )
+          ? $parse->{topic}
+          : ucfirst( $parse->{topic} );
+    }
 
     if ( $topicParam && !$parse->{web} ) {
         $parse =
