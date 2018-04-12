@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1521606920" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1523496441" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -462,11 +462,10 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
 ---++ Protected System Settings
 
 The following macros are declared final to protect them as read only. These are system macros that should
-never be attempted set or altered in any preference topic or topic settings.
+never be attempted set or altered in any preference topic or topic settings.  Their values are either set dynamically from the URL and environment or are
+set by =bin/configure=
 
-   * Set FINALPREFERENCES = WEB, TOPIC, BASEWEB, BASETOPIC, ENCODE, ENV, IF, QUERYPARAMS, QUERYSTRING, URLENCODE, URLPARAM, SCRIPTURL, SCRIPTURLPATH, SCRIPTSUFFIX, ATTACHURL, ATTACHURLPATH, PUBURL, PUBURLPATH, USERSWEB, SYSTEMWEB, SANDBOXWEB, MAKETEXT, GMTIME
-
-
+   * Set FINALPREFERENCES = ALLOWLOGINNAME, ATTACHURL, ATTACHURLPATH, AUTHREALM, BASETOPIC, BASEWEB, CONFIGWEB, DEFAULTURLHOST, ENCODE, ENV, GMTIME, HOMETOPIC, HOMEWEB, IF, LOCALSITEPREFS, MAKETEXT, NOTIFYTOPIC, PUBURL, PUBURLPATH, QUERYPARAMS, QUERYSTRING, SANDBOXWEB, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, STATISTICSTOPIC, SYSTEMWEB, TOPIC, TRASHWEB, URLENCODE, URLPARAM, USERSWEB, WEB, WEBMASTERNAME, WEBPREFSTOPIC, WIKIADMINLOGIN, WIKIAGENTEMAIL, WIKIAGENTNAME, WIKIUSERSTOPIC, WIKIWEBMASTER
 
 ---++ Related Topics
 
