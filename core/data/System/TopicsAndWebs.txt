@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1523583723" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Topics
 
@@ -65,12 +65,16 @@ Foswiki makes it easy to add and edit topics or link between them.
 *To add a new topic* there are three ways in the default PatternSkin:
    1 Create a link to the topic which doesn't exist yet, e.g. by editing a topic and typing a WikiName. When the topic is saved, the link will be shown with a *?*: click the *?* and a new edit window appears.
    1 Navigate to the topic which doesn't exist yet, e.g. by typing the name of topic in the [[GoBox][JumpBox]]. Foswiki should display a screen which invites you to create the topic.
-   1 Click the ==Create New Topic== link in the WebLeftBar links down the left side of the page (assuming default PatternSkin). Foswiki should display a screen which invites you to create the topic.
+   1 Click the ==Create New Topic== link in the !LeftBar links down the left side of the page (assuming default PatternSkin). Foswiki should display a screen which invites you to create the topic.
 
 #TopicNames
 ---+++ Topic Names
 
-The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non- [[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[EditingShorthand]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
+Topic names are a word or words that consist of upper and lower case
+characters, numbers, and a limited set of special charaacters. %IF{"context SUPPORTS_LOWER_CASE_NAMES" else="On this wiki, topic names must start with an upper case letter."}%
+
+The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non- [[WikiWord]] names are required, you can use =[<nop>[bracketed links]]=
+to force a link to a non-standard topic name (see [[EditingShorthand]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
 
    * The first letter of each "word" will be automatically capitalized
    * Spaces are compressed out of the topic name
@@ -147,5 +151,5 @@ See [[ManagingWebs]]
 
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.odp" attr="h" comment="" date="1437500521" size="17081" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="diagram.png" attr="h" comment="" date="1437500521" size="30746" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="diagram.odp" attr="h" comment="" date="1523583723" size="17081" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="diagram.png" attr="h" comment="" date="1523583723" size="30746" user="ProjectContributor" version="1"}%

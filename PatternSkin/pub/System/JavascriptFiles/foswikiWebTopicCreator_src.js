@@ -38,7 +38,7 @@
                 error,
                 cleanName = foswiki.String.trimSpaces(inputName);
 
-            if ( foswiki.getPreference('ALLOWLOWERCASENAMES') == 1 ) {
+            if ( foswiki.getPreference('SUPPORTS_LOWER_CASE_NAMES') == 1 ) {
                 ucfirst = false;
             }
 

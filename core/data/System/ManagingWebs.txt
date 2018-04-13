@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1523583723" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -58,7 +58,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			</div><!--//col1-->
 			<div class="col2">
 				<p>
-					Naming rule: the name must start with an upper case letter, followed by upper or lower case letters or numbers. Examples: =Learn=, =<nop>SupDocs=, =KNow3=.  It is recommended to use Web names that are _not_ autolinking as WikiWords.
+					Naming rule: %IF{"context SUPPORTS_LOWER_CASE_NAMES" then="the name must consist of upper or lower case letters or numbers." else="the name must start with an upper case letter, followed by upper or lower case letters or numbers."}% Examples: =Learn=, =<nop>SupDocs=, =KNow3=.  It is recommended to use Web names that are _not_ autolinking as WikiWords.
                     See [[TopicsAndWebs]] for more information about naming webs, and disambiguation when a Web contains a topic of the same name.
 				</p>
 				<p>

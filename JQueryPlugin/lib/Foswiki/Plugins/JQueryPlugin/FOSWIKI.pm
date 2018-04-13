@@ -106,7 +106,7 @@ sub init {
           || '';
     }
     if ( $Foswiki::cfg{AllowLowerCaseNames} ) {
-        $prefs{"ALLOWLOWERCASENAMES"} = 1;
+        $prefs{"SUPPORTS_LOWER_CASE_NAMES"} = 1;
     }
 
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
