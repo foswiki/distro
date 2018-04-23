@@ -6,8 +6,6 @@ package Foswiki::Configure::Checkers::TOPIC;
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
 #
-#   type:web|topic|webtopic  - Expected value must be either a webname, topic name, or
-#                             a fully qualified web.topic.  Default is 'web'.
 #   exists:{webname} - Web or WebTopic must exist.   If a {webname} key is provided,
 #                      it will be used as the default web to check.
 #

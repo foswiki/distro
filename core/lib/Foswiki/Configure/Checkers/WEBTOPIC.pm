@@ -6,8 +6,6 @@ package Foswiki::Configure::Checkers::WEBTOPIC;
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
 #
-#   type:web|topic|webtopic  - Expected value must be either a webname, topic name, or
-#                             a fully qualified web.topic.  Default is 'web'.
 #   exists:{webname} - Web or WebTopic must exist.   If a {webname} key is provided,
 #                      it will be used as the default web to check.
 #
@@ -21,7 +19,7 @@ use Assert;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
-use Foswiki::Configure::FileUtil ();
+use Foswiki ();
 
 sub check_current_value {
     my ( $this, $reporter, $defaultWeb, $defaultTopic ) = @_;
@@ -56,6 +54,13 @@ sub check_current_value {
                 $ckweb = $exists;
             }
         }
+    }
+
+    # SMELL:  CLI tools/configure doesn't create a session by default
+    # but the Foswiki::Func calls need a session.
+    unless ($Foswiki::Plugins::SESSION) {
+        $reporter->NOTE(" Creating a SESSION");
+        Foswiki->new('admin');    # Create admin session for topic checkins
     }
 
     ( $ckweb, $cktopic ) =

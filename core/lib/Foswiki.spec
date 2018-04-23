@@ -616,7 +616,7 @@ $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 # a really special reason to change this setting.
 $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 
-# **STRING 20 LABEL="Users TopicName"  EXPERT**
+# **TOPIC 20 LABEL="Users TopicName"  EXPERT**
 # Name of topic in the {UsersWebName} web where registered users are listed.
 # Automatically maintained by the standard registration scripts.
 # *If you change this setting you will have to use Foswiki to*
@@ -1453,7 +1453,7 @@ $Foswiki::cfg{Stats}{AutoCreateTopic} = 'Prohibited';
 # Default is un-set (anyone can run statistics).
 $Foswiki::cfg{Stats}{StatisticsGroup} = '';
 
-# **STRING 20 LABEL="Statistics TopicName" EXPERT**
+# **TOPIC 20 LABEL="Statistics TopicName" EXPERT**
 # Name of statistics topic.  Note:  If you change the name of the
 # statistics topic you must also rename the WebStatistics topic in each web,
 # and the DefaultWebStatistics topic in the System web (and possibly in
