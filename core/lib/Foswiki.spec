@@ -227,6 +227,92 @@ $Foswiki::cfg{WorkingDir} = '$Foswiki::cfg{RootDir}/working';
 # created.  It is normally set automatically in the code.
 # $Foswiki::cfg{TempfileDir} = '';
 
+#---++ Web and topic names
+# Change default Web and Topic names used by Foswiki *Caution:*
+# These should only be changed if you know what you are doing!
+# Changing any of these settings requires you to manually rename
+# the directories or files in the storage system external to Foswiki.
+# If the webs are populated with topics and/or referenced from other topics
+# and webs, topics will need to be manually edited to correct links.
+
+#---+++ Web names
+# **WEB 20 LABEL="Sandbox WebName" CHECK="exists"**
+# Name of the web used as a scratchpad or temporary workarea for users to
+# experiment with Foswiki topics.
+$Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# **STRING 20 LABEL="System WebName" EXPERT CHECK="exists"**
+# Name of the web where documentation and default preferences are held. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content, and upgrade scripts may no longer work (don't
+# change it unless you are certain that you know what you are doing!)
+$Foswiki::cfg{SystemWebName} = 'System';
+
+# **WEB 20 LABEL="Trash WebName" CHECK="exists" **
+# Name of the web used as a trashcan (where deleted topics are moved)
+# If you change this setting, you must make sure the web exists.
+$Foswiki::cfg{TrashWebName} = 'Trash';
+
+# **WEB 20 LABEL="Users WebName"  CHECK="exists"**
+# Name of the web where user and group topics are stored. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content including all user and group templates.  Note that
+# this web also houses the SitePreferences topic.
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{UsersWebName} = 'Main';
+
+# **WEB 20 LABEL="Configuration WebName" CHECK="exists" **
+# Name of the web where the web based site configuration is stored.
+# This web is normally hidden from guests. It can only be modified
+# by members of the AdminGroup.
+#$Foswiki::cfg{ConfigWebName} = 'System/Config';
+
+#---+++ Topic names
+
+# **TOPIC 20 LABEL="Home TopicName"**
+# Name of main topic in a web.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{HomeTopicName} = 'WebHome';
+
+# **TOPIC 20 LABEL="DefaultPreferences TopicName" EXPERT CHECK="exists:{SystemWebName}" **
+# Name of site-level preferences topic in the {SystemWebName} web.
+# *If you change this setting you will have to
+# use Foswiki and *manually* rename the existing topic.*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
+
+# **WEBTOPIC 70 LABEL="SitePreferences TopicName" CHECK="exists" **
+# Web.TopicName of the site-level local preferences topic. If this topic
+# exists, any settings in it will *override* settings in
+# {SitePrefsTopicName}.
+#
+# You are *strongly* recommended to keep all your local changes in
+# a {LocalSitePreferences} topic rather than changing DefaultPreferences,
+# as it will make upgrading a lot easier.
+$Foswiki::cfg{LocalSitePreferences} =
+  '$Foswiki::cfg{ConfigWebName}.SitePreferences';
+
+# **TOPIC 20 LABEL="WebPreferences TopicName" EXPERT**
+# Name of preferences topic in a web.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+# (don't change it unless you are *certain* that you know what
+# you are doing!)
+$Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
+
+# **TOPIC 20 LABEL="Notification TopicName" EXPERT**
+# Name of topic in each web that has notification registrations.
+# *If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs*
+$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
+
+
+
 #############################################################################
 #---+ Security and Authentication
 # Control most aspects of how Foswiki handles security related activities.
@@ -2339,80 +2425,6 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # versions retained. Caution: If the directory is not writable and this
 # parameter is non-zero, you will be unable to save the configuration.
 $Foswiki::cfg{MaxLSCBackups} = 10;
-
-#---++ Web and topic names
-# **STRING 20 LABEL="Sandbox WebName" EXPERT**
-# Name of the web used as a scratchpad or temporary workarea for users to
-# experiment with Foswiki topics.
-$Foswiki::cfg{SandboxWebName} = 'Sandbox';
-
-# **STRING 20 LABEL="System WebName" EXPERT**
-# Name of the web where documentation and default preferences are held. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work (don't
-# change it unless you are certain that you know what you are doing!)
-$Foswiki::cfg{SystemWebName} = 'System';
-
-# **STRING 20 LABEL="Trash WebName" EXPERT**
-# Name of the web used as a trashcan (where deleted topics are moved)
-# If you change this setting, you must make sure the web exists.
-$Foswiki::cfg{TrashWebName} = 'Trash';
-
-# **STRING 20 LABEL="Users WebName" EXPERT**
-# Name of the web where user and group topics are stored. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content including all user and group templates.  Note that
-# this web also houses the SitePreferences topic.
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{UsersWebName} = 'Main';
-
-# **STRING 20 LABEL="Configuration WebName" EXPERT**
-# Name of the web where the web based site configuration is stored.
-# This web is normally hidden from guests. It can only be modified
-# by members of the AdminGroup.
-$Foswiki::cfg{ConfigWebName} = 'System/Config';
-
-# **STRING 20 LABEL="DefaultPreferences TopicName" EXPERT**
-# Name of site-level preferences topic in the {SystemWebName} web.
-# *If you change this setting you will have to
-# use Foswiki and *manually* rename the existing topic.*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
-
-# **STRING 70 LABEL="SitePreferences TopicName" EXPERT**
-# Web.TopicName of the site-level local preferences topic. If this topic
-# exists, any settings in it will *override* settings in
-# {SitePrefsTopicName}.
-#
-# You are *strongly* recommended to keep all your local changes in
-# a {LocalSitePreferences} topic rather than changing DefaultPreferences,
-# as it will make upgrading a lot easier.
-$Foswiki::cfg{LocalSitePreferences} =
-  '$Foswiki::cfg{ConfigWebName}.SitePreferences';
-
-# **STRING 20 LABEL="WebPreferences TopicName" EXPERT**
-# Name of preferences topic in a web.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
-
-# **STRING 20 LABEL="Home TopicName" EXPERT**
-# Name of main topic in a web.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-# (don't change it unless you are *certain* that you know what
-# you are doing!)
-$Foswiki::cfg{HomeTopicName} = 'WebHome';
-
-# **STRING 20 LABEL="Notification TopicName" EXPERT**
-# Name of topic in each web that has notification registrations.
-# *If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs*
-$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 #---++ Compatibility
 # This section contains options that you can use to enforce compatibility

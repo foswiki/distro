@@ -101,7 +101,7 @@ sub setBootstrap {
 
     # Bootstrap works out the correct values of these keys
     my @BOOTSTRAP =
-      qw( {DefaultUrlHost} {ForceDefaultUrlHost} {DetailedOS} {OS} {PubUrlPath}
+      qw( {ConfigWebName} {DefaultUrlHost} {ForceDefaultUrlHost} {DetailedOS} {OS} {PubUrlPath}
       {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {Store}{Implementation} {NFCNormalizeFilenames}
       {Store}{SearchAlgorithm} {Site}{Locale} );
@@ -255,6 +255,23 @@ sub bootstrapConfig {
 
     # Bootstrap the store related settings.
     _bootstrapStoreSettings();
+
+# Detect an existing SitePreferences.txt.  If it exists, set ConfigWebName to the containing web,
+# otherwise set it to the default.  Note that we can't use the {LocalSitePreferencess} key, as it includes
+# a reference to another key which will be undefined at this time.
+#
+# SMELL:  This is setting some hard coded defaults which should be applied after the
+# next readConfig is executed.
+    if ( -e "$Foswiki::cfg{DataDir}/Main/SitePreferences.txt" ) {
+        print STDERR
+          "AUTOCONFIG: Detected an existing SitePreferences.txt in Main web \n";
+        $Foswiki::cfg{ConfigWebName} = "Main";
+    }
+    else {
+        $Foswiki::cfg{ConfigWebName} = "System/Config";
+    }
+    print STDERR
+      "AUTOCONFIG: ConfigWebName set to $Foswiki::cfg{ConfigWebName} \n";
 
     if ($fatal) {
         die <<EPITAPH;
@@ -432,6 +449,7 @@ sub _bootstrapStoreSettings {
         print STDERR "AUTOCONFIG: WARNING: Unable to detect Normalization.\n";
         $Foswiki::cfg{NFCNormalizeFilenames} = 1;    #enable too - safer as none
     }
+
 }
 
 =begin TML
@@ -669,7 +687,7 @@ BOOTS
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

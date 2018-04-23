@@ -388,6 +388,7 @@ lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/KeyChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/KeyPasswordChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigWebName.pm 0444
 lib/Foswiki/Configure/Checkers/FeatureAccess/Configure.pm 0444
 lib/Foswiki/Configure/Checkers/DATE.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
@@ -465,6 +466,7 @@ lib/Foswiki/Configure/Checkers/Store/SearchAlgorithm.pm 0444
 lib/Foswiki/Configure/Checkers/STRING.pm 0444
 lib/Foswiki/Configure/Checkers/TempfileDir.pm 0444
 lib/Foswiki/Configure/Checkers/TemplatePath.pm 0444
+lib/Foswiki/Configure/Checkers/TOPIC.pm 0444
 lib/Foswiki/Configure/Checkers/URLPATH.pm 0444
 lib/Foswiki/Configure/Checkers/URL.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
@@ -473,6 +475,8 @@ lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterName.pm 0444
+lib/Foswiki/Configure/Checkers/WEB.pm 0444
+lib/Foswiki/Configure/Checkers/WEBTOPIC.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/FileUtil.pm 0444

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1524451936" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 Congratulations, you have finished installing Foswiki.
 
@@ -6,7 +6,7 @@ This site is running Foswiki release *%WIKIRELEASE%*, Plugin API version *%PLUGI
 
 To learn more about Foswiki, visit the [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB% web]]. Please ensure that the read/write
 permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] 
-and [[%LOCALSITEPREFS%]]). Replace this text with a description of your new
+%IF{"istopic '%LOCALSITEPREFS%'"  then="and [[%LOCALSITEPREFS%]]" else="See [[System.InstallationGuidePart2]] for information on customizing your site preferences."}%). Replace this text with a description of your new
 %IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
 ---++ <nop>%WEB% Web Utilities
@@ -20,4 +20,5 @@ and [[%LOCALSITEPREFS%]]). Replace this text with a description of your new
    * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes %IF{"istopic '%STATISTICSTOPIC%'" then="
    * [[%STATISTICSTOPIC%]] - listing popular topics and top contributors"}%
    * [[WebPreferences]] - preferences of this web
+
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

@@ -97,6 +97,7 @@ our %CHECK_options = (
     schemes  => -1,    # for URL
     user     => -1,    # for URL
     pass     => -1,    # for URL
+    exists   => -1,    # For Web or Topic names
 );
 
 our %rename_options = ( nullok => 'undefok' );
@@ -508,7 +509,7 @@ sub find_also_dependencies {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
