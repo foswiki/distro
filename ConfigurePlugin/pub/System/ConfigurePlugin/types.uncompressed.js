@@ -336,6 +336,15 @@ var Types = {};
   Types.EMAILADDRESS = Types.STRING.extend({
   });
 
+  Types.WEBTOPIC = Types.STRING.extend({
+  });
+
+  Types.WEB = Types.STRING.extend({
+  });
+
+  Types.TOPIC = Types.STRING.extend({
+  });
+
   // This field is invisible, as it only exists to provide a hook
   // for a provideFeedback button. It is disabled as there is no
   // point in POSTing it.
