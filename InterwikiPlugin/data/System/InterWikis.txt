@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1486602810" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1525396870" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InterwikiPlugin"}%
 ---+ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
@@ -20,11 +20,12 @@ See %SYSTEMWEB%.InterwikiPlugin for more details on specifiying the INTERLINKFOR
 #AddingYourOwn
 ---+++ Adding your own Inter-Wiki Links
 
-Rather than adding your own inter-wiki links to this topic, the recommended approach is to create a topic in your %USERSWEB% Web, for example [[%USERSWEB%.InterWikis]]. You can then set the =INTERWIKIPLUGIN_RULESTOPIC= preference setting in [[%LOCALSITEPREFS%]] as follows:
+Rather than adding your own inter-wiki links to this topic, the recommended approach is to create a topic in your %USERSWEB% Web, for example [[%USERSWEB%.InterWikis]].
+You can then set the =INTERWIKIPLUGIN_RULESTOPIC= preference setting in [[%LOCALSITEPREFS%]] as follows:
 
-<verbatim class="tml">
+<pre class="tml">
    * Set INTERWIKIPLUGIN_RULESTOPIC = %SYSTEMWEB%.InterWikis, %USERSWEB%.InterWikis
-</verbatim>
+</pre>
 
 Any inter-wikis you add to [[%USERSWEB%.InterWikis]] will then be available in the same way that the inter-wikis from here are. If you create a rule in [[%USERSWEB%.InterWikis]] which has the same alias as a rule in this topic, the rule from [[%USERSWEB%.InterWikis]] will take preference.
 
