@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519485277" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1525392141" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 #SettingPrefs
 #PreferencesMacros
@@ -60,7 +60,8 @@ Spaces between the = sign and the value will be ignored. You can split a value o
 
 %ENDSECTION{"WritingSettings"}%
 
-Whatever you include in your bullet style setting will be expanded on display, exactly as if it had been entered directly (though see Parameters, below). (%<nop>SET{}% settings are expanded during the set process. See VarSET for further information.
+Whatever you include in your bullet style setting will be expanded on display, exactly as if it had been entered directly (though see Parameters, below).
+(=%<nop>SET{}%= settings are expanded during the set process. See VarSET for further information.)
 
 *Example: Create a custom logo macro*
    * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's <nop>%WEBPREFSTOPIC% topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to %WEBPREFSTOPIC%, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in %WEBPREFSTOPIC%:
@@ -91,14 +92,28 @@ into the topic metadata  by using the "Edit Settings for this topic" button on t
 
 ---+++ Order of preference settings
 
-If you are setting a preference and using it in the same topic, note that Foswiki reads all the bullet style preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.  (=%<nop>SET{}%= style settings _are_ assigned during the topic rendering, and their effect will be visible in the preview.)
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the bullet style preference settings from the saved version of the topic before it displays anything.
+This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:* it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+
+If a preference is set in both a bullet and in META settings, the META will override the bullet.
+
+If multiple bullet style Set statements are specified for the same preference, the last one encountered is assigned and will be used globally throughout the topic.
+
+=%<nop>SET{}%= style settings _are_ assigned during the topic rendering. So unlike bullet/META settings:
+   * Preferences and their effect will be visible in the preview.
+   * =%<nop>SET{}= will override both META and bullet style settings unless the preference is FINALIZED.
+   * The =%<nop>SET{}= is positional in the topic. Multiple =%<nop>SET{}= macros for the same preference will change the value as the topic is rendered.
 
 ---+++ Preference settings and topic revision history
 
 Foswiki always reads the bullet style settings from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
-And especially important, *bullet style preference settings are never overridden or set in when a topic content is obtained by "%<nop>INCLUDE{".*  However *%<nop>SET{ style settings can be overidden* when an INCLUDE is expanded.
-%IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
+---+++ Preference settings and INCLUDE
+
+   * Bullet and META style preference settings are never set when topic content is obtained by =%<nop>INCLUDE{=.  
+   * =%<nop>SET{= style settings can be overidden when an INCLUDE is expanded, but _only when referenced locally in the included topic_.
+
+%IF{"%BASETOPIC%=Macros" then="In the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
 
 #MacroParam
 ---+++ Parameters
@@ -156,5 +171,5 @@ Then, when they are editing any other topic, they will get the Wysiwyg editor. H
 <!-- %JQREQUIRE{"chili"}% -->
 
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1519485277" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1519485277" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1525392141" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1525392141" size="15256" user="ProjectContributor" version="1"}%

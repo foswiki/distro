@@ -1,9 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505958329" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1525392141" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SET -- set a preference setting during runtime
-A preference setting created via a =%SET= macro is usable by the topic containing the =%SET= statement, and in any other topics =%INCLUDing= or =%INCLUDEd= when
-rendering the topic TML. This is unlike list or META style [[preference settings]] which are only set when the base topic is loaded, and never set during macro expension when
-an =%INCLUDEd= topic is processed.
+A preference setting created via =%<nop>SET{}%= will only be usable in the topic where it has been found by the
+parser, similar to normal [[preference settings]].  
+
+When used in an include, note that each call to %INCLUDE opens a new scope for preference variables.
+An %INCLUDE of another topic containing a =%<nop>SET{}%= statement will _not_ define those values in the including base topic's scope.  However unlike
+bullet/Meta style preferences, =%<nop>SET{}%= statements will be active while the INCLUDE is rendered.
+
+If a perference is FINALized in a Bullet/Meta setting, then the =%<nop>SET{}%= macro will be unable to modify it.
+
+In contrast, a =TMPL:DEF= template definition
+containing =%<nop>SET{}%= macros will add those values to the current scope as if these settings have been 
+parsed as part of the current topic's text. 
 
 A =TMPL:DEF= template definition containing =%SET= macros will also add those values to the current scope as if these settings have been
 parsed as part of the base topic's text.
@@ -36,5 +45,5 @@ To cache the result of another macro use =%<nop>SET{"search_result" value="%<nop
 Note that this macro does NOT expand [[format tokens]] that are used to alter the macro processing sequence. ($percent, $dollar, ...).
 %STOPINCLUDE%
 ---++ Related
- PreferenceSettings
+ PreferenceSettings, IncludeTopicsAndWebPages
 
