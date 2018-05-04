@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1525396870" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -19,26 +19,26 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 ---++ Definition Syntax Rules
 
 Add and edit aliases in %SYSTEMWEB%.InterWikis.%STARTSECTION{"aliasformat"}%
-   * Each entry must be 3 or 4 columns of format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
+   * Each entry must be three or four columns, using the following format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
    * The Alias must start with an upper case letter and may contain alphanumeric characters.
    * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
-   * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
+   * The URL may contain Foswiki macros.  They are expanded when the URL is rendered.
    * The Tooltip Text must __not__ contain:
-      * any HTML tags (including ==&lt;nop&gt;== escape code),
+      * any HTML tags (including ==&lt;nop&gt;== escape code)
       * any internal %SYSTEMWEB%.WikiWord links
-      * any external links.
+      * any external links
       * Hint: Escape =='WikiWords'== and =='$page'==.
       * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
 
-<div class="foswikiHelp">%H% Note that Interwiki links do not properly resolve
-when part of an INCLUDEd topic.</div>
+<div class="foswikiHelp">%H% Note that Interwiki links do not properly resolve when part of an INCLUDEd page name.  e.g. =%<nop>INCLUDE{"Interwiki:link"}%= </div>
 
 <div class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 </div>
 
 <div class="foswikiHelp">
-%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. 
+%H% For links with parentheses you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'==
+as the plugin will not include the closing parenthesis as part of the link. 
 </div>
 %ENDSECTION{"aliasformat"}%
 
@@ -67,6 +67,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   3 May 2018: (1.26)  | Foswikitask:Item14688: Correct tyops and poor grammar in documentation. |
 |   8 Dec 2017: (1.25)  | Foswikitask:Item14395: Failure to check result from readTopic causes error. |
 |   8 Feb 2071: (1.24)  | Foswikitask:Item14321: Fix some stale default Interwiki links. |
 |   8 Apr 2016: (1.23)  | Foswikitask:Item14022: Change foswiki.org links to https. |
