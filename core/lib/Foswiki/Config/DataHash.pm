@@ -253,6 +253,8 @@ sub STORE {
         $node->value($value);
 
         # Mark node as leaf if
+        # SMELL If value is a hash tied to DataHash then this node is not
+        # a leaf!
         $node->setLeafState(&Foswiki::Config::Node::LEAF) if $node->isVague;
     }
 }
@@ -339,8 +341,8 @@ _JQueryPlugin.Plugins.BlockUI.Enabled_ because _Enabled_ is a leaf and it's
 If say key _JQueryPlugin_ already exists while _Plugins_ doesn't then the latter
 and _BlockUI_ will be auto-vivified and their type will be set to branch. This
 is because this method is expected to do it's best to return a container object.
-This behaivor may has a side-effect in case the full path including _Enabled_ is
-requested. In this case _Enabled_ will be auto-vivified as a branch node and
+This behaivor may have a side-effect in case the full path including _Enabled_
+is requested. In this case _Enabled_ will be auto-vivified as a branch node and
 this might have unpredictable side effects.
 
 =@keyPath= must be an array of simple scalars. If there is a non-scalar object
@@ -399,7 +401,7 @@ expected in =%params= hash:
 | *Key* | *Description* |
 | =key= | Node key name. |
 | =nodeType= | Type of the new node. The types are defined in =Foswiki::Config::Node=. If key is ommited or undefined then =Foswiki::Config::Node= it used as node class. |
-| =nodeProfile= | Defined a profile for the new node constructor method. |
+| =nodeProfile= | Defines a profile for the new node constructor method. |
 
 If the node already exists then =nodeProfile= is treated as an attribute/value
 pair list and for each attribute from the list it is set to the value.
@@ -424,7 +426,6 @@ sub makeNode {
 
     my $nodes = $this->nodes;
     my $node  = $nodes->{$key};
-    my $section;
 
     if ($node) {
         my $i = 0;

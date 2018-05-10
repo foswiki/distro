@@ -323,7 +323,7 @@ has extensions => (
 ---+++ ObjectAttribute extSubDirs => arrayref
 
 List of *library* paths where to look for extensions. Those are not ultimate as
-full name of directories where extensions are actually being located is formed
+full names of directories where extensions are actually being located are formed
 using =extPrefix= attribute. For example, with it's default
 _"Foswiki::Extension"_ value a library path _/usr/local/www/foswiki/lib_ would
 be used to make the full form _/usr/local/www/foswiki/lib/Foswiki/Extension_ –

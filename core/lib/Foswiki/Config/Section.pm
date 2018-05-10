@@ -72,7 +72,7 @@ has nodes => (
 ---+++ ObjectAttribute level
 
 Level number of this section. The root section level is 0, top-level sections
-visible to the user are of level 1.
+visible to the user are starting at level 1.
 
 =cut
 

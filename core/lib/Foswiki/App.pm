@@ -158,6 +158,7 @@ A instance of =Foswiki::Access= class.
 
 =cut
 
+# ---+++ Attribute access
 has access => (
     is        => 'ro',
     lazy      => 1,
