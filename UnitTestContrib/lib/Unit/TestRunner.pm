@@ -17,6 +17,7 @@ use Foswiki::Exception ();
 use Unit::Eavesdrop    ();
 use Devel::Symdump     ();
 use File::Spec         ();
+use Config;
 
 use Assert;
 
@@ -97,7 +98,6 @@ has annotations => (
 );
 has initialINC => (
     is      => 'rw',
-    lazy    => 1,
     clearer => 1,
     default => sub { [@INC] },
 );
@@ -111,7 +111,7 @@ sub start {
     my $this  = shift;
     my @files = @_;
     $this->clear_failures;
-    $this->clear_initialINC;
+    $this->initialINC( [@INC] );
     my $passes = 0;
 
     my ($start_cwd) = Cwd->cwd() =~ m/^(.*)$/;
@@ -196,7 +196,8 @@ sub start {
         }
         print "Running $suite\n";
 
-# vrurg: To much burden to maintain compatibility with pre-Moo positional argument passing.
+        # vrurg: Too much burden to maintain compatibility with pre-Moo
+        # positional argument passing.
         my $tester = $suite->new( testSuite => $suite, );
         if ( $tester->isa('Unit::TestSuite') ) {
 
@@ -209,10 +210,13 @@ sub start {
             my $action;
 
            #please don't force worker thread spawning when running a single test
-            if ( !$testToRun && $tester->run_in_new_process() ) {
-                $action =
-                  $this->runOneInNewProcess( $testSuiteModule, $suite,
-                    $testToRun );
+            if ( !$testToRun && $tester->runInNewProcess ) {
+                $action = $this->runOneInNewProcess(
+                    suiteModule => $testSuiteModule,
+                    suite       => $suite,
+                    testName    => $testToRun,
+                    testerObj   => $tester,
+                );
             }
             else {
                 $action = $this->runOne( $tester, $suite, $testToRun );
@@ -407,9 +411,11 @@ sub _print_unexpected_test {
 
 sub runOneInNewProcess {
     my $this            = shift;
-    my $testSuiteModule = shift;
-    my $suite           = shift;
-    my $testToRun       = shift;
+    my %params          = @_;
+    my $testSuiteModule = $params{suiteModule};
+    my $suite           = $params{suite};
+    my $testToRun       = $params{testName};
+    my $tester          = $params{testerObj};
     $testToRun ||= 'undef';
 
     my $tempfilename = 'worker_output.' . $$ . '.' . $suite;
@@ -424,8 +430,18 @@ sub runOneInNewProcess {
         shift @pushedOntoINC if $pushedOntoINC[0] eq $oneINC;
     }
 
+    # Pass paths in PERL5LIB via -I command line argument because -T will ignore
+    # it breaking installations dependant on cpanminus.
+    my @localPath =
+      ( $tester->runInTaintMode && defined $ENV{PERL5LIB} )
+      ? split $Config{path_sep}, $ENV{PERL5LIB}
+      : ();
+
     my @paths;
-    push( @paths, "-I", $_ ) for ( @unshiftedOntoINC, @pushedOntoINC );
+    push( @paths, "-I", $_ )
+      for ( @unshiftedOntoINC, @pushedOntoINC, @localPath );
+    my @perlOpts = qw<-w>;
+    push @perlOpts, "-T" if $tester->runInTaintMode;
     my @command = map {
         my $value = $_;
         if ( defined $value ) {
@@ -434,7 +450,7 @@ sub runOneInNewProcess {
         }
         $value;
       } (
-        $^X, "-wT", @paths, File::Spec->rel2abs($0),
+        $^X, @perlOpts, @paths, File::Spec->rel2abs($0),
         "-worker", $suite,, $testToRun, $tempfilename
       );
     my $command = join( ' ', @command );
