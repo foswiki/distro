@@ -8,6 +8,7 @@ use Try::Tiny;
 use FindBin;
 use Cwd        ();
 use File::Path ();
+use Carp;
 my $starting_root;
 
 # Simplify debugging by making both stderr and stdout non-buffered.
@@ -71,6 +72,11 @@ while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
 
 my ( $app, $cfg );
 local %ENV = %ENV;
+
+local $SIG{__DIE__} = sub {
+    Foswiki::Exception::Fatal->rethrow(shift);
+};
+
 try {
     $ENV{FOSWIKI_ACTION} =
       'view';    # SMELL Shan't we add a 'test' action to the SwitchBoard?
