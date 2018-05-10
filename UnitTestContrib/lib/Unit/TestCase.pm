@@ -97,6 +97,35 @@ has testSuite => ( is => 'ro', required => 1, );
 
 =begin TML
 
+---+++ ObjectMethod runInNewProcess
+
+Boolean, _true_ if test must be run in a separate process.
+
+=cut
+
+has runInNewProcess => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'run_in_new_process',
+);
+
+=begin TML
+
+---+++ ObjectMethod runInTaintMode
+
+Boolean, _true_ if test process must be run in taint mode. Valid only if
+=runInNewProcess= is _true_.
+
+=cut
+
+has runInTaintMode => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'run_in_taint_mode',
+);
+
+=begin TML
+
 ---++ METHODS
 
 =cut
@@ -134,16 +163,31 @@ sub tear_down {
 
 ---+++ ObjectMethod run_in_new_process()
 
-Override this method to return true 
-in test suites that should be run in a separate process.
-This facility is provided for tests that make non-reversible
-changes to the system state e.g. tests that enable 
-non-default plugins, whose initPlugin() handlers
-could do just about anything
+Initializer for =runInNewProcess= attribute.
+
+Override this method to return true in test suites that should be run in a
+separate process. This facility is provided for tests that make non-reversible
+changes to the system state e.g. tests that enable non-default plugins, whose
+initPlugin() handlers could do just about anything
 
 =cut
 
 sub run_in_new_process {
+    return;
+}
+
+=begin TML
+
+---+++ ObjectMethod run_in_taint_mode()
+
+Initializer for =runInTaintMode= attribute.
+
+Valid only if =runInNewProcess= is true and similar in use to
+=run_in_new_process()=.
+
+=cut
+
+sub run_in_taint_mode {
     return;
 }
 
