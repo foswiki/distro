@@ -1052,7 +1052,7 @@ sub _normalizeAttributeName {
             my $pkg = ( caller( $level++ ) )[0];
             $package = $pkg unless $pkg =~ /^Foswiki::Object/;
         }
-        $attributeName = "$package::$attributeName";
+        $attributeName = "${package}::$attributeName";
     }
     return $attributeName;
 }
