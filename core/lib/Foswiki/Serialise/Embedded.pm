@@ -58,7 +58,7 @@ sub read {
 
     # head meta-data
     # NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
-    $text =~ s<^(%META:(TOPICINFO){(.*)}%\n)>
+    $text =~ s<^(%META:(TOPICINFO)\{(.*)}%\n)>
               <_readMETA($meta, $1, $2, $3, 1)>e;
 
     # WARNING: if the TOPICINFO *looks* valid but has has unrecognisable
@@ -91,7 +91,7 @@ sub read {
     if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
         require Foswiki::Compatibility;
         if (
-            $text =~ s/^%META:([^{]+){(.*)}%\n/
+            $text =~ s/^%META:([^{]+)\{(.*)}%\n/
               Foswiki::Compatibility::readSymmetricallyEncodedMETA(
                   $meta, $1, $2 ); ''/gem
           )
@@ -101,7 +101,7 @@ sub read {
     }
     else {
         if (
-            $text =~ s<^(%META:([^{]+){(.*)}%\n)>
+            $text =~ s<^(%META:([^{]+)\{(.*)}%\n)>
                       <_readMETA($meta, $1, $2, $3, 0)>gem
           )
         {
@@ -275,7 +275,7 @@ eliminate that....
 sub dataEncode {
     my $datum = shift;
 
-    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
+    $datum =~ s/([%"\r\n\{\}])/'%'.sprintf('%02x',ord($1))/ge;
     return $datum;
 }
 

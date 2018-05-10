@@ -679,7 +679,7 @@ sub TML2PlainText {
     }
 
     if ( $opts =~ m/expandvar/ ) {
-        $text =~ s/(\%)(SEARCH){/$1<nop>$2/g;    # prevent recursion
+        $text =~ s/(\%)(SEARCH)\{/$1<nop>$2/g;    # prevent recursion
         $topicObject = $this->creare('Foswiki::Meta')
           unless $topicObject;
         $text = $topicObject->expandMacros($text);
@@ -691,7 +691,7 @@ sub TML2PlainText {
           || '';
         $text =~ s/%WIKITOOLNAME%/$wtn/g;
         if ( $opts =~ m/showvar/ ) {
-            $text =~ s/%(\w+({.*?}))%/$1/g;      # defuse
+            $text =~ s/%(\w+({.*?}))%/$1/g;       # defuse
         }
         else {
             $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//g;    # remove
