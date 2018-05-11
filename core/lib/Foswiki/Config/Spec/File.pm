@@ -75,7 +75,7 @@ sub setLocalizableAttributes {
     return qw( data parsed localData );
 }
 
-pluggable guessFormat => sub {
+sub guessFormat {
     my $this = shift;
 
     # If shebang is defined then it unambiguously defines spec format.
@@ -103,7 +103,7 @@ pluggable guessFormat => sub {
     }
 
     return 'data';
-};
+}
 
 sub validCache {
     my $this = shift;
@@ -120,7 +120,7 @@ sub validCache {
       && ( !defined $cf->fileSize || ( $cf->fileSize == $fstat->size ) );
 }
 
-pluggable parse => sub {
+sub parse {
     my $this = shift;
 
     my $dataObj = tied %{ $this->data };
@@ -182,7 +182,7 @@ pluggable parse => sub {
     }
 
     return $dataObj;
-};
+}
 
 sub refreshCache {
     my $this = shift;

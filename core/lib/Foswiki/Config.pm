@@ -1005,7 +1005,7 @@ the =expandAll()= method.
 
 =cut
 
-pluggable read => sub {
+sub read {
     my $this   = shift;
     my %params = @_;
 
@@ -1078,7 +1078,7 @@ pluggable read => sub {
     $data->{ConfigurationFinished} = 1;
 
     return $data;
-};
+}
 
 =begin TML
 
@@ -1102,7 +1102,7 @@ legacy code. Will be removed in release.
 
 =cut
 
-pluggable readLSCStart => sub {
+sub readLSCStart {
     my $this   = shift;
     my %params = @_;
 
@@ -1205,7 +1205,7 @@ pluggable readLSCStart => sub {
     $this->_lscRecPos(0);
 
     return 1;
-};
+}
 
 =begin TML
 
@@ -1219,7 +1219,7 @@ was an attempt to read past last record.
 
 =cut
 
-pluggable readLSCRecord => sub {
+sub readLSCRecord {
     my $this   = shift;
     my %params = @_;
 
@@ -1230,7 +1230,7 @@ pluggable readLSCRecord => sub {
     return ( 1, undef, undef ) if $curPos >= scalar( @{ $this->_lscRecords } );
 
     return ( 1, @{ $this->_lscRecords->[$curPos] } );
-};
+}
 
 =begin TML
 
@@ -1242,7 +1242,7 @@ Returns _true_ if everything is ok.
 
 =cut
 
-pluggable readLSCFinalize => sub {
+sub readLSCFinalize {
     my $this = shift;
 
     $this->_clear_lscFileObj;
@@ -1250,7 +1250,7 @@ pluggable readLSCFinalize => sub {
     $this->_lscRecPos(0);
 
     return 1;
-};
+}
 
 =begin TML
 
@@ -1289,7 +1289,7 @@ useful for a extension.
    
 =cut
 
-pluggable readLSC => sub {
+sub readLSC {
     my $this   = shift;
     my %params = @_;
 
@@ -1314,7 +1314,7 @@ pluggable readLSC => sub {
     my $finalRc = $this->readLSCFinalize( data => $cfgData );
 
     return ( $rc && $finalRc );
-};
+}
 
 =begin TML
 
@@ -1356,7 +1356,7 @@ Initiates LSC writing.
 
 =cut
 
-pluggable writeLSCStart => sub {
+sub writeLSCStart {
     my $this   = shift;
     my %params = @_;
 
@@ -1369,9 +1369,10 @@ pluggable writeLSCStart => sub {
             path       => $lscFile,
             autoWrite  => 1,
             autoCreate => 1,
+            content    => '',
         )
     );
-};
+}
 
 =begin TML
 
@@ -1388,7 +1389,7 @@ This method is for low-level writing of a single key/value pair into LSC.
 
 =cut
 
-pluggable writeLSCRecord => sub {
+sub writeLSCRecord {
     my $this   = shift;
     my %params = @_;
 
@@ -1404,9 +1405,9 @@ pluggable writeLSCRecord => sub {
       {
         key     => $params{key},
         value   => $params{value},
-        comment => $params{comment},
+        comment => $comment,
       };
-};
+}
 
 =begin TML
 
@@ -1420,7 +1421,7 @@ No parameters are used.
 
 =cut
 
-pluggable writeLSCFinalize => sub {
+sub writeLSCFinalize {
     my $this   = shift;
     my %params = @_;
 
@@ -1449,7 +1450,7 @@ pluggable writeLSCFinalize => sub {
     $_lscFileObj->autoWrite(1);
     $this->_clear_lscFileObj;
     $this->_clear_lscRecords;
-};
+}
 
 =begin TML
 
@@ -1487,7 +1488,7 @@ All user defined parameters are handled similar to the
 
 =cut
 
-pluggable writeLSC => sub {
+sub writeLSC {
     my $this   = shift;
     my %params = @_;
 
@@ -1516,7 +1517,7 @@ pluggable writeLSC => sub {
     my $comment = $this->lscHeader . "\n";
     foreach my $cfKey (@cfgKeys) {
         unless ( $specKeys{$cfKey} ) {
-            $comment .= "This key is not defined in a spec file\n";
+            $comment .= "Key $cfKey is not defined in a spec file";
 
             #say STDERR "Key $cfKey is not defined in specs";
         }
@@ -1547,7 +1548,7 @@ pluggable writeLSC => sub {
 
     $this->writeLSCFinalize( data => $cfgData, );
     return;
-};
+}
 
 =begin TML
 
@@ -1738,7 +1739,7 @@ Here we include *undef*...
 
 =cut
 
-pluggable expandStr => sub {
+sub expandStr {
     my $this   = shift;
     my %params = @_;
 
@@ -1780,7 +1781,7 @@ pluggable expandStr => sub {
 
     return (
         wantarray ? @estrs : ( @estrs > 1 || $isList ? [@estrs] : $estrs[0] ) );
-};
+}
 
 =begin TML
 ---+++ ObjectMethod bootstrapSystemSettings()
@@ -3575,7 +3576,7 @@ See [[System.SpecFileFormat]],
 
 =cut
 
-pluggable spec => sub {
+sub spec {
     my $this   = shift;
     my %params = @_;
 
@@ -3650,7 +3651,7 @@ pluggable spec => sub {
 
         $e->rethrow;
     };
-};
+}
 
 =begin TML
 

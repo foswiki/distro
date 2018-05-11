@@ -244,15 +244,8 @@ sub INCLUDE {
                             # Starting a non-suppressed method section.
                             $suppressedMethodLevel = 0;
 
-                            my $pluggable = "";
                             if ( $methodText =~ /^\W*(?<methodName>\w+)\b/ ) {
                                 my $methodName = $+{methodName};
-
-                                # TODO Replace word Pluggable with a link to
-                                # extensions documentaion when ready.
-                                $pluggable =
-                                  $Foswiki::ExtManager::pluggables{$class}
-                                  {$methodName} ? "Pluggable " : "";
 
                                 # SMELL methodName with underscores generates
                                 # bad anchor name which is getting split by the
@@ -262,7 +255,7 @@ sub INCLUDE {
                                   . "\n";
                             }
                             $pod .=
-"\n$anchor$secDef =${pluggable}[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
+"\n$anchor$secDef =[[$methodAccess$methodType]]= ==$methodTextEncoded==\n";
                         }
                     }
                     else {    # Just plain simple heading.

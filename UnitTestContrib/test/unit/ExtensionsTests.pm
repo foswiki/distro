@@ -11,13 +11,13 @@ has allowFlowControl => (
     default => 0,
 );
 
-pluggable testPluggableMethod => sub {
+sub testPluggableMethod {
     my $this = shift;
 
     return wantarray
       ? ( qw(This is a sample return array), @_ )
       : "This is a sample string {" . join( "}{", @_ ) . "}";
-};
+}
 
 package ExtensionsTests;
 

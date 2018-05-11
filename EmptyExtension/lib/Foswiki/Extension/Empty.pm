@@ -247,6 +247,9 @@ callbackHandler 'Foswiki::App::handleRequestException', sub {
 #PluggableMethods
 ---+++ Method overriding
 
+*NOTE* =pluggable= sugar has been deprecated. Any method of any class could be
+overriden now. This section must be edited to reflect the change.
+
 A core class may declare some of its methods as pluggable – i.e. let an
 extension to have _before_, _around_, and _after_ handlers for the method –
 similar (but not the same) to analogous functionality of =[[CPAN:Moo][Moo]]= or
