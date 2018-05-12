@@ -3,3 +3,4 @@ core/test/unit/testlogs
 core/testlogs
 core/working/cache
 testlogs
+core/working/tmp
