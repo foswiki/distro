@@ -216,6 +216,21 @@ sub test_ObjectThrow {
     };
 }
 
+sub test_ObjectThrowNoText {
+    my $this = shift;
+
+    try {
+        $this->Throw( "TestException", undef, attr1 => 3.1415926 );
+    }
+    catch {
+        my $e = $_;
+        $this->assert( blessed($e), "unblessed exception object" );
+        $this->assert_str_equals( 'Foswiki::Exception::TestException',
+            ref($e), "incorrect exception class " . ref($e) );
+        $this->assert_equals( $e->text, "text attribute hasn't been set" );
+    };
+}
+
 sub test_ObjectThrowWithAttrs {
     my $this = shift;
 
