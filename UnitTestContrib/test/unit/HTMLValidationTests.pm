@@ -15,7 +15,30 @@ use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
 has script_name => ( is => 'rw' );
-has skin_name   => ( is => 'rw' );
+
+has skin_name => ( is => 'rw' );
+
+has tidy => (
+    is      => 'rw',
+    isa     => Foswiki::Object::isaCLASS( 'tidy', 'HTML::Tidy', noUndef => 1 ),
+    lazy    => 1,
+    default => sub {
+
+#see http://tidy.sourceforge.net/docs/quickref.html for parameters - be warned that some cause HTML::Tidy to crash
+        return HTML::Tidy->new(
+            {
+
+                #turn off warnings until we have fixed errors
+                'show-warnings' => 1,
+
+                #'accessibility-check'	=> 3,
+                'drop-empty-paras' => 0
+            }
+        );
+
+    },
+);
+
 my %expected_status = (
     search => 302,
     save   => 302,
@@ -74,27 +97,6 @@ around loadExtraConfig => sub {
     return;
 };
 
-has tidy => (
-    is      => 'rw',
-    isa     => Foswiki::Object::isaCLASS( 'tidy', 'HTML::Tidy', noUndef => 1 ),
-    lazy    => 1,
-    default => sub {
-
-#see http://tidy.sourceforge.net/docs/quickref.html for parameters - be warned that some cause HTML::Tidy to crash
-        return HTML::Tidy->new(
-            {
-
-                #turn off warnings until we have fixed errors
-                'show-warnings' => 1,
-
-                #'accessibility-check'	=> 3,
-                'drop-empty-paras' => 0
-            }
-        );
-
-    },
-);
-
 # Set up the test fixture
 around set_up => sub {
     my $orig = shift;
@@ -119,6 +121,19 @@ around set_up => sub {
     return;
 };
 
+sub skip {
+    my $this = shift;
+    my ($test) = @_;
+
+    if (   $test
+        && $test =~ /_resetpasswd_/
+        && !$this->app->cfg->data->{EnableEmail} )
+    {
+        return "Email is not enabled for this setup";
+    }
+    return undef;
+}
+
 sub fixture_groups {
     my $this = shift;
     my @scripts;
@@ -127,8 +142,14 @@ sub fixture_groups {
 
     foreach my $script ( keys( %{ $cfg->data->{SwitchBoard} } ) ) {
         next
-          unless $script =~
-m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
+          unless $script =~ m/^(
+                                attach|changes|compare|compareauth|
+                                configure|edit|jsonrpc|login|logon|
+                                manage|oops|preview|previewauth|rdiff|
+                                rdiffauth|register|rename|resetpasswd|
+                                rest|restauth|save|search|statistics|
+                                upload|viewauth|viewfile|viewfileauth
+        )$/x;
         push( @scripts, $script );
         next if ( defined( &{$script} ) );
 
