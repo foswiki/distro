@@ -64,6 +64,7 @@ This is a copy of the Foswiki 1.0 code.
 use Foswiki::Time qw(-nofoswiki);
 use Foswiki::Configure::Load ();
 use Fcntl qw(:flock);
+use File::Spec ();
 
 use Foswiki::Class;
 extends qw(Foswiki::Logger);
@@ -102,7 +103,7 @@ around log => sub {
         ( $level, @fields ) = @_;
     }
 
-    my @logs = _getLogsForLevel( [$level] );
+    my @logs = $this->_getLogsForLevel( [$level] );
     my $log = shift @logs;
 
     my $now = _time();
@@ -173,7 +174,7 @@ sub eachEventSince {
     $level = ref $level ? $level : [$level];    # Convert level to array.
 
     #SMELL: Only returns a single logfile for now
-    my @log4level = _getLogsForLevel($level);
+    my @log4level = $this->_getLogsForLevel($level);
 
     # Find the year-month for the current time
     my $now          = _time();
@@ -258,37 +259,40 @@ sub _expandDATE {
 
 # Get the name of the log for a given reporting level
 sub _getLogsForLevel {
+    my $this  = shift;
     my $level = shift;
     my %logs;
-    my $defaultLogDir = '';
-    $defaultLogDir = "$Foswiki::cfg{DataDir}/" if $Foswiki::cfg{DataDir};
+    my $cfg           = $this->app->cfg;
+    my $cfgData       = $cfg->data;
+    my $defaultLogDir = $cfgData->{DataDir} || '';
+
     my $log;
 
     foreach my $lvl (@$level) {
         if ( $lvl eq 'debug' ) {
-            $log = $Foswiki::cfg{DebugFileName}
-              || $defaultLogDir . 'debug%DATE%.txt';
+            $log = $cfgData->{DebugFileName}
+              || File::Spec->catfile( $defaultLogDir, 'debug%DATE%.txt' );
         }
         elsif ( $lvl eq 'info' ) {
-            $log = $Foswiki::cfg{LogFileName}
-              || $defaultLogDir . 'log%DATE%.txt';
+            $log = $cfgData->{LogFileName}
+              || File::Spec->catfile( $defaultLogDir, 'log%DATE%.txt' );
         }
         elsif ( $lvl eq 'notice' ) {
-            $log = $Foswiki::cfg{ConfigureLogFileName}
-              || $defaultLogDir . 'configure%DATE%.txt';
+            $log = $cfgData->{ConfigureLogFileName}
+              || File::Spec->catfile( $defaultLogDir, 'configure%DATE%.txt' );
         }
         else {
             ASSERT( $lvl =~ m/^(warning|error|critical|alert|emergency)$/ )
               if DEBUG;
-            $log = $Foswiki::cfg{WarningFileName}
-              || $defaultLogDir . 'warn%DATE%.txt';
+            $log = $cfgData->{WarningFileName}
+              || File::Spec->catfile( $defaultLogDir, 'warn%DATE%.txt' );
         }
 
       # SMELL: Expand should not be needed, except if bin/configure tries
       # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
       # Windows seemed to be the most difficult to fix - this was the only thing
       # that I could find that worked all the time.
-        $Foswiki::app->cfg->expandValue($log);    # Expand in place.
+        $cfg->expandValue($log);    # Expand in place.
         $logs{$log} = 1;
     }
 
