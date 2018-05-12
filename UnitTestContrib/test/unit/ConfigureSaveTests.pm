@@ -12,9 +12,16 @@ use Foswiki::Configure::Wizards::Save;
 use Foswiki::Configure::Reporter;
 use Foswiki::Sandbox;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( ConfigureTestCase );
+
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+    $Foswiki::ExtManager::extDisabled{'DBConfig'} =
+      'Interfering with ConfigureSaveTests';
+    $orig->( $this, @_ );
+};
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {

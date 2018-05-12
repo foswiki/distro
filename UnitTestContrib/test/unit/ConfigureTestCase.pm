@@ -24,6 +24,12 @@ has wrote_lsc => (
 );
 has test_work_dir => ( is => 'rw', );
 
+sub skip {
+    my $this = shift;
+    my ($test) = @_;
+    return "Not compatible with Foswiki v3";
+}
+
 # Set up the test fixture
 around set_up => sub {
     my $orig = shift;
