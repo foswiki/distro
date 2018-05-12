@@ -510,6 +510,7 @@ has _lscFileObj => (
 has _lscRecords => (
     is      => 'rw',
     clearer => 1,
+    lazy    => 1,
     builder => '_prepareLscRecords',
 );
 
