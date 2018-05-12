@@ -9,8 +9,8 @@ my ( $rootDir, $libDir, $scriptDir );
 my ( $checkpointSub, $statusSub );
 
 BEGIN {
-    $rootDir   = $ENV{FOSWIKI_HOME};
-    $scriptDir = $ENV{FOSWIKI_SCRIPTS};
+    $rootDir              = $ENV{FOSWIKI_HOME};
+    $scriptDir            = $ENV{FOSWIKI_SCRIPTS};
     $ENV{FOSWIKI_ASSERTS} = 1;
 
     unless ($scriptDir) {
@@ -37,6 +37,7 @@ BEGIN {
 }
 use Plack::Builder;
 use Foswiki::App;
+
 #use Devel::Leak;
 #use Devel::Leak::Object;
 
@@ -67,8 +68,9 @@ my $app = sub {
 
     &$checkpointSub if CHECKLEAK;
 
-    $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
-    $env->{FOSWIKI_LIBS} = $libDir unless $env->{FOSWIKI_LIBS};
+    $ENV{FOSWIKI_SCRIPTS} = $scriptDir unless $ENV{FOSWIKI_SCRIPTS};
+    $ENV{FOSWIKI_LIBS}    = $libDir    unless $ENV{FOSWIKI_LIBS};
+    $ENV{FOSWIKI_DISABLED_EXTENSIONS} = "DBConfig";
 
     my $rc = Foswiki::App->run( env => $env, );
 

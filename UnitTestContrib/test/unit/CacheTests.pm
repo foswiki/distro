@@ -264,8 +264,8 @@ around set_up => sub {
     $this->app->cfg->data->{Cache}{Compress} = 0;
     $this->oldDbiDsn( $this->app->cfg->data->{Cache}{DBI}{DSN} );
     $this->oldCacheDsn( $this->app->cfg->data->{Cache}{DSN} );
-    delete $this->app->env->{FOSWIKI_TEST_PATH_INFO};
-    delete $this->app->env->{FOSWIKI_TEST_ACTION};
+    delete $ENV{FOSWIKI_TEST_PATH_INFO};
+    delete $ENV{FOSWIKI_TEST_ACTION};
     $this->clear_testUri;
     $this->clear_testPathInfo;
 };

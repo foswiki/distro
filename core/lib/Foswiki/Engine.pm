@@ -213,7 +213,7 @@ sub start {
     my $env = $app->env;
     my $engine;
     $engine //= $cfg->data->{Engine};
-    $engine //= $env->{FOSWIKI_ENGINE};
+    $engine //= $ENV{FOSWIKI_ENGINE};
     unless ( defined $engine ) {
         foreach my $shortName ( @{ $cfg->data->{EngineList} } ) {
             my $engMod = "Foswiki::Engine::$shortName";

@@ -39,8 +39,8 @@ use Foswiki::App;
 my $app = sub {
     my $env = shift;
 
-    $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
-    $env->{FOSWIKI_LIBS} = $libDir unless $env->{FOSWIKI_LIBS};
+    $ENV{FOSWIKI_SCRIPTS} = $scriptDir unless $ENV{FOSWIKI_SCRIPTS};
+    $ENV{FOSWIKI_LIBS}    = $libDir    unless $ENV{FOSWIKI_LIBS};
 
     return Foswiki::App->run( env => $env, );
 };

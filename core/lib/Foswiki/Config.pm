@@ -1818,8 +1818,8 @@ sub bootstrapSystemSettings {
     # would trigger "undefined" errors
     my $bin;
     my $script = '';
-    if ( defined $env->{FOSWIKI_SCRIPTS} ) {
-        $bin = $env->{FOSWIKI_SCRIPTS};
+    if ( defined $ENV{FOSWIKI_SCRIPTS} ) {
+        $bin = $ENV{FOSWIKI_SCRIPTS};
     }
     else {
         eval('require FindBin');
@@ -3736,7 +3736,7 @@ to let user-defined config be used. Otherwise _'LocalSite.cfg'_ is returned.
 =cut
 
 sub prepareLscFile {
-    return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg';
+    return $ENV{FOSWIKI_CONFIG} || 'LocalSite.cfg';
 }
 
 =begin TML

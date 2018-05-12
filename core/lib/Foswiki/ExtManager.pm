@@ -1024,14 +1024,14 @@ Initializer for =extSubDirs= attribute.
 sub prepareExtSubDirs {
     my $this = shift;
 
-    my $extLibs = $this->app->env->{FOSWIKI_EXTLIBS};
+    my $extLibs = $ENV{FOSWIKI_EXTLIBS};
     my @extPath;
 
     if ( defined $extLibs ) {
         push @extPath, split /:/, $extLibs;
     }
     else {
-        my $fwPath = $this->app->env->{FOSWIKI_LIBS};
+        my $fwPath = $ENV{FOSWIKI_LIBS};
 
         # If the env is not set guess by Foswiki.pm module.
         $fwPath //= ( File::Spec->splitpath( $INC{'Foswiki.pm'} ) )[1];
@@ -1084,13 +1084,12 @@ sub _disabled2List {
 
 sub prepareDisabledExtensions {
     my $this    = shift;
-    my $env     = $this->app->env;
     my $envVar  = 'FOSWIKI_DISABLED_EXTENSIONS';
     my $confKey = "DisabledExtensions";
 
     # @disabled would contain a list of pairs of extension name and a message to
     # be appended to "Disable reason: " prefix.
-    my @disabled = $this->_disabled2List( $env->{$envVar} // '',
+    my @disabled = $this->_disabled2List( $ENV{$envVar} // '',
         "listed in environment variable $envVar" );
     my %disabled;
 

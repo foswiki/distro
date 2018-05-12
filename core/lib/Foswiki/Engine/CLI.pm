@@ -67,7 +67,7 @@ around prepareConnection => sub {
     my $this = shift;
     return {
         remoteAddress => '127.0.0.1',
-        method        => $this->env->{FOSWIKI_METHOD} // 'GET',
+        method        => $ENV{FOSWIKI_METHOD} // 'GET',
     };
 };
 
@@ -105,8 +105,8 @@ around preparePath => sub {
     my ($this) = @_;
     my $env    = $this->env;
     my ( $action, $path_info );
-    if ( $env->{FOSWIKI_ACTION} ) {
-        $action = $env->{FOSWIKI_ACTION};
+    if ( $ENV{FOSWIKI_ACTION} ) {
+        $action = $ENV{FOSWIKI_ACTION};
     }
     else {
         $action = ( File::Spec->splitpath($0) )[2];

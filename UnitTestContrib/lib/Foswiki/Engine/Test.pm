@@ -204,12 +204,11 @@ Returns a hashref.
 sub initFromEnv {
     my $this      = shift;
     my $initAttrs = $this->initialAttributes;
-    my $env       = $this->env;
     my %initHash  = map {
         my $eKey = uc( 'FOSWIKI_TEST_' . $_ );
         defined( $initAttrs->{$_} ) ? ( $_ => $initAttrs->{$_} )
           : (
-            defined( $env->{$eKey} ) ? ( $_ => $env->{$eKey} )
+            defined( $ENV{$eKey} ) ? ( $_ => $ENV{$eKey} )
             : ()
           )
     } @_;
@@ -402,7 +401,7 @@ around preparePath => sub {
     my $this = shift;
 
     # Use the standard if test value is not provided.
-    $this->env->{FOSWIKI_TEST_ACTION} //= $this->env->{FOSWIKI_ACTION};
+    $ENV{FOSWIKI_TEST_ACTION} //= $ENV{FOSWIKI_ACTION};
     return $this->initFromEnv(qw(action path_info uri));
 };
 
@@ -423,7 +422,7 @@ around prepareQueryParameters => sub {
     my $this = shift;
 
     my $queryString = $this->initialAttributes->{query_string}
-      // $this->env->{FOSWIKI_TEST_QUERY_STRING};
+      // $ENV{FOSWIKI_TEST_QUERY_STRING};
 
     return $orig->( $this, $queryString ) if defined $queryString;
     return [];
@@ -434,11 +433,11 @@ around prepareHeaders => sub {
     my $this = shift;
 
     my $headers = $orig->($this);
-    foreach my $header ( keys %{ $this->env } ) {
+    foreach my $header ( keys %ENV ) {
         next unless $header =~ m/^FOSWIKI_TEST_(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^FOSWIKI_TEST_//;
         $field =~ s/^HTTPS?_//;
-        $headers->{$field} = $this->env->{$header};
+        $headers->{$field} = $ENV{$header};
     }
 
     # Initial attributes override environment values.
