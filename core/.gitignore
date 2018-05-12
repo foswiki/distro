@@ -12,6 +12,8 @@
 /working/languages.cache
 /working/logs/*
 /working/work_areas/*
+/test/unit/configure*.txt
+/test/unit/debug*.txt
 /Foswiki*.md5
 /Foswiki*.sha1
 /Foswiki*.tgz
