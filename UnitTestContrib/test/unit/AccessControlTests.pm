@@ -918,8 +918,9 @@ THIS
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
     # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
     # In any case, the test is hard-wired to ignore {ScriptSuffix}
-    $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
-        using => 'ShortURLs' );
+    # XXX Test passes ok on v3.0
+    #$this->expect_failure( 'Test does\'t cater to ShortURL configurations',
+    #    using => 'ShortURLs' );
 
     if ( $this->check_dependency('Foswiki,<,1.2') ) {
 
