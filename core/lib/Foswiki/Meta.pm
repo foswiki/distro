@@ -2710,7 +2710,8 @@ sub removeFromStore {
     ASSERT( $this->web, 'this is not a removable object' ) if DEBUG;
 
     if ( !$store->webExists( $this->web ) ) {
-        $this->Throw( 'Foswiki::Exception', 'No such web ' . $this->web );
+        $this->Throw( 'Foswiki::Exception::Fatal',
+            'No such web ' . $this->web );
     }
     if ( $this->topic
         && !$store->topicExists( $this->web, $this->topic ) )
@@ -2961,11 +2962,17 @@ sub attach {
 
         # no stream given, but a file was given; open it.
         open( $opts{stream}, '<', $opts{file} )
-          || $this->Throw( 'Foswiki::Exception::Fatal',
-            'Could not open ' . $opts{file} );
+          || $this->Throw(
+            'Foswiki::Exception::FileOp', undef,
+            op   => 'open',
+            file => $opts{file},
+          );
         binmode( $opts{stream} )
-          || $this->Throw( 'Foswiki::Exception::Fatal',
-            $opts{file} . ' binmode failed: ' . $! );
+          || $this->Throw(
+            'Foswiki::Exception::FileOp', undef,
+            op   => 'set binmode',
+            file => $opts{file},
+          );
     }
 
     my $attrs;
