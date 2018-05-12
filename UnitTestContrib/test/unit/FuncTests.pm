@@ -12,8 +12,7 @@ use Foswiki::Func();
 use Foswiki::AccessControlException;
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 has tmpdatafile    => ( is => 'rw', );
@@ -348,7 +347,7 @@ sub test_Item9021 {
     }
     catch {
         my $e = $_;
-        if ( !ref($e) || $e->isa('Foswiki::Exception::Fatal') ) {
+        if ( !ref($e) ) {
             Foswiki::Exception::Fatal->rethrow($e);
         }
         my $errStr = $e->stringify;
@@ -382,7 +381,7 @@ sub test_createWeb_InvalidBase {
     }
     catch {
         my $e = $_;
-        if ( !ref($e) || $e->isa('Foswiki::Exception::Fatal') ) {
+        if ( !ref($e) ) {
             Foswiki::Exception::Fatal->rethrow($e);
         }
         my $errStr = $e->stringify;
@@ -411,7 +410,7 @@ sub test_createWeb_hierarchyDisabled {
     }
     catch {
         my $e = $_;
-        if ( !ref($e) || $e->isa('Foswiki::Exception::Fatal') ) {
+        if ( !ref($e) ) {
             Foswiki::Exception::Fatal->rethrow($e);
         }
         my $errStr = $e->stringify;
