@@ -532,7 +532,12 @@ sub initRequest {
     $this->setupUserRegistration;
     $this->setupAdminUser( %{ $params->{adminUser} // {} } );
 
+    $this->__EnvReset->{FOSWIKI_ENGINE} = undef;
+    $this->__EnvReset->{FOSWIKI_ACTION} = undef;
+
     $this->_execPerTestStageCode( 'initRequest', @_ );
+
+    $this->preserveEnvironment;
 }
 
 =begin TML
@@ -548,6 +553,8 @@ back a response.
 
 sub shutdownRequest {
     my $this = shift;
+
+    $this->restoreEnvironment;
 
     $this->_execPerTestStageCode( 'shutdownRequest', @_ );
 }

@@ -19,8 +19,7 @@ use v5.14;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Exception);
 
 has code => ( is => 'rw', required => 1, );
