@@ -58,12 +58,14 @@ sub checkAccess {
                 # (yet).
                 Foswiki::load_package(
                     "Foswiki::Contrib::JsonRpcContrib::Error");
-                throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+                Foswiki::Contrib::JsonRpcContrib::Error->throw(
+                    code => -32600,
+                    text =>
 'Access to configure denied by {FeatureAccess}{Configure} Setting'
                 );
             }
             else {
-                throw Foswiki::AccessControlException(
+                Foswiki::AccessControlException->throw(
                     mode   => 'VIEW',
                     user   => $app->user,
                     web    => 'System',
@@ -78,11 +80,13 @@ sub checkAccess {
             if ($json) {
                 Foswiki::load_package(
                     "Foswiki::Contrib::JsonRpcContrib::Error");
-                throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-                    'Access to configure denied for non-admin users' );
+                Foswiki::Contrib::JsonRpcContrib::Error->throw(
+                    code => -32600,
+                    text => 'Access to configure denied for non-admin users'
+                );
             }
             else {
-                throw Foswiki::AccessControlException(
+                Foswiki::AccessControlException->throw(
                     mode   => 'VIEW',
                     user   => $app->user,
                     web    => 'System',
