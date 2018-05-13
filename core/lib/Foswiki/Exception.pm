@@ -251,7 +251,7 @@ around to_str => sub {
     my $orig = shift;
     my $this = shift;
 
-    my $boundary = '-' x 60;
+    my $boundary = ( '-' x 60 ) . "\n";
     my $msg      = join( "\n",
         $boundary, map( { "    " . $_ } split /\n/, $this->stringify ),
         $boundary );
