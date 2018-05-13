@@ -10,7 +10,7 @@ use Data::Dumper;
 use Encoding;
 
 use Foswiki::Class;
-extends qw(Unit::PlackTestCase);
+extends qw<Unit::PlackTestCase>;
 
 use constant SIMPLE_CONTENT =>
   "Simple Text File\nАбо просто текст у файлі\n";
@@ -82,6 +82,15 @@ sub _test_attach_simple {
     $this->assert( defined($matchedA), "Attach link not found in output" );
 
     my $attachUrl = $matchedA->{attrs}{href};
+
+    my $expectUrl = $app->getScriptUrlPath( $web, $topic, "attach" );
+    $this->assert_str_contains( $expectUrl, $attachUrl,
+            "Attach URL ("
+          . $attachUrl
+          . ") doesn't point back to view request web/topic ("
+          . $expectUrl
+          . ")" );
+
     $res     = $test->request( GET $attachUrl);
     $content = $res->content;
 
