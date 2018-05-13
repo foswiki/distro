@@ -38,18 +38,24 @@ sub clientSimple {
     my $this = shift;
     my %args = @_;
 
-    my $test = $args{plackTestObj};
+    my $test     = $args{plackTestObj};
+    my $testName = $args{testParams}{name};
 
-    my $expected =
-      '<h1 id="Welcome_to_the_Main_web">  Welcome to the Main web </h1>
-Congratulations, you have finished installing Foswiki.
-<p>';
+    state $expected = {
+        'Simple' =>
+'<h1 id="Welcome_to_the_Main_web">  Welcome to the Main web </h1> Congratulations, you have finished installing Foswiki. <p>',
+        'probe' =>
+'<h1 id="Welcome_to_the_Sandbox_web">  Welcome to the Sandbox web </h1> The <b>Sandbox</b> web is the sandbox you can use for testing. Everybody is welcome to add or delete some stuff. It is recommended to walk through the <a href="/view/System/TwentyMinuteTutorial">TwentyMinuteTutorial</a>',
+    };
+
+    $this->assert( defined $expected->{$testName},
+        "Unexpected test name `" . $testName . "'" );
 
     my $res = $test->request( GET "/" );
 
     my $content = $res->content;
 
-    $this->assert_html_matches( $expected, $content );
+    $this->assert_html_matches( $expected->{$testName}, $content );
 }
 
 1;
