@@ -1,11 +1,8 @@
 # Copyright (C) 2004 Florian Weimer
+
 package RobustnessTests;
 use v5.14;
 use utf8;    # For test_sanitizeAttachmentNama_unicode
-
-BEGIN {
-    use locale;
-}
 
 use Foswiki();
 use Foswiki::Sandbox();
@@ -127,10 +124,11 @@ sub test_filterTopicName {
     my $this = shift;
 
     # Check that "certain characters" are munched
-    my $crap = '';
+    my $crap       = '';
+    my $nameFilter = $this->app->cfg->data->{NameFilter};
     for ( 0 .. 255 ) {
         my $c = chr($_);
-        $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
+        $crap .= $c if $c =~ m/$nameFilter/;
     }
 
     my $hex = '';
@@ -140,12 +138,18 @@ sub test_filterTopicName {
     }
 
     # This is the list of characters that should be munched out from Topic names
+    my $oldPerl = $] < 5.01800;
+
+    # Since 5.18 Perl treats 0x85 and 0xa0 as unicode next line and no-break
+    # space.
     my $expecthex =
-'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*:;<>?@[\]^`|~\x85\xa0';
+        '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c'
+      . '\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19'
+      . '\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*:;<>?@[\]^`|~'
+      . ( $oldPerl ? '' : '\x85\xa0' );
     $this->assert_str_equals( $expecthex, $hex,
-"Expected: ($expecthex)\n     Got: ($hex)\nHas {NameFilter} changed?"
-    );
-    $this->assert_num_equals( 53, length($crap) );
+        "Expected: ($expecthex)\n     Got: ($hex)\nHas {NameFilter} changed?" );
+    $this->assert_num_equals( ( $oldPerl ? 53 : 55 ), length($crap) );
 
     return;
 }
