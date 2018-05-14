@@ -284,7 +284,7 @@ sub registerAccount {
                         }
                         else {
                             $this->assert_matches(
-qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
                                 $mail->header('To')
                             );
                         }
@@ -894,7 +894,7 @@ sub _registerBadVerify {
     $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
     my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
-        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+        qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email\b/, $mess->header('To') );
@@ -983,7 +983,7 @@ sub _registerNoVerifyOk {
                     }
                     else {
                         $this->assert_matches(
-qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
                             $mail->header('To')
                         );
                     }
@@ -1259,7 +1259,7 @@ sub verify_rejectDuplicateEmail {
                     }
                     else {
                         $this->assert_matches(
-qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
                             $mail->header('To')
                         );
                     }
@@ -1551,7 +1551,7 @@ sub verify_rejectFilteredEmail {
                     }
                     else {
                         $this->assert_matches(
-qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
                             $mail->header('To')
                         );
                     }
@@ -1920,7 +1920,7 @@ sub verify_resetPasswordOkay {
     $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
     my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
-        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+        qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email/, $mess->header('To') );
@@ -2792,7 +2792,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
     my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
-        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+        qr/"?$cfgData->{WebMasterName}"? <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email/, $mess->header('To') );
@@ -3224,12 +3224,12 @@ sub verify_registerVerifyOKApproved {
        # Make sure the confirmations are sent; one to the user, one to the admin
             $this->assert_equals( 2, scalar(@Unit::FoswikiTestRole::mails) );
             foreach my $mail (@Unit::FoswikiTestRole::mails) {
-                if ( $mail->header('To') =~ m/^Wiki/m ) {
-                    $this->assert_matches( qr/^Wiki Administrator/m,
+                if ( $mail->header('To') =~ m/^"?Wiki/m ) {
+                    $this->assert_matches( qr/^"?Wiki Administrator/m,
                         $mail->header('To') );
                 }
                 else {
-                    $this->assert_matches( qr/^Walter Pigeon/m,
+                    $this->assert_matches( qr/^"?Walter Pigeon/m,
                         $mail->header('To') );
                 }
                 $this->assert_matches(
