@@ -16,6 +16,7 @@ use Monitor      ();
 use CGI          ();    # Always required to get html generation tags;
 use Digest::MD5  ();    # For passthru and validation
 use Scalar::Util ();
+use Module::Loaded;
 
 use Try::Tiny;
 use Assert;
@@ -359,10 +360,13 @@ sub load_package {
     }
     catch {
         #say STDERR "! Load failed for  $fullname: $_";
-        my $e =
-          Foswiki::Exception::ModLoad->transmute( $_, 1,
-            moduleName => $fullname, );
-        $e->rethrow;
+        if ( is_loaded("Foswiki::Exception::ModLoad") ) {
+            my $e =
+              Foswiki::Exception::ModLoad->transmute( $_, 1,
+                moduleName => $fullname, );
+            $e->rethrow;
+        }
+        die $_;
     };
 }
 
