@@ -225,8 +225,11 @@ sub test_action {
     foreach (qw(view edit save upload preview rdiff)) {
         $req->action($_);
         $this->assert_str_equals( $_, $req->action, 'Wrong action value' );
-        $this->assert_str_equals( $_, $ENV{FOSWIKI_ACTION},
-            'Wrong FOSWIKI_ACTION environment' );
+        $this->assert_str_equals(
+            $_,
+            $this->app->env->{FOSWIKI_ACTION},
+            'Wrong FOSWIKI_ACTION environment'
+        );
     }
 }
 
