@@ -984,7 +984,9 @@ sub handleRequest {
                 $exception->generate;
             }
         }
-        elsif ( $e->isa('Foswiki::OopsException') ) {
+        elsif ($e->isa('Foswiki::OopsException')
+            || $e->isa("Foswiki::Exception::HTTPResponse") )
+        {
             $e->generate;
         }
         elsif ( $e->isa('Foswiki::EngineException') ) {

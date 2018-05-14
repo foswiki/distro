@@ -20,6 +20,22 @@ extends qw<Foswiki::Exception::HTTPResponse>;
 
 has header => ( is => 'rw', default => '' );
 
+around generate => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $orig->( $this, @_ );
+
+    my $res = $this->response;
+    $res->header( -type => 'text/html' );
+    my $html = CGI::start_html( $this->status . ' ' . $this->header );
+    $html .= CGI::h1( {}, $this->header );
+    $html .= CGI::p( {}, $this->text );
+    $html .= CGI::p( {}, CGI::pre( $this->stacktrace ) ) if DEBUG;
+    $html .= CGI::end_html();
+    $res->print( Foswiki::encode_utf8($html) );
+};
+
 around stringify => sub {
     my $orig = shift;
     my $this = shift;
@@ -27,13 +43,7 @@ around stringify => sub {
     my $res = $this->response;
     $res->body('');
     if ( $this->_useHTTP ) {
-        $res->header( -type => 'text/html', -status => $this->status );
-        my $html = CGI::start_html( $this->status . ' ' . $this->header );
-        $html .= CGI::h1( {}, $this->header );
-        $html .= CGI::p( {}, $this->text );
-        $html .= CGI::p( {}, CGI::pre( $this->stacktrace ) ) if DEBUG;
-        $html .= CGI::end_html();
-        $res->print($html);
+        $this->generate;
     }
     else {
         $res->print( $this->status . " "

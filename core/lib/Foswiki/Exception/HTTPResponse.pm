@@ -76,12 +76,28 @@ has '+text' => (
 
 =cut
 
+=begin TML
+
+---+++ ObjectMethod generate()
+
+This method is called by application allowing the exception to generate
+necessary response headers/body/etc. prior to reporting back to the user.
+
+=cut
+
+sub generate {
+    my $this = shift;
+    $this->response->status( $this->status );
+}
+
 sub _useHTTP {
     my $this = shift;
+    my $app  = $this->guessApp;
     return
-         defined($Foswiki::app)
-      && defined( $Foswiki::app->engine )
-      && $Foswiki::app->engine->HTTPCompliant;
+         defined($app)
+      && $app->has_engine
+      && defined( $app->engine )
+      && $app->engine->HTTPCompliant;
 }
 
 # Simplified version of stringify() method.
@@ -111,7 +127,7 @@ around prepareText => sub {
     my $orig = shift;
     my $this = shift;
 
-    return 'HTTP status code "' . $_[0]->status;
+    return 'HTTP status code "' . $this->status;
 };
 
 =begin TML
@@ -135,9 +151,9 @@ Initializer for =response= attribute.
 =cut
 
 sub prepareResponse {
-    return defined($Foswiki::app)
-      ? $Foswiki::app->response
-      : Foswiki::Response->new;
+    my $this = shift;
+    my $app  = $this->guessApp;
+    return defined($app) ? $app->response : Foswiki::Response->new;
 }
 
 1;
