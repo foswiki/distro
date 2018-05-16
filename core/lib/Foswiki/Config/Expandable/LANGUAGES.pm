@@ -8,7 +8,7 @@ use Locale::Country;
 
 require Foswiki::Configure::FileUtil;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::CfgObject);
 

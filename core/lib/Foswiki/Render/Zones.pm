@@ -17,7 +17,7 @@ use v5.14;
 use Assert;
 use Foswiki qw(expandStandardEscapes);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 has _zones                 => ( is => 'rw', lazy => 1, default => sub { {} }, );

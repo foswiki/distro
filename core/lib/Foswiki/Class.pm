@@ -18,13 +18,13 @@ use v5.14;
 use Moo;
 use namespace::clean;
 extends qw<Foswiki::Object>;
-with qw<Foswiki::AppObject>;
+with qw<Foswiki::Role::AppObject>;
 </verbatim>
 
 The above could be replaced with a single line of:
 
 <verbatim>
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 </verbatim>
 
@@ -72,10 +72,10 @@ Read about =extensible= modifier to find out what =pluggable= keyword does.
 The following modifiers are support by this module:
 
 | *Parameter* | *Description* |
-| =app= | Class will have =Foswiki::AppObject= role applied. |
-| =callbacks= | Provide support for callbacks |
-| =extension= | Declares class to be an extension. See =Foswiki::Extenion::Empty= for more information. |
-| =extensible= | Makes class an extensible. |
+| =-app= | Class will have =Foswiki::Role::AppObject= role applied. |
+| =-callbacks= | Provide support for callbacks |
+| =-extension= | Declares class to be an extension. See =Foswiki::Extenion::Empty= for more information. |
+| =-sugar= | Exports =newSugar= |
 | =:5.XX= | A string prefixed with colon is treated as a feature bundle name and passed over to the =feature= module as is. This allows to override the ':5.14' default. |
 
 See below for more details on each modifier.
@@ -83,22 +83,22 @@ See below for more details on each modifier.
 A class may have few modifiers applied at once:
 
 <verbatim>
-use Foswiki::Class qw(app extensible);
+use Foswiki::Class -app, -sugar;
 </verbatim>
 
 ---+++ app
 
-See =Foswiki::AppObject= role which is applied to class with this modifier. 
+See =Foswiki::Role::AppObject= role which is applied to class with this modifier. 
 
 ---+++ callbacks
 
 A class with this modifier wants to get callbacks support. This is done by:
 
    1. applying =%PERLDOC{"Foswiki::Util::Callbacks"}%= role
-   1. exporting =callback_names= public method.
+   1. exporting =callbackNames= public method.
 
-a subroutine =callback_names= is exported into a class' namespace and
-=%PERLDOC{"Foswiki::Util::Callbacks"}%= role gets applied. =callback_names=
+a sugar =callbackNames= is exported into a class' namespace and
+=%PERLDOC{"Foswiki::Util::Callbacks"}%= role gets applied. =callbackNames=
 accepts a list and registers names from the list as callbacks supported by the
 class.
 
@@ -107,9 +107,9 @@ For example:
 <verbatim>
 package Foswiki::SomeClass;
 
-use Foswiki::Class qw(app callbacks);
+use Foswiki::Class -app, -callbacks;
 
-callback_names qw(callback1 callback2);
+callbackNames qw(callback1 callback2);
 
 sub someMethod {
     my $this = shift;
@@ -215,9 +215,26 @@ require namespace::clean;
 
 use constant DEFAULT_FEATURESET => ':5.14';
 
-our @ISA = qw(Moo);
+#our @ISA = qw(Moo);
 
+# Information about classes registered with this module.
 my %_classData;
+
+# Options accepted by this module
+my %_optionSet = (
+    '-role'      => { handler => \&_option_role, },
+    '-app'       => { roles   => [qw<Foswiki::Role::AppObject>], },
+    '-callbacks' => { roles   => [qw<Foswiki::Role::Callbacks>], },
+);
+
+# Predefined sugars
+my %_sugars = (
+    -sugar   => { newSugar    => { code => \&registerSugar, } },
+    -default => { stubMethods => { code => \&_handler_stubMethods }, },
+);
+
+# Prepare %_sugars for use.
+_rebuildSugars();
 
 # **BEGIN Install wrappers for Moo's has/with/extends to record basic object
 # information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
@@ -251,28 +268,7 @@ sub _fw_extends {
     #say STDERR "*** $target EXTENDS ", join( ", ", @_ );
     push @{ $_classData{$target}{ISA} }, @_;
 
-    #say STDERR "+++ $target ", ( $target->isa($_) ? "is a" : "isn't a" ),
-    #  " $_ descendant"
-    #  foreach qw (Moo::Object Foswiki::Object);
-    # SMELL Replace this if() with support of build_required flag of a modifier.
-    #if (   $_classData{$target}{options}{callbacks}{use}
-    #    || $_classData{$target}{options}{extensible}{use} )
-    #{
-    #
-    #    my $trg_ns = Foswiki::getNS($target);
-    #
-    #    # Install BUILD method if a feature requiring it requested.
-    #    # Otherwise feature implementation role will fail to apply cleanly.
-    #    unless ( defined $trg_ns->{BUILD}
-    #        && defined *{ $trg_ns->{BUILD} }{CODE} )
-    #    {
-    #        #say STDERR "Installing BUILD for $target";
-    #        install_modifier( $target, fresh => BUILD => sub { } );
-    #    }
-    #}
-
-    #say STDERR "Applying roles to $target";
-    __PACKAGE__->_apply_roles($target);
+    _modInit($target);
 }
 
 if ( $ENV{FOSWIKI_ASSERTS} ) {
@@ -337,55 +333,80 @@ sub import {
     my ($class) = shift;
     my $target = caller;
 
+    # Presume that target is a class. A role must declare itself with -role.
+    $_classData{$target}{baseMod} = 'Moo';
+
+    #$_classData{$target}{initialized} = !1;
+
     #say STDERR "--- Foswiki::Class($class, $target)";
 
     local $SIG{__DIE__} = sub { Carp::confess(@_) }
       if $ENV{FOSWIKI_ASSERTS};
 
-    # Define modifiers we would provide for classes.
-    # 'Options' is the initial term for modifiers.
-    my %options = (
-        callbacks => { use => 0, build_required => 1, },
-        app       => { use => 0, },
-        extension => {
-            use => 0,
-            keywords =>
-              [qw(extClass extAfter extBefore plugBefore plugAfter plugAround)],
-        },
-        extensible => {
-            use            => 0,
-            keywords       => [qw(pluggable)],
-            build_required => 1,
-        },
-    );
+   # Define modifiers we would provide for classes.
+   # 'Options' is the initial term for modifiers.
+   #my %options = (
+   #    callbacks => { use => 0, },
+   #    app       => { use => 0, },
+   #    extension => {
+   #        use => 0,
+   #        keywords =>
+   #          [qw(extClass extAfter extBefore plugBefore plugAfter plugAround)],
+   #    },
+   #    extensible => {
+   #        use            => 0,
+   #        keywords       => [qw(pluggable)],
+   #    },
+   #);
 
-    $_classData{$target}{options} = \%options;
-
-    my @p;
+    my @myOptions = qw<-default>;    # Always apply -default
+    my @passOnOptions;
     my @noNsClean  = qw(meta);
     my $featureSet = DEFAULT_FEATURESET;
+
     while (@_) {
-        my $param = shift;
-        if ( $param =~ /^:/ ) {
-            $featureSet = $param;
+        my $opt = shift;
+        if ( $opt =~ /^:/ ) {
+            $featureSet = $opt;
             next;
         }
-        if ( exists $options{$param} ) {
-            my $opt = $options{$param};
-            $opt->{use} = 1;
+        if ( exists $_optionSet{$opt} ) {
+            push @myOptions, $opt;
+        }
+        elsif ( $opt !~ /^-/ ) {
+            die $target
+              . " requested option '"
+              . $opt
+              . "' which is suspected to be old-format";
         }
         else {
-            push @p, $param;
+            push @passOnOptions, $opt;
         }
     }
 
-    foreach my $option ( grep { $options{$_}{use} } keys %options ) {
+    $_classData{$target}{options} = \@myOptions;
 
-        #say STDERR "Installing option $option";
-        my $installer = __PACKAGE__->can("_install_$option");
-        die "INTERNAL:There is no support for option $option"
-          unless defined $installer;
-        $installer->( $class, $target );
+    foreach my $myOpt (@myOptions) {
+        ( my $optName = $myOpt ) =~ s/^-//;    # Reduce '-opt' to just 'opt'
+
+        if ( $_optionSet{$myOpt}{roles} ) {
+            _assign_roles( $target, @{ $_optionSet{$myOpt}{roles} } );
+        }
+
+        if ( $_optionSet{$myOpt}{handler} ) {
+            $_optionSet{$myOpt}{handler}->( $class, $target );
+        }
+        elsif ( my $installer = __PACKAGE__->can("_install_$optName") ) {
+            $installer->( $class, $target );
+        }
+
+        # Install pre-registered syntax sugars.
+        if ( $_optionSet{$myOpt}{sugars} ) {
+            foreach my $sgName ( @{ $_optionSet{$myOpt}{sugars} } ) {
+                Foswiki::inject_code( $target, $sgName,
+                    $_sugars{$myOpt}{$sgName}{code} );
+            }
+        }
     }
 
     require feature;
@@ -396,11 +417,30 @@ sub import {
         -except  => \@noNsClean,
     );
 
-    # Install some common helpers.
-    Foswiki::inject_code( $target, 'stubMethods', \&_handler_stubMethods );
+    # Install common helpers.
+    Foswiki::inject_code(
+        $target,
+        ( $_classData{$target}{isRole} ? 'roleInit' : 'classInit' ),
+        sub { _modInit($target) }
+    );
 
-    @_ = ( $class, @p );
-    goto &Moo::import;
+    my $baseMod = $_classData{$target}{baseMod};
+    @_ = ( $baseMod, @passOnOptions );
+
+    #say STDERR "Giving control over $target to $baseMod",
+    #  ( @passOnOptions ? " qw<" . join( " ", @_ ) . ">" : "" );
+    goto \&{"${baseMod}::import"};
+}
+
+sub _modInit {
+    my $target = shift;
+    $target //= caller;
+
+    #return if $_classData{$target}{initialized};
+
+    _apply_roles($target);
+
+    #$_classData{$target}{initialized} = 1;
 }
 
 sub _getAllAttrs {
@@ -457,7 +497,7 @@ sub getClassAttributes {
 
 =begin TML
 
----+++ StaticMethod _apply_roles( $class [, @classes] )
+---+++ StaticMethod _apply_roles( [@classes] )
 
 %X% Strictly for internal =Foswiki::Class= use only.
 
@@ -468,7 +508,6 @@ all assigned classes are processed.
 =cut
 
 sub _apply_roles {
-    my $class = shift;
 
     my @targets =
       grep { defined $_classData{$_}{assignedRoles} }
@@ -487,7 +526,7 @@ sub _apply_roles {
         #  "} to $target";
         Moo::Role->apply_roles_to_package( $target,
             @{ $_classData{$target}{assignedRoles} } );
-        $class->_maybe_reset_handlemoose($target);
+        $_classData{$target}{baseMod}->_maybe_reset_handlemoose($target);
         delete $_classData{$target}{assignedRoles};
     }
 }
@@ -501,9 +540,58 @@ method.
 
 =cut
 
-sub _assign_role {
-    my ( $class, $role ) = @_;
-    push @{ $_classData{$class}{assignedRoles} }, $role;
+sub _assign_roles {
+    my ( $class, @roles ) = @_;
+    Foswiki::load_package($_) foreach @roles;
+    push @{ $_classData{$class}{assignedRoles} }, @roles;
+}
+
+sub _rebuildSugars {
+
+    # Clean up old sugar registrations;
+    foreach my $opt ( keys %_optionSet ) {
+        $_optionSet{$opt}{sugars} = [];
+    }
+
+    # Build new lists of registered sugars.
+    foreach my $opt ( keys %_sugars ) {
+        while ( my ( $sgName, $sgParam ) = each %{ $_sugars{$opt} } ) {
+            if ( ref($sgParam) eq 'CODE' ) {
+                $_sugars{$opt}{$sgName} = { code => $sgParam };
+            }
+            push @{ $_optionSet{$opt}{sugars} }, $sgName;
+        }
+    }
+}
+
+sub registerSugar (%) {
+    my %params = @_;
+
+    while ( my ( $option, $optData ) = each %params ) {
+        while ( my ( $sgName, $sgParam ) = each %$optData ) {
+            die "Bad parameters type for new sugar "
+              . $sgName
+              . ": must be a hash or code ref but got "
+              . ( ref($sgParam) || ( defined $sgParam ? 'SCALAR' : '*undef*' ) )
+              unless ref($sgParam) && ref($sgParam) =~ /^(?:CODE|HASH)$/;
+            $sgParam = { code => $sgParam } if ref($sgParam) eq 'CODE';
+            die "Sugar $sgName code either not defined or not a coderef"
+              unless defined $sgParam->{code}
+              && ref( $sgParam->{code} ) eq 'CODE';
+            die "Trying to re-register sugar $sgName"
+              if exists $_sugars{$option}{$sgName};
+
+            $_sugars{$option}{$sgName} = $sgParam;
+            push @{ $_optionSet{$option}{sugars} }, $sgName;
+        }
+    }
+}
+
+sub _option_role {
+    my ( $class, $target ) = @_;
+
+    $_classData{$target}{baseMod} = 'Moo::Role';
+    $_classData{$target}{isRole}  = 1;
 }
 
 sub _handler_stubMethods (@) {
@@ -512,120 +600,6 @@ sub _handler_stubMethods (@) {
     foreach my $methodName (@_) {
         Foswiki::inject_code( $target, $methodName, $stubCode );
     }
-}
-
-sub _handler_callback_names {
-    my $target = caller;
-    Foswiki::Util::Callbacks::registerCallbackNames( $target, @_ );
-}
-
-sub _install_callbacks {
-    my ( $class, $target ) = @_;
-
-    Foswiki::load_package('Foswiki::Util::Callbacks');
-    _assign_role( $target, 'Foswiki::Util::Callbacks' );
-    Foswiki::inject_code( $target, "callback_names", *_handler_callback_names );
-}
-
-sub _install_app {
-    my ( $class, $target ) = @_;
-    Foswiki::load_package('Foswiki::AppObject');
-
-    #say STDERR "Assigning Foswiki::AppObject to $target";
-    _assign_role( $target, 'Foswiki::AppObject' );
-}
-
-sub _handler_plugBefore ($&) {
-    my $target = caller;
-    my ( $plug, $code ) = @_;
-    Foswiki::ExtManager::registerPlugMethod( $target, 'before', $plug, $code );
-}
-
-sub _handler_plugAround ($&) {
-    my $target = caller;
-    my ( $plug, $code ) = @_;
-    Foswiki::ExtManager::registerPlugMethod( $target, 'around', $plug, $code );
-}
-
-sub _handler_plugAfter ($&) {
-    my $target = caller;
-    my ( $plug, $code ) = @_;
-    Foswiki::ExtManager::registerPlugMethod( $target, 'after', $plug, $code );
-}
-
-sub _handler_extClass ($$) {
-    my ( $class, $subClass ) = @_;
-    my $target = caller;
-
-    Foswiki::ExtManager::registerSubClass( $target, $class, $subClass );
-}
-
-sub _handler_extAfter (@) {
-    my $target = caller;
-
-    Foswiki::ExtManager::registerDeps( $target, @_ );
-}
-
-sub _handler_extBefore (@) {
-    my $target = caller;
-
-    Foswiki::ExtManager::registerDeps( $_, $target ) foreach @_;
-}
-
-sub _handler_tagHandler ($;$) {
-    my $target = caller;
-
-    # Handler could be a class name doing Foswiki::Macro role or a sub to be
-    # installed as target's hadnling method.
-    my ( $tagName, $tagHandler ) = @_;
-
-    if ( ref($tagHandler) eq 'CODE' ) {
-
-        # If second argument is a code ref then we install method with the same
-        # name as macro name.
-        Foswiki::inject_code( $target, $tagName, $tagHandler );
-        Foswiki::ExtManager::registerExtTagHandler( $target, $tagName );
-    }
-    else {
-        Foswiki::ExtManager::registerExtTagHandler( $target, $tagName,
-            $tagHandler );
-    }
-}
-
-sub _handler_callbackHandler ($&) {
-    my $target = caller;
-
-    Foswiki::ExtManager::registerExtCallback( $target, @_ );
-}
-
-sub _install_extension {
-    my ( $class, $target ) = @_;
-
-    Foswiki::inject_code( $target, 'plugBefore', \&_handler_plugBefore );
-    Foswiki::inject_code( $target, 'plugAround', \&_handler_plugAround );
-    Foswiki::inject_code( $target, 'plugAfter',  \&_handler_plugAfter );
-    Foswiki::inject_code( $target, 'extClass',   \&_handler_extClass );
-    Foswiki::inject_code( $target, 'extAfter',   \&_handler_extAfter );
-    Foswiki::inject_code( $target, 'extBefore',  \&_handler_extBefore );
-    Foswiki::inject_code( $target, 'tagHandler', \&_handler_tagHandler );
-    Foswiki::inject_code( $target, 'callbackHandler',
-        \&_handler_callbackHandler );
-}
-
-sub _handler_pluggable ($&) {
-    my $target = caller;
-    my ( $method, $code ) = @_;
-
-    Foswiki::ExtManager::registerPluggable( $target, $method, $code );
-}
-
-sub _install_extensible {
-    my ( $class, $target ) = @_;
-
-    #say STDERR "--- INSTALLING extensible ON $target";
-
-    _assign_role( $target, 'Foswiki::Util::_ExtensibleRole' );
-    Foswiki::inject_code( $target, 'pluggable', \&_handler_pluggable );
 }
 
 1;

@@ -202,8 +202,8 @@ extensions themselves, must comply to the following rules:
      =%PERLDOC{Foswiki::Object}%=.
    * New class instances (objects) must be created using
      =%PERLDOC{"Foswiki::App" method="create"}%= method which is directly
-     available as a ObjectMethod for classes consuming =Foswiki::AppObject=
-     role.
+     available as a ObjectMethod for classes consuming
+     =Foswiki::Role::AppObject= role.
      
 The second rule is redundant for extensions because they're inheriting from
 =Foswiki::Extension= which already consumes the role.
@@ -267,7 +267,7 @@ use constant NODE_TEMP_MARK => 0;
 use constant NODE_PERM_MARK => 1;
 use constant NODE_DISABLED  => -1;
 
-use Foswiki::Class qw(app callbacks);
+use Foswiki::Class -app, -callbacks, -sugar;
 extends qw(Foswiki::Object);
 
 # This is the version to be matched agains extension's API version declaration.
@@ -293,6 +293,18 @@ our %pluggables;          # Pluggable methods
 our %plugMethods;         # Extension registered plug methods.
 our %extDisabled
   ;    # Disabled extensions defined by keys. Values are reasons for disabling.
+
+# Declare sugars for extensions
+newSugar -extension => {
+    plugBefore      => \&_handler_plugBefore,
+    plugAfter       => \&_handler_plugAfter,
+    plugAround      => \&_handler_plugAround,
+    callbackHandler => \&_handler_callbackHandler,
+    extClass        => \&_handler_extClass,
+    extAfter        => \&_handler_extAfter,
+    extBefore       => \&_handler_extBefore,
+    tagHandler      => \&_handler_tagHandler,
+};
 
 # --- END of static data declarations
 
@@ -1735,6 +1747,69 @@ details of extension development
 %PERLDOC{Foswiki::Class}%
 
 =cut
+
+# --- Sugar handlers
+sub _handler_plugBefore ($&) {
+    my $target = caller;
+    my ( $plug, $code ) = @_;
+    registerPlugMethod( $target, 'before', $plug, $code );
+}
+
+sub _handler_plugAround ($&) {
+    my $target = caller;
+    my ( $plug, $code ) = @_;
+    registerPlugMethod( $target, 'around', $plug, $code );
+}
+
+sub _handler_plugAfter ($&) {
+    my $target = caller;
+    my ( $plug, $code ) = @_;
+    registerPlugMethod( $target, 'after', $plug, $code );
+}
+
+sub _handler_extClass ($$) {
+    my ( $class, $subClass ) = @_;
+    my $target = caller;
+
+    registerSubClass( $target, $class, $subClass );
+}
+
+sub _handler_extAfter (@) {
+    my $target = caller;
+
+    registerDeps( $target, @_ );
+}
+
+sub _handler_extBefore (@) {
+    my $target = caller;
+
+    registerDeps( $_, $target ) foreach @_;
+}
+
+sub _handler_tagHandler ($;$) {
+    my $target = caller;
+
+    # Handler could be a class name doing Foswiki::Macro role or a sub to be
+    # installed as target's hadnling method.
+    my ( $tagName, $tagHandler ) = @_;
+
+    if ( ref($tagHandler) eq 'CODE' ) {
+
+        # If second argument is a code ref then we install method with the same
+        # name as macro name.
+        Foswiki::inject_code( $target, $tagName, $tagHandler );
+        registerExtTagHandler( $target, $tagName );
+    }
+    else {
+        registerExtTagHandler( $target, $tagName, $tagHandler );
+    }
+}
+
+sub _handler_callbackHandler ($&) {
+    my $target = caller;
+
+    registerExtCallback( $target, @_ );
+}
 
 1;
 __END__

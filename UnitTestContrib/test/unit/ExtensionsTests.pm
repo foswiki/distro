@@ -3,7 +3,9 @@
 package Foswiki::ExtensionsTests::SampleClass;
 use utf8;
 
-use Foswiki::Class qw(extensible);
+require Foswiki::ExtManager;
+
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 has allowFlowControl => (
@@ -91,7 +93,7 @@ sub _genExtModules {
         my $ret     = eval <<EXT;
 package $extName;
 use Assert;
-use Foswiki::Class qw(extension);
+use Foswiki::Class -extension;
 extends qw(Foswiki::Extension);
 
 use version 0.77; our \$VERSION = version->declare(0.0.1);
@@ -344,11 +346,6 @@ EXT3
 
     my $testObj = $this->create('Foswiki::ExtensionsTests::SampleClass');
 
-    $this->assert( $testObj->DOES('Foswiki::Util::_ExtensibleRole'),
-            "Test object of class "
-          . ref($testObj)
-          . " doesn't have extensible role!" );
-
     my @args;
     @args = qw(arg1 arg2);
     my $rc = $testObj->testPluggableMethod(@args);
@@ -592,7 +589,7 @@ TAGH
 
     my $macroPackage = <<MPKG;
 package Foswiki::Macros::TEST_CLASS_MACRO;
-    use Foswiki::Class qw(app);
+    use Foswiki::Class -app;
     extends qw(Foswiki::Object);
     with qw(Foswiki::Macro);
 
@@ -648,10 +645,10 @@ sub test_callbacks {
     my $cbTestClass     = <<CBMOD;
 package $cbTestClassName;
 
-use Foswiki::Class qw(callbacks);
+use Foswiki::Class -callbacks;
 extends qw(Foswiki::Object);
 
-callback_names qw(LongEnoughNotToMakeAConflict);
+callbackNames qw(LongEnoughNotToMakeAConflict);
 
 sub sampleSingleCallBack {
     my \$this = shift;
@@ -849,13 +846,10 @@ EXT2
         !$app->extMgr->extEnabled( $ext[0] ),
 "Extension must have been disabled because of plugging into non-existing method"
     );
-    say STDERR $app->extMgr->disabledExtensions->{ $ext[0] };
     $this->assert(
         !$app->extMgr->extEnabled( $ext[1] ),
 "Extension must have been disabled because of plugging into non-compilable module"
     );
-    say STDERR $app->extMgr->disabledExtensions->{ $ext[0] };
-    say STDERR $app->extMgr->disabledExtensions->{ $ext[1] };
 }
 
 1;

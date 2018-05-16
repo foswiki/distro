@@ -92,7 +92,7 @@ use v5.14;
 
 use Assert;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw<Foswiki::Exception>;
 
 # Oops is sometimes used to pass information around. So, it's basically

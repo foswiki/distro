@@ -22,10 +22,6 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-use v5.14;
-use warnings;
-use strict;
-
 use Encode;
 use Getopt::Long;
 use Storable qw(dclone);
@@ -54,8 +50,7 @@ require Foswiki::Configure::Query;
 
     package Foswiki::Configure::ShellReporter;
 
-    use Moo;
-    use namespace::clean;
+    use Foswiki::Class;
     extends qw(Foswiki::Configure::Reporter);
 
     has notes    => ( is => 'rw', default => 0, );

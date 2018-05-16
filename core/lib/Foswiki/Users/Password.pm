@@ -17,7 +17,7 @@ use v5.14;
 
 use Assert;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 =begin TML

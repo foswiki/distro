@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::Plugin;
-use v5.14;
 
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 use Foswiki::Func                           ();
@@ -9,10 +8,8 @@ use Assert;
 
 use constant TRACE => 0;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 has author => ( is => 'rw', default => 'unknown', );
 has css => ( is => 'rw', default => sub { [] }, );

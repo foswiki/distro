@@ -6,7 +6,7 @@ use Foswiki    ();
 use File::Spec ();
 use File::Path qw(make_path);
 
-use Foswiki::Class qw(app callbacks extensible);
+use Foswiki::Class -app, -callbacks;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::CfgObject);
 

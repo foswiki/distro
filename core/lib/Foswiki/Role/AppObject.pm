@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::AppObject;
-use v5.14;
+package Foswiki::Role::AppObject;
 
 =begin TML
 
----+ Role Foswiki::AppObject;
+---+ Role Foswiki::Role::AppObject;
 
 This role is for all classes which cannot be instantiated without active
 =Foswiki::App= object.
@@ -20,7 +19,8 @@ use Assert;
 
 require Foswiki::Object;
 
-use Moo::Role;
+use Foswiki::Role;
+roleInit;
 
 =begin TML
 

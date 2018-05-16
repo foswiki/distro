@@ -16,7 +16,7 @@ details directly influencing a new extension development.
 
 use Foswiki::FeatureSet;
 
-use Foswiki::Class qw(extension);
+use Foswiki::Class -extension;
 extends qw(Foswiki::Extension);
 
 =begin TML
@@ -70,7 +70,7 @@ with the following lines:
 <verbatim>
 package Foswiki::Extension::<your chosen name>;
 
-use Foswiki::Class qw(extension);
+use Foswiki::Class -extension;
 extends qw(Foswiki::Extension);
 
 use version 0.77; our $VERSION = version->declare(0.0.1);
@@ -264,7 +264,7 @@ subroutine to declare pluggable methods:
 
 <verbatim>
 package Foswiki::CoreClass;
-use Foswiki::Class qw(extensible);
+use Foswiki::Class -extensible;
 extends qw(Foswiki::Object);
 
 ...
@@ -282,17 +282,17 @@ pluggable someMethod => sub {
 
 Method overriding can only work within properly initialized %WIKITOOLNAME%
 application environment. I.e. it requires initialized extensions on application
-object. On the other hand not only classes with =%PERLDOC{Foswiki::AppObject}%=
+object. On the other hand not only classes with =%PERLDOC{Foswiki::Role::AppObject}%=
 role applied can use this feature. This is because
 =Foswiki::Util::_ExtensibleRole= implicitly adds =__appObj= attribute to the
-class it is applied to. In distinction to =%PERLDOC{"Foswiki::AppObject"
+class it is applied to. In distinction to =%PERLDOC{"Foswiki::Role::AppObject"
 attr="app"}%= attribute =__appObj= is not required and can remain undefined.
 
-For a non =Foswiki::AppObject= class to get the feature enabled it is mandatory
+For a non =Foswiki::Role::AppObject= class to get the feature enabled it is mandatory
 to have objects of the class created with =%PERLDOC{"Foswiki::App"
-method="create"}%= or =%PERLDOC{"Foswiki::AppObject" method="create"}%= methods.
+method="create"}%= or =%PERLDOC{"Foswiki::Role::AppObject" method="create"}%= methods.
 For example (consider the above sample and assume that the code below belongs
-to a class with =Foswiki::AppObject= role):
+to a class with =Foswiki::Role::AppObject= role):
 
 <verbatim>
 plugBefore "Foswiki::CoreClass::someMethod" => sub {

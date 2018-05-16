@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Util::Callbacks;
-use v5.14;
+package Foswiki::Role::Callbacks;
 
 =begin TML
 
@@ -14,7 +13,7 @@ Support of callbacks for classes which need them.
 <verbatim>
 package Foswiki::CBSample;
 
-use Foswiki::Class qw<callbacks>;
+use Foswiki::Class -callbacks;
 extends qw<Foswiki::Object>;
 
 __PACKAGE__->registerCallbackNames( qw<sampleCB1 sampleCB2> );
@@ -45,7 +44,7 @@ package Foswiki::Util::UserModule;
 
 use Scalar::Util qw<weaken>;
 
-use Foswiki::Class qw<callbacks>;
+use Foswiki::Class -callbacks;
 extends qw<Foswiki::Object>;
 
 sub BUILD {
@@ -205,10 +204,11 @@ keep callbacks data in =_aux_registered_callbacks= key.
    alone, don't use it, don't change it's value! Callbacks framework would
    appreciate your udnerstanding!</em>
    
-Because of the use of the application object it is strongly recommended for
-the callbacks to be used by either classes with %PERLDOC{"Foswiki::AppObject"}%
-role, or with %PERLDOC{"Foswiki::Class" anchor="extensible"}% *extensible*
-modifier - read about the framework's
+Because of the use of the application object it is strongly recommended for the
+callbacks to be used by either classes with
+%PERLDOC{"Foswiki::Role::AppObject"}% role, or with
+%PERLDOC{"Foswiki::Class" anchor="extensible"}%*extensible* modifier - read
+about the framework's
 [[%SYSTEMWEB%.CallbacksFramework#Common_Principles][common principles]].
    
 =cut
@@ -222,7 +222,10 @@ use Scalar::Util qw(weaken);
 my %_registeredCBNames;
 my %_cbNameIndex;
 
-use Moo::Role;
+use Foswiki::Role -sugar;
+roleInit;
+
+newSugar -callbacks => { callbackNames => \&_handler_callbackNames, };
 
 =begin TML
 
@@ -458,7 +461,7 @@ sub callback {
 ---+++ StaticMethod registerCallbackNames($namespace, @cbNames)
 
 Declare callback names on name space =$namespace=. Called by
-=%PERLDOC{Foswiki::Class}%= exported =callback_names=.
+=%PERLDOC{Foswiki::Class}%= exported =callbackNames=.
 
 =cut
 
@@ -473,6 +476,12 @@ sub registerCallbackNames {
         $_registeredCBNames{$cbName} = 1;
         push @{ $_cbNameIndex{$_} }, $namespace;
     }
+}
+
+# Sugar handlers
+sub _handler_callbackNames {
+    my $target = caller;
+    Foswiki::Role::Callbacks::registerCallbackNames( $target, @_ );
 }
 
 1;

@@ -21,7 +21,7 @@ use Assert;
 use Scalar::Util qw(blessed weaken refaddr);
 use Try::Tiny;
 
-use Foswiki::Class qw(callbacks);
+use Foswiki::Class -callbacks;
 extends qw(Foswiki::App);
 
 =begin TML
@@ -46,7 +46,7 @@ No =params= are sent to the handler.
 
 =cut
 
-callback_names qw(testPreHandleRequest testPostHandleRequest);
+callbackNames qw(testPreHandleRequest testPostHandleRequest);
 
 =begin TML
 
@@ -130,13 +130,13 @@ around BUILDARGS => sub {
 sub BUILD {
     my $this = shift;
 
-    # Fixup Foswiki::AppObject descendants which have been cloned from objects
-    # on another Foswiki::App instance.
+    # Fixup Foswiki::Role::AppObject descendants which have been cloned from
+    # objects on another Foswiki::App instance.
     foreach my $attr ( keys %$this ) {
         if (
                blessed( $this->{$attr} )
             && $this->$attr->isa('Foswiki::Object')
-            && $this->$attr->does('Foswiki::AppObject')
+            && $this->$attr->does('Foswiki::Role::AppObject')
             && ( !defined( $this->$attr->app )
                 || ( $this->$attr->app != $this ) )
           )

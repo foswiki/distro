@@ -1,5 +1,4 @@
 package CacheTests;
-use v5.14;
 use utf8;
 
 use Foswiki();
@@ -8,8 +7,7 @@ use Foswiki::OopsException();
 use Foswiki::PageCache();
 use Benchmark qw(:hireswallclock);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(FoswikiFnTestCase);
 
 has testAction => ( is => 'rw', );

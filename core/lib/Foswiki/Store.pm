@@ -61,7 +61,7 @@ use Foswiki::Sandbox ();
 use HTML::Entities   ();
 use Unicode::Normalize qw(NFC);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 has heap => (

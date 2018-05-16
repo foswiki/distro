@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1507858764" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1526436284" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Callbacks
 %TOC%
@@ -13,7 +13,7 @@ provided as =%PERLDOC{"Foswiki::Util::Callbacks"}%= role. It is not possible
 neither to declare nor to excute a callback otherwise but by an object. More
 than that, it cannot function without an application object either! For this
 reason it is recommended to have callbacks declared by instances of classes with
-either %PERLDOC{"Foswiki::AppObject"}% role or %PERLDOC{"Foswiki::Class"}%
+either %PERLDOC{"Foswiki::Role::AppObject"}% role or %PERLDOC{"Foswiki::Class"}%
 =extensible= modifier applied. In any case, use of %PERLDOC{"Foswiki::App"
 method="create"}% method is advisable, as [[OOCodeConcepts]] suggests. If this
 rule is not followed then callbacks framework would attempt to use the

@@ -15,17 +15,14 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Server;
-use v5.14;
 
 use Try::Tiny;
 use Foswiki::Func                              ();
 use Foswiki::Contrib::JsonRpcContrib::Error    ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant TRACE => 0;    # toggle me
 

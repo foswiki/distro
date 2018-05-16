@@ -93,8 +93,8 @@ The methods are setting the following profile attributes:
    * =app=
    
 Though =app= is not commonly used by exceptions but it could serve for some
-specific ones. For example, for those with %PERLDOC{"Foswiki::AppObject"}% role
-applied.
+specific ones. For example, for those with %PERLDOC{"Foswiki::Role::AppObject"}%
+role applied.
 
 The =stacktrace= attribute normally doesn't contain frames belonging to the
 exception processing and starts with the frame where one of the methods
@@ -1144,7 +1144,7 @@ descendant.
 | =does= | defines a role the class must do |  |
 
 By using =does= we can define not only that the object must be, say, a
-=Foswiki::Object= descendant but that it has to have =Foswiki::AppObject=
+=Foswiki::Object= descendant but that it has to have =Foswiki::Role::AppObject=
 applied:
 
 <verbatim>
@@ -1153,7 +1153,7 @@ has childObject => (
     isa => Foswiki::Object::isaCLASS(
             'childObject',
             'Foswiki::Object',
-            does => 'Foswiki::AppObject',
+            does => 'Foswiki::Role::AppObject',
     ),
 );
 </verbatim>

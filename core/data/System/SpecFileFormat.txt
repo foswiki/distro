@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506998025" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1526436284" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+!! Spec Files v2.0
 %TOC%
@@ -96,7 +96,7 @@ matters but its use is discouraged.
      [[#BasicConcepts][Basic Concepts]] section.
    $ =perl=: is somewhat more advanced as file content is considered to be
    a body of a method called on a object of a class with
-   =%PERLDOC{Foswiki::AppObject}%= and =%PERLDOC{Foswiki::CfgObject}%= roles
+   =%PERLDOC{Foswiki::Role::AppObject}%= and =%PERLDOC{Foswiki::CfgObject}%= roles
    applied. The actual class name is irrelevant and may vary depending on
    implementation. The method will have local scalar =$this= available the code.
    It must return a list with valid spec data. The format is good for

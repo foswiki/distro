@@ -15,7 +15,7 @@ use Assert;
 use Unicode::Normalize;
 use Foswiki qw(expandStandardEscapes);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 our $MARKER = "\0";

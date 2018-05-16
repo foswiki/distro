@@ -5,7 +5,7 @@ use Try::Tiny;
 use Data::Dumper;
 use Foswiki::Render::Anchors;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 with qw<Foswiki::Macro>;
 

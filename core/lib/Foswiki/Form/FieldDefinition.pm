@@ -20,7 +20,7 @@ use Assert;
 use CGI ();
 use Foswiki qw(expandStandardEscapes);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw( Foswiki::Object );
 
 has name        => ( is => 'ro', lazy => 1, default => '', );

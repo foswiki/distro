@@ -5,7 +5,7 @@ use v5.14;
 use Foswiki::Serialise ();
 use Try::Tiny;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Macro);
 

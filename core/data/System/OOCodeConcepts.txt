@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1510282385" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1526436284" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FoswikiV3Essentials"}%
 ---+ Programming for Foswiki v3
 %TOC%
@@ -149,7 +149,7 @@ attribute when the two directly or indirectly depend on each other.
 objects. Mostly it is related to situations when a child object is referring its
 parent. As this is a typical situation where circular references occur and
 cause garbage collection to fail use of *weak_ref* option is highly recommended
-to be considered. See %PERLDOC{Foswiki::AppObject}%= role code as an example.
+to be considered. See %PERLDOC{Foswiki::Role::AppObject}%= role code as an example.
 
 ---+++ Avoiding infrastructure code
 
@@ -163,7 +163,7 @@ use v5.14;
 use Moo;
 use namespace::clean;
 extends qw<Foswiki::Object>;
-with qw<Foswiki::AppObject>;
+with qw<Foswiki::Role::AppObject>;
 </verbatim>
 
 Though the last line is not mandatory but most of the core classes use it.
@@ -178,7 +178,7 @@ In order to get around these annoyances Foswiki provides a wrapper for
 <verbatim>
 package Foswiki::SomeClass;
 
-use Foswiki::Class qw<app>;
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 </verbatim>
 
@@ -256,7 +256,7 @@ seen all across the core source):
 
 <verbatim>
 package Foswiki::AClass;
-use Foswiki::Class qw<app>;
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 
 has result => (
@@ -309,10 +309,10 @@ for:
 
 The object is an instance of %PERLDOC{Foswiki::App}% class.
 
----+++ Foswiki::AppObject role
+---+++ Foswiki::Role::AppObject role
 
 Internally all Foswiki classes could be separated in two major groups: those
-with %PERLDOC{Foswiki::AppObject}% applied; and those without. When a class
+with %PERLDOC{Foswiki::Role::AppObject}% applied; and those without. When a class
 consumes the role it means it can exists only within initialized application
 environment. Most of the core classes are consuming the role.
 
@@ -324,7 +324,7 @@ The role provides two major elements on a class:
 <verbatim class="perl">
 package Foswiki::AppClass;
 
-use Foswiki::Class qw<app>;
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 </verbatim>
 
@@ -333,7 +333,7 @@ object. But it is a part of the extensions framework and as such is out of the
 scope of this documentation.
 
 %X% *NOTE TO SCRIPT/TOOLS DEVELOPERS:* If a script relies upon a core class
-with =Foswiki::AppObject= role applied it must create an application object.
+with =Foswiki::Role::AppObject= role applied it must create an application object.
 Then either a corresponding attribute on application could be used to do the job
 or necessary instance must be created using application's =create()= method.
 
@@ -385,7 +385,7 @@ data encapsulation. This is done by converting =Foswiki::Func= functions into
 %PERLDOC{"Foswiki::App" anchor="API_methods" text="Foswiki::App methods"}%
 (except for a couple of them relocated into other, more appropriate classes
 – check =%Foswiki::Func::_funcPrefixMap=). Respectively, it is highly
-recommended that any code, belonging to a class with =Foswiki::AppObject= role
+recommended that any code, belonging to a class with =Foswiki::Role::AppObject= role
 applied, to use these methods and avoid =Foswiki::Func= whatsoever.
 
 For the legacy code =Foswiki::Func= implements mapping of API functions into API

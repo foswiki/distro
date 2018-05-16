@@ -2,10 +2,10 @@
 
 package CBTest::Provider;
 
-use Foswiki::Class qw(callbacks);
+use Foswiki::Class -callbacks;
 extends qw(Foswiki::Object);
 
-callback_names qw(testCB);
+callbackNames qw(testCB);
 
 sub methodWithCB {
     my $this = shift;
@@ -17,7 +17,7 @@ package CBTest::Handler;
 
 use Scalar::Util qw(weaken);
 
-use Foswiki::Class qw(callbacks);
+use Foswiki::Class -callbacks;
 extends qw(Foswiki::Object);
 
 sub BUILD {

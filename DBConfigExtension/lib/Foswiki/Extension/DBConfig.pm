@@ -44,7 +44,7 @@ use Try::Tiny;
 
 use Foswiki::FeatureSet;
 
-use Foswiki::Class qw(extension);
+use Foswiki::Class -extension;
 extends qw(Foswiki::Extension);
 
 use version 0.77; our $VERSION = version->declare(0.1.1);

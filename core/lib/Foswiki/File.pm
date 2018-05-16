@@ -14,7 +14,7 @@ use Try::Tiny;
 use File::stat;
 use Foswiki::Exception ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 =begin TML

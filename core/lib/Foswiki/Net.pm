@@ -21,7 +21,7 @@ use URI;
 
 use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 our $LWPAvailable;

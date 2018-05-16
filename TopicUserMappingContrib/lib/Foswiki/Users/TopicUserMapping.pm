@@ -33,7 +33,7 @@ use Try::Tiny;
 use Foswiki::ListIterator ();
 use Foswiki::Func         ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::UserMapping);
 

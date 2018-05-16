@@ -23,7 +23,7 @@ This class is responsible for managing macros.
 use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 use Assert;

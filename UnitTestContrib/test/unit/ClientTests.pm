@@ -1,5 +1,4 @@
 package ClientTests;
-use v5.14;
 
 # This is woefully incomplete, but it does at least check that
 # LoginManager.pm compiles okay.
@@ -10,8 +9,7 @@ use Try::Tiny;
 use Digest::MD5 qw(md5_hex);
 use Scalar::Util qw(blessed);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};

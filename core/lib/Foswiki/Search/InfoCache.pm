@@ -7,7 +7,7 @@ use Foswiki::Func                     ();
 use Foswiki::Meta                     ();
 use Foswiki::Iterator::FilterIterator ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::ListIterator);
 
 =begin TML

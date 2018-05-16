@@ -4,7 +4,7 @@ package Foswiki::Config;
 
 =begin TML
 
----+!! package Foswiki::Config
+---+!! Class Foswiki::Config
 
 Class representing configuration data.
 
@@ -227,7 +227,7 @@ package Foswiki::Exception::_expandStr::UndefVal {
     with qw<Foswiki::Exception::Harmless>;
 }
 
-use Foswiki::Class qw(app extensible);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Util::Localize);
 

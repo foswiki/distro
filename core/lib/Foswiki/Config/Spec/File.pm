@@ -12,7 +12,7 @@ use Try::Tiny;
 
 use constant CACHE_SUBDIR => '.specCache';
 
-use Foswiki::Class qw(app extensible);
+use Foswiki::Class -app;
 extends qw(Foswiki::File);
 with qw(Foswiki::Config::CfgObject Foswiki::Util::Localize);
 

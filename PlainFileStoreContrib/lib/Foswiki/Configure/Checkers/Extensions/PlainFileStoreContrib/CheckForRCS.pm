@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Extensions::PlainFileStoreContrib::CheckForRCS;
-use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Checker);
 
 my @required = (

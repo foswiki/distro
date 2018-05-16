@@ -10,7 +10,7 @@ This is the base class to be inherited by _every_ new extension.
 
 =cut
 
-use Foswiki::Class qw(app callbacks);
+use Foswiki::Class -app, -callbacks;
 extends qw(Foswiki::Object);
 
 sub DEMOLISH {

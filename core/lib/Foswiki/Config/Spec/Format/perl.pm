@@ -2,7 +2,7 @@
 
 package Foswiki::Config::Spec::Format::perl::Wrapper;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::CfgObject);
 
@@ -10,7 +10,7 @@ package Foswiki::Config::Spec::Format::perl;
 
 use Foswiki::Exception::Config;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::Spec::Parser Foswiki::Config::CfgObject);
 

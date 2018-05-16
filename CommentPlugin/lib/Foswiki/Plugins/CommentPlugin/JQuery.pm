@@ -3,9 +3,8 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::CommentPlugin::JQuery;
-use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 around BUILDARGS => sub {

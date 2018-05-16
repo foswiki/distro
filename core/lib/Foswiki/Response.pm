@@ -20,7 +20,7 @@ use Assert;
 use CGI::Util ();
 use Carp      ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 =begin TML

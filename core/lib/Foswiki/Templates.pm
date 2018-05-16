@@ -35,7 +35,7 @@ use Assert;
 
 use Foswiki::Attrs ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 # Enable TRACE to get HTML comments in the output showing where templates

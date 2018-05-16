@@ -89,7 +89,7 @@ use Foswiki::WebFilter;
 use Foswiki::Time;
 use Foswiki qw(%regex load_package load_class isTrue);
 
-use Foswiki::Class qw(callbacks);
+use Foswiki::Class -callbacks;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -104,7 +104,7 @@ This class is currently provides support for the following callbacks:
 
 =cut
 
-callback_names qw(handleRequestException postConfig);
+callbackNames qw(handleRequestException postConfig);
 
 =begin TML
 

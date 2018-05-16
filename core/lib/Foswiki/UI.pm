@@ -27,7 +27,7 @@ use Foswiki::Validation             ();
 use Foswiki::Exception              ();
 use Foswiki::Request::Cache         ();
 
-use Foswiki::Class qw<app>;
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 
 # Used to lazily load UI handler modules

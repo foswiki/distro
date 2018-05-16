@@ -25,10 +25,8 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 use constant TRACE => 0;    # toggle me
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 has data => (
     is      => 'rw',

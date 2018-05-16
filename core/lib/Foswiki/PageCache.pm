@@ -62,7 +62,7 @@ use Foswiki::Plugins ();
 use Try::Tiny;
 use CGI::Util ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 has webDeps => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );

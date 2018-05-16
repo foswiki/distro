@@ -5,7 +5,7 @@ use v5.14;
 use Foswiki::Store ();
 use Foswiki::Meta  ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Macro);
 

@@ -10,8 +10,7 @@ use Assert;
 # For Anchor test
 use Foswiki::UI ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(FoswikiFnTestCase);
 
 my $post11 = 0;

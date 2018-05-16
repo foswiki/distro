@@ -4,7 +4,10 @@ use v5.14;
 use Try::Tiny;
 use Foswiki::OopsException();
 use Foswiki::AccessControlException();
+use Foswiki::Exception ();
 use Scalar::Util qw<blessed>;
+use Types::Standard qw<InstanceOf Str>;
+use Type::Utils -all;
 
 use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
@@ -227,7 +230,8 @@ sub test_ObjectThrowNoText {
         $this->assert( blessed($e), "unblessed exception object" );
         $this->assert_str_equals( 'Foswiki::Exception::TestException',
             ref($e), "incorrect exception class " . ref($e) );
-        $this->assert_equals( $e->text, "text attribute hasn't been set" );
+        $this->assert_equals( "exception text attribute hasn't been set",
+            $e->text );
     };
 }
 

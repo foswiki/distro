@@ -571,13 +571,13 @@ application with =_set_app()= method.
 
 *NOTE* No responsibility is taken if a reference to the application is stored in
 any other attribute or object's hash key. To make sure that a instance of your
-class is handled properly by this core apply =Foswiki::AppObject= role.
+class is handled properly by this core apply =Foswiki::Role::AppObject= role.
 
 See also: =Unit::TestApp=
 
 =cut
 
-# Correct all Foswiki::AppObject to use currently active Foswiki::App object.
+# Correct all Foswiki::Role::AppObject to use currently active Foswiki::App object.
 # SMELL Hacky but shall be transparent for any derived test case class.
 sub _fixupAppObjects {
     my $this = shift;

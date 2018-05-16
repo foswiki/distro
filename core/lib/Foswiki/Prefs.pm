@@ -70,7 +70,7 @@ use Foswiki::Prefs::Web   ();
 use Scalar::Util          ();
 use Foswiki qw(findCaller);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 #our @_newParameters = qw( session );

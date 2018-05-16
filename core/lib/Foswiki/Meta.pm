@@ -113,7 +113,7 @@ use Encode ();
 
 use Foswiki::Serialise ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 #use Foswiki::Iterator::NumberRangeIterator;
@@ -493,8 +493,8 @@ prototype object (which must be type Foswiki::Meta).
 sub BUILD {
     my $this = shift;
 
-    ASSERT( $this->does('Foswiki::AppObject'), "No AppObject role!" );
-    ASSERT( $this->can('app'),                 "No app method!" );
+    ASSERT( $this->does('Foswiki::Role::AppObject'), "No AppObject role!" );
+    ASSERT( $this->can('app'),                       "No app method!" );
 
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.

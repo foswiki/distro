@@ -7,8 +7,7 @@ use Foswiki::Configure::Dependency ();
 # For Anchor test
 use Foswiki::UI ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'FoswikiFnTestCase';
 
 my $post11 = 0;

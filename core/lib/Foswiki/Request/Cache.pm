@@ -28,7 +28,7 @@ use Fcntl;    # File control constants e.g. O_EXCL
 use Foswiki::Request::Upload ();
 use Foswiki::Sandbox         ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 use constant TRACE_CACHE => 0;

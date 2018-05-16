@@ -23,7 +23,7 @@ can't think of right now.
 
 use Try::Tiny;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::ItemRole);
 

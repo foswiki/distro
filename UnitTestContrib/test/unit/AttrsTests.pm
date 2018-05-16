@@ -1,9 +1,7 @@
 package AttrsTests;
-use v5.14;
 
 use Foswiki::Attrs();
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(FoswikiTestCase);
 
 sub test_isEmpty {

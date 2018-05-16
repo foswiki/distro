@@ -35,7 +35,7 @@ use Foswiki::Exception ();
 use Digest::MD5 qw(md5_hex);
 use Crypt::PasswdMD5 qw(apache_md5_crypt);
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::UserMapping);
 

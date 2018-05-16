@@ -40,7 +40,7 @@ use CGI::Util qw(rearrange);
 
 use constant TRACE => 0;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 =begin TML

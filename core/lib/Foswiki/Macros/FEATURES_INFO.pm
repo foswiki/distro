@@ -6,7 +6,7 @@ use Data::Dumper;
 use Foswiki::FeatureSet qw<getNSFeatures featureMeta featureVersions
   getFSNamespaces>;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 with qw<Foswiki::Macro>;
 

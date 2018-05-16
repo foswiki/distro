@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Store::PlainFile::Implementation;
-use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {

@@ -3,10 +3,8 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::ConfigurePlugin::JQuery;
-use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 around BUILDARGS => sub {

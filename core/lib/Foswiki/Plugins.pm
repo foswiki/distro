@@ -17,7 +17,7 @@ handler calls to registered plugins.
 use Foswiki qw(findCallerByPrefix);
 use Foswiki::Plugin ();
 
-use Foswiki::Class qw(app);
+use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 
 use Assert;
