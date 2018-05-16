@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Extension::Sample::BadPlugOverrideTest;
+package Foswiki::Role;
 
 =begin TML
 
----+!! Class Foswiki::Extension::Sample::BadPlugOverrideTest
+---+!! package Foswiki::Role
 
-Test class for ExtensionsTests. Must fail on load.
+
 
 ---++ SYNOPSIS
 
@@ -14,34 +14,18 @@ Test class for ExtensionsTests. Must fail on load.
 
 =cut
 
-use Foswiki::Class -app;
-extends qw<Foswiki::Object>;
+require Foswiki::Class;
 
-=begin TML
-
----++ ATTRIBUTES
-
-=cut
-
-=begin TML
-
----++ METHODS
-
-=cut
-
-sub badMethod {
-    my $this = shift;
-
-    $undeclared = "irrelevant";
-
-    return 1;
+sub import {
+    push @_, '-role';
+    goto &Foswiki::Class::import;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

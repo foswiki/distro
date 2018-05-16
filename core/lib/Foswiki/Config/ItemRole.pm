@@ -15,7 +15,7 @@ require Foswiki::Object;
 
 use Foswiki::Exception::Config;
 
-use Moo::Role;
+use Foswiki::Role;
 
 =begin TML
 

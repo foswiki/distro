@@ -6,7 +6,7 @@ package Foswiki::Config::CfgObject;
 
 ---+!! Role Foswiki::Config::CfgObject
 
-This role is similar in nature to %PERLDOC{"Foswiki::AppObject"}%. But instead
+This role is similar in nature to %PERLDOC{"Foswiki::Role::AppObject"}%. But instead
 of providing backlinking to the parent application object it backlinks to the
 configuration object. The point is to support early stages of config life
 cycle when application's =%PERLDOC{"Foswiki::App" attr="cfg" text="cfg"}%=
@@ -27,7 +27,7 @@ Upon cloning this role returns the value in =cfg= attribute as is.
 
 require Foswiki::Object;
 
-use Moo::Role;
+use Foswiki::Role;
 
 =begin TML
 

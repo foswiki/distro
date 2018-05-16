@@ -10,8 +10,7 @@ Used to prefix exception text with source file info.
 
 =cut
 
-use Moo::Role;
-use namespace::clean;
+use Foswiki::Role;
 
 =begin TML
 

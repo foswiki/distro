@@ -14,7 +14,7 @@ Test class for ExtensionsTests.
 
 =cut
 
-use Foswiki::Class qw<app>;
+use Foswiki::Class -app;
 extends qw<Foswiki::Object>;
 
 =begin TML

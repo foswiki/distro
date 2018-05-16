@@ -2,7 +2,7 @@
 
 package Foswiki::Config::Role::Node::Size;
 
-use Moo::Role;
+use Foswiki::Role;
 
 around optionDefinitions => sub {
     my $orig  = shift;
