@@ -76,15 +76,15 @@ sub INCLUDE {
     my $isa;
     state $extendsRx = qr/(?<=;)\s*(?:extends\s+|our\s+\@ISA\s*=\s*)/;
     state $withRx    = qr/(?<=;)\s*with\s+(?=q|\()/;
-    state $fwClassRx = qr/(?<=;)\s*use\s+Foswiki::Class\s+/;
+    state $fwClassRx = qr/(?<=;)\s*use\s+Foswiki::Class\s*/;
     my %baseType2Text = (
         extends    => 'IS A',
         with       => 'ROLES',
         classAttrs => _doclink( $app, 'Foswiki::Class' ) . ' MODIFIERS',
     );
     my %classAttributes2Roles = (
-        app       => 'Foswiki::AppObject',
-        callbacks => 'Foswiki::Util::Callbacks',
+        -app       => 'Foswiki::Role::AppObject',
+        -callbacks => 'Foswiki::Role::Callbacks',
     );
 
     if (USE_LEXICAL_PARSER) {

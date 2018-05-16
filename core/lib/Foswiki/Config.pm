@@ -221,12 +221,6 @@ use Foswiki qw(urlEncode urlDecode make_params);
 use Foswiki::Configure::FileUtil;
 use Foswiki::Exception::Config;
 
-package Foswiki::Exception::_expandStr::UndefVal {
-    use Foswiki::Class;
-    extends qw<Foswiki::Exception>;
-    with qw<Foswiki::Exception::Harmless>;
-}
-
 use Foswiki::Class -app;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Util::Localize);
@@ -4341,6 +4335,11 @@ sub _specCfgKey {
         }
     }
 }
+
+package Foswiki::Exception::_expandStr::UndefVal;
+use Foswiki::Class;
+extends qw<Foswiki::Exception>;
+with qw<Foswiki::Exception::Harmless>;
 
 1;
 __END__
