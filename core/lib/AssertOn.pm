@@ -6,7 +6,7 @@
 use strict;
 use locale;    # so result of lc() is tainted
 
-require Foswiki::Exception::ASSERT;
+#require Foswiki::Exception::ASSERT;
 our $DIRTY = lc('x');    # Used in TAINT
 our $soft  = 0;
 
@@ -19,6 +19,10 @@ sub import {
 }
 
 sub ASSERT($;$) {
+
+    # Use run-time pre-loading of the exception because otherwise it breaks
+    # Moo's building of exception object constructor.
+    Foswiki::load_package('Foswiki::Exception');
     unless ( $_[0] ) {
         require Carp;
         my $msg = 'Assertion';
