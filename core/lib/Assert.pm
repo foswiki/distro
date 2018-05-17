@@ -21,7 +21,57 @@ our $soft = 0;
 
 # Easier than farting about with AUTOLOAD; pull in the implementation we want,
 # either AssertOn or AssertOff
-require 'Assert' . ( DEBUG ? 'On' : 'Off' ) . '.pm';
+#require 'Assert' . ( DEBUG ? 'On' : 'Off' ) . '.pm';
+
+sub _ASSERT($;$) {
+
+    # Use run-time pre-loading of the exception because otherwise it breaks
+    # Moo's building of exception object constructor.
+    Foswiki::load_package('Foswiki::Exception');
+    unless ( $_[0] ) {
+        require Carp;
+        my $msg = 'Assertion';
+        $msg .= " ($_[1])" if defined $_[1];
+        $msg .= " failed!\n";
+        if ($soft) {
+            Carp::cluck($msg);
+        }
+        else {
+            # SMELL Experimental: generate exception instead of just die.
+            my ( $pkg, $file, $line ) = caller;
+            Foswiki::Exception::ASSERT->throw(
+                text => $msg,
+                file => $file,
+                line => $line,
+            );
+
+            #Carp::confess($msg);
+        }
+    }
+    return;
+}
+
+sub _UNTAINTED($) {
+    local ( @_, $@, $^W ) = @_;
+    my $x;
+    return eval { $x = $_[0], kill 0; 1 };
+}
+
+sub _TAINT($) {
+    my $DIRTY = lc('x');    # Used in TAINT
+    return substr( $_[0] . $DIRTY, 0, length( $_[0] ) );
+}
+
+if (DEBUG) {
+    *ASSERT    = \&_ASSERT;
+    *UNTAINTED = \&_UNTAINTED;
+    *TAINT     = \&_TAINT;
+}
+else {
+    *ASSERT    = sub { };
+    *UNTAINTED = sub { 1 };
+    *TAINT     = sub { $_[0] };
+}
 
 =begin TML
 ---++ DEBUG
