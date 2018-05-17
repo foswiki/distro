@@ -205,26 +205,31 @@ Then the list is used to actually apply roles to the class at once with
 # _install_something – functions that install feature `something' into the target module;
 # _handler_someword - function which implements exported keyword `someword'
 
+use Assert;
 use Carp;
 use Class::Method::Modifiers qw(install_modifier);
+use Module::Load qw<load_remote>;
+use List::Util qw<pairs pairmap>;
 
 require Foswiki;
 require Moo::Role;
 require Moo;
+require MooX::TypeTiny;
 require namespace::clean;
 
 use constant DEFAULT_FEATURESET => ':5.14';
 
-#our @ISA = qw(Moo);
+our $HAS_WITH_ASSERT = Assert::DEBUG;
 
 # Information about classes registered with this module.
 my %_classData;
 
 # Options accepted by this module
 my %_optionSet = (
-    '-role'      => { handler => \&_option_role, },
-    '-app'       => { roles   => [qw<Foswiki::Role::AppObject>], },
-    '-callbacks' => { roles   => [qw<Foswiki::Role::Callbacks>], },
+    '-app'       => { roles => [qw<Foswiki::Role::AppObject>], },
+    '-callbacks' => { roles => [qw<Foswiki::Role::Callbacks>], },
+    '-role'      => {},
+    '-types'     => {},
 );
 
 # Predefined sugars
@@ -242,37 +247,54 @@ _rebuildSugars();
 # Mapping of wrapped sub into wrapping handler. The handlers must have names
 # starting with _fw_
 my %_codeWrapper = (
-    extends => '_fw_extends',    # Wrap always.
+    extends => '_fw_extends',
+    has     => '_fw_has',
+    with    => '_fw_with',
 );
 
 sub _fw_has {
-    my $target = shift;
-    my ($attr) = @_;
+    my $target   = shift;
+    my $origCode = shift;
+    my ( $attrs, @opts ) = @_;
 
-    #say STDERR "Registering attr `$attr' on $target";
+    my @attrs = ref($attrs) ? @$attrs : ($attrs);
 
-    push @{ $_classData{$target}{registeredAttrs}{list} },
-      { attr => $attr, options => [ @_[ 1 .. $#_ ] ] };
+    # Convert assert to isa if in DEBUG mode. Otherwise just drop it.
+    my @profile = pairmap {
+        ( $a eq 'assert' )
+          ? ( $HAS_WITH_ASSERT ? ( isa => $b ) : () )
+          : ( $a => $b );
+    }
+    @opts;
+
+    foreach my $attr (@attrs) {
+        push @{ $_classData{$target}{registeredAttrs}{list} },
+          { attr => $attr, options => [ @_[ 1 .. $#_ ] ] };
+    }
+
+    $origCode->( $attrs, @profile );
 }
 
 sub _fw_with {
-    my $target = shift;
+    my $target   = shift;
+    my $origCode = shift;
+
+    $origCode->(@_);
 
     #say STDERR "$target WITH ", join( ", ", @_ );
     push @{ $_classData{$target}{WITH} }, @_;
 }
 
 sub _fw_extends {
-    my $target = shift;
+    my $target   = shift;
+    my $origCode = shift;
+
+    $origCode->(@_);
 
     #say STDERR "*** $target EXTENDS ", join( ", ", @_ );
     push @{ $_classData{$target}{ISA} }, @_;
 
     _modInit($target);
-}
-
-if ( $ENV{FOSWIKI_ASSERTS} ) {
-    @_codeWrapper{qw(has with)} = qw(_fw_has _fw_with);
 }
 
 # Moo doesn't provide a clean way to get all object's attributes. The only
@@ -309,11 +331,8 @@ foreach my $module (qw(Moo Moo::Role)) {
                 my $origCode = $_[2];
                 $_[2] = sub {
 
-                    #say STDERR "Orig ${target}::$codeName code first.";
-                    &$origCode(@_);
-
                     #say STDERR "Extension ${target}::$codeName code next.";
-                    $ovCode->( $target, @_ );
+                    $ovCode->( $target, $origCode, @_ );
                 };
             }
             goto &$_install_tracked;
@@ -587,11 +606,16 @@ sub registerSugar (%) {
     }
 }
 
-sub _option_role {
+sub _install_role {
     my ( $class, $target ) = @_;
 
     $_classData{$target}{baseMod} = 'Moo::Role';
     $_classData{$target}{isRole}  = 1;
+}
+
+sub _install_types {
+    my ( $class, $target ) = @_;
+    load_remote( $target, 'Foswiki::Types', '-all' );
 }
 
 sub _handler_stubMethods (@) {

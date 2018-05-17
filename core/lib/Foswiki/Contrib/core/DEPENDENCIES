@@ -36,3 +36,6 @@ Socket,>=2.001,cpan,Required, for base Foswiki.
 URI,>=0,cpan,Required, used for Foswiki::Net URL parsing
 Win32::Console,>=0,cpan,Optional, required on Windows platforms if {UserInterfaceInternationalisation} is enabled in configuration.
 version,>=0.77,cpan,Required, Used for standard perl version strings.
+List::Util,>=1.29,cpan,Required, various list operations
+Type::Tiny,>=0,cpan,Required, various type checking routines
+Types::Standard,>=0,cpan,Required, library of standard types

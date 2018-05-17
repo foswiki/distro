@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright
 package Unit::TestCase;
-use v5.14;
 
 =begin TML
 
@@ -18,7 +17,6 @@ Foswiki.
 use Try::Tiny;
 use Carp;
 use Unit::HTMLDiffer;
-use Unit::TestRunner();
 use Foswiki::Exception ();
 use Text::Diff         ();
 require File::Temp;
@@ -828,6 +826,29 @@ sub encode_wide_chars {
         }
     }
     return join( '', @s );
+}
+
+=begin TML
+
+---+++ ObjectMethod compileTestPackage($pkgName, $pkgBody)
+
+Builds complete package source using package name from =$pkgName= and its
+source code from =$pkgBody=. Reports failure using =assert()= if compilation
+fails.
+
+=cut
+
+sub compilePackage {
+    my $this = shift;
+    my ( $pkgName, $pkgBody ) = @_;
+
+    my $rc = eval <<PKG;
+package ${pkgName};
+#line 0 "${pkgName}"
+$pkgBody
+1;
+PKG
+    $this->assert( $rc, "Compilation of ${pkgName} failed: " . $@ );
 }
 
 1;

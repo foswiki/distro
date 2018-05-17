@@ -30,6 +30,7 @@ test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/CacheTests.pm 0644
 test/unit/CallbackTests.pm 0644
+test/unit/ClassTests.pm 0644
 test/unit/ClientTests.pm 0644
 test/unit/ConfigTests.pm 0644
 test/unit/ConfigureQueryTests.pm 0644
@@ -120,6 +121,7 @@ test/unit/TestExtensions/Foswiki/Extension/Empty.pm 0644
 test/unit/TestExtensions/Foswiki/Extension/Sample.pm 0644
 test/unit/TestExtensions/Foswiki/Extension/Sample/Config.pm 0644
 test/unit/TimeTests.pm 0644
+test/unit/TypesTests.pm 0644
 test/unit/UIFnCompileTests.pm 0644
 test/unit/UTF8Tests.pm 0644
 test/unit/UnitTestContrib/EavesdropTests.pm 0644
