@@ -144,6 +144,20 @@ has stacktrace => (
 
 =begin TML
 
+---+++ ObjectAttribute originalException
+
+If this exception is a result of transmutation this attribute will preserve the
+exception used to be the source of data.
+
+=cut
+
+has originalException => (
+    is        => 'rw',
+    predicate => 1,
+);
+
+=begin TML
+
 ---++ METHODS
 
 =cut
@@ -316,7 +330,7 @@ catch {
 sub rethrow {
     my $exception = shift;
 
-    if ( blessed($exception) ) {
+    if ( blessed($exception) && $exception->isa("Foswiki::Exception") ) {
 
         # Never call transmute on a Foswiki::Exception descendant because this
         # is not what is expected from rethrow.
@@ -373,11 +387,21 @@ sub transmute {
         "Bad destination exception type $class for transmuting" )
       if DEBUG;
     if ( ref($e) ) {
+
+        #say STDERR Carp::longmess( "{{{{{ Transmuting " . ref($e) . "}}}}}" );
+
+        # Preserve type errors if possible.
+        if ( !$enforce && $e->isa("Error::TypeTiny") ) {
+            return $e;
+        }
+
+        my @profile = ( @_, originalException => $e );
+
         if ( $e->isa('Foswiki::Exception') ) {
             if ( !$enforce || $e->isa($class) ) {
                 return $e;
             }
-            return $class->new( %$e, @_ );
+            return $class->new( %$e, @profile );
         }
         elsif ( $e->isa('Error') ) {
             return $class->new(
@@ -386,38 +410,35 @@ sub transmute {
                 file       => $e->file,
                 stacktrace => $e->stacktrace,
                 object     => $e->object,
-                @_,
+                @profile,
             );
         }
 
         # Wild cases of non-exception objects. Generally it's a serious bug but
         # we better try to provide as much information on what's happened as
         # possible.
-        elsif ( $e->can('stringify') ) {
-            return $class->new(
-                text => "(Exception from stringify() method of "
-                  . ref($e) . ") "
-                  . $e->stringify,
-                @_
-            );
+
+        foreach my $strMethod (qw<stringify to_string as_text>) {
+            if ( $e->can($strMethod) ) {
+                return $class->new(
+                    text => "(Exception from "
+                      . $strMethod
+                      . "() method of "
+                      . ref($e) . ") "
+                      . $e->$strMethod,
+                    @profile,
+                );
+            }
         }
-        elsif ( $e->can('as_text') ) {
-            return $class->new(
-                text => "(Exception from as_text() method of "
-                  . ref($e) . ") "
-                  . $e->as_text,
-                @_
-            );
-        }
-        else {
-            # Finally we're no idea what kind of a object has been thrown to us.
-            return $class->new(
-                text => "Unknown class of exception received: "
-                  . ref($e) . "\n"
-                  . Dumper($e),
-                @_
-            );
-        }
+
+        # After all, we've no idea of what kind of a object has been thrown to
+        # us.
+        return $class->new(
+            text => "Unknown class of exception received: "
+              . ref($e) . "\n"
+              . Dumper($e),
+            @profile,
+        );
     }
     return $class->new( text => $e, @_ );
 }
