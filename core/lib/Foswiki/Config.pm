@@ -213,9 +213,10 @@ use Encode ();
 use File::Basename;
 use File::Spec;
 use POSIX qw(locale_h);
-use Unicode::Normalize;
 use Cwd qw( abs_path );
 use Try::Tiny;
+use Unicode::Normalize;
+use FindBin;
 use Foswiki qw(urlEncode urlDecode make_params);
 
 use Foswiki::Configure::FileUtil;
