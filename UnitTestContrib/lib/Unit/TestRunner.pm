@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright
 package Unit::TestRunner;
-use v5.14;
 
 =begin TML
 
@@ -12,11 +11,12 @@ script that runs testcases.
 =cut
 
 use Try::Tiny;
-use Unit::TestCase;
-use Foswiki::Exception ();
-use Unit::Eavesdrop    ();
-use Devel::Symdump     ();
-use File::Spec         ();
+require Unit::TestCase;
+require Foswiki::Exception;
+use Unit::Eavesdrop ();
+use Devel::Symdump  ();
+use File::Spec      ();
+use File::Find;
 use Config;
 
 use Assert;
@@ -646,9 +646,10 @@ sub runOne {
                 try {
                     # vrurg Recatch everything to convert perl error into
                     # exceptions with stacktrace for simplified error tracing.
+                    # Don't use throw() for the KISS sake.
                     local $SIG{__DIE__} = sub {
                         my $e = shift;
-                        Foswiki::Exception::Fatal->rethrow($e);
+                        die Foswiki::Exception::Fatal->transmute($e);
                       }
                       if DEBUG;
                     $tester->set_up($test);
