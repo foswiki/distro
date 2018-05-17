@@ -1,5 +1,4 @@
 package ExceptionTests;
-use v5.14;
 
 use Try::Tiny;
 use Foswiki::OopsException();

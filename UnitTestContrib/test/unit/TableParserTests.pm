@@ -1,8 +1,6 @@
 package TableParserTests;
-use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 has out      => ( is => 'rw', );
