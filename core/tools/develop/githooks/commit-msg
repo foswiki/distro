@@ -68,7 +68,7 @@ fail("No Bug item in log message\n") unless ( $logmsg =~ /^Item\d+\s*:/ );
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
 foreach my $item (@items) {
-    my $url   = "https://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
+    my $url = "https://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
     my $state = get $url;
 
     unless ( defined $state ) {
