@@ -3,6 +3,7 @@
 package Foswiki::Config::Spec::Parser;
 
 use Foswiki::Role;
+roleInit;
 
 # parse method must return a list of spec definitions.
 requires qw(parse);

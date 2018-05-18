@@ -12,11 +12,10 @@ This is a preference backend used to get preferences defined in a topic.
 # methods.
 
 package Foswiki::Prefs::TopicRAM;
-use v5.14;
 
 use Foswiki::Prefs::Parser ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw( Foswiki::Object );
 with qw( Foswiki::Prefs::BaseBackend );
 
@@ -26,19 +25,18 @@ has values => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'values', noUndef => 1 ),
+    assert  => HashRef,
 );
 has local => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'local', noUndef => 1 ),
+    assert  => HashRef,
 );
 has topicObject => (
-    is      => 'ro',
-    clearer => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'topicObject', 'Foswiki::Meta', noUndef => 1 ),
+    is       => 'ro',
+    clearer  => 1,
+    assert   => InstanceOf ['Foswiki::Meta'],
     required => 1,
 );
 

@@ -6,7 +6,7 @@ use Foswiki    ();
 use File::Spec ();
 use File::Path qw(make_path);
 
-use Foswiki::Class -app, -callbacks;
+use Foswiki::Class -app, -callbacks, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::CfgObject);
 
@@ -26,7 +26,7 @@ has list => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaARRAY( 'list', noUndef => 1, ),
+    assert  => ArrayRef,
     builder => 'prepareList',
 );
 
@@ -34,9 +34,7 @@ has mainSpec => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaCLASS(
-        'mainSpec', 'Foswiki::Config::Spec::File', noUndef => 1,
-    ),
+    assert  => InstanceOf ['Foswiki::Config::Spec::File'],
     builder => 'prepareMainSpec',
 );
 

@@ -44,7 +44,7 @@ my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
 
 our $didOnlyOnceChecks = 0;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Unit::TestCase);
 with qw(Foswiki::Util::Localize Unit::FoswikiTestRole);
 
@@ -54,7 +54,7 @@ has test_topicObject => (
     is        => 'rw',
     clearer   => 1,
     predicate => 1,
-    isa => Foswiki::Object::isaCLASS( 'test_topicObject', 'Foswiki::Meta' ),
+    isa       => Maybe [ InstanceOf ['Foswiki::Meta'] ],
 
     # For compatibility with Foswiki::Func::readTopic we accept arrayref and
     # fetch it's first element if it is a Foswiki::Meta object but only if it
@@ -76,8 +76,7 @@ has request => (
         $_[0]->app->request;
     },
     clearer => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
+    isa     => InstanceOf ['Foswiki::Request'],
 );
 
 BEGIN {

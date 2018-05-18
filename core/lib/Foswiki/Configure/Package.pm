@@ -8,7 +8,7 @@ use v5.14;
 
 use File::Spec;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 # $super - Foswiki::Configure::Reporter to pass all reports to
@@ -21,12 +21,8 @@ extends qw(Foswiki::Object);
 # Default name:  pkgname-[action]-yyyymmdd-hhmmss.log
 
 has reporter => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-        'reporter',
-        'Foswiki::Configure::Reporter',
-        noUndef => 1,
-    ),
+    is       => 'rw',
+    assert   => InstanceOf ['Foswiki::Configure::Reporter'],
     required => 1,
 );
 has nolog => ( is => 'rw', default => 0, );

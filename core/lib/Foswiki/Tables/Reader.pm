@@ -20,7 +20,7 @@ use Assert;
 use Foswiki::Attrs          ();
 use Foswiki::Tables::Parser ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 # Foswiki 1.1.9 didn't define findFirstOccurenceAttrs. Monkey-patch it.
@@ -69,24 +69,25 @@ has active_table => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'active_table', 'Foswiki::Tables::Table' ),
+    assert  => Maybe [ InstanceOf ['Foswiki::Tables::Table'] ],
 );
 has active_row => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa => Foswiki::Object::isaCLASS( 'active_table', 'Foswiki::Tables::Row' ),
+    assert  => Maybe [ InstanceOf ['Foswiki::Tables::Row'] ],
 );
 has result => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
     default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY('result')
+    assert  => Maybe [ArrayRef],
 );
-has meta =>
-  ( is => 'rw', isa => Foswiki::Object::isaCLASS( 'meta', 'Foswiki::Meta' ), );
+has meta => (
+    is     => 'rw',
+    assert => Maybe [ InstanceOf ['Foswiki::Meta'] ],
+);
 has on_open_spec =>
   ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
 has on_close_spec =>

@@ -15,7 +15,8 @@ require Foswiki::Object;
 
 use Foswiki::Exception::Config;
 
-use Foswiki::Role;
+use Foswiki::Role -types;
+roleInit;
 
 =begin TML
 
@@ -50,7 +51,7 @@ has sources => (
     is      => 'rw',
     lazy    => 1,
     builder => 'prepareSources',
-    isa     => Foswiki::Object::isaARRAY('sources'),
+    assert  => Maybe [ArrayRef],
 );
 
 =begin TML
@@ -82,7 +83,7 @@ Hash of =option => value= pairs. See more on options in specs documentation.
 has options => (
     is      => 'rw',
     builder => 'prepareOptions',
-    isa     => Foswiki::Object::isaHASH( 'options', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 =begin TML
@@ -101,7 +102,7 @@ a subhash of its attributes is stored. See more in
 has optDefs => (
     is      => 'rwp',
     builder => '_prepareOptDefs',
-    isa     => Foswiki::Object::isaHASH( 'optDefs', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 # Hash of class => optionsMap where optionsMap is a hash of option => 1 values.

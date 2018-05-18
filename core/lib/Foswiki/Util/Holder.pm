@@ -9,19 +9,14 @@ Auxiliary class.
 =cut
 
 package Foswiki::Util::Holder;
-use v5.14;
 
-require Foswiki::Object;
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 
 has object => (
     is           => 'rw',
     requiredlazy => 1,
-    weak_ref     => 1,      # Not sure we need it here.
-    isa =>
-      Foswiki::Object::isaCLASS( 'object', 'Foswiki::Object', noUndef => 1, ),
+    weak_ref     => 1,                               # Not sure we need it here.
+    assert       => InstanceOf ['Foswiki::Object'],
 );
 
 sub DEMOLISH {

@@ -20,7 +20,7 @@ use Assert;
 use CGI::Util ();
 use Carp      ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -96,7 +96,7 @@ has cookies => (
     is      => 'rw',
     lazy    => 1,
     default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY( 'cookies', noUndef => 1 ),
+    assert  => ArrayRef,
     reader  => 'getCookies',
     writer  => 'setCookies',
 );

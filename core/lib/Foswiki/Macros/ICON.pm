@@ -5,14 +5,14 @@ use v5.14;
 use Try::Tiny;
 use Assert;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Macro);
 
 has ICONSPACE => (
     is      => 'rw',
     lazy    => 1,
-    isa     => Foswiki::Object::isaCLASS( 'ICONSPACE', 'Foswiki::Meta' ),
+    assert  => Maybe [ InstanceOf ['Foswiki::Meta'] ],
     default => sub {
         my $this = shift;
 

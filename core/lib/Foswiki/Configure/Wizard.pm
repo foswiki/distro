@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizard;
-use v5.14;
 
 =begin TML
 
@@ -36,15 +35,14 @@ See the documentation for the UI for more information.
 use Assert;
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 has param_source => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH('param_source'),
+    assert  => Maybe [HashRef],
 );
 
 =begin TML

@@ -11,6 +11,7 @@ Used to prefix exception text with source file info.
 =cut
 
 use Foswiki::Role;
+roleInit;
 
 =begin TML
 

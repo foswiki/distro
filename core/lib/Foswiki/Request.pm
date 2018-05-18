@@ -40,7 +40,7 @@ use CGI::Util qw(rearrange);
 
 use constant TRACE => 0;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -173,14 +173,14 @@ has uploads => (
     is      => 'rw',
     lazy    => 1,
     builder => '_establishUploads',
-    isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
+    assert  => HashRef,
 );
 
 has param_list => (
     is        => 'rw',
     predicate => 1,
     lazy      => 1,
-    isa       => Foswiki::Object::isaARRAY( 'param_list', noUndef => 1, ),
+    assert    => ArrayRef,
 );
 
 =begin TML
@@ -269,7 +269,7 @@ has _initializer => ( is => 'ro', init_arg => "initializer", );
 has _pathParsed  => (
     is      => 'rw',
     lazy    => 1,
-    isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
+    assert  => HashRef,
     builder => '_establishAttributes',
 );
 

@@ -23,7 +23,7 @@ can't think of right now.
 
 use Try::Tiny;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::ItemRole);
 
@@ -95,7 +95,7 @@ has _secIndex => (
     is      => 'rw',
     lazy    => 1,
     builder => '_prepareSecIndex',
-    isa     => Foswiki::Object::isaHASH( '_secIndex', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 =begin TML

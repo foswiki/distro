@@ -45,7 +45,7 @@ use Assert;
 use Foswiki::Exception;
 use Foswiki ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::CfgObject);
 
@@ -86,11 +86,7 @@ has parent => (
     is        => 'rw',
     predicate => 1,
     weak_ref  => 1,
-    (
-        DEBUG
-        ? ( isa => Foswiki::Object::isaCLASS( 'parent', __PACKAGE__ ) )
-        : ()
-    ),
+    assert    => Maybe [ InstanceOf [__PACKAGE__] ],
 );
 
 =begin TML

@@ -70,7 +70,7 @@ use Foswiki::Prefs::Web   ();
 use Scalar::Util          ();
 use Foswiki qw(findCaller);
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 #our @_newParameters = qw( session );
@@ -79,9 +79,7 @@ has main => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaCLASS(
-        'main', 'Foswiki::Prefs::Stack', noUndef => 1
-    ),
+    assert  => InstanceOf ['Foswiki::Prefs::Stack'],
     default => sub {
         return $_[0]->create('Foswiki::Prefs::Stack');
     }
@@ -91,21 +89,21 @@ has paths => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    isa       => Foswiki::Object::isaHASH('paths'),
+    assert    => Maybe [HashRef],
     default   => sub { {} },
 );
 has contexts => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaARRAY( 'contexts', noUndef => 1 ),
+    assert  => ArrayRef,
     default => sub { [] },
 );
 has prefix => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaARRAY( 'prefix', noUndef => 1 ),
+    assert  => ArrayRef,
     default => sub { [] },
 );
 has webprefs => (
@@ -113,7 +111,7 @@ has webprefs => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    isa       => Foswiki::Object::isaHASH('webprefs'),
+    assert    => Maybe [HashRef],
     default   => sub { {} },
 );
 has internals => (
@@ -121,7 +119,7 @@ has internals => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    isa       => Foswiki::Object::isaHASH('internals'),
+    assert    => Maybe [HashRef],
     default   => sub { {} },
 );
 
@@ -132,7 +130,7 @@ has _presets => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH('presets'),
+    assert    => Maybe [HashRef],
     default   => sub { {} },
 );
 

@@ -28,14 +28,14 @@ use v5.14;
 use Foswiki::Configure::LoadSpec ();
 use Foswiki::Exception           ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 has attrs => (
     is       => 'rw',
     lazy     => 1,
     trigger  => sub { $_[0]->_checkOpts; },
-    isa      => Foswiki::Object::isaHASH( 'attrs', noUndef => 1, ),
+    assert   => HashRef,
     required => 1,
 );
 
@@ -44,7 +44,7 @@ has ATTRSPEC => (
     is      => 'ro',
     lazy    => 1,
     builder => '_establishATTRSPEC',
-    isa     => Foswiki::Object::isaHASH( 'ATTRSPEC', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 =begin TML

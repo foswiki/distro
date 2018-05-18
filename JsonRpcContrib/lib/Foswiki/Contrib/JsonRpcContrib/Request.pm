@@ -15,7 +15,6 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Request;
-use v5.14;
 
 use JSON                                    ();
 use Encode                                  ();
@@ -25,14 +24,14 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 use constant TRACE => 0;    # toggle me
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 has data => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'data', noUndef => 1, ),
+    assert  => HashRef,
 );
 has namespace => ( is => 'rw', );
 has json => (

@@ -64,7 +64,7 @@ use Assert;
 use Foswiki::Func();
 use Foswiki::Meta();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 #use Data::Dumper;
@@ -194,7 +194,7 @@ has _web => ( is => 'rw', init_args => 'web', );
 has webpath => (
     is      => 'rw',
     trigger => sub { $_[0]->_invalidate; },
-    isa     => Foswiki::Object::isaARRAY( __PACKAGE__ . "::webpath" ),
+    assert  => Maybe [ArrayRef],
 );
 has topic => (
     is      => 'rw',
@@ -202,12 +202,7 @@ has topic => (
 );
 has _rev => ( is => 'rw', init_arg => 'rev', );
 has tompath => (
-    is => 'rw',
-
-   # SMELL It seems that Moo has a bug with execution order when both isa and
-   # trigger are defined. In this case trigger is called before new value is
-   # assigned to the attribute.
-   #isa => Foswiki::Object::isaARRAY( __PACKAGE__ . "::tompath", noEmpty => 1 ),
+    is      => 'rw',
     trigger => sub { $_[0]->_validationTrigger; },
 );
 has attachment => (

@@ -31,7 +31,7 @@ use Foswiki::UI::Register();
 use Try::Tiny;
 use Carp qw(cluck);
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(FoswikiTestCase);
 
 has test_user_forename => ( is => 'rw', );
@@ -45,7 +45,7 @@ has response           => (
     clearer   => 1,
     lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaCLASS( 'response', 'Foswiki::Response' ),
+    isa       => InstanceOf ['Foswiki::Response'],
     default   => sub { return $_[0]->app->response; },
 );
 

@@ -141,15 +141,15 @@ has web => (
     is        => 'rw',
     predicate => 1,
     clearer   => 1,
-    isa       => sub {
-        ASSERT( UNTAINTED( $_[0] ), 'web is tainted' ) if DEBUG;
+    assert    => sub {
+        ASSERT( UNTAINTED( $_[0] ), 'web is tainted' );
     },
     coerce => sub {
 
         # SMELL Is it really ok to allow undefined web??? Or is it a special
         # case of the root object?
         if ( defined $_[0] ) {
-            ASSERT( UNTAINTED( $_[0] ), 'web is tainted' ) if DEBUG;
+            ASSERT( UNTAINTED( $_[0] ), 'web is tainted' );
             $_[0] =~ tr#/.#/#s;
         }
         return $_[0];
@@ -159,8 +159,8 @@ has topic => (
     is        => 'rw',
     predicate => 1,
     clearer   => 1,
-    isa       => sub {
-        ASSERT( UNTAINTED( $_[0] ), 'topic is tainted' ) if DEBUG;
+    assert    => sub {
+        ASSERT( UNTAINTED( $_[0] ), 'topic is tainted' );
     },
 );
 has text => (

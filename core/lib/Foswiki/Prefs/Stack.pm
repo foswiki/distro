@@ -28,7 +28,7 @@ use bytes;
 
 use Storable qw( dclone );
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw( Foswiki::Object );
 
 has final => (
@@ -36,24 +36,24 @@ has final => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH( 'final', noUndef => 1, ),
-    default => sub { {} },
+    assert    => HashRef,
+    default   => sub { {} },
 );
 has levels => (
     is        => 'rw',
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaARRAY( 'final', noUndef => 1, ),
-    default => sub { [] },
+    assert    => ArrayRef,
+    default   => sub { [] },
 );
 has map => (
     is        => 'rw',
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH( 'final', noUndef => 1, ),
-    default => sub { {} },
+    assert    => HashRef,
+    default   => sub { {} },
 );
 
 =begin TML

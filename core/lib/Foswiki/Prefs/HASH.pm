@@ -15,7 +15,7 @@ hash.
 package Foswiki::Prefs::HASH;
 use v5.14;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 with qw( Foswiki::Prefs::BaseBackend );
 
@@ -25,7 +25,7 @@ has _values => (
     is        => 'ro',
     predicate => 1,
     clearer   => 1,
-    isa       => Foswiki::Object::isaHASH( 'values', noUndef => 1, ),
+    assert    => HashRef,
     init_arg  => 'values',
 );
 has _prefs => (
@@ -33,7 +33,7 @@ has _prefs => (
     clearer => 1,
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( '_prefs', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 sub BUILD {

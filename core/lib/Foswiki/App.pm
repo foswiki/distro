@@ -89,7 +89,7 @@ use Foswiki::WebFilter;
 use Foswiki::Time;
 use Foswiki qw(%regex load_package load_class isTrue);
 
-use Foswiki::Class -callbacks;
+use Foswiki::Class -callbacks, -types;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -164,9 +164,8 @@ has access => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'access', 'Foswiki::Access', noUndef => 1, ),
-    builder => 'prepareAccess',
+    assert    => InstanceOf ['Foswiki::Access'],
+    builder   => 'prepareAccess',
 );
 
 =begin TML
@@ -182,9 +181,8 @@ has attach => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'access', 'Foswiki::Attach', noUndef => 1, ),
-    builder => 'prepareAttach',
+    assert    => InstanceOf ['Foswiki::Attach'],
+    builder   => 'prepareAttach',
 );
 
 =begin TML
@@ -219,7 +217,7 @@ has cfg => (
     predicate => 1,
     clearer   => 1,
     builder   => 'prepareCfg',
-    isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
+    assert    => InstanceOf ['Foswiki::Config'],
 );
 
 =begin TML
@@ -297,8 +295,7 @@ has engine => (
     lazy      => 1,
     predicate => 1,
     builder   => 'prepareEngine',
-    isa =>
-      Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
+    assert    => InstanceOf ['Foswiki::Engine'],
 );
 
 =begin TML
@@ -416,8 +413,7 @@ has request => (
     is      => 'rw',
     lazy    => 1,
     builder => 'prepareRequest',
-    isa =>
-      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
+    assert  => InstanceOf ['Foswiki::Request'],
 );
 
 =begin TML
@@ -433,9 +429,7 @@ has response => (
     lazy    => 1,
     clearer => 1,
     builder => 'prepareResponse',
-    isa     => Foswiki::Object::isaCLASS(
-        'response', 'Foswiki::Response', noUndef => 1,
-    ),
+    assert  => InstanceOf ['Foswiki::Response'],
 );
 
 =begin TML
@@ -468,9 +462,8 @@ has store => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
-    builder => 'prepareStore',
+    assert    => InstanceOf ['Foswiki::Store'],
+    builder   => 'prepareStore',
 );
 
 =begin TML
@@ -501,8 +494,7 @@ has macros => (
     is      => 'rw',
     lazy    => 1,
     builder => 'prepareMacros',
-    isa =>
-      Foswiki::Object::isaCLASS( 'macros', 'Foswiki::Macros', noUndef => 1, ),
+    assert  => InstanceOf ['Foswiki::Macros'],
 );
 
 =begin TML
@@ -616,8 +608,8 @@ and =_constructDispatcher()= method.
 =cut 
 
 has _dispatcherAttrs => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaHASH( '_dispatcherAttrs', noUndef => 1 ),
+    is     => 'rw',
+    assert => HashRef,
 );
 
 =begin TML
@@ -637,7 +629,7 @@ has systemMessages => (
     lazy    => 1,
     clearer => 1,
     builder => 'prepareSystemMessages',
-    isa     => Foswiki::Object::isaARRAY( 'systemMessages', noUndef => 1, ),
+    assert  => ArrayRef [Str],
 );
 
 =begin TML

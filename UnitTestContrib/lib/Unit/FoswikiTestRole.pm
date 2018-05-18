@@ -20,7 +20,8 @@ use Foswiki::Exception;
 # Use variable to let it be easily incorporated into a regex.
 our $TEST_WEB_PREFIX = 'Temporary';
 
-use Moo::Role;
+use Foswiki::Role -types;
+roleInit;
 
 our @mails;
 
@@ -36,8 +37,8 @@ has app => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    isa => Foswiki::Object::isaCLASS( 'app', 'Unit::TestApp', noUndef => 1, ),
-    default => sub {
+    isa       => InstanceOf ['Unit::TestApp'],
+    default   => sub {
         return Unit::TestApp->new( env => { map { $_ => $ENV{$_} } keys %ENV },
         );
     },

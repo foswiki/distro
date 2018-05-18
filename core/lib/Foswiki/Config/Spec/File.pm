@@ -12,7 +12,7 @@ use Try::Tiny;
 
 use constant CACHE_SUBDIR => '.specCache';
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::File);
 with qw(Foswiki::Config::CfgObject Foswiki::Util::Localize);
 
@@ -40,16 +40,13 @@ has cacheFile => (
     clearer   => 1,
     predicate => 1,
     builder   => 'prepareCacheFile',
-    isa =>
-      Foswiki::Object::isaCLASS( 'cacheFile', 'Foswiki::File', noUndef => 1, ),
+    assert    => InstanceOf ['Foswiki::File'],
 );
 
 has section => (
-    is   => 'rw',
-    lazy => 1,
-    isa  => Foswiki::Object::isaCLASS(
-        'secion', 'Foswiki::Config::Section', noUndef => 1,
-    ),
+    is      => 'rw',
+    lazy    => 1,
+    assert  => InstanceOf ['Foswiki::Config::Section'],
     builder => 'prepareSection',
 );
 

@@ -69,8 +69,8 @@ our %deprecated = (
 has name => (
     is       => 'ro',
     required => 1,
-    isa      => sub {
-        ASSERT( UNTAINTED( $_[0] ), "Name $_[0] is tainted!" ) if DEBUG;
+    assert   => sub {
+        ASSERT( UNTAINTED( $_[0] ), "Name $_[0] is tainted!" );
     },
 );
 has module => ( is => 'rw', );

@@ -11,8 +11,7 @@ use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 use Foswiki::Tables::Table                    ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw(Foswiki::Tables::Table);
 
 use constant TRACE => 0;
@@ -46,9 +45,8 @@ our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 has editable  => ( is => 'rw', );
 has dead_cols => ( is => 'rw', );
 has metaObject => (
-    is => 'rw',
-    isa =>
-      Foswiki::Object::isaCLASS( 'metaObject', 'Foswiki::Meta', noUndef => 1 ),
+    is     => 'rw',
+    assert => InstanceOf ['Foswiki::Meta'],
 );
 
 around BUILDARGS => sub {

@@ -25,9 +25,8 @@ Upon cloning this role returns the value in =cfg= attribute as is.
 
 =cut
 
-require Foswiki::Object;
-
-use Foswiki::Role;
+use Foswiki::Role -types;
+roleInit;
 
 =begin TML
 
@@ -44,8 +43,8 @@ Backlink to the parent configuration object.
 =cut
 
 has cfg => (
-    is  => 'ro',
-    isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
+    is       => 'ro',
+    assert   => InstanceOf ['Foswiki::Config'],
     weak_ref => 1,
     required => 1,
 );

@@ -226,7 +226,7 @@ use Try::Tiny;
 use HTML::Parser;
 require Unit::TestRunner;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Unit::TestCase);
 with qw(Foswiki::Util::Localize Unit::FoswikiTestRole);
 
@@ -334,7 +334,7 @@ around prepareTestClientList => sub {
 has testClientList => (
     is      => 'rw',
     lazy    => 1,
-    isa     => Foswiki::Object::isaARRAY( 'testList', noUndef => 1, ),
+    isa     => ArrayRef [HashRef],
     builder => 'prepareTestClientList',
 );
 

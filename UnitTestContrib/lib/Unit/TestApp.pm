@@ -21,7 +21,7 @@ use Assert;
 use Scalar::Util qw(blessed weaken refaddr);
 use Try::Tiny;
 
-use Foswiki::Class -callbacks;
+use Foswiki::Class -callbacks, -types;
 extends qw(Foswiki::App);
 
 =begin TML
@@ -108,7 +108,7 @@ has callbacks => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH('callbacks'),
+    isa       => HashRef,
     default   => sub { {} },
 );
 

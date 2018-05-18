@@ -5,7 +5,7 @@ package Foswiki::Contrib::JsonRpcContrib;
 use Foswiki::Request                         ();
 use Foswiki::Contrib::JsonRpcContrib::Server ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::UI);
 
 #BEGIN {
@@ -35,11 +35,7 @@ has server => (
     default => sub {
         return $_[0]->create('Foswiki::Contrib::JsonRpcContrib::Server');
     },
-    isa => Foswiki::Object::isaCLASS(
-        'SERVER',
-        'Foswiki::Contrib::JsonRpcContrib::Server',
-        noUndef => 1,
-    ),
+    assert => InstanceOf ['Foswiki::Contrib::JsonRpcContrib::Server'],
 );
 
 sub BUILD {

@@ -15,7 +15,6 @@ The following fields are parsed from the path_info and/or query params
 =cut
 
 package Foswiki::Request::JSON;
-use v5.14;
 
 use Assert;
 use Try::Tiny;
@@ -26,21 +25,21 @@ use Foswiki::Func                           ();
 use Foswiki::Plugins                        ();
 use CGI::Util qw(rearrange);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw(Foswiki::Request);
 
 =begin TML
 
 ---++ ObjectAttribute json -> $JSON object
 
-Returns the JSON object, or a new JSON object if wne has not already been created.
+Returns the JSON object, or a new JSON object if one has not already been
+created.
 =cut
 
 has json => (
-    is      => 'rw',
-    lazy    => 1,
-    isa     => Foswiki::Object::isaCLASS( 'json', 'JSON' ),
+    is     => 'rw',
+    lazy   => 1,
+    assert => Maybe [ InstanceOf ['JSON'] ],
     default => sub { return JSON->new },
 );
 
@@ -77,15 +76,13 @@ are reported later.
 has jsonerror => (
     is        => 'rw',
     predicate => 1,
-    isa       => Foswiki::Object::isaCLASS(
-        'jsonerror', 'Foswiki::Contrib::JsonRpcContrib::Error'
-    ),
+    assert => Maybe [ InstanceOf ['Foswiki::Contrib::JsonRpcContrib::Error'] ],
 );
 has jsondata => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH( 'jsondata', noUndef => 1, ),
+    assert    => HashRef,
     clearer   => 1,
     builder   => '_establishJSON',
 );

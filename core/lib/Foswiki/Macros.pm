@@ -23,7 +23,7 @@ This class is responsible for managing macros.
 use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 use Assert;
@@ -39,13 +39,13 @@ has registered => (
     is      => 'rw',
     lazy    => 1,
     builder => '_registerDefaultMacros',
-    isa     => Foswiki::Object::isaHASH( 'registered', noUndef => 1, ),
+    assert  => HashRef,
 );
 has contextFreeSyntax => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'contextFreeSyntax', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 # Container for macro objects.

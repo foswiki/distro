@@ -3,6 +3,7 @@
 package Foswiki::Config::Role::Node::Size;
 
 use Foswiki::Role;
+roleInit;
 
 around optionDefinitions => sub {
     my $orig  = shift;

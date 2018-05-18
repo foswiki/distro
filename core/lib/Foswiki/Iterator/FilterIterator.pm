@@ -9,20 +9,20 @@ Iterator that filters another iterator based on the results from a function.
 =cut
 
 package Foswiki::Iterator::FilterIterator;
-use v5.14;
 
 use Assert;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
 
 has iterator => (
     is       => 'rw',
     required => 1,
-    isa      => Foswiki::Object::isaCLASS(
-        'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
-    ),
+    assert   => Maybe [
+        AllOf [ InstanceOf ['Foswiki::Object'],
+            ConsumerOf ['Foswiki::Iterator'] ]
+    ],
 );
 has data => ( is => 'rw', );
 has pending => ( is => 'rw', default => 0, );

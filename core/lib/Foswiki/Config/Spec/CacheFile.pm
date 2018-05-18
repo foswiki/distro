@@ -4,7 +4,7 @@ package Foswiki::Config::Spec::CacheFile;
 
 use Storable qw(freeze thaw);
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::File);
 
 has entries => (
@@ -13,7 +13,7 @@ has entries => (
     trigger => 1,
     clearer => 1,
     builder => 'prepareEntries',
-    isa     => Foswiki::Object::isaARRAY( 'entries', noUndef => 1, ),
+    assert  => ArrayRef,
 );
 
 has specData => (
@@ -22,7 +22,7 @@ has specData => (
     trigger => 1,
     clearer => 1,
     builder => 'prepareSpecData',
-    isa     => Foswiki::Object::isaARRAY('specData'),
+    assert  => Maybe [ArrayRef],
 );
 
 has fileSize => (
@@ -37,7 +37,7 @@ has _cached => (
     is      => 'rw',
     lazy    => 1,
     builder => '_prepareCached',
-    isa     => Foswiki::Object::isaHASH( '_cached', noUndef => 1, ),
+    assert  => HashRef,
 );
 
 # inSync is true if cache is in sync with file content.

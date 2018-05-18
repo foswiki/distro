@@ -1,5 +1,4 @@
 package HTMLValidationTests;
-use v5.14;
 
 #this has been quickly copied from the UICompilation tests
 #TODO: need to pick a list of topics, actions, opps's and add detection of installed skins
@@ -10,8 +9,7 @@ use Foswiki::UI::View();
 use HTML::Tidy();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw( FoswikiFnTestCase );
 
 has script_name => ( is => 'rw' );
@@ -20,7 +18,7 @@ has skin_name => ( is => 'rw' );
 
 has tidy => (
     is      => 'rw',
-    isa     => Foswiki::Object::isaCLASS( 'tidy', 'HTML::Tidy', noUndef => 1 ),
+    isa     => InstanceOf ['HTML::Tidy'],
     lazy    => 1,
     default => sub {
 

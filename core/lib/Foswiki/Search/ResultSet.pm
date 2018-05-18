@@ -14,12 +14,11 @@ in future it will probably become more clever.
 =cut
 
 package Foswiki::Search::ResultSet;
-use v5.14;
 
 use Foswiki::Search::InfoCache;
 use Assert;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
 
@@ -51,9 +50,10 @@ has _iterator => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaCLASS(
-        'list', 'Foswiki::Object', does => 'Foswiki::Iterator',
-    ),
+    assert    => Maybe [
+        AllOf [ InstanceOf ['Foswiki::Object'],
+            ConsumerOf ['Foswiki::Iterator'] ]
+    ],
 );
 
 =begin TML

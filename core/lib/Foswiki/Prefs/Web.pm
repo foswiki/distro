@@ -17,16 +17,14 @@ and should not be used for anything else.
 package Foswiki::Prefs::Web;
 use v5.14;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw( Foswiki::Object );
 
 #our @_newParameters = qw( stack level );
 
 has stack => (
-    is  => 'ro',
-    isa => Foswiki::Object::isaCLASS(
-        'stack', 'Foswiki::Prefs::Stack', noUndef => 1,
-    ),
+    is     => 'ro',
+    assert => InstanceOf ['Foswiki::Prefs::Stack'],
 );
 has level => ( is => 'ro', );
 

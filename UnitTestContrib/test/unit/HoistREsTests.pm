@@ -1,18 +1,16 @@
 # Test for hoisting REs from query expressions
 package HoistREsTests;
-use v5.14;
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw( FoswikiFnTestCase );
 
 has meta => (
     is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'meta', 'Foswiki::Meta', noUndef => 1 ),
+    isa => InstanceOf ['Foswiki::Meta'],
 );
 
 sub skip {

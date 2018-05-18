@@ -10,11 +10,10 @@ element in the iteration.
 =cut
 
 package Foswiki::Iterator::ProcessIterator;
-use v5.14;
 
 use Assert;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
 
@@ -22,9 +21,10 @@ has iterator => (
     is       => 'rw',
     weak_ref => 1,
     required => 1,
-    isa      => Foswiki::Object::isaCLASS(
-        'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
-    ),
+    assert   => Maybe [
+        AllOf [ InstanceOf ['Foswiki::Object'],
+            ConsumerOf ['Foswiki::Iterator'] ]
+    ],
 );
 has '+process' => ( is => 'rw', clearer => 1, required => 1, );
 has data => ( is => 'rw', required => 1, );

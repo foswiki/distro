@@ -11,7 +11,6 @@ Refer to Foswiki::Engine documentation for explanation about methods below.
 =cut
 
 package Foswiki::Engine::CGI;
-use v5.14;
 
 use Assert;
 
@@ -27,7 +26,7 @@ use Try::Tiny;
 
 use CGI;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 1;
@@ -80,7 +79,7 @@ has cgi => (
     is      => 'ro',
     clearer => 1,
     lazy    => 1,
-    isa     => Foswiki::Object::isaCLASS( 'cgi', 'CGI' ),
+    assert  => InstanceOf ['CGI'],
     default => sub {
         my $this = shift;
 

@@ -2,19 +2,20 @@
 
 =begin TML
 
----+ Role Foswiki::Object::Parent
+---+ Role Foswiki::Role::Parent
 
 Implements parent role in parent/child object relationships.
 
 =cut
 
-package Foswiki::Object::Parent;
+package Foswiki::Role::Parent;
 use v5.14;
 
 use Assert;
 use Scalar::Util qw(refaddr);
 
-use Moo::Role;
+use Foswiki::Role -types;
+roleInit;
 
 =begin TML
 
@@ -27,14 +28,14 @@ has children => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaARRAY('_children'),
-    default   => sub { [] },
+    assert    => Maybe [ ArrayRef [ ConsumerOf ['Foswiki::Role::Child'] ], ],
+    default => sub { [] },
 );
 has _childIndex => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( '_childrenCache', noUndef => 1, ),
+    assert  => ArrayRef [ ConsumerOf ['Foswiki::Role::Child'] ],
 );
 
 =begin TML
@@ -129,7 +130,7 @@ sub getChildIdx {
     ASSERT(
         defined($child)
           && ref($child)
-          && UNIVERSAL::DOES( $child, 'Foswiki::Object::Child' ),
+          && UNIVERSAL::DOES( $child, 'Foswiki::Role::Child' ),
         "Child parameter is invalid"
     ) if DEBUG;
 
@@ -158,8 +159,8 @@ sub _validateChildObject {
         text => "Child object parameter is undef" )
       unless defined $child;
     Foswiki::Exception::Fatal->throw(
-        text => "Child object doesn't do Foswiki::Object::Child role" )
-      unless UNIVERSAL::DOES( $parent, 'Foswiki::Object::Child' );
+        text => "Child object doesn't do Foswiki::Role::Child role" )
+      unless UNIVERSAL::DOES( $child, 'Foswiki::Role::Child' );
     Foswiki::Exception::Fatal->throw(
         text => "This object is not a child of me" )
       unless defined $this->_childIndex->{ refaddr($child) };

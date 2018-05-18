@@ -16,7 +16,7 @@ package Foswiki::Config::SpecDef;
 
 use Foswiki::Exception::Config;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -36,7 +36,7 @@ List of specs.
 has specDef => (
     is       => 'rw',
     required => 1,
-    isa      => Foswiki::Object::isaARRAY( 'specDef', noUndef => 1, ),
+    assert   => ArrayRef,
 );
 
 =begin TML
@@ -77,7 +77,7 @@ Current section. An instance of =Foswiki::Config::Section= class.
 has section => (
     is       => 'ro',
     weak_ref => 1,
-    isa => Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section' ),
+    assert   => Maybe [ InstanceOf ['Foswiki::Config::Section'] ],
 );
 
 =begin TML

@@ -12,7 +12,7 @@ Combine multiple iterators into a single iteration.
 package Foswiki::AggregateIterator;
 use v5.14;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
 
@@ -33,15 +33,14 @@ has _iterator => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaCLASS(
-        'list', 'Foswiki::Object', does => 'Foswiki::Iterator',
-    ),
+    assert    => AllOf [ InstanceOf ['Foswiki::Object'],
+        ConsumerOf ['Foswiki::Iterator'] ],
 );
 has Itr_list => (
     is       => 'rw',
     required => 1,
     init_arg => 'iterators',
-    isa      => Foswiki::Object::isaARRAY('Itr_list'),
+    assert   => Maybe [ArrayRef],
 );
 has Itr_index   => ( is => 'rw', default => 0, );
 has uniqueOnly  => ( is => 'rw', default => 0, );

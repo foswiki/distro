@@ -47,7 +47,6 @@ The Foswiki object this login manager is attached to.
 =cut
 
 package Foswiki::LoginManager;
-use v5.14;
 
 use Try::Tiny;
 
@@ -55,7 +54,7 @@ use Foswiki::Sandbox ();
 use CGI::Session     ();
 require Foswiki::AccessControlException;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 use Assert;
@@ -171,9 +170,7 @@ has _cgisession => (
     is        => 'rw',
     predicate => 1,
     clearer   => 1,
-    isa       => Foswiki::Object::isaCLASS(
-        '_cgisession', 'Foswiki::LoginManager::Session'
-    ),
+    assert    => Maybe [ InstanceOf ['Foswiki::LoginManager::Session'] ],
 );
 
 # GusestSessions should default to enabled, since much of Foswiki depends on

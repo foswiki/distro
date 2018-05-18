@@ -14,15 +14,13 @@ use Assert;
 use Foswiki::Func           ();
 use Foswiki::Tables::Parser ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 has table => (
     is       => 'rw',
     weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS(
-        'table', 'Foswiki::Tables::Table', noUndef => 1
-    ),
+    assert   => InstanceOf ['Foswiki::Tables::Table'],
     required => 1,
 );
 has _isHeader => ( is => 'rw', );

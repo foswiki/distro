@@ -35,7 +35,7 @@ use Foswiki::Configure::Load       ();
 use Foswiki::Configure::Dependency ();
 use Foswiki::Exception;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 use constant GUESSED_MESSAGE => <<'HERE';
@@ -47,13 +47,12 @@ HERE
 my %checkers;
 
 has item => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'item', 'Foswiki::Configure::Item' ),
+    is     => 'rw',
+    assert => Maybe [ InstanceOf ['Foswiki::Configure::Item'] ],
 );
 has reporter => (
-    is => 'rw',
-    isa =>
-      Foswiki::Object::isaCLASS( 'reporter', 'Foswiki::Configure::Reporter' ),
+    is      => 'rw',
+    assert  => Maybe [ InstanceOf ['Foswiki::Configure::Reporter'] ],
     clearer => 1,
 );
 

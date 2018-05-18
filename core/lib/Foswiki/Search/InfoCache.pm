@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::InfoCache;
-use v5.14;
 
 use Unicode::Normalize;
 use Foswiki::Func                     ();
 use Foswiki::Meta                     ();
 use Foswiki::Iterator::FilterIterator ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::ListIterator);
 
 =begin TML
@@ -60,7 +59,7 @@ has count => (
 has _topicList => (
     is        => 'rw',
     init_arg  => 'topicList',
-    isa       => Foswiki::Object::isaARRAY('_topicList'),
+    assert    => Maybe [ArrayRef],
     clearer   => 1,
     predicate => 1,
 );

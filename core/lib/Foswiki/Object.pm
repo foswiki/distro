@@ -143,7 +143,7 @@ use Try::Tiny;
 use Scalar::Util qw(blessed refaddr reftype weaken isweak);
 use Foswiki qw<indentInc indentMsg>;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 
 use overload fallback => 1, '""' => 'to_str';
 
@@ -167,7 +167,7 @@ has app => (
     is        => 'rwp',
     predicate => 1,
     weak_ref  => 1,
-    isa       => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', ),
+    assert    => Maybe [ InstanceOf ['Foswiki::App'] ],
     clearer   => 1,
 );
 
@@ -1025,166 +1025,6 @@ sub __orig {
         $this->__orig_sub( $foundFrame[3] // '' );
     }
     return @foundFrame;
-}
-
-=begin TML
-
----+++ StaticMethod _normalizeAttributeName( $attributeName ) -> $normalizedName
-
-For =Foswiki::Object= internal use only.
-
-This method attempts to guess what class an attribute defined by it's name
-belongs to. This is done for short names only (i.e. those without package name)
-by traversing up the call stack until a frame not from =Foswiki::Object= is
-found.
-
-=cut
-
-sub _normalizeAttributeName {
-    my ($attributeName) = @_;
-
-    # If attribute defined by its name only try to guess it's classname by
-    # checking the callstack.
-    unless ( $attributeName =~ /::/ ) {
-        my $package;
-        my $level = 1;
-        while ( !defined $package ) {
-            my $pkg = ( caller( $level++ ) )[0];
-            $package = $pkg unless $pkg =~ /^Foswiki::Object/;
-        }
-        $attributeName = "${package}::$attributeName";
-    }
-    return $attributeName;
-}
-
-sub _validateIsaCode {
-    my ( $attributeName, $code ) = @_;
-
-    #say STDERR "Validator code for $attributeName: $code" if DEBUG;
-    my $codeRef = eval $code;
-    if ($@) {
-        Carp::confess
-"Compilation of attribute 'isa' validator for $attributeName failed: $@\nValidator code: $code";
-    }
-    return $codeRef;
-}
-
-=begin TML
-
----+++ StaticMethod isaARRAY( $attributeName, %params )
-
-isa validator generator checking for arrayrefs.
-
----++++!! Parameters
-
-| *Key* | *Description* | *Default* |
-| =noUndef= | do not allow undef value | _false_ |
-| =noEmpty= | do not allow zero-length array | _false_ |
-
-=cut
-
-sub isaARRAY {
-    my ( $attributeName, %opts ) = @_;
-
-    $attributeName = _normalizeAttributeName($attributeName);
-
-    return _validateIsaCode( $attributeName,
-            'sub { Foswiki::Exception::Fatal->throw( text => "'
-          . $attributeName
-          . ' attribute may only be '
-          . ( $opts{noUndef} ? '' : 'undef or an ' )
-          . 'arrayref." ) if '
-          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
-          . '( defined( $_[0] ) && ( ref( $_[0] ) ne "ARRAY"'
-          . ( $opts{noEmpty} ? ' || scalar( @{ $_[0] } ) == 0' : '' )
-          . ' ) ); }' );
-}
-
-=begin TML
-
----+++ StaticMethod isaHASH( $attributeName, \%params )
-
-isa validator generator checking for hashrefs.
-
----++++!! Parameters
-
-| *Key* | *Description* | *Default* |
-| =noUndef= | do not allow undef value | _false_ |
-
-=cut
-
-sub isaHASH {
-    my ( $attributeName, %opts ) = @_;
-
-    $attributeName = _normalizeAttributeName($attributeName);
-
-    return _validateIsaCode( $attributeName,
-            'sub { Foswiki::Exception::Fatal->throw( text => "'
-          . $attributeName
-          . ' attribute may only be '
-          . ( $opts{noUndef} ? '' : 'undef or an ' )
-          . 'hashref." ) if '
-          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
-          . '( defined( $_[0] ) && ( ref( $_[0] ) ne "HASH" ) );'
-          . ' }' );
-}
-
-=begin TML
-
----+++ StaticMethod isaCLASS( $attributeName, $className, \%params )
-
-isa validator generator checking if attribute is a class =$className= or it's
-descendant.
-
----++++!! Parameters
-
-| *Key* | *Description* | *Default* |
-| =noUndef= | do not allow undef value | _false_ |
-| =strictMatch= | allow only =$className=, no decsendants | _false_ |
-| =does= | defines a role the class must do |  |
-
-By using =does= we can define not only that the object must be, say, a
-=Foswiki::Object= descendant but that it has to have =Foswiki::Role::AppObject=
-applied:
-
-<verbatim>
-has childObject => (
-    is => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-            'childObject',
-            'Foswiki::Object',
-            does => 'Foswiki::Role::AppObject',
-    ),
-);
-</verbatim>
-
-Currently only a single role could be defined for =does=.
-
-=cut
-
-sub isaCLASS {
-    my ( $attributeName, $className, %opts ) = @_;
-
-    $attributeName = _normalizeAttributeName($attributeName);
-
-    return _validateIsaCode(
-        $attributeName,
-        'sub { Foswiki::Exception::Fatal->throw( text => "'
-          . $attributeName
-          . ' attribute may only be '
-          . ( $opts{noUndef} ? '' : 'undef or an ' )
-          . $className
-          . ' but not " . (defined $_[0] ? ref($_[0]) || $_[0] : "undef") . "." ) if '
-          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
-          . '( defined( $_[0] ) && ('
-          . (
-            $opts{strictMatch}
-            ? 'ref( $_[0] ) ne "' . $className . '"'
-            : '!$_[0]->isa("' . $className . '")'
-          )
-          . ( $opts{does} ? ' || !$_[0]->does("' . $opts{does} . '")' : '' )
-          . ')' . '); }'
-    );
 }
 
 sub _traceMsg {

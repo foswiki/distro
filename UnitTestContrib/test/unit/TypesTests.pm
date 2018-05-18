@@ -125,6 +125,7 @@ sub test_AllOf {
 package __FCT::TstRole;
 
 use Foswiki::Role;
+roleInit;
 
 TSTROLE
 

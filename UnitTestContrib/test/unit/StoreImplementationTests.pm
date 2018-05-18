@@ -14,20 +14,18 @@
 # No method of Foswiki::Func should be called
 #
 package StoreImplementationTests;
-use v5.14;
 
 use Assert;
 use Foswiki       ();
 use Foswiki::Meta ();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw( FoswikiStoreTestCase );
 
 has sut => (
     is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'sut', 'Foswiki::Store', noUndef => 1, ),
+    isa => InstanceOf ['Foswiki::Store'],
 );
 
 sub skip {

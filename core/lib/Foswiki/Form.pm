@@ -41,7 +41,7 @@ use Foswiki::OopsException             ();
 use Foswiki::Func                      ();
 use Try::Tiny;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw( Foswiki::Meta );
 
 # The following are reserved as URL parameters to scripts and may not be
@@ -66,7 +66,7 @@ has fields => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaARRAY( 'fields', noUndef => 1, ),
+    assert    => ArrayRef,
 );
 has mandatoryFieldsPresent => (
     is      => 'rw',

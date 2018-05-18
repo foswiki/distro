@@ -22,7 +22,7 @@ use Assert;
 use Compress::Zlib ();
 use JSON           ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 use constant TRACE => 0;    # toggle me
@@ -33,11 +33,7 @@ has code    => (
     is      => 'rw',
     lazy    => 1,
     default => 0,
-    isa     => sub {
-        Foswiki::Exception::Fatal->throw(
-            text => __PACKAGE__ . "::code object attribute cannot be undef" )
-          unless defined $_[0];
-    },
+    isa     => Value,
 );
 has json => (
     is      => 'ro',

@@ -2,24 +2,25 @@
 
 =begin TML
 
----+ Role Foswiki::Object::Child
+---+ Role Foswiki::Role::Child
 
 Implements child role in parent/child object relationships.
 
 =cut
 
-package Foswiki::Object::Child;
-use v5.14;
+package Foswiki::Role::Child;
 
 use Assert;
 
-use Moo::Role;
+use Foswiki::Role -types;
+roleInit;
 
 =begin TML
 
 ---++ ObjectMethod parent
 
-Contains a Foswiki::Object which is the parent of this object and does Foswiki::Object::Parent role.
+Contains a Foswiki::Object which is the parent of this object and does
+Foswiki::Role::Parent role.
 
 A callback method =_trigger_parent($newParent)= will be called when this
 attribute is set to a new value. The default behaviour is to add this object to
@@ -34,11 +35,8 @@ has parent => (
     clearer   => 1,
     predicate => 1,
     weak_ref  => 1,
-    isa       => Foswiki::Object::isaCLASS(
-        'parent', 'Foswiki::Object',
-        does    => 'Foswiki::Object::Parent',
-        noUndef => 1,
-    ),
+    assert    => AllOf [ InstanceOf ['Foswiki::Object'],
+        ConsumerOf ['Foswiki::Role::Parent'] ],
     trigger => 1,
 );
 
@@ -51,18 +49,6 @@ sub _trigger_parent {
     unless ( defined $parent->getChildIdx($this) ) {
         $parent->addChild($this);
     }
-}
-
-sub _validateParentObject {
-    my $this = shift;
-    my ($parent) = @_;
-
-    Foswiki::Exception::Fatal->throw(
-        text => "Parent object parameter is undef" )
-      unless defined $parent;
-    Foswiki::Exception::Fatal->throw(
-        text => "Parent object doesn't do Foswiki::Object::Parent role" )
-      unless UNIVERSAL::DOES( $parent, 'Foswiki::Object::Parent' );
 }
 
 1;

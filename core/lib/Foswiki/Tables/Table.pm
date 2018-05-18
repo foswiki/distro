@@ -33,7 +33,7 @@ use v5.14;
 use Assert;
 use Foswiki::Tables::Row ();
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -87,19 +87,19 @@ has attrs => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'attrs', noUndef => 1 ),
+    assert  => HashRef,
 );
 has rows => (
     is      => 'rw',
     lazy    => 1,
     default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY( 'rows', noUndef => 1 ),
+    assert  => ArrayRef,
 );
 has colTypes => (
     is      => 'rw',
     lazy    => 1,
     default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY( 'colTypes', noUndef => 1 ),
+    assert  => ArrayRef,
 );
 
 around BUILDARGS => sub {

@@ -19,7 +19,7 @@ use Assert;
 
 require Foswiki::Object;
 
-use Foswiki::Role;
+use Foswiki::Role -types;
 roleInit;
 
 =begin TML
@@ -40,8 +40,8 @@ has app => (
     is        => 'rwp',
     predicate => 1,
     weak_ref  => 1,
-    isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
-    clearer => 1,
+    assert    => InstanceOf ['Foswiki::App'],
+    clearer   => 1,
 );
 
 1;

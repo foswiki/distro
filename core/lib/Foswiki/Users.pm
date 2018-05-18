@@ -61,7 +61,7 @@ to a user.
 use Foswiki::AggregateIterator ();
 use Foswiki::LoginManager      ();
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 use Assert;
@@ -70,16 +70,14 @@ use Assert;
 #Monitor::MonitorMethod('Foswiki::Users');
 
 has mapping => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-        'mapping', 'Foswiki::Object', does => 'Foswiki::UserMapping',
-    ),
+    is     => 'rw',
+    assert => AllOf [ InstanceOf ['Foswiki::Object'],
+        ConsumerOf ['Foswiki::UserMapping'] ],
 );
 has basemapping => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-        'basemapping', 'Foswiki::Object', does => 'Foswiki::UserMapping',
-    ),
+    is     => 'rw',
+    assert => AllOf [ InstanceOf ['Foswiki::Object'],
+        ConsumerOf ['Foswiki::UserMapping'] ],
 );
 has loginManager => ( is => 'rw', predicate => 1, );
 has login2cUID => (

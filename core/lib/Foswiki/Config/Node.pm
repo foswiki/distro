@@ -38,7 +38,7 @@ use Foswiki::Exception;
 use Foswiki::Exception::Config;
 use Try::Tiny;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Config::ItemRole);
 
@@ -103,7 +103,7 @@ has section => (
     is       => 'rw',
     weak_ref => 1,
     builder  => 'prepareSection',
-    isa => Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section', ),
+    assert   => Maybe [ InstanceOf ['Foswiki::Config::Section'] ],
 );
 
 =begin TML
@@ -171,7 +171,7 @@ has _leafOnlyOpts => (
     is      => 'ro',
     clearer => 1,
     lazy    => 1,
-    isa     => Foswiki::Object::isaHASH( '_leafOnlyOpts', noUndef => 1, ),
+    assert  => HashRef,
     builder => '_prepareLeafOnlyOpts',
 );
 
@@ -187,7 +187,7 @@ has _dualModeOpts => (
     is      => 'ro',
     clearer => 1,
     lazy    => 1,
-    isa     => Foswiki::Object::isaHASH( '_dualModeOpts', noUndef => 1, ),
+    assert  => HashRef,
     builder => '_prepareDualModeOpts',
 );
 

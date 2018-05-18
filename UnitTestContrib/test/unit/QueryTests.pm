@@ -11,14 +11,12 @@
 # query syntax.
 
 package QueryTests;
-use v5.14;
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::Node;
 use Foswiki::Func();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class -types;
 extends qw( FoswikiFnTestCase );
 
 use constant MONITOR => 0;
@@ -27,7 +25,7 @@ my %qalgs;
 
 has metaObject => (
     is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'metaObject', 'Foswiki::Meta' ),
+    isa => InstanceOf ['Foswiki::Meta'],
 );
 
 around BUILDARGS => sub {

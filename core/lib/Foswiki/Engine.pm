@@ -22,7 +22,7 @@ use Assert;
 use Scalar::Util ();
 use Unicode::Normalize;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 
 use constant HTTP_COMPLIANT => undef;    # This is a generic class.
@@ -39,8 +39,8 @@ Default: application object =env= attribute.
 =cut 
 
 has env => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaHASH( 'env', noUndef => 1, ),
+    is      => 'rw',
+    assert  => HashRef,
     default => sub { $_[0]->app->env },
 );
 
@@ -116,13 +116,13 @@ arrayref.
 has queryParameters => (
     is      => 'rw',
     lazy    => 1,
-    isa     => Foswiki::Object::isaARRAY( 'queryParameters', noUndef => 1 ),
+    assert  => ArrayRef,
     builder => 'prepareQueryParameters',
 );
 has bodyParameters => (
     is      => 'rw',
     lazy    => 1,
-    isa     => Foswiki::Object::isaARRAY( 'bodyParameters', noUndef => 1 ),
+    assert  => ArrayRef,
     builder => 'prepareBodyParameters',
 );
 

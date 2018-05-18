@@ -21,7 +21,8 @@ use v5.14;
 
 use Assert;
 
-use Moo::Role;
+use Foswiki::Role -types;
+roleInit;
 
 #debug Iterators
 use constant MONITOR => 0;
@@ -32,7 +33,7 @@ has list => (
     clearer   => 1,
     predicate => 1,
     default   => sub { [] },
-    isa       => Foswiki::Object::isaARRAY('list'),
+    assert    => Maybe [ArrayRef],
 );
 has index => (
     is      => 'rw',

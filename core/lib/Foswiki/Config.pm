@@ -222,7 +222,7 @@ use Foswiki qw(urlEncode urlDecode make_params);
 use Foswiki::Configure::FileUtil;
 use Foswiki::Exception::Config;
 
-use Foswiki::Class -app;
+use Foswiki::Class -app, -types;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Util::Localize);
 
@@ -282,7 +282,7 @@ has data => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaHASH( 'data', noUndef => 1, ),
+    assert  => HashRef,
     builder => 'prepareData',
     trigger => sub {
         my $this = shift;
@@ -421,9 +421,7 @@ has rootSection => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaCLASS(
-        'rootSection', 'Foswiki::Config::Section', noUndef => 1,
-    ),
+    assert  => InstanceOf ['Foswiki::Config::Section'],
     builder => 'prepareRootSection',
 );
 
@@ -439,11 +437,7 @@ has specFiles => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaCLASS(
-        'specFiles',
-        'Foswiki::Config::Spec::Files',
-        noUndef => 1,
-    ),
+    assert  => InstanceOf ['Foswiki::Config::Spec::Files'],
     builder => 'prepareSpecFiles',
 );
 

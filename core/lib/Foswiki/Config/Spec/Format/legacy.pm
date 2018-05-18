@@ -7,7 +7,7 @@ package Foswiki::Config::Spec::Format::legacy::SpecItem;
 
 use Foswiki;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 # We took this here because it is expected to be gone from Foswiki::Config as
@@ -29,7 +29,7 @@ has name => (
 
 has optSpecs => (
     is      => 'ro',
-    isa     => Foswiki::Object::isaHASH( 'optSpecs', noUndef => 1, ),
+    assert  => HashRef,
     builder => 'prepareOptSpecs',
 );
 

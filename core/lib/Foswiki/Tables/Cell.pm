@@ -12,7 +12,7 @@ Abstract model of a table cell, suitable for use with the tables parser.
 
 use Assert;
 
-use Foswiki::Class;
+use Foswiki::Class -types;
 extends qw(Foswiki::Object);
 
 # Default format if no other format is defined for a cell
@@ -42,8 +42,7 @@ has row => (
     is       => 'ro',
     weak_ref => 1,
     required => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'row', 'Foswiki::Tables::Row', noUndef => 1 ),
+    assert   => InstanceOf ['Foswiki::Tables::Row'],
 );
 
 =begin TML
