@@ -1,5 +1,6 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # See bottom of file for license and copyright information
+use v5.14;
 use strict;
 use warnings;
 
@@ -811,7 +812,7 @@ sub package_exists {
 
     {
         local $SIG{__WARN__};
-        return eval "require $mod; 1"
+        return eval "require $mod; 1;";
     }
 }
 
