@@ -342,8 +342,6 @@ data/mime.types 0644
 foswiki_httpd_conf.txt 0444
 index.html 0444
 lib/Assert.pm 0444
-lib/AssertOff.pm 0444
-lib/AssertOn.pm 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/Access.pm 0444
