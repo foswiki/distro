@@ -233,9 +233,18 @@ my %_optionSet = (
 );
 
 # Predefined sugars
+# Format:
+# -option => {
+#    code => \&handlerSub,       # Sub implementing the sugar
+#    owner => 'Foswiki::Module', # What module registered it.
+# }
 my %_sugars = (
-    -sugar   => { newSugar    => { code => \&registerSugar, } },
-    -default => { stubMethods => { code => \&_handler_stubMethods }, },
+    -sugar =>
+      { newSugar => { code => \&registerSugar, owner => __PACKAGE__, } },
+    -default => {
+        stubMethods =>
+          { code => \&_handler_stubMethods, owner => __PACKAGE__, },
+    },
 );
 
 # Prepare %_sugars for use.
@@ -586,19 +595,27 @@ sub _rebuildSugars {
 sub registerSugar (%) {
     my %params = @_;
 
+    my $owner = caller;
+
     while ( my ( $option, $optData ) = each %params ) {
         while ( my ( $sgName, $sgParam ) = each %$optData ) {
+
             die "Bad parameters type for new sugar "
               . $sgName
               . ": must be a hash or code ref but got "
               . ( ref($sgParam) || ( defined $sgParam ? 'SCALAR' : '*undef*' ) )
               unless ref($sgParam) && ref($sgParam) =~ /^(?:CODE|HASH)$/;
+
             $sgParam = { code => $sgParam } if ref($sgParam) eq 'CODE';
+
             die "Sugar $sgName code either not defined or not a coderef"
               unless defined $sgParam->{code}
               && ref( $sgParam->{code} ) eq 'CODE';
+
             die "Trying to re-register sugar $sgName"
               if exists $_sugars{$option}{$sgName};
+
+            $sgParam->{owner} //= $owner;
 
             $_sugars{$option}{$sgName} = $sgParam;
             push @{ $_optionSet{$option}{sugars} }, $sgName;
