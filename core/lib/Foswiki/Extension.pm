@@ -20,8 +20,9 @@ sub DEMOLISH {
     my $ext = ref($this);
 
     #say STDERR "++++ DEMOLISHING $ext";
+    #say STDERR "THIS->APP:", $this->app // '*undef*';
 
-    unless ($in_global_desctruction) {
+    unless ( $in_global_desctruction || !defined $this->app ) {
 
         #say STDERR "++++ Not in global destruction";
         $this->app->extMgr->deregisterExtension( ref($this) );
