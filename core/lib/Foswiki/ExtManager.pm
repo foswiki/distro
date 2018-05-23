@@ -254,20 +254,28 @@ use File::Spec     ();
 use IO::Dir        ();
 use Devel::Symdump ();
 use Scalar::Util qw(blessed weaken reftype);
+use List::Util qw<pairs>;
+use Try::Tiny;
 
 use Foswiki qw<inject_code fetchGlobal>;
 use Assert;
-use Try::Tiny;
 use Data::Dumper;
 use Foswiki::Exception;
 use Foswiki::FeatureSet qw(featuresComply);
 
-# Constants for topological sorting.
-use constant NODE_TEMP_MARK => 0;
-use constant NODE_PERM_MARK => 1;
-use constant NODE_DISABLED  => -1;
+use constant {
 
-use Foswiki::Class -app, -callbacks, -sugar;
+    # Constants for topological sorting.
+    NODE_TEMP_MARK => 0,
+    NODE_PERM_MARK => 1,
+    NODE_DISABLED  => -1,
+
+    # Extension relation type
+    RELATION_SOFT => !!0,    # Simple ordering, no requirement
+    RELATION_HARD => !!1,    # Extension requires other extension
+};
+
+use Foswiki::Class -app, -callbacks, -sugar, -types;
 extends qw(Foswiki::Object);
 
 # This is the version to be matched agains extension's API version declaration.
@@ -284,13 +292,14 @@ our $MIN_VERSION = version->declare("2.99.0");
 # NOTE All data stored in globals is raw and must be revalidated before used.
 our @extModules
   ; # List of the extension modules in the order they were registered with _registerExtModule().
-our %registeredModules;   # Modules registered with _registerExtModule().
-our %extSubClasses;       # Subclasses registered by extensions.
-our %extDeps;             # Module dependecies; defines the order of extensions.
-our %extTags;             # Tags registered by extensions.
-our %extCallbacks;        # Callbacks registered by extensions.
-our %pluggables;          # Pluggable methods
-our %plugMethods;         # Extension registered plug methods.
+our %registeredModules; # Modules registered with _registerExtModule().
+our %extSubClasses;     # Subclasses registered by extensions.
+our %extDeps;           # Module dependecies; defines the order of extensions.
+our %extRelation;       # Extension relations: before/after/require end up here.
+our %extTags;           # Tags registered by extensions.
+our %extCallbacks;      # Callbacks registered by extensions.
+our %pluggables;        # Pluggable methods
+our %plugMethods;       # Extension registered plug methods.
 our %extDisabled
   ;    # Disabled extensions defined by keys. Values are reasons for disabling.
 
@@ -303,6 +312,7 @@ newSugar -extension => {
     extClass        => \&_handler_extClass,
     extAfter        => \&_handler_extAfter,
     extBefore       => \&_handler_extBefore,
+    extRequire      => \&_handler_extRequire,
     tagHandler      => \&_handler_tagHandler,
 };
 
@@ -392,7 +402,24 @@ names are in normalized form.
 has dependencies => (
     is      => 'rw',
     lazy    => 1,
+    assert  => HashRef [ HashRef [Bool] ],
     builder => 'prepareDependencies',
+);
+
+=begin TML
+
+---+++ ObjectAttribute requirements => hashref
+
+For an extension name defines map of required extensions. All names are in
+normalized form.
+
+=cut
+
+has requirements => (
+    is      => 'rw',
+    lazy    => 1,
+    assert  => HashRef [ HashRef [Bool] ],
+    builder => 'prepareRequirements',
 );
 
 =begin TML
@@ -503,12 +530,17 @@ to be short if it doesn't contain any double-colon (::).
 sub normalizeExtName {
     my $this = shift;
     my ($extName) = @_;
-    unless ( $extName =~ /::/ ) {
+    state %cached;
+
+    return $cached{$extName} if $cached{$extName};
+
+    my $nName = $extName;
+    unless ( $nName =~ /::/ ) {
 
         # Attempt to load en extension by its short name.
-        $extName = $this->extPrefix . "::" . $extName;
+        $nName = $this->extPrefix . "::" . $nName;
     }
-    return $extName;
+    return $cached{$extName} = $nName;
 }
 
 =begin TML
@@ -683,7 +715,8 @@ sub _loadExtModule {
         _registerExtModule($extModule);
     }
     catch {
-        Foswiki::Exception::Ext::Load->rethrow(
+        $this->RethrowAs(
+            'Foswiki::Exception::Ext::Load',
             $_,
             extension => $extModule,
             reason    => Foswiki::Exception::errorStr($_),
@@ -856,7 +889,12 @@ sub disableExtension {
 
     #$this->app->logger->warn("Disabling $extName because of: $reason");
 
-    $this->disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
+    # Don't override if already disabled.
+    $extDisabled{$extName} = $reason unless defined $extDisabled{$extName};
+
+    $this->clear_disabledExtensions;
+
+    #$this->disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
 }
 
 =begin TML
@@ -899,37 +937,53 @@ sub _extVisit {
     my $marked    = $params{marked};
     my $depHash   = $params{depHash};
     my $extName   = $params{extName};
-    my $visitPath = $params{_visitPath} // [];
+    my $visitPath = $params{_visitPath} // [];    # Must be in reverse order
 
     my @list;
 
-    if (
-        defined $marked->{$extName}
-        && (   $marked->{$extName} == NODE_TEMP_MARK
-            || $marked->{$extName} == NODE_DISABLED )
-      )
+    if ( defined $marked->{$extName} && $marked->{$extName} == NODE_TEMP_MARK )
     {
-        state $nType = {
-            &NODE_TEMP_MARK => "Circular dependecy found for",
-            &NODE_DISABLED  => "Disabled extension",
-        };
 
-        my $disableMsg =
-            $nType->{ $marked->{$extName} } . " "
-          . $extName
-          . " in dependecy chain: "
-          . join( " -> ", @$visitPath, $extName );
+        my @disableExt;
 
-        # Disable all problematic extensions.
-        foreach my $disabledExt (@$visitPath) {
-            $marked->{$disabledExt} = NODE_DISABLED;
-            $this->disableExtension( $disabledExt, $disableMsg );
+        # If all exts in the loop require each other then disable it.
+        my $disableLoop = 1;
+
+        # Error-proofing. Must be set to true if tracing back visited exts led
+        # us to $extName
+        my $foundLoop = 0;
+        my $prevExt   = $extName;
+
+      VISITED:
+        foreach my $vExt (@$visitPath) {
+            if ( $disableLoop &&= $this->requirements->{$vExt}{$prevExt} ) {
+
+                # For 'require' dependency record the ext for disabling.
+                push @disableExt, $vExt;
+                $prevExt = $vExt;
+            }
+            else {
+                # Not a 'require' dependency, don't disable extensions.
+                last VISITED;
+            }
+
+            if ( $foundLoop = ( $vExt eq $extName ) ) {
+                last VISITED;
+            }
         }
 
-        # Don't override the original disable message!
-        if ( $marked->{$extName} == NODE_TEMP_MARK ) {
-            $this->disableExtension( $extName, $disableMsg );
-            $marked->{$extName} = NODE_DISABLED;
+        $this->Throw( "Fatal",
+            "Internal: failed to trace back a extension dependency loop" )
+          if $disableLoop && !$foundLoop;
+
+        if ($disableLoop) {
+            foreach my $dExt (@disableExt) {
+                unless ( $marked->{$dExt} == NODE_DISABLED ) {
+                    $marked->{$dExt} = NODE_DISABLED;
+                    $this->disableExtension( $dExt,
+                        "Circular dependency of 'require' relations" );
+                }
+            }
         }
 
         return ();
@@ -938,12 +992,20 @@ sub _extVisit {
     unless ( $marked->{$extName} ) {
         $marked->{$extName} = NODE_TEMP_MARK;
         my @subList;
-        foreach my $depExt ( @{ $depHash->{$extName} } ) {
+
+        # Make sure we process extensions in ordered manner - as passed to
+        # _topoSort() method. This way we would preserve predictable behavior.
+        foreach my $nextExt ( @{ $params{order} } ) {
+
+            # Skip if $extName doesn't depend on $nextExt
+            # Don't remove $depHash->{$extName}: prevents auto-vivification
+            next unless $depHash->{$extName} && $depHash->{$extName}{$nextExt};
             @subList = $this->_extVisit(
                 marked     => $marked,
                 depHash    => $depHash,
-                extName    => $depExt,
-                _visitPath => [ @$visitPath, $extName ],
+                extName    => $nextExt,
+                order      => $params{order},
+                _visitPath => [ $extName, @$visitPath ],
                 _level     => ( $params{_level} // 0 ) + 1,
             );
             push @list, @subList;
@@ -957,6 +1019,7 @@ sub _extVisit {
     return @list;
 }
 
+# Topoligical sort of dependencies
 sub _topoSort {
     my $this = shift;
     my ( $order, $depHash ) = @_;
@@ -980,11 +1043,72 @@ sub _topoSort {
         push @list,
           $this->_extVisit(
             marked  => \%marked,
+            order   => $order,
             depHash => $depHash,
-            extName => $node
+            extName => $node,
           );
     }
     return @list;
+}
+
+# This method must help in resolving possible issues with circular dependencies.
+# By taking into account the fact that topological sort would simply stop upon
+# detecting a circularity thus effectively leaving at least one relation
+# unresolved, we may use the fact that nodes appearing first in the initial
+# unsorted list would have all their relations resolved.
+# Since 'require' relation has higher priority than 'after', and user-defined
+# order takes precedence over both of them, it makes sense to pre-sort the
+# unsorted list by taking into consideration nodes priorities.
+# TODO: User-defined ordering in a configuration key.
+sub _preSortExts {
+    my $this = shift;
+    my @exts = @_;
+
+    my $cfgData = $this->app->cfg->data;
+
+    # Mark extensions processing status. 0 is for unprocessed.
+    # Priorities are:
+    # high, require, normal, low
+    # Each priority weights occupy $count numbers – successive to the previous
+    # one. I.e.:
+    # high: 0 to $count-1
+    # require: from max high weigh and $count up
+    # and so on.
+    my $count = @extModules;
+
+    my $highPrio   = 0;
+    my $reqPrio    = $highPrio + $count;
+    my $normalPrio = $reqPrio + $count;
+    my $lowPrio    = $normalPrio + $count;
+    my %extMark;
+
+    # First of all mark everything with normal priority. Then modify if needed.
+    # Preserve the original order as given in @exts.
+    $extMark{$_} = $normalPrio++ foreach @exts;
+
+    # Change priorities of extensions with 'require'. Note that shifting the
+    # weight down by $count moves it into $reqPrio range. This is the fastest
+    # way to preserve the order in @ext.
+    my $requirements = $this->requirements;
+    foreach my $relExt (@exts) {
+        $extMark{$relExt} -= $count if defined $requirements->{$relExt};
+    }
+
+    my %prmap = (
+        First => $highPrio,
+        Last  => $lowPrio,
+    );
+
+    # Here we preserve the order defined by user, not by @ext
+    foreach my $pos (qw<First Last>) {
+        next unless defined $cfgData->{ExtOrder}{$pos};
+        my @list = split /\s*,\s*/, $cfgData->{ExtOrder}{$pos};
+        foreach my $uExt (@list) {
+            $extMark{ $this->normalizeExtName($uExt) } = $prmap{$pos}++;
+        }
+    }
+
+    return [ sort { $extMark{$a} <=> $extMark{$b} } @exts ];
 }
 
 =begin TML
@@ -998,9 +1122,10 @@ Initializer for =orderedList= attribute.
 sub prepareOrderedList {
     my $this = shift;
 
-    my @orderedExtList =
-      $this->_topoSort( [ map { $this->normalizeExtName($_) } @extModules ],
-        $this->dependencies );
+    my @orderedExtList = $this->_topoSort(
+        $this->_preSortExts( map { $this->normalizeExtName($_) } @extModules ),
+        $this->dependencies
+    );
     return \@orderedExtList;
 }
 
@@ -1089,9 +1214,26 @@ sub _disabled2List {
         @list = @$disabled;
     }
     else {
-        @list = split /,/, $disabled;
+        @list = split /\s*,\s*/, $disabled;
     }
     return map { [ $_, $msg ] } @list;
+}
+
+# Rebuilds requirements hash in reverse direction where for required extensions
+# their dependents are listed.
+sub _reverseRequirements {
+    my $this = shift;
+
+    my $reqs = $this->requirements;
+
+    my %revReqs;
+    foreach my $dependent ( keys %$reqs ) {
+        foreach my $required ( keys %{ $reqs->{$dependent} } ) {
+            push @{ $revReqs{$required} }, $dependent;
+        }
+    }
+
+    return \%revReqs;
 }
 
 sub prepareDisabledExtensions {
@@ -1136,7 +1278,49 @@ sub prepareDisabledExtensions {
         }
     }
 
+    # 'require' relations are applied at the very last.
+    # Take each disabled extension and see if any other ext requires it.
+    my $revReq = $this->_reverseRequirements;
+    my @disabledExts = keys %disabled;    # Queue of extensions to process
+    while (@disabledExts) {
+        my $dExt = shift @disabledExts;
+        if ( defined $revReq->{$dExt} ) {
+            foreach my $dependent ( @{ $revReq->{$dExt} } ) {
+
+                # Only do something if dependent wasn't disabled yet.
+                unless ( $disabled{$dependent} ) {
+                    $disabled{$dependent} =
+                      "Required " . $dExt . " is disabled";
+
+                    # Process the dependent too as it might be required by other
+                    # extensions.
+                    push @disabledExts, $dependent;
+                }
+            }
+        }
+    }
+
     return \%disabled;
+}
+
+# Transforms data from %extRelation into a hash suitable for dependencies or
+# requirements attributes.
+sub _makeDepsHash {
+    my $this = shift;
+    my (@types) = @_;
+
+    my %nDeps;    # Normalized dependecy hash.
+    foreach my $ext ( keys %extRelation ) {
+        my $extName = $this->normalizeExtName($ext);
+
+        foreach my $type (@types) {
+            foreach my $relExt ( keys %{ $extRelation{$ext}{$type} } ) {
+                $nDeps{$extName}{ $this->normalizeExtName($relExt) } = 1;
+            }
+        }
+    }
+
+    return \%nDeps;
 }
 
 =begin TML
@@ -1150,15 +1334,21 @@ Initializer for =dependencies= attribute.
 sub prepareDependencies {
     my $this = shift;
 
-    my %nDeps;    # Normalized dependecy hash.
-    foreach my $ext ( keys %extDeps ) {
-        my $extName = $this->normalizeExtName($ext);
+    return $this->_makeDepsHash(qw<require after>);
+}
 
-        my @deps = map { $this->normalizeExtName($_) } @{ $extDeps{$ext} };
-        push @{ $nDeps{$extName} }, @deps;
-    }
+=begin TML
 
-    return \%nDeps;
+---+++ ObjectMethod prepareRequirements()
+
+Initializer for =requirements= attribute.
+
+=cut
+
+sub prepareRequirements {
+    my $this = shift;
+
+    return $this->_makeDepsHash(qw<require>);
 }
 
 =begin TML
@@ -1608,6 +1798,34 @@ sub registerDeps {
 
 =begin TML
 
+---+++ StaticMethod registerRelation( $relType, @deps )
+
+Register relations of type =$relType= between an extension and other extensions.
+=@deps= is a list of pairs:
+
+<verbatim>
+Foswiki::Extension::ExtA => [qw<Ext1 Ext2>],
+Foswiki::Extension::ExtB => [qw<Ext3 Ext2>],
+</verbatim>
+
+Types of relations should either be 'require' or 'after'.
+
+=cut
+
+sub registerRelation {
+    my $type = shift;    # 'require' or 'after'
+
+    Foswiki::Exception::Fatal->throw(
+        text => "Bad number of parameters in call to registerRelation()", )
+      unless ( @_ % 2 ) == 0;
+
+    foreach my $rel ( pairs @_ ) {
+        $extRelation{ $rel->[0] }{$type}{$_} = 1 foreach @{ $rel->[1] };
+    }
+}
+
+=begin TML
+
 ---+++ StaticMethod registerPluggable( $class, $method, $code )
 
 Registers =$code= as pluggable method =$method= for =$class=.
@@ -1778,12 +1996,22 @@ sub _handler_extAfter (@) {
     my $target = caller;
 
     registerDeps( $target, @_ );
+
+    # Use copy of @_ in order to avoid accidental side effects.
+    registerRelation( after => ( $target => [@_] ) );
 }
 
 sub _handler_extBefore (@) {
     my $target = caller;
 
     registerDeps( $_, $target ) foreach @_;
+    registerRelation( 'after', map { $_ => [$target] } @_ );
+}
+
+sub _handler_extRequire (@) {
+    my $target = caller;
+
+    registerRelation( 'require', $target => [@_] );
 }
 
 sub _handler_tagHandler ($;$) {

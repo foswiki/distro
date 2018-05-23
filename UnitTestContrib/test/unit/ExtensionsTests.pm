@@ -3,8 +3,6 @@
 package Foswiki::ExtensionsTests::SampleClass;
 use utf8;
 
-require Foswiki::ExtManager;
-
 use Foswiki::Class;
 extends qw(Foswiki::Object);
 
@@ -24,7 +22,9 @@ sub testPluggableMethod {
 package ExtensionsTests;
 
 use Assert;
-use Foswiki::Exception ();
+use Foswiki::Exception  ();
+use Foswiki::ExtManager ();
+use Data::Dumper;
 
 use Foswiki::FeatureSet;
 
@@ -80,6 +80,22 @@ sub _getExtName {
     return sprintf( 'Foswiki::Extension::Ext::Auto%04d', $idx++ );
 }
 
+sub _ext2IdxMap {
+    my $this = shift;
+    my @exts = @_;
+
+    my $idx = 0;
+    return ( map { $_ => $idx++ } @exts );
+}
+
+sub _extList2Idx {
+    my $this = shift;
+    my ( $exts, $extList ) = @_;
+
+    my %idxMap = $this->_ext2IdxMap(@$exts);
+    return [ map { $idxMap{$_} } @$extList ];
+}
+
 sub _genExtModules {
     my $this = shift;
     my ( $count, @extCode ) = @_;
@@ -123,10 +139,12 @@ sub _setExtDependencies {
     my $this = shift;
     my %deps = @_;
 
-    foreach my $extName ( keys %deps ) {
-        my $dep = $deps{$extName};
-        Foswiki::ExtManager::registerDeps( $extName,
-            ref($dep) ? @{$dep} : $dep );
+    foreach my $relation ( keys %deps ) {
+        foreach my $extName ( keys %{ $deps{$relation} } ) {
+            my $dep = $deps{$relation}{$extName};
+            Foswiki::ExtManager::registerRelation( $relation, $extName,
+                ref($dep) ? $dep : [$dep] );
+        }
     }
 }
 
@@ -137,29 +155,69 @@ sub _addExtToDisabled {
 
 sub _disableAllCurrentExtensions {
     my $this = shift;
-    _addExtToDisabled(@Foswiki::ExtManager::extModules);
+
+    #_addExtToDisabled(@Foswiki::ExtManager::extModules);
+    $this->app->extMgr->disableExtension( $_, "Obsoleted test extensions" )
+      foreach @Foswiki::ExtManager::extModules;
 }
 
 sub test_orderedList {
     my $this = shift;
 
-    # First disable all previously loaded extensions.
     $this->_disableAllCurrentExtensions;
 
-    my @ext = $this->_genExtModules(4);
+    my @ext = $this->_genExtModules(10);
     $this->_setExtDependencies(
-        $ext[0] => $ext[2],
-        $ext[2] => $ext[3],
-        $ext[3] => $ext[1],
+        after => {
+            $ext[0] => [ $ext[2], $ext[4] ],
+            $ext[2] => $ext[3],
+            $ext[3] => $ext[6],
+        },
     );
     $this->reCreateFoswikiApp;
 
-    my $expected = [ @ext[ 1, 3, 2, 0 ] ];
+    #say STDERR "ORDER SIMPLE:",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
+
+    my $expected = [ 6, 3, 2, 4, 0, 1, 5, 7, 8, 9 ];
 
     $this->assert_deep_equals(
         $expected,
-        $this->app->extMgr->orderedList,
-        "Wrong order of extensions"
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Simple ordering failed"
+    );
+
+    # Now add requirements
+
+    $this->_setExtDependencies( require => { $ext[3] => $ext[5], }, );
+    $this->reCreateFoswikiApp;
+
+    $expected = [ 5, 6, 3, 2, 4, 0, 1, 7, 8, 9 ];
+
+    #say STDERR "ORDER WITH REQ:",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
+
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Ordering with 'require' relations failed"
+    );
+
+    $this->app->cfg->data->{ExtOrder}{First} = join( "  , ", @ext[ 9, 2, 7 ] );
+    $this->reCreateFoswikiApp;
+
+    $expected = [ 9, 5, 6, 3, 2, 7, 4, 0, 1, 8 ];
+
+    #say STDERR "ORDER WITH REQ AND USERDEF:",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
+
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Ordering with 'require' relations and user-defined priorities failed"
     );
 }
 
@@ -195,11 +253,20 @@ sub test_depend_on_manual_disable {
 
     _addExtToDisabled( $ext[1] );
     $this->_setExtDependencies(
-        $ext[3] => $ext[2],
-        $ext[2] => $ext[1],
+        require => {
+            $ext[3] => $ext[2],
+            $ext[2] => $ext[1],
+        }
     );
 
     $this->reCreateFoswikiApp;
+
+    #say STDERR "ORDER:",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
+
+    #say STDERR "First ext: ", $ext[0];
+    #say STDERR Dumper( $this->app->extMgr->requirements );
 
     $this->assert_not_null(
         $this->app->extMgr->extensions->{ $ext[0] },
@@ -216,11 +283,52 @@ sub test_depend_on_manual_disable {
     $this->assert( !$this->app->extMgr->extEnabled( $ext[3] ),
         "Fourth extension is expected to be disabled but it is not" );
 
-    $this->assert_str_contains( "Disabled extension",
-        $this->app->extMgr->disabledExtensions->{ $ext[2] } );
+    $this->assert_matches(
+        qr/Required Foswiki::Extension::Ext::Auto\d+ is disabled/,
+        $this->app->extMgr->disabledExtensions->{ $ext[2] }
+    );
 
-    $this->assert_str_contains( "Disabled extension",
-        $this->app->extMgr->disabledExtensions->{ $ext[3] } );
+    $this->assert_matches(
+        qr/Required Foswiki::Extension::Ext::Auto\d+ is disabled/,
+        $this->app->extMgr->disabledExtensions->{ $ext[3] }
+    );
+}
+
+sub test__preSortOrder {
+    my $this = shift;
+
+    # Do disable/recreate twice to make sure we have some junk extensions
+    # disabled.
+    $this->_disableAllCurrentExtensions;
+    $this->_genExtModules(5);
+    $this->reCreateFoswikiApp;
+
+    $this->_disableAllCurrentExtensions;
+    my @ext = $this->_genExtModules(10);
+    $this->_setExtDependencies(
+        after   => { $ext[1] => $ext[2], },
+        require => {
+            $ext[5] => [ $ext[3], $ext[2] ],
+            $ext[7] => $ext[9],
+        },
+    );
+    $this->reCreateFoswikiApp;
+
+    my $preSorted = $this->app->extMgr->_preSortExts(@ext);
+
+    #say STDERR "DISABLED LIST:", $ENV{FOSWIKI_DISABLED_EXTENSIONS};
+    #say STDERR "BASE EXT:",      $ext[0];
+    #say STDERR "PRE-SORTED ORDER:",
+    #  join( ",", @{ $this->_extList2Idx( \@ext, $preSorted ) } );
+    #say STDERR join( ",", @$preSorted );
+
+    my $expected = [ 5, 7, 0, 1, 2, 3, 4, 6, 8, 9 ];
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $preSorted ),
+        "Wrong pre-sorted order"
+    );
+
 }
 
 sub test_circular_deps {
@@ -228,27 +336,80 @@ sub test_circular_deps {
 
     $this->_disableAllCurrentExtensions;
 
-    my @ext = $this->_genExtModules(4);
+    my @ext = $this->_genExtModules(10);
     $this->_setExtDependencies(
-        $ext[0] => $ext[2],
-        $ext[3] => $ext[1],
-        $ext[1] => $ext[3],
+        after => {
+            $ext[1] => $ext[0],
+            $ext[3] => $ext[2],
+            $ext[2] => [ $ext[1], $ext[7] ],
+            $ext[4] => $ext[3],
+            $ext[5] => $ext[4],
+            $ext[6] => $ext[5],
+            $ext[7] => [ $ext[6], $ext[8] ],
+            $ext[8] => $ext[9],
+        },
     );
+
+    #say STDERR "BASE:", $ext[0];
+
     $this->reCreateFoswikiApp;
 
-    my $expected = [ @ext[ 2, 0 ] ];
+    my $expected = [ 0, 1, 3, 4, 5, 6, 9, 8, 7, 2 ];
+
+    #say STDERR "ORDER:",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
 
     $this->assert_deep_equals(
         $expected,
-        $this->app->extMgr->orderedList,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
         "Wrong order of extensions"
     );
+}
 
-    $this->assert_str_contains( "Circular dependecy found for ",
-        $this->app->extMgr->disabledExtensions->{ $ext[1] } );
+sub test_circular_requirements {
+    my $this = shift;
 
-    $this->assert_str_contains( "Circular dependecy found for ",
-        $this->app->extMgr->disabledExtensions->{ $ext[3] } );
+    $this->_disableAllCurrentExtensions;
+
+    my @ext = $this->_genExtModules(8);
+    $this->_setExtDependencies(
+        after => {
+            $ext[1] => $ext[0],
+            $ext[6] => $ext[5],
+            $ext[7] => $ext[6],
+            $ext[5] => $ext[7],
+        },
+        require => {
+            $ext[3] => $ext[2],
+            $ext[4] => $ext[3],
+            $ext[2] => $ext[4],
+        },
+    );
+
+    $this->reCreateFoswikiApp;
+
+    my $extMgr = $this->app->extMgr;
+
+    foreach my $dIdx ( 2, 3, 4 ) {
+        $this->assert(
+            $extMgr->disabledExtensions->{ $ext[$dIdx] },
+            "Extension #"
+              . $dIdx
+              . " is expected to be disabled due to circular dependency"
+        );
+        $this->assert_str_contains(
+            "circular dependency of 'require' relations",
+            $extMgr->disabledExtensions->{ $ext[$dIdx] },
+        );
+    }
+
+    foreach my $eIdx ( 5, 6, 7 ) {
+        $this->assert(
+            !$extMgr->disabledExtensions->{ $ext[$eIdx] },
+            "Extension #" . $eIdx . " is expected to be enabled"
+        );
+    }
 }
 
 sub test_pluggable_methods {
@@ -327,8 +488,10 @@ plugAfter 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
 EXT3
     );
     $this->_setExtDependencies(
-        $ext[2] => $ext[1],
-        $ext[1] => $ext[0],
+        after => {
+            $ext[2] => $ext[1],
+            $ext[1] => $ext[0],
+        },
     );
 
     $this->reCreateFoswikiApp;
@@ -748,8 +911,10 @@ callbackHandler LongEnoughNotToMakeAConflict => sub {
 EXT3
 
     $this->_setExtDependencies(
-        $ext[1] => $ext[0],
-        $ext[2] => $ext[1],
+        after => {
+            $ext[1] => $ext[0],
+            $ext[2] => $ext[1],
+        }
     );
 
     $this->reCreateFoswikiApp;
