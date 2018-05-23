@@ -682,6 +682,12 @@ sub BUILD {
         $this->clear_extMgr;
 
         $this->extMgr->initialize;
+
+        # The following line is a way to preserve information about extension
+        # class mapping across cfg re-initialization. This is basically all we
+        # need of the extension manager at this stage: to answer the question
+        # what class will implement configuration object.
+        $this->extMgr->registeredClasses;
     }
 
     $this->enterContext( appStage => 'postConfig' );
