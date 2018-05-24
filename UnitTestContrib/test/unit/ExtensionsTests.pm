@@ -57,7 +57,9 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    $this->app->cfg->data->{DisableAllPlugins} = 1;
+    my $cfgData = $this->app->cfg->data;
+    delete @{ $cfgData->{ExtOrder} }{qw<First Last>};
+    $cfgData->{DisableAllPlugins} = 1;
 };
 
 around tear_down => sub {
@@ -410,6 +412,97 @@ sub test_circular_requirements {
             "Extension #" . $eIdx . " is expected to be enabled"
         );
     }
+}
+
+sub test_loose_circular_requirements {
+    my $this = shift;
+
+    $this->_disableAllCurrentExtensions;
+    my @ext = $this->_genExtModules(10);
+
+    #say STDERR "BASE:", $ext[0];
+
+    # Two loops:
+    # 0 <- 1 <- 2 <- 3 -> 8
+    #           v    ^    v
+    #           7    4 <- 9
+    #           v    ^
+    #           6 -> 5
+    #
+    # Note that 4->3 is 'after', the rest is 'require'. This is where the cycle
+    # will be broken.
+    $this->_setExtDependencies(
+        after   => { $ext[4] => $ext[3], },
+        require => {
+            $ext[8] => $ext[9],
+            $ext[5] => $ext[4],
+            $ext[7] => $ext[6],
+            $ext[1] => $ext[0],
+            $ext[2] => [ $ext[1], $ext[7] ],
+            $ext[3] => [ $ext[8], $ext[2] ],
+            $ext[6] => $ext[5],
+            $ext[9] => $ext[4],
+        }
+    );
+    $this->reCreateFoswikiApp;
+
+    my $expected = [ 0, 1, 4, 5, 6, 7, 2, 9, 8, 3 ];
+
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Wrong order of extensions"
+    );
+
+    # Now add one more loop by requiring 2 by 5. This must effectively disable
+    # 2,7,6,5, and 3 as dependant on 2.
+    $this->_setExtDependencies( require => { $ext[5] => $ext[2], }, );
+
+    $this->reCreateFoswikiApp;
+
+    $expected = [ 0, 1, 4, 9, 8 ];
+
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Wrong order of extensions with a small loop"
+    );
+
+    # Big 'require' loop with 4->3 being 'after' :
+    # 0 <- 1 <- 2 <- 3 <- 8
+    #           v    ^    ^
+    #           7    4 -> 9
+    #           v    ^
+    #           6 -> 5
+    $this->_disableAllCurrentExtensions;
+    @ext = $this->_genExtModules(10);
+    $this->_setExtDependencies(
+        after   => { $ext[4] => $ext[3], },
+        require => {
+            $ext[1] => $ext[0],
+            $ext[2] => [ $ext[1], $ext[7] ],
+            $ext[3] => $ext[2],
+            $ext[4] => $ext[9],
+            $ext[5] => $ext[4],
+            $ext[6] => $ext[5],
+            $ext[7] => $ext[6],
+            $ext[8] => $ext[3],
+            $ext[9] => $ext[8],
+        }
+    );
+    $this->reCreateFoswikiApp;
+
+    #say STDERR "ORDER         :",
+    #  join( ",",
+    #    @{ $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ) } );
+
+    $expected = [ 0, 1 ];
+    $this->assert_deep_equals(
+        $expected,
+        $this->_extList2Idx( \@ext, $this->app->extMgr->orderedList ),
+        "Wrong order of extensions with a big loop"
+    );
+
 }
 
 sub test_pluggable_methods {

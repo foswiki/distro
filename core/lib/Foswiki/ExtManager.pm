@@ -266,9 +266,10 @@ use Foswiki::FeatureSet qw(featuresComply);
 use constant {
 
     # Constants for topological sorting.
-    NODE_TEMP_MARK => 0,
-    NODE_PERM_MARK => 1,
-    NODE_DISABLED  => -1,
+    NODE_TEMP_MARK  => 0,
+    NODE_PERM_MARK  => 1,
+    NODE_DISABLED   => -1,
+    NODE_RECONSIDER => 2,    # A node with 'require' relation fell into a cycle
 
     # Extension relation type
     RELATION_SOFT => !!0,    # Simple ordering, no requirement
@@ -943,7 +944,6 @@ sub _extVisit {
 
     if ( defined $marked->{$extName} && $marked->{$extName} == NODE_TEMP_MARK )
     {
-
         my @disableExt;
 
         # If all exts in the loop require each other then disable it.
@@ -954,12 +954,24 @@ sub _extVisit {
         my $foundLoop = 0;
         my $prevExt   = $extName;
 
+        my $requirements = $this->requirements;
+
       VISITED:
         foreach my $vExt (@$visitPath) {
-            if ( $disableLoop &&= $this->requirements->{$vExt}{$prevExt} ) {
+            if (
+                $disableLoop &&= (
+                    defined( $requirements->{$vExt} )
+                      && $requirements->{$vExt}{$prevExt}
+                )
+              )
+            {
 
                 # For 'require' dependency record the ext for disabling.
                 push @disableExt, $vExt;
+
+                # Mark this node to be reconsidered if disabling won't be
+                # needed.
+                $marked->{$vExt} = NODE_RECONSIDER;
                 $prevExt = $vExt;
             }
             else {
@@ -995,6 +1007,7 @@ sub _extVisit {
 
         # Make sure we process extensions in ordered manner - as passed to
         # _topoSort() method. This way we would preserve predictable behavior.
+      NODE:
         foreach my $nextExt ( @{ $params{order} } ) {
 
             # Skip if $extName doesn't depend on $nextExt
@@ -1008,11 +1021,20 @@ sub _extVisit {
                 _visitPath => [ $extName, @$visitPath ],
                 _level     => ( $params{_level} // 0 ) + 1,
             );
+
             push @list, @subList;
+
         }
-        unless ( $marked->{$extName} == NODE_DISABLED ) {
+        if ( $marked->{$extName} == NODE_TEMP_MARK ) {
             $marked->{$extName} = NODE_PERM_MARK;
             push @list, $extName;
+        }
+
+        if ( $marked->{$extName} == NODE_RECONSIDER ) {
+
+            # A circular dependecy detected, rewind back to the last node
+            # without 'require' relation.
+            delete $marked->{$extName};
         }
     }
 
@@ -1123,7 +1145,10 @@ sub prepareOrderedList {
     my $this = shift;
 
     my @orderedExtList = $this->_topoSort(
-        $this->_preSortExts( map { $this->normalizeExtName($_) } @extModules ),
+        $this->_preSortExts(
+            map  { $this->normalizeExtName($_) }
+            grep { !$extDisabled{$_} } @extModules
+        ),
         $this->dependencies
     );
     return \@orderedExtList;
@@ -1314,6 +1339,7 @@ sub _makeDepsHash {
         my $extName = $this->normalizeExtName($ext);
 
         foreach my $type (@types) {
+            next unless defined $extRelation{$ext}{$type};
             foreach my $relExt ( keys %{ $extRelation{$ext}{$type} } ) {
                 $nDeps{$extName}{ $this->normalizeExtName($relExt) } = 1;
             }
