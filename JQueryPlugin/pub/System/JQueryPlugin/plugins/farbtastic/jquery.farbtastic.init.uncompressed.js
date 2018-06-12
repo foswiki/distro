@@ -56,7 +56,7 @@
   }
 
   function initFarbtastic(colorPicker, elem) {
-    var val = elem.val();
+    var val = elem.val(), fb;
 
     function _colorize(bgColor) {
       var fgColor = getFgColor(bgColor);
@@ -66,11 +66,14 @@
       });
     }
 
+    fb = $.farbtastic(colorPicker).linkTo(_colorize);
+
     if (val) {
       _colorize(val);
+      fb.setColor(val);
     }
 
-    return $.farbtastic(colorPicker).linkTo(_colorize);
+    return fb;
   }
 
   $(function() {
@@ -145,7 +148,7 @@
 
     $(".jqFarbtasticFG:not(.jqInitedFarbtasticFG)").livequery(function() {
       var $this = $(this),
-          opts = $.extend({}, defaults, $this.data(), $this.metadata()),
+          opts = $.extend({}, defaults, $this.metadata(), $this.data()),
           bgColor = $this.css('background-color'),
           fgColor = getFgColor(bgColor, opts.dark, opts.light);
 
