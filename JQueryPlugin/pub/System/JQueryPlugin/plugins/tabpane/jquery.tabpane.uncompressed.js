@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 2.01
+ * jQuery Tabpane plugin 2.02
  *
- * Copyright (c) 2008-2017 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2018 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -39,7 +39,7 @@ var bottomBarHeight = -1;
 
     // create tab group
     self.elem.prepend('<span class="foswikiClear"></span>');
-    $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo(self.elem);
+    $tabGroup = $('<ul class="jqTabGroup clearfix"></ul>').prependTo(self.elem);
 
     // get all headings and create tabs
     index = 1;
@@ -54,13 +54,16 @@ var bottomBarHeight = -1;
       index++;
     });
 
+    if (typeof(self.currentTabId) === 'undefined') {
+      self.switchTab(self.elem.find("> .jqTab:first"));
+    }
 
     /* establish auto max expand */
     if (self.opts.autoMaxExpand) {
       self.autoMaxExpand();
     }
 
-    self.elem.find(".jqTabGroup > li > a").click(function() {
+    self.elem.find(".jqTabGroup > li > a").on("click", function() {
       var $this = $(this);
 
       $this.blur();
@@ -212,12 +215,11 @@ var bottomBarHeight = -1;
       $newTab = selectorOrObject;
     }
 
-    if ($newTab &&  $newTab.length) {
+    if ($newTab && $newTab.length) {
       newTabId = $newTab.attr("id");
     }
 
     //console.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
-
 
     $oldTab.removeClass("current");
     self.getNaviOfTab($oldTab).parent().removeClass("current");
@@ -227,7 +229,7 @@ var bottomBarHeight = -1;
     }
 
     // only switch off the old tab, no new tab there to activate
-    if (!$newTab) {
+    if (!$newTab || !$newTab.length) {
       return;
     }
 
@@ -352,7 +354,7 @@ var bottomBarHeight = -1;
 
     //$.log("TABPANE: called fixHeight()");
 
-    if (elem.is(".jqTabDisableMaxExpand")) {
+    if (!elem.length || elem.is(".jqTabDisableMaxExpand")) {
       return;
     }
 
