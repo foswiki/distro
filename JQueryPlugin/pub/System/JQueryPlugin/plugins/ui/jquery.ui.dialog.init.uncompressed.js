@@ -23,6 +23,7 @@ jQuery(function($) {
           href = $button.attr("href");
 
       button.text = $button.text();
+      button.class = $button.attr("class").replace(/ *jqUIDialogButton */, "");
 
       if (typeof(href) !== 'undefined' && href !== '#') {
         button.click = function() {
@@ -103,11 +104,14 @@ jQuery(function($) {
       // this is a link to remote data
       $.ajax({
         url: href, 
+        data: opts,
         success: function(content) { 
           var $content = $(content);
           $content.hide();
           $("body").append($content);
-          $content.data("autoOpen", true);
+          $content.data("autoOpen", true).on("dialogopen", function() {
+            $this.trigger("opened");
+          });
         },
         error: function(xhr) {
           throw("ERROR: can't load dialog xhr=",xhr);

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485768381" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1528804960" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -71,6 +71,7 @@ To load a dialog asynchronously use a fully quallified hyperref as in
 </verbatim>
 
 This will fetch the content of the dialog from the given url and add it to the page before opening it.
+Once the dialog opend will the =jqUIDialogLink= element receive an "opened" event.
 
 ---++ Button Click Actions
 When the button is clicked:
