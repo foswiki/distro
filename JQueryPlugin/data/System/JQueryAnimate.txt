@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1528799729" format="1.1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"animate"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+A cross-browser library of CSS animations.
+%ENDSECTION{"summary"}%
+
+
