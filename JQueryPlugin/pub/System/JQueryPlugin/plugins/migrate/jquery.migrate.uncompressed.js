@@ -349,7 +349,7 @@ if ( !jQuery.browser ) {
 }
 
 // Warn if the code tries to get jQuery.browser
-migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
+//migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
 
 // jQuery.boxModel deprecated in 1.3, jQuery.support.boxModel deprecated in 1.7
 jQuery.boxModel = jQuery.support.boxModel = (document.compatMode === "CSS1Compat");
