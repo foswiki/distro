@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519374726" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1528798239" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,13 +125,14 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  23 Feb 2018: | (8.01) - Item14636: fixed javascript api for jquery.wikiword |
-|  11 Dec 2017: | (8.00) - Item14564: added jquery-3 and the matching migrate module <br /> \
-                           Item14567: added keyboard navigation to jquery.stars <br /> \
-                           Item14568: added chili recipes for autolisp and ini <br /> \
-                           Item14569: deprecated jquery.placeholder <br /> \
-                           Item14571: added manual sorting mode to textboxlist <br /> \
-                           Item14572: upgraded jquery.livequery |
+|  12 Jun 2018: | (8.10) - Item14564: add jquery-3 and the matching migrate module <br />\
+                           Item14567: add keyboard navigation to jquery.stars <br />\
+                           Item14568: add chili recipes for autolisp and ini <br />\
+                           Item14569: deprecate jquery.placeholder <br />\
+                           Item14571: add manual sorting mode to textboxlist <br />\
+                           Item14572: upgraded jquery.livequery <br />\
+                           Item14454: add jsview in addition to jsrender |
+|  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
                            Item14570: add "use strict" to farbtastic's init and fix js errors <br /> \
