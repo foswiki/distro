@@ -1,6 +1,7 @@
 SUBDIRS=\
   animate \
   autocomplete \
+  browser \
   bgiframe \
   blockui \
   button \
