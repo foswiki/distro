@@ -132,7 +132,8 @@ required for Foswiki 1.1 or later.
                            Item14571: added manual sorting mode to textboxlist <br />\
                            Item14572: upgraded jquery.livequery <br />\
                            Item14454: added jsview in addition to jsrender <br /> \
-                           Item14721: fixed loading of language files for jquery.i18n |
+                           Item14721: fixed loading of language files for jquery.i18n <br />\
+                           Item14722: add jquery.browser as a separate module |
 |  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
