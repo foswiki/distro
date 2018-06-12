@@ -15,7 +15,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'Sprintf',
-            version    => '1.0.3',
+            version    => '1.1.2',
             author     => 'Alexandru Marasteanu',
             homepage   => 'https://github.com/alexei/sprintf.js',
             javascript => [ 'sprintf.js', ],
