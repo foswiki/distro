@@ -130,7 +130,8 @@ required for Foswiki 1.1 or later.
                            Item14568: add chili recipes for autolisp and ini <br />\
                            Item14569: deprecate jquery.placeholder <br />\
                            Item14571: add manual sorting mode to textboxlist <br />\
-                           Item14572: upgraded jquery.livequery |
+                           Item14572: upgraded jquery.livequery <br />\
+                           Item14454: add jsview in addition to jsrender |
 |  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \
