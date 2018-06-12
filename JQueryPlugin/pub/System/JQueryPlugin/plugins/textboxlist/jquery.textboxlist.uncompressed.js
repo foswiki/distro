@@ -1,7 +1,7 @@
 /*
- * jQuery textbox list plugin 2.20
+ * jQuery textbox list plugin 2.21
  *
- * Copyright (c) 2009-2017 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2018 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -103,7 +103,7 @@
         source: self.opts.autocomplete,
         select: function(event, ui) {
           $.log("TEXTBOXLIST: selected value="+ui.item.value+" label="+ui.item.label);
-          self.select(ui.item.value);
+          self.select(ui.item.value+"="+ui.item.label);
           return false;
         }
       });
