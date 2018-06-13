@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1528888127" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -185,8 +185,9 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://twiki.net][TWIKI.NET]]
 
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
-               &copy; 2008-2015 Foswiki Contributors |
+               &copy; 2008-2018 Foswiki Contributors |
 |  Change History: | |  
+|  1.38   (13 Jun 2018) | Foswikitask:Item14731: use JSON.pm to create proper json in attachments rest handler |
 |  1.36   (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain |
 |  1.35   (04 Apr 2017) | Foswikitask:Item14324: Unescaped left brace - Perl 5.25.10. |
 |  1.34   (26 Nov 2016) | Released with Foswiki 2.1.3 Foswikitask:Item14078: Wysiwyg merges horizontal rules (---) into a preceeding list and looses the TML markup.<br />\
@@ -282,4 +283,3 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512791273" size="1343" user="ProjectContributor" version="1"}%
