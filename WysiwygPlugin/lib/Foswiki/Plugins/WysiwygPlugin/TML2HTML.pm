@@ -644,7 +644,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                 $class .= ' numbered';
             }
             my $l = length($indicator);
-            $line = "<h$l class='$class'> $heading </h$l>";
+            $line = "<h$l class='$class'>$heading</h$l>";
 
         }
         elsif ( $line =~ /^\s*$/ ) {

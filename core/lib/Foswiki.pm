@@ -496,7 +496,7 @@ BEGIN {
     # Header patterns based on '+++'. The '###' are reserved for numbered
     # headers
     # '---++ Header', '---## Header'
-    $regex{headerPatternDa} = qr/^---+(\++|\#+)(.*)$/m;
+    $regex{headerPatternDa} = qr/^---+([\+\#]+)(.*)$/m;
 
     # '<h6>Header</h6>
     $regex{headerPatternHt} = qr/^<h([1-6])>(.+?)<\/h\1>/mi;
