@@ -10,40 +10,44 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my ( $client, $protocol, $host, $port, $proxy ) =
-      Foswiki::Engine::_getConnectionData(1);
+    if ( defined $Foswiki::cfg{Engine}
+        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
+    {
+        my ( $client, $protocol, $host, $port, $proxy ) =
+          Foswiki::Engine::_getConnectionData(1);
 
-    if ($proxy) {
+        if ($proxy) {
 
-        $reporter->NOTE(
+            $reporter->NOTE(
 "Proxy server detected. Proxy URL is $protocol://$host:$port. Local server name is $ENV{HTTP_HOST}"
-        );
-
-        if ( $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
-            $reporter->WARN(
-"Note that =ForceDefaultUrlHost= is a more secure setting for supporting a reverse proxy. "
             );
+
+            if ( $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+                $reporter->WARN(
+"Note that =ForceDefaultUrlHost= is a more secure setting for supporting a reverse proxy. "
+                );
+            }
+            else {
+                $reporter->NOTE(
+'This setting should be enabled if there are multiple proxy servers or there is a mix of proxied and non-proxied clients.'
+                );
+            }
         }
         else {
-            $reporter->NOTE(
-'This setting should be enabled if there are multiple proxy servers or there is a mix of proxied and non-proxied clients.'
-            );
-        }
-    }
-    else {
-        if ( $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
-            $reporter->WARN(
+            if ( $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+                $reporter->WARN(
 'You have enabled this setting, but no proxy is detected. Be sure this is what you want to do.'
+                );
+            }
+        }
+
+        if (   $Foswiki::cfg{ForceDefaultUrlHost}
+            && $Foswiki::cfg{PROXY}{UseForwardedHeaders} )
+        {
+            $reporter->ERROR(
+'Both ={ForceDefaultUrlHost}= and ={PROXY}{UseForwardedHeaders}= are enabled.  ={PROXY}{UseForwardedHeaders}= will be ignored.'
             );
         }
-    }
-
-    if (   $Foswiki::cfg{ForceDefaultUrlHost}
-        && $Foswiki::cfg{PROXY}{UseForwardedHeaders} )
-    {
-        $reporter->ERROR(
-'Both ={ForceDefaultUrlHost}= and ={PROXY}{UseForwardedHeaders}= are enabled.  ={PROXY}{UseForwardedHeaders}= will be ignored.'
-        );
     }
 }
 
@@ -51,7 +55,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

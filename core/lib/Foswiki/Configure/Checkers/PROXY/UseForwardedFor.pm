@@ -10,29 +10,33 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my ( $client, $protocol, $host, $port, $proxy ) =
-      Foswiki::Engine::_getConnectionData(1);
+    if ( defined $Foswiki::cfg{Engine}
+        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
+    {
+        my ( $client, $protocol, $host, $port, $proxy ) =
+          Foswiki::Engine::_getConnectionData(1);
 
-    if ($proxy) {
+        if ($proxy) {
 
-        if ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
-            $reporter->WARN(
+            if ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
+                $reporter->WARN(
 "Be sure you trust the proxy server. Clients can use this header to spoof their IP addresses."
-            );
-        }
-        else {
-            $reporter->WARN(
+                );
+            }
+            else {
+                $reporter->WARN(
 "Proxy detected, Enable this switch if Foswiki should use the =X-Forwarded-For= header to obtain the real client IP address."
+                );
+            }
+            $reporter->NOTE(
+"Remote Address is $ENV{REMOTE_ADDR}, Real client IP is =$client=."
             );
         }
-        $reporter->NOTE(
-            "Remote Address is $ENV{REMOTE_ADDR}, Real client IP is =$client=."
-        );
-    }
-    elsif ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
-        $reporter->WARN(
+        elsif ( $Foswiki::cfg{PROXY}{UseForwardedFor} ) {
+            $reporter->WARN(
 "You have enabled ={PROXY}{UseForwardedFor}= but a proxy was not detected. The =X-Forwarded-For= header can be used by clients to mask their real IP address. Be sure this is what you want to do."
-        );
+            );
+        }
     }
 }
 
@@ -40,7 +44,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

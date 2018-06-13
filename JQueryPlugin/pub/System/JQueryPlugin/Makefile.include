@@ -2,56 +2,65 @@ FOSWIKI_ROOT?=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
-MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(UGLIFYJS); else echo $(NOMINIFYJS); fi)
-UGLIFYJS="uglifyjs -m -c --"
-NOMINIFYJS="echo 'WARNING: no javascript minifier found' >&2"
+GZIP=gzip
+CAT=cat
+PATCH=patch
+DEBUG=false
 
-MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(CSSMIN); else echo $(NOMINIFYCSS); fi)
-CSSMIN="cssmin"
-NOMINIFYCSS="echo 'WARNING: no css minifier found' >&2"
+NPM_INSTALL=npm install -g
+UGLIFYJS=uglifyjs -m -c --
+CSSMIN=cssmin
+ESLINT=eslint -f compact
+SASS=node-sass --output-style expanded
+BABEL=babel --presets=env
+BABELIFY=$(FOSWIKI_ROOT)/tools/babelify
 
-JSLINT=$(shell if which eslint > /dev/null; then echo $(ESHINT); else echo $(NOJSLINT); fi)
-NOJSLINT="echo 'WARNING: no javascript linter found' >&2"
+DEV_DEPENDENCIES=\
+  babel-core \
+  babel-cli \
+  babelify \
+  babel-preset-env \
+  browserify \
+  cssmin \
+  eslint \
+  sass \
+  uglify-js 
 
-SASS=$(shell if which node-sass >/dev/null; then echo $(SASS_CMD); else echo $(NOSASS); fi)
-SASS_CMD="node-sass --output-style expanded"
-NOSASS="echo 'WARNING: no sass preprocessor found' >&2"
-
-ESHINT="eslint -f compact"
-GZIP="gzip"
-CAT="cat"
-PATCH="patch"
-DEBUG="false"
-
-.SUFFIXES: .js .css .jslint
-.PHONY: subdirs $(SUBDIRS)
+.SUFFIXES: .js .css .jslint .es6 .install
+.PHONY: subdirs $(SUBDIRS) deps
 
 all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
 	@echo -n ""
+
+deps: 
+	@$(NPM_INSTALL) $(DEV_DEPENDENCIES) >/dev/null
 
 jslint: subdirs $(TARGET:.js=.jslint) 
 	@echo -n ""
 
 %.jslint: %.uncompressed.js
 	@echo checking code quality of $<
-	@$(JSLINT) $< && touch $@
+	@$(ESLINT) $< && touch $@
 
 %.jslint: %_src.js
 	@echo checking code quality of $<
-	@$(JSLINT) $< && touch $@
+	@$(ESLINT) $< && touch $@
 
 %.js: %.uncompressed.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(UGLIFYJS) $< > $@; \
 	fi
+
+%.uncompressed.js: %.es6
+	@echo compiling $@ from $<; $(BABEL) $< -o $@
 
 %.js: %_src.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(UGLIFYJS) $< > $@; \
 	fi
 
 %.gz: %
@@ -60,7 +69,7 @@ jslint: subdirs $(TARGET:.js=.jslint)
 
 %.css: %.uncompressed.css
 	@echo minifying $@ from $<
-	@$(MINIFYCSS) $< > $@
+	@$(CSSMIN) $< > $@
 
 %.uncompressed.css: %.scss
 	@echo sassing $@ from $<
@@ -68,7 +77,7 @@ jslint: subdirs $(TARGET:.js=.jslint)
 
 %.css: %_src.css
 	@echo minifying $@ from $<
-	@$(MINIFYCSS) $< > $@
+	@$(CSSMIN) $< > $@
 
 
 subdirs: $(SUBDIRS)

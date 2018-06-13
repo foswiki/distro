@@ -16,19 +16,25 @@ sub check_current_value {
         Foswiki::Configure::Checkers::URL::checkURI( $reporter, $uri );
     }
 
-    # Probe the connection in bootstrap mode:
-    my ( $client, $protocol, $host, $port, $proxy ) =
-      Foswiki::Engine::_getConnectionData(1);
-    $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
+    if ( defined $Foswiki::cfg{Engine}
+        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
 
-    my $detected = $protocol . '://' . $host . $port;
-
-    if (   $Foswiki::cfg{DefaultUrlHost} !~ m#\Q$detected\E#i
-        && $Foswiki::cfg{PermittedRedirectHostUrls} !~ m#\Q$detected\E#i )
     {
-        $reporter->WARN(
+
+        # Probe the connection in bootstrap mode:
+        my ( $client, $protocol, $host, $port, $proxy ) =
+          Foswiki::Engine::_getConnectionData(1);
+        $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
+
+        my $detected = $protocol . '://' . $host . $port;
+
+        if (   $Foswiki::cfg{DefaultUrlHost} !~ m#\Q$detected\E#i
+            && $Foswiki::cfg{PermittedRedirectHostUrls} !~ m#\Q$detected\E#i )
+        {
+            $reporter->WARN(
 "Current setting does not include =$protocol://$host$port=, and it is not the ={DefaultUrlHost}="
-        );
+            );
+        }
     }
 }
 
@@ -36,7 +42,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

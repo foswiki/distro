@@ -645,6 +645,59 @@ NONNY
     return;
 }
 
+sub test_saveTopicAUTOINC {
+    my $this  = shift;
+    my $topic = 'SaveTopic001';
+    Foswiki::Func::saveTopic( $this->{test_web}, 'SaveTopicAUTOINC001', undef,
+        <<'NONNY' );
+%META:PREFERENCE{name="Bird" value="Kakapo"}%
+   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+NONNY
+    $this->assert(
+        !Foswiki::Func::checkAccessPermission(
+            'CHANGE', Foswiki::Func::getWikiName(),
+            undef, $topic, $this->{test_web}
+        )
+    );
+
+    $topic = 'SaveTopic001';
+    Foswiki::Func::saveTopic( $this->{test_web}, 'SaveTopicAUTOINC001', undef,
+        <<'NONNY' );
+%META:PREFERENCE{name="Bird" value="Kakapo"}%
+   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+NONNY
+    $this->assert(
+        !Foswiki::Func::checkAccessPermission(
+            'CHANGE', Foswiki::Func::getWikiName(),
+            undef, $topic, $this->{test_web}
+        )
+    );
+    my @ri = Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic );
+    $this->assert_matches( qr/1$/, $ri[2] );
+
+    # Make sure the meta got into the topic
+    my ( $m, $t ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    my $el = $m->get( 'PREFERENCE', 'Bird' );
+    $this->assert_equals( 'Kakapo', $el->{value} );
+
+    # This should succeed
+    Foswiki::Func::saveTopic( $this->{test_web}, $topic, $m, 'Gasp',
+        { forcenewrevision => 1, ignorepermissions => 1 } );
+    $m->finish();
+    @ri = Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic );
+    $this->assert_matches( qr/2$/, $ri[2] );
+
+    ( $m, $t ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+
+    # Make sure the meta is still there
+    $el = $m->get( 'PREFERENCE', 'Bird' );
+    $m->finish();
+    $this->assert_equals( 'Kakapo', $el->{value} );
+    $this->assert_equals( 'Gasp',   $t );
+
+    return;
+}
+
 sub test_Item8713 {
     my $this  = shift;
     my $tweb  = 'A:B';

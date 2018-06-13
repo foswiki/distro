@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1516511288" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1528885044" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -52,6 +52,7 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | CGI::Session | =libcgi-session-perl= | |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
 | Digest::SHA | =libdigest-sha-perl= | *First shipped in perl 5.9.3 |
+| Email::Address | =libemail-address-perl= | |
 | Email::MIME | =libemail-mime-perl=  | |
 | Encode | =libencode-perl= | |
 | Error | =liberror-perl= | |
@@ -119,6 +120,7 @@ Install apache2, rcs, and perl-CPAN
 | CGI::Session | =perl-CGI-Session= | |
 | Crypt::PasswdMD5 | =perl-Crypt-PasswdMD5= | |
 | Digest::SHA | =perl-Digest-SHA= | *First shipped in perl 5.9.3 |
+| Email::Address | =perl-Email-Address= | |
 | Email::MIME | =perl-Email-MIME=  | |
 | Encode | =perl-Encode=  | |
 | Error | =perl-Error= | |
@@ -195,6 +197,7 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | CGI::Session | =dev-perl/CGI-Session= | |
 | Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
 | Digest::SHA | | Included with perl |
+| Email::Address | =dev-perl/Email-Address= | |
 | Email::MIME | =dev-perl/Email-MIME= | |
 | Error | =dev-perl/Error= | |
 | Encode | | Included with perl |
@@ -257,6 +260,7 @@ Install =apache24=, =rcs=, and =perl5=
 | CGI::Session | =p5-CGI-Session= | |
 | Crypt::PasswdMD5 | =p5-Crypt-PasswdMD5= | |
 | Digest::SHA | =p5-Digest-SHA= | *First shipped in perl 5.9.3 |
+| Email::Address | =p5-Email-Address=  | |
 | Email::MIME | =p5-Email-MIME=  | |
 | Encode | =p5-Encode= | |
 | Error | =p5-Error= | |
@@ -321,6 +325,7 @@ If run as root, the modules will be installed in the System perl.   Otherwise th
 | Crypt::PasswdMD5 | |
 | Digest::SHA | Included with perl |
 | Error | |
+| Email::Address | |
 | Email::MIME | |
 | Encode | |
 | File::Copy::Recursive | |

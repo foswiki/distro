@@ -90,6 +90,12 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # (Omit the trailing slash.)
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
+# **BOOLEAN LABEL="Strict URL Parsing" EXPERT **
+# Disable this setting to allow the Webname to be omitted from the URL, and
+# default to the Usersweb. Enable this setting to requre that a webname always
+# be provided. Enabling this makes Foswiki consistent with Foswiki 1.x URL handling.
+$Foswiki::cfg{StrictURLParsing} = $FALSE;
+
 # **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory. For example =/foswiki/bin=.
@@ -135,40 +141,47 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # *SCRIPTHASH*
 
 # ---++ File System Paths
-# Configure the file system locations of key Foswiki directories here.  These are usually guessed 
+# Configure the file system locations of key Foswiki directories here (_Show expert options_ to 
+# see the detailed paths, and to access advanced permissions checkers.).  These are all usually guessed 
 # correctly during bootstrap. Other file locations are configured within their related sections.
-# **PATH LABEL="Script Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
-# This is the file system path used to access the Foswiki bin directory.
-# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
+# There are also Wizards available to check the access permissions of each directory and its contents.
 
-# **PATH LABEL="Pub Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wDn,'(,v|,pfv)$'" **
+# **PATH LABEL="Root Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*'" **
+# This is the root file system path where all Foswiki directories should be placed.
+# $Foswiki::cfg{RootDir} = '/home/httpd/foswiki';
+
+# **PATH LABEL="Script Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
+# This is the file system path used to access the Foswiki bin directory.
+$Foswiki::cfg{ScriptDir} = '$Foswiki::cfg{RootDir}/bin';
+
+# **PATH LABEL="Pub Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wDn,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
-# $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
+$Foswiki::cfg{PubDir} = '$Foswiki::cfg{RootDir}/pub';
 
-# **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDnpd,'(,v|,pfv)$',r" **
+# **PATH LABEL="Data Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDnpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
-# $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
+$Foswiki::cfg{DataDir} = '$Foswiki::cfg{RootDir}/data';
 
-# **PATH LABEL="Tools Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Tools Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to tools directory. For example =/usr/local/foswiki/tools=.
 # This directory must not be web accessible.
-# $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
+$Foswiki::cfg{ToolsDir} = '$Foswiki::cfg{RootDir}/tools';
 
-# **PATH LABEL="Template Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Template Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to templates directory. For example =/usr/local/foswiki/templates=.
 # This directory must not be web accessible.
-# $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
+$Foswiki::cfg{TemplateDir} = '$Foswiki::cfg{RootDir}/templates';
 
-# **PATH LABEL="Locales Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
+# **PATH LABEL="Locales Directory" EXPERT FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
 # File path to locale directory.
 # For example =/usr/local/foswiki/locale=.
 # This directory must not be web accessible.
-# $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
+$Foswiki::cfg{LocalesDir} = '$Foswiki::cfg{RootDir}/locale';
 
-# **PATH LABEL="Working Directory" ONSAVE FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
+# **PATH LABEL="Working Directory" EXPERT ONSAVE FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rw,'[\//]README$',r" **
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -190,7 +203,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 #    * ={WorkingDir}/registration_approvals= - this is used by the
 #      default Foswiki registration process to store registrations that
 #      are pending verification.
-# $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
+$Foswiki::cfg{WorkingDir} = '$Foswiki::cfg{RootDir}/working';
 
 # **PATH LABEL="Safe PATH" CHECK='undefok'**
 # You can override the default PATH setting to control
@@ -581,6 +594,11 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # to view the topic.
 $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules} = $FALSE;
 
+# **STRING LABEL="Sensitive Topic Names" **
+# A list of topic names that should never be created or edited by a non-admin
+# user. These topics will always be denied.
+$Foswiki::cfg{AccessControlACL}{RestrictedEdit} = 'ChangeEmailAddress,ChangePassword,Default$Foswiki::cfg{Stats}{TopicName},GroupTemplate,GroupViewTemplate,ResetPassword,SimpleUserRegistrationViewTemplate,UserRegistration,UserRegistrationViewTemplate,WikiGroupsComponents';
+
 # **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
 # If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
@@ -622,7 +640,7 @@ $Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
 $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 
 # **STRING 80 LABEL="Access to Configure"**
-# A list of users permitted to use the =bin/configure= configuration tool
+# A comma separated list of users WikiNames permitted to use the =bin/configure= configuration tool
 # If this is configured, then users attempting to access
 # configure are validated against this list. (The user must still first
 # login using the normal Foswiki authentication). If configured, it is
@@ -634,7 +652,7 @@ $Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
 # Because users with access to configure can install software on the server
 # and make changes that are potentially difficult to recover from, it is
 # strongly recommended that configure access be limited.   Examples:
-#    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdmin BobAdmin=
+#    * Restrict configure to "JoeAdmin" and "BobAdmin": =JoeAdminr,BobAdmin=
 # The super admin user can always use configure. provided you set the expert
 # Password setting under the Passwords tab.
 $Foswiki::cfg{FeatureAccess}{Configure} = '';

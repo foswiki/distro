@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2017 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2018 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -221,22 +221,6 @@ $.NatEditor.prototype.initGui = function() {
       allow: currentValues.join(", ")
     });
   }
-
-  self.form.find(".ui-natedit-details-container input").on("blur", function() {
-    var $this = $(this);
-    $this.trigger("AddValue", $this.val());
-  }).textboxlist({
-    onSelect: updateDetails,
-    onDeselect: updateDetails,
-    onClear: updateDetails,
-    onReset: updateDetails,
-    autocomplete: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper", {
-      section: "user",
-      skin: "text",
-      contenttype: "application/json"
-    })
-  });
-
   function setPermissionSet(data) {
     if (data.perms === 'details') {
       self.showPermDetails(data.permType);
@@ -246,13 +230,25 @@ $.NatEditor.prototype.initGui = function() {
     }
   }
 
+
+  self.form.find(".ui-natedit-details-container").not(".inited").addClass("inited").find("input").on("blur", function() {
+    var $this = $(this);
+    $this.trigger("AddValue", $this.val());
+  }).textboxlist({
+    onSelect: updateDetails,
+    onDeselect: updateDetails,
+    onClear: updateDetails,
+    onReset: updateDetails,
+    autocomplete: self.opts.userUrl
+  });
+
   // behavior
-  self.form.find(".ui-natedit-permissions-form input[type=radio]").on("click", function() {
+  self.form.find(".ui-natedit-permissions-form").not(".inited").addClass("inited").find("input[type=radio]").on("click", function() {
     setPermissionSet($(this).data());
   });
 
   // init
-  self.form.find(".ui-natedit-permissions-form input[type=radio]:checked").not(":disabled").each(function() {
+  self.form.find(".ui-natedit-permissions-form").not(".inited").addClass("inited").find("input[type=radio]:checked").not(":disabled").each(function() {
     setPermissionSet($(this).data());
   });
 
@@ -520,6 +516,8 @@ $.NatEditor.prototype.hidePermDetails = function(type) {
   * calls a notification systems, defaults to pnotify
   */
 $.NatEditor.prototype.showMessage = function(type, msg, title) {
+  /*var self = this;*/
+
   $.pnotify({
     title: title,
     text:msg,
@@ -546,6 +544,8 @@ $.NatEditor.prototype.hideMessages = function() {
   * hack to extract an error message from a foswiki non-json aware response :(
   */
 $.NatEditor.prototype.extractErrorMessage = function(text) {
+  /*var self = this;*/
+
   if (text && text.match(/^<!DOCTYPE/)) {
     text = $(text).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || '';
   }
@@ -747,7 +747,7 @@ $.NatEditor.prototype.preview = function() {
 
   self.beforeSubmit("preview").then(function() {
     self.form.ajaxSubmit({
-      url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
+      url: self.opts.saveUrl,
       beforeSubmit: function() {
         self.hideMessages();
         $.blockUI({
@@ -840,7 +840,7 @@ $.NatEditor.prototype.save = function(action) {
           self.form.submit();
         } else {
           self.form.ajaxSubmit({
-            url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"), 
+            url: self.opts.saveUrl,
             beforeSubmit: function() {
               self.hideMessages();
               document.title = $.i18n("Saving ...");
@@ -1210,21 +1210,16 @@ $.NatEditor.prototype.fixHeight = function() {
     bottomBar = self.form.find(".natEditBottomBar"),
     newHeight;
 
-  // find elem, child of this
-  while (elem && elem.length && elem.parent().attr("id") != self.id) {
-    elem = elem.parent();
-  }
-
   if (!elem || !elem.length) {
     return;
   }
 
   newHeight = 
-    (bottomBar.length ? bottomBar.position().top : $(window).height() || window.innerHeight) // bottom position: if there is a bottomBar, take this, otherwise use the window's geometry
-    - elem.position().top // editor's top position
+    (bottomBar.length ? bottomBar.offset().top : $(window).height() || window.innerHeight) // bottom offset: if there is a bottomBar, take this, otherwise use the window's geometry
+    - elem.offset().top // editor's top offset
     - (elem.outerHeight(true) - elem.height()) // elem's padding
     - ((self.container.is(".ui-natedit-fullscreen"))?0:(self.container.outerHeight(true) - self.container.height())) // container's padding
-  ;
+    - 2;
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
     newHeight = self.opts.minHeight;
@@ -1557,10 +1552,12 @@ $.NatEditor.prototype.handleInsertImage = function(elem) {
   var self = this, $dialog = $(elem), opts = {
     web: $dialog.find("[name=web]").val(),
     topic: $dialog.find("[name=topic]").val(),
+    caption: $dialog.find("[name=caption]").val(),
     file: $dialog.find("[name=file]").val(),
     width: $dialog.find("[name=width]").val(),
     height: $dialog.find("[name=height]").val(),
-    align: $dialog.find("[name=align]:checked").val()
+    align: $dialog.find("[name=align]:checked").val(),
+    type: $dialog.find("[name=type]:checked").val()
   };
 
   return self.engine.insertImage(opts);
@@ -1807,7 +1804,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
     web = web || $container.find("input[name='web']").val();
     topic = topic || $container.find("input[name='topic']").val();
     $.ajax({
-      url: foswiki.getScriptUrl("rest", "WysiwygPlugin", "attachments"),
+      url: self.opts.attachmentsUrl,
       data: {
         topic: web+"."+topic
       },
@@ -1826,11 +1823,7 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
 
   $dialog.find("input[name='web']").each(function() {
     $(this).autocomplete({
-      source: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper", {
-        section: "web",
-        skin: "text",
-        contenttype: "application/json"
-      })
+      source: self.opts.webUrl
     });
   }).on("change", function() {
     loadAttachments();
@@ -1844,11 +1837,8 @@ $.NatEditor.prototype.initLinkDialog = function(elem, data) {
           xhr.abort();
         }
         xhr = $.ajax({
-          url: foswiki.getScriptUrl("view", self.opts.systemWeb, "JQueryAjaxHelper"),
+          url: self.opts.topicUrl,
           data: $.extend(request, {
-            section: 'topic',
-            skin: 'text',
-            contenttype: 'application/json',
             baseweb: baseWeb
           }),
           dataType: "json",
@@ -2080,12 +2070,26 @@ $.fn.natedit = function(opts) {
  */
 $(function() {
 
+  // defaults that need to be computed
   $.NatEditor.defaults.web = foswiki.getPreference("WEB");
   $.NatEditor.defaults.topic = foswiki.getPreference("TOPIC");
   $.NatEditor.defaults.systemWeb = foswiki.getPreference("SYSTEMWEB");
   $.NatEditor.defaults.pubUrl = foswiki.getPreference("PUBURL");
   $.NatEditor.defaults.signatureMarkup = ['-- ', '[['+foswiki.getPreference("WIKIUSERNAME")+']]', ' - '+foswiki.getPreference("SERVERTIME")];
   $.NatEditor.defaults.engine = foswiki.getPreference("NatEditPlugin").Engine;
+  $.NatEditor.defaults.userUrl = foswiki.getScriptUrl("rest", "NatEditPlugin", "users");
+  $.NatEditor.defaults.attachmentsUrl = foswiki.getScriptUrl("rest", "NatEditPlugin", "attachments");
+  $.NatEditor.defaults.webUrl = foswiki.getScriptUrl("view", $.NatEditor.defaults.systemWeb, "JQueryAjaxHelper", {
+    section: "web",
+    skin: "text",
+    contenttype: "application/json"
+  });
+  $.NatEditor.defaults.topicUrl = foswiki.getScriptUrl("view", $.NatEditor.defaults.systemWeb, "JQueryAjaxHelper", {
+    section: 'topic',
+    skin: 'text',
+    contenttype: 'application/json',
+  });
+  $.NatEditor.defaults.saveUrl = foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
 
   // listen for natedit
   $(".natedit").livequery(function() {

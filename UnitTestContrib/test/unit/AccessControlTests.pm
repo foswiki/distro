@@ -176,6 +176,69 @@ THIS
     return;
 }
 
+# Test Restricted Topic - Item14629
+sub test_restricted_Item14629 {
+    my $this = shift;
+
+# These topics either allow override by creating a missing topic in the Users web,
+# or they are particularly sensitive. They are protected by {AccessControlACL}{RestrictedEdit}
+    foreach my $tname (
+        qw(ChangeEmailAddress
+        ChangePassword
+        GroupTemplate
+        GroupViewTemplate
+        ResetPassword
+        SimpleUserRegistrationViewTemplate
+        UserRegistration
+        UserRegistrationViewTemplate
+        WikiGroupsComponents
+        )
+      )
+    {
+        $this->_check_Protected($tname);
+    }
+    $this->_check_Protected("Default$Foswiki::cfg{Stats}{TopicName}");
+    return;
+}
+
+sub _check_Protected {
+    my $this  = shift;
+    my $tname = shift;
+
+    # Change not allowed even on non-existing topic
+    $this->assert( !Foswiki::Func::topicExists( $this->{test_web}, $tname ) );
+    $this->DENIED( "CHANGE", $MrGreen, $this->{test_web}, $tname );
+    $this->PERMITTED( "CHANGE", 'BaseUserMapping_333', $this->{test_web},
+        $tname );
+
+    # Create the topic
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $tname );
+    $topicObject->text(<<'THIS');
+Anyone can change
+   * Set ALLOWTOPICCHANGE = *
+
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    $this->createNewFoswikiSession();
+
+    # baseline
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, $tname . 'x' ) );
+    $this->PERMITTED( "CHANGE", $MrGreen, $this->{test_web}, $tname . 'x' );
+    $this->PERMITTED( "CHANGE", 'BaseUserMapping_333',
+        $this->{test_web}, $tname . 'x' );
+
+    # Change not permitted on restricted topic names
+    $this->assert( Foswiki::Func::topicExists( $this->{test_web}, $tname ) );
+    $this->PERMITTED( "VIEW", $MrGreen, $this->{test_web}, $tname );
+    $this->DENIED( "CHANGE", $MrGreen, $this->{test_web}, $tname );
+    $this->PERMITTED( "CHANGE", 'BaseUserMapping_333',
+        $this->{test_web}, '$tname' );
+
+}
+
 # Test that an empty DENYTOPIC doesn't deny anyone
 sub test_whitespace_denytopic {
     my $this = shift;

@@ -15,7 +15,7 @@
 %TMPL:DEF{"formname"}%%QUERY{"form.name"}%%TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
-%TAB{"%MAKETEXT{"Form"}%"}%
+%TAB{"%MAKETEXT{"Form"}%" id="form"}%
 <h2 ><nop>%TMPL:P{"formname"}%%TMPL:P{"changeform"}%</h2>
 <div class="foswikiFormSteps foswikiEditForm">
 <table class="foswikiLayoutTable foswikiFormTable">

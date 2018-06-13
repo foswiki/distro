@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1515396964" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1528881735" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %FORMFIELD{"Description"}%
 
@@ -56,8 +56,6 @@ is sufficient.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  Copyright &copy;: | 2007-2017 Michael Daum http://michaeldaumconsulting.com |
-|  Change History: | |
 |  18 Dec 2017 | Foswikitask:Item14586: fixed height computation of natedit textarea |
 |  04 Dec 2017 | Foswikitask:Item13835: enable !TopicTitle field when feature available |
 |  04 May 2017 | Foswikitask:Item14388: NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs.<br/>
@@ -186,4 +184,4 @@ is sufficient.
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1515396964" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1528881735" size="64487" user="ProjectContributor" version="1"}%

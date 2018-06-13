@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229198928" format="1.1" version="1"}%
+%META:TOPICINFO{author="scum" comment="" date="1520313953" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---++ Statistics for <nop>%WEB% Web
 
@@ -9,4 +9,3 @@
    * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%][force]] an update)
    * [[%SYSTEMWEB%.SiteTools#WebStatistics_site_statistics][SiteTools]] tells you how to enable the automatic updates of the statistics.
 	* Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.
-

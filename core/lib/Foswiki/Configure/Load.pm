@@ -186,6 +186,27 @@ CODE
         }
     }
 
+    if ( !defined $Foswiki::cfg{RootDir} ) {
+
+        # Must have upgraded from Foswiki 2.0/2.1. Set a default directory.
+
+        if ( defined $Foswiki::cfg{LocalesDir}
+            && substr( $Foswiki::cfg{LocalesDir}, 0, 8 ) ne '$Foswiki' )
+        {
+
+            # Make sure we don't use a recursive reference.
+
+            # Taken from Configure/Wizards/InstallExtension to find root.
+            my @instRoot = File::Spec->splitdir( $Foswiki::cfg{LocalesDir} );
+            pop(@instRoot);
+
+            # Force a trailing separator - Linux and Windows are inconsistent
+            my $installRoot = File::Spec->catfile( @instRoot, 'x' );
+            chop $installRoot;
+            $Foswiki::cfg{RootDir} = $installRoot;
+        }
+    }
+
     # Old configs might not bootstrap the OS settings, so set if needed.
     unless ( $Foswiki::cfg{OS} && $Foswiki::cfg{DetailedOS} ) {
         require Foswiki::Configure::Bootstrap;
@@ -201,6 +222,7 @@ CODE
     if ( $^O eq 'MSWin32' ) {
 
         #force paths to use '/'
+        $Foswiki::cfg{RootDir}     =~ s|\\|/|g;
         $Foswiki::cfg{PubDir}      =~ s|\\|/|g;
         $Foswiki::cfg{DataDir}     =~ s|\\|/|g;
         $Foswiki::cfg{ToolsDir}    =~ s|\\|/|g;

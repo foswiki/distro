@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1506853181" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1528885044" format="1.1" version="1"}%
 %{ NOTE: THIS IS A SKIN TEMPLATE, NOT A TOPIC TEMPLATE }%
 %TMPL:INCLUDE{"view"}%
 
@@ -285,3 +285,4 @@ then='
 %TMPL:END%
 
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

@@ -67,6 +67,9 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
 # **BOOLEAN LABEL="Animate"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Animate}{Enabled} = 1;
 
+# **BOOLEAN LABEL="Browser"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Browser}{Enabled} = 1;
+
 # **BOOLEAN LABEL="Button"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Button}{Enabled} = 1;
 

@@ -378,54 +378,6 @@ sub buildNewTopic {
 
 =begin TML
 
----++ StaticMethod expandAUTOINC($session, $web, $topic) -> $topic
-Expand AUTOINC\d+ in the topic name to the next topic name available
-
-=cut
-
-sub expandAUTOINC {
-    my ( $session, $web, $topic ) = @_;
-
-    # Do not remove, keep as undocumented feature for compatibility with
-    # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
-    # of at least 10 x's XXXXXX with a next-in-sequence number.
-    if ( $topic =~ m/X{10}/ ) {
-        my $n           = 0;
-        my $baseTopic   = $topic;
-        my $topicObject = Foswiki::Meta->new( $session, $web, $baseTopic );
-        $topicObject->clearLease();
-        do {
-            $topic = $baseTopic;
-            $topic =~ s/X{10}X*/$n/e;
-            $n++;
-        } while ( $session->topicExists( $web, $topic ) );
-    }
-
-    # Allow for more flexible topic creation with sortable names.
-    # See Codev.AutoIncTopicNameOnSave
-    if ( $topic =~ m/^(.*)AUTOINC(\d+)(.*)$/ ) {
-        my $pre         = $1;
-        my $start       = $2;
-        my $pad         = length($start);
-        my $post        = $3;
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
-        $topicObject->clearLease();
-        my $webObject = Foswiki::Meta->new( $session, $web );
-        my $it = $webObject->eachTopic();
-
-        while ( $it->hasNext() ) {
-            my $tn = $it->next();
-            next unless $tn =~ m/^${pre}(\d+)${post}$/;
-            $start = $1 + 1 if ( $1 >= $start );
-        }
-        my $next = sprintf( "%0${pad}d", $start );
-        $topic =~ s/AUTOINC[0-9]+/$next/;
-    }
-    return $topic;
-}
-
-=begin TML
-
 ---++ StaticMethod save($session)
 
 Command handler for =save= command.
@@ -490,9 +442,17 @@ WARN
         );
     }
 
-    $topic = expandAUTOINC( $session, $web, $topic );
-
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+    if ( $saveaction eq 'checkpoint' ) {
+        my $lease = $topicObject->getLease();
+
+        if ( $lease && $lease->{user} eq $session->{user} ) {
+            $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+        }
+
+        # drop through
+    }
 
     if ( $saveaction eq 'cancel' ) {
         my $lease = $topicObject->getLease();
@@ -541,41 +501,8 @@ WARN
         return;
     }
 
-    my $redirecturl;
-
-    if ( $saveaction eq 'checkpoint' ) {
-        $query->param( -name => 'dontnotify', -value => 'checked' );
-        my $edittemplate = $query->param('template');
-        my %p = ( t => time() );
-
-        # map editaction -> action and edittemplat -> template
-        $p{action}   = $editaction   if $editaction;
-        $p{template} = $edittemplate if $edittemplate;
-
-        # Pass through selected parameters
-        foreach my $pthru (qw(redirectto skin cover nowysiwyg action)) {
-            $p{$pthru} = $query->param($pthru);
-        }
-
-        $redirecturl = $session->getScriptUrl( 1, $edit, $web, $topic, %p );
-
-        $redirecturl .= $query->param('editparams')
-          if $query->param('editparams');    # May contain anchor
-
-        my $lease = $topicObject->getLease();
-
-        if ( $lease && $lease->{user} eq $session->{user} ) {
-            $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
-        }
-
-        # drop through
-    }
-    else {
-
-        # redirect to topic view or any other redirectto
-        # specified as an url param
-        $redirecturl = $session->redirectto("$web.$topic");
-    }
+    # Note, This will be incorrect if the topic is an AUTOINC
+    my $redirecturl = $session->redirectto("$web.$topic");
 
     if ( $saveaction eq 'quietsave' ) {
         $query->param( -name => 'dontnotify', -value => 'checked' );
@@ -685,9 +612,10 @@ WARN
 
     try {
         $topicObject->save(%$saveOpts);
+        $topic = $topicObject->topic();    # AUTOINC may change topic name
     }
     catch Foswiki::OopsException with {
-        shift->throw();    # propagate
+        shift->throw();                    # propagate
     }
     catch Error with {
         $session->logger->log( 'error', shift->{-text} );
@@ -752,6 +680,37 @@ WARN
             topic  => $topicObject->topic,
             params => $merged
         );
+    }
+
+    if ( $saveaction eq 'checkpoint' ) {
+        $query->param( -name => 'dontnotify', -value => 'checked' );
+        my $edittemplate = $query->param('template');
+        my %p = ( t => time() );
+
+        # map editaction -> action and edittemplat -> template
+        $p{action}   = $editaction   if $editaction;
+        $p{template} = $edittemplate if $edittemplate;
+
+        # Pass through selected parameters
+        foreach my $pthru (qw(redirectto skin cover nowysiwyg action)) {
+            $p{$pthru} = $query->param($pthru);
+        }
+
+        $redirecturl = $session->getScriptUrl( 1, $edit, $web, $topic, %p );
+
+        $redirecturl .= $query->param('editparams')
+          if $query->param('editparams');    # May contain anchor
+
+        my $lease = $topicObject->getLease();
+
+        if ( $lease && $lease->{user} eq $session->{user} ) {
+            $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+        }
+
+        # drop through
+    }
+    else {
+        $redirecturl = $session->redirectto("$web.$topic");
     }
 
     $session->redirect($redirecturl);

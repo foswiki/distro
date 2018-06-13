@@ -498,6 +498,13 @@ sub saveAttachment {
 sub saveTopic {
     my ( $this, $meta, $cUID, $options ) = @_;
 
+    if ( $options->{forceinsert}
+        && _e _latestFile($meta) )
+    {
+        die
+"PlainFile: Attempting to save a topic that already exists, and forceinsert specified";
+    }
+
     _saveDamage($meta);
 
     my $verb = ( _e _latestFile($meta) ) ? 'update' : 'insert';
