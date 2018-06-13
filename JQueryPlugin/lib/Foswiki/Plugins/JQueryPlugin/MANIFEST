@@ -1,5 +1,6 @@
 !noci
 data/System/JQueryAjaxHelper.txt 0644
+data/System/JQueryAnimate.txt 0644
 data/System/JQueryAutocomplete.txt 0644
 data/System/JQueryBgiframe.txt 0644
 data/System/JQueryBlockUI.txt 0644
@@ -91,6 +92,7 @@ lib/Foswiki/Plugins/JQueryPlugin/ANIMATE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/AUTOCOMPLETE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BGIFRAME.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BLOCKUI.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/BROWSER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BUTTON.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/CHILI.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Config.spec 0644
@@ -285,6 +287,10 @@ pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.js.gz 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/blockui/Makefile 0644
+pub/System/JQueryPlugin/plugins/browser/jquery.browser.js 0644
+pub/System/JQueryPlugin/plugins/browser/jquery.browser.js.gz 0644
+pub/System/JQueryPlugin/plugins/browser/jquery.browser.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/browser/Makefile 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css.gz 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.init.js 0644
@@ -982,3 +988,4 @@ pub/System/JQueryPlugin/plugins/wikiword/wikiword.uncompressed.js 0644
 pub/System/JQueryRender/logo-jsr.png 0644
 pub/System/JQuerySlimbox/IMG_1190.JPG 0644
 pub/System/JQuerySuperfish/example.js 0644
+tools/babelify 0755
