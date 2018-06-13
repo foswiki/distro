@@ -235,7 +235,7 @@ sub _cleanUpFilePath {
     foreach my $component ( File::Spec->splitdir($dirs) ) {
         next unless ( defined($component) && $component ne '' || $first );
         $first = 0;
-        $component ||= '';
+        $component = '' unless defined $component;
         next if $component eq '.';
         if ( $component eq '..' ) {
             throw Error::Simple( 'relative path in filename ' . $string );
