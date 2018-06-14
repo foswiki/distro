@@ -1,5 +1,5 @@
 /*
- * jQuery AnimateCSS plugin 1.00
+ * jQuery AnimateCSS plugin 1.01
  *
  * Copyright (c) 2018 Foswiki Contributors http://foswiki.org
  *
@@ -87,8 +87,8 @@
 
     self._groupRegex = new RegExp(self._groups.join("|"), "i");
 
-    self.elem.on("refresh", function() {
-      self.animate();
+    self.elem.on("refresh", function(ev, name) {
+      self.animate(name);
     });
 
     self.opts.effect = self.opts.effect.split(/\s*,\s*/);
@@ -114,7 +114,11 @@
         eff = self.randomEffect();
       } 
     } else {
-      eff = self.randomElem(eff);
+      if (eff.length == 1) {
+        return self.getEffect(eff[0]);
+      } else {
+        eff = self.randomElem(eff);
+      }
     }
 
     return eff;
@@ -139,9 +143,15 @@
         dfd = $.Deferred(),
         eff = self.getEffect(name);
 
+    if (self.opts.infinite) {
+      eff += " infinite";
+    }
+
+    self.elem.trigger("start");
     this.elem.addClass("animated").addClass(eff).one("animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd mozAnimationEnd oanimationend", function() {
       //console.log("animation ",eff,"ended");
       self.elem.removeClass(eff);
+      self.elem.trigger("stop");
       dfd.resolve();
     });
 
@@ -160,7 +170,7 @@
   // enable declarative widget instanziation
   $(".jqAnimateCSS").livequery(function() {
     var $this = $(this);
-    $this.animateCSS($this.data("effect"));
+    $this.animateCSS();
   });
 
 })(jQuery);
