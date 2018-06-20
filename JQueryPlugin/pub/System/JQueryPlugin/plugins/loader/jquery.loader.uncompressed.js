@@ -1,7 +1,7 @@
 /*
- * jQuery Loader plugin 2.13
+ * jQuery Loader plugin 3.00
  *
- * Copyright (c) 2011-2017 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2018 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -22,18 +22,13 @@ jQuery(function($) {
     skin: 'text',
     select: undefined,
     minHeight: 0,
-    effect: 'fade', // show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
-    effectspeed: 500,
-    effectopts: {},
+    hideEffect: 'fadeOut', 
+    showEffect: 'fadeIn', 
     reloadAfter: 0,
     delay: 0,
     onload: function() {},
     finished: function() {},
-    beforeload: function() {
-      if (typeof(this.container) !== 'undefined') {
-        this.container.css({opacity:0.5});
-      }
-    }
+    beforeload: function() {}
   };
 
   // constructor
@@ -64,7 +59,7 @@ jQuery(function($) {
         $elem = $(self.element);
 
     // add refresh listener
-    $elem.bind("refresh.jqloader", function(e, opts) {
+    $elem.on("refresh.jqloader", function(e, opts) {
       $.extend(self.options, opts);
       if (self.options.delay) {
         window.setTimeout(function() {
@@ -91,14 +86,14 @@ jQuery(function($) {
     
     // add finished listener 
     if (typeof(self.options.finished) === 'function') {
-      $elem.bind("finished.jqloader", function() {
+      $elem.bind("finished.jqLoader", function() {
         self.options.finished.call(self);
       });
     }
 
     // add auto-reloader
     if (self.options.reloadAfter) {
-      $elem.bind("finished.jqloader", function() {
+      $elem.bind("finished.jqLoader", function() {
         window.setTimeout(function() {
             self.load();
           }, self.options.reloadAfter
@@ -175,48 +170,58 @@ jQuery(function($) {
         }
       }
 
-      $.get(
-        self.options.url,
-        params,
-        function(data) {
-          if (typeof(self.options.select) !== 'undefined') {
-            data = $(data).find(self.options.select);
-          }
+      var doit = function() {
+        $.get(
+          self.options.url,
+          params,
+          function(data) {
+            if (typeof(self.options.select) !== 'undefined') {
+              data = $(data).find(self.options.select);
+            }
 
-          self.container.remove();
-          self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
+            self.container.remove();
+            self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
 
-          // apply min height
-          if (self.options.minHeight) {
-            self.container.css("min-height", self.options.minHeight);
-            $(window).trigger("resize");
-          }
+            // apply min height
+            if (self.options.minHeight) {
+              self.container.css("min-height", self.options.minHeight);
+              $(window).trigger("resize");
+            }
 
-          // insert data
-          self.container.append(data);
+            // insert data
+            self.container.append(data);
 
-          $elem.trigger("onload.jqloader", self);
+            $elem.trigger("onload.jqloader", self);
 
-          // effect
-          if (typeof(self.options.effect) !== 'undefined' && self.options.effect !== 'show') {
-            self.container.hide();
-            if (self.options.effect === 'fade') {
-              self.container.fadeIn(self.options.effectspeed, function() {
-                // trigger finished
-                $elem.trigger("finished.jqloader", self);
+            // show effect
+            var effect = self.options.effect || self.options.showEffect;
+            if (typeof(effect) !== 'undefined') {
+              self.container.animateCSS({
+                effect: effect
+              }).on("stop.animate", function() {
+                $elem.trigger("finished.jqLoader", self);
               });
             } else {
-              self.container.show(self.options.effect, self.options.effectopts, self.options.effectspeed, function() {
-                // trigger finished
-                $elem.trigger("finished.jqloader", self);
-              });
+              // trigger finished
+              $elem.trigger("finished.jqLoader", self);
             }
-          } else {
-            // trigger finished
-            $elem.trigger("finished.jqloader", self);
-          }
 
-        }, 'html');
+          }, 'html');
+      };
+
+      // hide effect
+      if (typeof(self.options.hideEffect) !== 'undefined') {
+        self.container.animateCSS({
+          effect: self.options.hideEffect
+        })/*.on("stop.animate", function() {
+          self.container.css("visibility", "hidden");
+          doit();
+        })*/;
+        doit();
+      } else {
+        doit();
+      }
+
     } else {
       throw("error: no url");
     }

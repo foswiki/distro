@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1528798239" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1529505430" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,7 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  12 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module <br />\
+|  20 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module <br />\
                            Item14567: added keyboard navigation to jquery.stars <br />\
                            Item14568: added chili recipes for autolisp and ini <br />\
                            Item14569: deprecated jquery.placeholder <br />\
@@ -138,7 +138,8 @@ required for Foswiki 1.1 or later.
                            Item14724: enhance Makefile system to support sass and babel <br /> \
                            Item14727: improve locale support of datepicker <br />
                            Item14728: send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened <br /> \
-                           Item14660: fixed missing tab id causing a javascript error |
+                           Item14660: fixed missing tab id causing a javascript error \
+                           Item14735: use animate.css for jquery.loader effects instead of jQuery's own ones |
 |  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
                            Item14566: don't cache a null result in foswiki.getPreference() <br /> \

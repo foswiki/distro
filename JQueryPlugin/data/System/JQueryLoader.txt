@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512570593" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1529505606" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -40,9 +40,8 @@ Parameter are specified using HTML5 data, as in
          possible values: =auto=, =manual= | =auto= |
 | placeholder | the image to be displayed as long as the content hasn't been loaded \
               | <img src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner.gif' width='16' height='16' /> |
-| effect | the effect used when showing the loaded content; possible values are: show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight | =fade= |
-| effectspeed | the effect speed in milliseconds used in animated display modes | 500 |
-| effectopts | additional options for the selected =effect=; possible values vary depending on the actual effect being used | |
+| show-effect | the effect used when showing the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeIn= |
+| hide-effect | the effect when hiding the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeOut= |
 | delay | additional time in miliseconds to delay fetching the content from the content; specifying =0= means load the content immediately; any other value will wait that time until issuing the request | 0 |
 | onload | a !JavaScript function called when the content has been loaded | |
 | beforeload | a !JavaScript function called before the content is requested | |
