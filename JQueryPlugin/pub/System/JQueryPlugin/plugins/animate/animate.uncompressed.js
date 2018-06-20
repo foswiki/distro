@@ -147,11 +147,11 @@
       eff += " infinite";
     }
 
-    self.elem.trigger("start");
+    self.elem.trigger("start.animate");
     this.elem.addClass("animated").addClass(eff).one("animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd mozAnimationEnd oanimationend", function() {
       //console.log("animation ",eff,"ended");
       self.elem.removeClass(eff);
-      self.elem.trigger("stop");
+      self.elem.trigger("stop.animate");
       dfd.resolve();
     });
 
@@ -161,8 +161,13 @@
   // register jQuery function
   $.fn.animateCSS = function (opts) {
     return this.each(function () {
-      if (!$.data(this, "animateCSS")) {
-        $.data(this, "animateCSS", new AnimateCSS(this, opts));
+      var ctrl = $.data(this, "animateCSS");
+      if (!ctrl) {
+        ctrl = new AnimateCSS(this, opts);
+        $.data(this, "animateCSS", ctrl);
+      } else {
+        $.extend(ctrl.opts, opts);
+        ctrl.animate();
       }
     });
   };
