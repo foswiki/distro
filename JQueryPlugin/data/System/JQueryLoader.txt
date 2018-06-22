@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1529505606" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1529685209" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -81,23 +81,35 @@ events can be used to hook your own callbacks to be processed when they are fire
 ... if installed:
 
 %JQREQUIRE{"loader"}%
-<div class="jqLoader" id="myLoader" data-section="recentchanges" data-effect="%URLPARAM{"effect" default="fade" encode="safe"}%" ></div>
+<div class="jqLoader" id="myLoader" data-section="recentchanges" data-effect="bounce"></div>
 
 <div class="foswikiLeft">
-  <label for="effect"><b>Effect:</b></label>
-  <select id="effect" name="effect" class="foswikiSelect">
-  %FORMAT{
-    "blind, clip, drop, explode, fade, fold, highlight, puff, pulsate, show, slide"
-    type="string"
-    format="<option $percntIF{\"'%URLPARAM{"effect" default="fade"}%'='$item'\" then=\"selected\"}$percnt>$item</option>"
-  }%
-  </select>
+  <b>Effect:</b>
+  <select id="effects" class="foswikiSelect"></select>
   &nbsp;
 </div>
 %BUTTON{
   "%MAKETEXT{"Refresh"}%" 
   icon="arrow_refresh" 
-  onclick="jQuery('#myLoader').trigger('refresh', {effect: jQuery('#effect').val()});return false;"
+  id="refreshButton"
 }%
-%CLEAR%
+<literal>
+<script>
+jQuery(function($) {
+   var sel = $("#effects");
 
+   $.each($.animateCSS.EFFECTS, function(group, effects) {
+      var groupElem = $("<optgroup>").attr("label", group).appendTo(sel);
+
+      $.each(effects.sort(), function(i, val) {
+         groupElem.append("<option>"+val+"</option>");
+      });
+   });
+
+   $("#refreshButton").on("click", function() {
+      $("#myLoader").trigger("refresh", {effect: sel.val()});
+      return false;
+   });
+});
+</script>
+</literal>
