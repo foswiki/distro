@@ -35,7 +35,7 @@ jQuery(function($) {
         if (typeof(val) === 'number') {
           // init from epoch seconds
           val = new Date(val*1000);
-        } else if (typeof(val) === 'string' && val.match(/^-?\d+/)) {
+        } else if (typeof(val) === 'string' && val.match(/^[+-]?\d+$/)) {
           // init from epoch seconds string
           val = new Date(parseInt(val, 10)*1000);
         } else {
