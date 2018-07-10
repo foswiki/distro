@@ -160,12 +160,15 @@ This logger implementation maps groups of levels to a single logfile, viz.
    * =info= messages are output together.
    * =warning=, =error=, =critical=, =alert=, =emergency= messages are
      output together.
-This method cannot 
+   * =$version= - Version 1 of API returns a hash instead of an array.
+   * =$lock= - boolean switch to enable locking, off by default
+
+See Foswiki::Logger for the interface.
 
 =cut
 
 sub eachEventSince {
-    my ( $this, $time, $level, $version ) = @_;
+    my ( $this, $time, $level, $version, $lock ) = @_;
 
     $level = ref $level ? $level : [$level];    # Convert level to array.
 
@@ -206,8 +209,10 @@ sub eachEventSince {
                 my $logIt =
                   new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
                     $reqLevel, $version, $logfile );
-                $logIt->{logLocked} =
-                  eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                if ($lock) {
+                    $logIt->{logLocked} =
+                      eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                }
                 push( @iterators, $logIt );
             }
             else {
