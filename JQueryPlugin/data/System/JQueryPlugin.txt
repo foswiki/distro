@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1529505430" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1531233264" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -136,7 +136,7 @@ required for Foswiki 1.1 or later.
                            Item14722: add jquery.browser as a separate module <br /> \
                            Item14723: upgraded jquery.sprintf <br /> \
                            Item14724: enhance Makefile system to support sass and babel <br /> \
-                           Item14727: improve locale support of datepicker <br />
+                           Item14727: improve locale support of datepicker <br /> \
                            Item14728: send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened <br /> \
                            Item14660: fixed missing tab id causing a javascript error \
                            Item14735: use animate.css for jquery.loader effects instead of jQuery's own ones |
