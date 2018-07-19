@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1484879481" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1532019524" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -1003,6 +1003,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
    * Test if the "Total" in the first table in this topic is correct.
 
 ---++ Change History
+|  19 Jul 2018: (1.24) | Foswikitask:Item14741: EVAL(0) should return 0 not the empty string |
 |  20 Jan 2017: (1.23) | Released with Foswiki 2.1.3<br />\
                          Foswikitask:Item13892: Clarify documentation on CALC vs. CALCULATE |
 |  08 Apr 2016: (1.22) | Foswikitask:Item13883: Fix typo in documentation. |
