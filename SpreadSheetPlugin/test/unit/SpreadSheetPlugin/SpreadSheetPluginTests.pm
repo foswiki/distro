@@ -431,6 +431,7 @@ sub test_EVAL {
     $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
     $this->assert( $this->CALC('$EVAL(8.0068/8)') == 1.00085 );
     $this->assert( $this->CALC('$EVAL(8.0068/08)') == 1.00085 );
+    $this->assert( $this->CALC('$EVAL(0)') eq '0' );
 }
 
 sub test_EVEN {
