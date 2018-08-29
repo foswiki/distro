@@ -3603,8 +3603,7 @@ sub formatGmTime {
 
 ---+++ getDataDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
-to manipulate topics instead
+*Deprecated* 28 Nov 2008 - use $Foswiki::cfg{DataDir} instead
 
 =cut
 
@@ -3616,8 +3615,7 @@ sub getDataDir {
 
 ---+++ getPubDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
-to manipulate attachments instead
+*Deprecated* 28 Nov 2008 - use $Foswiki::cfg{PubDir} instead
 
 =cut
 
