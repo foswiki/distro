@@ -436,8 +436,7 @@ sub test_htpasswd_auto {
 # The following lines were generated with the apache htdigest and htpasswd command
 # Used to verify the encode autodetect feature.
 
-    my @users =
-      ( 'alligator', 'bat', 'budgie', 'dodo', 'lion', 'mole', 'tortise' );
+    my @users = ( 'alligator', 'bat', 'budgie', 'dodo', 'lion', 'mole' );
     open( my $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
@@ -447,7 +446,6 @@ budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=
 dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
 lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00:lion@pride
 mole:plainpasswordx:mole@hill
-tortise:$2a$08$STPELUTxMRf2Y0v1J1nWaOXH1mdWf9VzPlGQ9NgIFU.9B/GCGpC8G:turtle@soup
 DONE
     $this->assert( close($fh) );
 
@@ -485,7 +483,6 @@ budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=:budgie@flock;budge@oz
 dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
 lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00:lion@pride
 mole:plainpasswordx:mole@hill
-tortise:$2a$08$STPELUTxMRf2Y0v1J1nWaOXH1mdWf9VzPlGQ9NgIFU.9B/GCGpC8G:turtle@soup
 DONE
     $this->assert( close($fh) );
 
@@ -824,11 +821,20 @@ sub test_htpasswd_htdigest_preserves_email {
     $impl->ClearCache() if $impl->can('ClearCache');
 
     my @users = sort keys %{ $this->{users1} };
-    foreach my $algo (
-        'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
-        'crypt-md5',  'md5',          'bcrypt'
-      )
-    {
+
+    my @algos =
+      ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5', 'md5' );
+
+    push @algos, 'bcrypt'
+      if (
+        $this->check_conditions_met(
+            ( with_dep => 'Crypt::Eksblowfish::Bcrypt' )
+        )
+      );
+    push @algos, 'argon2i'
+      if ( $this->check_conditions_met( ( with_dep => 'Crypt::Argon2' ) ) );
+
+    foreach my $algo (@algos) {
         my $user = pop @users;
         $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
         $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
@@ -843,11 +849,7 @@ sub test_htpasswd_htdigest_preserves_email {
     @users = sort keys %{ $this->{users1} };
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    foreach my $algo (
-        'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
-        'crypt-md5',  'md5',          'bcrypt'
-      )
-    {
+    foreach my $algo (@algos) {
         my $user = pop @users;
         $this->assert_str_equals(
             $this->{users1}->{$user}->{emails},
