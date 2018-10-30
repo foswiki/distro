@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1540911783" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ DROP -- insert a placeholder for dropping an attachment
+%STARTSECTION{"DROP_attributes"}%
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Name* | *Description* | *Default* |
+     | =""= | Name to give the attachment when it is uploaded e.g. "Picture.jpg" | required |
+     | =type= | MIME type for files that can be dropped here. You can use collection types e.g. =image= to allow dropping compatible types. You can disable checking using =type="any"=. | Optional, default is to use the MIME type of the attachment. |
+%ENDSECTION{"DROP_attributes"}%
+---++ Examples
+   * =%<nop>DROP{"Fruitbat.jpg"}%= cretae a dropzone for an attachment called =Fruitbat.jpg=.
+%STOPINCLUDE%
+---++ Related
+DropPlugin

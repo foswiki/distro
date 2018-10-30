@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1540911783" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Plugins"}%
+---+!! Drop Plugin
+
+Extends TopicInteractionPlugin to add placeholders to a topic that you can drop attachments onto.
+
+%TOC{title="On this page:"}%
+
+---++ Features
+Supports adding multiple sites on a page where an attachment can be drag-dropped. The attachment will automatically renamed on upload, and can be re-uploaded at any point.
+
+Drop sites are defined using a Foswiki template. The standard template inserts a link to the attachment in the topic.
+
+---++ Syntax
+%INCLUDE{"%SYSTEMWEB%.VarDROP" section="DROP_attributes"}%
+
+#Installation
+---++ Installation Instructions
+This plugin depends on the !TopicInteractionPlugin for JS components and REST handler, and on !RenderPlugin for a REST handler.
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+
+|  Change History: | |
+| 1.000 (27 Oct 2018) | Initial version |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2018 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/DropPlugin"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/DropPlugin"}%
+%META:FILEATTACHMENT{name="drop.uncompressed.js" attr="h" comment="" date="1540911783" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="drop.js" attr="h" comment="" date="1540911783" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="drop.uncompressed.css" attr="h" comment="" date="1540911783" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="drop.css" attr="h" comment="" date="1540911783" size="60" user="ProjectContributor" version="1"}%
+
+

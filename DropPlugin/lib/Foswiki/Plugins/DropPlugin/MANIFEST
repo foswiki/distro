@@ -1,0 +1,10 @@
+!noci
+data/System/DropPlugin.txt 0644 Plugin doc page
+data/System/VarDROP.txt 0644 Macro doc page
+lib/Foswiki/Plugins/DropPlugin.pm 0444 Plugin Perl module 
+lib/Foswiki/Plugins/DropPlugin/JQuery.pm 0444 jQuery plugin Perl module 
+pub/System/DropPlugin/drop.css 0644
+pub/System/DropPlugin/drop.js 0644
+pub/System/DropPlugin/drop.uncompressed.css 0644
+pub/System/DropPlugin/drop.uncompressed.js 0644
+templates/dropplugin.tmpl 0644

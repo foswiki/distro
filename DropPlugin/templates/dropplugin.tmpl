@@ -1,0 +1,30 @@
+:outer formats a drop zone
+
+%TMPL:DEF{"DropPlugin:outer"}%
+<div class="dropPluginZone">
+ <form class="dropPluginForm" data-mime="%EXTENSIONS%" method="POST">
+  <input type="hidden" name="name" value="%ATTACHMENT%">
+  <input type="hidden" name="topic" value="%WEB%.%TOPIC%">
+    %TMPL:P{"DropPlugin:inner"}%
+ </form>
+</div>
+%TMPL:END%
+
+:inner is also used when the drop zone can't be activated e.g. not logged in
+
+%TMPL:DEF{"DropPlugin:inner"}%
+<div class="dropPluginInner">
+%IF{ 
+   "'%TOPIC%'/attachments[name~'%ATTACHMENT%']" 
+   then="$percntPUBURL$percnt/$percntWEB$percnt/$percntTOPIC$percnt/%ATTACHMENT%"
+   else="$percntMIMEICON{$quot%ATTACHMENT%$quot}$percnt %ATTACHMENT%"
+}%
+</div>
+%TMPL:END%
+
+:refresh is invoked from JS when a drop has happened. It is expanded by RenderPlugin to replace
+DropPlugin:inner, now that the upload is known to exist.
+
+%TMPL:DEF{"DropPlugin:refresh"}%
+%PUBURL%/%WEB%/%TOPIC%/%URLPARAM{"attachment"}%
+%TMPL:END%

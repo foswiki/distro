@@ -1,0 +1,2 @@
+Foswiki::Plugins::TopicInteractionPlugin,>=1.00,perl,JS & REST handler
+Foswiki::Plugins::RenderPlugin,>=1.00,perl,REST handler

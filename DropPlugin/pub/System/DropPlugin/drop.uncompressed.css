@@ -1,0 +1,16 @@
+.dropPluginZone {
+  background-color: rgba(222,235,250,0.3);
+}
+.dropPluginZone.hover {
+   -webkit-filter: invert(1);
+   filter: invert(1);
+   background: lawngreen;
+}
+.dropPluginZone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
