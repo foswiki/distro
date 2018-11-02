@@ -41,26 +41,27 @@ my $gh = Net::GitHub::V3->new(
 my $ghaccount = 'foswiki';
 
 my %HOOKS = (
-    email => {
-        'name'   => 'email',
-        'active' => JSON::true,
-        'config' => {
-            'address'          => 'foswiki-svn@lists.sourceforge.net',
-            'secret'           => $secrets->{'mailman_secret'},
-            'send_from_author' => '0',
-        }
-    },
-    irc => {
-        'name'   => 'irc',
-        'active' => JSON::true,
-        'config' => {
-            'server'   => 'chat.freenode.net',
-            'port'     => '6667',
-            'room'     => 'foswiki',
-            'nick'     => 'GithubBot',
-            'password' => $secrets->{'GithubBot_password'},
-        }
-    },
+
+    #    email => {
+    #        'name'   => 'email',
+    #        'active' => JSON::true,
+    #        'config' => {
+    #            'address'          => 'foswiki-svn@lists.sourceforge.net',
+    #            'secret'           => $secrets->{'mailman_secret'},
+    #            'send_from_author' => '0',
+    #        }
+    #    },
+    #    irc => {
+    #        'name'   => 'irc',
+    #        'active' => JSON::true,
+    #        'config' => {
+    #            'server'   => 'chat.freenode.net',
+    #            'port'     => '6667',
+    #            'room'     => 'foswiki',
+    #            'nick'     => 'GithubBot',
+    #            'password' => $secrets->{'GithubBot_password'},
+    #        }
+    #    },
     web => {
         'name'   => 'web',
         'active' => JSON::true,
