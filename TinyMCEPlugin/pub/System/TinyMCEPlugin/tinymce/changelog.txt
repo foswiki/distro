@@ -1,3 +1,72 @@
+Version 4.8.5 (2018-10-30)
+    Added a content_css_cors setting to the editor that adds the crossorigin="anonymous" attribute to link tags added by the StyleSheetLoader. #TINY-1909
+    Fixed a bug where trying to remove formatting with a collapsed selection range would throw an exception. #GH-4636
+    Fixed a bug in the image plugin that caused updating figures to split contenteditable elements. #GH-4563
+    Fixed a bug that was causing incorrect viewport calculations for fixed position UI elements. #TINY-1897
+    Fixed a bug where inline formatting would cause the delete key to do nothing. #TINY-1900
+Version 4.8.4 (2018-10-23)
+    Added support for the HTML5 `main` element. #TINY-1877
+    Changed the keyboard shortcut to move focus to contextual toolbars to Ctrl+F9. #TINY-1812
+    Fixed a bug where content css could not be loaded from another domain. #TINY-1891
+    Fixed a bug on FireFox where the cursor would get stuck between two contenteditable false inline elements located inside of the same block element divided by a BR. #TINY-1878
+    Fixed a bug with the insertContent method where nonbreaking spaces would be inserted incorrectly. #TINY-1868
+    Fixed a bug where the toolbar of the inline editor would not be visible in some scenarios. #TINY-1862
+    Fixed a bug where removing the editor while more than one notification was open would throw an error. #TINY-1845
+    Fixed a bug where the menubutton would be rendered on top of the menu if the viewport didn't have enough height. #TINY-1678
+    Fixed a bug with the annotations api where annotating collapsed selections caused problems. #TBS-2449
+    Fixed a bug where wbr elements were being transformed into whitespace when using the Paste Plugin's paste as text setting. #GH-4638
+    Fixed a bug where the Search and Replace didn't replace spaces correctly. #GH-4632
+    Fixed a bug with sublist items not persisting selection. #GH-4628
+    Fixed a bug with mceInsertRawHTML command not working as expected. #GH-4625
+Version 4.8.3 (2018-09-13)
+    Fixed a bug where the Wordcount Plugin didn't correctly count words within tables on IE11. #TINY-1770
+    Fixed a bug where it wasn't possible to move the caret out of a table on IE11 and Firefox. #TINY-1682
+    Fixed a bug where merging empty blocks didn't work as expected, sometimes causing content to be deleted. #TINY-1781
+    Fixed a bug where the Textcolor Plugin didn't show the correct current color. #TINY-1810
+    Fixed a bug where clear formatting with a collapsed selection would sometimes clear formatting from more content than expected. #TINY-1813 #TINY-1821
+    Fixed a bug with the Table Plugin where it wasn't possible to keyboard navigate to the caption. #TINY-1818
+Version 4.8.2 (2018-08-09)
+    Moved annotator from "experimental" to "annotator" object on editor. #TBS-2398
+    Improved the multiclick normalization across browsers. #TINY-1788
+    Fixed a bug where running getSelectedBlocks with a collapsed selection between block elements would produce incorrect results. #TINY-1787
+    Fixed a bug where the ScriptLoaders loadScript method would not work as expected in FireFox when loaded on the same page as a ShadowDOM polyfill. #TINY-1786
+    Removed reference to ShadowDOM event.path as Blink based browsers now support event.composedPath. #TINY-1785
+    Fixed a bug where a reference to localStorage would throw an "access denied" error in IE11 with strict security settings. #TINY-1782
+    Fixed a bug where pasting using the toolbar button on an inline editor in IE11 would cause a looping behaviour. #TINY-1768
+Version 4.8.1 (2018-07-26)
+    Fixed a bug where the content of inline editors was being cleaned on every call of `editor.save()`. #TINY-1783
+    Fixed a bug where the arrow of the Inlite Theme toolbar was being rendered incorrectly in RTL mode. #TINY-1776
+    Fixed a bug with the Paste Plugin where pasting after inline contenteditable false elements moved the caret to the end of the line. #TINY-1758
+Version 4.8.0 (2018-06-27)
+    Added new "experimental" object in editor, with initial Annotator API. #TBS-2374
+    Fixed a bug where deleting paragraphs inside of table cells would delete the whole table cell. #TINY-1759
+    Fixed a bug in the Table Plugin where removing row height set on the row properties dialog did not update the table. #TINY-1730
+    Fixed a bug with the font select toolbar item didn't update correctly. #TINY-1683
+    Fixed a bug where all bogus elements would not be deleted when removing an inline editor. #TINY-1669
+Version 4.7.13 (2018-05-16)
+    Fixed a bug where Edge 17 wouldn't be able to select images or tables. #TINY-1679
+    Fixed issue where whitespace wasn't preserved when the editor was initialized on pre elements. #TINY-1649
+    Fixed a bug with the fontselect dropdowns throwing an error if the editor was hidden in Firefox. #TINY-1664
+    Fixed a bug where it wasn't possible to merge table cells on IE 11. #TINY-1671
+    Fixed a bug where textcolor wasn't applying properly on IE 11 in some situations. #TINY-1663
+    Fixed a bug where the justifyfull command state wasn't working correctly. #TINY-1677
+    Fixed a bug where the styles wasn't updated correctly when resizing some tables. #TINY-1668
+    Added missing code menu item from the default menu config. #TINY-1648
+    Added new align button for combining the separate align buttons into a menu button. #TINY-1652
+Version 4.7.12 (2018-05-03)
+    Added an option to filter out image svg data urls.
+    Added support for html5 details and summary elements.
+    Changed so the mce-abs-layout-item css rule targets html instead of body. Patch contributed by nazar-pc.
+    Fixed a bug where the "read" step on the mobile theme was still present on android mobile browsers.
+    Fixed a bug where all images in the editor document would reload on any editor change.
+    Fixed a bug with the Table Plugin where ObjectResized event wasn't being triggered on column resize.
+    Fixed so the selection is set to the first suitable caret position after editor.setContent called.
+    Fixed so links with xlink:href attributes are filtered correctly to prevent XSS.
+    Fixed a bug on IE11 where pasting content into an inline editor initialized on a heading element would create new editable elements.
+    Fixed a bug where readonly mode would not work as expected when the editor contained contentEditable=true elements.
+    Fixed a bug where the Link Plugin would throw an error when used together with the webcomponents polyfill. Patch contributed by 4esnog.
+    Fixed a bug where the "Powered by TinyMCE" branding link would break on XHTML pages. Patch contributed by tistre.
+    Fixed a bug where the same id would be used in the blobcache for all pasted images. Patch contributed by thorn0.
 Version 4.7.11 (2018-04-11)
     Added a new imagetools_credentials_hosts option to the Imagetools Plugin.
     Fixed a bug where toggling a list containing empty LIs would throw an error. Patch contributed by bradleyke.
