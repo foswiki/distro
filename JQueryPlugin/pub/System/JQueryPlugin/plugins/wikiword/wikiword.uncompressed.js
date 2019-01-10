@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 3.30
+ * jQuery WikiWord plugin 3.40
  *
  * Copyright (c) 2008-2018 Foswiki Contributors http://foswiki.org
  *
@@ -68,8 +68,23 @@ $.wikiword = {
 
     // gather all sources
     source.each(function() {
-      result.push($(this).is(':input')?$(this).val():$(this).text());
+      var $this = $(this), val;
+
+      if ($this.is(":radio") || $this.is(":checkbox")) {
+        if ($this.is(":checked")) {
+          val = $this.val();
+        }
+      } else if ($this.is(":input")) {
+        val = $this.val();
+      } else {
+        val = $this.text();
+      }
+
+      if (val) {
+        result.push(val);
+      }
     });
+
     result = result.join(" ");
 
     if (result || !opts.initial) {
@@ -119,7 +134,7 @@ $.wikiword = {
     });
 
     // remove all forbidden chars
-    result = result.replace(opts.forbiddenRegex, "");
+    result = result.replace(opts.forbiddenRegex, opts.separator);
 
     if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) === -1) {
       result += opts.suffix;
@@ -138,6 +153,7 @@ $.wikiword = {
     suffix: '',
     prefix: '',
     initial: '',
+    separator: '',
     transliterate: false,
     allowedRegex: '[' + foswiki.RE.alnum + ']+',
     forbiddenRegex: '[^' + foswiki.RE.alnum + ']+'

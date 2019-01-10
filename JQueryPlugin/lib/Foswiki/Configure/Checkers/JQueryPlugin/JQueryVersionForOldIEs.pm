@@ -13,15 +13,21 @@ sub check {
     my $e         = '';
     my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
 
-    # not supporting browsers < IE9 is just fine
-    return '' if $jqversion eq '';
+    if ( $jqversion eq '' ) {
+
+        # not supporting browsers < IE9 is just fine
+        return '';
+    }
+    else {
+        $e .= $this->WARN("JQuery for Old IEs has been deprecated. ");
+    }
 
     if ( $jqversion =~ /^jquery-(\d+)\.(\d+)/ && defined $1
         and ( $1 * 1000 + $2 ) <= 1003 )
     {
-        $e .= $this->WARN(<<'MESSAGE');
-jQuery 1.3.x and earlier are not compatible with Foswiki default plugins
-MESSAGE
+        $e .= $this->WARN(
+"jQuery 1.3.x and earlier are not compatible with Foswiki default plugins. "
+        );
     }
     if (
         not -f File::Spec->catfile(
@@ -32,17 +38,7 @@ MESSAGE
         )
       )
     {
-        $e .= $this->ERROR(<<'MESSAGE');
-The configured jQuery version does not exist
-MESSAGE
-    }
-
-    # SMELL: Not sure if this is how to get a default value, but it works.
-    my $jqdefault = $this->{item}{default};
-    $jqdefault =~ s/'//g;
-    if ( $jqversion ne $jqdefault ) {
-        $e .= $this->WARN(
-            'The selected JQuery version is not the recommended version.');
+        $e .= $this->ERROR("The configured jQuery version does not exist.");
     }
 
     return $e;

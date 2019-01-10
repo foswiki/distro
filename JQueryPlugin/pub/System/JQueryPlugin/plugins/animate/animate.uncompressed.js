@@ -162,6 +162,9 @@
   $.fn.animateCSS = function (opts) {
     return this.each(function () {
       var ctrl = $.data(this, "animateCSS");
+      if (typeof(opts) === 'string') {
+        opts = { effect: opts };
+      }
       if (!ctrl) {
         ctrl = new AnimateCSS(this, opts);
         $.data(this, "animateCSS", ctrl);

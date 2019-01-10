@@ -75,17 +75,19 @@ sub handleButton {
     my $theIcon = '';
 
     if ($theIconName) {
-        if ( $theIconName =~ /^fa-/ ) {
-            Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin(
-                'fontawesome');
-            $theIcon = "<i class='jqButtonIcon fa fa-fw $theIconName'></i>";
-        }
-        else {
-            $theIcon = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath(
-                $theIconName);
-            $theIcon =
-"<span class='jqButtonIcon' style='background-image:url($theIcon)'></span>"
-              if $theIcon;
+        my $icon = Foswiki::Plugins::JQueryPlugin->getIconService()
+          ->getIcon($theIconName);
+        if ( defined $icon ) {
+            if ( defined $icon->{fontName} ) {
+                $theIcon =
+"<i class='jqButtonIcon $icon->{prefix} $icon->{prefix}-fw $theIconName'></i>";
+                Foswiki::Plugins::JQueryPlugin->getIconService->loadIconFont(
+                    $icon->{fontName} );
+            }
+            else {
+                $theIcon =
+"<span class='jqButtonIcon img' style='background-image:url($icon->{url})'></span>";
+            }
         }
     }
 

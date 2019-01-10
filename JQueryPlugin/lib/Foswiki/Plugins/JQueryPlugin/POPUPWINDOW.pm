@@ -122,7 +122,7 @@ sub handlePopUpWindow {
     $result =~ s/\$LABEL/$label/;
     $result =~ s/\$OPTIONS/$optionsStr/;
 
-    $result =~ s/"/'/go;
+    $result =~ s/"/'/g;
 
     return $result;
 }

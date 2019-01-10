@@ -71,15 +71,17 @@ a.jqButton:hover {
 .jqButtonDisabled {
   cursor:default;
 }
-.jqButtonIcon {
+.jqButtonIcon.img {
   padding:0px 0px 0px 20px;
   background-repeat:no-repeat;
   background-position:0 49%;
 }
+.jqButtonIcon.ma,
 .jqButtonIcon.fa {
   padding:0;
   margin:0 3px 0 0;
 }
+.jqButtonIcon .ma,
 .jqButtonIcon .fa {
   margin-right:3px;
 }

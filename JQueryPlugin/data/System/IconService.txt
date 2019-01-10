@@ -1,0 +1,123 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1547043276" format="1.1" version="1"}%
+%META:TOPICPARENT{name="VarJQICON"}%
+---+!! %TOPIC%
+
+The IconService functions as a central definition and delivery method for all sorts of icons: image icons as well as font icons.
+
+---++ Different kinds of icons
+
+Image icons are those that display a small icon using an image file. Each individual icon of that kind refers to exactly one file on the disk.
+Font icons are bundled into a single web font file that holds all icons available via a this specific font. Web fonts are normally used to
+change typographical aspects of the web with well known fonts such as Arial, Times New Roman and the like. Each glyph in a web font represents
+one character of text. Icon fonts are a specific kind of web fonts where glyphs don't represent a character but an icon. 
+
+Image icons are very colorful most of the time, whereas font icons are always monochrome. The color of an image icons cannot be changed; the 
+color of a font icon can be adjusted by changing their text color. Icon fonts may be manipulated in many ways, most notably they can be scaled
+to any size possible without losing their rendering quality. This is the main advantage over image icons that can only be delivered in a single
+scale and a predefined coloring.
+
+The IconService is able to make both kinds of icons available to the system likewise as far as possible with regards to their different nature (see above).
+All icons are addressible by their unique _identifier_. All icons fall into at least one _category_ that describe their origin and nature.
+
+---++ Definition image icons
+
+Image icons are defined by being available on an "icon search path". This is a list of locations (on disk), where image files are looked up for a specific identifier.
+The icon search path is [[%SCRIPTURLPATH{"configure"}%][configured]] by the ={JQueryPlugin}{IconSearchPath}= and
+defaults to FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons. 
+The named icon will be picked found first on this path of topics where icons are attached to. 
+
+---++ Definition of font icons
+
+Font icons are defined by the ={JQueryPlugin}{IconFonts}= setting. This is a list of icon font definitions, i.e. how they are named, and which css file 
+must be loaded into a web page to make them available. The default setting is:
+
+<verbatim>
+$Foswiki::cfg{JQueryPlugin}{IconFonts} = {
+  'fontawesome' => {
+    'prefix' => 'fa',
+    'definition' => '$Foswiki::cfg{PubDir}/$Foswiki::cfg{SystemWebName}/JQueryPlugin/plugins/fontawesome/fontawesome.json',
+    'plugin' => 'fontawesome',
+  },
+  'material' => {
+    'prefix' => 'ma',
+    'definition' => '$Foswiki::cfg{PubDir}/$Foswiki::cfg{SystemWebName}/WebFontsContrib/material-icons/material.json',
+    'css' => '$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/WebFontsContrib/material-icons/font-face.css', 
+  },
+};
+</verbatim>
+
+Note that Foswiki does only ship Fontawesome icons by default. Material icons are part of the [[Foswiki:Extensions/WebFontsContrib][WebFontsContrib]] extension that you might want to install in addition.
+Its definition section in the ={JQueryPlugin}{IconFonts}= setting is ignored in case of the definition file not being present.
+
+Each entry is of the following format:
+
+<verbatim>
+   '<fontName>' => {
+      'prefix' => '<string>',
+      'definition' => '<definitionFile>',   
+      'plugin' => '<jQueryModule>',
+      'css' => '<cssUrl>'
+   }
+</verbatim>
+
+   * =fontName=: unique identifier
+   * =definitionFile=: file path to a file holding a font definition (more about it below)
+   * =plugin= or =css=: either an icon font is loaded by means of a jquery module being loaded; this module then holds any further means to load the required assets into a web page; or the =css= url that is to be added to the page.
+
+A =definitionFile= itself defines the individual icons themselves, i.e. it mapps icon identifier to the actual glyph in the icon font. The =definitionFille= lists all identifiers that might be used in a [[VarJQICON]] macro:
+
+<verbatim>
+%JQICON{"<prefix>-<identifier>"}%
+</verbatim>
+
+The =&lt;prefix>= part specifies which of the available icon fonts the =&lt;identifier>= relates to. For instance =fa-pagelines= load the =fontawesome= jQuery module and then generate the according markup to display the icon.
+
+---++ Definition file for an icon font
+
+A =definitionFile= refered to in an =fontName= entry of the ={JQueryPlugin}{IconFonts}= setting lists all available icon identifiers. It may also list aliases and categories that icons belong to grouping them into meaningful partitions.
+JQueryFontAwesome comes with a certan set of categories such as:
+
+   * Accessibility Icons
+   * Brand Icons
+   * Chart Icons
+   * Currency Icons
+   * Directional Icons
+   * File Type Icons
+   * Form Control Icons
+   * Gender Icons
+   * Hand Icons
+   * Medical Icons
+   * Payment Icons
+   * Spinner Icons
+   * Text Editor Icons
+   * Transportation Icons
+   * Video Player Icons
+   * Web Application Icons
+
+A definition file has got the format:
+
+<verbatim class="js">
+{
+   "icons": [
+      {
+         "id": "<string>",
+         "name": "<string>",
+         "unicode": "<codepoint>",
+         "categories": [
+            "<string>",
+            "<string>",
+            ...
+         ],
+      },
+   ]
+}
+</verbatim>
+
+   * =id= (mandatory) defines the icon id unique among all icons of this font
+   * =name=: icon name in human readable form, defaults to =id= if not present
+   * =unicode=: codepoint as defined in the web font
+   * =categories= list of categories that the icon belongs to
+
+Each icon in an icon font automatically is in the =fonticon= category as well as in the =fontName= category (e.g. =fonticon, fontawesome, Payment Icons=).
+
+Each icon of an image icon automatically is added to the category naming the topic it is attached to, e.g. =FamFamFamSilkIcons=.

@@ -25,10 +25,10 @@
   function EmptyPlugin(elem, opts) {
     var self = this;
 
-    self.$elem = $(elem);
+    self.elem = $(elem);
 
     // gather options by merging global defaults, plugin defaults and element defaults
-    self.opts = $.extend({}, defaults, self.$elem.data(), opts);
+    self.opts = $.extend({}, defaults, self.elem.data(), opts);
     self.init();
   }
 
