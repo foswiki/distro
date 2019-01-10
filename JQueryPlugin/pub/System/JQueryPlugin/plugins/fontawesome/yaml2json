@@ -1,0 +1,17 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use YAML ();
+use JSON ();
+
+my $yml;
+
+{
+  local $/ = undef;    # set to read to EOF
+  $yml = YAML::Load(<>); 
+}
+
+print JSON::to_json($yml, { pretty => 1});
+

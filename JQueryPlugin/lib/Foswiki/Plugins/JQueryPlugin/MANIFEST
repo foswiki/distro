@@ -1,4 +1,5 @@
 !noci
+data/System/IconService.txt 0644
 data/System/JQueryAjaxHelper.txt 0644
 data/System/JQueryAnimate.txt 0644
 data/System/JQueryAutocomplete.txt 0644
@@ -112,6 +113,7 @@ lib/Foswiki/Plugins/JQueryPlugin/FOSWIKI.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/GRADIENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/HOVERINTENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/I18N.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/IconService.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/IMAGESLOADED.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LIVEQUERY.pm 0644
@@ -251,6 +253,9 @@ pub/System/JQueryPlugin/jquery-2.2.4.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-3.2.1.js 0644
 pub/System/JQueryPlugin/jquery-3.2.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-3.2.1.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-3.3.1.js 0644
+pub/System/JQueryPlugin/jquery-3.3.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-3.3.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/noconflict.js 0644
@@ -382,6 +387,7 @@ pub/System/JQueryPlugin/plugins/focus/jquery.focus.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/focus/Makefile 0644
 pub/System/JQueryPlugin/plugins/fontawesome/fontawesome.css 0644
 pub/System/JQueryPlugin/plugins/fontawesome/fontawesome.css.gz 0644
+pub/System/JQueryPlugin/plugins/fontawesome/fontawesome.json 0644
 pub/System/JQueryPlugin/plugins/fontawesome/FontAwesome.otf 0644
 pub/System/JQueryPlugin/plugins/fontawesome/fontawesome.patch 0644
 pub/System/JQueryPlugin/plugins/fontawesome/fontawesome.uncompressed.css 0644
@@ -394,6 +400,7 @@ pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css 0644
 pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css.gz 0644
 pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/fontawesome/Makefile 0644
+pub/System/JQueryPlugin/plugins/fontawesome/yaml2json 0644
 pub/System/JQueryPlugin/plugins/form/jquery.form.js 0644
 pub/System/JQueryPlugin/plugins/form/jquery.form.js.gz 0644
 pub/System/JQueryPlugin/plugins/form/jquery.form.uncompressed.js 0644

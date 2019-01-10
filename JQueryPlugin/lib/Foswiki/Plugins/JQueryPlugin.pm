@@ -14,6 +14,7 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 use Foswiki::Request                        ();
+use Foswiki::Func                           ();
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
@@ -24,10 +25,11 @@ BEGIN {
     }
 }
 
-our $VERSION           = '8.10';
-our $RELEASE           = '12 Jun 2018';
+our $VERSION           = '9.00';
+our $RELEASE           = '10 Jan 2019';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
+our $iconService;
 
 =begin TML
 
@@ -93,7 +95,29 @@ finish up the plugins container
 =cut
 
 sub finishPlugin {
-    Foswiki::Plugins::JQueryPlugin::Plugins::finish();
+
+    my $request = Foswiki::Func::getRequestObject();
+    my $refresh = $request->param("refresh") || 'off';
+
+    if ( !$Foswiki::cfg{JQueryPlugin}{MemoryCache} || $refresh eq "on" ) {
+
+        # finish all plugins
+        Foswiki::Plugins::JQueryPlugin::Plugins::finish();
+
+        # finish icon service
+        if ( defined $iconService ) {
+            $iconService->finish();
+            undef $iconService;
+        }
+
+    }
+    else {
+
+        # make sure fonts are loaded next time
+        if ( defined $iconService ) {
+            $iconService->unload();
+        }
+    }
 }
 
 =begin TML
@@ -341,7 +365,8 @@ sub handleJQueryIconPath {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     my $iconName = $params->{_DEFAULT} || '';
-    return Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+
+    return getIconService()->getIconUrlPath($iconName);
 }
 
 =begin TML
@@ -354,52 +379,16 @@ Handles the =%<nop>JQICON% tag.
 
 sub handleJQueryIcon {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
+    return getIconService()->renderIcon($params);
+}
 
-    my $iconName  = $params->{_DEFAULT} || '';
-    my $iconAlt   = $params->{alt}      || $iconName;
-    my $iconTitle = $params->{title}    || '';
-    my $iconFormat  = $params->{format};
-    my $iconStyle   = $params->{style};
-    my $iconAnimate = $params->{animate};
-    my $iconPath;
-    my $iconClass;
-
-    # fontawesome
-    if ( $iconName =~ m/^fa\-/ ) {
-        $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
-        $iconPath   = '';
-        $iconClass  = "foswikiIcon jqIcon fa $iconName";
-        createPlugin("fontawesome");
+sub getIconService {
+    unless ($iconService) {
+        require Foswiki::Plugins::JQueryPlugin::IconService;
+        $iconService = Foswiki::Plugins::JQueryPlugin::IconService->new();
     }
 
-    # default img based
-    else {
-        $iconFormat =
-'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle/>'
-          unless $iconFormat;
-        $iconPath =
-          Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
-        return '' unless $iconPath;
-
-        $iconClass = "foswikiIcon jqIcon";
-    }
-
-    $iconClass .= " $params->{class}" if $params->{class};
-
-    if ( defined $iconAnimate ) {
-        $iconClass .= " faa-$iconAnimate animated";
-    }
-
-    my $img = $iconFormat;
-    $img =~ s/\$iconName/$iconName/g;
-    $img =~ s/\$iconPath/$iconPath/g;
-    $img =~ s/\$iconClass/$iconClass/g;
-    $img =~ s/\$iconStyle/style='$iconStyle'/g if $iconStyle;
-    $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
-    $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
-    $img =~ s/\$(iconAlt|iconTitle|iconStyle)//g;
-
-    return $img;
+    return $iconService;
 }
 
 =begin TML

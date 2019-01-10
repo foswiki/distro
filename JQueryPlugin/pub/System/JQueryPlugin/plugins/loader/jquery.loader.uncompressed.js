@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 3.00
+ * jQuery Loader plugin 3.01
  *
  * Copyright (c) 2011-2018 Foswiki Contributors http://foswiki.org
  *
@@ -32,24 +32,16 @@ jQuery(function($) {
   };
 
   // constructor
-  function JQLoader(elem, options) {
+  function JQLoader(elem, opts) {
     var self = this;
 
     self.element = elem;
-    self.options = $.extend({}, defaults, options);
+    self.opts = $.extend({}, defaults, opts);
 
     self.init();
 
-    if (self.options.mode === 'auto') {
-      if (self.options.delay) {
-        // delayed loading 
-        window.setTimeout(function() {
-          self.load();
-        }, self.options.delay);
-      } else {
-        // immediate loading
-        self.load();
-      }
+    if (self.opts.mode === 'auto') {
+      self.loadAfter();
     }
   }
 
@@ -60,48 +52,59 @@ jQuery(function($) {
 
     // add refresh listener
     $elem.on("refresh.jqloader", function(e, opts) {
-      $.extend(self.options, opts);
-      if (self.options.delay) {
-        window.setTimeout(function() {
-          self.load();
-        }, self.options.delay);
-      } else  {
-        self.load();
-      }
+      $.extend(self.opts, opts);
+      self.loadAfter();
     });
 
     // add onload listener 
-    if (typeof(self.options.onload) === 'function') {
+    if (typeof(self.opts.onload) === 'function') {
       $elem.bind("onload.jqloader", function() {
-        self.options.onload.call(self);
+        self.opts.onload.call(self);
       });
     }
     
     // add beforeload listener 
-    if (typeof(self.options.beforeload) === 'function') {
+    if (typeof(self.opts.beforeload) === 'function') {
       $elem.bind("beforeload.jqloader", function() {
-        self.options.beforeload.call(self);
+        self.opts.beforeload.call(self);
       });
     }
     
     // add finished listener 
-    if (typeof(self.options.finished) === 'function') {
+    if (typeof(self.opts.finished) === 'function') {
       $elem.bind("finished.jqLoader", function() {
-        self.options.finished.call(self);
+        self.opts.finished.call(self);
       });
     }
 
     // add auto-reloader
-    if (self.options.reloadAfter) {
+    if (self.opts.reloadAfter) {
       $elem.bind("finished.jqLoader", function() {
-        window.setTimeout(function() {
-            self.load();
-          }, self.options.reloadAfter
-        );
+        self.loadAfter(self.opts.reloadAfter);
       });
     }
 
     self.prepareContainer();
+  };
+
+  // delayed loading 
+  JQLoader.prototype.loadAfter = function(delay) {
+    var self = this;
+
+    delay = delay || self.opts.delay;
+
+    if (typeof(self.timer) !== 'undefined') {
+      window.clearTimeout(self.timer);
+      self.timer = undefined;
+    }
+
+    if (delay) {
+      self.timer = window.setTimeout(function() {
+        self.load();
+      }, delay);
+    } else {
+      self.load();
+    }
   };
 
   // prepares the container
@@ -111,8 +114,8 @@ jQuery(function($) {
         $placeholder;
 
 
-    if (typeof(self.options.placeholder) !== 'undefined' && self.options.placeholder !== '') {
-      $placeholder = $(decodeURI(self.options.placeholder)).hide();
+    if (typeof(self.opts.placeholder) !== 'undefined' && self.opts.placeholder !== '') {
+      $placeholder = $(decodeURI(self.opts.placeholder)).hide();
       $placeholder.insertBefore($elem);
 
       // listen to beforeload event to show the placeholder
@@ -126,7 +129,7 @@ jQuery(function($) {
       });
 
       // add clickhandler to placeholder when not in auto mode
-      if (self.options.mode !== 'auto') {
+      if (self.opts.mode !== 'auto') {
         $placeholder.click(function() {
           $elem.trigger("refresh.jqloader", self);
         });
@@ -138,53 +141,53 @@ jQuery(function($) {
   JQLoader.prototype.load = function() {
     var self = this,
         $elem = $(self.element),
-        web = self.options.web || foswiki.getPreference("WEB"),
-        topic = self.options.topic || foswiki.getPreference("TOPIC"),
-        params = $.extend({}, self.options.params);
+        web = self.opts.web || foswiki.getPreference("WEB"),
+        topic = self.opts.topic || foswiki.getPreference("TOPIC"),
+        params = $.extend({}, self.opts.params);
 
     // construct url
-    if (typeof(self.options.url) === 'undefined') {
-      self.options.url = foswiki.getScriptUrl("view", web, topic);
+    if (typeof(self.opts.url) === 'undefined') {
+      self.opts.url = foswiki.getScriptUrl("view", web, topic);
     }
 
-    if (typeof(self.options.section) !== 'undefined') {
-      params.section = self.options.section;
+    if (typeof(self.opts.section) !== 'undefined') {
+      params.section = self.opts.section;
     }
 
-    if (typeof(self.options.skin) !== 'undefined' && self.options.skin) {
-      params.skin = self.options.skin;
+    if (typeof(self.opts.skin) !== 'undefined' && self.opts.skin) {
+      params.skin = self.opts.skin;
     }
 
     // trigger beforeload
     $elem.trigger("beforeload.jqloader", self);
 
-    if (self.options.url) {
+    if (self.opts.url) {
 
       if (typeof(self.container) === 'undefined') {
         self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
 
         // apply min height
-        if (self.options.minHeight) {
-          self.container.css("min-height", self.options.minHeight);
+        if (self.opts.minHeight) {
+          self.container.css("min-height", self.opts.minHeight);
           $(window).trigger("resize");
         }
       }
 
       var doit = function() {
         $.get(
-          self.options.url,
+          self.opts.url,
           params,
           function(data) {
-            if (typeof(self.options.select) !== 'undefined') {
-              data = $(data).find(self.options.select);
+            if (typeof(self.opts.select) !== 'undefined') {
+              data = $(data).find(self.opts.select);
             }
 
             self.container.remove();
             self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
 
             // apply min height
-            if (self.options.minHeight) {
-              self.container.css("min-height", self.options.minHeight);
+            if (self.opts.minHeight) {
+              self.container.css("min-height", self.opts.minHeight);
               $(window).trigger("resize");
             }
 
@@ -194,7 +197,7 @@ jQuery(function($) {
             $elem.trigger("onload.jqloader", self);
 
             // show effect
-            var effect = self.options.effect || self.options.showEffect;
+            var effect = self.opts.effect || self.opts.showEffect;
             if (typeof(effect) !== 'undefined') {
               self.container.animateCSS({
                 effect: effect
@@ -210,9 +213,9 @@ jQuery(function($) {
       };
 
       // hide effect
-      if (typeof(self.options.hideEffect) !== 'undefined') {
+      if (typeof(self.opts.hideEffect) !== 'undefined') {
         self.container.animateCSS({
-          effect: self.options.hideEffect
+          effect: self.opts.hideEffect
         })/*.on("stop.animate", function() {
           self.container.css("visibility", "hidden");
           doit();
@@ -228,11 +231,11 @@ jQuery(function($) {
   };
 
   // register plugin to jquery core
-  $.fn.jqLoader = function(options) {
+  $.fn.jqLoader = function(opts) {
     return this.each(function() {
       if (!$.data(this, 'plugin_jqLoader')) {
         $.data(this, 'plugin_jqLoader',
-          new JQLoader(this, options)
+          new JQLoader(this, opts)
         );
       }
     });

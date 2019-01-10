@@ -16,6 +16,21 @@ $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 # search path for JQICONs
 $Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
 
+# **PERL LABEL="Icon Fonts"**
+# Definition of icon fonts.
+$Foswiki::cfg{JQueryPlugin}{IconFonts} = {
+  'fontawesome' => {
+    'prefix' => 'fa',
+    'definition' => '$Foswiki::cfg{PubDir}/$Foswiki::cfg{SystemWebName}/JQueryPlugin/plugins/fontawesome/fontawesome.json',
+    'plugin' => 'fontawesome',
+  },
+  'material' => {
+    'prefix' => 'ma',
+    'definition' => '$Foswiki::cfg{PubDir}/$Foswiki::cfg{SystemWebName}/WebFontsContrib/material-icons/material.json',
+    'css' => '$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/WebFontsContrib/material-icons/font-face.css', 
+  },
+};
+
 # **BOOLEAN LABEL="Enable No-Conflict Mode"**
 # Enable this switch to prevent name conflicts with other javascript frameworks that
 # use <code>$</code>. If enabled <code>$</code> will be renamed to <code>$j</code>.
@@ -28,18 +43,9 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.9.1, jquery-1.10.0, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-2.0.0, jquery-2.0.1, jquery-2.0.2, jquery-2.1.0, jquery-2.1.1, jquery-2.1.3, jquery-2.1.4, jquery-2.2.0, jquery-2.2.1, jquery-2.2.2, jquery-2.2.3, jquery-2.2.4**
-# Note that starting with jQuery-1.9.1 deprecated features have been removed. If you are experiencing
-# problems with plugins still using deprecated features then add the <code>migrate</code> plugin to the list
-# of plugins loaded by default (see above). Further note that starting with jQuery-2.0 support for Internet Explorer 6/7/8
-# has been dropped. Use jQuery-1.9 in case you still need to cover these browsers.
+# **SELECT jquery-2.2.4, jquery-3.2.1, jquery-3.3.1**
+# Note that jquery-3 is still rather experimental. You will most probably encounter problems with other modules.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
-
-# **SELECT , jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-1.12.0, jquery-1.12.1, jquery-1.12.2, jquery-1.12.3, jquery-1.12.4**
-# Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
-# Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
-# library version for all browsers. Leave it empty in case you don't need to support these old browsers anymore.
-$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = '';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
@@ -239,6 +245,12 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # Any plugins listed here should be disabled.  They will be removed in a future release of Foswiki.
 # If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
 # the Foswiki distribution.
+
+# **SELECT , jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-1.12.0, jquery-1.12.1, jquery-1.12.2, jquery-1.12.3, jquery-1.12.4 EXPERT**
+# Warning: these jquery versions are deprecated: Internet Explorer < 11 aren't suported officially anymore.
+# Use a different jQuery library for Internet Explorer 6/7/8. 
+# Leave it empty in case you don't need to support these old browsers anymore.
+$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = '';
 
 # **BOOLEAN LABEL="Autocomplete" EXPERT**
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.

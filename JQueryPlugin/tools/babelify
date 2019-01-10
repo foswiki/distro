@@ -6,8 +6,6 @@ var babelify = require("babelify");
 var entryPoint = process.argv[2];
 var inFile = process.argv[3];
 
-console.log("inFile=",inFile);
-
 browserify(inFile, {
     standalone: entryPoint
   })

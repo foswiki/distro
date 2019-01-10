@@ -1,5 +1,6 @@
 FOSWIKI_ROOT?=~/foswiki/core
 TARGET=\
+  fontawesome.json \
   fontawesome.css \
   icon-animate.css \
   FontAwesome.otf \
@@ -20,6 +21,9 @@ git-fontawesome-animation:
 	git clone https://github.com/l-lin/font-awesome-animation.git $@
 
 ifneq (,$(wildcard git-fontawesome))
+fontawesome.json: git-fontawesome/src/icons.yml
+	@echo "creating $@"; ./yaml2json $< > $@
+
 icon-animate.uncompressed.css: git-fontawesome-animation/dist/font-awesome-animation.css
 	cat $^ |sed 's/..\/fonts\///g' > $@
 endif

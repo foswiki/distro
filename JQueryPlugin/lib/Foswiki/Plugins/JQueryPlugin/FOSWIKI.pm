@@ -98,6 +98,13 @@ sub init {
     if ( defined $Foswiki::cfg{Sessions}{CookieRealm} ) {
         $prefs{"COOKIEREALM"} = $Foswiki::cfg{Sessions}{CookieRealm};
     }
+    if ( defined $Foswiki::cfg{Sessions}{CookiePath} ) {
+        $prefs{"COOKIEPATH"} = $Foswiki::cfg{Sessions}{CookiePath} || '/';
+    }
+    if ( defined $Foswiki::cfg{Sessions}{CookieNamePrefix} ) {
+        $prefs{"COOKIENAMEPREFIX"} = $Foswiki::cfg{Sessions}{CookieNamePrefix}
+          || '';
+    }
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
 
     my $text =

@@ -9,43 +9,38 @@ use File::Spec();
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
-    my $this      = shift;
-    my $e         = '';
-    my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
+    my $this          = shift;
+    my $e             = '';
+    my $jQueryVersion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
 
-    if ( !$jqversion ) {
-        return $this->ERROR(<<'MESSAGE');
-There is no configured jQuery version
-MESSAGE
+    if ( !$jQueryVersion ) {
+        return $this->ERROR("There is no configured jQuery version. ");
     }
 
-    if ( $jqversion =~ /^jquery-(\d+)\.(\d+)/ && defined $1
-        and ( $1 * 1000 + $2 ) <= 1003 )
-    {
-        $e .= $this->WARN(<<'MESSAGE');
-jQuery 1.3.x and earlier are not compatible with Foswiki default plugins
-MESSAGE
+    if ( $jQueryVersion =~ /^jquery-(\d+)\.(\d+)\.(\d+)/ && defined $1 ) {
+        my $version = $1 * 10000 + $2 * 100 + $3;
+
+        if ( $version <= 20203 ) {
+            $e .= $this->WARN("jQuery 2.2.3 and earlier are deprecated. ");
+        }
+
+        if ( $version >= 30000 ) {
+            $e .= $this->WARN(
+"jQuery 3 and later are not yet compatible with Foswiki. You might experience incompatibilities with other jQuery plugins. "
+            );
+        }
     }
+
     if (
         not -f File::Spec->catfile(
             File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
             $Foswiki::cfg{SystemWebName},
             'JQueryPlugin',
-            $jqversion . '.js'
+            $jQueryVersion . '.js'
         )
       )
     {
-        $e .= $this->ERROR(<<'MESSAGE');
-The configured jQuery version does not exist
-MESSAGE
-    }
-
-    # SMELL: Not sure if this is how to get a default value, but it works.
-    my $jqdefault = $this->{item}{default};
-    $jqdefault =~ s/'//g;
-    if ( $jqversion ne $jqdefault ) {
-        $e .= $this->WARN(
-            'The selected JQuery version is not the recommended version.');
+        $e .= $this->ERROR("The configured jQuery version does not exist. ");
     }
 
     return $e;

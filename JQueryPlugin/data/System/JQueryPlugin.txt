@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1531233264" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1547112854" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,8 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  10 Jan 2019: | (9.00) - Item14767: implement a proper icon service |
+|  01 Oct 2018: | (8.11) - Item14762: fixed jquery.loader not clearing timeouts properly |
 |  20 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module <br />\
                            Item14567: added keyboard navigation to jquery.stars <br />\
                            Item14568: added chili recipes for autolisp and ini <br />\
