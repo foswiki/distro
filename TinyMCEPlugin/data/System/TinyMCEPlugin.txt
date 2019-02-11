@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485356419" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1549890474" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -308,6 +308,7 @@ This package also includes the complete sources for version 3.5.7 of the !TinyMC
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  11 Feb 2019: | Foswikitask:Item14819: fix error in switch between raw and wysiwyg mode that could end up in losing edit changes |
 |  25 Jan 2017: | Foswikitask:Item14305: eliminate sporadic alert() by tinymce initializer |
 |  1.30 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.11 |
 |  21 Dec 2012 (TBD) | Foswikitask:Item12278: Changing a wikiword should not require visiting the !TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |

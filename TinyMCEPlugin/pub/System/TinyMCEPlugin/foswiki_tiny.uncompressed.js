@@ -289,6 +289,7 @@ var FoswikiTiny = {
             }
             editor.setContent(text);
             editor.isNotDirty = true;
+            editor.initialized = true; // Oops-err make sure the editor is enabled again
             FoswikiTiny.enableSaveButton(true);
             
             // Hide the conversion button, if it exists
