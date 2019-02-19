@@ -411,6 +411,11 @@ sub _execute {
         $res = $session->{response} if $session;
         $res ||= new Foswiki::Response();
 
+        # make sure an access control exception is not cached
+        if ( $Foswiki::cfg{Cache}{Enabled} && $session->{cache} ) {
+            $session->{cache}->isCacheable( $e->{web}, $e->{topic}, 0 );
+        }
+
         unless ( $session->getLoginManager()->forceAuthentication() ) {
 
             # Login manager did not want to authenticate, perhaps because

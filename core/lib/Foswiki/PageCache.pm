@@ -403,9 +403,16 @@ for the "CACHEABLE" preference variable.
 =cut
 
 sub isCacheable {
-    my ( $this, $web, $topic ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
+    $web =~ s/\//./g;
     my $webTopic = $web . '.' . $topic;
+
+    if ( defined $value ) {
+        Foswiki::Func::writeDebug("forcing isCacheable to $value") if TRACE;
+        $this->{isCacheable}{$webTopic} = $value;
+        return $value;
+    }
 
     my $isCacheable = $this->{isCacheable}{$webTopic};
     return $isCacheable if defined $isCacheable;
@@ -439,8 +446,6 @@ sub isCacheable {
         my $status  = $headers->{Status};
         $isCacheable = 0 if $status && $status eq 401;
     }
-
-    # TODO: give plugins a chance - create a callback to intercept cacheability
 
     #Foswiki::Func::writeDebug("isCacheable=$isCacheable") if TRACE;
     $this->{isCacheable}{$webTopic} = $isCacheable;
