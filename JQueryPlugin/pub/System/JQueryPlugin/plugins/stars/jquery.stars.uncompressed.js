@@ -1,7 +1,7 @@
 /*
  * jQuery Stars plugin 2.10
  *
- * Copyright (c) 2014-2017 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2014-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

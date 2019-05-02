@@ -410,7 +410,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2017 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2019 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
