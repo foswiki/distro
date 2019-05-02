@@ -301,6 +301,7 @@
 
     self.displayAtIndex(index);
 
+    val = sprintf("%." + self._prec + "f", index);
     self.elem.val(val);
   };
 

@@ -18,7 +18,7 @@ sub new {
 
 sub isMultiValued { return 1; }
 
-sub getDefaultValue { undef }
+sub getDefaultValue { return ""; }
 
 sub renderForEdit {
     my ( $this, $param1, $param2, $param3 ) = @_;

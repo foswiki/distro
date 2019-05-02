@@ -17,7 +17,7 @@
     EFFECTS: {
       "attentionSeekers": [
         "bounce", "flash", "headShake", "jello", "pulse", "rubberBand", "shake",
-        "swing", "tada", "wobble"
+        "swing", "tada", "wobble", "heartBeat"
       ],
       "bouncingEntrances":  [
         "bounceIn", "bounceInDown", "bounceInLeft", "bounceInRight", "bounceInUp"
@@ -34,11 +34,17 @@
         "fadeOutLeftBig", "fadeOutRight", "fadeOutRightBig", "fadeOutUp",
         "fadeOutUpBig"
       ],
-      "flippers": [
-        "flip", "flipInX", "flipInY", "flipOutX", "flipOutY"
+      "flipEntrances": [
+        "flip", "flipInX", "flipInY"
       ],
-      "lightspeed": [
-        "lightSpeedIn", "lightSpeedOut"
+      "flipExits": [
+        "flipOutX", "flipOutY"
+      ],
+      "lightspeedEntrances": [
+        "lightSpeedIn"
+      ],
+      "lightspeedExits": [
+        "lightSpeedOut"
       ],
       "rotatingEntrances": [
         "rotateIn", "rotateInDownLeft", "rotateInDownRight", "rotateInUpLeft",
