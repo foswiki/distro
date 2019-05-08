@@ -114,6 +114,11 @@ sub log {
         ( $level, @fields ) = @_;
     }
 
+    #   The fields array has the level prepended below here.
+    if ( $level eq 'info' ) {
+        return if ( Foswiki::Logger::filterLogInfoAction( $fields[1] ) );
+    }
+
     my $now  = _time();
     my @logs = _getLogsForLevel( [$level] );
     my $log  = shift @logs;
@@ -349,7 +354,7 @@ sub _rotate {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
