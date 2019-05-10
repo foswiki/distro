@@ -3,9 +3,7 @@
  *
  * Copyright (c) 20xx Your Name http://...
  *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
  * How to proceed:
  *    1 copy this file into a file named jquery.plugin-name.js

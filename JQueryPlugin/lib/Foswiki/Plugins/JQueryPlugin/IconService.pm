@@ -257,7 +257,7 @@ sub getIconUrlPath {
     $iconName =~ s/^.*\.(.*?)$/$1/;    # strip file extension
 
     my $icon = $this->getIcon($iconName);
-    return $icon->{url} if defined $icon->{url};
+    return $icon->{url} if defined $icon && defined $icon->{url};
     return;
 }
 
@@ -272,6 +272,7 @@ get the icon descriptor for the given id
 sub getIcon {
     my ( $this, $id ) = @_;
 
+    return unless defined $id;
     return $this->{_icons}{$id};
 }
 
@@ -320,7 +321,7 @@ sub _readIcons {
     return if defined $this->{_icons};
 
     $this->_readIconFonts();
-    $this->_readFamFamFamIcons();
+    $this->_readIconPath();
 
     $this->{_icons} = { map { $_->{id} => $_ } @{ $this->{_icons} } };
 }
@@ -367,10 +368,11 @@ sub _readIconFonts {
     }
 }
 
-sub _readFamFamFamIcons {
+sub _readIconPath {
     my $this = shift;
 
-    my %seen = ();
+    my %seen       = ();
+    my $pubUrlPath = Foswiki::Func::getPubUrlPath();
     foreach my $item ( @{ $this->{_iconSearchPath} } ) {
 
         my ( $web, $topic ) =
@@ -403,10 +405,7 @@ sub _readFamFamFamIcons {
               {
                 id   => $id,
                 text => $id,
-                url  => Foswiki::Func::getPubUrlPath() . '/'
-                  . $web . '/'
-                  . $topic . '/'
-                  . $icon,
+                url  => $pubUrlPath . '/' . $web . '/' . $topic . '/' . $icon,
                 categories => [ $topic, "imageicon" ],
               };
         }
@@ -419,7 +418,7 @@ sub _readFamFamFamIcons {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2018 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

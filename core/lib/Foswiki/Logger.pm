@@ -199,12 +199,6 @@ sub getOldCall {
     delete $fhash->{level};
     if ( $level eq 'info' ) {
 
-        # Implement the core event filter
-        return undef
-          if ( defined $fhash->{action}
-            && defined $Foswiki::cfg{Log}{Action}{ $fhash->{action} }
-            && !$Foswiki::cfg{Log}{Action}{ $fhash->{action} } );
-
         foreach my $key (qw( user action webTopic )) {
             push( @fields, $fhash->{$key} || '' );
             delete $fhash->{$key};
@@ -233,6 +227,30 @@ sub getOldCall {
     }
 
     return ( $level, @fields );
+}
+
+=begin TML
+---++ ClassMethod  filterLogInfoAction( $action )
+   * action - the event's action for "info" type log calls. 
+
+This code applies the core log event action filter defined in the config hash
+={Log}{Action}{ _'event'_ }=.  If an event is defined and set to false, the log
+records for the event will be suppressed.
+
+Returns 1 (true) if the log record should be suppressed
+
+=cut
+
+sub filterLogInfoAction {
+    my $action = shift;
+
+    # Implement the core event filter
+    return 1
+      if ( defined $action
+        && defined $Foswiki::cfg{Log}{Action}{$action}
+        && !$Foswiki::cfg{Log}{Action}{$action} );
+
+    return 0;
 }
 
 =begin TML
@@ -348,7 +366,7 @@ sub emergency {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

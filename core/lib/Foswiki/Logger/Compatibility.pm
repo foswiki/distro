@@ -109,6 +109,11 @@ sub log {
     $log = _expandDATE( $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'servertime' );
 
+    #   The fields array has the level prepended below here.
+    if ( $level eq 'info' ) {
+        return if ( Foswiki::Logger::filterLogInfoAction( $fields[1] ) );
+    }
+
     # Unfortunate compatibility requirement; need the level, but the old
     # logfile format doesn't allow us to add fields. Since we are changing
     # the date format anyway, the least pain is to concatenate the level
@@ -292,7 +297,7 @@ sub _getLogsForLevel {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

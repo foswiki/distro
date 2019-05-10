@@ -37,7 +37,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

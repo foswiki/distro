@@ -612,6 +612,40 @@ sub verify_simpleWriteAndReplay {
     return;
 }
 
+sub verify_simpleWriteAndReplayLegacyEventFilter {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+
+    return unless $this->{logger}->{acceptsHash};
+
+    # Filter dropped Eggs.
+    $Foswiki::cfg{Log}{Action}{Dropped} = 0;
+
+    # Verify the three levels used by Foswiki; debug, info and warning
+    foreach my $level (qw(debug info warning)) {
+
+        $this->{logger}
+          ->log( $level, $level, "Dropped", "Eggs", "and", $ipaddr );
+
+    }
+
+    foreach my $level (qw(debug info warning)) {
+
+        # info should not exist
+        my $it = $this->{logger}->eachEventSince( $time, $level );
+
+        if ( $level eq 'info' ) {
+            $this->assert( !$it->hasNext(), $level );
+        }
+        else {
+            $this->assert( $it->hasNext(), $level );
+        }
+    }
+
+    return;
+}
+
 sub verify_simpleWriteAndReplayHashEventFilter {
     my $this   = shift;
     my $time   = time;

@@ -1,7 +1,7 @@
 /*
  * jQuery fluid font plugin 1.01
  *
- * Copyright (c) 2009-2017 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2019 Foswiki Contributors http://foswiki.org
  *
  * inspired by TextZooming by James Newbery http://www.tinnedfruit.com/sandbox/textzoom.html
  *

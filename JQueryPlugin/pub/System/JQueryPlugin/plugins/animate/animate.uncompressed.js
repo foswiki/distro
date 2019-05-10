@@ -1,7 +1,7 @@
 /*
  * jQuery AnimateCSS plugin 1.01
  *
- * Copyright (c) 2018 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2018-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -17,7 +17,7 @@
     EFFECTS: {
       "attentionSeekers": [
         "bounce", "flash", "headShake", "jello", "pulse", "rubberBand", "shake",
-        "swing", "tada", "wobble"
+        "swing", "tada", "wobble", "heartBeat"
       ],
       "bouncingEntrances":  [
         "bounceIn", "bounceInDown", "bounceInLeft", "bounceInRight", "bounceInUp"
@@ -34,11 +34,17 @@
         "fadeOutLeftBig", "fadeOutRight", "fadeOutRightBig", "fadeOutUp",
         "fadeOutUpBig"
       ],
-      "flippers": [
-        "flip", "flipInX", "flipInY", "flipOutX", "flipOutY"
+      "flipEntrances": [
+        "flip", "flipInX", "flipInY"
       ],
-      "lightspeed": [
-        "lightSpeedIn", "lightSpeedOut"
+      "flipExits": [
+        "flipOutX", "flipOutY"
+      ],
+      "lightspeedEntrances": [
+        "lightSpeedIn"
+      ],
+      "lightspeedExits": [
+        "lightSpeedOut"
       ],
       "rotatingEntrances": [
         "rotateIn", "rotateInDownLeft", "rotateInDownRight", "rotateInUpLeft",

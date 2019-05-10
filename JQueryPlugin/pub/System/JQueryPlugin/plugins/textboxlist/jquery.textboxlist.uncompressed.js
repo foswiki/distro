@@ -1,7 +1,7 @@
 /*
  * jQuery textbox list plugin 2.21
  *
- * Copyright (c) 2009-2018 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

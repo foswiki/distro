@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1547112854" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1556794284" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQICON -- render an image 
 Renders an icon made availabe by the IconService. 
@@ -9,9 +9,9 @@ Renders an icon made availabe by the IconService.
 | ="name"= | name of the icon to display | |
 | =class= | additional css class for the img tag | | 
 | =animate= | can be one of bounce, burst, flash, float, horizontal, passing, pulse, ring, shake, spin, tada, vertical, wrench |
-| =alt= | | alt attribute |
+| =alt= | alt attribute | |
 | =title= | title attribute | |
-| =style= | css style format to be added to the image element |
+| =style= | css style format to be added to the image element | |
 | =format= | format string used to render the icon; known variables to be used in the format string are: \
            <ul>\
             <li> =$iconName=: name as given to the =name= parameter</li> \
@@ -20,7 +20,7 @@ Renders an icon made availabe by the IconService.
             <li> =$iconStyle=: css styles as specified by the =style= parameter </li>\
             <li> =$iconAlt=: alt attribute-value; if the =alt= parameter to JQICON is set, this expands to =alt='...'= </li> \
             <li> =$iconTitle=: title attribute-value; if the =title= parameter to JQICON is set, this expands to =title='...'= </li> \
-           </ul> | for image icons: =&lt;img src='$iconPath' class='$iconClass $iconName' $iconStyle $iconAlt$iconTitle/>=; for font icons: =&lti class='$iconClass' $iconStyle $iconTitle>&lt;/i>= |
+           </ul> | for image icons: =&lt;img src='$iconPath' class='$iconClass $iconName' $iconStyle $iconAlt$iconTitle/>=; for font icons: =&lt;i class='$iconClass' $iconStyle $iconTitle>&lt;/i>= |
 
 Example for famfamfam icons:
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1547112854" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1556794284" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,53 +125,57 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  02 May 2019: | (9.10) - Item14837: updated animate.css %BR% \
+			   Item14838: add remember parameter to tabpane %BR% \
+			   Item14839: fix default value in textboxlist formfields %BR% \
+			   Item14840: fix tooltip position in draggable elements |
 |  10 Jan 2019: | (9.00) - Item14767: implement a proper icon service |
 |  01 Oct 2018: | (8.11) - Item14762: fixed jquery.loader not clearing timeouts properly |
-|  20 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module <br />\
-                           Item14567: added keyboard navigation to jquery.stars <br />\
-                           Item14568: added chili recipes for autolisp and ini <br />\
-                           Item14569: deprecated jquery.placeholder <br />\
-                           Item14571: added manual sorting mode to textboxlist <br />\
-                           Item14572: upgraded jquery.livequery <br />\
-                           Item14454: added jsview in addition to jsrender <br /> \
-                           Item14721: fixed loading of language files for jquery.i18n <br />\
-                           Item14722: add jquery.browser as a separate module <br /> \
-                           Item14723: upgraded jquery.sprintf <br /> \
-                           Item14724: enhance Makefile system to support sass and babel <br /> \
-                           Item14727: improve locale support of datepicker <br /> \
-                           Item14728: send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened <br /> \
+|  20 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module %BR% \
+                           Item14567: added keyboard navigation to jquery.stars %BR% \
+                           Item14568: added chili recipes for autolisp and ini %BR% \
+                           Item14569: deprecated jquery.placeholder %BR% \
+                           Item14571: added manual sorting mode to textboxlist %BR% \
+                           Item14572: upgraded jquery.livequery %BR% \
+                           Item14454: added jsview in addition to jsrender %BR% \
+                           Item14721: fixed loading of language files for jquery.i18n %BR% \
+                           Item14722: add jquery.browser as a separate module %BR% \
+                           Item14723: upgraded jquery.sprintf %BR% \
+                           Item14724: enhance Makefile system to support sass and babel %BR% \
+                           Item14727: improve locale support of datepicker %BR% \
+                           Item14728: send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened %BR% \
                            Item14660: fixed missing tab id causing a javascript error \
                            Item14735: use animate.css for jquery.loader effects instead of jQuery's own ones |
 |  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
-|  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one <br /> \
-                           Item14566: don't cache a null result in foswiki.getPreference() <br /> \
-                           Item14570: add "use strict" to farbtastic's init and fix js errors <br /> \
+|  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one %BR% \
+                           Item14566: don't cache a null result in foswiki.getPreference() %BR% \
+                           Item14570: add "use strict" to farbtastic's init and fix js errors %BR% \
                            Item14573: fixed auto-height calculation of tabpane<br/>\
                            Item14584: jquery.wikiword changed interpretation of source parameter in a incompatible way. |
-|   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5<br />\
-                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.<br />\
-                           Item14555: make build work with latest uglifyjs 3.<br />\
-                           Item14559: regression via Item13898 - broken topic selectors.<br />\
+|   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5%BR% \
+                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.%BR% \
+                           Item14555: make build work with latest uglifyjs 3.%BR% \
+                           Item14559: regression via Item13898 - broken topic selectors.%BR% \
                            Item14560: wikiword changes don't trigger a change event on the target element. |
 |   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
 |   8 Feb 2017: | (7.22) - Item14312: don't destroy dialogs on close. |
 |  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
-|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. <br />\
-                         - Item14172: jquery.stars width incorrect in modal dialogs. <br />\
-                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). <br />\
-                         - Item14226: Performance improvements to $.i18n(). <br />\
-                         - Item14227: Potential use of uninitialized value in a rating formfield. <br />\
-                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. <br />\
-                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. <br />\
-                         - Item14230: jquery.maskedinput initializer does not match documentation. <br />\
-                         - Item14250: wait for images by default in jquery.masonry. <br />\
+|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. %BR% \
+                         - Item14172: jquery.stars width incorrect in modal dialogs. %BR% \
+                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). %BR% \
+                         - Item14226: Performance improvements to $.i18n(). %BR% \
+                         - Item14227: Potential use of uninitialized value in a rating formfield. %BR% \
+                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. %BR% \
+                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. %BR% \
+                         - Item14230: jquery.maskedinput initializer does not match documentation. %BR% \
+                         - Item14250: wait for images by default in jquery.masonry. %BR% \
                          - Item14251: Remove non-functional caching of dialogs loaded via ajax. |
-|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; <br />\
-                         - Item14120: remove outdate compression tools; <br />\
-                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; <br />\
-                         - Item14122: upgrade to fontawesome 4.6.3; <br />\
-                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; <br />\
-                         - Item14124: make skin of a jquery.loader backend configurable; <br />\
+|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; %BR% \
+                         - Item14120: remove outdate compression tools; %BR% \
+                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; %BR% \
+                         - Item14122: upgrade to fontawesome 4.6.3; %BR% \
+                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; %BR% \
+                         - Item14124: make skin of a jquery.loader backend configurable; %BR% \
                          - Item14171: fix encoding of error message in jquery.render |
 |  10 Apr 2016: | (7.04) - Item14042: it's jquery-1.12.3 not jquey-1.12.3 |
 |  06 Apr 2016: | (7.03) - Item14042: added jQuery-1.12.3 / jQuery-2.2.3 |
@@ -186,8 +190,8 @@ required for Foswiki 1.1 or later.
                            externalized imagesLoaded from masonry; \
                            do a deep merge gathering foswikiPreferences from the header; \
                            added new jquery.i18n module for client-side translations |
-|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working <br /> \
-                           Item12560: Split !NameFilter into !AttachmentNameFilter <br /> \
+|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working %BR% \
+                           Item12560: Split !NameFilter into !AttachmentNameFilter %BR% \
                            Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
 |  06 Nov 2015: | (6.31) - Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
 |  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
@@ -229,9 +233,9 @@ required for Foswiki 1.1 or later.
                            removed warning in configure about chilli |
 |  15 Jan 2013: | (4.60) - Item12345: added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
 |  11 Dec 2012: | (4.50) - Item12229: improved transliteration of unicode characters in jquery.wikiword |
-|  28 Nov 2012: | (4.45) - Release with Foswiki 1.1.6 <br />\
-                  Item12192: Fix some layout issues<br />\
-                  Item12214: default jquery-ui theme overrides manual JQTHEME choice.<br />\
+|  28 Nov 2012: | (4.45) - Release with Foswiki 1.1.6 %BR% \
+                  Item12192: Fix some layout issues%BR% \
+                  Item12214: default jquery-ui theme overrides manual JQTHEME choice.%BR% \
                   Item12215: Hide JQLoader using CSS. |
 |  26 Oct 2012: | Item12195: Default jquery version is jquery-1.8.2 now |
 |  24 Oct 2012: | Item12190: Chili enabled by default,  warning demoted to a note. |
@@ -250,10 +254,10 @@ required for Foswiki 1.1 or later.
                   deprecate all jquery versions prior to 1.7.1 \
                   improve docu and integration of scrollto and serialscroll; \
                   removed deprecated foswiki.web, foswiki.topic etc properties |
-|  06 Apr 2012: | (4.33) - Item11511, Item11512:  Minor changes to improve JSON output and Javascript validations.%BR%\
-                   Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR%\
-                   Item11654: JQueryTmpl is discontinued upstream.%BR%\
-                   Item11383: Document jqUIDialogSubmit.%BR%\
+|  06 Apr 2012: | (4.33) - Item11511, Item11512:  Minor changes to improve JSON output and Javascript validations.%BR% \
+                   Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR% \
+                   Item11654: JQueryTmpl is discontinued upstream.%BR% \
+                   Item11383: Document jqUIDialogSubmit.%BR% \
                    Item10383: !JQuerySimpleModal sample window isn't displayed properly. |
 |  20 Dec 2011: | (4.32) - re-release Foswiki 1.1.4 - Item11335 revert spinner changes, Item11371 - close suggestions list. |
 |  12 Dec 2011: | (4.31) - Foswiki 1.1.4 Release. Item11335 JQueryAjaxHelper examples don't work reliably. |
@@ -406,7 +410,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2017 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2019 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
