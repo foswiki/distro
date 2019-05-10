@@ -156,22 +156,22 @@ required for Foswiki 1.1 or later.
 |   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
 |   8 Feb 2017: | (7.22) - Item14312: don't destroy dialogs on close. |
 |  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
-|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. \
-                         - Item14172: jquery.stars width incorrect in modal dialogs. \
-                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). \
-                         - Item14226: Performance improvements to $.i18n(). \
-                         - Item14227: Potential use of uninitialized value in a rating formfield. \
-                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. \
-                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. \
-                         - Item14230: jquery.maskedinput initializer does not match documentation. \
-                         - Item14250: wait for images by default in jquery.masonry. \
+|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. <br />\
+                         - Item14172: jquery.stars width incorrect in modal dialogs. <br />\
+                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). <br />\
+                         - Item14226: Performance improvements to $.i18n(). <br />\
+                         - Item14227: Potential use of uninitialized value in a rating formfield. <br />\
+                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. <br />\
+                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. <br />\
+                         - Item14230: jquery.maskedinput initializer does not match documentation. <br />\
+                         - Item14250: wait for images by default in jquery.masonry. <br />\
                          - Item14251: Remove non-functional caching of dialogs loaded via ajax. |
-|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; \
-                         - Item14120: remove outdate compression tools; \
-                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; \
-                         - Item14122: upgrade to fontawesome 4.6.3; \
-                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; \
-                         - Item14124: make skin of a jquery.loader backend configurable; \
+|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; <br />\
+                         - Item14120: remove outdate compression tools; <br />\
+                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; <br />\
+                         - Item14122: upgrade to fontawesome 4.6.3; <br />\
+                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; <br />\
+                         - Item14124: make skin of a jquery.loader backend configurable; <br />\
                          - Item14171: fix encoding of error message in jquery.render |
 |  10 Apr 2016: | (7.04) - Item14042: it's jquery-1.12.3 not jquey-1.12.3 |
 |  06 Apr 2016: | (7.03) - Item14042: added jQuery-1.12.3 / jQuery-2.2.3 |
