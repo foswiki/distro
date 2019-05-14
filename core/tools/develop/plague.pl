@@ -47,7 +47,7 @@ my $data = Foswiki::Func::expandCommonVariables(<<"SEARCH");
  separator="$sep"}\%
 SEARCH
 
-my $mailFrom = Foswiki::Func::expandCommonVariables("%WIKIWEBMASTER");
+my $mailFrom = Foswiki::Func::expandCommonVariables("%WIKIWEBMASTER%");
 
 # collate search results into %send, keyed by mail address to be notified.
 my %send;
