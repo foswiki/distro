@@ -2606,7 +2606,7 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 # button searches these repositories for installable extensions. To set up an
 # extensions repository:
 #    1 Create a Foswiki web to contain the repository
-#    2 Copy the =FastReport= page from [[https://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web
+#    2 Copy the =JsonReport= page from [[https://foswiki.org/Extensions/JsonReport?raw=on][Foswiki:Extensions.JsonReport]] to your new web
 #    3 Set the =WEBFORMS= preference in WebPreferences to =PackageForm=
 # The page for each extension must have the =PackageForm= (copy from
 # Foswiki.org), and should have the packaged extension attached as a
