@@ -34,6 +34,9 @@ my %expect_non_html = (
     resetpasswd  => 1,
 );
 
+my $HTMLTIDY_version = $HTML::Tidy::VERSION;
+my $libTidy_version  = HTML::Tidy::tidyp_version();
+
 # Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
 # CGI::radio_group() uses HTML3 tables (missing summary attribute) for layout
 # and this makes HTMLTidy cry.
@@ -73,9 +76,6 @@ sub set_up {
             'drop-empty-paras' => 0
         }
     );
-
-    #print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
-    #print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
 
     $this->SUPER::set_up();
 
@@ -460,8 +460,14 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
                 print $fh Encode::encode_utf8($text);
                 close $fh;
             }
-            $this->assert_equals( '', $output,
-"Script $SCRIPT_NAME, skin $SKIN_NAME gave errors, output in $outfile:\n$output"
+            $this->assert_equals(
+                '', $output,
+                "Script $SCRIPT_NAME, skin $SKIN_NAME gave errors,
+
+HTMLTIDY Version: $HTMLTIDY_version
+libtidy_verion:   $libTidy_version
+
+output in $outfile:\n$output"
             );
         }
     }
