@@ -119,7 +119,7 @@ of the [[%FO%/Extensions/CaptchaPlugin][Captcha Plugin]] to the default user reg
 ---+++ New zone added as a default zone.
 
 The =body= zone has been added as a default zone.  It is rendered at the end
-of the body, just before the =&lt;body&gt= tag.  This improves compatibity of PatternSkin with Foswiki:Extensions.NatSkin. A number of extensions released for !NatSkin will not
+of the body, just before the =&lt;body&gt;= tag.  This improves compatibity of PatternSkin with Foswiki:Extensions.NatSkin. A number of extensions released for !NatSkin will not
 function correctly without this zone.   No changes are required unless you
 have replaced the =foswiki.tmpl= or =foswiki.pattern.tmpl= with a local
 version.
