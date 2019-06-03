@@ -234,6 +234,8 @@ HERE
         $variation->{data} = <$FILE>;
         close($FILE);
         $variation->{data} = '' unless defined $variation->{data};
+        $variation->{data} = Foswiki::decode_utf8( $variation->{data} )
+          if $variation->{isdirty};
     }
 
     return $variation;
