@@ -250,11 +250,11 @@ sub cachePage {
     my $lastModified = '';
     my $time         = time();
 
+    $data = Foswiki::encode_utf8($data);
+
     unless ($isDirty) {
         $data =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-        # clean pages are stored utf8-encoded, whether plaintext or zip
-        $data = Foswiki::encode_utf8($data);
         if ( $Foswiki::cfg{HttpCompress} ) {
 
             # Cache compressed page
