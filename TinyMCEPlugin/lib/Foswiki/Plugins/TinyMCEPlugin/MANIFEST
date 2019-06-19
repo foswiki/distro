@@ -1,28 +1,33 @@
-!noci
+Building with BuildContrib 1.91 - 12 Dec 2017 
+Using Foswiki libraries from /var/www/foswiki/distro/core/lib
+Build libraries: /var/www/foswiki/distro/core/lib /var/www/foswiki/distro/core/lib /var/www/foswiki/distro/BuildContrib/lib /home/gac/perl5/perlbrew/perls/perl-5.24.1/lib/site_perl/5.24.1/x86_64-linux /home/gac/perl5/perlbrew/perls/perl-5.24.1/lib/site_perl/5.24.1 /home/gac/perl5/perlbrew/perls/perl-5.24.1/lib/5.24.1/x86_64-linux /home/gac/perl5/perlbrew/perls/perl-5.24.1/lib/5.24.1 .
+Loaded config from /home/gac/.buildcontrib
+# DRAFT /var/www/foswiki/distro/TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST follows:
+################################################
 data/System/TinyMCEFrequentlyAskedQuestions.txt 0644
-data/System/TinyMCEPlugin.txt 0644
-data/System/TinyMCEQuickHelp.txt 0644
-lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0644
-lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
-lib/Foswiki/Plugins/TinyMCEPlugin/Config.spec 0644
-lib/Foswiki/Plugins/TinyMCEPlugin/DEPENDENCIES 0644
-lib/Foswiki/Plugins/TinyMCEPlugin/TinyMCE.pm 0644
-pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
-pub/System/TinyMCEPlugin/foswiki_tiny.js.gz 0644
-pub/System/TinyMCEPlugin/foswiki_tiny.uncompressed.js 0644
+data/System/TinyMCEPlugin.txt 0664
+data/System/TinyMCEQuickHelp.txt 0664
+lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0664
+lib/Foswiki/Plugins/TinyMCEPlugin.pm 0664
+lib/Foswiki/Plugins/TinyMCEPlugin/Config.spec 0664
+lib/Foswiki/Plugins/TinyMCEPlugin/DEPENDENCIES 0664
+lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST.save 0664
+lib/Foswiki/Plugins/TinyMCEPlugin/TinyMCE.pm 0664
+pub/System/TinyMCEPlugin/foswiki_tiny.js 0664
+pub/System/TinyMCEPlugin/foswiki_tiny.js.gz 0664
+pub/System/TinyMCEPlugin/foswiki_tiny.uncompressed.js 0664
 pub/System/TinyMCEPlugin/plugins/FOSWIKI_SPECIFIC_TINYMCE_PLUGINS 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/changeliststyle.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/colour.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/hide.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/insertlink.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/tt.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/img/upload.gif 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js.gz 0644
-pub/System/TinyMCEPlugin/plugins/foswiki/plugin.uncompressed.js 0644
+pub/System/TinyMCEPlugin/plugins/foswiki/img/changeliststyle.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/img/colour.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/img/hide.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/img/insertlink.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/img/tt.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/img/upload.gif 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/plugin.js.gz 0664
+pub/System/TinyMCEPlugin/plugins/foswiki/plugin.uncompressed.js 0664
 pub/System/TinyMCEPlugin/screenshot.png 0644
 pub/System/TinyMCEPlugin/tinymce.gif 0644
-pub/System/TinyMCEPlugin/tinymce/LICENSE.TXT 0644
 pub/System/TinyMCEPlugin/tinymce/changelog.txt 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/jquery.tinymce.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/langs/readme.md 0644
@@ -35,31 +40,15 @@ pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/autosave/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/bbcode/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/charmap/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/code/plugin.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/css/prism.css 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/codesample/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/colorpicker/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/contextmenu/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/directionality/plugin.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cool.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-cry.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-embarassed.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-frown.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-innocent.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-kiss.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-laughing.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-money-mouth.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-sealed.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-smile.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-surprised.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-tongue-out.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-undecided.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-wink.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/img/smiley-yell.gif 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/js/emojis.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/js/emojis.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/emoticons/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullpage/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/fullscreen/plugin.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/help/img/logo.png 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/help/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/hr/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/image/plugin.min.js 0644
@@ -76,6 +65,7 @@ pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/pagebreak/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/paste/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/preview/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/print/plugin.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/quickbars/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/save/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/searchreplace/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/spellchecker/plugin.min.js 0644
@@ -85,31 +75,27 @@ pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/template/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textcolor/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/textpattern/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/toc/plugin.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/css/visualblocks.css 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualblocks/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/visualchars/plugin.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/plugins/wordcount/plugin.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.inline.min.css 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.min.css 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/content.mobile.min.css 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-mobile.woff 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.woff 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.svg 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.ttf 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.woff 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/anchor.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/loader.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/object.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/img/trans.gif 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.min.css 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/lightgray/skin.mobile.min.css 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/inlite/theme.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/content/default/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/content/document/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/content/writer/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/content.inline.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/content.mobile.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/skin.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/skin.mobile.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide-dark/tinymce-mobile.woff 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/content.inline.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/content.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/content.mobile.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/fonts/tinymce-mobile.woff 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/skin.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/skin.mobile.min.css 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/skins/ui/oxide/tinymce-mobile.woff 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/mobile/theme.min.js 0644
-pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/modern/theme.min.js 0644
+pub/System/TinyMCEPlugin/tinymce/js/tinymce/themes/silver/theme.min.js 0644
 pub/System/TinyMCEPlugin/tinymce/js/tinymce/tinymce.min.js 0644
 pub/System/TinyMCEPlugin/watermark_hidden.gif 0644
 pub/System/TinyMCEPlugin/watermark_hidden_verbatim.gif 0644
@@ -118,9 +104,9 @@ pub/System/TinyMCEPlugin/watermark_protect_forever.gif 0644
 pub/System/TinyMCEPlugin/watermark_protect_on_save.gif 0644
 pub/System/TinyMCEPlugin/watermark_verbatim.gif 0644
 pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0644
-pub/System/TinyMCEPlugin/wysiwyg.css 0644
-pub/System/TinyMCEPlugin/wysiwyg.css.gz 0644
-pub/System/TinyMCEPlugin/wysiwyg.uncompressed.css 0644
+pub/System/TinyMCEPlugin/wysiwyg.css 0664
+pub/System/TinyMCEPlugin/wysiwyg.css.gz 0664
+pub/System/TinyMCEPlugin/wysiwyg.uncompressed.css 0664
 pub/System/TinyMCEQuickHelp/Format_Drop_Down.png 0644
 pub/System/TinyMCEQuickHelp/anchor.png 0644
 pub/System/TinyMCEQuickHelp/autosave.png 0644
@@ -132,3 +118,9 @@ pub/System/TinyMCEQuickHelp/link.png 0644
 pub/System/TinyMCEQuickHelp/outdent.png 0644
 pub/System/TinyMCEQuickHelp/table_contextmenu.png 0644
 pub/System/TinyMCEQuickHelp/unlink.png 0644
+################################################
+# Copy and paste the text between the ###### lines into the file
+# /var/www/foswiki/distro/TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST
+# to create an initial manifest. Remove any files
+# that should _not_ be released, and add a
+# description of each file at the end of each line.
