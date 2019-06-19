@@ -57,9 +57,9 @@ editor_selector : "foswikiWysiwygEdit",
 table_default_cellpadding : 0,
 table_default_cellspacing : 1,
 table_default_border : 1,
-theme : "modern",
-skin : "lightgray",
-plugins : "contextmenu table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image textcolor colorpicker",
+theme : "silver",
+skin : "oxide",
+plugins : "table searchreplace save autosave paste fullscreen lists link anchor charmap hr code legacyoutput image",
 external_plugins : {
   foswiki: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/plugin.js"
   },
