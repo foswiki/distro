@@ -424,7 +424,7 @@
                     this.execCommand("mceSave");
             });
             
-            ed.addButton('fwtt', {
+            ed.ui.registry.addButton('fwtt', {
                 title: 'Typewriter text',
                 onclick: function(evt) { ed.formatter.toggle('WYSIWYG_TT'); },
                 image: url + '/img/tt.gif',
@@ -440,7 +440,7 @@
                 && !foswiki.getPreference("TOPIC").match(
                         /(X{10}|AUTOINC[0-9]+)/))
             {
-                ed.addButton('fwupload', {
+                ed.ui.registry.addButton('fwupload', {
                     title: 'Upload attachment',
                     image: url + '/img/upload.gif',
                     onclick: function () {
@@ -451,7 +451,7 @@
             // else browser too old (need HTML5 FormData), or the topic is
             // AUTOINC
             
-            ed.addButton('fwinsertlink', {
+            ed.ui.registry.addButton('fwinsertlink', {
                 title: 'Insert link to attachment',
                 image: url + '/img/insertlink.gif',
                 onclick: function () {
@@ -459,7 +459,7 @@
                 }
             });
             
-            ed.addButton('fwchangelisttype', {
+            ed.ui.registry.addButton('fwchangelisttype', {
                 title: 'Change bullet/number style',
                 image: url + '/img/changeliststyle.gif',
                 onClick: function() { handleChangeListType(ed); },
@@ -474,7 +474,7 @@
 
             });
             
-            ed.addButton('fwhide', {
+            ed.ui.registry.addButton('fwhide', {
                 title: 'Edit Foswiki markup',
                 image: url + '/img/hide.gif',
                 onClick: function () { handleHide(ed); }
