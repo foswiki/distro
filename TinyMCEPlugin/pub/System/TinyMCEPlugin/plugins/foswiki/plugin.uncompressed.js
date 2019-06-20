@@ -369,7 +369,7 @@
     };
 
     
-    // onclick for "fwchangelisttype"
+    // onAction for "fwchangelisttype"
     function handleChangeListType(ed) {
         var node = ed.dom.getParent(
             ed.selection.getStart(), function(f) {
@@ -393,7 +393,7 @@
         }
     }
     
-    // onclick for "fwhide"
+    // onAction for "fwhide"
     function handleHide(ed) {
         if (ed.plugins.fullscreen && ed.plugins.fullscreen.isFullscreen())
             ed.execCommand('mceFullScreen');
@@ -426,9 +426,9 @@
             
             ed.ui.registry.addButton('fwtt', {
                 title: 'Typewriter text',
-                onclick: function(evt) { ed.formatter.toggle('WYSIWYG_TT'); },
+                onAction: function(evt) { ed.formatter.toggle('WYSIWYG_TT'); },
                 image: url + '/img/tt.gif',
-                onpostrender: function() {
+                onSetup: function() {
                     var btn = this;
                     ed.on("NodeChange", function(e) {
                         btn.disabled($(e.element).hasClass('WYSIWYG_TT'));
@@ -443,7 +443,7 @@
                 ed.ui.registry.addButton('fwupload', {
                     title: 'Upload attachment',
                     image: url + '/img/upload.gif',
-                    onclick: function () {
+                    onAction: function () {
                         getListOfAttachments(showUploadDialog);
                     }
                 });
@@ -454,7 +454,7 @@
             ed.ui.registry.addButton('fwinsertlink', {
                 title: 'Insert link to attachment',
                 image: url + '/img/insertlink.gif',
-                onclick: function () {
+                onAction: function () {
                     getListOfAttachments(showInsertLinkDialog);
                 }
             });
@@ -462,8 +462,8 @@
             ed.ui.registry.addButton('fwchangelisttype', {
                 title: 'Change bullet/number style',
                 image: url + '/img/changeliststyle.gif',
-                onClick: function() { handleChangeListType(ed); },
-                onpostrender: function() {
+                onAction: function() { handleChangeListType(ed); },
+                onSetup: function() {
                     var btn = this;
                     ed.on("NodeChange", function(e) {
                         btn.disabled(
@@ -477,7 +477,7 @@
             ed.ui.registry.addButton('fwhide', {
                 title: 'Edit Foswiki markup',
                 image: url + '/img/hide.gif',
-                onClick: function () { handleHide(ed); }
+                onAction: function () { handleHide(ed); }
             });
         },
 
