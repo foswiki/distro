@@ -1,27 +1,5 @@
-%TMPL:DEF{"messagetmpl"}%<script id="foswikiUpdatesTmpl" type="text/x-jsrender"> 
-<div class="foswikiBroadcastMessage foswikiUpdatesMessage">
-%TMPL:P{"messagetmpl::icon"}%
-%TMPL:P{"messagetmpl::text"}%
-%TMPL:P{"messagetmpl::buttons"}%
-%CLEAR%
-</div>
-</script>%TMPL:END%
+%TMPL:DEF{"updates::message"}%<noautolink>%TMPL:P{"updates::message::icon"}% %TMPL:P{"updates::message::text"}% %TMPL:P{"updates::message::buttons"}%</noautolink>%TMPL:END%
 
-%TMPL:DEF{"messagetmpl::icon"}%%JQICON{"error"}%%TMPL:END%
-%TMPL:DEF{"messagetmpl::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s): [_2]" args="{{:nrPlugins}}, {{:outdatedPlugins}}"}%%TMPL:END%
-%TMPL:DEF{"messagetmpl::buttons"}%<a href="%SCRIPTURLPATH{configure}%">%JQICON{"tick"}% %MAKETEXT{"Upgrade"}%</a>
-<a href="#" id="foswikiUpdatesIgnore">%JQICON{"cross"}% %MAKETEXT{"Ignore for 7 days"}%</a>%TMPL:END%
-
-%TMPL:DEF{"css"}%<style type="text/css">
-.foswikiBroadcastMessage.foswikiUpdatesMessage {
-  display:none;
-  z-index:10000;
-  margin-bottom:0;
-  border-top:0;
-  border-left:0;
-  border-right:0;
-}
-.foswikiUpdatesMessage a {
-  margin-left: 1em;
-}
-</style>%TMPL:END%
+%TMPL:DEF{"updates::message::icon"}%%JQICON{"error"}%%TMPL:END%
+%TMPL:DEF{"updates::message::text"}%%MAKETEXT{"Warning: Updates found for [_1] extension(s): [_2]" args="$nrPlugins, $outdatedPlugins"}%%TMPL:END%
+%TMPL:DEF{"updates::message::buttons"}%... <a href="%SCRIPTURLPATH{configure}%">%MAKETEXT{"Upgrade"}%</a>%TMPL:END%
