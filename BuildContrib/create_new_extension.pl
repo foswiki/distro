@@ -3,7 +3,7 @@
 #
 # Author: Crawford Currie http://c-dot.co.uk
 #
-# Copyright (C) 2008-2013 FoswikiContributors. All rights reserved.
+# Copyright (C) 2008-2019 FoswikiContributors. All rights reserved.
 # FoswikiContributors are listed in the AUTHORS file in the root of
 # the distribution.
 #

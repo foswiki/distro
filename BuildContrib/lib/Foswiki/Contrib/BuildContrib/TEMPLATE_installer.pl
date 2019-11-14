@@ -2,7 +2,7 @@
 #
 # Install script for %$MODULE%
 #
-# Copyright (C) 2004-2015 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2004-2019 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root of
 # this distribution. NOTE: Please extend that file, not this notice.
 #
