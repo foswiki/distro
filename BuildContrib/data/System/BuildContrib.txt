@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512466074" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1573735696" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <img src="%ATTACHURLPATH%/logo.gif" alt="WikiRing" class="foswikiRight" />
@@ -178,14 +178,14 @@ Usually only used if your extension includes Javascript or CSS, this target
 to generate another that is functionally identical, but smaller for faster
 download. It will search for an avaliable minifier:
 
-   * [[https://npmjs.org/package/uglify-js][UglifyJS]] *Recommended*
-   * [[http://www.yuiblog.com/blog/2012/10/16/state-of-yui-compressor/][yuicompressor]]
-   * CPAN:JavaScript::Minifier and CPAN:CSS::Minifier
+   * [[https://npmjs.org/package/terser][terser]] *Recommended*
+   * [[https://npmjs.org/package/uglify-js][uglifyjs]] 
+   * [[https://npmjs.org/package/cssmin][cssmin]] 
 
 To make the recommended compressor avaliable on your system, first install
 [[http://nodejs.org/][Node.js]],   and then use "npm" to install the
-compressors:  =npm install -g uglifyjs=  and =npm install -g cssmin=
-This will install both uglify and !MinCSS.
+compressors:  =npm install -g terser=  and =npm install -g cssmin=
+This will install both terser and !MinCSS.
 
 The compression can work with a number of different naming schemes, depending
 on what files you refer to in your MANIFEST. For example, the name mappings
@@ -657,11 +657,11 @@ Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo2
 See the repository for full change history.
 
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512466074" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1512466074" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1573735696" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1573735696" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2019, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
