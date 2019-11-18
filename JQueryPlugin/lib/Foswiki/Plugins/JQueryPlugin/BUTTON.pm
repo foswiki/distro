@@ -33,7 +33,7 @@ sub new {
             tags         => 'BUTTON',
             css          => ['jquery.button.css'],
             javascript   => ['jquery.button.init.js'],
-            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::FORM' ],
+            dependencies => [ 'metadata', 'JQUERYPLUGIN::FORM' ],
         ),
         $class
     );
@@ -143,6 +143,12 @@ sub handleButton {
     $result .= " title='$theTitle' "         if $theTitle;
     $result .= " style='$theStyle' "         if $theStyle;
     $result .= " onclick=\"$theOnClick\" "   if $theOnClick;
+
+    while ( my ( $key, $val ) = each %$params ) {
+        if ( $key =~ s/^data_/data-/ ) {
+            $result .= " $key='$val'";
+        }
+    }
 
     $result .= ">$theIcon$theText</a>";
     $result .= "<input type='submit' style='display:none' />"

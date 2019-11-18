@@ -32,7 +32,7 @@ sub new {
             author       => 'Andrea Ercolino',
             homepage     => 'https://github.com/aercolino/Chili',
             javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

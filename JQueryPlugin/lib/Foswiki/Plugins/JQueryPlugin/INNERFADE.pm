@@ -32,7 +32,7 @@ sub new {
             author     => 'Torsten Baldes',
             homepage   => 'http://medienfreunde.com/lab/innerfade',
             javascript => [ 'jquery.innerfade.js', 'jquery.innerfade.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

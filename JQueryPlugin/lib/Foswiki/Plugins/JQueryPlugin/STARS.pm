@@ -27,14 +27,13 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'Stars',
-            version    => '2.20',
-            author     => 'Michael Daum',
-            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
-            css        => [ 'jquery.stars.css', ],
-            javascript => [ 'jquery.stars.js', ],
-            dependencies =>
-              [ 'metadata', 'livequery', 'sprintf', 'mousewheel' ],
+            name         => 'Stars',
+            version      => '2.20',
+            author       => 'Michael Daum',
+            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+            css          => [ 'jquery.stars.css', ],
+            javascript   => [ 'jquery.stars.js', ],
+            dependencies => [ 'metadata', 'sprintf', 'mousewheel' ],
         ),
         $class
     );

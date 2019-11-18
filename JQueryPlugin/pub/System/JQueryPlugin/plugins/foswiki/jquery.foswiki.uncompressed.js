@@ -1,6 +1,6 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 2.13
+ * Version: 2.14
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
@@ -32,7 +32,7 @@ var foswiki = foswiki || {
           "^[" + foswiki.RE.upper + "]+" +
           "[" + foswiki.RE.lower + foswiki.RE.digit + "]+" +
           "[" + foswiki.RE.upper + "]+" +
-          "[" + foswiki.RE.alnum + "]*");
+          "[" + foswiki.RE.alnum + "]*$");
 
 
   /**

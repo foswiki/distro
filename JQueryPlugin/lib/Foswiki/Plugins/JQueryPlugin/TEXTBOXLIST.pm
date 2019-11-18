@@ -34,7 +34,7 @@ sub new {
             css      => ['jquery.textboxlist.css'],
             javascript =>
               [ 'jquery.textboxlist.js', 'jquery.textboxlist.init.js' ],
-            dependencies => [ 'ui', 'metadata', 'livequery' ],
+            dependencies => [ 'ui', 'metadata' ],
         ),
         $class
     );

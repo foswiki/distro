@@ -91,17 +91,17 @@ sub init {
 
         $code = <<"HERE";
 <literal><!--[if lte IE 9]>
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
 <![endif]-->
 <!--[if gt IE 9]><!-->
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 <!--<![endif]-->
 </literal>
 HERE
     }
     else {
         $code = <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 HERE
     }
 
@@ -111,14 +111,14 @@ HERE
         $noConflict .= ".uncompressed" if $debug;
 
         $code .= <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
 HERE
     }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
 
     # initial plugins
-    createPlugin('Foswiki');    # this one is needed anyway
+    createPlugin('foswiki');    # these are needed anyway
 
     my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
     if ($defaultPlugins) {
@@ -280,7 +280,9 @@ sub load {
 
     unless ( defined $pluginDesc->{instance} ) {
 
-        eval "require $pluginDesc->{class};";
+        my $path = $pluginDesc->{class} . '.pm';
+        $path =~ s/::/\//g;
+        eval { require $path };
 
         if ($@) {
             Foswiki::Func::writeDebug(

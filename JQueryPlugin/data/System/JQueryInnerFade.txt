@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"innerfade"
@@ -27,7 +27,7 @@ animation.
     <li>content 3</li>
 </ul>
 
-<script type="text/javascript">
+<script>
 $('#news').innerfade({
     animationtype:
       Type of animation 'fade' or 'slide'
@@ -73,8 +73,8 @@ Use the ==jqInnerfade== to mark those elements you want to generate an inner-fad
 <img src="%ATTACHURLPATH%/tuev.jpg" alt="T&Uuml;V S&Uuml;D Gruppe" />
 </div>
 
-%META:FILEATTACHMENT{name="whizzkids.gif" attr="h" comment="" date="1456220586" size="8944" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="tuev.jpg" attr="h" comment="" date="1456220586" size="37477" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ggbg.gif" attr="h" comment="" date="1456220586" size="4536" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="rt_arch.jpg" attr="h" comment="" date="1456220586" size="40334" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="km.jpg" attr="h" comment="" date="1456220586" size="13645" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whizzkids.gif" attr="h" comment="" date="1574078050" size="8944" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="tuev.jpg" attr="h" comment="" date="1574078050" size="37477" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ggbg.gif" attr="h" comment="" date="1574078050" size="4536" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="rt_arch.jpg" attr="h" comment="" date="1574078050" size="40334" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="km.jpg" attr="h" comment="" date="1574078050" size="13645" user="ProjectContributor" version="1"}%

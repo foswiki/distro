@@ -2,31 +2,40 @@ FOSWIKI_ROOT?=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
+BUILD_DIR=.
+ifneq (,$(wildcard build))
+  BUILD_DIR=build
+  VPATH:=:$(BUILD_DIR)
+endif
+
+SRC_DIR=.
+ifneq (,$(wildcard src))
+  SRC_DIR=src
+  VPATH:=$(VPATH):$(SRC_DIR)
+endif
+
+ifneq (,$(wildcard lib))
+  LIB_DIR=lib
+  VPATH:=$(VPATH):$(LIB_DIR)
+endif
+
 GZIP=gzip
 CAT=cat
-PATCH=patch
 DEBUG=false
 
 NPM_INSTALL=npm install -g
-UGLIFYJS=uglifyjs -m -c --
+JSMIN=terser -m -c --
 CSSMIN=cssmin
 ESLINT=eslint -f compact
 SASS=node-sass --output-style expanded
-BABEL=babel --presets=env
-BABELIFY=$(FOSWIKI_ROOT)/tools/babelify
 
 DEV_DEPENDENCIES=\
-  babel-core \
-  babel-cli \
-  babelify \
-  babel-preset-env \
-  browserify \
   cssmin \
   eslint \
   sass \
-  uglify-js 
+  terser
 
-.SUFFIXES: .js .css .jslint .es6 .install
+.SUFFIXES: .js .css .jslint .install
 .PHONY: subdirs $(SUBDIRS) deps
 
 all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
@@ -38,47 +47,43 @@ deps:
 jslint: subdirs $(TARGET:.js=.jslint) 
 	@echo -n ""
 
-%.jslint: %.uncompressed.js
+$(SRC_DIR)/%.jslint: %.uncompressed.js
 	@echo checking code quality of $<
 	@$(ESLINT) $< && touch $@
 
-%.jslint: %_src.js
+$(SRC_DIR)/%.jslint: %_src.js
 	@echo checking code quality of $<
 	@$(ESLINT) $< && touch $@
 
-%.js: %.uncompressed.js
+$(BUILD_DIR)/%.js: %.uncompressed.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(UGLIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-%.uncompressed.js: %.es6
-	@echo compiling $@ from $<; $(BABEL) $< -o $@
-
-%.js: %_src.js
+$(BUILD_DIR)/%.js: %_src.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(UGLIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-%.gz: %
+$(BUILD_DIR)/%.gz: %
 	@echo zipping $< to $@
 	@$(GZIP) -c $< > $@
 
-%.css: %.uncompressed.css
+$(BUILD_DIR)/%.css: %.uncompressed.css
 	@echo minifying $@ from $<
 	@$(CSSMIN) $< > $@
 
-%.uncompressed.css: %.scss
+$(BUILD_DIR)/%.uncompressed.css: %.scss
 	@echo sassing $@ from $<
 	@$(SASS) $< > $@
 
-%.css: %_src.css
+$(BUILD_DIR)/%.css: %_src.css
 	@echo minifying $@ from $<
 	@$(CSSMIN) $< > $@
-
 
 subdirs: $(SUBDIRS)
 

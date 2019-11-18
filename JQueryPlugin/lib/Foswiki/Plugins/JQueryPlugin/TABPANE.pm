@@ -35,7 +35,7 @@ sub new {
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'livequery', 'easing' ],
+            dependencies => ['easing'],
         ),
         $class
     );
@@ -144,7 +144,7 @@ sub handleTab {
     my $script = '';
     if (@callbacks) {
         $script =
-            "<literal><script type='text/javascript'>"
+            "<literal><script>"
           . ( join( "\n", @callbacks ) )
           . "</script></literal>\n";
     }

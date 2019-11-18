@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479806319" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"pnotify"
@@ -77,7 +77,7 @@ The plugin uses the jQuery UI CSS library for styling, which means it is fully a
    * <a href="#" onclick="showMessage('Note', 'This is a notification. Click again to see more.');return false;">a customized one</a>
    * <a href="#" class="pnotifyExample5">an animated info message</a>
 
-%ADDTOZONE{"script" id="%TOPIC%" requires="JQUERYPLUGIN::PNOTIFY" text="<script type='text/javascript'>
+%ADDTOZONE{"script" id="%TOPIC%" requires="JQUERYPLUGIN::PNOTIFY" text="<script>
 var showMessage
 jQuery(function($) {
 
@@ -151,7 +151,7 @@ jQuery(function($) {
      $.pnotify(opts);
    };
 });
-</script>"}%%ADDTOZONE{"head" id="%TOPIC%" text="<style type='text/css'>
+</script>"}%%ADDTOZONE{"head" id="%TOPIC%" text="<style>
 .ui-pnotify.stack-topleft {
    top: 15px;
    left: 15px;

@@ -33,7 +33,7 @@ sub new {
             homepage     => 'https://github.com/cbeyls/slimbox',
             css          => ['slimbox2.css'],
             javascript   => [ 'slimbox2.js', 'slimbox2.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

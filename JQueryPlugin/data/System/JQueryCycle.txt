@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"cycle"
@@ -162,7 +162,7 @@ Use these in the =fx= option.
 </div>
 </div>
 
-<style type="text/css">
+<style>
 .pics  {  
  width:232px;
  height:272px;
@@ -182,6 +182,6 @@ Use these in the =fx= option.
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="beach1.jpg" attr="h" comment="" date="1456220586" size="20327" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach2.jpg" attr="h" comment="" date="1456220586" size="21480" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach3.jpg" attr="h" comment="" date="1456220586" size="22629" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach1.jpg" attr="h" comment="" date="1574078050" size="20327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach2.jpg" attr="h" comment="" date="1574078050" size="21480" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach3.jpg" attr="h" comment="" date="1574078050" size="22629" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1461624105" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"masonry"
@@ -141,7 +141,7 @@ See more demos at http://masonry.desandro.com/
 </div>
 
 <literal>
-<style type="text/css">
+<style>
 .box {
    margin-bottom:1em;
    padding: 0.5em;
@@ -155,4 +155,4 @@ See more demos at http://masonry.desandro.com/
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1461624105" size="35840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1574078050" size="35840" user="ProjectContributor" version="1"}%

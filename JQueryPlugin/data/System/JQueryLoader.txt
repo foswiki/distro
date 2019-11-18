@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1547112854" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -10,8 +10,7 @@
 }%
 
 %STARTSECTION{"summary"}%
-This plugin allows to delay rendering parts of a page that are loaded later on asynchronously
-and patched into the page.
+This plugin allows to reload parts of a page, either automatically or manually.
 %ENDSECTION{"summary"}%
 
 %TOC%
@@ -19,7 +18,7 @@ and patched into the page.
 ---++ Usage
 
 Add the =%<nop>JQREQUIRE{"loader"}%= macro to the page that you want to use this module on.
-Then add the ==jqLoader== css class to the div (or verbatim) element which will serve as
+Then add the ==jqLoader== css class to the div element which will serve as
 a container for the content to be loaded. Any ==jqLoader== container requires either
 an ==url== or a ==section== parameter to specify the location from where to load the content.
 
@@ -37,9 +36,7 @@ Parameter are specified using HTML5 data, as in
 | select | jQuery selector to extract a specific node from the retrieved data | |
 | params | url parameter that are sent to the server | ={"skin":"text"}= |
 | mode | specify whether the content is either loaded automatically or by clicking on the container; \
-         possible values: =auto=, =manual= | =auto= |
-| placeholder | the image to be displayed as long as the content hasn't been loaded \
-              | <img src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner.gif' width='16' height='16' /> |
+         possible values: =auto=, =manual= | =manual= |
 | show-effect | the effect used when showing the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeIn= |
 | hide-effect | the effect when hiding the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeOut= |
 | delay | additional time in miliseconds to delay fetching the content from the content; specifying =0= means load the content immediately; any other value will wait that time until issuing the request | 0 |
@@ -61,9 +58,7 @@ events can be used to hook your own callbacks to be processed when they are fire
 <verbatim class="tml">
 %JQREQUIRE{"loader"}%
 <div class="jqLoader" data-section="recentchanges" id="myLoader">
-<verbatim>
-%STARTSECTION{"recentchanges"}%<!-- -->
-%SEARCH{
+%STARTSECTION{"recentchanges"}%%SEARCH{
     "'1'" 
     web="%BASEWEB%" 
     type="query" 
@@ -72,16 +67,14 @@ events can be used to hook your own callbacks to be processed when they are fire
     reverse="on"
     limit="10"
     format="<p class='foswikiSearchResult'>[[$web.$topic]] $date - $rev - $wikiusername</p>"
-}%
-<!-- -->%ENDSECTION{"recentchanges"}%
-</verbatim>
+}%%ENDSECTION{"recentchanges"}%
 </div>
 </verbatim>
 
 ... if installed:
 
 %JQREQUIRE{"loader"}%
-<div class="jqLoader" id="myLoader" data-section="recentchanges" data-effect="bounce"></div>
+<div class="jqLoader" id="myLoader" data-section="recentchanges" data-effect="bounce" data-mode="auto"></div>
 
 <div class="foswikiLeft">
   <b>Effect:</b>

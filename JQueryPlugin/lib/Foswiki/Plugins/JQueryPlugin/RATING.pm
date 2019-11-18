@@ -33,7 +33,7 @@ sub new {
             homepage     => 'http://www.fyneworks.com/jquery/star-rating/',
             css          => ['jquery.rating.css'],
             javascript   => [ 'jquery.rating.js', 'jquery.rating.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

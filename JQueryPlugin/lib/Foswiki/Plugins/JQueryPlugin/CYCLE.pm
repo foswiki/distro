@@ -32,7 +32,7 @@ sub new {
             author       => 'M. Alsup',
             homepage     => 'http://www.malsup.com/jquery/cycle',
             javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

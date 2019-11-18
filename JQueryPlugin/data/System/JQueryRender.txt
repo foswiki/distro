@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1473163832" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -74,7 +74,7 @@ See how this works out:
   </p>
 </script>
 
-%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::PERSONS" text="<script type='text/javascript'>
+%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::PERSONS" text="<script>
 var arrayOfPersons = [
    {
       firstName:'David',
@@ -118,7 +118,7 @@ Imagine doing the same using DOM plumbing...
   <li>{{:firstName}} {{:lastName}}</li>
 </script>
 
-%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::INIT" text="<script type='text/javascript'>
+%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::INIT" text="<script>
 jQuery(function($) {
    $('#container2').html($('#personTemplate2').render(arrayOfPersons));
 });
@@ -160,4 +160,4 @@ and return the rendered template.
 | ={{<nop>!-- ... --}}= | comments to templates, or commenting out sections of a template | ={{!-- this is a comment --}}= |
 
 
-%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1473163859" size="1241" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1574078050" size="1241" user="ProjectContributor" version="1"}%

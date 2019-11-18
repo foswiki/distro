@@ -35,7 +35,7 @@ sub new {
                 'jquery.treeview.js', 'jquery.treeview.async.js',
                 'jquery.treeview.init.js'
             ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

@@ -27,13 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Animate',
-            version      => '3.7.0',
-            author       => 'Daniel Eden',
-            homepage     => 'http://daneden.me/animate',
-            css          => ['animate.css'],
-            javascript   => ['animate.js'],
-            dependencies => ['livequery'],
+            name       => 'Animate',
+            version    => '3.7.0',
+            author     => 'Daniel Eden',
+            homepage   => 'http://daneden.me/animate',
+            css        => ['animate.css'],
+            javascript => ['animate.js'],
         ),
         $class
     );

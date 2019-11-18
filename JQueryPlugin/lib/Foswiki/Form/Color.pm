@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Color;
-use Foswiki::Form::FieldDefinition;
-our @ISA = qw( Foswiki::Form::FieldDefinition );
-
-use Foswiki::Plugins::JQueryPlugin ();
 
 use strict;
 use warnings;
+
+use Foswiki::Plugins::JQueryPlugin ();
+use Foswiki::Form::FieldDefinition;
+our @ISA = qw( Foswiki::Form::FieldDefinition );
 
 sub new {
     my $class = shift;

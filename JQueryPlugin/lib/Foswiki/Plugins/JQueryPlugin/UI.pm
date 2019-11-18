@@ -34,7 +34,7 @@ sub new {
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/',
             javascript   => [ 'jquery-ui.js', ],
-            dependencies => [ 'metadata', 'livequery', 'easing' ],
+            dependencies => [ 'metadata', 'easing' ],
         ),
         $class
     );

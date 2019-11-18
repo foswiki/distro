@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1513534380" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -85,7 +85,7 @@ template.link("#result", data);
 </div>
 </script>
 
-<script type="text/javascript">
+<script>
 (function($) {
   var data = [
     {

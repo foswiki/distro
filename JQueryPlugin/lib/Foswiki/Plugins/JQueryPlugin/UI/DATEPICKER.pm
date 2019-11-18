@@ -33,7 +33,7 @@ sub new {
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/datepicker/',
             javascript   => ['jquery.ui.datepicker.init.js'],
-            dependencies => [ 'ui', 'livequery' ],
+            dependencies => ['ui'],
         ),
         $class
     );
@@ -67,7 +67,7 @@ sub init {
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::UI::LANG",
             <<"HERE", 'JQUERYPLUGIN::UI' );
-<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
+<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
 HERE
     }
 }
