@@ -182,8 +182,7 @@ sub renderJS {
     $text =~ s/\.js$/.uncompressed.js/
       if $this->{debug} && $text !~ /(\.uncompressed|_src|\.dev)\./;
     $text .= '?version=' . $this->{version};
-    $text =
-      "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
+    $text = "<script src='$this->{puburl}/$text'></script>\n";
 
     return $text;
 }

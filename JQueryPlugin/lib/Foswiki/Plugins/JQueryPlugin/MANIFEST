@@ -439,11 +439,8 @@ pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js 0644
 pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js.gz 0644
 pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/livequery/Makefile 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.css 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.css.gz 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.js 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.js.gz 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/loader/Makefile 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js 0644

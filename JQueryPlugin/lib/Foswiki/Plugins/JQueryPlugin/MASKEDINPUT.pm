@@ -33,7 +33,7 @@ sub new {
             homepage => 'http://digitalbush.com/projects/masked-input-plugin',
             javascript =>
               [ 'jquery.maskedinput.js', 'jquery.maskedinput.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

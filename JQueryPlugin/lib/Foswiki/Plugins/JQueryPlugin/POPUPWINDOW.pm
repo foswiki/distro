@@ -34,7 +34,6 @@ sub new {
             tags     => 'POPUPWINDOW',
             javascript =>
               [ 'jquery.popupwindow.js', 'jquery.popupwindow.init.js' ],
-            dependencies => ['livequery'],
         ),
         $class
     );

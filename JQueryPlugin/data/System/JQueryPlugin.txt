@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1556794284" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,17 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  18 Nov 2019: | (9.20) - Item14874: deprecate uglify-js and yuicompressor in favor of terser %BR%\
+                         - Item14875: remove =type/javascript= and =type/css= as per html5; \
+                                      fixes to jquery ajax helpers when no results were found; \
+                                      fixes for perl critiques; \
+                                      add html5 data support for %BUTTON; \
+                                      remove explicit and useless dependency on livequery; \
+                                      add BUILD_DIR, LIB_DIR and SRC_DIR support in Makefile system; \
+                                      removed babel tools from Makefile system; \
+                                      fixed wikiword regex; \
+                                      improved loader plugin to make it more usable; \
+                                      upgraded third party plugins images-loaded and masonry |
 |  02 May 2019: | (9.10) - Item14837: updated animate.css %BR% \
 			   Item14838: add remember parameter to tabpane %BR% \
 			   Item14839: fix default value in textboxlist formfields %BR% \

@@ -2,9 +2,7 @@
 jQuery(function($) {
 
   $(".jqButton:not(.jqInitedButton)").livequery(function() {
-    var $this = $(this), 
-      opts = $.extend({}, $this.data(), $this.metadata()),
-      form;
+    var $this = $(this), form;
 
     $this.addClass("jqInitedButton")
       .on("mouseenter", function() {

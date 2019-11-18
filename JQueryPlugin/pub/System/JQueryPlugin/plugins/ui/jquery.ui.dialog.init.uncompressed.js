@@ -8,7 +8,8 @@ jQuery(function($) {
     draggable:false,
     resizable:false,
     closeOnEscape:false,
-    show:'fade'
+    show:'fade',
+    debug: false
   };
 
   // dialog
@@ -70,7 +71,12 @@ jQuery(function($) {
       opts.draggable = false;
     }
 
+    if (opts.debug && console) {
+      console.log("opts=",opts);
+    }
+
     $this.removeClass("jqUIDialog").dialog(opts);
+
     if (opts.alsoResize) {
       $this.dialog("widget").bind("resize", function(ev, ui) {
         var deltaHeight = ui.size.height - ui.originalSize.height || 0,

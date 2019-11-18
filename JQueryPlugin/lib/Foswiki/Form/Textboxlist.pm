@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Textboxlist;
 
+use strict;
+use warnings;
+
 use Foswiki::Form::ListFieldDefinition;
 our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
-
-use strict;
-use warnings;
 
 sub new {
     my $class = shift;
@@ -44,9 +44,9 @@ sub renderForEdit {
             $metadata = "{autocomplete: '$values[0]'}";
         }
         else {
-            $metadata =
-                "{autocomplete: ['"
-              . join( "', '", map { $_ =~ s/(["'])/\\$1/g; $_ } @values )
+            $metadata = "{autocomplete: ['"
+              . join( "', '",
+                map { my $tmp = $_; $tmp =~ s/(["'])/\\$1/g; $tmp } @values )
               . "']}";
         }
     }

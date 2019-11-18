@@ -27,12 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Corner',
-            version      => '2.12',
-            author       => 'Dave Methvin, Mike Alsup',
-            homepage     => 'http://jquery.malsup.com/corner',
-            javascript   => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
-            dependencies => ['livequery'],
+            name       => 'Corner',
+            version    => '2.12',
+            author     => 'Dave Methvin, Mike Alsup',
+            homepage   => 'http://jquery.malsup.com/corner',
+            javascript => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
         ),
         $class
     );

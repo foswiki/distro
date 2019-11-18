@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1473163788" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"fluidfont"
@@ -54,7 +54,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis neque i
 
 <verbatim class="tml">
 %STARTSECTION{"fluidfont"}%
-<script type="text/javascript">
+<script>
 jQuery(function($) {
   alert("Switching on fluid font for the body element. \n Resize the browser window to see the effect.");
   $("body").fluidfont({

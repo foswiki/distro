@@ -1,5 +1,5 @@
 /*
- * jQuery textbox list plugin 2.21
+ * jQuery textbox list plugin 2.22
  *
  * Copyright (c) 2009-2019 Foswiki Contributors http://foswiki.org
  *
@@ -265,7 +265,7 @@
       title = self.titleOfValue["_"+val] || val;
       $.log("TEXTBOXLIST: val="+val+" title="+title);
       className = "tag_"+title.replace(/["' ]/, "_");
-      input = $("<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />");
+      input = $("<input type='hidden' name='"+self.opts.inputName+"' title='"+title+"' />").val(val);
       if (self.input.is(".foswikiMandatory")) {
         input.addClass("foswikiMandatory");
       }

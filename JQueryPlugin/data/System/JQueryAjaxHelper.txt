@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512569664" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -154,7 +154,7 @@ Jump to specific topics.
 The following section is used by the section above; it adds a special Javascript function to the page.
 <verbatim class="tml">
 %STARTSECTION{"jumpbox::js"}%<literal>
-<script type="text/javascript">
+<script>
 jQuery(function($){
   $(".jqJumpBox").each(function() {
     var $this = $(this), 
@@ -219,7 +219,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 The following section is used by the section above; it adds a special Javascript function to the page.
 <verbatim class="tml">
 %STARTSECTION{"userselector::js"}%<literal>
-<script type="text/javascript">
+<script>
 jQuery(function($){
   $(".jqUserSelector").data("ui-autocomplete")._renderItem = function(ul, item) {
     if (typeof(item.label) !== 'undefined') {
@@ -238,7 +238,7 @@ jQuery(function($){
    * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
-%STARTSECTION{"user"}%<literal>%FORMAT{
+%STARTSECTION{"user"}%<literal>[%FORMAT{
   "%SEARCH{
      ".*%URLPARAM{"term" default="does not exist"}%.*"
      type="regex"
@@ -253,7 +253,6 @@ jQuery(function($){
      web="%USERSWEB%"
   }%"
   type="string"
-  header="[$n"
   format="  {\"label\":\"<nop>$item\", 
     \"email\":\"$percntUSERINFO{\"$item\" format=\"$emails\"}$percnt\", 
     \"img\":\"$percntFORMFIELD{\"Photo\" 
@@ -263,9 +262,7 @@ jQuery(function($){
     }$percnt\"
   }"
   separator=",$n"
-  footer="$n]"
-}%
-</literal>%ENDSECTION{"user"}%
+}%]</literal>%ENDSECTION{"user"}%
 </verbatim>
 
 ---+++ Example
@@ -293,7 +290,7 @@ or later).
   tag="query::js"
   requires="JQUERYPLUGIN"
   text ="<literal>
-<script type=\"text/javascript\">
+<script>
 jQuery(function($){
   $(\"#%ID%\").click(function() {
      $.get(foswiki.getScriptUrl('view', foswiki.getPreference('SYSTEMWEB'), 'JQueryAjaxHelper', {

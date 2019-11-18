@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 3.01
+ * jQuery Loader plugin 4.00
  *
  * Copyright (c) 2011-2019 Foswiki Contributors http://foswiki.org
  *
@@ -9,19 +9,17 @@
  *
  */
 "use strict";
-jQuery(function($) {
+(function($) {
 
   // global defaults
   var defaults = {
-    mode: 'auto', // auto, manual
-    placeholder: "<img src='"+foswiki.getPreference("PUBURLPATH")+"/System/JQueryPlugin/images/spinner.gif' width='16' height='16' />",
+    mode: 'manual', // auto, manual
     url: undefined,
-    params: undefined,
+    params: {},
     topic: undefined,
     section: undefined,
     skin: 'text',
     select: undefined,
-    minHeight: 0,
     hideEffect: 'fadeOut', 
     showEffect: 'fadeIn', 
     reloadAfter: 0,
@@ -35,56 +33,58 @@ jQuery(function($) {
   function JQLoader(elem, opts) {
     var self = this;
 
-    self.element = elem;
+    self.elem = $(elem);
+    self.container = self.elem.contents().wrapAll("<div class='jqLoaderContainer'></div>");
     self.opts = $.extend({}, defaults, opts);
 
     self.init();
 
     if (self.opts.mode === 'auto') {
       self.loadAfter();
+    } else {
+      if (self.opts.reloadAfter) {
+        self.loadAfter(self.opts.reloadAfter);
+      }
     }
   }
 
   // init method
   JQLoader.prototype.init = function() {
-    var self = this,
-        $elem = $(self.element);
+    var self = this;
 
     // add refresh listener
-    $elem.on("refresh.jqloader", function(e, opts) {
+    self.elem.on("refresh.jqloader", function(e, opts) {
       $.extend(self.opts, opts);
-      self.loadAfter();
+      self.loadAfter(0);
     });
 
     // add onload listener 
     if (typeof(self.opts.onload) === 'function') {
-      $elem.bind("onload.jqloader", function() {
+      self.elem.on("onload.jqloader", function() {
         self.opts.onload.call(self);
       });
     }
     
     // add beforeload listener 
     if (typeof(self.opts.beforeload) === 'function') {
-      $elem.bind("beforeload.jqloader", function() {
+      self.elem.on("beforeload.jqloader", function() {
         self.opts.beforeload.call(self);
       });
     }
     
     // add finished listener 
     if (typeof(self.opts.finished) === 'function') {
-      $elem.bind("finished.jqLoader", function() {
+      self.elem.on("finished.jqLoader", function() {
         self.opts.finished.call(self);
       });
     }
 
     // add auto-reloader
     if (self.opts.reloadAfter) {
-      $elem.bind("finished.jqLoader", function() {
+      self.elem.on("finished.jqLoader", function() {
         self.loadAfter(self.opts.reloadAfter);
       });
     }
-
-    self.prepareContainer();
   };
 
   // delayed loading 
@@ -107,47 +107,17 @@ jQuery(function($) {
     }
   };
 
-  // prepares the container
-  JQLoader.prototype.prepareContainer = function() {
-    var self = this,
-        $elem = $(self.element),
-        $placeholder;
-
-
-    if (typeof(self.opts.placeholder) !== 'undefined' && self.opts.placeholder !== '') {
-      $placeholder = $(decodeURI(self.opts.placeholder)).hide();
-      $placeholder.insertBefore($elem);
-
-      // listen to beforeload event to show the placeholder
-      $elem.bind("beforeload.jqloader", function() {
-        $placeholder.show();
-      });
-
-      // listen to onload event to hide the placeholder
-      $elem.bind("onload.jqloader", function() {
-        $placeholder.hide();
-      });
-
-      // add clickhandler to placeholder when not in auto mode
-      if (self.opts.mode !== 'auto') {
-        $placeholder.click(function() {
-          $elem.trigger("refresh.jqloader", self);
-        });
-      }
-    } 
-  };
-
   // load method
   JQLoader.prototype.load = function() {
     var self = this,
-        $elem = $(self.element),
         web = self.opts.web || foswiki.getPreference("WEB"),
         topic = self.opts.topic || foswiki.getPreference("TOPIC"),
-        params = $.extend({}, self.opts.params);
+        params = $.extend({}, self.opts.params),
+        url = self.opts.url;
 
-    // construct url
-    if (typeof(self.opts.url) === 'undefined') {
-      self.opts.url = foswiki.getScriptUrl("view", web, topic);
+    // construct url and params
+    if (typeof(url) === 'undefined') {
+      url = foswiki.getScriptUrl("view", web, topic);
     }
 
     if (typeof(self.opts.section) !== 'undefined') {
@@ -158,83 +128,55 @@ jQuery(function($) {
       params.skin = self.opts.skin;
     }
 
+    // hide effect
+    if (self.opts.hideEffect) {
+      self.container.animateCSS({
+        effect: self.opts.hideEffect
+      });
+    } 
+
     // trigger beforeload
-    $elem.trigger("beforeload.jqloader", self);
+    self.elem.trigger("beforeload.jqloader", self);
 
-    if (self.opts.url) {
-
-      if (typeof(self.container) === 'undefined') {
-        self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
-
-        // apply min height
-        if (self.opts.minHeight) {
-          self.container.css("min-height", self.opts.minHeight);
-          $(window).trigger("resize");
+    $.get(
+      url,
+      params,
+      function(data) {
+        if (typeof(self.opts.select) !== 'undefined') {
+          data = $(data).find(self.opts.select);
         }
-      }
 
-      var doit = function() {
-        $.get(
-          self.opts.url,
-          params,
-          function(data) {
-            if (typeof(self.opts.select) !== 'undefined') {
-              data = $(data).find(self.opts.select);
-            }
+        // insert data
+        self.elem.empty();
+        self.container = $("<div class='jqLoaderContainer' />").appendTo(self.elem);
+        self.container.append(data);
 
-            self.container.remove();
-            self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
+        // trigger onload
+        self.elem.trigger("onload.jqloader", self);
 
-            // apply min height
-            if (self.opts.minHeight) {
-              self.container.css("min-height", self.opts.minHeight);
-              $(window).trigger("resize");
-            }
+        // show effect
+        var effect = self.opts.effect || self.opts.showEffect;
+        if (effect) {
+          self.container.animateCSS({
+            effect: effect
+          }).on("stop.animate", function() {
 
-            // insert data
-            self.container.append(data);
+          // trigger finished
+            self.elem.trigger("finished.jqLoader", self);
+          });
+        } else {
+          // trigger finished
+          self.elem.trigger("finished.jqLoader", self);
+        }
 
-            $elem.trigger("onload.jqloader", self);
-
-            // show effect
-            var effect = self.opts.effect || self.opts.showEffect;
-            if (typeof(effect) !== 'undefined') {
-              self.container.animateCSS({
-                effect: effect
-              }).on("stop.animate", function() {
-                $elem.trigger("finished.jqLoader", self);
-              });
-            } else {
-              // trigger finished
-              $elem.trigger("finished.jqLoader", self);
-            }
-
-          }, 'html');
-      };
-
-      // hide effect
-      if (typeof(self.opts.hideEffect) !== 'undefined') {
-        self.container.animateCSS({
-          effect: self.opts.hideEffect
-        })/*.on("stop.animate", function() {
-          self.container.css("visibility", "hidden");
-          doit();
-        })*/;
-        doit();
-      } else {
-        doit();
-      }
-
-    } else {
-      throw("error: no url");
-    }
+      }, 'html');
   };
 
   // register plugin to jquery core
   $.fn.jqLoader = function(opts) {
     return this.each(function() {
-      if (!$.data(this, 'plugin_jqLoader')) {
-        $.data(this, 'plugin_jqLoader',
+      if (!$.data(this, 'jqLoader')) {
+        $.data(this, 'jqLoader',
           new JQLoader(this, opts)
         );
       }
@@ -242,9 +184,10 @@ jQuery(function($) {
   };
 
   // register css class 
-  $(".jqLoader:not(.jqLoaderInited)").livequery(function() {
-    var $this = $(this),
+  $(".jqLoader").livequery(function() {
+    var $this = $(this), 
         opts = $.extend({}, $this.data(), $this.metadata());
-    $this.addClass("jqLoaderInited").jqLoader(opts);
+
+    $this.jqLoader(opts);
   });
-});
+})(jQuery);

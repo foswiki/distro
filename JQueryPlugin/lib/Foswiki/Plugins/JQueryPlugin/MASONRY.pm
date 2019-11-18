@@ -28,11 +28,11 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Masonry',
-            version      => '3.3.2',
+            version      => '4.2.2',
             author       => 'David <nop>DeSandro',
-            homepage     => 'http://masonry.desandro.com',
+            homepage     => 'https://masonry.desandro.com',
             javascript   => ['jquery.masonry.js'],
-            dependencies => [ 'metadata', 'livequery', 'imagesloaded' ],
+            dependencies => [ 'metadata', 'imagesloaded' ],
         ),
         $class
     );

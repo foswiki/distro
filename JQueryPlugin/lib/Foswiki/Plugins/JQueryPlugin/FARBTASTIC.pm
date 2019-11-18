@@ -34,7 +34,7 @@ sub new {
             css      => ['jquery.farbtastic.css'],
             javascript =>
               [ 'jquery.farbtastic.js', 'jquery.farbtastic.init.js' ],
-            dependencies => [ 'ui', 'metadata', 'livequery' ],
+            dependencies => [ 'ui', 'metadata' ],
         ),
         $class
     );

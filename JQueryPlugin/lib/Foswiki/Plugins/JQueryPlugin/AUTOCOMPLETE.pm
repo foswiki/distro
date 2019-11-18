@@ -35,7 +35,7 @@ sub new {
             css      => ['jquery.autocomplete.css'],
             javascript =>
               [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
-            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::UI' ],
+            dependencies => [ 'metadata', 'JQUERYPLUGIN::UI' ],
         ),
         $class
     );

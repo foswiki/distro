@@ -27,12 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'I18N',
-            version      => '1.1',
-            author       => 'Michael Daum',
-            homepage     => 'https://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['i18n.js'],
-            dependencies => ['livequery'],
+            name       => 'I18N',
+            version    => '1.1',
+            author     => 'Michael Daum',
+            homepage   => 'https://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['i18n.js'],
         ),
         $class
     );

@@ -34,7 +34,7 @@ sub new {
               'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
             css          => ['jquery.tooltip.css'],
             javascript   => [ 'jquery.tooltip.js', 'jquery.tooltip.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );

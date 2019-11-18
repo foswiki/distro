@@ -27,12 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'ShrinkUrls',
-            version      => '2.0',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['jquery.shrinkurls.js'],
-            dependencies => ['livequery'],
+            name       => 'ShrinkUrls',
+            version    => '2.0',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['jquery.shrinkurls.js'],
         ),
         $class
     );

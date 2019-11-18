@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"serialscroll"
@@ -39,7 +39,7 @@ It uses JQueryScrollTo to achieve the scrolling animation.
 </div>
 
 <literal>
-<script type="text/javascript">
+<script>
 (function($) {
   $(function() {
     $('#slideshow').serialScroll({
@@ -60,7 +60,7 @@ It uses JQueryScrollTo to achieve the scrolling animation.
 })(jQuery);
 </script>
 
-<style type="text/css">
+<style>
 #slideshow{
   overflow:hidden;
   width:680px;
