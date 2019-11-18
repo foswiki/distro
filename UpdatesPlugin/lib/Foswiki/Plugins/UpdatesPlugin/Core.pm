@@ -348,7 +348,7 @@ sub getInstalled {
 
         # Get plugins; this should obtain "true" release numbers
         # SMELL: hack assumes structure of plugins controller object
-        my $controller = $this->{session}{plugins};
+        my $controller = $Foswiki::Plugins::SESSION->{plugins};
         foreach my $plugin ( @{ $controller->{plugins} } ) {
             next
               if defined $this->{_excludePattern}
