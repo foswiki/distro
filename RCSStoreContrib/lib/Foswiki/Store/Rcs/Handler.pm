@@ -635,27 +635,13 @@ Gets a list of names of subwebs in the current web
 
 sub getWebNames {
     my $this = shift;
+
     my $dir  = $Foswiki::cfg{DataDir};
     $dir .= '/' . $this->{web} if defined $this->{web};
-    my @tmpList;
-    my $dh;
-    my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
+
     my $edir = _encode( $dir, 1 );
-    if ( opendir( $dh, $edir ) ) {
-        @tmpList = map {
-            Foswiki::Sandbox::untaint( _decode($_),
-                \&Foswiki::Sandbox::validateWebName )
-          }
-
-          # The -e on the web preferences is used in preference to a
-          # -d to avoid having to validate the web name each time. Since
-          # the definition of a Web in this handler is "a directory with a
-          # WebPreferences.txt in it", this works.
-          grep { !/\./ && -e "$edir/$_/$webid" } readdir($dh);
-        closedir($dh);
-    }
-
-    return @tmpList;
+    my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
+    return map {$_ =~ s/^.*\/(.*)\/$webid$/$1/; $_} glob("$edir/*/$webid");
 }
 
 =begin TML
@@ -1453,7 +1439,7 @@ sub getAttachmentList {
     opendir( $dh, $ed ) || return ();
     my @files =
       map { _decode($_) }
-      grep { !/^[.*_]/ && !/,v$/ && -f "$ed/$_" } readdir($dh);
+      grep { !/^[.*]/ && !/,v$/ && -f "$ed/$_" } readdir($dh);
     closedir($dh);
     return @files;
 }
