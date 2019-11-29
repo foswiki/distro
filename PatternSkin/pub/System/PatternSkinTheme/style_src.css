@@ -996,6 +996,7 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 .patternHomePath .foswikiSeparator {
 	padding:0 .35em;
+        word-break:break-all;
 }
 
 .patternActionButtons a:link,
