@@ -651,13 +651,13 @@ sub _sendEmailByNetSMTP {
 
     # extract @to from 'To:', 'CC:', 'BCC:'
     foreach my $field (qw(To CC BCC)) {
-        require Email::Address;
+        require Email::Address::XS;
 
 # Remove names part from addresses. I.e. convert "John Smith <jsmith@nowhere.com>"
 # to just jsmith@nowhere.com
         push @to,
           map { $_->address }
-          Email::Address->parse( $header->header_raw($field) );
+          Email::Address::XS->parse( $header->header_raw($field) );
     }
 
     if ( !( scalar(@to) ) ) {
