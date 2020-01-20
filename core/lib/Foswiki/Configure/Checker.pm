@@ -315,7 +315,7 @@ sub checkPerlModule {
         name           => $module,
         usage          => $note,
         disposition    => 'required',
-        mimimumVersion => $version
+        minimumVersion => $version
     );
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
     if ( $mod{ok} ) {
