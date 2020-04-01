@@ -135,11 +135,15 @@ sub readConfig {
                 $errorMessage = "Failed to parse $file: $@";
                 warn "couldn't parse $file: $@" if $@;
             }
-            next if ( !DEBUG && ( $file =~ m/Config\.spec$/ ) );
+
+            # Survive an unparseable Config.spec. It has been warned above.
+            next unless $file eq 'LocalSite.cfg';
+
             if ( not defined $return ) {
+
+                # Non-existant LocalSite.cfg is OK
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
-                    # LocalSite.cfg doesn't exist, which is OK
                     warn "couldn't do $file: $!";
                     $errorMessage = "Could not do $file: $!";
                 }
@@ -182,6 +186,27 @@ CODE
         }
     }
 
+    if ( !defined $Foswiki::cfg{RootDir} ) {
+
+        # Must have upgraded from Foswiki 2.0/2.1. Set a default directory.
+
+        if ( defined $Foswiki::cfg{LocalesDir}
+            && substr( $Foswiki::cfg{LocalesDir}, 0, 8 ) ne '$Foswiki' )
+        {
+
+            # Make sure we don't use a recursive reference.
+
+            # Taken from Configure/Wizards/InstallExtension to find root.
+            my @instRoot = File::Spec->splitdir( $Foswiki::cfg{LocalesDir} );
+            pop(@instRoot);
+
+            # Force a trailing separator - Linux and Windows are inconsistent
+            my $installRoot = File::Spec->catfile( @instRoot, 'x' );
+            chop $installRoot;
+            $Foswiki::cfg{RootDir} = $installRoot;
+        }
+    }
+
     # Old configs might not bootstrap the OS settings, so set if needed.
     unless ( $Foswiki::cfg{OS} && $Foswiki::cfg{DetailedOS} ) {
         require Foswiki::Configure::Bootstrap;
@@ -197,6 +222,7 @@ CODE
     if ( $^O eq 'MSWin32' ) {
 
         #force paths to use '/'
+        $Foswiki::cfg{RootDir}     =~ s|\\|/|g;
         $Foswiki::cfg{PubDir}      =~ s|\\|/|g;
         $Foswiki::cfg{DataDir}     =~ s|\\|/|g;
         $Foswiki::cfg{ToolsDir}    =~ s|\\|/|g;
@@ -338,7 +364,7 @@ sub findDependencies {
         }
     }
     else {
-        while ( $fwcfg =~ m/\$Foswiki::cfg(({[^}]*})+)/g ) {
+        while ( $fwcfg =~ m/\$Foswiki::cfg((\{[^}]*\})+)/g ) {
             push( @{ $deps->{forward}->{$1} },       $keypath );
             push( @{ $deps->{reverse}->{$keypath} }, $1 );
         }

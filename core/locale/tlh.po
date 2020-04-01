@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-02-10 12:40+0200\n"
+"PO-Revision-Date: 2017-07-18 15:15+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -74,7 +74,7 @@ msgid "%1 added to the %2 group."
 msgstr "%2 ghomvaD %1 chellu&&#39;."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1112
 msgid "%1 cannot be removed from %2"
 msgstr "%2vo&&#39; %1 teqlaHbe&&#39; vay&&#39;"
 
@@ -185,6 +185,10 @@ msgstr "%1 vaj mIch chu&&#39;Daq bIvumchoHlaH"
 msgid "%1 topic does not exist"
 msgstr "ghItlh %1 tu&&#39;lu&&#39;be&&#39;"
 
+#: core/templates/registermessages.tmpl:459
+msgid "%1 topic not found. No users registered."
+msgstr ""
+
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
 msgstr "QIn Quv %2 lo&&#39;taHvIS muv &&#39;e&&#39; nID %1"
@@ -203,7 +207,7 @@ msgstr "%1: qarbe&&#39; ghantoH pong (%2) - Deghmey <nop>QaQbe&&#39; ngaS."
 msgid "&Cancel"
 msgstr "&qIl"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "qun"
 
@@ -394,6 +398,11 @@ msgstr ""
 "*De&&#39; chu&&#39; chel:* De&&#39;wI&&#39;lIjDaq latlh De&&#39; "
 "<nop>DawIvchugh, vaj De&&#39;vetlh lablu&&#39; pagh chellu&&#39;."
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
+#, fuzzy
+msgid "*Bulk registration is restricted to Administrators.*"
+msgstr "muvbogh jeSqangwI&&#39;pu&&#39; leghlaH loHwI&&#39; neH."
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -436,6 +445,13 @@ msgstr ""
 "*<nop>DuHmey:* <nop>QInHom leghlaHghach (So&&#39;lu&&#39;chugh tep) je neH "
 "<nop>DachoHmeH, &&#39;ej De&&#39; chu&&#39; Dalab <nop>DaneHchugh, vaj "
 "\"<nop>DuHmey neH choH\" yI&&#39;uy."
+
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -590,7 +606,7 @@ msgstr ""
 "hexadecimal mI&&#39;mey, yIbuS: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1363
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
@@ -667,7 +683,7 @@ msgstr "vang"
 msgid "Action %1: %2 by user %3."
 msgstr "%1: %2, vangchugh lo&&#39;wI&&#39; %3."
 
-#: core/data/Main/WikiGroups.txt:64
+#: core/data/System/WikiGroupsComponents.txt:58
 msgid "Actions"
 msgstr "ta&&#39;mey"
 
@@ -684,7 +700,7 @@ msgstr "qoD Qaghmo&&#39; Qapbe&&#39; %1 ngoq chu&&#39;meH Qu&&#39;."
 msgid "Add"
 msgstr "chel"
 
-#: core/data/Main/GroupViewTemplate.txt:203
+#: core/data/System/GroupViewTemplate.txt:207
 msgid "Add Members to %1"
 msgstr "%1Daq jeSwI&&#39; chel"
 
@@ -698,11 +714,11 @@ msgstr "<nop>%1Daq Form chu&&#39; chel"
 msgid "Add form"
 msgstr "yu&&#39;muD chel"
 
-#: core/data/Main/GroupViewTemplate.txt:212
+#: core/data/System/GroupViewTemplate.txt:216
 msgid "Add members"
 msgstr "jeSwI&&#39;pu&&#39; chel"
 
-#: core/data/Main/GroupViewTemplate.txt:163
+#: core/data/System/GroupViewTemplate.txt:167
 msgid "Add members..."
 msgstr "jeSwI&&#39;pu&&#39; chel..."
 
@@ -711,7 +727,7 @@ msgstr "jeSwI&&#39;pu&&#39; chel..."
 msgid "Add row"
 msgstr "wev chel"
 
-#: core/data/Main/GroupViewTemplate.txt:189
+#: core/data/System/GroupViewTemplate.txt:193
 msgid "Add user management options to this topic."
 msgstr "ghItlhvamDaq lo&&#39;wI&&#39; vu&&#39;meH <nop>DuHmey chel."
 
@@ -727,7 +743,7 @@ msgstr "Foswiki loHwI&&#39; lo&&#39;wI&&#39; &&#39;olwI&&#39;"
 msgid "Admin Maintenance"
 msgstr "loHwI&&#39; <nop>SeHlaw"
 
-#: core/data/Main/GroupViewTemplate.txt:161
+#: core/data/System/GroupViewTemplate.txt:165
 msgid "Administration"
 msgstr "loH"
 
@@ -932,6 +948,11 @@ msgstr "%1 mIch ghantoHmey:"
 msgid "Back to topic"
 msgstr "ghItlhDaq chegh"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
+#, fuzzy
+msgid "Back to:"
+msgstr "ghItlhDaq chegh"
+
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "cheghbogh rarwI&&#39;mey"
@@ -972,6 +993,16 @@ msgstr "ror"
 msgid "Both body and title"
 msgstr "pong porgh je"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
+#, fuzzy
+msgid "Bulk Register these users"
+msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
+
+#: core/templates/registermessages.tmpl:468
+msgid ""
+"Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
 msgstr "moQHommey tetlh"
@@ -994,12 +1025,12 @@ msgstr ""
 "[WebPreferencesDaq]] tuchbogh =ALLOWWEBVIEW= yIteq."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "choHmey (CHANGE) chaw&&#39;be&&#39; %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
 
@@ -1030,12 +1061,12 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:192
-#: core/data/Main/GroupViewTemplate.txt:213
-#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
-#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+#: core/data/System/GroupViewTemplate.txt:196
+#: core/data/System/GroupViewTemplate.txt:217
+#: core/data/System/GroupViewTemplate.txt:244 core/templates/edit.tmpl:46
+#: core/templates/foswiki.tmpl:112 core/templates/settings.tmpl:12
+#: core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "qIl"
 
@@ -1072,7 +1103,8 @@ msgstr "potlh <nop>DeghHom/Degh&&#39;a&&#39;"
 msgid "Categories"
 msgstr "Seghmey"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:142
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:7
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
@@ -1174,7 +1206,7 @@ msgid "Changes"
 msgstr "choHmey"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:620
+#: core/lib/Foswiki/UI/RDiff.pm:621
 msgid "Changes from r%1 to r%2"
 msgstr "D%1vo&&#39; D%2Daq choHmey"
 
@@ -1402,7 +1434,7 @@ msgstr "%1 mIchDaq ghItlh chu&&#39; chenmoH"
 msgid "Create a link to the attached file"
 msgstr "tepvaD Qeqbogh rarwI&&#39; chenmoH"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/System/WikiGroupsComponents.txt:11
 msgid "Create a new group"
 msgstr "ghom chu&rsquo; chenmoH"
 
@@ -1414,7 +1446,7 @@ msgstr "wa&&#39;chaw chu&&#39; chenmoH"
 msgid "Create account"
 msgstr "lo&&#39;wI&&#39; ta chenmoH"
 
-#: core/data/Main/WikiGroups.txt:42
+#: core/data/System/WikiGroupsComponents.txt:36
 msgid "Create group"
 msgstr "ghom chenmoH"
 
@@ -1694,6 +1726,11 @@ msgstr "wa&&#39;chawvam choH"
 msgid "Edit this topic text (e)"
 msgstr "ghItlhvam choH"
 
+#: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
+#, fuzzy
+msgid "Edit this topic to add a description to the %1"
+msgstr "ghItlhvam choH"
+
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "ghItlh <nop>DuHmey choH"
@@ -1762,7 +1799,7 @@ msgstr "qabHom Degh"
 msgid "End presentation"
 msgstr "much rInmoH"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
 
@@ -1792,7 +1829,7 @@ msgstr ""
 "ghItlh pong <nop>DaghItlhDI&&#39; wIqI-mu&&#39; <nop>yIghItlh, pagh wIqI-"
 "mu&&#39; <nop>poQbogh meyrI&&#39;Hom yIchu&&#39;Ha&&#39;."
 
-#: core/data/Main/GroupViewTemplate.txt:209
+#: core/data/System/GroupViewTemplate.txt:213
 msgid "Enter users or groups to add to this group"
 msgstr "ghomvamDaq chelmeH lo&&#39;wI&&#39;pu&&#39; ghommey qoj tIchel"
 
@@ -2017,7 +2054,7 @@ msgstr "nejwI&&#39;vam choHmey qImchoH"
 msgid "Globe"
 msgstr "yuQ"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "chegh"
@@ -2052,22 +2089,22 @@ msgstr "ghantoHmey <nop>QaQ:"
 msgid "GoodStyle"
 msgstr "ghItlhmeH pab"
 
-#: core/data/Main/WikiGroups.txt:62
+#: core/data/System/WikiGroupsComponents.txt:56
 msgid "Group"
 msgstr "ghom"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
 "ghom tu&&#39;lu&&#39;be&&#39; &&#39;ej <nop>DachenmoH chaw&&#39;be&&#39;"
 "lu&&#39;"
 
-#: core/data/Main/WikiGroups.txt:28
+#: core/data/System/WikiGroupsComponents.txt:22
 msgid "Group name"
 msgstr "ghom pong"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "ghom pong tlhuQDaq \"Group\" ghItlhnISlu&&#39;"
 
@@ -2108,7 +2145,7 @@ msgstr "&&#39;ay&&#39; pong 5"
 msgid "Heading 6"
 msgstr "&&#39;ay&&#39; pong 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "nuqneH, %1?"
 
@@ -2321,8 +2358,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
-"mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; <nop>"
-"tlhopDaq chelwI&&#39; ngutlh yIghItlh"
+"mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; "
+"<nop>tlhopDaq chelwI&&#39; ngutlh yIghItlh"
 
 #: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
@@ -2333,8 +2370,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
-"<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj <nop>"
-"bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
+"<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj "
+"<nop>bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -2346,14 +2383,15 @@ msgstr ""
 "ej chaw&&#39; <nop>ngoqlIj <nop>DalIjchugh, vaj <nop>QaH <nop>DaSammeH %1 "
 "yIrI&&#39;."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:143
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:8
 msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "<nop>qaStaHvIS 7 jaj <nop>buSHa&&#39;"
 
@@ -2573,7 +2611,7 @@ msgstr ""
 msgid "Italic"
 msgstr "wanHa&&#39;"
 
-#: core/data/Main/GroupViewTemplate.txt:256
+#: core/data/System/GroupViewTemplate.txt:260
 msgid "Join %1"
 msgstr "%1 muv"
 
@@ -2633,7 +2671,7 @@ msgstr "tuq pong:"
 msgid "Latest revision: %1"
 msgstr "Dotlh Qav: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:268
+#: core/data/System/GroupViewTemplate.txt:272
 msgid "Leave %1"
 msgstr "%1vo&&#39; mej"
 
@@ -2649,12 +2687,12 @@ msgstr "&&#39;aqroS <nop>SammeH Dochmey:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+#: core/lib/Foswiki/UI/RDiff.pm:176 core/lib/Foswiki/UI/RDiff.pm:177
 msgid "Line: %1"
 msgstr "tlhegh: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:331
+#: core/lib/Foswiki/UI/RDiff.pm:332
 msgid "Line: %1 to %2"
 msgstr "tlhegh: %1-%2"
 
@@ -2684,7 +2722,7 @@ msgstr "&&#39;el"
 msgid "Log Out"
 msgstr "&&#39;elHa&&#39;"
 
-#: core/data/Main/GroupViewTemplate.txt:144
+#: core/data/System/GroupViewTemplate.txt:148
 msgid "Log in to continue."
 msgstr "<nop>bIruchmeH <nop>yI&&#39;el."
 
@@ -2729,8 +2767,9 @@ msgstr "nejwI&&#39; chenmoH:"
 msgid "Maximum %1 items per web"
 msgstr "&&#39;aqroS %1 mIch Dochmey"
 
-#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
-#: core/data/Main/WikiGroups.txt:63
+#: core/data/System/GroupViewTemplate.txt:25
+#: core/data/System/WikiGroupsComponents.txt:31
+#: core/data/System/WikiGroupsComponents.txt:57
 msgid "Members"
 msgstr "<nop>jeSwI&&#39;pu&&#39;"
 
@@ -2746,7 +2785,7 @@ msgstr "Hutlh vangmeH ra&&#39;wI&&#39;"
 msgid "Missing or illegal web name"
 msgstr "Hutlh mIch pong, pagh Qagh &&#39;oH"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "nejwI&&#39; lIS"
@@ -2948,7 +2987,7 @@ msgstr "pagh puq ghItlhmey Samlu&&#39;."
 msgid "No group name specified"
 msgstr "pagh ghpm pong wIvlu&&#39;"
 
-#: core/data/Main/GroupViewTemplate.txt:52
+#: core/data/System/GroupViewTemplate.txt:56
 msgid "No members"
 msgstr "pagh jeSwI&&#39;pu&&#39;"
 
@@ -3044,7 +3083,7 @@ msgstr "wanI&&#39; QInmey"
 msgid "Number of changes for each Web"
 msgstr "Hoch mIch choHmey mI&&#39;"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3066,7 +3105,7 @@ msgstr "OEmbed"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3103,7 +3142,7 @@ msgstr "latlh tamey polHa&&#39;laH loHwI&&#39;pu&&#39; neH."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "mIwvam luta&&#39;laH %1 jeSwI&&#39;pu&&#39;&&#39;e&&#39; neH."
 
-#: core/data/Main/GroupViewTemplate.txt:147
+#: core/data/System/GroupViewTemplate.txt:151
 msgid "Only members or admins may update group."
 msgstr ""
 "ghom chu&&#39;moH jeSwI&&#39;pu&&#39; loHwI&&#39;pu&&#39; joq neH net "
@@ -3303,9 +3342,9 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
-"<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej "
-"[[%SYSTEMWEB%.WikiWord][WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>"
-"WikiWord meyrI&&#39; yIchu&&#39;Ha&&#39;"
+"<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej [[%SYSTEMWEB%.WikiWord]"
+"[WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>WikiWord meyrI&&#39; "
+"yIchu&&#39;Ha&&#39;"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3327,6 +3366,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:461
 msgid "Please go back in your browser and try again."
 msgstr "&&#39;Internet janlIjDaq yIchegh &&#39;ej yInIDqa&&#39;."
 
@@ -3487,7 +3527,7 @@ msgstr "labqa&&#39;"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "muv"
 
@@ -3506,11 +3546,16 @@ msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 msgid "Registration"
 msgstr "muvmeH mIw"
 
+#: core/templates/registermessages.tmpl:467
+#, fuzzy
+msgid "Registration Results Summary"
+msgstr "muvmeH mIw"
+
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
 msgstr "<nop>muvmeH lajwI&&#39; chu&&#39;lu&&#39;be&&#39;."
 
-#: core/lib/Foswiki/UI/Register.pm:790
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3560,21 +3605,22 @@ msgstr "lajHa&&#39;"
 msgid "Related Topics for Administrators:"
 msgstr "loHwI&&#39;vaD ghItlhmey:"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:37
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
 msgid "Related Topics:"
 msgstr "rurbogh ghItlhmey:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:149
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:705
-#: core/data/System/FormattedSearch.txt:401
+#: core/data/System/CommandAndCGIScripts.txt:758
+#: core/data/System/FormattedSearch.txt:402
 #: core/data/System/GlossaryOfTerms.txt:27
+#: core/data/System/GroupViewTemplate.txt:38
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
 #: core/templates/messages.tmpl:428
@@ -3601,7 +3647,7 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "chaw&&#39; ngoqlIj <nop>DaSov&&#39;a&&#39;?"
 
-#: core/data/Main/GroupViewTemplate.txt:225
+#: core/data/System/GroupViewTemplate.txt:229
 msgid "Remove Members from %1"
 msgstr "%1vo&&#39; jeSwI&&#39; teq"
 
@@ -3609,7 +3655,7 @@ msgstr "%1vo&&#39; jeSwI&&#39; teq"
 msgid "Remove User"
 msgstr "lo&&#39;wI&&#39; teq"
 
-#: core/data/Main/GroupViewTemplate.txt:165
+#: core/data/System/GroupViewTemplate.txt:169
 msgid "Remove members..."
 msgstr "jeSwI&&#39; teq..."
 
@@ -3619,7 +3665,7 @@ msgstr ""
 "lo&&#39;wI&&#39; ta&&#39;e&&#39; Davu&&#39;be&&#39;bogh <nop>DapolHa&&#39; "
 "net chaw&&#39;be&&#39;"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/System/GroupViewTemplate.txt:243
 msgid "Remove selected members"
 msgstr "jeSwI&&#39;pu&&#39;&&#39;e&&#39; luwIvlu&&#39;bogh teq"
 
@@ -3672,6 +3718,11 @@ msgstr "yu&&#39;muD qa&&#39;..."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "&&#39;olmeH tlhobwI&&#39;"
+
+#: core/templates/registermessages.tmpl:457
+#, fuzzy
+msgid "Requested bulk registration topic not found."
+msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3738,6 +3789,10 @@ msgstr ""
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 "wa&&#39; Dotlh neH ghajmo&&#39; ghItlhvam, &&#39;oH Dapolqa&&#39;laHbe&&#39;."
+
+#: core/templates/registermessages.tmpl:471
+msgid "Results"
+msgstr ""
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -3985,7 +4040,7 @@ msgstr "choHmey <nop>DaleghmeH, Dotlh qan (poS) Dotlh chu&&#39; (nIH) yIwIv"
 msgid "Select groups to join:"
 msgstr "ghommey Damuv <nop>DaneHbogh tIwIv:"
 
-#: core/data/Main/GroupViewTemplate.txt:234
+#: core/data/System/GroupViewTemplate.txt:238
 msgid "Select members to remove from this group:"
 msgstr "ghomvamvo&&#39; teqlu&&#39;meH jeSwI&&#39;pu&&#39; tIwIv:"
 
@@ -4047,7 +4102,7 @@ msgstr "<nop>QaH &&#39;ang"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "choHmeH vey machmoH"
 
@@ -4231,7 +4286,7 @@ msgstr "lutHommey"
 msgid "Superscript"
 msgstr "<nop>DungDaq mu&&#39;mey lan"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Switch to monotype or proportional font"
 msgstr "Deghmey choH: monotype/proportional ghap"
 
@@ -4243,7 +4298,7 @@ msgstr "wysiwyg <nop>HaSta chu&&#39;"
 msgid "Symbol"
 msgstr "<nop>DeghHom"
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/System/GroupViewTemplate.txt:145
 msgid "System user list."
 msgstr "pat lo&&#39;wI&&#39; tetlh."
 
@@ -4294,8 +4349,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH <nop>"
-"QInvam yIpol."
+"%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH "
+"<nop>QInvam yIpol."
 
 #: core/templates/registerconfirm.tmpl:10
 msgid ""
@@ -4328,11 +4383,11 @@ msgstr ""
 "pabqoqvam yIbuS: reH ghItlh bIS&&#39;ubDaq ponglIj, poH je tIghItlh."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
-#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:6
 #: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
-#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
-#: core/data/_default/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:6 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:6
 msgid "The %1 web of %2."
 msgstr "%2 %1 mIch."
 
@@ -4473,8 +4528,8 @@ msgid ""
 "used internally by Foswiki."
 msgstr ""
 "roD lo&&#39;wI&&#39; <nop>ghItlhDaq <nop>QInQuv cha&&#39;lu&&#39;be&&#39;. "
-"<nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;oH <nop>"
-"DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh chu&&#39;."
+"<nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;oH "
+"<nop>DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh chu&&#39;."
 
 #: core/templates/messages.tmpl:375
 msgid "The entry for user %1 was missing in the password system."
@@ -4491,6 +4546,8 @@ msgid ""
 "The filename you are attempting to upload (%1) contains characters not "
 "supported by the configured encoding (%2)."
 msgstr ""
+"ngutlhmey qab ngaS De&&#39; Dalabbogh pong&&#39;e&&#39; (%1), bIH "
+"lajbe&&#39; ngoq (%2)."
 
 #: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
@@ -4533,12 +4590,12 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
-"<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh "
-"tu&&#39;be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh "
-"chu&&#39; &&#39;oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
+"<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh tu&&#39;"
+"be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh chu&&#39; &&#39;"
+"oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
 "pongbe&&#39;lu&&#39;chugh vaj [[%USERSWEB%.NewUserTemplate]] &&#39;oH ghItlh "
-"motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj "
-"[[%SYSTEMWEB%.NewUserTemplate]] &&#39;oH."
+"motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj [[%SYSTEMWEB%."
+"NewUserTemplate]] &&#39;oH."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4691,7 +4748,7 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:138
+#: core/data/System/GroupViewTemplate.txt:142
 msgid "This group should not have members."
 msgstr "pagh jeSwI&&#39; ghajnIS ghomvam."
 
@@ -4813,7 +4870,7 @@ msgstr "lo&&#39;wI&&#39; pongmey lo&&#39; patvam."
 
 #: core/templates/messages.tmpl:389
 msgid "This system is not configured to support user login. Return to [[%1]]."
-msgstr ""
+msgstr "lo&&#39;wI&&#39; lojmIt lajbe&&#39; patvam. [[%1]]Daq yIchegh."
 
 #: core/templates/viewprint.tmpl:14
 msgid "This topic:"
@@ -4881,7 +4938,7 @@ msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
-msgstr ""
+msgstr "%1 choHmey Ser Da&&#39;olmeH, naDev yI&&#39;uy: "
 
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
@@ -4937,7 +4994,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "wa&&#39;chaw Segh tIQ rurmeH ghItlh Dachu&&#39;moHlaHbe&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:72
 msgid "Topic data"
 msgstr "ghItlh De'"
 
@@ -5000,7 +5057,7 @@ msgstr "mIchvam ghItlhmey"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
-msgstr ""
+msgstr "%1 mIchDaq ghItlhmeyvam choH latlh lo&&#39;wI&&#39;pu&&#39;:"
 
 #: core/templates/renamewebbase.tmpl:32
 msgid ""
@@ -5048,7 +5105,7 @@ msgstr "lo&&#39;wI&&#39;, chaw&&#39; ngoq joq ghovbe&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:42
 msgid "Unrecognized action command %1"
-msgstr ""
+msgstr "%1 mIw yajbe&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:418
 msgid ""
@@ -5090,13 +5147,13 @@ msgstr "%2 tep %1 chu&&#39;moH"
 msgid "Update links"
 msgstr "rarwI&&#39;mey chu&&#39;moH"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:182
-#: core/data/Main/GroupViewTemplate.txt:191
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
+#: core/data/System/GroupViewTemplate.txt:186
+#: core/data/System/GroupViewTemplate.txt:195
 msgid "Upgrade"
 msgstr "chu&&#39;moH"
 
-#: core/data/Main/GroupViewTemplate.txt:172
+#: core/data/System/GroupViewTemplate.txt:176
 msgid "Upgrade group topic..."
 msgstr "ghom ghItlh chu&&#39;moH..."
 
@@ -5125,6 +5182,7 @@ msgstr "%1 KB &&#39;oH jabbI&&#39;ID &&#39;aqroS&&#39;e&&#39;."
 #: core/templates/messages.tmpl:263
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr ""
+"tlhoy tIn De&&#39; Dalabbogh %1, %2 KB &&#39;oH &&#39;aqroS&&#39;e&&#39;"
 
 #: core/templates/messages.tmpl:262
 msgid "Uploaded file is too big"
@@ -5155,12 +5213,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1145
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "%2 choH lo&&#39;wI&&#39; %1 net chaw&&#39;be&&#39;."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1134
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
@@ -5208,12 +5266,12 @@ msgid "Users"
 msgstr "lo&&#39;wI&&#39;pu&&#39;"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "%1Daq lo&&#39;wI&&#39; chellaHbe&&#39; vay&&#39;"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1104
 msgid "Users cannot be removed from %1"
 msgstr "%1vo&&#39; lo&&#39;wI&&#39; teqlaHbe&&#39; vay&&#39;"
 
@@ -5251,7 +5309,7 @@ msgstr "%1 Dotlh qun"
 msgid "View"
 msgstr "&&#39;ang"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "ghItlh qun naQ &&#39;ang"
 
@@ -5321,6 +5379,8 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh  tu&&#39;lu&&#39;be&&#39;!"
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
+"yIqIm: cha&&#39;logh %1 vIchellaHbe&&#39;, &&#39;oH chelta&&#39; vay&&#39; "
+"rIntaH. %2"
 
 #: core/templates/messages.tmpl:371
 msgid ""
@@ -5341,11 +5401,11 @@ msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1356
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1368
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;, QInmey chu&&#39;Ha&&#39;"
@@ -5356,7 +5416,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Qu&&#39;vatlh: URL %<nop>INCLUDE% chaw&&#39;be&&#39; weQmoQnaQ Daqvam"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-msgid "Warning: Updates found for %1 extension(s)."
+#, fuzzy
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr ""
 "Qu&&#39;vatlh: %1 extension(mey)vaD chu&&#39;moHwI&&#39; luSamlu&&#39;."
 
@@ -5780,6 +5841,7 @@ msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
+"chaq FoswikiDaq ngoq De&&#39; DachoHlaHbe&&#39;. loHwI&&#39; yIrI&&#39;."
 
 #: core/templates/registermessages.tmpl:29
 msgid ""
@@ -5807,32 +5869,36 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
+msgid "_Be sure to remember to save any table changes!_"
+msgstr ""
+
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "tlhIngan Hol"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:166
 msgid "access denied on root"
 msgstr "&&#39;oQqar <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:102
 msgid "access denied on topic"
 msgstr "ghItlh <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:138
 msgid "access denied on web"
 msgstr "mIch <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:176
 msgid "access not allowed on root"
 msgstr "&&#39;oQqar Danaw&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:125
 msgid "access not allowed on topic"
 msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:150
 msgid "access not allowed on web"
 msgstr "mIchDaq naw' chaw'be'lu'"
 
@@ -5945,7 +6011,7 @@ msgid "now %1"
 msgstr "<nop>DaH %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

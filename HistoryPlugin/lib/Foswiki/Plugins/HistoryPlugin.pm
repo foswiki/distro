@@ -10,8 +10,8 @@ use Foswiki::AccessControlException ();
 
 # =========================
 #   Simple decimal version,  no leading "v"
-our $VERSION           = "1.13";
-our $RELEASE           = '1.13';
+our $VERSION           = "1.14";
+our $RELEASE           = '22 Jan 2018';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
@@ -156,7 +156,7 @@ sub _handleHistory {
         $revinfo =~ s/\$rev/$rev/g;
         $revinfo =~ s/\$date/Foswiki::Func::formatTime($date)/ge;
         $revinfo =~
-s/\$(year|ye|week|web|wday|tz|topic|time|seconds|rev|rcs|month|mo|minutes|longdate|isotz|iso|http|hours|epoch|email|dow|day)/_formatTime("\$$1", $topic, $web)/ge;
+s/\$(year|ye|week|web|wday|tz|topic|time|seconds|rev|rcs|month|mo|minutes|longdate|isotz|iso|http|hours|epoch|email|dow|day)/_formatTime("\$$1", $web, $topic, $rev)/ge;
         $revinfo =~ s/\$username/$user/g;
         $revinfo =~ s/\$wikiname/$wikiName/g;
         $revinfo =~ s/\$wikiusername/$wikiUserName/g;
@@ -177,9 +177,10 @@ s/\$(year|ye|week|web|wday|tz|topic|time|seconds|rev|rcs|month|mo|minutes|longda
 }
 
 sub _formatTime {
-    my ( $format, $topic, $web ) = @_;
+    my ( $format, $web, $topic, $rev ) = @_;
 
-    return Foswiki::Func::expandCommonVariables( '%REVINFO{"' . $format . '"}%',
+    return Foswiki::Func::expandCommonVariables(
+        '%REVINFO{"' . $format . '" rev="' . $rev . '"}%',
         $topic, $web );
 }
 
@@ -188,10 +189,10 @@ sub _handleHeadFoot {
     my ( $text, $rev1, $rev2, $nrev, $maxrev ) = @_;
 
     if ( $rev2 >= $maxrev ) {
-        $text =~ s/\$next({.*?})//g;
+        $text =~ s/\$next(\{.*?\})//g;
     }
     else {
-        while ( $text =~ m/\$next({(.*?)})/ ) {
+        while ( $text =~ m/\$next(\{(.*?)\})/ ) {
             my $args = $2 || '';
 
             my $newrev1 = $rev2 < $maxrev ? $rev2 + 1 : $rev2;
@@ -210,15 +211,15 @@ sub _handleHeadFoot {
               $url
               ? "<a href='$url' class='foswikiButton'>$newtext</a>"
               : $newtext;
-            $text =~ s/\$next({.*?})/$replace/;
+            $text =~ s/\$next(\{.*?\})/$replace/;
         }
     }
 
     if ( $rev1 <= 1 ) {
-        $text =~ s/\$previous({.*?})//g;
+        $text =~ s/\$previous(\{.*?\})//g;
     }
     else {
-        while ( $text =~ m/\$previous({(.*?)})/ ) {
+        while ( $text =~ m/\$previous(\{(.*?)\})/ ) {
             my $args = $2 || '';
 
             my $newrev2 = $rev1 > 1 ? $rev1 - 1 : 1;
@@ -237,7 +238,7 @@ sub _handleHeadFoot {
               $url
               ? "<a href='$url' class='foswikiButton'>$newtext</a>"
               : $newtext;
-            $text =~ s/\$previous({.*?})/$replace/;
+            $text =~ s/\$previous(\{.*?\})/$replace/;
         }
     }
 
@@ -248,7 +249,7 @@ sub _handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

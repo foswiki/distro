@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Administrator Skills Assumptions
 
-Several skills (i.e. knowing how to do something) are needed to set up and maintenance of a Foswiki installation. Remember that several layers of technology are
-used for delivering one web page: Operating system, web server, CGI (or Fast CGI), internal Foswiki functions, templates,
+Several skills (i.e. knowing how to do something) are needed to set up and maintenance of a Foswiki installation.
+Remember that several layers of technology are used for delivering one web page: Operating system, web server, CGI (or Fast CGI), internal Foswiki functions, templates,
 jQuery, HTML, etc, so general web computing knowledge is needed for Foswiki administration. The most important are the following:
 
    1 At an *Operating System level*, you should know how to:

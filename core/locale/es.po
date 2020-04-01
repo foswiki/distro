@@ -77,7 +77,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 fue agregado al grupo %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1112
 msgid "%1 cannot be removed from %2"
 msgstr "%1 no puede ser eliminado del grupo %2."
 
@@ -191,6 +191,10 @@ msgstr "%1 para comenzar a trabajar en la web nueva"
 msgid "%1 topic does not exist"
 msgstr "El tema %1 no existe"
 
+#: core/templates/registermessages.tmpl:459
+msgid "%1 topic not found. No users registered."
+msgstr ""
+
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
 msgstr "%1 intentó de registrarse con el correo electrónico %2"
@@ -210,7 +214,7 @@ msgstr ""
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "&Historial"
 
@@ -398,6 +402,10 @@ msgstr ""
 "*Archivo local:* Si selecciona un archivo diferente en _Local file:_, este "
 "será el que será actualizado o cargado."
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
+msgid "*Bulk registration is restricted to Administrators.*"
+msgstr ""
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -442,6 +450,13 @@ msgstr ""
 "*Propiedades:* El comentario y la visibilidad (e.g. un archivo adjunto está "
 "oculto) pueden ser modificados sin cargar un archivo, tocando \"Cambiar "
 "únicamente comentarios y propiedades\"."
+
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -591,7 +606,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1363
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Se envió un correo de confirmación a %1"
 
@@ -668,7 +683,7 @@ msgstr "Acción"
 msgid "Action %1: %2 by user %3."
 msgstr "Acción %1: %2."
 
-#: core/data/Main/WikiGroups.txt:64
+#: core/data/System/WikiGroupsComponents.txt:58
 #, fuzzy
 msgid "Actions"
 msgstr "Acción"
@@ -687,7 +702,7 @@ msgstr ""
 msgid "Add"
 msgstr "Añadir"
 
-#: core/data/Main/GroupViewTemplate.txt:203
+#: core/data/System/GroupViewTemplate.txt:207
 #, fuzzy
 msgid "Add Members to %1"
 msgstr "Miembros"
@@ -703,12 +718,12 @@ msgstr "Escoja una nueva plantilla para el formulario"
 msgid "Add form"
 msgstr "Añadir formulario"
 
-#: core/data/Main/GroupViewTemplate.txt:212
+#: core/data/System/GroupViewTemplate.txt:216
 #, fuzzy
 msgid "Add members"
 msgstr "no son miembros"
 
-#: core/data/Main/GroupViewTemplate.txt:163
+#: core/data/System/GroupViewTemplate.txt:167
 #, fuzzy
 msgid "Add members..."
 msgstr "Añadir usuario..."
@@ -718,7 +733,7 @@ msgstr "Añadir usuario..."
 msgid "Add row"
 msgstr "Añadir linea"
 
-#: core/data/Main/GroupViewTemplate.txt:189
+#: core/data/System/GroupViewTemplate.txt:193
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Editar preferencias para este tema..."
@@ -735,7 +750,7 @@ msgstr "Autenticación del usuario administrador de Foswiki"
 msgid "Admin Maintenance"
 msgstr "Mantenimiento administrativo"
 
-#: core/data/Main/GroupViewTemplate.txt:161
+#: core/data/System/GroupViewTemplate.txt:165
 #, fuzzy
 msgid "Administration"
 msgstr "Iniciar sesión de administrator"
@@ -947,6 +962,11 @@ msgstr "Plantillas disponibles en la Web %1:"
 msgid "Back to topic"
 msgstr "Volver al tema"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
+#, fuzzy
+msgid "Back to:"
+msgstr "Volver al tema"
+
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "Enlaces entrantes"
@@ -989,6 +1009,16 @@ msgstr "Editar texto"
 msgid "Both body and title"
 msgstr "Ambos cuerpo y título"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
+#, fuzzy
+msgid "Bulk Register these users"
+msgstr "Registrarse"
+
+#: core/templates/registermessages.tmpl:468
+msgid ""
+"Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
 msgstr ""
@@ -1012,12 +1042,12 @@ msgstr ""
 "=ALLOWWEBVIEW= en WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1048,12 +1078,12 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:192
-#: core/data/Main/GroupViewTemplate.txt:213
-#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
-#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+#: core/data/System/GroupViewTemplate.txt:196
+#: core/data/System/GroupViewTemplate.txt:217
+#: core/data/System/GroupViewTemplate.txt:244 core/templates/edit.tmpl:46
+#: core/templates/foswiki.tmpl:112 core/templates/settings.tmpl:12
+#: core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1091,7 +1121,8 @@ msgstr "Sensible a mayúsculas y minúsculas"
 msgid "Categories"
 msgstr "Categorías"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:142
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:7
 #, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
@@ -1200,7 +1231,7 @@ msgid "Changes"
 msgstr "Cambios"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:620
+#: core/lib/Foswiki/UI/RDiff.pm:621
 msgid "Changes from r%1 to r%2"
 msgstr "Cambios de r%1 a r%2"
 
@@ -1432,7 +1463,7 @@ msgstr "Crear tema nuevo en la web %1"
 msgid "Create a link to the attached file"
 msgstr "Crear un enlace al archivo adjunto"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/System/WikiGroupsComponents.txt:11
 msgid "Create a new group"
 msgstr "Crear un grupo nuevo"
 
@@ -1446,7 +1477,7 @@ msgstr "Crear un grupo nuevo"
 msgid "Create account"
 msgstr "Crear grupo"
 
-#: core/data/Main/WikiGroups.txt:42
+#: core/data/System/WikiGroupsComponents.txt:36
 msgid "Create group"
 msgstr "Crear grupo"
 
@@ -1742,6 +1773,11 @@ msgstr "Editar esta tabla"
 msgid "Edit this topic text (e)"
 msgstr "Editar el texto de este tema"
 
+#: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
+#, fuzzy
+msgid "Edit this topic to add a description to the %1"
+msgstr "Editar el texto de este tema"
+
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Editar las preferencias del tema"
@@ -1808,7 +1844,7 @@ msgstr ""
 msgid "End presentation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Ampliar caja de edición"
 
@@ -1839,7 +1875,7 @@ msgstr ""
 "por favor presione atrás en su navegador y escoja un nombre de páginaque sea "
 "%1.WikiWord o seleccione la opción non-Wiki Word"
 
-#: core/data/Main/GroupViewTemplate.txt:209
+#: core/data/System/GroupViewTemplate.txt:213
 #, fuzzy
 msgid "Enter users or groups to add to this group"
 msgstr "Elimine el usuario de este grupo"
@@ -2071,7 +2107,7 @@ msgstr "Reciba notificaciones sobre cambios de esta búsqueda"
 msgid "Globe"
 msgstr "Globo"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Regresar"
@@ -2102,20 +2138,20 @@ msgstr "Buenos ejemplos:"
 msgid "GoodStyle"
 msgstr ""
 
-#: core/data/Main/WikiGroups.txt:62
+#: core/data/System/WikiGroupsComponents.txt:56
 msgid "Group"
 msgstr "Grupos"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
 
-#: core/data/Main/WikiGroups.txt:28
+#: core/data/System/WikiGroupsComponents.txt:22
 msgid "Group name"
 msgstr "Nombre del grupo"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2156,7 +2192,7 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Hola %1!"
 
@@ -2382,14 +2418,15 @@ msgstr ""
 "puede recibir correo electrónico allí) y se le olvidó su contraseña, por "
 "favor comuníquese con %1 para obtener ayuda."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:143
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:8
 msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr ""
 
@@ -2616,7 +2653,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Editar texto"
 
-#: core/data/Main/GroupViewTemplate.txt:256
+#: core/data/System/GroupViewTemplate.txt:260
 msgid "Join %1"
 msgstr ""
 
@@ -2683,7 +2720,7 @@ msgstr "Apellido"
 msgid "Latest revision: %1"
 msgstr "(revisión %1)"
 
-#: core/data/Main/GroupViewTemplate.txt:268
+#: core/data/System/GroupViewTemplate.txt:272
 msgid "Leave %1"
 msgstr ""
 
@@ -2697,12 +2734,12 @@ msgstr "Limitar resultados a:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+#: core/lib/Foswiki/UI/RDiff.pm:176 core/lib/Foswiki/UI/RDiff.pm:177
 msgid "Line: %1"
 msgstr "Línea: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:331
+#: core/lib/Foswiki/UI/RDiff.pm:332
 msgid "Line: %1 to %2"
 msgstr "Línea: %1 a %2"
 
@@ -2733,7 +2770,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:144
+#: core/data/System/GroupViewTemplate.txt:148
 #, fuzzy
 msgid "Log in to continue."
 msgstr "Nombre de usuario %1"
@@ -2781,8 +2818,9 @@ msgstr "Realizar búsqueda:"
 msgid "Maximum %1 items per web"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
-#: core/data/Main/WikiGroups.txt:63
+#: core/data/System/GroupViewTemplate.txt:25
+#: core/data/System/WikiGroupsComponents.txt:31
+#: core/data/System/WikiGroupsComponents.txt:57
 msgid "Members"
 msgstr "Miembros"
 
@@ -2798,7 +2836,7 @@ msgstr "Comando de acción no encontrado"
 msgid "Missing or illegal web name"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Modificar búsqueda"
@@ -3015,7 +3053,7 @@ msgstr "No hay temas hijo"
 msgid "No group name specified"
 msgstr "No se especificó un nombre del grupo"
 
-#: core/data/Main/GroupViewTemplate.txt:52
+#: core/data/System/GroupViewTemplate.txt:56
 #, fuzzy
 msgid "No members"
 msgstr "no son miembros"
@@ -3112,7 +3150,7 @@ msgstr "Notificaciones"
 msgid "Number of changes for each Web"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3135,7 +3173,7 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3174,7 +3212,7 @@ msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 
-#: core/data/Main/GroupViewTemplate.txt:147
+#: core/data/System/GroupViewTemplate.txt:151
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -3414,6 +3452,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:461
 msgid "Please go back in your browser and try again."
 msgstr "Por favor presione atrás en su navegador e inténtelo de nuevo."
 
@@ -3587,7 +3626,7 @@ msgstr "Recargar"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Registrarse"
 
@@ -3605,12 +3644,17 @@ msgstr "Registrarse"
 msgid "Registration"
 msgstr "Registro"
 
+#: core/templates/registermessages.tmpl:467
+#, fuzzy
+msgid "Registration Results Summary"
+msgstr "Registro"
+
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 #, fuzzy
 msgid "Registration approval is not enabled."
 msgstr "%1 aprobación requerida para el registro"
 
-#: core/lib/Foswiki/UI/Register.pm:790
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3663,6 +3707,7 @@ msgstr ""
 "Un correo electrónico no pudo ser enviado. Por favor notifique su "
 "administrador %1, %2"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:37
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
@@ -3670,15 +3715,15 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "Temas relacionados"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:149
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:705
-#: core/data/System/FormattedSearch.txt:401
+#: core/data/System/CommandAndCGIScripts.txt:758
+#: core/data/System/FormattedSearch.txt:402
 #: core/data/System/GlossaryOfTerms.txt:27
+#: core/data/System/GroupViewTemplate.txt:38
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
 #: core/templates/messages.tmpl:428
@@ -3706,7 +3751,7 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "¿Recuerda su contraseña?"
 
-#: core/data/Main/GroupViewTemplate.txt:225
+#: core/data/System/GroupViewTemplate.txt:229
 #, fuzzy
 msgid "Remove Members from %1"
 msgstr "Reconózcame"
@@ -3716,7 +3761,7 @@ msgstr "Reconózcame"
 msgid "Remove User"
 msgstr "no son miembros"
 
-#: core/data/Main/GroupViewTemplate.txt:165
+#: core/data/System/GroupViewTemplate.txt:169
 #, fuzzy
 msgid "Remove members..."
 msgstr "no son miembros"
@@ -3725,7 +3770,7 @@ msgstr "no son miembros"
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/System/GroupViewTemplate.txt:243
 msgid "Remove selected members"
 msgstr ""
 
@@ -3780,6 +3825,11 @@ msgstr "Reemplazar formulario..."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Solicite validación"
+
+#: core/templates/registermessages.tmpl:457
+#, fuzzy
+msgid "Requested bulk registration topic not found."
+msgstr "Registro de usuarios nuevos no disponible"
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3846,6 +3896,10 @@ msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 "Se deshabilitó la conversión de HTML para WYSIWYG debido al contenido del "
 "tema."
+
+#: core/templates/registermessages.tmpl:471
+msgid "Results"
+msgstr ""
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -4105,7 +4159,7 @@ msgstr ""
 msgid "Select groups to join:"
 msgstr "Escoja Wiki %1 para participar"
 
-#: core/data/Main/GroupViewTemplate.txt:234
+#: core/data/System/GroupViewTemplate.txt:238
 #, fuzzy
 msgid "Select members to remove from this group:"
 msgstr "Elimine el usuario de este grupo"
@@ -4172,7 +4226,7 @@ msgstr "Mostrar ayuda"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Revisiones %1 - %2 (de %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Empequeñecer campo de edición"
 
@@ -4360,7 +4414,7 @@ msgstr "Resúmenes"
 msgid "Superscript"
 msgstr "Aviso de seguridad:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 #, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Cambiar a monotipo o tipo de letra proporcional"
@@ -4373,7 +4427,7 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/System/GroupViewTemplate.txt:145
 msgid "System user list."
 msgstr ""
 
@@ -4463,11 +4517,11 @@ msgstr ""
 "firma y una fecha con su %4"
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
-#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:6
 #: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
-#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
-#: core/data/_default/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:6 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:6
 msgid "The %1 web of %2."
 msgstr "La web %1 de %2."
 
@@ -4823,7 +4877,7 @@ msgstr ""
 "Las direcciones que usted registre por este formulario son mantenidas en "
 "secreto y *no* serán publicadas en ningún lado de este sitio."
 
-#: core/data/Main/GroupViewTemplate.txt:138
+#: core/data/System/GroupViewTemplate.txt:142
 msgid "This group should not have members."
 msgstr ""
 
@@ -5082,7 +5136,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Tema no puede ser actualizado de la tabla de estilo vieja"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:72
 msgid "Topic data"
 msgstr "Datos del tema"
 
@@ -5241,14 +5295,14 @@ msgstr "Actualizar archivo adjunto %1 en %2"
 msgid "Update links"
 msgstr "Actualizar enlaces"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:182
-#: core/data/Main/GroupViewTemplate.txt:191
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
+#: core/data/System/GroupViewTemplate.txt:186
+#: core/data/System/GroupViewTemplate.txt:195
 #, fuzzy
 msgid "Upgrade"
 msgstr "Grupo actualizado"
 
-#: core/data/Main/GroupViewTemplate.txt:172
+#: core/data/System/GroupViewTemplate.txt:176
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Grupo actualizado"
@@ -5311,13 +5365,13 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1145
 #, fuzzy
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "No hay acceso para ver %1"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1134
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5368,12 +5422,12 @@ msgid "Users"
 msgstr "Usuarios"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1104
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -5414,7 +5468,7 @@ msgstr "Historial de %1"
 msgid "View"
 msgstr "Ver"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 #, fuzzy
 msgid "View complete topic history"
 msgstr "Ver historial total del tema"
@@ -5513,11 +5567,11 @@ msgstr "Advertencia: No se puede encontrar el tema %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advertencia: No se puede encontrar el tema %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1356
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Advertencia: No se pudo enviar correo de confirmación"
 
-#: core/lib/Foswiki/UI/Register.pm:1368
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Advertencia: No se pudo enviar correo de confirmación, correo electrónico "
@@ -5528,7 +5582,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advertencia: Este sitio no permite %<nop>INCLUDE% de direcciones web"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-msgid "Warning: Updates found for %1 extension(s)."
+msgid "Warning: Updates found for %1 extension(s): %2"
 msgstr ""
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
@@ -5997,33 +6051,37 @@ msgstr ""
 "[Multiples de 3 espacios] * [espacio] Set [espacio] NOMBREDEVARIABLE "
 "[espacio] = [valor]"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
+msgid "_Be sure to remember to save any table changes!_"
+msgstr ""
+
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Español"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:166
 msgid "access denied on root"
 msgstr "acceso denegado a raíz"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:102
 msgid "access denied on topic"
 msgstr "acceso denegado al tema"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:138
 msgid "access denied on web"
 msgstr "acceso denegado a la web"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:176
 msgid "access not allowed on root"
 msgstr "acceso no permitido a raíz"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:125
 msgid "access not allowed on topic"
 msgstr "acceso no permitido al tema"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:150
 msgid "access not allowed on web"
 msgstr "acceso no permitido a esta web"
 
@@ -6141,7 +6199,7 @@ msgid "now %1"
 msgstr "ahora %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

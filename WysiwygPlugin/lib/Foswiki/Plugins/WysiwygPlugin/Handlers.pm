@@ -10,6 +10,7 @@ use Assert;
 use Error (':try');
 
 use CGI qw( :cgi );
+use JSON ();
 
 use Foswiki::Func                              ();    # The plugins API
 use Foswiki::Plugins                           ();    # For the API version
@@ -671,7 +672,7 @@ sub returnRESTResult {
 sub REST_TML2HTML {
     my ( $session, $plugin, $verb, $response ) = @_;
 
-    my $tml = Foswiki::Func::getCgiQuery()->param('text');
+    my $tml = Foswiki::Func::getCgiQuery()->param('text') || '';
     $tml = toSiteCharSet($tml);
 
     return '' unless $tml;
@@ -731,17 +732,6 @@ sub REST_HTML2TML {
     return;    # to prevent further processing
 }
 
-sub _unquote {
-    my $text = shift;
-    $text =~ s/\\/\\\\/g;
-    $text =~ s/\n/\\n/g;
-    $text =~ s/\r/\\r/g;
-    $text =~ s/\t/\\t/g;
-    $text =~ s/"/\\"/g;
-    $text =~ s/'/\\'/g;
-    return $text;
-}
-
 # Get, and return, a list of attachments using JSON
 sub REST_attachments {
     my ( $session, $plugin, $verb, $response ) = @_;
@@ -764,21 +754,11 @@ sub REST_attachments {
     foreach my $att ( sort { $a->{name} cmp $b->{name} }
         $meta->find('FILEATTACHMENT') )
     {
-        push(
-            @atts,
-            '{' . join(
-                ',',
-                map {
-                        '"'
-                      . _unquote($_) . '":"'
-                      . _unquote( $att->{$_} ) . '"'
-                } keys %$att
-              )
-              . '}'
-        );
-
+        push @atts, $att;
     }
-    return '[' . join( ',', @atts ) . ']';
+
+    $response->header( -type => "application/json; charset=utf-8" );
+    return JSON->new->encode( \@atts );
 }
 
 1;

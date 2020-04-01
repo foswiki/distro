@@ -1403,7 +1403,7 @@ sub addUserToGroup {
 
 =begin TML
 
----+++ removeUserFromGroup( $group, $id ) -> $boolean
+---+++ removeUserFromGroup( $id, $group ) -> $boolean
 
    * $id can be a login name or a WikiName
 
@@ -2106,6 +2106,11 @@ try {
     ...
 };
 </verbatim>
+
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]].
+If the actual name of the topic is required, the =Foswiki::Meta= API
+should be used to save the topic.
 
 In the event of an error an exception will be thrown. Callers can elect
 to trap the exceptions thrown, or allow them to propagate to the calling
@@ -3626,8 +3631,7 @@ sub formatGmTime {
 
 ---+++ getDataDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
-to manipulate topics instead
+*Deprecated* 28 Nov 2008 - use $Foswiki::cfg{DataDir} instead
 
 =cut
 
@@ -3639,8 +3643,7 @@ sub getDataDir {
 
 ---+++ getPubDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
-to manipulate attachments instead
+*Deprecated* 28 Nov 2008 - use $Foswiki::cfg{PubDir} instead
 
 =cut
 

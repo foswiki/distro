@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1426913092" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1495729065" format="1.1"  version="1"}%
 ---+ Group Member Toggle
 
 This topic implements a button that will turn Admin status on or off for the
@@ -25,10 +25,10 @@ user making the change instead of the anonymous !AdminUser.
 _If you (<nop>%WIKINAME%) has permission to change the %USERSWEB%.AdminGroup topic,  a button to add or remove yourself from the !AdminGroup will appear below:_
 Be sure that you have explicit CHANGE authority on the !AdminGroup or removing yourself from the group will be permanent.
 
-%STARTINCLUDE%%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%%STOPINCLUDE%
+%STARTINCLUDE%%INCLUDE{"%USERSWEB%.GroupViewTemplate,%SYSTEMWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%%STOPINCLUDE%
 
 ---+++ More enhancements
 
 You can add this button to your custom sidebar for any group, by using the following include macro:
 <verbatim>
-%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%</verbatim>
+%INCLUDE{"%USERSWEB%.GroupViewTemplate,%SYSTEMWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%</verbatim>

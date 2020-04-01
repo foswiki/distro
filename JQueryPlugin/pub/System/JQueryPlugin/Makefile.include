@@ -2,74 +2,88 @@ FOSWIKI_ROOT?=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
-MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(UGLIFYJS); else echo $(NOMINIFYJS); fi)
-UGLIFYJS="uglifyjs -m -b beautify=false,ascii-only=true"
-NOMINIFYJS="echo 'WARNING: no javascript minifier found' >&2"
+BUILD_DIR=.
+ifneq (,$(wildcard build))
+  BUILD_DIR=build
+  VPATH:=:$(BUILD_DIR)
+endif
 
-MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(CSSMIN); else echo $(NOMINIFYCSS); fi)
-CSSMIN="cssmin"
-NOMINIFYCSS="echo 'WARNING: no css minifier found' >&2"
+SRC_DIR=.
+ifneq (,$(wildcard src))
+  SRC_DIR=src
+  VPATH:=$(VPATH):$(SRC_DIR)
+endif
 
-JSLINT=$(shell if which eslint > /dev/null; then echo $(ESHINT); else echo $(NOJSLINT); fi)
-NOJSLINT="echo 'WARNING: no javascrit linter found' >&2"
+ifneq (,$(wildcard lib))
+  LIB_DIR=lib
+  VPATH:=$(VPATH):$(LIB_DIR)
+endif
 
-SASS=$(shell if which node-sass >/dev/null; then echo $(SASS_CMD); else echo $(NOSASS); fi)
-SASS_CMD="node-sass --output-style expanded"
-NOSASS="echo 'WARNING: no sass preprocessor found' >&2"
+GZIP=gzip
+CAT=cat
+DEBUG=false
 
-ESHINT="eslint"
-GZIP="gzip"
-CAT="cat"
-PATCH="patch"
-DEBUG="false"
+NPM_INSTALL=npm install -g
+JSMIN=terser -m -c --
+CSSMIN=cssmin
+ESLINT=eslint -f compact
+SASS=node-sass --output-style expanded
 
-.SUFFIXES: .js .css .jslint
-.PHONY: subdirs $(SUBDIRS)
+DEV_DEPENDENCIES=\
+  cssmin \
+  eslint \
+  sass \
+  terser
+
+.SUFFIXES: .js .css .jslint .install
+.PHONY: subdirs $(SUBDIRS) deps
 
 all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
 	@echo -n ""
 
+deps: 
+	@$(NPM_INSTALL) $(DEV_DEPENDENCIES) >/dev/null
+
 jslint: subdirs $(TARGET:.js=.jslint) 
 	@echo -n ""
 
-%.jslint: %.uncompressed.js
+$(SRC_DIR)/%.jslint: %.uncompressed.js
 	@echo checking code quality of $<
-	@$(JSLINT) $< && touch $@
+	@$(ESLINT) $< && touch $@
 
-%.jslint: %_src.js
+$(SRC_DIR)/%.jslint: %_src.js
 	@echo checking code quality of $<
-	@$(JSLINT) $< && touch $@
+	@$(ESLINT) $< && touch $@
 
-%.js: %.uncompressed.js
+$(BUILD_DIR)/%.js: %.uncompressed.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< -o $@; \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-%.js: %_src.js
+$(BUILD_DIR)/%.js: %_src.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< -o $@; \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-%.gz: %
+$(BUILD_DIR)/%.gz: %
 	@echo zipping $< to $@
 	@$(GZIP) -c $< > $@
 
-%.css: %.uncompressed.css
+$(BUILD_DIR)/%.css: %.uncompressed.css
 	@echo minifying $@ from $<
-	@$(MINIFYCSS) $< > $@
+	@$(CSSMIN) $< > $@
 
-%.uncompressed.css: %.scss
+$(BUILD_DIR)/%.uncompressed.css: %.scss
 	@echo sassing $@ from $<
 	@$(SASS) $< > $@
 
-%.css: %_src.css
+$(BUILD_DIR)/%.css: %_src.css
 	@echo minifying $@ from $<
-	@$(MINIFYCSS) $< > $@
-
+	@$(CSSMIN) $< > $@
 
 subdirs: $(SUBDIRS)
 

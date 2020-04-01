@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2013-2017 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -64,7 +64,7 @@ sub handle {
 
     # clear redirect enforced by a checkpoint action
     $response->deleteHeader( "Location", "Status" );
-    $response->pushHeader( "Status", $status );
+    $response->status($status);
 
     # add validation key to HTTP header, if required
     unless ( $response->getHeader('X-Foswiki-Validation') ) {

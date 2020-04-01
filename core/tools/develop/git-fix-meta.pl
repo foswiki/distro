@@ -10,6 +10,7 @@
 #  - Removes comment, reprev and path args
 #  - Converts autoattached files to hidden attachments
 #  - Adds a user= when missing from attachments.
+#  - Removes stale stream and tempFilename attributes
 #
 # If run with one or more optional filenames, the git status command is omitted
 # and the named files are updated.
@@ -30,8 +31,14 @@ else {
     $gitstatus = 1;
 }
 
+my $rootdir = `git rev-parse --show-toplevel`;
+chomp $rootdir;
+
 foreach my $f (@files) {
     if ($gitstatus) {
+        if ( ( my $pos = index( $f, '->' ) ) > 0 ) {
+            $f = substr( $f, $pos );
+        }
         chomp $f;
         $f = substr( $f, 3 );
     }
@@ -40,7 +47,7 @@ foreach my $f (@files) {
 /data\/(?:System|Sandbox|TestCases|Main|_empty|_default|Trash|TWiki)\/.*?\.txt$/;
     print "Fixing timestamp on: $f\n";
     my $date = time;
-    open( F, "<", "$f" ) || die "Could not open $f for read";
+    open( F, "<", "$rootdir/$f" ) || die "Could not open $rootdir/$f for read";
     my @lines;
     while ( my $l = <F> ) {
         chomp($l);
@@ -54,6 +61,8 @@ foreach my $f (@files) {
             $l =~ s/[\s]+/ /;
             $l =~ s/ attr="" autoattached="1"/ attr="h"/;
             $l =~ s/ path="[^"]*"//;
+            $l =~ s/ stream="[^"]*"//;
+            $l =~ s/ tmpFilename="[^"]*"//;
         }
         if ( $l =~ /^%META:FILEATTACHMENT\{(.*)\}%$/ && $l !~ m/user=/ ) {
             $l =~ s/date=/user="ProjectContributor" date=/;
@@ -61,7 +70,7 @@ foreach my $f (@files) {
         push( @lines, $l );
     }
     close(F);
-    open( F, ">", "$f" ) || die "Could not open $f for write";
+    open( F, ">", "$rootdir/$f" ) || die "Could not open $rootdir/$f for write";
     print F join( "\n", @lines ) . "\n";
     close(F);
 }

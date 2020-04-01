@@ -1,11 +1,9 @@
 /*
  * i18n - the simplest possible solution 
  *
- * Copyright (c) 2016 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2016-2018 Michael Daum http://michaeldaumconsulting.com
  *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
  */
 
@@ -30,13 +28,15 @@
           namespace = $this.data("i18nNamespace"),
           data;
 
-      // inline
-      if (typeof(url) === 'undefined') {
-        data = $.parseJSON($this.text());
-        self.addResource(data, language, namespace);
-        self.translateAllElements();
-      } else {
-        self.loadResource(url, language, namespace);
+      if (language === self.currentLanguage) {
+        // inline
+        if (typeof(url) === 'undefined') {
+          data = $.parseJSON($this.text());
+          self.addResource(data, language, namespace);
+          self.translateAllElements();
+        } else {
+          self.loadResource(url, language, namespace);
+        }
       }
     });
 

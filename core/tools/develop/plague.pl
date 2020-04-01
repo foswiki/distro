@@ -47,6 +47,8 @@ my $data = Foswiki::Func::expandCommonVariables(<<"SEARCH");
  separator="$sep"}\%
 SEARCH
 
+my $mailFrom = Foswiki::Func::expandCommonVariables("%WIKIWEBMASTER%");
+
 # collate search results into %send, keyed by mail address to be notified.
 my %send;
 for my $itemData ( split $sep, $data ) {
@@ -78,6 +80,7 @@ while ( my ( $email, $items ) = each %send ) {
         map { $_->{summary} . "\nhttp://foswiki.org/Tasks/" . $_->{topic} }
           @$items );
     my $mail = $template;
+    $mail =~ s/%EMAILFROM%/$mailFrom/g;
     $mail =~ s/%EMAILTO%/$email/g;
     $mail =~ s/%TASK_LIST%/$list/g;
     $mail = Foswiki::Func::expandCommonVariables($mail);
@@ -91,7 +94,7 @@ while ( my ( $email, $items ) = each %send ) {
 }
 1;
 __DATA__
-From: tasks
+From: %EMAILFROM%
 To: %EMAILTO%
 Subject: Tasks are waiting for feedback from you
 Auto-Submitted: auto-generated
@@ -106,7 +109,7 @@ The following Tasks are waiting for feedback from you.
 
 %TASK_LIST%
 
-Please help keep development flowing by responding promptly to requests 
+Please help keep development flowing by responding promptly to requests
 for feedback.
 
 If you want to stop receiving these emails, please provide feedback

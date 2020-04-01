@@ -57,6 +57,7 @@ sub haveAccess {
     my $session = $this->{session};
     undef $this->{failure};
 
+    # If site doesn't permit login authentication, everything is allowed.
     return 1
       if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' );
@@ -89,6 +90,15 @@ sub haveAccess {
 
     my ( $allow, $deny );
     if ( $meta->{_topic} ) {
+
+        if ( $Foswiki::cfg{AccessControlACL}{RestrictedEdit} =~
+            m/\b\Q$meta->{_topic}\E\b/ && $mode ne 'VIEW' )
+        {
+            $this->{failure} =
+              $session->i18n->maketext('access denied on topic');
+            print STDERR 'a ' . $this->{failure}, "\n" if MONITOR;
+            return 0;
+        }
 
         $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
         $deny  = $this->_getACL( $meta, 'DENYTOPIC' . $mode );
@@ -204,6 +214,18 @@ sub _getACL {
     my $text = $meta->getPreference($mode);
     return undef unless defined $text;
 
+    if ( $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules}
+        && substr( $text, 0, 1 ) eq '+' )
+    {
+        $text = substr $text, 1;
+        print STDERR "Additive enabled, checking WEB level\n" if MONITOR;
+
+        if ( $mode =~ m/^ALLOWTOPIC(.*)/ ) {
+            my $tmptext = $meta->getContainer()->getPreference("ALLOWWEB$1");
+            $text .= ", " . $tmptext if $tmptext;
+        }
+    }
+
     # Remove HTML tags (compatibility, inherited from Users.pm
     $text =~ s/(<[^>]*>)//g;
 
@@ -213,7 +235,7 @@ sub _getACL {
         $_
     } split( /[,\s]+/, $text );
 
-    #print STDERR "getACL($mode): ".join(', ', @list)."\n";
+    #print STDERR "getACL($mode): ".join(', ', @list)."\n" if MONITOR;
 
     return \@list;
 }

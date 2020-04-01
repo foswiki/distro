@@ -1,6 +1,3 @@
-TARGET=\
-  jquery.loader.js \
-  jquery.loader.css \
-  $(JQUERYPLUGIN_LIB)/LOADER.pm
+TARGET=jquery.loader.js
 
 -include ../../Makefile.include

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminUser"}%
 %ADDTOZONE{
 	"head"
@@ -20,3 +20,4 @@ Customise this topic; samples and ideas available at
    * [[%LOGOUTURL%][Logout]] 
 <a class='foswikiSmallish' href='%SCRIPTURLPATH{"edit" topic="%WEB%.%TOPIC%" t="%GMTIME{"$epoch"}%"}%'>edit</a>
 
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%

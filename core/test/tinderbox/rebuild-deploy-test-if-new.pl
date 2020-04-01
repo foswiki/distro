@@ -1,5 +1,6 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 use strict;
+use warnings;
 ################################################################################
 # rebuild-deploy-test-if-new.pl - crontab-compatible script used to perform the following:
 #   * run the (unit) tests

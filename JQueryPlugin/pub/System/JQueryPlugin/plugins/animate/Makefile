@@ -8,7 +8,10 @@ git:
 
 ifneq (,$(wildcard git))
 animate.uncompressed.css: git/animate.css
-	cat $^ > $@
+	@echo generating $@
+	@cat $^ > $@
+	@echo ".jqAnimateCSS { visibility:hidden; } .jqAnimateCSS.animated { visibility:visible; }" >> $@
+
 endif
 
 clean:

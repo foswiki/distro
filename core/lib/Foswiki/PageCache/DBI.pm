@@ -190,7 +190,7 @@ HERE
         $this->{cacheDir} . '/' . $variation->{md5} );
 
     #writeDebug("saving data of $webTopic into $fileName");
-    open( $FILE, '>:encoding(utf-8)', $fileName )
+    open( $FILE, '>', $fileName )
       or die "Can't create file $fileName - $!\n";
     print $FILE $variation->{data};
     close($FILE);
@@ -229,11 +229,13 @@ HERE
     if ( defined $variation ) {
         my $FILE;
         my $fileName = $this->{cacheDir} . '/' . $variation->{md5};
-        open( $FILE, '<:encoding(utf-8)', $fileName ) or return;
+        open( $FILE, '<', $fileName ) or return;
         local $/ = undef;
         $variation->{data} = <$FILE>;
         close($FILE);
         $variation->{data} = '' unless defined $variation->{data};
+        $variation->{data} = Foswiki::decode_utf8( $variation->{data} )
+          if $variation->{isdirty};
     }
 
     return $variation;

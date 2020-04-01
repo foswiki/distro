@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1487618039" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---++ Using HTML
 
@@ -12,7 +12,8 @@ you can write =&lt;strike&gt;deleted text&lt;/strike&gt;= to get <strike>deleted
 There are a few usability and technical considerations to keep in mind:
    * On collaboration pages, it's better *not* to use HTML, but to use [[wiki syntax]] instead -
      this keeps the text uncluttered and easy to edit using the plaintext editor.
-   * If you _must_ use HTML, use [[http://www.w3.org/TR/xhtml1/][XHTML 1.0 Transitional]] syntax.
+   * If you _must_ use HTML, try to stick to [[http://www.w3.org/TR/xhtml1/][XHTML 1.0 Transitional]] syntax.
+   * Even if your site allows it, avoid using Javascript.
    * Use =&lt;literal&gt;..&lt;/literal&gt;= tags around blocks of HTML to avoid accidental interpretation of
      [[Wiki syntax]] within the HTML.
 <div class="foswikiHelp">%X% Script tags may be filtered out, at the discretion of your Wiki administrator.</div>

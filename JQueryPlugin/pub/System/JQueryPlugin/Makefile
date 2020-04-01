@@ -23,6 +23,8 @@ TARGET=\
   jquery-2.2.1.js \
   jquery-2.2.2.js \
   jquery-2.2.3.js \
-  jquery-2.2.4.js
+  jquery-2.2.4.js \
+  jquery-3.2.1.js \
+  jquery-3.3.1.js
 
 -include Makefile.include

@@ -27,14 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'Validate',
-            version    => '1.11.0',
-            author     => 'Joern Zaefferer',
-            homepage   => 'http://jqueryvalidation.org/',
-            javascript => [
-                'jquery.validate.js', 'jquery.validate.methods.js',
-                'jquery.validate.init.js'
-            ],
+            name         => 'Validate',
+            version      => '1.11.0',
+            author       => 'Joern Zaefferer',
+            homepage     => 'http://jqueryvalidation.org/',
+            javascript   => ['pkg.js'],
             dependencies => ['form'],
         ),
         $class
@@ -66,7 +63,7 @@ sub init {
     my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
     if ( -f $messageFile ) {
         my $text .=
-"<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+          "<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::VALIDATE::LANG",
             $text,    'JQUERYPLUGIN::VALIDATE'
@@ -79,7 +76,7 @@ sub init {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

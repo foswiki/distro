@@ -1,11 +1,18 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1482207308" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1494206626" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
 
-This guide covers upgrading from a previous version of Foswiki to Foswiki 2.0
+This guide covers upgrading from a previous version of Foswiki to Foswiki 2.x.
 
 <!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
+
+<div class='foswikiHelp' style='border:2px orange solid' >
+%X% This upgrade procedure is used to upgrade a
+to a new *major version* of Foswiki (<b>1.x</b> to <b> 2.x</b>) or from TWiki. Generally, upgrades of
+a minor Foswiki version (2.0 to 2.1), or Foswiki patch releases (2.1.3 to 2.1.4) can be done by using the
+=-upgrade-= version of the Foswiki package, and follow the Release Notes for the new
+release.</div>
 
 %TOC%
 
@@ -22,7 +29,7 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
    * Before upgrading, a backup of your topics is strongly recommended.
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write.
 
----++ Upgrading to a new patch release
+---++ Upgrading to a new patch or minor release
 
 To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite typical customizations. Unless otherwise stated in the release notes, we do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
 
@@ -97,7 +104,7 @@ For patch releases you will find a brief upgrade procedure on the download page 
 %T% If you use the Foswiki !PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version. Visit your site with the Query parameter =?refresh=all=
 </div>
 
----++ Upgrade procedure: upgrading to a new major or minor version
+---++ Upgrade procedure: upgrading to a new major version
 
 The following is a high level view of the upgrade procedure:
 
@@ -250,7 +257,7 @@ This is the most common data that should be copied. Review other non-default ext
 
 ---+++ Migrate =.htpasswd= file
 
-If used, *the =.htpasswd= file may require conversion*.  If users have registered using "high ascii" characters in their !WikiNames (e.g.  Ä, ä, Ë, ë, Ï, ï, Ö, ö, Ü, ü) then conversion will be
+If used, *the =.htpasswd= file may require conversion*.  If users have registered using "high ascii" characters in their !WikiNames (e.g.  &Auml;, &auml;, &Euml;, &euml;, &Iuml;, &iuml;, &Ouml;, &ouml;, &Uuml;, &uuml;) then conversion will be
 required.  Foswiki does not provide a tool to convert =.htpasswd=.  Consider command line tools such as =iconv= or =recode=.  See
 [[http://stackoverflow.com/questions/64860/best-way-to-convert-text-files-between-character-sets][this StackOverflow article]] for more details.
 
@@ -405,6 +412,18 @@ In your new installation, default copies of the following topics were installed:
    * =[[%SYSTEMWEB%.ChangeEmailAddress]]=
 
 If you customized these topics in your old installation, transfer the changes to these topics in the new installation. Use the corresponding files in the =&lt;oldwiki&gt;/&lt;old_system_web&gt;/= directory as a reference.
+
+---+++ Check your configuration and installation
+Configure provides some tools to validate your installation.  They should be
+run as the web server userid:
+<verbatim>
+cd <path-to-foswiki-installation>
+sudo -u www-data tools/configure -check
+sudo -u www-data perl tools/configure -check {DataDir} -method validate_permissions
+sudo -u www-data perl tools/configure -check {PubDir} -method validate_permissions
+ ...  also can be run on: 
+    {LocalesDir} {ScriptDir}  {TemplateDir} {ToolsDir} {WorkingDir}
+</verbatim>
 
 ---+++ Validate your Wiki applications and other key functionality
 

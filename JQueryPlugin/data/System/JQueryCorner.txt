@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"corner"
@@ -42,7 +42,7 @@ are provided inside the =class= attribute using JQueryMetadata.)
 %JQREQUIRE{"corner"}%
 
 <literal>
-<style type="text/css">
+<style>
 .jqCorner {
   margin:1em 0.8em;
   padding:1em;

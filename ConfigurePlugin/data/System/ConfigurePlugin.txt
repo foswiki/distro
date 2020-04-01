@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485233581" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -14,7 +14,7 @@ However this UI provides a simple way to access the configuration without
 requiring login access to the server.
 
 If your system has an existing !LocalSite.cfg, then you *must* be
-logged in to %WIKITOOLNAME% as an administrator, or as a user identified by the 
+logged in to %WIKITOOLNAME% as an administrator, or as a user identified by the
 ={FeatureAccess}{Configure}= parameter before attempting to use
 this interface. If no !LocalSite.cfg exists, then you will automatically
 logged in as an admin.  Do not log out of Foswiki until you have done one or
@@ -42,6 +42,11 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  08 Dec 2017: | (1.09) Foswikitask:Item14536: Configure leaves "wait" cursor spinning while waiting for user action.<br/>\
+                         Foswikitask:Item14472: replaced use of =attr()= with =prop()= where needed; fixed use of =null= value trying to trim values |
+|  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page.<br/>\
+                         Foswikitask:Item13339: Warning or errors icons in configure get stuck unless page is reloaded.<br/>\
+                         Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp |
 |  23 Jan 2017: | (1.07) Foswikitask:Item14287: Configure needs to encode reported configuration values. |
 |  28 Nov 2016: | (1.06) Foswikitask:Item13206: Upgrade to latest jquery-ui |
 |  11 Apr 2016: | (1.05) Foswikitask:Item14049: fixed jsonrpc endpoint |

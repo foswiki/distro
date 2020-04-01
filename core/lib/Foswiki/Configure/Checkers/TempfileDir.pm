@@ -18,7 +18,7 @@ sub check_current_value {
         File::Spec->tmpdir() =~ m/^(.*)$/;
         $tmpdir = $1;    # untaint
 
-        $reporter->WARN( '{TempfileDir} is not set (or is set to nothing).'
+        $reporter->NOTE( '{TempfileDir} is not set (or is set to nothing).'
               . " Temporary files will be written to: =$tmpdir=" );
 
         $reporter->NOTE("Other possible alternatives:");

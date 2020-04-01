@@ -1304,10 +1304,15 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         if ( defined( $item->topic ) ) {
             $out =~ s/\$summary(?:\(([^\)]*)\))?/
               $item->summariseText( $1, $text, $searchOptions )/ges;
+
+            #summariseChanges( $olderrev, $newerrev, $tml, $nochecks) -> $text
             $out =~
               s/\$changes(?!\()/$item->summariseChanges(undef,$revNum)/ges;
+            $out =~ s/\$changes(?:\((-[0-9]+)\))/
+              $item->summariseChanges($1, $revNum)/ges;
             $out =~ s/\$changes(?:\(([^\)]*)\))/
               $item->summariseChanges(Foswiki::Store::cleanUpRevID($1), $revNum)/ges;
+
             $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
               displayFormField( $item, $1, $newLine )/ges;
             $out =~ s/\$parent\(([^\)]*)\)/

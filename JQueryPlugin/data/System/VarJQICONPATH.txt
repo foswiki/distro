@@ -1,11 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
----+ JQICONPATH -- render the urlpath to an image 
-This is a shortcut for 
-     <verbatim class="tml">%JQICON{"name" format="$iconPath"}%</verbatim>
+---+ JQICONPATH -- render the url path to an image icon
+This is a shortcut for:
+
+<verbatim class="tml">%JQICON{"name" format="$iconPath"}%</verbatim>
+
+<div class="foswikiHelp">
+Note that this macro only makes sense for __image icons__, those that refer to a single image file. It does _not_ work for __font icons__ such as those defined in [[JQueryFontAwesome]].
+This web font holds all icons in one large font file and as such cannot be refered to individually by means of their url path the same way as images can.
+</div>
+
 ---++ Examples
-   * =%<nop>JQICONPATH{"tick"}%= expands to =%JQICONPATH{"tick"}%=
+=%<nop>JQICONPATH{"tick"}%= expands to =%JQICONPATH{"tick"}%=
 %STOPINCLUDE%
+
 ---++ Related
- [[VarJQICON][JQICON]], [[VarICONURL][ICONURL]], JQueryPlugin
+ [[VarJQICON][JQICON]], [[VarICONURL][ICONURL]], JQueryPlugin, IconService
 <!--%JQREQUIRE{"chili"}%-->

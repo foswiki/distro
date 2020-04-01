@@ -1,15 +1,26 @@
-/*! Copyright 
+/*! jquery.livequery - v1.3.6 - 2016-12-09
+ * Copyright (c)
  *  (c) 2010, Brandon Aaron (http://brandonaaron.net)
- *  (c) 2012, Alexander Zaytsev (http://hazzik.ru/en)
+ *  (c) 2012 - 2016, Alexander Zaytsev (https://alexzaytsev.me)
  * Dual licensed under the MIT (MIT_LICENSE.txt)
  * and GPL Version 2 (GPL_LICENSE.txt) licenses.
- *
- * Version: 1.3.1
- * Requires jQuery 1.3+
- * Docs: http://docs.jquery.com/Plugins/livequery
  */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(['jquery'], factory);
+	} else if (typeof exports === 'object') {
+		factory(require('jquery'));
+	} else {
+		factory(jQuery);
+	}
+}(function ($, undefined) {
 
-(function($) {
+function _match(me, query, fn, fn2) {
+	return me.selector == query.selector &&
+		me.context == query.context &&
+		(!fn || fn.$lqguid == query.fn.$lqguid) &&
+		(!fn2 || fn2.$lqguid == query.fn2.$lqguid);
+}
 
 $.extend($.fn, {
 	livequery: function(fn, fn2) {
@@ -17,8 +28,7 @@ $.extend($.fn, {
 
 		// See if Live Query already exists
 		$.each( $jQlq.queries, function(i, query) {
-			if ( me.selector == query.selector && me.context == query.context &&
-				(!fn || fn.$lqguid == query.fn.$lqguid) && (!fn2 || fn2.$lqguid == query.fn2.$lqguid) )
+			if ( _match(me, query, fn, fn2) )
 					// Found the query, exit the each loop
 					return (q = query) && false;
 		});
@@ -41,8 +51,7 @@ $.extend($.fn, {
 
 		// Find the Live Query based on arguments and stop it
 		$.each( $jQlq.queries, function(i, query) {
-			if ( me.selector == query.selector && me.context == query.context &&
-				(!fn || fn.$lqguid == query.fn.$lqguid) && (!fn2 || fn2.$lqguid == query.fn2.$lqguid) && !me.stopped )
+			if ( _match(me, query, fn, fn2) && !me.stopped)
 					$jQlq.stop(query.id);
 		});
 
@@ -117,6 +126,7 @@ $.extend($jQlq, {
 	queue: [],
 	running: false,
 	timeout: null,
+	registered: [],
 
 	checkQueue: function() {
 		if ( $jQlq.running && $jQlq.queue.length ) {
@@ -142,7 +152,7 @@ $.extend($jQlq, {
 	registerPlugin: function() {
 		$.each( arguments, function(i,n) {
 			// Short-circuit if the method doesn't exist
-			if (!$.fn[n]) return;
+			if (!$.fn[n] || $.inArray(n, $jQlq.registered) > 0) return;
 
 			// Save a reference to the original method
 			var old = $.fn[n];
@@ -157,12 +167,14 @@ $.extend($jQlq, {
 
 				// Return the original methods result
 				return r;
-			}
+			};
+
+			$jQlq.registered.push(n);
 		});
 	},
 
 	run: function(id) {
-		if (id != undefined) {
+		if (id !== undefined) {
 			// Put the particular Live Query in the queue if it doesn't already exist
 			if ( $.inArray(id, $jQlq.queue) < 0 )
 				$jQlq.queue.push( id );
@@ -181,7 +193,7 @@ $.extend($jQlq, {
 	},
 
 	stop: function(id) {
-		if (id != undefined)
+		if (id !== undefined)
 			// Stop are particular Live Query
 			$jQlq.queries[ id ].stop();
 		else
@@ -196,4 +208,4 @@ $jQlq.registerPlugin('append', 'prepend', 'after', 'before', 'wrap', 'attr', 're
 // Run Live Queries when the Document is ready
 $(function() { $jQlq.play(); });
 
-})(jQuery);
+}));

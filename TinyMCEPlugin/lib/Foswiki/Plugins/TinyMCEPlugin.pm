@@ -7,8 +7,8 @@ use warnings;
 
 use Assert;
 
-our $VERSION           = '1.31';
-our $RELEASE           = '1.31';
+our $VERSION           = '2.11';
+our $RELEASE           = '03 Nov 2018';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -133,8 +133,7 @@ sub installTinyMCE {
 
     my $scripts = <<"SCRIPT";
 <script type="text/javascript">
-jQuery(function(\$) { FoswikiTiny.install(); });
-FoswikiTiny.init = {$init};
+jQuery(function(\$) { FoswikiTiny.init({$init}); });
 </script>
 SCRIPT
 
@@ -151,7 +150,7 @@ SCRIPT
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

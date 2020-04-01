@@ -125,7 +125,7 @@ sub newLeaf {
     my ( $class, $val, $type ) = @_;
 
     if (   $type == Foswiki::Infix::Node::NAME
-        && $val =~ m/^({[A-Z][A-Z0-9_]*})+$/i )
+        && $val =~ m/^(\{[A-Z][A-Z0-9_]*\})+$/i )
     {
 
         # config var name, make sure it's accessible.

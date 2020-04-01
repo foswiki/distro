@@ -1,7 +1,7 @@
 # mod_perl Runtime Engine of Foswiki - The Free and Open Source Wiki,
 # http://foswiki.org/
 #
-# Copyright (C) 2009-2016 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2009-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -23,8 +23,8 @@ use strict;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
-$VERSION          = '1.04';
-$RELEASE          = '26 Nov 2016';
+$VERSION          = '1.10';
+$RELEASE          = '08 Dec 2017';
 $SHORTDESCRIPTION = 'Permits Foswiki to be executed under mod_perl';
 
 1;

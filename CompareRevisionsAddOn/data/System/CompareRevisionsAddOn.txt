@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1493947845" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -134,6 +134,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2015 Kenneth Lavrsen and Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  04 May 2017 (1.115)  | Foswikitask:Item14366: <code>use CGI::Carp</code> in bin scripts BEGIN block cannot be found via LocalLib.cfg override. |
 |  14 Jun 2015 (1.114)  | Foswikitask:Item13423: Perl 5.22 deprecations.  Foswikitask:Item13378: Support utf-8 internally. |
 |  18 Dec 2014 (1.113)  | Foswikitask:Item13068: Remove the CompareRevisionsAddOn demo, don't ship revision history<br />\
                           Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>\
@@ -185,5 +186,5 @@ __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="interweave.png" attr="h" comment="" date="1437500521" size="28786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attr="h" comment="" date="1437500521" size="48991" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="interweave.png" attr="h" comment="" date="1493947845" size="28786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attr="h" comment="" date="1493947845" size="48991" user="ProjectContributor" version="1"}%

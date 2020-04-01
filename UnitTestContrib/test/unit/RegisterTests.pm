@@ -40,7 +40,6 @@ sub new {
 }
 
 my $REG_UI_FN;
-my $RP_UI_FN;
 my $REG_TMPL;
 
 sub skip {
@@ -89,7 +88,6 @@ sub set_up {
     $this->SUPER::set_up();
 
     $REG_UI_FN ||= $this->getUIFn('register');
-    $RP_UI_FN  ||= $this->getUIFn('resetpasswd');
     $REG_TMPL =
       ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
@@ -111,9 +109,9 @@ But not this
 %SPLIT%
 \t* Set %KEY% = %VALUE%
 %SPLIT%
-%WIKIUSERNAME%
-%WIKINAME%
-%USERNAME%
+%CREATE:WIKIUSERNAME%
+%CREATE:WIKINAME%
+%CREATE:USERNAME%
 AFTER
 EOF
         $topicObject->save();
@@ -125,9 +123,9 @@ Alternate user template
 %SPLIT%
 \t* Set %KEY% = %VALUE%
 %SPLIT%
-%WIKIUSERNAME%
-%WIKINAME%
-%USERNAME%
+%CREATE:WIKIUSERNAME%
+%CREATE:WIKINAME%
+%CREATE:USERNAME%
 AFTER
 EOF2
 
@@ -185,6 +183,7 @@ sub loadExtraConfig {
     $Foswiki::cfg{Register}{EmailFilter}      = '';
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{Register}{NeedApproval}     = 0;
+    $Foswiki::cfg{WebMasterEmail}             = 'admin@foswikitest.net';
 }
 
 sub tear_down {
@@ -234,7 +233,7 @@ sub registerAccount {
                 }
                 else {
                     $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
                         $mail->header('To')
                     );
                 }
@@ -796,7 +795,7 @@ sub _registerBadVerify {
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
         $mess->header('From') );
     $this->assert_matches( qr/.*\b$this->{new_user_email}\b/,
         $mess->header('To') );
@@ -869,7 +868,7 @@ sub _registerNoVerifyOk {
                 }
                 else {
                     $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
                         $mail->header('To')
                     );
                 }
@@ -1212,7 +1211,7 @@ sub verify_rejectDuplicateEmail {
                 }
                 else {
                     $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
                         $mail->header('To')
                     );
                 }
@@ -1474,7 +1473,7 @@ sub verify_rejectFilteredEmail {
                 }
                 else {
                     $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+qr/"?$Foswiki::cfg{WebMasterName}"? <$Foswiki::cfg{WebMasterEmail}>/,
                         $mail->header('To')
                     );
                 }
@@ -1749,212 +1748,6 @@ sub verify_duplicateActivation {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
-    @FoswikiFnTestCase::mails = ();
-
-    return;
-}
-
-################################################################################
-################################ RESET PASSWORD TESTS ##########################
-
-sub verify_resetPasswordOkay {
-    my $this = shift;
-
-    ## Need to create an account (else oopsnotwikiuser)
-    ### with a known email address (else oopsregemail)
-
-    $this->registerAccount();
-    my $cUID =
-      $this->{session}->{users}->getCanonicalUserID( $this->{new_user_login} );
-    $this->assert( $this->{session}->{users}->userExists($cUID),
-        " $cUID does not exist?" );
-    my $newPassU = '12345';
-    my $oldPassU = 1;         #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
-    $this->assert( $this->{session}->{users}
-          ->checkPassword( $this->{new_user_login}, $newPassU ) );
-    my @emails = $this->{session}->{users}->getEmails($cUID);
-    $this->assert_str_equals( $this->{new_user_email}, $emails[0] );
-
-    my $query = Unit::Request->new(
-        {
-            'LoginName' => [ $this->{new_user_login} ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/' . $this->{users_web} . '/UserRegistration' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-
-    try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $REG_TMPL,  $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "reset_ok", $e->{def},      $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-    my $mess = $FoswikiFnTestCase::mails[0];
-    $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
-        $mess->header('From') );
-    $this->assert_matches( qr/.*\b$this->{new_user_email}/,
-        $mess->header('To') );
-
-    #lets make sure the password actually was reset
-    $this->assert(
-        !$this->{session}->{users}->checkPassword( $cUID, $newPassU ) );
-    my @post_emails = $this->{session}->{users}->getEmails($cUID);
-    $this->assert_str_equals( $this->{new_user_email}, $post_emails[0] );
-
-    return;
-}
-
-sub verify_resetPasswordNoSuchUser {
-    my $this = shift;
-
-    # This time we don't set up the testWikiName, so it should fail.
-
-    my $query = Unit::Request->new(
-        {
-            'LoginName' => [ $this->{new_user_wikiname} ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/.' . $this->{users_web} . '/UserRegistration' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-
-    try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "reset_bad", $e->{def}, $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-
-    return;
-}
-
-sub verify_resetPasswordNeedPrivilegeForMultipleReset {
-    my $this = shift;
-
-    # This time we don't set up the testWikiName, so it should fail.
-
-    my $query = Unit::Request->new(
-        {
-            'LoginName' =>
-              [ $this->{test_user_wikiname}, $this->{new_user_wikiname} ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/.' . $this->{users_web} . '/UserRegistration' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-
-    try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_matches( qr/$Foswiki::cfg{SuperAdminGroup}/,
-            $e->stringify() );
-        $this->assert_str_equals( 'accessdenied', $e->{template} );
-        $this->assert_str_equals( 'only_group',   $e->{def} );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-
-    return;
-}
-
-# This test make sure that the system can't reset passwords
-# for a user currently absent from .htpasswd
-sub verify_resetPasswordNoPassword {
-    my $this = shift;
-
-    $this->registerAccount();
-
-    my $query = Unit::Request->new(
-        {
-            'LoginName' => [ $this->{new_user_wikiname} ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/' . $this->{users_web} . '/ResetPassword' );
-    my $fh;
-    open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
-      || die $!;
-    close($fh) || die $!;
-
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-
-    try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "reset_bad", $e->{def}, $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-
-    # If the user is not in htpasswd, there's can't be an email
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
     @FoswikiFnTestCase::mails = ();
 
     return;
@@ -2550,94 +2343,6 @@ sub test_4061 {
 ################################################################################
 ################################ RESET EMAIL TESTS ##########################
 
-#test for TWikibug:Item3400
-sub verify_resetPassword_NoWikiUsersEntry {
-    my $this = shift;
-
-    ## Need to create an account (else oopsnotwikiuser)
-    ### with a known email address (else oopsregemail)
-
-    $this->registerAccount();
-
-    #Remove the WikiUsers entry - by deleting it :)
-    my ($from) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} );
-    my ($to) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} . 'DELETED' );
-    $from->move($to);
-    $from->finish();
-    $to->finish();
-
-    #force a reload to unload existing user caches, and then restart as guest
-    $this->createNewFoswikiSession();
-
-    $this->assert(
-        !Foswiki::Func::topicExists(
-            $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{UsersTopicName}
-        )
-    );
-
-    my $cUID =
-      $this->{session}->{users}->getCanonicalUserID( $this->{new_user_login} );
-    $this->assert( $this->{session}->{users}->userExists($cUID),
-        " $cUID does not exist?" );
-    my $newPassU = '12345';
-    my $oldPassU = 1;         #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
-    $this->assert( $this->{session}->{users}
-          ->checkPassword( $this->{new_user_login}, $newPassU ) );
-    my @emails = $this->{session}->{users}->getEmails($cUID);
-    $this->assert_str_equals( $this->{new_user_email}, $emails[0] );
-
-    my $query = Unit::Request->new(
-        {
-            'LoginName' => [ $this->{new_user_login} ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/' . $this->{users_web} . '/ResetPassword' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-
-    try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $REG_TMPL,  $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "reset_ok", $e->{def},      $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-    my $mess = $FoswikiFnTestCase::mails[0];
-    $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
-        $mess->header('From') );
-    $this->assert_matches( qr/.*\b$this->{new_user_email}/,
-        $mess->header('To') );
-
-    #lets make sure the password actually was reset
-    $this->assert(
-        !$this->{session}->{users}->checkPassword( $cUID, $newPassU ) );
-    my @post_emails = $this->{session}->{users}->getEmails($cUID);
-    $this->assert_str_equals( $this->{new_user_email}, $post_emails[0] );
-
-    return;
-}
-
 sub registerUserException {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
 
@@ -3028,12 +2733,12 @@ sub verify_registerVerifyOKApproved {
        # Make sure the confirmations are sent; one to the user, one to the admin
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
-            if ( $mail->header('To') =~ m/^Wiki/m ) {
-                $this->assert_matches( qr/^Wiki Administrator/m,
+            if ( $mail->header('To') =~ m/^"?Wiki/m ) {
+                $this->assert_matches( qr/^"?Wiki Administrator"?/m,
                     $mail->header('To') );
             }
             else {
-                $this->assert_matches( qr/^Walter Pigeon/m,
+                $this->assert_matches( qr/^"?Walter Pigeon"?/m,
                     $mail->header('To') );
             }
             $this->assert_matches(

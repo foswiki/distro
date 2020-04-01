@@ -22,37 +22,28 @@ sub check_current_value {
         );
     }
 
-    my $host = $ENV{HTTP_HOST};
-    my $protocol = $ENV{HTTPS} ? 'https' : 'http';
+    if ( defined $Foswiki::cfg{Engine}
+        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
+    {
 
-    if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
+        # Probe the connection in bootstrap mode:
+        my ( $client, $protocol, $host, $port, $proxy ) =
+          Foswiki::Engine::_getConnectionData(1);
+        $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
 
-        # Probably behind a proxy, override the host
-        $host = $ENV{HTTP_X_FORWARDED_HOST};
+        my $detected = $protocol . '://' . $host . $port;
 
-        if (
-            (
-                   $ENV{HTTP_REFERER}
-                && $ENV{HTTP_REFERER} =~
-                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E#i
-            )
-          )
+        if (   $Foswiki::cfg{DefaultUrlHost} !~ m#\Q$detected\E#i
+            && $Foswiki::cfg{PermittedRedirectHostUrls} !~ m#\Q$detected\E#i )
         {
-            # Browser is asking for https, so override protcol
-            $protocol = 'https';
+            $reporter->WARN(
+"Current setting does not match URL =$protocol://$host$port=, and it is not listed in ={PermittedRedirectHostUrls}="
+            );
+            $reporter->NOTE(
+"If the URL hostname is correct, set this to =$protocol//$host$port= "
+                  . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' =PermittedRedirectHostUrls=.'
+            );
         }
-    }
-
-    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m#$protocol://$host#i ) {
-        $reporter->WARN(
-            "Current setting does not match URL =$protocol://$host=");
-        $reporter->NOTE(
-                'If the URL hostname is correct, set this to =http://'
-              . $host
-              . '= or if using SSL, =https://'
-              . $host . '= '
-              . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' =PermittedRedirectHostUrls=.'
-        );
     }
 }
 
@@ -60,7 +51,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

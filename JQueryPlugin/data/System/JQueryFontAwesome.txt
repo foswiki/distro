@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1479805286" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"fontawesome" warn="off"}%
@@ -1000,7 +1000,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-wrench"}% fa-wrench</a>
 </div>
 
-%ADDTOZONE{"head" id="JQUERYFONTAWESOME::TOPIC::CSS" text="<style type='text/css'>
+%ADDTOZONE{"head" id="JQUERYFONTAWESOME::TOPIC::CSS" text="<style>
 .entry {
   display:inline-block;
   width:25em;

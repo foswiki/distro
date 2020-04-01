@@ -534,6 +534,13 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_session};
+    undef $this->{_loadedRev};
+    undef $this->{_latestIsLoaded};
+    undef $this->{_text};
+    undef $this->{_preferences};
+    undef $this->{_indices};
+    undef $this->{FILEATTACHMENT};
+
     if (DEBUG) {
 
     #someone keeps adding random references to Meta so to shake them out..
@@ -604,6 +611,11 @@ sub web {
    * =$name= - optional, change the topic name in the object
       * *Since* 28 Nov 2008
 Get/set the topic name associated with the object.
+
+The topic name be set to include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]].
+The mask will be converted to the next available topicname during save, and the
+saved name can be retrieved with this method.
 
 =cut
 
@@ -788,21 +800,21 @@ sub fireDependency {
 
 =begin TML
 
----++ ObjectMethod isCacheable() -> $boolean
+---++ ObjectMethod isCacheable($value) -> $boolean
 
 Return true if page caching is enabled and this topic object is cacheable.
 
 =cut
 
 sub isCacheable {
-    my $this = shift;
+    my ( $this, $value ) = @_;
 
     return 0 unless $Foswiki::cfg{Cache}{Enabled};
 
     my $cache = $this->{_session}->{cache};
     return 0 unless $cache;
 
-    return $cache->isCacheable( $this->{_web}, $this->{_topic} );
+    return $cache->isCacheable( $this->{_web}, $this->{_topic}, $value );
 }
 
 ############# WEB METHODS #############
@@ -1930,10 +1942,15 @@ sub haveAccess {
 
 =begin TML
 
----++ ObjectMethod save( %options  )
+---++ ObjectMethod save( %options  ) -> $rev
 
 Save the current object, invoking appropriate plugin handlers
    * =%options= - Hash of options, see saveAs for list of keys
+
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]]
+
+Returns the new revision number.
 
 =cut
 
@@ -2047,6 +2064,7 @@ Save the current topic to a store location. Only works on topics.
    * =%options= - Hash of options, may include:
       * =forcenewrevision= - force an increment in the revision number,
         even if content doesn't change.
+      * =forceinsert= - Store will reject the save if the topic exists.
       * =dontlog= - don't include this change in statistics
       * =minor= - don't notify this change
       * =savecmd= - Save command (core use only)
@@ -2058,6 +2076,9 @@ Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
 so an extension author can in fact use all these options. However those
 marked "core only" are for core use only and should *not* be used in
 extensions.
+
+The topic name can include an =AUTOINCnnn= mask. For details on
+=AUTOINC= masks, see [[TemplateTopics#Automatically_generated_topic_names]]
 
 Returns the saved revision number.
 
@@ -2088,9 +2109,29 @@ sub saveAs {
         }
     }
 
-    $this->_atomicLock($cUID);
+    $this->_atomicLock($cUID);    # Lock either topic name, or the AUTOINC mask
+    my $lockedTopic = $this->{_topic};    # Save the name for later unlock
+
+    $this->{_topic} =
+      _expandAUTOINC( $this->{_session}, $this->{_web}, $this->{_topic} );
+
+    if ( $this->{_topic} ne $lockedTopic ) {    #Topicname changed
+        $opts{forceinsert} = 1;
+        $this->_atomicLock($cUID);              # Lock the resolved name
+    }
+
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
+
+#if ($opts{forceinsert} && $this->{_session}->{store}->topicExists( $this->{_web}, $this->{_topic} )) {
+    if ( $opts{forceinsert} && $this->existsInStore() ) {
+        throw Error::Simple( 'Unable to save topic '
+              . $this->{_topic}
+              . ' - web '
+              . $this->{_web}
+              . ' exists and forceinsert specified.' );
+    }
+
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
 
@@ -2148,7 +2189,15 @@ sub saveAs {
         );
     }
     finally {
-        $this->_atomicUnlock($cUID);
+        $this->_atomicUnlock($cUID);    # Unlock the real topic
+
+        if ( $this->{_topic} ne $lockedTopic ) {
+            my $holdTopic = $this->{_topic};    # Stash the topic name
+            $this->{_topic} = $lockedTopic;
+            $this->_atomicUnlock($cUID);
+            $this->{_topic} = $holdTopic;       # Restore the topic name
+        }
+
         $this->fireDependency();
     };
     return $this->{_loadedRev};
@@ -2626,6 +2675,58 @@ sub removeFromStore {
         path => $this->getPath(),
         attachment => $attachment
     );
+}
+
+=begin TML
+
+---++ StaticMethod _expandAUTOINC($session, $web, $topic) -> $topic
+Expand AUTOINC\d+ in the topic name to the next topic name available
+
+*CAUTION*: This routine depends on the store being locked until the topic has
+been saved into the Store.  This is marked as a private method, as it will return
+inconsistent results.
+
+=cut
+
+sub _expandAUTOINC {
+    my ( $session, $web, $topic ) = @_;
+
+    # Do not remove, keep as undocumented feature for compatibility with
+    # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
+    # of at least 10 x's XXXXXX with a next-in-sequence number.
+    if ( $topic =~ m/X{10}/ ) {
+        my $n           = 0;
+        my $baseTopic   = $topic;
+        my $topicObject = Foswiki::Meta->new( $session, $web, $baseTopic );
+        $topicObject->clearLease();
+        do {
+            $topic = $baseTopic;
+            $topic =~ s/X{10}X*/$n/e;
+            $n++;
+        } while ( $session->topicExists( $web, $topic ) );
+    }
+
+    # Allow for more flexible topic creation with sortable names.
+    # See Codev.AutoIncTopicNameOnSave
+    if ( $topic =~ m/^(.*)AUTOINC(\d+)(.*)$/ ) {
+        my $pre         = $1;
+        my $start       = $2;
+        my $pad         = length($start);
+        my $post        = $3;
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        $topicObject->clearLease();
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $it = $webObject->eachTopic();
+
+        while ( $it->hasNext() ) {
+            my $tn = $it->next();
+            next unless $tn =~ m/^${pre}(\d+)${post}$/;
+            $start = $1 + 1 if ( $1 >= $start );
+        }
+        my $next = sprintf( "%0${pad}d", $start );
+        $topic =~ s/AUTOINC[0-9]+/$next/;
+    }
+    return $topic;
 }
 
 =begin TML
@@ -3571,6 +3672,7 @@ sub _summariseTextWithSearchContext {
 Generate a (max 3 line) summary of the differences between the revs.
 
    * =$orev= - older rev, if not defined will use ($nrev - 1)
+   *  - $orev can also be an offset  (-n) from current rev.
    * =$nrev= - later rev, if not defined defaults to latest
    * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs.
      If false will generate a summary suitable for use in plain text
@@ -3598,9 +3700,13 @@ sub summariseChanges {
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev =~ m/^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    ASSERT( $orev >= 0 ) if DEBUG;
+    ASSERT( $orev =~ m/^\s*-?\d+\s*/ ) if DEBUG;    # looks like a number
     ASSERT( $nrev >= $orev ) if DEBUG;
+
+    if ( $orev =~ m/\s*-(\d+)\s*/ ) {
+        my $offset = $1;
+        $orev = ( $offset < $nrev ) ? $nrev - $offset : 1;
+    }
 
     unless ( defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev ) {
         $this = $this->load($nrev);
@@ -3813,20 +3919,16 @@ sub isValidEmbedding {
 
 ---++ StaticMethod dataDecode( $encoded ) -> $decoded
 
-Decode escapes in a string that was encoded using dataEncode
+Decode escapes in a string that was encoded using
+Foswiki::Serialise::Embedded::dataEncode
 
-The encoding has to be exported because Foswiki (and plugins) use
-encoded field data in other places e.g. RDiff, mainly as a shorthand
-for the properly parsed meta object. Some day we may be able to
-eliminate that....
+DEPRECATED - DO NOT USE!
 
 =cut
 
 sub dataDecode {
-    my $datum = shift;
-
-    $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-    return $datum;
+    require Foswiki::Serialise::Embedded;
+    return Foswiki::Serialise::Embedded::dataDecode(@_);
 }
 
 1;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1486607275" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+!! Pattern skin
@@ -189,6 +189,13 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  12 Feb 2018 | V.6.12: Foswikitask:Item14633: Wrong language is used in the =&lt;html&gt;= tag.<br/>\
+                         Foswikitask:Item14629: Certain topics can be overridden without permission.<br/>\
+                         Foswikitask:Item14639: Operational topics in Main, Sandbox webs should be protected from editing non-admins. |
+|  8 Dec 2017 | v.6.11:  Foswikitask:Item14434: Translated text with reserved characters used in System.WebCreateNewTopicComponents will create wrong HTML<br/>\
+                         Foswikitask:Item14488: PatternSkin is missing "body" zone used by NatSkin and many extensions.<br/>\
+                         Foswikitask:Item14556: clean up header area. |
+|  4 Apr 2017 | V.6.10:  Foswikitask:Item13883: Fix HTML errors in PatternSkinElements. |
 |  8 Feb 2017 | v.6.09:  Foswikitask:Item14315: Attachment count always shows latest revision when viewing prior versions.<br/>\
                          Foswikitask:Item14235: Sanitize some template fields. |
 |  23 Jan 2017 | v.6.08: Foswikitask:Item13831: JS error in System.LanguageSelector<br/>\
@@ -263,7 +270,7 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Arthur Clemens"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004-2017 Arthur Clemens, Foswiki contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004-2018 Arthur Clemens, Foswiki contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
@@ -271,20 +278,20 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1486607275" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1486607275" size="33112" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1486607275" size="129505" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1486607275" size="2618" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1486607275" size="20605" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1486607275" size="1305" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1486607275" size="41616" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1486607275" size="20639" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1486607275" size="1732" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1486607275" size="474" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1486607275" size="620" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1486607275" size="3869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1486607275" size="8499470" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1486607275" size="92238" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1486607275" size="177943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1486607275" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1486607275" size="5545" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1519617704" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1519617704" size="33112" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1519617704" size="129505" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1519617704" size="2618" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1519617704" size="20605" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1519617704" size="1305" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1519617704" size="41616" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1519617704" size="20639" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1519617704" size="1732" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1519617704" size="474" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1519617704" size="620" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1519617704" size="3869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1519617704" size="8499470" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1519617704" size="92238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1519617704" size="177943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1519617704" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1519617704" size="5545" user="ProjectContributor" version="1"}%

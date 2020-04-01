@@ -14,6 +14,8 @@ use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::Register();
 use Foswiki::Configure::Dependency ();
+use Foswiki::AccessControlException();
+use Foswiki::Contrib::JsonRpcContrib::Error();
 use Data::Dumper;
 use Error qw( :try );
 
@@ -2040,6 +2042,113 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     }
 
     return;
+}
+
+sub test_tokenLogin {
+
+    my $this = shift;
+
+    my $token =
+      Foswiki::LoginManager::generateLoginToken( 'Foofoo',
+        { cUID => 'Foofoo', a => 'b' } );
+
+    use Storable qw(fd_retrieve);
+    my $hashref =
+      Storable::retrieve("$Foswiki::cfg{WorkingDir}/tmp/tokenauth_$token");
+    print STDERR Data::Dumper::Dumper( \$hashref );
+    print STDERR " token ($token) \n";
+
+}
+
+# This would be better in the ConfigTests, but
+# The test fixture is helpful.
+sub verify_ConfigureAuth {
+    my $this = shift;
+    require Foswiki::Configure::Auth;
+
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'UserA,UserB';
+
+    $this->_checkConfigAccess(0);
+    $this->_checkConfigAccess( 0, 1 );
+
+    $this->createNewFoswikiSession('UserA');
+    $this->_checkConfigAccess(1);
+    $this->_checkConfigAccess( 1, 1 );
+
+    $this->createNewFoswikiSession('usera');
+    $this->_checkConfigAccess(
+        ( $Foswiki::cfg{Register}{AllowLoginName} ? 1 : 0 ) );
+    $this->_checkConfigAccess(
+        ( $Foswiki::cfg{Register}{AllowLoginName} ? 1 : 0 ), 1 );
+
+    $this->createNewFoswikiSession('userc');
+    $this->_checkConfigAccess(0);
+    $this->_checkConfigAccess( 0, 1 );
+
+    $Foswiki::cfg{FeatureAccess}{Configure} = ' UserA , UserB ';
+
+    $this->createNewFoswikiSession('UserA');
+    $this->_checkConfigAccess(1);
+    $this->_checkConfigAccess( 1, 1 );
+    $this->createNewFoswikiSession('UserB');
+    $this->_checkConfigAccess(1);
+    $this->_checkConfigAccess( 1, 1 );
+
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'usera,userb';
+
+    $this->createNewFoswikiSession('UserA');
+    $this->_checkConfigAccess(0);
+    $this->_checkConfigAccess( 0, 1 );
+    $this->createNewFoswikiSession('UserB');
+    $this->_checkConfigAccess(0);
+    $this->_checkConfigAccess( 0, 1 );
+
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'nowikiname,userb';
+
+    $this->createNewFoswikiSession('nowikiname');
+    $this->_checkConfigAccess(1);
+    $this->_checkConfigAccess( 1, 1 );
+
+    $this->createNewFoswikiSession('AdminUser');
+    $this->_checkConfigAccess(1);
+    $this->_checkConfigAccess( 1, 1 );
+}
+
+sub _checkConfigAccess {
+    my $this    = shift;
+    my $allowed = shift;
+    my $json    = shift;
+
+    try {
+        Foswiki::Configure::Auth::checkAccess( $this->{session}, $json );
+
+        #print STDERR "ALLOWED\n";
+        $this->assert( $allowed, "Configure check access: unexpected allow" );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+
+        #print STDERR "DENIED\n";
+        die "unexpected fail" if $allowed;
+        $this->assert_matches(
+            qr/Denied by \{FeatureAccess\}\{Configure\} Setting/, $e );
+    }
+    catch Foswiki::Contrib::JsonRpcContrib::Error with {
+        my $e = shift;
+        die "unexpected fail" if $allowed;
+
+        #print STDERR "JSON DENIED\n";
+        $this->assert_matches(
+qr/Error\(-32600\): Access to configure denied by \{FeatureAccess\}\{Configure\} Setting/,
+            $e
+        );
+    }
+    otherwise {
+        my $e = shift;
+        print STDERR Data::Dumper::Dumper( \$e );
+        throw $e;
+    };
+
 }
 
 1;

@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($) {
   var defaults = {
     selectFirst:false,
@@ -14,7 +15,7 @@ jQuery(function($) {
           $this.attr("autocomplete") 
           || $this[0].getAttribute("autocomplete") /* fix for firefox-4 */
           || '',
-        options = $.extend({}, defaults, $this.metadata());
+        options = $.extend({}, defaults, $this.data(), $this.metadata());
 
     if (!urlOrData.match("^https?://")) {
       urlOrData = urlOrData.split(/\s*,\s*/);

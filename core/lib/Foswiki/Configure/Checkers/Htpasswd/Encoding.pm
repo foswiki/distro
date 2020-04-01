@@ -38,6 +38,13 @@ my %methods = (
             usage  => 'use or auto-detection of crypt-md5'
         }
     ],
+    'argon2i' => [
+        {
+            name   => 'Crypt::Argon2',
+            search => ':$argon2i$',
+            usage  => 'use or auto-detection of argon2'
+        }
+    ],
     'bcrypt' => [
         {
             name   => 'Crypt::Eksblowfish::Bcrypt',

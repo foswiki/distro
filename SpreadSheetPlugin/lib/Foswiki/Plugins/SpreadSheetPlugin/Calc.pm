@@ -1734,7 +1734,7 @@ sub _safeEvalPerl {
       s/(^|[^0-9])e/$1/g;   # remove "e"-s unless in expression such as "123e-4"
     $theText =~ /(.*)/;
     $theText = $1;          # untainted variable
-    return "" unless ($theText);
+    return "" unless defined($theText);
     local $SIG{__DIE__} =
       sub { Foswiki::Func::writeDebug( $_[0] ); warn $_[0] };
     my $result = eval $theText;

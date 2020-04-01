@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 # See bottom of file for license and copyright information
 # On Unix the -T switch can be used but was removed because it caused trouble
 # on Windows.
@@ -339,7 +339,7 @@ Note that taint checking is not compatible with use of Locales,  and has an appr
 
 B<This program> will change the shebang lines of all Perl scripts found either in the current directory, as configured in @default_dirs or as specified by option -d or --directory. Default is to change ../tools and ../bin directories. You will be asked to confirm accordingly unless you are using option --noask.
 
-Shebang lines tell the shell what interpreter to use for running scripts. By default the Foswiki bin scripts are set to use the "/usr/bin/perl" interpreter, which is where perl lives on most UNIX-like platforms. On some platforms you will need to change this line to run a different interpreter e.g. "D:\indigoperl\bin\perl" or "/usr/bin/speedy".
+Shebang lines tell the shell what interpreter to use for running scripts. By default the Foswiki bin scripts are set to use the "/usr/bin/env perl
 
 This script will change the shebang lines of most if not all scripts found in the given directories except for itself. It processes all files without suffix and files with suffixes .pl, .cgi or .?cgi e.g. .fcgi etc.
 
@@ -347,7 +347,7 @@ B<Note:> The path to the Perl interpreter must not contain any spaces.
 
 The given path will be verified slightly different if running with --noask. In this mode the path must end with the word "perl" or "perl.exe" or only use the single word "perl". However, if the path is not executable the script will die. If you want to use something more uncommon, then please run the script manually using --ask and confirm your requirements explicitly.
 
-When the script is executed without parameters from the command line, it shows the Perl version used and offers the path to this Perl as default selection using the special Perl variable B<$^X>. This results in a static path not using symlinks (on Unix). Probably you want a default path like "/usr/bin/perl" or a path following symlinks to be save in case of a Perl upgrade. However, this path is presented as default suggestion and you have been warned about its limitations.
+When the script is executed without parameters from the command line, it shows the Perl version used and offers the path to this Perl as default selection using the special Perl variable B<$^X>. This results in a static path not using symlinks (on Unix). Probably you want a default path like "/usr/bin/env perl
 
 This program also aims at Windows users who are probably most commonly in need to change the default shebang line.
 

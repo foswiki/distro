@@ -34,7 +34,7 @@ sub new {
               'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
             css          => ['jquery.tooltip.css'],
             javascript   => [ 'jquery.tooltip.js', 'jquery.tooltip.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => ['metadata'],
         ),
         $class
     );
@@ -47,7 +47,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

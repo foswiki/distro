@@ -34,7 +34,6 @@ sub new {
             tags     => 'POPUPWINDOW',
             javascript =>
               [ 'jquery.popupwindow.js', 'jquery.popupwindow.init.js' ],
-            dependencies => ['livequery'],
         ),
         $class
     );
@@ -122,7 +121,7 @@ sub handlePopUpWindow {
     $result =~ s/\$LABEL/$label/;
     $result =~ s/\$OPTIONS/$optionsStr/;
 
-    $result =~ s/"/'/go;
+    $result =~ s/"/'/g;
 
     return $result;
 }
@@ -131,7 +130,7 @@ sub handlePopUpWindow {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

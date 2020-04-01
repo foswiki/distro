@@ -8,7 +8,8 @@ jQuery(function($) {
     draggable:false,
     resizable:false,
     closeOnEscape:false,
-    show:'fade'
+    show:'fade',
+    debug: false
   };
 
   // dialog
@@ -23,6 +24,8 @@ jQuery(function($) {
           href = $button.attr("href");
 
       button.text = $button.text();
+      button.class = $button.attr("class").replace(/ *jqUIDialogButton */, "");
+      button.accesskey = $button.attr("accesskey");
 
       if (typeof(href) !== 'undefined' && href !== '#') {
         button.click = function() {
@@ -68,7 +71,12 @@ jQuery(function($) {
       opts.draggable = false;
     }
 
+    if (opts.debug && console) {
+      console.log("opts=",opts);
+    }
+
     $this.removeClass("jqUIDialog").dialog(opts);
+
     if (opts.alsoResize) {
       $this.dialog("widget").bind("resize", function(ev, ui) {
         var deltaHeight = ui.size.height - ui.originalSize.height || 0,
@@ -103,11 +111,14 @@ jQuery(function($) {
       // this is a link to remote data
       $.ajax({
         url: href, 
+        data: opts,
         success: function(content) { 
           var $content = $(content);
           $content.hide();
           $("body").append($content);
-          $content.data("autoOpen", true);
+          $content.data("autoOpen", true).on("dialogopen", function() {
+            $this.trigger("opened");
+          });
         },
         error: function(xhr) {
           throw("ERROR: can't load dialog xhr=",xhr);

@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'ImagesLoaded',
-            version    => '4.1.0',
+            version    => '4.1.4',
             author     => 'David <nop>DeSandro',
             homepage   => 'http://imagesloaded.desandro.com/',
             javascript => ['imagesloaded.js'],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

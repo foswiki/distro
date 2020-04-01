@@ -63,12 +63,12 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{login} = {
         package  => undef,
         function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1, sessionRequired => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{logon} = {
         package  => undef,
         function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1, sessionRequired => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{manage} = {
         package  => 'Foswiki::UI::Manage',
@@ -109,12 +109,6 @@ BEGIN {
 
         # Rename is 2 stage; protect in Foswiki::UI::Rename
         #allow => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package  => 'Foswiki::UI::Passwords',
-        function => 'resetPassword',
-        context  => { resetpasswd => 1 },
-        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
@@ -415,6 +409,11 @@ sub _execute {
         $res = $session->{response} if $session;
         $res ||= new Foswiki::Response();
 
+        # make sure an access control exception is not cached
+        if ( $Foswiki::cfg{Cache}{Enabled} && $session->{cache} ) {
+            $session->{cache}->isCacheable( $e->{web}, $e->{topic}, 0 );
+        }
+
         unless ( $session->getLoginManager()->forceAuthentication() ) {
 
             # Login manager did not want to authenticate, perhaps because
@@ -633,6 +632,28 @@ web.topic is permissible, throwing a Foswiki::AccessControlException if not.
 sub checkAccess {
     my ( $session, $mode, $topicObject ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
+
+    # If this is checking the primary session topic, apply access restrictions
+    if ( $topicObject->isSessionTopic() ) {
+        my $topicRestriction =
+          $session->getLoginManager()
+          ->getSessionValue('FOSWIKI_TOPICRESTRICTION');
+
+        if ($topicRestriction) {
+
+            my ( $rWeb, $rTopic ) =
+              $session->normalizeWebTopicName( '', $topicRestriction );
+            unless (
+                   $rWeb   eq $topicObject->web()
+                && $rTopic eq $topicObject->topic()
+
+              )
+            {
+                my $url = $session->getScriptUrl( 1, 'view', $rWeb, $rTopic );
+                $session->redirect($url);
+            }
+        }
+    }
 
     unless ( $topicObject->haveAccess($mode) ) {
         throw Foswiki::AccessControlException( $mode, $session->{user},

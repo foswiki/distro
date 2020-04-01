@@ -420,35 +420,6 @@ qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck i
     return;
 }
 
-sub test_templateTopicTextSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        {
-            text   => ['Template Topic'],
-            action => ['save'],
-            topic  => [ $this->{test_web} . '.TemplateTopic' ]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    $query = Unit::Request->new(
-        {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopic' ]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopic' );
-    my $text = $meta->text;
-    $this->assert_matches( qr/Template Topic/, $text );
-    $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
-
-    return;
-}
-
 # Save over existing topic
 sub test_prevTopicTextSave {
     my $this  = shift;
@@ -565,54 +536,11 @@ sub test_simpleFormSave {
     return;
 }
 
-sub test_templateTopicFormSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        {
-            text         => ['Template Topic'],
-            formtemplate => ['TestForm1'],
-            'Select'     => ['Value_1'],
-            'Textfield'  => ['Fred'],
-            action       => ['save'],
-            topic        => [ $this->{test_web} . '.TemplateTopic' ]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-
-    my ($xmeta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopic' );
-    my $xtext = $xmeta->text;
-    $xmeta->finish();
-    $query = Unit::Request->new(
-        {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopicAgain' ]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopicAgain' );
-    my $text = $meta->text;
-    $this->assert_matches( qr/Template Topic/, $text );
-    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
-
-    $this->assert_str_equals( 'Value_1',
-        $meta->get( 'FIELD', 'Select' )->{value} );
-    $this->assert_str_equals( 'Fred',
-        $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
-
-    return;
-}
-
 sub test_prevTopicFormSave {
     my $this  = shift;
     my $query = Unit::Request->new(
         {
-            text         => ['Template Topic'],
+            text         => ['PrevTopic'],
             formtemplate => ['TestForm1'],
             'Select'     => ['Value_1'],
             'Textfield'  => ['Rubble'],
@@ -639,7 +567,7 @@ sub test_prevTopicFormSave {
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, 'PrevTopicFormSave' );
     my $text = $meta->text;
-    $this->assert_matches( qr/Template Topic/, $text );
+    $this->assert_matches( qr/PrevTopic/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
     $this->assert_str_equals( 'Value_1',
         $meta->get( 'FIELD', 'Select' )->{value} );
@@ -826,102 +754,6 @@ sub test_simpleFormSaveEmptyValue {
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
 
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
-
-    return;
-}
-
-# meta data (other than FORM, FIELD, TOPICPARENT, etc.) is inherited from
-# templatetopic
-sub test_templateTopicWithMeta {
-    my $this = shift;
-
-    Foswiki::Func::saveTopicText( $this->{test_web}, "TemplateTopic",
-        $testtext1 );
-    my $query = Unit::Request->new(
-        {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopicWithMeta' ]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopicWithMeta' );
-    my $text = $meta->text;
-    my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
-    $this->assert_not_null($pref);
-    $this->assert_str_equals( 'UserTopic', $pref->{value} );
-    $meta->finish();
-
-    return;
-}
-
-# attachments are copied over from templatetopic
-sub test_templateTopicWithAttachments {
-    my $this = shift;
-
-    $this->assert(
-        open( my $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" ) );
-    print $FILE "one two three";
-    $this->assert( close($FILE) );
-    $this->assert(
-        open( $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile2.txt" ) );
-    print $FILE "four five six";
-    $this->assert( close($FILE) );
-
-    my $templateTopic = "TemplateTopic";
-    my $testTopic     = "TemplateTopicWithAttachment";
-
-    Foswiki::Func::saveTopic( $this->{test_web}, $templateTopic, undef,
-        "test with an attachment" );
-
-    Foswiki::Func::saveAttachment(
-        $this->{test_web},
-        $templateTopic,
-        "testfile.txt",
-        {
-            file    => "$Foswiki::cfg{TempfileDir}/testfile.txt",
-            comment => "a comment"
-        }
-    );
-    Foswiki::Func::saveAttachment(
-        $this->{test_web},
-        $templateTopic,
-        "testfile2.txt",
-        {
-            file    => "$Foswiki::cfg{TempfileDir}/testfile2.txt",
-            comment => "a comment"
-        }
-    );
-
-    my $query = Unit::Request->new(
-        {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => ["$this->{test_web}.$testTopic"]
-        }
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-
-    my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $testTopic );
-
-    $this->assert_matches( qr/test with an attachment/, $text );
-    $this->assert_not_null(
-        $meta->get( 'FILEATTACHMENT', 'testfile.txt' ),
-        "attachment meta copied for testfile.txt"
-    );
-    $this->assert_not_null(
-        $meta->get( 'FILEATTACHMENT', 'testfile2.txt' ),
-        "attachment meta copied for testfile2.txt"
-    );
-    $this->assert( $meta->testAttachment( "testfile.txt", 'e' ),
-        "testfile.txt copied" );
-    $this->assert( $meta->testAttachment( "testfile2.txt", 'e' ),
-        "testfile2.txt copied" );
     $meta->finish();
 
     return;

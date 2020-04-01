@@ -1,7 +1,10 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 # Build for HistoryPlugin
 #
+use strict;
+use warnings;
+
 BEGIN {
     foreach my $pc ( split( /:/, $ENV{FOSWIKI_LIBS} ) ) {
         unshift @INC, $pc;
@@ -11,7 +14,7 @@ BEGIN {
 use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new Foswiki::Contrib::Build('HistoryPlugin');
+my $build = new Foswiki::Contrib::Build('HistoryPlugin');
 
 # Build the target on the command line, or the default target
 $build->build( $build->{target} );

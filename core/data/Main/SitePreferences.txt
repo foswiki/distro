@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479237375" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512490670" format="1.1" version="1"}%
 ---+!! %TOPIC%
 
 %ICON{"help"}% 
@@ -19,7 +19,7 @@
 
 Customize logo and tooltip texts:
 
-   * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
+   * Set WIKILOGOIMG = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
    * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
    * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
 

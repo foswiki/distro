@@ -13,6 +13,7 @@ use warnings;
 
 use Cwd;
 use FindBin;
+use File::Spec;
 use Getopt::Long;
 
 #no warnings 'redefine';
@@ -218,12 +219,15 @@ sub install {
         }
     }
 
+    my ( $vol, $path, $file ) = File::Spec->splitpath(__FILE__);
+    my $configure = File::Spec->catpath( $vol, $path, 'configure' );
+
     print STDERR "\n=========\n"
-      . 'tools/configure '
+      . $configure . ' '
       . join( ' ', @ARGV )
       . "\n========\n";
 
-    unless ( my $return = do 'tools/configure' ) {
+    unless ( my $return = do $configure ) {
         warn "couldn't parse tools/configure : $@" if $@;
         warn "couldn't do tools/configure: $!" unless defined $return;
         warn "couldn't run tools/configure" unless $return;
@@ -236,7 +240,7 @@ Author: Crawford Currie http://wikiring.com
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

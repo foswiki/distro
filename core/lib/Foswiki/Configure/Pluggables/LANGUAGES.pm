@@ -15,6 +15,7 @@ use warnings;
 
 use Locale::Language ();
 use Locale::Country  ();
+use Error qw{ :try };
 
 use Assert;
 use Foswiki::Configure::Load  ();
@@ -25,6 +26,10 @@ sub construct {
 
     # Insert a bunch of configuration items based on what's in
     # the locales dir
+
+    # Early in bootstrap if no script directory available.
+    # Skip populating the SCRIPTHASH
+    return unless ( defined $Foswiki::cfg{RootDir} );
 
     my $d =
          $Foswiki::cfg{LocalesDir}
@@ -43,26 +48,38 @@ sub construct {
         $keys = "'$keys'" if $keys =~ m/\W/;
 
         my $label;
-        if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
-            my ( $lname, $cname ) = (
-                ( Locale::Language::code2language($1) || '' ),
-                ( Locale::Country::code2country($2)   || '' )
-            );
-            if ( $lname && $cname ) {
-                $label = "$lname ($cname)";
-            }
-            elsif ($lname) {
-                $label = "$lname ($2)";
-            }
-            elsif ($cname) {
-                $label = "$1 ($cname)";
-            }
-            else {
-                $label = "$lang";
-            }
+
+        if ( $lang eq 'tlh' ) {
+            $label = "Klingon";
         }
         else {
-            $label = Locale::Language::code2language($lang) || "$lang";
+            try {
+                if ( $lang =~ m/^(\w+)-(\w+)$/ ) {
+                    my ( $lname, $cname ) = (
+                        ( Locale::Language::code2language($1) || '' ),
+                        ( Locale::Country::code2country($2)   || '' )
+                    );
+                    if ( $lname && $cname ) {
+                        $label = "$lname ($cname)";
+                    }
+                    elsif ($lname) {
+                        $label = "$lname ($2)";
+                    }
+                    elsif ($cname) {
+                        $label = "$1 ($cname)";
+                    }
+                    else {
+                        $label = "$lang";
+                    }
+                }
+                else {
+                    $label = Locale::Language::code2language($lang)
+                      || "$lang";
+                }
+            }
+            otherwise {
+                $label = $lang;
+            };
         }
 
         my $value = Foswiki::Configure::Value->new(

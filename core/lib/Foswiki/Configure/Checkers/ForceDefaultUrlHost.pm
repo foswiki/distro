@@ -5,16 +5,34 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checkers::URL ();
-our @ISA = ('Foswiki::Configure::Checkers::URL');
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
-        unless ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
-            $reporter->WARN(
-'It appears you may be running from behind a proxy. =ForceDefaultUrlHost= should be enabled.'
-            );
+    if ( defined $Foswiki::cfg{Engine}
+        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
+    {
+
+        # Probe the connection in bootstrap mode:
+        my ( $client, $protocol, $host, $port, $proxy ) =
+          Foswiki::Engine::_getConnectionData(1);
+
+        if ($proxy) {
+            if (   !$Foswiki::cfg{PROXY}{UseForwardedHeaders}
+                && !$Foswiki::cfg{ForceDefaultUrlHost} )
+            {
+                $reporter->WARN(
+'It appears you may be running from behind a proxy. =ForceDefaultUrlHost= is the recommended setting.'
+                );
+            }
+            elsif ($Foswiki::cfg{PROXY}{UseForwardedHeaders}
+                && $Foswiki::cfg{ForceDefaultUrlHost} )
+            {
+                $reporter->WARN(
+'Both ={PROXY}{UseForwardedHeaders}= and ={ForceDefaultUrlHost}= are enabled. ={ForceDefaultUrlHost}= will override any Forwarded headers'
+                );
+            }
         }
     }
 }
@@ -23,7 +41,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

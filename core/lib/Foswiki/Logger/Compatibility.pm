@@ -109,6 +109,11 @@ sub log {
     $log = _expandDATE( $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'servertime' );
 
+    #   The fields array has the level prepended below here.
+    if ( $level eq 'info' ) {
+        return if ( Foswiki::Logger::filterLogInfoAction( $fields[1] ) );
+    }
+
     # Unfortunate compatibility requirement; need the level, but the old
     # logfile format doesn't allow us to add fields. Since we are changing
     # the date format anyway, the least pain is to concatenate the level
@@ -160,12 +165,15 @@ This logger implementation maps groups of levels to a single logfile, viz.
    * =info= messages are output together.
    * =warning=, =error=, =critical=, =alert=, =emergency= messages are
      output together.
-This method cannot 
+   * =$version= - Version 1 of API returns a hash instead of an array.
+   * =$lock= - boolean switch to enable locking, off by default
+
+See Foswiki::Logger for the interface.
 
 =cut
 
 sub eachEventSince {
-    my ( $this, $time, $level, $version ) = @_;
+    my ( $this, $time, $level, $version, $lock ) = @_;
 
     $level = ref $level ? $level : [$level];    # Convert level to array.
 
@@ -206,8 +214,10 @@ sub eachEventSince {
                 my $logIt =
                   new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
                     $reqLevel, $version, $logfile );
-                $logIt->{logLocked} =
-                  eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                if ($lock) {
+                    $logIt->{logLocked} =
+                      eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                }
                 push( @iterators, $logIt );
             }
             else {
@@ -287,7 +297,7 @@ sub _getLogsForLevel {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

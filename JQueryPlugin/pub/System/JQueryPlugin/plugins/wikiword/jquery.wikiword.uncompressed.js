@@ -1,13 +1,14 @@
 /*
- * jQuery WikiWord plugin 3.10
+ * jQuery WikiWord plugin 3.40
  *
- * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
+"use strict";
 
 /***************************************************************************
  * plugin definition 
@@ -41,20 +42,17 @@ $.wikiword = {
 
       // either a string or a jQuery object
       if (typeof(thisOpts.source) === 'string') {
-        $source = $(thisOpts.source);
+        // first try to find the source within the same form
+        $source = $this.parents("form:first").find(thisOpts.source);
+        // if that fails, try in a global scope
+        if ($source.length === 0) {
+          $source = $(thisOpts.source);
+        }
       } else {
         $source = thisOpts.source;
       }
 
-      // generate RegExp for filtered chars
-      if (typeof(thisOpts.allowedRegex) === 'string') {
-        thisOpts.allowedRegex = new RegExp(thisOpts.allowedRegex, "g");
-      }
-      if (typeof(thisOpts.forbiddenRegex) === 'string') {
-        thisOpts.forbiddenRegex = new RegExp(thisOpts.forbiddenRegex, "g");
-      }
-
-      $source.change(function() {
+      $source.on("change", function() {
         $.wikiword.handleChange($source, $this, thisOpts);
       }).keyup(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -66,23 +64,31 @@ $.wikiword = {
    * handler for source changes
    */
   handleChange: function(source, target, opts) {
-    var result = []
+    var result = [];
 
     // gather all sources
     source.each(function() {
-      result.push($(this).is(':input')?$(this).val():$(this).text());
+      var $this = $(this), val;
+
+      if ($this.is(":radio") || $this.is(":checkbox")) {
+        if ($this.is(":checked")) {
+          val = $this.val();
+        }
+      } else if ($this.is(":input")) {
+        val = $this.val();
+      } else {
+        val = $this.text();
+      }
+
+      if (val) {
+        result.push(val);
+      }
     });
+
     result = result.join(" ");
 
     if (result || !opts.initial) {
       result = $.wikiword.wikify(result, opts);
-
-      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) == -1) {
-        result += opts.suffix;
-      }
-      if (opts.prefix && result.indexOf(opts.prefix) !== 0) {
-        result = opts.prefix+result;
-      }
     } else {
       result = opts.initial;
     }
@@ -93,17 +99,24 @@ $.wikiword = {
       } else {
         $(this).text(result);
       }
-    });
+    }).trigger("change");
   },
 
   /***************************************************************************
    * convert a source string to a valid WikiWord
    */
   wikify: function (source, opts) {
-
     var result = '', c, i;
 
-    opts = opts || $.wikiword.defaults;
+    opts = $.extend({}, $.wikiword.defaults, opts);
+
+    // generate RegExp for filtered chars
+    if (typeof(opts.allowedRegex) === 'string') {
+      opts.allowedRegex = new RegExp(opts.allowedRegex, "g");
+    }
+    if (typeof(opts.forbiddenRegex) === 'string') {
+      opts.forbiddenRegex = new RegExp(opts.forbiddenRegex, "g");
+    }
 
     // transliterate unicode chars
     if (opts.transliterate) {
@@ -121,7 +134,14 @@ $.wikiword = {
     });
 
     // remove all forbidden chars
-    result = result.replace(opts.forbiddenRegex, "");
+    result = result.replace(opts.forbiddenRegex, opts.separator);
+
+    if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) === -1) {
+      result += opts.suffix;
+    }
+    if (opts.prefix && result.indexOf(opts.prefix) !== 0) {
+      result = opts.prefix+result;
+    }
 
     return result;
   },
@@ -133,6 +153,7 @@ $.wikiword = {
     suffix: '',
     prefix: '',
     initial: '',
+    separator: '',
     transliterate: false,
     allowedRegex: '[' + foswiki.RE.alnum + ']+',
     forbiddenRegex: '[^' + foswiki.RE.alnum + ']+'

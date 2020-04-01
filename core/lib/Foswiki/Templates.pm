@@ -10,14 +10,15 @@ Support for Skin Template directives
 
 =begin TML
 
-The following tokens are supported by this language:
+The following macros are supported by this language:
 
-| %<nop>TMPL:P% | Instantiates a previously defined template |
-| %<nop>TMPL:DEF% | Opens a template definition |
-| %<nop>TMPL:END% | Closes a template definition |
-| %<nop>TMPL:INCLUDE% | Includes another file of templates |
-
-Note; the template cache does not get reset during initialisation, so
+| =<nop>TMPL:P= | Instantiates a previously defined template |
+| =<nop>TMPL:DEF= | Opens a template definition |
+| =<nop>TMPL:END= | Closes a template definition |
+| =<nop>TMPL:INCLUDE= | Includes another file of templates |
+| =%{ ... }%= | Delimits a comment (non-greedy), eats surrounding whitespace |
+| =#{ ... }#= | Delimits a comment (non-greedy), does not touch whitespace |
+Note: the template cache does not get reset during initialisation, so
 the haveTemplate test will return true if a template was loaded during
 a previous run when used with mod_perl or speedycgi. Frustrating for
 the template author, but they just have to switch off
@@ -63,10 +64,11 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    $this->{VARS}                = {};
+    $this->{VARS} = {};
+
+    # The only default DEF, used by %SEP% and by unit tests (hack)
     $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
-    $this->{templateFiles}       = {};
     return $this;
 }
 
@@ -85,7 +87,6 @@ sub finish {
     undef $this->{VARS};
     undef $this->{session};
     undef $this->{expansionRecursions};
-    undef $this->{templateFiles};
 }
 
 =begin TML
@@ -253,7 +254,7 @@ sub readTemplate {
     $this->{files} = ();
 
     # recursively read template file(s)
-    my $text = $this->_readTemplateFile( $name, $skins, $web );
+    my $text = _readTemplateFile( $this, $name, $skins, $web );
 
     # Check file was found
     unless ( defined $text ) {
@@ -279,7 +280,7 @@ sub readTemplate {
     # SMELL: unchecked implicit untaint?
     while ( $text =~ m/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/s ) {
         $text =~ s/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/
-          $this->_readTemplateFile( $1, $skins, $web ) || ''/ge;
+          _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
     }
 
     if ( $text !~ /%TMPL\:/ ) {
@@ -367,13 +368,13 @@ sub readTemplate {
     }
 
     # handle %TMPL:P{"..."}% recursively
-    $result =~ s/(%TMPL\:P\{.*?\}%)/$this->_expandTrivialTemplate($1)/ge;
+    $result =~ s/(%TMPL\:P\{.*?\}%)/_expandTrivialTemplate( $this, $1)/ge;
 
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
-    $this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
-      if (TRACE);
+    #$this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
+    #  if (TRACE);
     return $result;
 }
 
@@ -383,12 +384,18 @@ sub _readTemplateFile {
     my $session = $this->{session};
 
     # zap anything suspicious
-    $name =~ s/$Foswiki::regex{webTopicInvalidCharRegex}//g;
+    $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ m/\.tmpl$/ ) {
-        return $this->_readFile("$Foswiki::cfg{TemplateDir}/$name");
+        my $text =
+          _decomment(
+            _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
+
+        #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+        #  if (TRACE);
+        return $text;
     }
 
     my $userdirweb  = $web;
@@ -419,7 +426,10 @@ sub _readTemplateFile {
               . "<!--/$userdirweb/$userdirname-->\n"
               if (TRACE);
 
-            _decomment($text);
+            $text = _decomment($text);
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
             return $text;
         }
     }
@@ -496,30 +506,17 @@ sub _readTemplateFile {
             push(
                 @candidates,
                 {
-                    primary   => $isSkinned,
-                    secondary => $idx,
-                    tertiary  => $templateixd,
-                    file      => $file,
-                    userdir   => $userdir,
-                    skin      => $skin
+                    file    => $file,
+                    userdir => $userdir,
+                    skin    => $skin,
+                    order => $isSkinned * 1000000 + $idx * 1000 + $templateixd,
                 }
             );
         }
     }
 
     # sort
-    @candidates = sort {
-        foreach my $i (qw/primary secondary tertiary/)
-        {
-            if ( $a->{$i} < $b->{$i} ) {
-                return -1;
-            }
-            elsif ( $a->{$i} > $b->{$i} ) {
-                return 1;
-            }
-        }
-        return 0;
-    } @candidates;
+    @candidates = sort { $a->{order} <=> $b->{order} } @candidates;
 
     foreach my $candidate (@candidates) {
         my $file = $candidate->{file};
@@ -552,7 +549,10 @@ sub _readTemplateFile {
                 $text = "<!--$web1.$name1-->\n$text<!--/$web1.$name1-->\n"
                   if (TRACE);
 
-                _decomment($text);
+                $text = _decomment($text);
+
+                #$this->saveTemplateToCache( '_cache', $name, $skins, $web,
+                #    $text ) if (TRACE);
                 return $text;
             }
         }
@@ -562,7 +562,11 @@ sub _readTemplateFile {
             # recursion prevention.
             $this->{files}->{$file} = 1;
 
-            return $this->_readFile($file);
+            my $text = _decomment( _readFile( $session, $file ) );
+
+            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+            #  if (TRACE);
+            return $text;
         }
     }
 
@@ -571,12 +575,8 @@ sub _readTemplateFile {
 }
 
 sub _readFile {
-    my ( $this, $fn ) = @_;
+    my ( $session, $fn ) = @_;
     my $F;
-
-    if ( defined $this->{templateFiles}{$fn} ) {
-        return $this->{templateFiles}{$fn};
-    }
 
     if ( open( $F, '<:encoding(utf-8)', $fn ) ) {
         local $/;
@@ -585,28 +585,33 @@ sub _readFile {
 
         $text = "<!--$fn-->\n$text<!--/$fn-->\n" if (TRACE);
 
-        _decomment($text);
-        $this->{templateFiles}{$fn} = $text;
         return $text;
     }
     else {
-        $this->{session}->logger->log( 'warning', "$fn: $!" );
+        $session->logger->log( 'warning', "$fn: $!" );
         return undef;
     }
 }
 
 sub _decomment {
+    my $text = shift;
 
-    # Kill comments, marked by %{ ... }%
-    # (and remove whitespace either side of the comment)
-    $_[0] =~ s/\s*%\{.*?\}%\s*//sg;
+    return $text unless $text;
+
+    # Whitespace eating comments, marked by %{ ... }%
+    $text =~ s/\s*(%)\{.*?\}%\s*//sg;
+
+    # Standard comment delimiters (whitespace preserving)
+    $text =~ s/#\{.*?\}#//sg;
+
+    return $text;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

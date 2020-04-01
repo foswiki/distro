@@ -93,13 +93,16 @@ sub forceAuthentication {
         my $query    = $session->{request};
         my $response = $session->{response};
 
-        # Respond with a 401 with an appropriate WWW-Authenticate
-        # that won't be snatched by the browser, but can be used
-        # by JS to generate login info.
+        # SMELL: This breaks some applications such as MS Excel. Return
+        # A 200 instead of a 401.
+        #   Respond with a 401 with an appropriate WWW-Authenticate
+        #   that won't be snatched by the browser, but can be used
+        #   by JS to generate login info.
         $response->header(
-            -status           => 401,
-            -WWW_Authenticate => 'FoswikiBasic realm="'
-              . ( $Foswiki::cfg{AuthRealm} || "" ) . '"'
+            -status => 200,
+
+            #-WWW_Authenticate => 'FoswikiBasic realm="'
+            #  . ( $Foswiki::cfg{AuthRealm} || "" ) . '"'
         );
 
         $query->param(
@@ -128,7 +131,7 @@ sub loginUrl {
     my $session = $this->{session};
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
-    return $session->getScriptUrl( 0, 'login', $web, $topic,
+    return $session->getScriptUrl( 0, 'login', undef, undef,
         foswiki_origin => _packRequest($session) );
 }
 

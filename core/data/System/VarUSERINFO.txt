@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456368117" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1512148066" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERINFO -- retrieve details about a user
 ---++ Parameters
@@ -13,6 +13,7 @@ Format tokens that can be used in =format=:
    | =$groups= (*) | Comma separated list of group membership. Currently only expands for users |
    | =$isadmin= (*) | Has admin privileges (expands to =true= or =false=) |
    | =$isgroup= | Is a group (expands to =true= or =false=) | |
+   | =$registrationdate= | date when a user has registered on the site | |
 %T% Tokens flagged '(*)' are considered private and are hidden from other users by default.%BR%
 The [[FormatTokens][standard format tokens]] are also supported.
 ---++ Examples

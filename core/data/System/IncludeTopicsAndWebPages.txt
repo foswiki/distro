@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1525392141" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
@@ -37,6 +37,18 @@ The example parameters PARAMETER1 and PARAMETER2 will be defined as macros withi
 VarINCLUDE explains the other parameters.
 
 <div class="foswikiHelp"> %H% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</div>
+
+---++ Usage notes
+---+++ Preference settings in included topics
+   * Bullet and Meta style preferences are not evaluated.
+   * =%SET= preferences are evaluated whe macros are expanded, but in a new "context".
+      * Values set in the included topic will be used when expanded _in the included topic_, but not outside of the included topic..
+      * Preferences FINALIZED in the including base topic will *not* be set in the included topic.
+---+++ Links and !WikiWords
+   * Links and WikiWords that do not specify a web will be adjusted to point to the web that contains the included topic.
+      * =TopicName= is changed to =Web.TopicName=
+      * ACRONYM is changed to Web.ACRONYM but only if it exists as a topic.
+      * [<nop>[Topicname]] links are changed to [<nop>[Web.Topicname]]
 
 ---++ Usage Examples
 

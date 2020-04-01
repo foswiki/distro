@@ -139,16 +139,6 @@
 %MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"passwords_disabled"}%
----+++ %MAKETEXT{"Passwords disabled"}%
-
-%MAKETEXT{"The Administrator has disabled password changes."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"Your password has not been changed."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"thanks"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
    * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
@@ -176,23 +166,6 @@
 %MAKETEXT{"Your registration is pending approval by the system administrators."}%
 
 %MAKETEXT{"You will receive an e-mail when your registration has been approved."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_users_to_reset"}%
----+++ %MAKETEXT{"Password reset failed"}%
-%MAKETEXT{"No users to reset passwords for."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"reset_bad"}%
----+++ %MAKETEXT{"Password reset failed."}%
-%PARAM1%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"password_mismatch"}%
----+++ %MAKETEXT{"Passwords do not match"}%
-%MAKETEXT{"The two passwords you entered do not match."}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"problem_adding"}%
@@ -272,24 +245,6 @@
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"rej_email"}%
----+++ %MAKETEXT{"Invalid e-mail address"}%
-%MAKETEXT{"The e-mail address for this account has been rejected."}%
-
-%PARAM1%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"dup_email"}%
----+++ %MAKETEXT{"Invalid e-mail address"}%
-%MAKETEXT{"The e-mail address for this account is already registered to another user."}%
-
-%PARAM1%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"not_a_user"}%
 ---+++ %MAKETEXT{"Can't find user [_1]" args="%PARAM1%"}%
 %MAKETEXT{"Please make sure you spelled the [[[_1]][username]] correctly and try again. If you get stuck, please contact [_2]." args="%SYSTEMWEB%.UserName, %WIKIWEBMASTER%"}%
@@ -302,55 +257,11 @@
 %MAKETEXT{"Remove the member from the group(s) [_1] first." args="%PARAM2%"}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"email_changed"}%
----+++ %MAKETEXT{"E-mail changed successfully!"}%
-
-%MAKETEXT{"Remember to update your user topic [[[_1]]] if you want your e-mail change to be reflected there as well." args="%PARAM2%"}%
-
-%MAKETEXT{"Your registered e-mail address(es) are updated to: <noautolink>[_1]</noautolink>." args="%PARAM1%"}%
-
-%MAKETEXT{"Return to [_1]." args="%SYSTEMWEB%.ChangeEmailAddress"}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"wrong_password"}%
----+++ %MAKETEXT{"Incorrect Password"}%
-%MAKETEXT{"The password you entered in the *old password* field is incorrect."}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"bad_prefix"}%
 ---+++ %MAKETEXT{"Incorrect Prefix"}%
 %MAKETEXT{"The prefix you entered for the deleted user is not valid as a topic name."}%
 
 %MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"reset_ok"}%
-%PARAM1%
-
-%MAKETEXT{"Users with automatically generated passwords should proceed immediately to ~[~[[_1]~]~[change password~]~] to change their password to something memorable." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ChangePassword"}%
-
-*[[%BASEWEB%.%BASETOPIC%][%MAKETEXT{"OK"}%]]*
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"password_not_changed"}%
----+++ %MAKETEXT{"Password could not be changed"}%
-
-%MAKETEXT{"Your system may not support changing passwords through Foswiki. Check with your Wiki administrator."}%
-
-*[[%TOPIC%][%MAKETEXT{"OK"}%]]*
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"password_changed"}%
----+++ %MAKETEXT{"Password changed successfully!"}%
-
-%IF{
-  "{LoginManager} = 'Foswiki::LoginManager::ApacheLogin'"
-  then="%MAKETEXT{"You may need to close your browser to make this change take effect."}%"
-}%
-
-*[[%USERSWEB%.%HOMETOPIC%][%MAKETEXT{"OK"}%]]*
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"user_param_required"}%
@@ -423,12 +334,6 @@
 %MAKETEXT{"You cannot add users to a missing group unless the create option is set."}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"no_group_and_no_create"}%
----+++ %MAKETEXT{"Create not specified and group does not exist"}%
-
-%MAKETEXT{"You cannot add users to a missing group unless the create option is set."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"no_group_specified_for_remove_from_group"}%
 ---+++ %MAKETEXT{"No group name specified"}%
 %MAKETEXT{"You need to specify a valid group name to remove members from a group."}%
@@ -475,22 +380,21 @@
 | *ok* | *WikiName* | *Reset Password* | *Results* |%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_row"}%
-| $flag | $wikiname |  <input  type='checkbox' name='LoginName' $state value='$wikiname' />  | $errors |%TMPL:END%
+| $flag | $wikiname |  <input  type='checkbox' name='resetUsers' $state value='$wikiname' />  | $errors |%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_summary_foot"}%
 
-%MAKETEXT{"*This text will be sent to users in their "reset" e-mail.* The login name and password will be filled in automatically."}%
+%MAKETEXT{"*This text will be sent to users in their reset e-mail.* The login name and password will be filled in automatically."}%
 %TMPL:P{"bulkreg_reset_formbot"}%
 %ENDSECTION{type="include"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_reset_formtop"}%
 <div id="bulkreset" class="foswikiFormSteps">
-<form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
+<form name="resetpasswd" action='%SCRIPTURLPATH{"rest" subject="PasswordManagementPlugin" verb="bulkResetPassword" topic="%TOPIC%"}%' method="post">
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"bulkreg_reset_formbot"}%
-<input type="hidden" name="action" value="resetPassword" />
 <div class="foswikiFormStep">
 <textarea class="foswikiInputField" name="Introduction" rows="4" cols="70" style="width:99%;">
 Welcome! The site is ready for your use. Please use the login name and password listed below and contact %WIKIWEBMASTER% if you have any questions.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485029916" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1517876160" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -15,7 +15,7 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
-<img src="%ATTACHURLPATH%/screenshot1.png" alt="" width="60%" style="float:right" />
+<img src="%ATTACHURLPATH%/screenshot1.png" alt="screenshot" class="foswikiRight" />
 
 %TOC%
 
@@ -268,9 +268,17 @@ Provides the vertical row editing interface like
 !EditTablerowPlugin, with the row being edited shown in context in the table.
 
 ---++ Plugin Info
-Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.321 (05 Feb 2018) | Foswikitask:Item14537: The plugin makes tables "shaky". |
+|  3.320 (12 Dec 2017) | Foswikitask:Item14490: missing css for the "edit table" button |
+|  3.319 (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
+|  3.318 (15 May 2017) | Foswikitask:Item14351: Uninitialized value warning when changerows is used with EditRowPlugin. <br/>\
+                         Foswikitask:Item13766: EditRowPlugin columns widths are jumping to wider size when you hoover the mouse over the table. <br/>\
+                         Foswikitask:Item14234: Clicking pencil for first row (erp_row=0) opens editor on entire table. <br/>\
+                         Foswikitask:Item14349: Edit Table button not functional on IE 11.|
 |  3.317 (21 Jan 2017) | Foswikitask:Item14107 Document that move, add & delete row actions are immediate, not subject to cancel. |
 |  3.316 (26 Nov 2016) | Foswikitask:Item14174 css.gz and js.gz files missing from MANIFEST<br/> \
                          Foswikitask:Item14213 Warning logged about uninitialized values <br/>\
@@ -346,21 +354,21 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2017 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2018 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
-%META:FILEATTACHMENT{name="icons.png" attr="h" comment="" date="1485029916" size="2457" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" date="1485029916" size="15337" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" date="1485029916" size="22834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" date="1485029916" size="1454" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" date="1485029916" size="12013" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" date="1485029916" size="6803" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" date="1485029916" size="11898" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" date="1485029916" size="2130" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" date="1485029916" size="9132" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" date="1485029916" size="26625" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485029916" size="19461" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" date="1485029916" size="3626" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1485029916" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" date="1485029916" size="1418" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="icons.png" attr="h" comment="" date="1517876160" size="2457" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" date="1517876160" size="15337" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" date="1517876160" size="22834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.css" attr="h" comment="" date="1517876160" size="1454" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" date="1517876160" size="12013" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.uncompressed.js" attr="h" comment="" date="1517876160" size="6803" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.js" attr="h" comment="" date="1517876160" size="11898" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.css" attr="h" comment="" date="1517876160" size="2130" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" date="1517876160" size="9132" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="erp.uncompressed.js" attr="h" comment="" date="1517876160" size="26625" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1517876160" size="19461" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="TableSort.js" attr="h" comment="" date="1517876160" size="3626" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1517876160" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clock.gif" attr="h" comment="" date="1517876160" size="1418" user="ProjectContributor" version="1"}%

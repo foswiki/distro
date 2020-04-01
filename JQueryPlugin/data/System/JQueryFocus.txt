@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"focus"
@@ -22,7 +22,7 @@ Add the css class ==jqFocus== (or ==foswikiFocus==) to the input field you'd lik
 %JQREQUIRE{"focus"}%
 <input type="text" class="foswikiInputField jqFocus" size="40" />
 
-<style type="text/css">
+<style>
 input[type="text"]:focus {
 	background-color:#FFFFC0;
 	color:black;
@@ -35,7 +35,7 @@ creates:
 %JQREQUIRE{"focus"}%
 <input type="text" class="foswikiInputField foswikiFocus" size="40" />
 
-<style type="text/css">
+<style>
 input[type="text"]:focus {
 	background-color:#FFFFC0;
 	color:black;

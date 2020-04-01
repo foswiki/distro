@@ -21,7 +21,7 @@ This version is tested with Foswiki in IE6, IE7 and FF3.
 %TMPL:DEF{"diffbin_compare"}%compare%TMPL:END%
 
 
-%TMPL:DEF{"historytable:navigation"}%$next{'%MAKETEXT{"Jump to latest revision ([_1])" args="%HISTORY_MAXREV%"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"View later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"View earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"Jump to first revision"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}"}%%TMPL:END%
+%TMPL:DEF{"historytable:navigation"}%$next{'%MAKETEXT{"Jump to latest revision ([_1])" args="%HISTORY_MAXREV%"}%' url='%SCRIPTURLPATH{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"View later"}%' url='%SCRIPTURLPATH{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"View earlier"}%' url='%SCRIPTURLPATH{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"Jump to first revision"}%' url='%SCRIPTURLPATH{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}"}%%TMPL:END%
 
 
 %TMPL:DEF{"historytable"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
@@ -30,7 +30,7 @@ This version is tested with Foswiki in IE6, IE7 and FF3.
 <th>%MAKETEXT{"Changed on"}%</th>
 <th>%MAKETEXT{"Last edited by"}%</th>
 </tr>
-%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
+%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
 
 
 %TMPL:DEF{"renderstyle"}%%TMPL:P{context="CompareRevisionsAddonPluginEnabled" then="renderstyle_cra_enabled" else="renderstyle_cra_disabled"}%%TMPL:END%
@@ -93,7 +93,7 @@ table.foswikiDiffOptions img {
 ---++ %MAKETEXT{"Select an earlier (left) and a later (right) revision to compare"}%
 %TMPL:P{"cssFoswikiDiffOptions"}%<div class="foswikiFormSteps">
 <div class="foswikiFormStep">%TMPL:P{"viewoptions"}%</div>
-<form name="main" action="%SCRIPTURL{"%TMPL:P{"diffbin"}%"}%/%WEB%/%TOPIC%">
+<form name="main" action="%SCRIPTURLPATH{"%TMPL:P{"diffbin"}%"}%/%WEB%/%TOPIC%">
 <div class="foswikiFormStep"><h4>%MAKETEXT{"Showing revisions [_1] - [_2] (out of [_3])" args="%HISTORY_REV1%,%HISTORY_REV2%,%HISTORY_MAXREV%"}%</h4>
 %TMPL:P{"historytable"}%
 </div>
@@ -103,7 +103,7 @@ table.foswikiDiffOptions img {
 </form>
 </div>%TMPL:END%
 
-%TMPL:DEF{"viewoptions"}%<form action="%SCRIPTURL{oops}%/%WEB%/%TOPIC%">
+%TMPL:DEF{"viewoptions"}%<form action="%SCRIPTURLPATH{oops}%/%WEB%/%TOPIC%">
 %MAKETEXT{"Show [_1] revisions up to revision [_2]" args="%TMPL:P{viewoptions:amount}%, %TMPL:P{viewoptions:upto}%"}% <input type="submit" class="foswikiButton" value="%MAKETEXT{"Refresh"}%" />
 <input type="hidden" name="template" value="oopshistory" />
 </form>%TMPL:END%
@@ -119,4 +119,4 @@ table.foswikiDiffOptions img {
 %TMPL:DEF{"viewoptions:upto"}%<input type='text' class='foswikiInputField' name='rev2' value='%HISTORY_REV2%' size='2' />%TMPL:END%
 
 
-%TMPL:DEF{"topicactionbuttons"}%<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a>%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="S" rel="nofollow">%MAKETEXT{"&Sequential"}%</a>%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a>%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="S" rel="nofollow">%MAKETEXT{"&Sequential"}%</a>%TMPL:END%

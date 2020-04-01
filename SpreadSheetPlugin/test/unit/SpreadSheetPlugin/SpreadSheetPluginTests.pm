@@ -89,6 +89,13 @@ sub CALC {
     my $rsltR = Foswiki::Func::expandCommonVariables($calcR);
 
     if ($ne) {
+        my $i = 1;
+        while ( $rsltC eq $rsltR ) {
+            $rsltR = Foswiki::Func::expandCommonVariables($calcR);
+            print STDERR "RETRY For NE\n";
+            $i++;
+            last if ( $i == 5 );
+        }
         $this->assert_str_not_equals( $rsltC, $rsltR );
     }
     else {
@@ -424,6 +431,7 @@ sub test_EVAL {
     $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
     $this->assert( $this->CALC('$EVAL(8.0068/8)') == 1.00085 );
     $this->assert( $this->CALC('$EVAL(8.0068/08)') == 1.00085 );
+    $this->assert( $this->CALC('$EVAL(0)') eq '0' );
 }
 
 sub test_EVEN {

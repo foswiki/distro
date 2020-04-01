@@ -529,7 +529,7 @@ EXPECTED
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
@@ -615,7 +615,7 @@ INPUT
 <nop>
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th bgcolor="#687684" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">HEADER </th>
@@ -696,7 +696,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
@@ -765,7 +765,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table> </td>
@@ -830,7 +830,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table border="1" class="foswikiTable" rules="none">
+<table class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img alt=DONE height=16 src=%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.png title=DONE width=16></img> </td>
@@ -898,7 +898,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
@@ -1393,7 +1393,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table border="1" class="foswikiTable" rules="none">
+<table class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
@@ -1445,7 +1445,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table class="foswikiTable" rules="none" border="1">
+<table class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
@@ -2164,7 +2164,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
@@ -2240,7 +2240,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>

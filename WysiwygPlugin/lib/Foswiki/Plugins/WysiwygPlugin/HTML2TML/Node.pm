@@ -46,8 +46,8 @@ use Foswiki::Func;    # needed for regular expressions
 use Assert;
 use HTML::Entities ();
 
-use Foswiki::Plugins::WysiwygPlugin::HTML2TML     ();
-use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC ();
+use Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Constants;
 
 our $reww;
 
@@ -97,7 +97,7 @@ sub stringify {
         foreach my $attr ( sort keys %{ $this->{attrs} } ) {
             $r .= " " . $attr . "='" . $this->{attrs}->{$attr} . "'";
         }
-        $r .= ' /' if $WC::SELF_CLOSING{ $this->{tag} };
+        $r .= ' /' if $SELF_CLOSING{ $this->{tag} };
         $r .= '>';
     }
     if ($shallow) {
@@ -110,7 +110,7 @@ sub stringify {
             $kid = $kid->{next};
         }
     }
-    if ( $this->{tag} and not $WC::SELF_CLOSING{ $this->{tag} } ) {
+    if ( $this->{tag} and not $SELF_CLOSING{ $this->{tag} } ) {
         $r .= '</' . $this->{tag} . '>';
     }
     return $r;
@@ -149,8 +149,8 @@ sub _trim {
 
     # Item5076: removed CHECKn from the following exprs, because loss of it
     # breaks line-sensitive TML content inside flattened content.
-    $s =~ s/^[ \t\n$WC::CHECKw$WC::CHECKs]+/$WC::CHECKw/o;
-    $s =~ s/[ \t\n$WC::CHECKw]+$/$WC::CHECKw/o;
+    $s =~ s/^[ \t\n$CHECKw$CHECKs]+/$CHECKw/o;
+    $s =~ s/[ \t\n$CHECKw]+$/$CHECKw/o;
     return $s;
 }
 
@@ -248,7 +248,7 @@ decisions on whether to allow TML conversion in lower nodes,
 and lower level nodes can constrain conversion in higher level
 nodes.
 
-$opts is a bitset. WC::VERY_CLEAN will cause the generator
+$opts is a bitset. VERY_CLEAN will cause the generator
 to drop unrecognised HTML (e.g. divs and spans that don't
 generate TML)
 
@@ -257,56 +257,54 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
-  #print STDERR "Raw       [", WC::encode_specials($this->stringify()), "]\n\n";
+    #print STDERR "Raw       [", encode_specials($this->stringify()), "]\n\n";
     $this->cleanParseTree();
 
-  #print STDERR "Cleaned   [", WC::encode_specials($this->stringify()), "]\n\n";
-  # Perform some transformations on the parse tree
+    #print STDERR "Cleaned   [", encode_specials($this->stringify()), "]\n\n";
+    # Perform some transformations on the parse tree
     $this->_collapse();
 
-  #print STDERR "Collapsed [", WC::encode_specials($this->stringify()), "]\n\n";
+    #print STDERR "Collapsed [", encode_specials($this->stringify()), "]\n\n";
 
     my ( $f, $text ) = $this->generate($opts);
 
     # Debug support
-    #print STDERR "Converted [",WC::encode_specials($text),"]\n";
+    #print STDERR "Converted [",encode_specials($text),"]\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
     # maintain Foswiki variables at the start of lines.
-    $text =~ s/$WC::PON$WC::NBBR/$WC::CHECKn$WC::PON/g;
+    $text =~ s/$PON$NBBR/$CHECKn$PON/g;
 
     # isolate whitespace checks and convert to $NBSP
-    $text =~ s/$WC::CHECKw$WC::CHECKw+/$WC::CHECKw/go;
-    $text =~
-s/([$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::TAB$WC::NBBR]($WC::PON|$WC::POFF)?)$WC::CHECKw/$1/go;
-    $text =~
-s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/$1/go;
-    $text =~ s/^($WC::CHECKw)+//gos;
-    $text =~ s/($WC::CHECKw)+$//gos;
-    $text =~ s/($WC::CHECKw)+/$WC::NBSP/go;
+    $text =~ s/$CHECKw$CHECKw+/$CHECKw/go;
+    $text =~ s/([$CHECKn$CHECKs$NBSP $TAB$NBBR]($PON|$POFF)?)$CHECKw/$1/go;
+    $text =~ s/$CHECKw(($PON|$POFF)?[$CHECKn$CHECKs$NBSP $NBBR])/$1/go;
+    $text =~ s/^($CHECKw)+//gos;
+    $text =~ s/($CHECKw)+$//gos;
+    $text =~ s/($CHECKw)+/$NBSP/go;
 
     # isolate $CHECKs and convert to $NBSP
-    $text =~ s/$WC::CHECKs$WC::CHECKs+/$WC::CHECKs/go;
-    $text =~ s/([ $WC::NBSP$WC::TAB])$WC::CHECKs/$1/go;
-    $text =~ s/$WC::CHECKs( |$WC::NBSP)/$1/go;
-    $text =~ s/($WC::CHECKs)+/$WC::NBSP/go;
+    $text =~ s/$CHECKs$CHECKs+/$CHECKs/go;
+    $text =~ s/([ $NBSP$TAB])$CHECKs/$1/go;
+    $text =~ s/$CHECKs( |$NBSP)/$1/go;
+    $text =~ s/($CHECKs)+/$NBSP/go;
 
     # SMELL:   Removed per Item11859.   This was done because TMCE used to
     # insert a <br /> before <p>  ...   It doesn't do that in 3.4.9
-    #$text =~ s/<br( \/)?>$WC::NBBR/$WC::NBBR/g;    # Remove BR before P
+    #$text =~ s/<br( \/)?>$NBBR/$NBBR/g;    # Remove BR before P
 
-    #die "Converted ",WC::encode_specials($text),"\n";
-    #print STDERR "Conv2     [",WC::encode_specials($text),"]\n";
+    #die "Converted ",encode_specials($text),"\n";
+    #print STDERR "Conv2     [",encode_specials($text),"]\n";
 
-    my @regions = split( /([$WC::PON$WC::POFF])/o, $text );
+    my @regions = split( /([$PON$POFF])/o, $text );
     my $protect = 0;
     $text = '';
     foreach my $tml (@regions) {
-        if ( $tml eq $WC::PON ) {
+        if ( $tml eq $PON ) {
             $protect++;
             next;
         }
-        elsif ( $tml eq $WC::POFF ) {
+        elsif ( $tml eq $POFF ) {
             $protect--;
             next;
         }
@@ -314,12 +312,12 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         # isolate $NBBR and convert to \n.
         unless ($protect) {
 
-            $tml =~ s/\n$WC::NBBR/$WC::NBBR$WC::NBBR/go;
-            $tml =~ s/$WC::NBBR\n/$WC::NBBR$WC::NBBR/go;
-            $tml =~ s/$WC::NBBR( |$WC::NBSP)+$WC::NBBR/$WC::NBBR$WC::NBBR/go;
-            $tml =~ s/ +$WC::NBBR/$WC::NBBR/go;
-            $tml =~ s/$WC::NBBR +/$WC::NBBR/go;
-            $tml =~ s/$WC::NBBR$WC::NBBR+/$WC::NBBR$WC::NBBR/go;
+            $tml =~ s/\n$NBBR/$NBBR$NBBR/go;
+            $tml =~ s/$NBBR\n/$NBBR$NBBR/go;
+            $tml =~ s/$NBBR( |$NBSP)+$NBBR/$NBBR$NBBR/go;
+            $tml =~ s/ +$NBBR/$NBBR/go;
+            $tml =~ s/$NBBR +/$NBBR/go;
+            $tml =~ s/$NBBR$NBBR+/$NBBR$NBBR/go;
 
             # Now convert adjacent NBBRs to recreate empty lines
             # 1 NBBR  -> 1 newline
@@ -330,43 +328,43 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             # 6 NBBRs -> <p /><p /><p /> - 3 blank lines - 4 newlines
             # 7 NBBRs -> 5 newlines
             # 8 NBBRs -> <p /><p /><p /><p /> - 4 blank lines - 5 newlines
-            $tml =~ s.($WC::NBBR$WC::NBBR$WC::NBBR$WC::NBBR+).
+            $tml =~ s.($NBBR$NBBR$NBBR$NBBR+).
               "\n" x ((length($1) + 1) / 2 + 1)
                 .geo;
 
         }
 
         # isolate $CHECKn and convert to $NBBR
-        $tml =~ s/$WC::CHECKn([$WC::NBSP $WC::TAB])*$WC::CHECKn/$WC::CHECKn/go;
-        $tml =~ s/$WC::CHECKn$WC::CHECKn+/$WC::CHECKn/go;
-        $tml =~ s/(?<=$WC::NBBR)$WC::CHECKn//gom;
-        $tml =~ s/$WC::CHECKn(?=$WC::NBBR)//gom;
-        $tml =~ s/$WC::CHECKn+/$WC::NBBR/gos;
+        $tml =~ s/$CHECKn([$NBSP $TAB])*$CHECKn/$CHECKn/go;
+        $tml =~ s/$CHECKn$CHECKn+/$CHECKn/go;
+        $tml =~ s/(?<=$NBBR)$CHECKn//gom;
+        $tml =~ s/$CHECKn(?=$NBBR)//gom;
+        $tml =~ s/$CHECKn+/$NBBR/gos;
 
-        $tml =~ s/$WC::NBBR/\n/gos;
+        $tml =~ s/$NBBR/\n/gos;
 
         # Convert tabs to NBSP
-        $tml =~ s/$WC::TAB/$WC::NBSP$WC::NBSP$WC::NBSP/go;
+        $tml =~ s/$TAB/$NBSP$NBSP$NBSP/go;
 
         # isolate $NBSP and convert to space
         unless ($protect) {
-            $tml =~ s/ +$WC::NBSP/$WC::NBSP/go;
-            $tml =~ s/$WC::NBSP +/$WC::NBSP/go;
+            $tml =~ s/ +$NBSP/$NBSP/go;
+            $tml =~ s/$NBSP +/$NBSP/go;
         }
-        $tml =~ s/$WC::NBSP/ /go;
+        $tml =~ s/$NBSP/ /go;
 
-        $tml =~ s/$WC::CHECK1$WC::CHECK1+/$WC::CHECK1/go;
-        $tml =~ s/$WC::CHECK2$WC::CHECK2+/$WC::CHECK2/go;
-        $tml =~ s/$WC::CHECK2$WC::CHECK1/$WC::CHECK2/go;
+        $tml =~ s/$CHECK1$CHECK1+/$CHECK1/go;
+        $tml =~ s/$CHECK2$CHECK2+/$CHECK2/go;
+        $tml =~ s/$CHECK2$CHECK1/$CHECK2/go;
 
-        $tml =~ s/(^|[\s\(])$WC::CHECK1/$1/gso;
-        $tml =~ s/$WC::CHECK2($|[\s\,\.\;\:\!\?\)\*])/$1/gso;
+        $tml =~ s/(^|[\s\(])$CHECK1/$1/gso;
+        $tml =~ s/$CHECK2($|[\s\,\.\;\:\!\?\)\*])/$1/gso;
 
-        $tml =~ s/$WC::CHECK1(\s|$)/$1/gso;
-        $tml =~ s/(^|\s)$WC::CHECK2/$1/gso;
+        $tml =~ s/$CHECK1(\s|$)/$1/gso;
+        $tml =~ s/(^|\s)$CHECK2/$1/gso;
 
-        $tml =~ s/$WC::CHECK1/ /go;
-        $tml =~ s/$WC::CHECK2/ /go;
+        $tml =~ s/$CHECK1/ /go;
+        $tml =~ s/$CHECK2/ /go;
 
         # SMELL:   Removed per Item11859.   This was done because TMCE used to
         # insert a <br /> before <p>  ...   It doesn't do that in 3.4.9
@@ -375,7 +373,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         #    $tml =~ s/<br( \/)?>\n/\n/g;
         #}
 
-        #print STDERR " -> [",WC::encode_specials($tml),"]\n";
+        #print STDERR " -> [",encode_specials($tml),"]\n";
         $text .= $tml;
     }
 
@@ -391,7 +389,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     $text =~ s/^\n*//s;
     $text =~ s/\s*$/\n/s;
 
-    #print STDERR "TML       [",WC::encode_specials($text),"]\n";
+    #print STDERR "TML       [",encode_specials($text),"]\n";
 
     return $text;
 }
@@ -437,7 +435,7 @@ sub _collapseOneClass {
                     require Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
                     $node->addChild(
                         new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf(
-                            $WC::NBBR)
+                            $NBBR)
                     );
                     $node->_eat($meal);
                 }
@@ -502,12 +500,11 @@ sub _collapse {
         # If this is an emphasis (b, i, code, tt, strong) then
         # flatten out any child nodes that express the same emphasis.
         # This has to be done because Foswiki emphases are single level.
-        if ( $WC::EMPH_TAG{ $node->{tag} } ) {
+        if ( $EMPH_TAG{ $node->{tag} } ) {
             my $kid = $node->{head};
             while ($kid) {
-                if (   $WC::EMPH_TAG{ $kid->{tag} }
-                    && $WC::EMPH_TAG{ $kid->{tag} } eq
-                    $WC::EMPH_TAG{ $node->{tag} } )
+                if (   $EMPH_TAG{ $kid->{tag} }
+                    && $EMPH_TAG{ $kid->{tag} } eq $EMPH_TAG{ $node->{tag} } )
                 {
                     $kid = $kid->_inline();
                 }
@@ -564,7 +561,7 @@ sub generate {
     }
 
     if ( $this->hasClass('TMLhtml') ) {
-        return $this->_defaultTag( $options & ~WC::VERY_CLEAN );
+        return $this->_defaultTag( $options & ~VERY_CLEAN );
     }
 
     my $tag = $this->{tag};
@@ -585,19 +582,20 @@ sub generate {
         return ( 0, '<literal>' . $text . '</literal>' );
     }
 
-    if ( $options & WC::NO_HTML ) {
+    if ( $options & NO_HTML ) {
 
         # NO_HTML implies NO_TML
         my $brats = $this->_flatten($options);
         return ( 0, $brats );
     }
 
-    if ( $options & WC::NO_TML ) {
+    if ( $options & NO_TML ) {
         return ( 0, $this->stringify() );
     }
 
     # make the names of the function versions
     $tag =~ s/!//;    # DOCTYPE
+
     my $tmlFn = '_handle' . uc($tag);
 
     $this->_moveClassToSpan('WYSIWYG_TT');
@@ -635,7 +633,7 @@ sub _flatten {
     my $flags = 0;
 
     my $protected =
-         ( $options & WC::PROTECTED )
+         ( $options & PROTECTED )
       || $this->hasClass('WYSIWYG_PROTECTED')
       || $this->hasClass('WYSIWYG_STICKY')
       || 0;
@@ -644,13 +642,13 @@ sub _flatten {
 
         # Expand brs, which are used in the protected encoding in place of
         # newlines, and protect whitespace
-        $options |= WC::BR2NL | WC::KEEP_WS;
+        $options |= BR2NL | KEEP_WS;
     }
 
     my $kid = $this->{head};
     while ($kid) {
         my ( $f, $t ) = $kid->generate($options);
-        if (   !( $options & WC::KEEP_WS )
+        if (   !( $options && KEEP_WS )
             && $text
             && $text =~ /\w$/
             && $t =~ /^\w/ )
@@ -665,20 +663,20 @@ sub _flatten {
         $kid = $kid->{next};
     }
     if ($protected) {
-        $text =~ s/[$WC::PON$WC::POFF]//g;
+        $text =~ s/[$PON$POFF]//g;
 
-        unless ( $options & WC::KEEP_ENTITIES ) {
+        unless ( $options & KEEP_ENTITIES ) {
 
             # This will decode only those entities that
             # have a representation in the site charset.
-            WC::decodeRepresentableEntities($text);
+            decodeRepresentableEntities($text);
         }
-        $text =~ s/ /$WC::NBSP/g;
-        $text =~ s/\n/$WC::NBBR/g;
-        $text = $WC::PON . $text . $WC::POFF;
+        $text =~ s/ /$NBSP/g;
+        $text =~ s/\n/$NBBR/g;
+        $text = $PON . $text . $POFF;
     }
 
-    $text = _trim($text) unless ( $options & WC::KEEP_WS );
+    $text = _trim($text) unless ( $options & KEEP_WS );
 
     return ( $flags, $text );
 }
@@ -705,7 +703,7 @@ sub _htmlParams {
                 # if cleaning aggressively, remove class attributes
                 # except for the JQuery "Chili" classes
                 next CLASS
-                  if (  $options & WC::VERY_CLEAN
+                  if (  $options & VERY_CLEAN
                     and not $jqueryChiliClass{$class}
                     and not $class =~ /^foswiki/ );
 
@@ -730,7 +728,7 @@ sub _defaultTag {
     my $tag = $this->{tag};
     my $p = _htmlParams( $this->{attrs}, $options );
 
-    if ( $text =~ /^\s*$/ && $WC::SELF_CLOSING{$tag} ) {
+    if ( $text =~ /^\s*$/ && $SELF_CLOSING{$tag} ) {
         return ( $flags, '<' . $tag . $p . ' />' );
     }
     else {
@@ -753,30 +751,6 @@ sub _isProtectedByAttrs {
     return 0;
 }
 
-sub _convertIndent {
-    my ( $this, $options ) = @_;
-    my $indent = $WC::TAB;
-
-    my ( $f, $t ) = $this->_handleP($options);
-    return $t unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
-
-    if ( $t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/ ) {
-        return "$WC::CHECKn$1:$2";
-    }
-
-    # Zoom up through the tree and see how many layers of indent we have
-    my $p = $this;
-    while ( $p = $p->{parent} ) {
-        if ( $p->{tag} eq 'div' && $p->hasClass('foswikiIndent') ) {
-            $indent .= $WC::TAB;
-        }
-    }
-    $t =~ s/^$WC::WS*//s;
-    $t =~ s/$WC::WS*$//s;
-    $t = "$WC::CHECKn$indent: " . $t;
-    return $t;
-}
-
 # perform conversion on a list type
 sub _convertList {
     my ( $this, $indent ) = @_;
@@ -787,10 +761,29 @@ sub _convertList {
         $basebullet = '';
     }
     elsif ( $this->{tag} eq 'ol' ) {
-        $basebullet = '1';
+        if ( $this->hasClass('foswikiListStyleA') ) {
+            $basebullet = 'A.';
+        }
+        elsif ( $this->hasClass('foswikiListStylea') ) {
+            $basebullet = 'a.';
+        }
+        elsif ( $this->hasClass('foswikiListStyleI') ) {
+            $basebullet = 'I.';
+        }
+        elsif ( $this->hasClass('foswikiListStylei') ) {
+            $basebullet = 'i.';
+        }
+        else {
+            $basebullet = '1.';
+        }
     }
-    else {
-        $basebullet = '*';
+    else {    # ul
+        if ( $this->hasClass('foswikiListStyleNone') ) {
+            $basebullet = ':';
+        }
+        else {
+            $basebullet = '*';
+        }
     }
 
     my $f;
@@ -801,7 +794,7 @@ sub _convertList {
 
         # be tolerant of dl, ol and ul with no li
         if ( $kid->{tag} =~ m/^[dou]l$/ ) {
-            $text .= $kid->_convertList( $indent . $WC::TAB );
+            $text .= $kid->_convertList( $indent . $TAB );
             $kid = $kid->{next};
             next;
         }
@@ -812,10 +805,10 @@ sub _convertList {
         if ( $isdl && ( $kid->{tag} eq 'dt' ) ) {
 
             # DT, set the bullet type for subsequent DT
-            $basebullet = $kid->_flatten(WC::NO_BLOCK_TML);
-            $basebullet =~ s/[\s$WC::CHECKw$WC::CHECKs]+$//;
+            $basebullet = $kid->_flatten( NO_BLOCK_TML() );
+            $basebullet =~ s/[\s$CHECKw$CHECKs]+$//;
             $basebullet .= ':';
-            $basebullet =~ s/$WC::CHECKn/ /g;
+            $basebullet =~ s/$CHECKn/ /g;
             $basebullet =~ s/^\s+//;
             $basebullet = '$ ' . $basebullet;
             $pendingDT  = 1;                   # remember in case there is no DD
@@ -823,10 +816,7 @@ sub _convertList {
             next;
         }
         my $bullet = $basebullet;
-        if ( $basebullet eq '1' && $kid->{attrs}->{type} ) {
-            $bullet = $kid->{attrs}->{type} . '.';
-        }
-        my $spawn = '';
+        my $spawn  = '';
         my $t;
         my $grandkid = $kid->{head};
         if ($grandkid) {
@@ -844,11 +834,11 @@ sub _convertList {
                 if ( $grandkid->{tag} && $grandkid->{tag} =~ /^[dou]l$/ ) {
 
                     #$spawn = _trim( $spawn );
-                    $t = $grandkid->_convertList( $indent . $WC::TAB );
+                    $t = $grandkid->_convertList( $indent . $TAB );
                 }
                 else {
-                    ( $f, $t ) = $grandkid->generate(WC::NO_BLOCK_TML);
-                    $t =~ s/$WC::CHECKn/ /g;
+                    ( $f, $t ) = $grandkid->generate( NO_BLOCK_TML() );
+                    $t =~ s/$CHECKn/ /g;
 
                     # Item5257: If this is the last child of the LI, trim
                     # trailing spaces. Otherwise spaces generated by the
@@ -865,8 +855,7 @@ sub _convertList {
         }
 
         #$spawn = _trim($spawn);
-        $text .=
-          $WC::CHECKn . $indent . $bullet . $WC::CHECKs . $spawn . $WC::CHECKn;
+        $text .= $CHECKn . $indent . $bullet . $CHECKs . $spawn . $CHECKn;
         $pendingDT  = 0;
         $basebullet = '' if $isdl;
         $kid        = $kid->{next};
@@ -874,19 +863,9 @@ sub _convertList {
     if ($pendingDT) {
 
         # DT with no corresponding DD
-        $text .= $WC::CHECKn . $indent . $basebullet . $WC::CHECKn;
+        $text .= $CHECKn . $indent . $basebullet . $CHECKn;
     }
     return $text;
-}
-
-sub _isConvertableIndent {
-    my ( $this, $options ) = @_;
-
-    return 0 unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
-
-    return 0 if ( $this->_isProtectedByAttrs() );
-
-    return $this->{tag} eq 'div' && $this->hasClass('foswikiIndent');
 }
 
 # probe down into a list type to determine if it
@@ -939,7 +918,7 @@ sub _isConvertableListItem {
         }
         else {
             ( $flags, $text ) = $kid->generate($options);
-            if ( $flags & WC::BLOCK_TML ) {
+            if ( $flags & BLOCK_TML ) {
                 return 0;
             }
         }
@@ -1003,9 +982,9 @@ sub _isConvertableTable {
 sub _TDtrim {
     my $td = shift;
     $td =~
-s/^($WC::NBSP|$WC::NBBR|$WC::CHECKn|$WC::CHECKs|$WC::CHECKw|$WC::CHECK1|$WC::CHECK2|$WC::TAB|\s)+//so;
+      s/^($NBSP|$NBBR|$CHECKn|$CHECKs|$CHECKw|$CHECK1|$CHECK2|$TAB|\s)+//so;
     $td =~
-s/(<br \/>|<br>|$WC::NBSP|$WC::NBBR|$WC::CHECKn|$WC::CHECKs|$WC::CHECKw|$WC::CHECK1|$WC::CHECK2|$WC::TAB|\s)+$//so;
+s/(<br \/>|<br>|$NBSP|$NBBR|$CHECKn|$CHECKs|$CHECKw|$CHECK1|$CHECK2|$TAB|\s)+$//so;
     return $td;
 }
 
@@ -1022,7 +1001,7 @@ sub _isConvertableTableRow {
     my $kid        = $this->{head};
     my $colIdx     = 0;
     while ( $rowspan and $rowspan->[$colIdx] ) {
-        push @row, $WC::NBSP . '^' . $WC::NBSP;
+        push @row, $NBSP . '^' . $NBSP;
         $rowspan->[$colIdx]--;
         $colIdx++;
     }
@@ -1031,7 +1010,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten( $options | WC::IN_TABLE );
+            ( $flags, $text ) = $kid->_flatten( $options | IN_TABLE );
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
@@ -1039,7 +1018,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten( $options | WC::IN_TABLE );
+            ( $flags, $text ) = $kid->_flatten( $options | IN_TABLE );
             $text = _TDtrim($text);
         }
         elsif ( !$kid->{tag} ) {
@@ -1051,18 +1030,18 @@ sub _isConvertableTableRow {
             # some other sort of (unexpected) tag
             return 0;
         }
-        return 0 if ( $flags & WC::BLOCK_TML );
+        return 0 if ( $flags & BLOCK_TML );
 
         if ( $kid->{attrs} ) {
             my $a = _deduceAlignment($kid);
             if ( length($text) && $a eq 'right' ) {
-                $text = $WC::NBSP . $text;
+                $text = $NBSP . $text;
             }
             elsif ( length($text) && $a eq 'center' ) {
-                $text = $WC::NBSP . $text . $WC::NBSP;
+                $text = $NBSP . $text . $NBSP;
             }
             elsif ( $text && $a eq 'left' ) {
-                $text .= $WC::NBSP;
+                $text .= $NBSP;
             }
             if ( $kid->{attrs}->{rowspan} && $kid->{attrs}->{rowspan} > 1 ) {
                 return 0 unless $rowspan;
@@ -1083,18 +1062,18 @@ sub _isConvertableTableRow {
             }
 
         }
-        $text =~ s/&nbsp;/$WC::NBSP/g;
-        $text =~ s/&#160;/$WC::NBSP/g;
+        $text =~ s/&nbsp;/$NBSP/g;
+        $text =~ s/&#160;/$NBSP/g;
 
         #if (--$ignoreCols > 0) {
         #    # colspanned
         #    $text = '';
         #} els
-        if ( $text =~ /^$WC::NBSP*$/ ) {
-            $text = $WC::NBSP;
+        if ( $text =~ /^$NBSP*$/ ) {
+            $text = $NBSP;
         }
         else {
-            $text = $WC::NBSP . $text . $WC::NBSP;
+            $text = $NBSP . $text . $NBSP;
         }
         if (   $kid->{attrs}
             && $kid->{attrs}->{colspan}
@@ -1117,7 +1096,7 @@ sub _isConvertableTableRow {
             $colIdx++;
         }
         while ( $rowspan and $rowspan->[$colIdx] ) {
-            push @row, $WC::NBSP . '^' . $WC::NBSP;
+            push @row, $NBSP . '^' . $NBSP;
             $rowspan->[$colIdx]--;
             $colIdx++;
         }
@@ -1227,8 +1206,8 @@ sub _H {
     my ( $this, $options, $depth ) = @_;
     my ( $flags, $contents ) = $this->_flatten($options);
     return ( 0, undef )
-      if ( ( $flags & WC::BLOCK_TML )
-        || ( $flags & WC::IN_TABLE ) );
+      if ( ( $flags & BLOCK_TML )
+        || ( $flags & IN_TABLE ) );
     my $notoc = '';
     if ( $this->hasClass('notoc') ) {
         $notoc = '!!';
@@ -1240,27 +1219,27 @@ sub _H {
     $contents =~ s/^\s+/ /;
     $contents =~ s/\s+$//;
     my $res =
-        $WC::CHECKn . '---'
+        $CHECKn . '---'
       . ( $indicator x $depth )
       . $notoc
-      . $WC::CHECKs
+      . $CHECKs
       . $contents
-      . $WC::CHECKn;
-    return ( $flags | WC::BLOCK_TML, $res );
+      . $CHECKn;
+    return ( $flags | BLOCK_TML, $res );
 }
 
 # generate an emphasis
 sub _emphasis {
     my ( $this, $options, $ch ) = @_;
-    my ( $flags, $contents ) = $this->_flatten( $options | WC::NO_BLOCK_TML );
+    my ( $flags, $contents ) = $this->_flatten( $options | NO_BLOCK_TML );
     return ( 0, undef )
-      if ( !defined($contents) || ( $flags & WC::BLOCK_TML ) );
+      if ( !defined($contents) || ( $flags & BLOCK_TML ) );
 
     # Remove whitespace from either side of the contents, retaining the
     # whitespace
-    $contents =~ s/&nbsp;/$WC::NBSP/go;
-    $contents =~ s/&#160;/$WC::NBSP/go;
-    $contents =~ /^($WC::WS)(.*?)($WC::WS)$/s;
+    $contents =~ s/&nbsp;/$NBSP/go;
+    $contents =~ s/&#160;/$NBSP/go;
+    $contents =~ /^($WS)(.*?)($WS)$/s;
     my ( $pre, $post ) = ( $1, $3 );
     $contents = $2;
     return ( 0, undef ) if ( $contents =~ /^</ || $contents =~ />$/ );
@@ -1284,8 +1263,7 @@ sub _emphasis {
     my $ae = $this->_checkAfterEmphasis();
     return ( 0, undef ) unless $ae && $be;
 
-    return ( $flags,
-        $pre . $WC::CHECK1 . $ch . $contents . $ch . $WC::CHECK2 . $post );
+    return ( $flags, $pre . $CHECK1 . $ch . $contents . $ch . $CHECK2 . $post );
 }
 
 sub isBlockNode {
@@ -1372,11 +1350,11 @@ sub _verbatim {
     my ( $this, $tag, $options ) = @_;
 
     # KEEP_ENTITIES for literal and pre
-    $options |= WC::PROTECTED | WC::KEEP_ENTITIES | WC::BR2NL | WC::KEEP_WS;
+    $options |= PROTECTED | KEEP_ENTITIES | BR2NL | KEEP_WS;
     my ( $flags, $text ) = $this->_flatten($options);
 
     # Don't do this for literal or sticky
-    WC::decodeRepresentableEntities($text);
+    decodeRepresentableEntities($text);
 
     my $p = _htmlParams( $this->{attrs}, $options );
 
@@ -1402,19 +1380,19 @@ sub _handleDOCTYPE { return ( 0, '' ); }
 
 sub _LIST {
     my ( $this, $options ) = @_;
-    if ( ( $options & WC::NO_BLOCK_TML )
-        || !$this->_isConvertableList( $options | WC::NO_BLOCK_TML ) )
+    if ( ( $options & NO_BLOCK_TML )
+        || !$this->_isConvertableList( $options | NO_BLOCK_TML ) )
     {
         return ( 0, undef );
     }
-    return ( WC::BLOCK_TML, $this->_convertList($WC::TAB) );
+    return ( BLOCK_TML, $this->_convertList($TAB) );
 }
 
 # Performs initial cleanup of the parse tree before generation. Walks the
 # tree, making parent links and removing attributes that don't add value.
 # This simplifies determining whether a node is to be kept, or flattened
 # out.
-# $opts may include WC::VERY_CLEAN
+# $opts may include VERY_CLEAN
 sub cleanNode {
     my ( $this, $opts ) = @_;
     my $a;
@@ -1468,7 +1446,7 @@ sub cleanNode {
 sub _handleA {
     my ( $this, $options ) = @_;
 
-    my ( $flags, $text ) = $this->_flatten( $options | WC::NO_BLOCK_TML );
+    my ( $flags, $text ) = $this->_flatten( $options | NO_BLOCK_TML );
     if ( $text && $text =~ /\S/ && $this->{attrs}->{href} ) {
 
         # there's text and an href
@@ -1489,7 +1467,7 @@ sub _handleA {
 
         $reww = Foswiki::Func::getRegularExpression('wikiWordRegex')
           unless $reww;
-        my $nop = ( $options & WC::NOP_ALL ) ? '<nop>' : '';
+        my $nop = ( $options & NOP_ALL ) ? '<nop>' : '';
 
         my $cleantext = $text;
         $cleantext =~ s/<nop>//g;
@@ -1517,19 +1495,14 @@ sub _handleA {
                 && !$forceTML )
             {
                 return ( 0,
-                        $WC::CHECK1
-                      . $nop
-                      . $web
-                      . $topic
-                      . $anchor
-                      . $WC::CHECK2 );
+                    $CHECK1 . $nop . $web . $topic . $anchor . $CHECK2 );
             }
         }
-        if (   $href =~ /${WC::PROTOCOL}[^?]*$/
+        if (   $href =~ /${PROTOCOL}[^?]*$/
             && $text eq $href
             && !$forceTML )
         {
-            return ( 0, $WC::CHECK1 . $nop . $text . $WC::CHECK2 );
+            return ( 0, $CHECK1 . $nop . $text . $CHECK2 );
         }
 
         #print STDERR "TEXT ($text) HREF ($href)\n";
@@ -1562,7 +1535,7 @@ sub _handleABBR    { return _flatten(@_); }
 sub _handleACRONYM { return _flatten(@_); }
 sub _handleADDRESS { return _flatten(@_); }
 
-sub _handleB { return _emphasis( @_, '*' ); }
+sub _handleB        { return _handleSTRONG(@_); }
 sub _handleBASE     { return ( 0, '' ); }
 sub _handleBASEFONT { return ( 0, '' ); }
 
@@ -1583,9 +1556,9 @@ sub _handleBR {
     # 3. The previous node is an inline element node or text node
     # 4. The next node is an inline element or text node
     my $sep = "\n";
-    if ( $options & WC::BR2NL ) {
+    if ( $options & BR2NL ) {
     }
-    elsif ( $options & WC::NO_BLOCK_TML ) {
+    elsif ( $options & NO_BLOCK_TML ) {
         $sep = '<br />';
     }
     elsif ( $this->prevIsInline() ) {
@@ -1593,7 +1566,7 @@ sub _handleBR {
 
             # Both <br> and </br> cause a NL
             # if this is empty, look at next
-            if ( $kids !~ /^[\000-\037]*$/ && $kids !~ /^[\000-\037]*$WC::NBBR/
+            if (   $kids !~ /^[\000-\037]*$/ && $kids !~ /^[\000-\037]*$NBBR/
                 || $this->nextIsInline() )
             {
                 $sep = '<br />';
@@ -1619,13 +1592,7 @@ sub _handleDFN      { return _flatten(@_); }
 
 sub _handleDIV {
     my ( $this, $options ) = @_;
-
-    if ( ( $options & WC::NO_BLOCK_TML )
-        || !$this->_isConvertableIndent( $options | WC::NO_BLOCK_TML ) )
-    {
-        return $this->_handleP($options);
-    }
-    return ( WC::BLOCK_TML, $this->_convertIndent($options) );
+    return $this->_handleP($options);
 }
 
 sub _handleDL { return _LIST(@_); }
@@ -1659,7 +1626,7 @@ sub _handleFONT {
     # converted to a Foswiki colour macro, as long as the colour is
     # recognised.
     if ( hasClass( \%atts, 'WYSIWYG_COLOR' ) ) {
-        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        my $percentColour = $HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
 
             # All other font information will be lost.
@@ -1673,7 +1640,7 @@ sub _handleFONT {
     delete $atts{style} if defined $atts{style} && $atts{style} =~ /^[\s;]*$/;
     delete $atts{color} if defined $atts{color};
     if ( defined $colour && !scalar( keys(%atts) ) ) {
-        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        my $percentColour = $HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
@@ -1707,7 +1674,7 @@ sub _handleHR {
     my ( $this, $options ) = @_;
 
     my ( $f, $kids ) = $this->_flatten($options);
-    return ( $f, '<hr />' . $kids ) if ( $options & WC::NO_BLOCK_TML );
+    return ( $f, '<hr />' . $kids ) if ( $options & NO_BLOCK_TML );
 
     my $dashes = 3;
     if (    $this->{attrs}->{style}
@@ -1717,8 +1684,7 @@ sub _handleHR {
         $dashes = 3 if $dashes < 3;
         $dashes = 160 if $dashes > 160;    # Filter out probably-bad data
     }
-    return ( $f | WC::BLOCK_TML,
-        $WC::CHECKn . ( '-' x $dashes ) . $WC::CHECKn . $kids );
+    return ( $f | BLOCK_TML, $CHECKn . ( '-' x $dashes ) . $CHECKn . $kids );
 }
 
 sub _handleHTML { return _flatten(@_); }
@@ -1728,7 +1694,7 @@ sub _handleH3   { return _H( @_, 3 ); }
 sub _handleH4   { return _H( @_, 4 ); }
 sub _handleH5   { return _H( @_, 5 ); }
 sub _handleH6   { return _H( @_, 6 ); }
-sub _handleI    { return _emphasis( @_, '_' ); }
+sub _handleI    { return _handleEM(@_); }
 
 sub _handleIMG {
     my ( $this, $options ) = @_;
@@ -1792,7 +1758,7 @@ sub _handleP {
         return $this->_verbatim( 'sticky', $options );
     }
     my ( $f, $kids ) = $this->_flatten($options);
-    return ( $f, '<p>' . $kids . '</p>' ) if ( $options & WC::NO_BLOCK_TML );
+    return ( $f, '<p>' . $kids . '</p>' ) if ( $options & NO_BLOCK_TML );
     my $prevNode = $this->{prev};
     if ( $prevNode and not $prevNode->{tag} ) {
         $prevNode = $prevNode->{prev};
@@ -1808,13 +1774,13 @@ sub _handleP {
         $pre = '';
     }
     elsif ( $this->prevIsInline() ) {
-        $pre = $WC::NBBR . $WC::NBBR;
+        $pre = $NBBR . $NBBR;
     }
     else {
-        $pre = $WC::NBBR;
+        $pre = $NBBR;
     }
-    $pre = $WC::NBBR . $pre if $nbnl;
-    return ( $f | WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
+    $pre = $NBBR . $pre if $nbnl;
+    return ( $f | BLOCK_TML, $pre . $kids . $NBBR );
 }
 
 # PARAM
@@ -1829,11 +1795,11 @@ sub _handlePRE {
     if ( $this->hasClass('WYSIWYG_STICKY') ) {
         return $this->_verbatim( 'sticky', $options );
     }
-    unless ( $options & WC::NO_BLOCK_TML ) {
+    unless ( $options & NO_BLOCK_TML ) {
         my ( $flags, $text ) =
-          $this->_flatten( $options | WC::NO_TML | WC::BR2NL | WC::KEEP_WS );
+          $this->_flatten( $options | NO_TML | BR2NL | KEEP_WS );
         my $p = _htmlParams( $this->{attrs}, $options );
-        return ( WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
+        return ( BLOCK_TML, "<$tag$p>$text</$tag>" );
     }
     return ( 0, undef );
 }
@@ -1859,7 +1825,7 @@ sub _handleSPAN {
     }
 
     if ( _removeClass( \%atts, 'WYSIWYG_LINK' ) ) {
-        $options |= WC::NO_BLOCK_TML;
+        $options |= NO_BLOCK_TML;
     }
 
     if ( _removeClass( \%atts, 'WYSIWYG_TT' ) ) {
@@ -1876,7 +1842,7 @@ sub _handleSPAN {
                 $colour = $2;
             }
         }
-        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        my $percentColour = $HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
@@ -1895,14 +1861,14 @@ sub _handleSPAN {
 
             #print STDERR "'$whitespace' -> ";
             $whitespace =~ s/b/\\/g;
-            $whitespace =~ s/n/$WC::NBBR/g;
+            $whitespace =~ s/n/$NBBR/g;
             $whitespace =~ s/t(\d+)/'\t' x $1/ge;
-            $whitespace =~ s/s(\d+)/$WC::NBSP x $1/ge;
+            $whitespace =~ s/s(\d+)/$NBSP x $1/ge;
 
             #print STDERR "'$whitespace'\n";
             #require Data::Dumper;
             my ( $f, $kids ) =
-              $this->_flatten( $options | WC::KEEP_WS | WC::KEEP_ENTITIES );
+              $this->_flatten( $options | KEEP_WS | KEEP_ENTITIES );
 
             #die Data::Dumper::Dumper($kids);
             if ( $kids eq '&nbsp;' ) {
@@ -1944,7 +1910,7 @@ sub _handleSPAN {
         delete $atts{class};
     }
 
-    #    if ( $options & WC::VERY_CLEAN ) {
+    #    if ( $options & VERY_CLEAN ) {
     # remove style attribute if cleaning aggressively.
     #        delete $atts{style} if defined $atts{style};
     #    }
@@ -1969,7 +1935,37 @@ sub _handleSPAN {
 
 # STRIKE
 
-sub _handleSTRONG { return _emphasis( @_, '*' ); }
+sub _handleSTRONG {
+    my ( $this, $options ) = @_;
+
+    if ( $options & IN_TABLE ) {
+        if (
+            $this->{parent}
+            && (   $this->{parent}->{tag} eq 'td'
+                || $this->{parent}->{tag} eq 'th' )
+          )
+        {
+            # Item9651: Don't convert bold/strong in a table cell into stars
+            # if the TML would be interpreted as a heading
+            my $left  = $this->{prev} ? $this->{prev}->stringify() : '';
+            my $right = $this->{next} ? $this->{next}->stringify() : '';
+            if ( "$left$right" =~ /^\s*$/ ) {
+
+                # Have to exclude ==this case== and __that case__ as
+                # they look awfully similar but don't generate table
+                # headings
+                my ( $foo, $t ) = _emphasis( @_, '*' );
+                if ( $t && $t !~ /.*?$CHECK1(==|__).*\1$CHECK2/ ) {
+                    return ( 0, undef );
+                }
+                else {
+                    return ( $foo, $t );
+                }
+            }
+        }
+    }
+    return _emphasis( @_, '*' );
+}
 
 sub _handleSTYLE { return ( 0, '' ); }
 
@@ -1978,11 +1974,11 @@ sub _handleSTYLE { return ( 0, '' ); }
 
 sub _handleTABLE {
     my ( $this, $options ) = @_;
-    return ( 0, undef ) if ( $options & WC::NO_BLOCK_TML );
+    return ( 0, undef ) if ( $options & NO_BLOCK_TML );
 
     # Should really look at the table attrs, but to heck with it
 
-    return ( 0, undef ) if ( $options & WC::NO_BLOCK_TML );
+    return ( 0, undef ) if ( $options & NO_BLOCK_TML );
 
     my %atts = %{ $this->{attrs} };
 
@@ -2030,16 +2026,16 @@ sub _handleTABLE {
 
     my @table;
     return ( 0, undef )
-      unless $this->_isConvertableTable( $options | WC::NO_BLOCK_TML, \@table );
+      unless $this->_isConvertableTable( $options | NO_BLOCK_TML, \@table );
 
-    my $text = $WC::CHECKn;
+    my $text = $CHECKn;
     foreach my $row (@table) {
 
         # isConvertableTableRow has already formatted the cell
-        $text .= $WC::CHECKn . '|' . join( '|', @$row ) . '|' . $WC::CHECKn;
+        $text .= $CHECKn . '|' . join( '|', @$row ) . '|' . $CHECKn;
     }
 
-    return ( WC::BLOCK_TML, $text );
+    return ( BLOCK_TML, $text );
 }
 
 # TBODY

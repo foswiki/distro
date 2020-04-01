@@ -814,7 +814,7 @@ sub extractModuleVersion {
                     $mod_version = $1;
                 }
                 if (
-/^\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/
+/\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/
                   )
                 {
                     eval( "\$mod_" . lc($1) . " = $2;" );
@@ -825,7 +825,10 @@ sub extractModuleVersion {
                 }
                 next;
             }
-            next unless (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(.*?);/);
+            next
+              unless (
+                /\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(?:qv\()?(.*?)(?:\))?;/
+              );
             eval("\$mod_version = $1;");
 
     # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
@@ -891,7 +894,7 @@ sub checkPerlModules {
             $mod->{check_result} .= '*' unless $ok;
             $mod->{check_result} .= " $msg"
               if $msg
-              && ( !$ok || $mod->{installedVersion} eq 'Unknown version' );
+              && ( !$ok || "$mod->{installedVersion}" eq 'Unknown version' );
         }
         else {
             $mod->{ok}               = 0;

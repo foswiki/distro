@@ -1,6 +1,6 @@
 #
 # Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2010 Foswiki Contributors
+# Copyright (C) 2008-2019 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -62,7 +62,14 @@ sub target_compress {
 sub _build_js {
     my ( $this, $to ) = @_;
 
-    # First try uglify
+    if ( !$minifiers{js} ) {
+        if ( $this->_haveterser() ) {
+            $minifiers{js} = sub {
+                return $this->_terser( @_, 'js' );
+            };
+        }
+    }
+
     if ( !$minifiers{js} ) {
         if ( $this->_haveuglifyjs() ) {
             $minifiers{js} = sub {
@@ -72,6 +79,7 @@ sub _build_js {
     }
 
     if ( !$minifiers{js} ) {
+        warn "WARNING: yuicompressor is deprecated. please install terser.\n";
         my $yui = $this->_haveYUI();
 
         if ($yui) {
@@ -83,11 +91,15 @@ sub _build_js {
 
     # If no good, try the CPAN minifiers
     if ( !$minifiers{js} && eval { require JavaScript::Minifier::XS; 1 } ) {
+        warn
+"WARNING: JavaScript::Minifier::XS is deprecated. please install terser.\n";
         $minifiers{js} = sub {
             return $this->_cpanMinify( @_, \&JavaScript::Minifier::XS::minify );
         };
     }
     if ( !$minifiers{js} && eval { require JavaScript::Minifier; 1 } ) {
+        warn
+"WARNING: JavaScript::Minifier is deprecated. please install terser.\n";
         $minifiers{js} = sub {
             return $this->_cpanMinify(
                 @_,
@@ -96,10 +108,6 @@ sub _build_js {
                 }
             );
         };
-    }
-    if ( !$minifiers{js} ) {
-        warn "Cannot squish $to: no minifier found\n";
-        return;
     }
 
     return $this->_build_compress( 'js', $to );
@@ -115,7 +123,6 @@ sub _build_js {
 sub _build_css {
     my ( $this, $to ) = @_;
 
-    # First try cssmin
     if ( !$minifiers{css} ) {
         if ( $this->_havecssmin() ) {
             $minifiers{css} = sub {
@@ -125,6 +132,7 @@ sub _build_css {
     }
 
     if ( !$minifiers{css} ) {
+        warn "WARNING: yuicompressor is deprecated. please install cssmin.\n";
         my $yui = $this->_haveYUI();
 
         if ($yui) {
@@ -134,11 +142,14 @@ sub _build_css {
         }
     }
     if ( !$minifiers{css} && eval { require CSS::Minifier::XS; 1 } ) {
+        warn
+          "WARNING: CSS::Minifier::XS is deprecated. please install cssmin.\n";
         $minifiers{css} = sub {
             return $this->_cpanMinify( @_, \&CSS::Minifier::XS::minify );
         };
     }
     if ( !$minifiers{css} && eval { require CSS::Minifier; 1 } ) {
+        warn "WARNING: CSS::Minifier is deprecated. please install cssmin.\n";
         $minifiers{css} = sub {
             $this->_cpanMinify(
                 @_,
@@ -194,7 +205,7 @@ sub _build_compress {
     my ( $this, $type, $to ) = @_;
 
     if ( !$minifiers{$type} ) {
-        warn "Cannot squish $to: no minifier found for $type\n";
+        warn "ERROR: Cannot squish $to: no minifier found for $type\n";
         return;
     }
 
@@ -342,18 +353,33 @@ sub _cssmin {
     return $out;
 }
 
+sub _terser {
+    my ( $this, $from, $to ) = @_;
+    my $lcall = $ENV{'LC_ALL'};
+    my $cmd;
+
+    $cmd = "terser -m -c -- $from";
+
+    unless ( $this->{-n} ) {
+        $cmd .= " > $to";
+    }
+
+    warn "$cmd\n";
+    my $out = `$cmd`;
+    $ENV{'LC_ALL'} = $lcall;
+    return $out;
+}
+
 sub _uglifyjs {
     my ( $this, $from, $to ) = @_;
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
-    $cmd = "uglifyjs $from";
+    $cmd = "uglifyjs -m -c -- $from";
 
     unless ( $this->{-n} ) {
-        $cmd .= " -o $to";
+        $cmd .= " > $to";
     }
-
-    $cmd .= ' -b beautify=false,ascii-only=true ';
 
     warn "$cmd\n";
     my $out = `$cmd`;
@@ -391,8 +417,27 @@ sub _haveYUI {
 
 =begin TML
 
+---++++ _haveterser
+return 1 if we have terser as a command
+
+=cut
+
+sub _haveterser {
+    my $this   = shift;
+    my $info   = `echo ''|terser 2>&1`;
+    my $result = 0;
+
+    if ( not $? ) {
+        $result = 1;
+    }
+
+    return $result;
+}
+
+=begin TML
+
 ---++++ _haveuglifyjs
-return 1 if we have uglify as a command uglify 
+return 1 if we have uglifyjs as a command 
 
 =cut
 

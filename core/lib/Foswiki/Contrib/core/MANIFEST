@@ -35,7 +35,6 @@ bin/viewfileauth 0555
 data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
-data/Main/GroupViewTemplate.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
@@ -112,6 +111,7 @@ data/System/FrequentlyAskedQuestions.txt 0644
 data/System/GlossaryOfTerms.txt 0644
 data/System/GoBox.txt 0644
 data/System/GoodStyle.txt 0644
+data/System/GroupViewTemplate.txt 0644
 data/System/HierarchicalNavigation.txt 0644
 data/System/HierarchicalNavigationChildExample.txt 0644
 data/System/IfStatements.txt 0644
@@ -235,6 +235,7 @@ data/System/VarMETASEARCH.txt 0644
 data/System/VarNONCE.txt 0644
 data/System/VarNOP.txt 0644
 data/System/VarNOTIFYTOPIC.txt 0644
+data/System/VarPARENTTOPIC.txt 0644
 data/System/VarPERLDEPENDENCYREPORT.txt 0644 System dependency report
 data/System/VarPLUGINDESCRIPTIONS.txt 0644
 data/System/VarPLUGINVERSION.txt 0644
@@ -316,6 +317,7 @@ data/System/WebTopicEditTemplate.txt 0644
 data/System/WebTopicList.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WikiCulture.txt 0644
+data/System/WikiGroupsComponents.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
 data/System/WikiWord.txt 0644
@@ -359,7 +361,6 @@ lib/Foswiki/AccessControlException.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
-lib/Foswiki/Aux/MuteOut.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Auth.pm 0444
 lib/Foswiki/Configure/Bootstrap.pm 0444
@@ -368,6 +369,7 @@ lib/Foswiki/Configure/Checkers/AccessibleCFG.pm 0444
 lib/Foswiki/Configure/Checkers/AccessControlACL/EnableDeprecatedEmptyDeny.pm 0444
 lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/Enabled.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
@@ -422,8 +424,11 @@ lib/Foswiki/Configure/Checkers/OS.pm 0444
 lib/Foswiki/Configure/Checkers/Password.pm 0444
 lib/Foswiki/Configure/Checkers/PATH.pm 0444
 lib/Foswiki/Configure/Checkers/PERL.pm 0444
+lib/Foswiki/Configure/Checkers/PermittedRedirectHostUrls.pm 0444
 lib/Foswiki/Configure/Checkers/PLUGIN_MODULE.pm 0444
 lib/Foswiki/Configure/Checkers/PluginsOrder.pm 0444
+lib/Foswiki/Configure/Checkers/PROXY/UseForwardedFor.pm 0444
+lib/Foswiki/Configure/Checkers/PROXY/UseForwardedHeaders.pm 0444
 lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/ExpireAfter.pm 0444
@@ -566,8 +571,9 @@ lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
+lib/Foswiki/Macros/PARENTTOPIC.pm 0444
 lib/Foswiki/Macros/PENDINGREGISTRATIONS.pm 0444
-lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
+lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/PUBURLPATH.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
@@ -698,7 +704,6 @@ lib/Foswiki/UI/Configure.pm 0444
 lib/Foswiki/UI/Edit.pm 0444
 lib/Foswiki/UI/Manage.pm 0444
 lib/Foswiki/UI/Oops.pm 0444
-lib/Foswiki/UI/Passwords.pm 0444
 lib/Foswiki/UI/Preview.pm 0444
 lib/Foswiki/UI/RDiff.pm 0444
 lib/Foswiki/UI/Register.pm 0444
@@ -715,6 +720,7 @@ lib/Foswiki/Users.pm 0444
 lib/Foswiki/Users/BaseUserMapping.pm 0444
 lib/Foswiki/Users/HtPasswdUser.pm 0444
 lib/Foswiki/Users/Password.pm 0444
+lib/Foswiki/Util/MuteOut.pm 0444
 lib/Foswiki/Validation.pm 0444
 lib/Foswiki/ValidationException.pm 0444
 lib/Foswiki/WebFilter.pm 0444
@@ -820,6 +826,7 @@ templates/edittext.tmpl 0444
 templates/form.tmpl 0444
 templates/formtables.tmpl 0444
 templates/foswiki.tmpl 0444
+templates/icons.tmpl 0444
 templates/itemview.tmpl 0444
 templates/login.sudo.tmpl 0444
 templates/login.tmpl 0444

@@ -84,6 +84,7 @@ sub test_login {
     );
     $query->path_info("");
     $query->header( 'Host' => 'www.home.org' );
+    $ENV{HTTP_HOST} = 'www.home.org';
 
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     $this->{session}->finish()          if $this->{session};
@@ -105,6 +106,7 @@ sub test_view {
     );
     $query->path_info("");
     $query->header( 'Host' => 'www.home.org' );
+    $ENV{HTTP_HOST} = 'www.home.org';
 
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     $this->{session}->finish()          if $this->{session};

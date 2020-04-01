@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Textboxlist;
 
+use strict;
+use warnings;
+
 use Foswiki::Form::ListFieldDefinition;
 our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
-
-use strict;
-use warnings;
 
 sub new {
     my $class = shift;
@@ -18,7 +18,7 @@ sub new {
 
 sub isMultiValued { return 1; }
 
-sub getDefaultValue { undef }
+sub getDefaultValue { return ""; }
 
 sub renderForEdit {
     my ( $this, $param1, $param2, $param3 ) = @_;
@@ -44,9 +44,9 @@ sub renderForEdit {
             $metadata = "{autocomplete: '$values[0]'}";
         }
         else {
-            $metadata =
-                "{autocomplete: ['"
-              . join( "', '", map { $_ =~ s/(["'])/\\$1/g; $_ } @values )
+            $metadata = "{autocomplete: ['"
+              . join( "', '",
+                map { my $tmp = $_; $tmp =~ s/(["'])/\\$1/g; $tmp } @values )
               . "']}";
         }
     }
@@ -91,7 +91,7 @@ sub getOptions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

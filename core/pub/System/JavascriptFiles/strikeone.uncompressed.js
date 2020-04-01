@@ -217,7 +217,11 @@ var StrikeOne = {
     calculateNewKey: function(input) {
         if (input && input.charAt(0) == '?') {
             // Read the cookie to get the secret
-            var cookieName = foswiki.getPreference('COOKIENAMEPREFIX') + 'FOSWIKISTRIKEONE';
+            var cookieSecure = '';
+            if ( foswiki.getPreference('URLHOST').indexOf('https://') === 0 ) {
+                cookieSecure = 'S';
+            }
+            var cookieName = foswiki.getPreference('COOKIENAMEPREFIX') + cookieSecure + 'FOSWIKISTRIKEONE';
             var secret = StrikeOne.readCookie(cookieName);
             // combine the validation key with the secret in a way
             // that can't easily be reverse-engineered, but can be

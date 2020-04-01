@@ -306,9 +306,18 @@ sub url {
     }
     $name =~ s(//+)(/)g;
     if ($full) {
-        my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
-        $url =
-          $vh ? $this->protocol . '://' . $vh : $Foswiki::cfg{DefaultUrlHost};
+        if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
+            $url = $Foswiki::cfg{DefaultUrlHost};
+        }
+        else {
+            my ( $client, $protocol, $host, $port ) =
+              Foswiki::Engine::_getConnectionData();
+            $port = ( $port && $port != 80 && $port != 443 ) ? ":$port" : '';
+            $url =
+                $host
+              ? $protocol . '://' . $host . $port
+              : $Foswiki::cfg{DefaultUrlHost};
+        }
         return $url if $base;
         $url .= $name;
     }
@@ -978,9 +987,13 @@ web / topic.
 Slash (/) can separate webs, subwebs and topics.
 Dot (.) can *only* separate a web path from a topic.
 Trailing slash disambiguates a topic from a subweb when both exist with same name.
-Leading slash disambiguates a web from a topic with a single part request.
+
+With Strict URL parsing enabled, Leading slash disambiguates a web from a topic with a single part request.
   /blah   is assumed to be a web
   blah    is assumed to be a topic
+
+If Strict URL parsing is disabled (the default), then a single component is allowed to be a topic:
+  /blah   is a web *if it exists*  Otherwise it is assumed to be a topic.
 
 If any illegal characters are present, then web and/or topic are undefined.   The original bad
 components are returned in the invalidWeb or invalidTopic entries.
@@ -993,10 +1006,11 @@ This routine returns two variables when encountering invalid input:
    * {invalidTopic} Same function but for topic name
 
 Ths following paths are supported:
-   * /Main            Extracts webname, topic is undef
+   * /Main            Extracts webname, topic is undef (if Strict URL parsing is enabled)
    * /Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
    * /Main.Somename   Extracts webname and topic.
    * /Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+   * /Somename        Extracts topic, with webname undef if Strict URL parsing is disabled.
    * Word             Extracts as a topic name
    * Word/Somename    Extracts as a webname. Somename might be a subweb if it exists.
 
@@ -1045,10 +1059,32 @@ sub parse {
             $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
         }
         else {
-            $resp->{web} =
+            my $tweb =
               Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateWebName );
-            $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
+            unless ( defined $tweb ) {
+                $resp->{invalidWeb} = $parts[0];
+                return $resp;
+            }
+            if ( $Foswiki::cfg{StrictURLParsing} ) {
+                print STDERR "Single component: Strict parsing: Return as web\n"
+                  if TRACE;
+                $resp->{web} = $tweb;
+            }
+            else {
+                if ( $Foswiki::Plugins::SESSION->webExists($tweb) ) {
+                    print STDERR
+"Single component: Relaxed parsing: Web $tweb exists. Return as web\n"
+                      if TRACE;
+                    $resp->{web} = $tweb;
+                }
+                else {
+                    print STDERR
+"Single component: Relaxed parsing: Web $tweb does not exist. Return as topic\n"
+                      if TRACE;
+                    $resp->{topic} = $tweb;
+                }
+            }
         }
         return $resp;
     }

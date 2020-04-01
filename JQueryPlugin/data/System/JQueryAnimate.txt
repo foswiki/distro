@@ -1,0 +1,119 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+
+%TOC%
+
+---++ Summary
+%JQPLUGINS{"animate"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+A cross-browser library of CSS animations.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+To start using animate.css you need to load it into the page using =%<nop>JQREQUIRE{"animate"}%=. There are two ways to make use of this library.
+
+---+++ Direct use of animate.css
+The only thing required to animate a DOM node is to add css classes to it:
+
+   * Add the class =animated= to the element you want to animate
+   * Add the class =infinite= in case that you also want it to be aninated in an infinite loop
+   * Add the class of the animation as listed below
+
+---+++ Use via jqAnimateCSS
+
+This is a small convenience wrapper that adds a bit more control over the kind of animation, i.e. in addition to the direct name of the effect
+you may also choose a random effect or one of a group of effects:
+
+   * Add the class =jqAnimateCSS= to the element to animate
+   * Add HTML5 data parameters
+
+| *Parameter* | *Description* | *Default* |
+| =data-effect="..."= | either an effect name as listed below, or the name of an effect group to chose a random effect from, or the string =random= for a random effect among all known ones, or a comma separated list of effects | |
+| =data-infinite="true/false= | switch on/off an infinite effect loop | =false= |
+
+Whenever sending the element a =refresh= signal will the effect be repeated, or another one will be chosen among the set of effects configured.
+
+*You type:*
+
+<verbatim class="tml">
+<h3 id="myElem" class="jqAnimateCSS foswikiCenter" data-effect="attentionSeekers">Hello World</h3>
+
+%BUTTON{"Refresh" onclick="jQuery('#myElem').trigger('refresh')"}%
+</verbatim>
+
+*You get:*
+
+<h3 id="myElem" class="jqAnimateCSS foswikiCenter" data-effect="attentionSeekers">Hello World</h3>
+
+%BUTTON{"Refresh" onclick="jQuery('#myElem').trigger('refresh')"}%
+
+---++ Javascript API
+
+A =jqAnimateCSS= element will be initialized by an =animateCSS= javascript object which takes over control of the animation as well as offers a few methods that come in handy when dealing with animations.
+You may access the =animateCSS= instance of a =jqAnimateCSS= element using =jQuery.data()= method:
+
+<verbatim class="js">
+jQuery(function($) {
+   var elemCtrl = $("#myElem").data("animateCSS");
+
+   elemCtrl.animate().then(function() {
+      console.log("animation finished");
+   });
+
+   $("#myElem").on("start", function() {
+      console.log("the animation started");
+   });
+
+   $("#myElem").on("stop", function() {
+      console.log("the animation ended");
+   });
+});
+</verbatim>
+
+The =.animate()= method may be used to start the animation. It returns a promise that will be resolved once the animation finished. 
+
+---++ Events
+
+The element controller fires two events:
+
+   * =start=: fired right before the animation starts
+   * =stop=:  triggered once the animation finished
+
+The =stop= event is provided in addition to the different browser events fired when a css animation stopped.
+
+So listening on an =animateCSS= element via =$("#myElem").on("finish", function() {...})= is equivalent to the much more complicated standard way 
+
+<verbatim class="js">
+$("#myElem").on("animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd mozAnimationEnd oanimationend", function() {
+   ...
+});
+</verbatim>
+
+to cover all browsers.
+
+---++ Effects
+
+| *Group* | *Effects* |
+| attentionSeekers | bounce, flash, headShake, jello, pulse, rubberBand, shake, swing, tada, wobble |
+| bouncingEntrances | bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp |
+| bouncingExits | bounceOut, bounceOutDown, bounceOutLeft, bounceOutRight, bounceOutUp |
+| fadingEntrances | fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig |
+| fadingExits | fadeOut, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, fadeOutUp, fadeOutUpBig |
+| flippers | flip, flipInX, flipInY, flipOutX, flipOutY |
+| lightspeed | lightSpeedIn, lightSpeedOut |
+| rotatingEntrances | rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight |
+| rotatingExits | rotateOut, rotateOutDownLeft, rotateOutDownRight, rotateOutUpLeft, rotateOutUpRight |
+| slidingEntrances | slideInDown, slideInLeft, slideInRight, slideInUp |
+| slidingExits | slideOutDown, slideOutLeft, slideOutRight, slideOutUp |
+| specials | hinge, jackInTheBox, rollIn, rollOut |
+| zoomingEntrances | zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp |
+| zoomingExits | zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp |

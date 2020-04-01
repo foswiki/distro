@@ -5,8 +5,6 @@ use strict;
 use warnings;
 use Foswiki::Func();
 
-my @iconSearchPath;
-my %iconCache;
 my %plugins;
 my %themes;
 my $debug;
@@ -93,17 +91,17 @@ sub init {
 
         $code = <<"HERE";
 <literal><!--[if lte IE 9]>
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
 <![endif]-->
 <!--[if gt IE 9]><!-->
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 <!--<![endif]-->
 </literal>
 HERE
     }
     else {
         $code = <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 HERE
     }
 
@@ -113,14 +111,14 @@ HERE
         $noConflict .= ".uncompressed" if $debug;
 
         $code .= <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
+<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
 HERE
     }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
 
     # initial plugins
-    createPlugin('Foswiki');    # this one is needed anyway
+    createPlugin('foswiki');    # these are needed anyway
 
     my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
     if ($defaultPlugins) {
@@ -244,6 +242,8 @@ sub registerTheme {
 
 =begin TML
 
+---++ ObjectMethod finish
+
 finalizer
 
 =cut
@@ -252,8 +252,6 @@ sub finish {
 
     undef %plugins;
     undef %themes;
-    undef @iconSearchPath;
-    undef %iconCache;
     undef $currentTheme;
 }
 
@@ -282,7 +280,9 @@ sub load {
 
     unless ( defined $pluginDesc->{instance} ) {
 
-        eval "require $pluginDesc->{class};";
+        my $path = $pluginDesc->{class} . '.pm';
+        $path =~ s/::/\//g;
+        eval { require $path };
 
         if ($@) {
             Foswiki::Func::writeDebug(
@@ -329,67 +329,6 @@ sub expandVariables {
 
 =begin TML
 
----++ ObjectMethod getIconUrlPath ( $iconName ) -> $pubUrlPath
-
-Returns the path to the named icon searching along a given icon search path.
-This path can be in =$Foswiki::cfg{JQueryPlugin}{IconSearchPath}= or will fall
-back to =FamFamFamSilkIcons=, =FamFamFamSilkCompanion1Icons=,
-=FamFamFamFlagIcons=, =FamFamFamMiniIcons=, =FamFamFamMintIcons= As you see
-installing Foswiki:Extensions/FamFamFamContrib would be nice to have.
-
-   = =$iconName=: name of icon; you will have to know the icon name by heart as listed in your
-     favorite icon set, meaning there's no mapping between something like "semantic" and "physical" icons
-   = =$pubUrlPath=: the path to the icon as it is attached somewhere in your wiki or the empty
-     string if the icon was not found
-
-=cut
-
-sub getIconUrlPath {
-    my ($iconName) = @_;
-
-    return '' unless $iconName;
-
-    unless (@iconSearchPath) {
-        my $iconSearchPath = $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
-          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
-        @iconSearchPath = split( /\s*,\s*/, $iconSearchPath );
-    }
-
-    $iconName =~ s/^.*\.(.*?)$/$1/;    # strip file extension
-
-    my $iconPath = $iconCache{$iconName};
-
-    unless ($iconPath) {
-        foreach my $item (@iconSearchPath) {
-            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName(
-                $Foswiki::cfg{SystemWebName}, $item );
-
-            # SMELL: store violation assumes the we have got file-level access
-            # better use store api
-            my $iconDir =
-                $Foswiki::cfg{PubDir} . '/'
-              . $web . '/'
-              . $topic . '/'
-              . $iconName . '.png';
-            if ( -f $iconDir ) {
-                $iconPath =
-                    Foswiki::Func::getPubUrlPath() . '/'
-                  . $web . '/'
-                  . $topic . '/'
-                  . $iconName . '.png';
-                last;    # first come first serve
-            }
-        }
-
-        $iconPath ||= '';
-        $iconCache{$iconName} = $iconPath;
-    }
-
-    return $iconPath;
-}
-
-=begin TML
-
 ---++ ClassMethod getPlugins () -> @plugins
 
 returns a list of all known plugins
@@ -431,7 +370,7 @@ sub getRandom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

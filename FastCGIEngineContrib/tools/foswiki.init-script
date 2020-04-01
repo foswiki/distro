@@ -14,11 +14,20 @@ DESC="Foswiki backend server"
 NAME=foswiki
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# Tailor the USER and GROUP settings appropriate for your installation
+# Typical settings:
+#  RedHat, Fedora, CentOS, Gentoo, Mandriva USER=apache   GROUP=apache
+#  debian, Ubuntu, Kubuntu                  USER=www-data GROUP=www-data
+#  Suse:                                    USER=wwwrun   GROUP=www
+#  FreeBSD:                                 USER=www      GROUP=wwwadmin
+
 USER=www-data
 GROUP=www-data
 
-FOSWIKI_ROOT=/var/www/foswiki
+# The following defaults are overridden in etc/default/foswiki
 
+FOSWIKI_ROOT=/var/www/foswiki
 FOSWIKI_FCGI=foswiki.fcgi
 FOSWIKI_BIND=127.0.0.1:9000
 FOSWIKI_CHILDREN=3
@@ -26,6 +35,8 @@ FOSWIKI_MAX_REQUESTS=-1
 FOSWIKI_MAX_SIZE=250000
 FOSWIKI_CHECK_SIZE=10
 FOSWIKI_QUIET=true
+FOSWIKI_PNAME=foswiki
+
 FOSWIKI_PIDFILE=/var/run/$NAME.pid
 
 # Include defaults if available
@@ -34,7 +45,7 @@ if [ -f /etc/default/$NAME ] ; then
 fi
 
 FOSWIKI_DAEMON=$FOSWIKI_ROOT/bin/$FOSWIKI_FCGI
-FOSWIKI_DAEMON_OPTS="-n $FOSWIKI_CHILDREN -l $FOSWIKI_BIND -p $FOSWIKI_PIDFILE -d -c $FOSWIKI_CHECK_SIZE -x $FOSWIKI_MAX_REQUESTS -s $FOSWIKI_MAX_SIZE"
+FOSWIKI_DAEMON_OPTS="-n $FOSWIKI_CHILDREN -l $FOSWIKI_BIND -p $FOSWIKI_PIDFILE -d -c $FOSWIKI_CHECK_SIZE -x $FOSWIKI_MAX_REQUESTS -s $FOSWIKI_MAX_SIZE -a $FOSWIKI_PNAME"
 
 if $FOSWIKI_QUIET; then
   FOSWIKI_DAEMON_OPTS="$FOSWIKI_DAEMON_OPTS -q"

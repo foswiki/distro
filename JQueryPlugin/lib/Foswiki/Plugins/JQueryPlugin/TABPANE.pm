@@ -29,16 +29,18 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Tabpane',
-            version      => '2.00',
+            version      => '2.10',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'livequery', 'easing' ],
+            dependencies => ['easing'],
         ),
         $class
     );
+
+    $this->{_tabPaneCounter} = 0;
 
     return $this;
 }
@@ -54,23 +56,31 @@ Tag handler for =%<nop>TABPANE%=.
 sub handleTabPane {
     my ( $this, $params, $theTopic, $theWeb ) = @_;
 
-    my $select        = $params->{select}        || 1;
-    my $autoMaxExpand = $params->{automaxexpand} || 'off';
-    my $minHeight     = $params->{minheight}     || 230;
-    my $animate       = $params->{animate}       || 'off';
-    my $class         = $params->{class}         || 'jqTabPaneDefault';
+    my $select    = $params->{select}    || 1;
+    my $minHeight = $params->{minheight} || 0;
+    my $class     = $params->{class}     || 'jqTabPaneDefault';
+    my $autoMaxExpand =
+      Foswiki::Func::isTrue( $params->{automaxexpand}, 0 ) ? 'true' : 'false';
+    my $animate =
+      Foswiki::Func::isTrue( $params->{animate}, 0 ) ? 'true' : 'false';
+    my $remember =
+      Foswiki::Func::isTrue( $params->{remember}, 0 ) ? 'true' : 'false';
+
+    my $id = "";
+    if ( $remember eq 'true' ) {
+        $id = "id='tabpane" . ( $this->{_tabPaneCounter}++ ) . "'";
+    }
 
     $class =~ s/\b([a-z]+)\b/'jqTabPane'.ucfirst($1)/ge;
-
-    $autoMaxExpand = ( $autoMaxExpand eq 'on' ) ? 'true' : 'false';
-    $animate       = ( $animate       eq 'on' ) ? 'true' : 'false';
 
     if ( Foswiki::Func::getContext()->{static} ) {
         $class .= " jqInitedTabpane jqStatic";
     }
 
+    $select = "." . $select unless $select =~ /^[.#]/ || $select =~ /^\d+$/;
+
     return
-"<div class='jqTabPane $class' data-select='$select' data-auto-max-expand='$autoMaxExpand' data-animate='$animate' data-min-height='$minHeight'>";
+"<div class='jqTabPane $class' $id data-select='$select' data-auto-max-expand='$autoMaxExpand' data-animate='$animate' data-remember='$remember' data-min-height='$minHeight'>";
 }
 
 =begin TML
@@ -94,8 +104,7 @@ sub handleTab {
     my $height           = $params->{height};
     my $width            = $params->{width};
 
-    my $rand  = Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
-    my $tabId = "jqTab$rand";
+    my $rand = Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
     my @callbacks = ();
     my @html5Data = ();
@@ -132,11 +141,16 @@ sub handleTab {
     $style .= "width:$width;"   if defined $width;
     $style = "style='$style'" if $style;
 
-    return
-        "<literal><script type='text/javascript'>"
-      . ( join( "\n", @callbacks ) )
-      . "</script></literal>\n"
-      . "<div id='$tabId' class='$tabClass jqTab'$html5Data style='display:none'>\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
+    my $script = '';
+    if (@callbacks) {
+        $script =
+            "<literal><script>"
+          . ( join( "\n", @callbacks ) )
+          . "</script></literal>\n";
+    }
+
+    return $script
+      . "<div id='tab$rand' class='jqTab $tabClass'$html5Data style='display:none'>\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
 }
 
 =begin TML
@@ -148,7 +162,7 @@ Tag handler for =%<nop>ENDTAB%=.
 =cut
 
 sub handleEndTab {
-    return "</div></div><!-- //ENDTAB -->";
+    return "</div></div>";
 }
 
 =begin TML
@@ -160,7 +174,7 @@ Tag handler for =%<nop>ENDTABPANE%=.
 =cut
 
 sub handleEndTabPane {
-    return "</div><!-- //ENDTABPANE -->";
+    return "</div>";
 }
 
 1;
@@ -168,7 +182,7 @@ sub handleEndTabPane {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

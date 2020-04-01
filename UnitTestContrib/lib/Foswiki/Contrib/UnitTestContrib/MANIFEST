@@ -53,6 +53,7 @@ test/unit/Fn_INCLUDE.pm 0644
 test/unit/Fn_LANGUAGES.pm 0644
 test/unit/Fn_MAKETEXT.pm 0644
 test/unit/Fn_NOP.pm 0644
+test/unit/Fn_PARENTTOPIC.pm 0644
 test/unit/Fn_QUERY.pm 0644
 test/unit/Fn_QUERYPARAMS.pm 0644
 test/unit/Fn_REVINFO.pm 0644
@@ -104,13 +105,14 @@ test/unit/SecurityTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
 test/unit/SerialiseTests.pm 0644
+test/unit/SkinTemplatesTests.pm 0644
 test/unit/StoreImplementationTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TableParserTests.pm 0644
 test/unit/TableReaderTests.pm 0644
 test/unit/TableTests.pm 0644
 test/unit/TOCTests.pm 0644
-test/unit/TemplatesTests.pm 0644
+test/unit/TopicTemplatesTests.pm 0644
 test/unit/TimeTests.pm 0644
 test/unit/UIFnCompileTests.pm 0644
 test/unit/UTF8Tests.pm 0644

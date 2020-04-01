@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Color;
-use Foswiki::Form::FieldDefinition;
-our @ISA = qw( Foswiki::Form::FieldDefinition );
-
-use Foswiki::Plugins::JQueryPlugin ();
 
 use strict;
 use warnings;
+
+use Foswiki::Plugins::JQueryPlugin ();
+use Foswiki::Form::FieldDefinition;
+our @ISA = qw( Foswiki::Form::FieldDefinition );
 
 sub new {
     my $class = shift;
@@ -62,7 +62,7 @@ sub renderForDisplay {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

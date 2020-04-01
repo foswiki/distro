@@ -12,8 +12,8 @@ use vars qw(
   $web $topic $user $installWeb $debug $skipInclude $doneInit
 );
 
-our $VERSION           = '1.23';
-our $RELEASE           = '20 Jan 2017';
+our $VERSION           = '1.24';
+our $RELEASE           = '19 Jul 2018';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';

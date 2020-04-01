@@ -3,9 +3,7 @@
  *
  * Copyright (c) 20xx Your Name http://...
  *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
  * How to proceed:
  *    1 copy this file into a file named jquery.plugin-name.js
@@ -25,10 +23,10 @@
   function EmptyPlugin(elem, opts) {
     var self = this;
 
-    self.$elem = $(elem);
+    self.elem = $(elem);
 
     // gather options by merging global defaults, plugin defaults and element defaults
-    self.opts = $.extend({}, defaults, self.$elem.data(), opts);
+    self.opts = $.extend({}, defaults, self.elem.data(), opts);
     self.init();
   }
 

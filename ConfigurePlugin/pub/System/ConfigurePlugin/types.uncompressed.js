@@ -45,7 +45,7 @@ var Types = {};
               this.useVal(val);
           }
           if (this.spec.SPELLCHECK) {
-              this.$ui.attr('spellcheck', 'true');
+              this.$ui.prop('spellcheck', true);
           }
           if (typeof(change_handler) !== "undefined") {
               this.$ui.change(change_handler);
@@ -133,7 +133,7 @@ var Types = {};
           }
 
           if (this.spec.current_value !== 0) {
-              this.$ui.attr('checked', true);
+              this.$ui.prop('checked', true);
           }
           if (this.spec.extraClass) {
               this.$ui.addClass(this.spec.extraClass);
@@ -165,7 +165,7 @@ var Types = {};
           } else if ( val == '1') {
               val = true;
           }
-          this.$ui.attr('checked', val );
+          this.$ui.prop('checked', val );
       }
   });
 
@@ -173,7 +173,7 @@ var Types = {};
       createUI: function(change_handler) {
           this._super(change_handler);
           this.$ui.attr('type', 'password');
-          this.$ui.attr('autocomplete', 'off');
+          this.$ui.prop('autocomplete', false);
           return this.$ui;
       }
   });
@@ -252,8 +252,10 @@ var Types = {};
       isDefault: function() {
           // To do this comparison requires parsing and rewriting the perl to
           // javascript. Not impossible, but tricky.
-          var a = this.currentValue().trim(),
-              b = this.spec['default'].trim(), av, bv;
+          var a = this.currentValue(),
+              b = this.spec['default'], av, bv;
+          a = (a == null) ? null : a.trim();
+          b = (b == null) ? null : b.trim();
           try {
               // See if they parse as JS - they probably will! If they don't,
               // parse, fall back to a string comparison :-(
@@ -308,7 +310,7 @@ var Types = {};
   Types.PATHINFO = Types.STRING.extend({
       createUI: function(change_handler) {
           this._super(change_handler);
-          this.$ui.attr('readonly', 'readonly');
+          this.$ui.prop('readonly', true);
           return this.$ui;
       }
   });
@@ -340,8 +342,8 @@ var Types = {};
   Types.NULL = Types.BaseType.extend({
       createUI: function(change_handler) {
           this._super(change_handler);
-          this.$ui.attr('readonly', 'readonly');
-          this.$ui.attr('disabled', 'disabled');
+          this.$ui.prop('readonly', true);
+          this.$ui.prop('disabled', true);
           this.$ui.attr('size', '1');
           return this.$ui;
       }
@@ -392,7 +394,7 @@ var Types = {};
               this.$ui.change(change_handler);
           }
           if (this.spec.MULTIPLE) {
-              this.$ui.attr('multiple', 'multiple');
+              this.$ui.prop('multiple', true);
           }
 
           if (typeof(this.spec.select_from) !== "undefined") {
@@ -401,7 +403,7 @@ var Types = {};
                   opt = this.spec.select_from[i];
                   $option = $('<option>' + opt + '</option>');
                   if (sel[opt]) {
-                      $option.attr('selected', 'selected');
+                      $option.prop('selected', true);
                   }
                   this.$ui.append($option);
               }
@@ -420,17 +422,19 @@ var Types = {};
               this.$ui.find('option').each(function() {
                   var opt = sf[i++];
                   if (sel[opt]) {
-                      $(this).attr('selected', 'selected');
+                      $(this).prop('selected', true);
                   } else {
-                      $(this).removeAttr('selected');
+                      $(this).prop('selected', false);
                   }
               });
           }
       },
 
       isDefault: function() {
-          var a = this.currentValue().trim(),
-              b = this.spec['default'].trim();
+          var a = this.currentValue(),
+              b = this.spec['default'];
+          a = (a == null) ? null : a.trim();
+          b = (b == null) ? null : b.trim();
           b = b.replace(/^\s*(["'])(.*?)\1\s*/, "$2");
           return a === b;
       }

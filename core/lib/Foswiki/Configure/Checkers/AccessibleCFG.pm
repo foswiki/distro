@@ -23,7 +23,7 @@ sub check_current_value {
         if ( ref($v) ) {
             $reporter->ERROR("Was expecting entry $ec to be a scalar");
         }
-        if ( $v !~ /^({\w+})+$/ ) {
+        if ( $v !~ /^(\{\w+\})+$/ ) {
             $reporter->ERROR("Was expecting '$v' to be a cfg key");
         }
         $ec++;

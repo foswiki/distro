@@ -1,6 +1,14 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 # See bottom of file for license and copyright information
 #
+# On some sites, Foswiki may not be the only tool that writes files in the
+# data directory. For example, external jobs may write =.txt= files
+# without checking them in. This results in =.txt= files that have a more
+# recent timestamp than the corresponding version control file - this is
+# called a 'pending checkin'. Pending checkins are dangerous, as they
+# confuse Foswiki's version control systems. This tool will traverse all webs
+# in your install locating files with pending checkins, and checking them in.
+
 use strict;
 use warnings;
 

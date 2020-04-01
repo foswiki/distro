@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Plugins
@@ -21,14 +21,14 @@ Foswiki plugins are developed and contributed by interested members of the commu
 
 Most [[http://twiki.org/cgi-bin/view/Plugins/WebHome][TWiki<sup>&reg;</sup> plugins]] can also be used with Foswiki if the !TWikiCompatibilityPlugin is installed.
 
-*See other types of extensions:* [[Contribs]], [[Skins]]
+*See other types of extensions:* [[ContributedAddOns][AddOns]],[[Contribs]], [[Skins]]
 
 See InstalledPlugins for a list of plugins installed on this site.
 
 #InstallPlugin
 ---++ Installing Plugins
 
-Each plugin comes with its own documentation page, which includes step-by-step installation instructions, a detailed description of any special requirements, and version details. Many also have a worked example for testing.
+Each plugin comes with its own documentation page, which includes step-by-step installation instructions, a detailed description of any special requirements, and version details. Many also have a working example for testing.
 
 The easiest way to install plugins is to use the =configure= interface. However you can also install plugins from the command-line. Every plugin comes with installation instructions.
 
@@ -93,5 +93,5 @@ This setting defines the default value for the preference BATHPLUGIN_ELECTRIC. Y
 
 %STOPINCLUDE%
 ---
-*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory
+*Related Topics:* [[DeveloperDocumentationCategory]], [[AdminDocumentationCategory]]
 <!-- %JQREQUIRE{"chili"}% -->

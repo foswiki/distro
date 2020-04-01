@@ -161,6 +161,18 @@ function _id_ify(id) {
     // on the given tab
     function forget_checker_reports($tab, level, id) {
         $tab.removeClass(level + id);
+
+        // See if any other reports at the same level are extant,
+        // otherwise remove the level class e.g. 'errors' or 'warnings'
+        // This will remove th icon
+        var i, cls = $tab.attr("class").split(/ +/);
+        for (i = 0; i < cls.length; i++) {
+            if (cls[i].startsWith(level + 'i-'))
+                break;
+        }
+        if (i == cls.length)
+            $tab.removeClass(level);
+
         var report_data = $tab.data('reports');
         report_data[level][id]--;
         if (report_data[level][id]) {
@@ -257,7 +269,7 @@ function _id_ify(id) {
                 return;
             }
 
-            // Remove all existing reports related to these keys
+            // Remove all existing reports related to this path
             id = _id_ify(r.keys);
             $('.' + id + '_report').remove();
             $('.errors' + id).each(function() {
@@ -473,8 +485,12 @@ function _id_ify(id) {
 
         wizard_finished(params);
 
+        // Remove the wait cursor.
+        $('body').css('cursor','auto');
+
         $dlg = $('<div id="report_dialog"></div>');
         $dlg.append($div);
+        $dlg.css('cursor','default');
         $dlg.dialog({
             title: "Validation",
             width: 'auto',
@@ -637,7 +653,7 @@ function _id_ify(id) {
             $butt = $('<input type="checkbox" id="' + id + '">').appendTo($buttons);
             $butt.click(function() {
                 if ( $(this).attr("checked") ) {
-                    $ui.removeAttr("disabled");
+                    $ui.prop("disabled", false);
                     $node.removeClass("disabled");
                 } else {
                     $ui.attr("disabled", "disabled");
@@ -654,7 +670,7 @@ function _id_ify(id) {
                 $ui.attr("disabled", "disabled");
                 $node.addClass("disabled");
             } else {
-                $butt.attr("checked", "checked");
+                $butt.prop("checked", true);
             }
             $butt.appendTo($buttons);
             $("<label for='"+id+"'> enable</label>")
@@ -883,7 +899,7 @@ if (0) {
                         add_dependency(
                             entry.ENABLE_IF, $node, function($n, tf) {
                                 if (tf) {
-	                            $n.find("input,textarea").removeAttr('disabled');
+	                            $n.find("input,textarea").prop('disabled', false);
                                 } else {
 	                            $n.find("input,textarea")
                                         .attr('disabled', 'disabled');

@@ -381,7 +381,8 @@ sub test_DefaultHostUrl {
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
+        qr{AUTOCONFIG: Set \(http://foobar.com\) from detected},
+
         $msg
     );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
@@ -398,8 +399,7 @@ qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-        qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from SERVER_NAME},
-        $msg );
+        qr{AUTOCONFIG: Set \(http://foobar.com\) from detected}, $msg );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
         'http://foobar.com' );
 
@@ -414,8 +414,7 @@ qr{AUTOCONFIG: Set DefaultUrlHost http://foobar.com from HTTP_HOST foobar.com},
     ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
 
     $this->assert_matches(
-        qr{AUTOCONFIG: Set DefaultUrlHost https://foobar.com from SCRIPT_URI},
-        $msg );
+        qr{AUTOCONFIG: Set \(https://foobar.com\) from detected}, $msg );
     $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
         'https://foobar.com' );
 
@@ -493,6 +492,181 @@ sub _bootstrapConfig {
     return ( \%Foswiki::cfg, $msg );
 }
 
+sub test_proxyConfigs {
+    my $this = shift;
+
+    $this->{binscript} = 'view';
+    $this->{engine}    = 'Foswiki::Engine::CGI';
+    $this->{suffix}    = '';
+    $this->{ENV}       = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com',
+        HTTP_X_FORWARDED_FOR  => '192.168.1.1,10.1.1.1',
+    };
+
+    my $msg;
+    my $boot_cfg;
+    my $resp;
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_matches(
+qr{\QAUTOCONFIG: Engine detected:  client (192.168.1.1) proto (http) host (wazoo.com) port (80) proxy (1)\E},
+        $msg
+    );
+
+    $this->assert_matches(
+        qr{AUTOCONFIG: Set \(http://wazoo.com\) from detected},
+
+        $msg
+    );
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'http://wazoo.com', "Wrong Fowrarded-Host" );
+
+    #$this->{binscript} = 'view';
+    #$this->{engine}    = 'Foswiki::Engine::CGI';
+    #$this->{suffix}    = '';
+    $this->{ENV} = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com,proxy1.com,proxy2',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_matches(
+        qr{AUTOCONFIG: Set \(http://wazoo.com\) from detected},
+
+        $msg
+    );
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'http://wazoo.com', "Wrong Fowrarded-Host" );
+
+    # Port 8080 from Forwarded-port header
+
+    $this->{ENV} = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com,proxy1.com,proxy2',
+        HTTP_X_FORWARDED_PORT => '8080,999',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'http://wazoo.com:8080',
+        "Wrong Fowrarded-Host or port - should be 8080" );
+
+    # Port 80 provided from Forwarded-Port header shoud be ignored
+
+    $this->{ENV} = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com,proxy1.com,proxy2',
+        HTTP_X_FORWARDED_PORT => '80,999',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'http://wazoo.com',
+        "Wrong Fowrarded-Host or port, port 80 should not be used." );
+
+    # Port number provided on the Forwarded-host header
+
+    $this->{ENV} = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com:9001,proxy1.com,proxy2',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'http://wazoo.com:9001',
+        "Wrong Fowrarded-Host or port from Forwarded-host" );
+
+    # Port 80 provided from Forwarded-Port header shoud be ignored
+
+    $this->{ENV} = {
+        HTTP_HOST             => 'foobar.com',
+        REQUEST_URI           => '',
+        SCRIPT_URL            => '',
+        PATH_INFO             => '',
+        HTTP_X_FORWARDED_HOST => 'wazoo.com,proxy1.com,proxy2',
+
+        #HTTP_X_FORWARDED_PORT => '80,999',
+        HTTP_X_FORWARDED_PROTO => 'https',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'https://wazoo.com', "Wrong Fowrarded-Proto." );
+
+    # https on an alternate port
+
+    $this->{ENV} = {
+        HTTP_HOST              => 'foobar.com',
+        REQUEST_URI            => '',
+        SCRIPT_URL             => '',
+        PATH_INFO              => '',
+        HTTP_X_FORWARDED_HOST  => 'wazoo.com,proxy1.com,proxy2',
+        HTTP_X_FORWARDED_PORT  => '8443 , 999',
+        HTTP_X_FORWARDED_PROTO => 'https,http',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'https://wazoo.com:8443', "Wrong protocol or port." );
+
+    # SSL=1 query param override
+
+    $this->{ENV} = {
+        QUERY_STRING           => '?SSL=1',
+        HTTP_HOST              => 'foobar.com',
+        REQUEST_URI            => '',
+        SCRIPT_URL             => '',
+        PATH_INFO              => '',
+        HTTP_X_FORWARDED_HOST  => 'wazoo.com,proxy1.com,proxy2',
+        HTTP_X_FORWARDED_PROTO => 'http,http',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'https://wazoo.com', "Wrong protocol or port." );
+
+    # Referrer override
+
+    $this->{ENV} = {
+        HTTP_REFERER           => 'https://wazoo.com/blah',
+        HTTP_HOST              => 'foobar.com',
+        REQUEST_URI            => '',
+        SCRIPT_URL             => '',
+        PATH_INFO              => '',
+        HTTP_X_FORWARDED_HOST  => 'wazoo.com,proxy1.com,proxy2',
+        HTTP_X_FORWARDED_PROTO => 'http,http',
+    };
+
+    ( $msg, $boot_cfg ) = $this->_runBootstrap(1);
+
+    $this->assert_str_equals( $boot_cfg->{DefaultUrlHost},
+        'https://wazoo.com', "Wrong protocol or port." );
+
+}
 1;
 
 #   # lighttpd bin/configure

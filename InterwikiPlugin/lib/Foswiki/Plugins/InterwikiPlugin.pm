@@ -26,8 +26,8 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-our $VERSION           = '1.24';
-our $RELEASE           = '8 Feb 2017';
+our $VERSION           = '1.26';
+our $RELEASE           = '3 May 2018';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -86,6 +86,9 @@ sub initPlugin {
         my ( $meta, $text ) =
           Foswiki::Func::readTopic( $interWeb, $interTopic );
 
+        $text = ''
+          unless defined $topic;    # prevent use of uninitialized variable
+
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
         $text =~ s/
               ^\|\s*              # Start of table
@@ -99,7 +102,8 @@ sub initPlugin {
                   ([^\|\n]+)       # Not a separator or end of line
               )?
               \s*\|.*?           # Last column separator
-            /_map($1,$2,$3,$4)/megx;
+            /_map($1,$2,$3,$4)/megx
+          if ( length($text) );
 
     }
 
@@ -198,7 +202,7 @@ sub _trimWhitespace {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

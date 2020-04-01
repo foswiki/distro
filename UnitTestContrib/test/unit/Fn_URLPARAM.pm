@@ -222,6 +222,12 @@ sub test_newline {
       $this->{test_topicObject}
       ->expandMacros('%URLPARAM{"textarea" newline=""}%');
     $this->assert_str_equals( "foobarbaz", $str );
+
+    $this->{request}->param( -name => 'textarea', -value => "foo\nbar\nbaz\n" );
+    $str =
+      $this->{test_topicObject}
+      ->expandMacros('%URLPARAM{"textarea" encode="safe" newline="<br />"}%');
+    $this->assert_str_equals( "foo<br />bar<br />baz<br />", $str );
 }
 
 1;

@@ -175,9 +175,8 @@ sub render {
 
     $this->_assignLabels();
 
-    my $editing = ( $opts->{for_edit} && $this->can_edit() );
-    my $wholeTable =
-      ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
+    my $editing    = ( $opts->{for_edit}           && $this->can_edit() );
+    my $wholeTable = ( defined $opts->{active_row} && $opts->{active_row} < 0 );
 
     my $id = $this->getID();
     push( @out, Foswiki::Render::html( 'a', { name => "erp_${id}" } ) )
@@ -340,17 +339,8 @@ sub render {
         if ( $this->{attrs}->{disable} !~ /full/ ) {
 
             # Full table editing is not disabled
-            my $title  = "Edit full table";
-            my $button = Foswiki::Render::html(
-                'button',
-                {
-                    type  => 'button',
-                    name  => "erp_edit_${id}",
-                    class => 'erp-edittable',
-                    title => $title
-                }
-            );
-            my $url = Foswiki::Func::getScriptUrl(
+            my $title = "Edit full table";
+            my $url   = Foswiki::Func::getScriptUrl(
                 $this->getWeb(), $this->getTopic(), 'view',
                 erp_topic => $active_topic,
                 erp_table => $id,
@@ -360,8 +350,16 @@ sub render {
             push(
                 @out,
                 Foswiki::Render::html( 'a', { name => "erp_${id}" } )
-                  . Foswiki::Render::html( 'a',
-                    { href => $url, title => $title }, $button )
+                  . Foswiki::Render::html(
+                    'a',
+                    {
+                        href  => $url,
+                        name  => "erp_edit_${id}",
+                        class => 'erp-edittable',
+                        title => $title
+                    },
+                    ''
+                  )
                   . '<br />'
             );
         }
@@ -396,7 +394,7 @@ sub render {
 
             push(
                 @out,
-                Foswiki::Render::html( 'a', { name => "erp_$this->{id}" } )
+                Foswiki::Render::html( 'a', { name => "erp_${id}" } )
                   . Foswiki::Render::html( 'a',
                     { href => $url, title => $title }, $button )
                   . '<br />'
@@ -429,7 +427,7 @@ sub render {
                 erp_active_row => -2,
                 erp_unchanged  => 1,
                 erp_action     => 'addRow',
-                '#'            => 'erp_' . $this->{id}
+                '#'            => "erp_${id}"
             );
 
             # Full table disabled, but not row

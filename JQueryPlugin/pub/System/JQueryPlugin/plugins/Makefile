@@ -1,6 +1,7 @@
 SUBDIRS=\
   animate \
   autocomplete \
+  browser \
   bgiframe \
   blockui \
   button \
@@ -53,6 +54,7 @@ SUBDIRS=\
   treeview \
   ui \
   validate \
+  view \
   wikiword  \
 
 -include ../Makefile.include

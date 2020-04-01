@@ -89,6 +89,8 @@ sub new {
         $this->{APR} = 1 unless ($@);
         eval 'use Crypt::Eksblowfish::Bcrypt;';
         $this->{BCRYPT} = 1 unless ($@);
+        eval 'use Crypt::Argon2';
+        $this->{ARGON2} = 1 unless ($@);
     }
 
     if (   $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
@@ -123,6 +125,10 @@ sub new {
         eval 'use Crypt::Eksblowfish::Bcrypt;';
         $this->{BCRYPT} = 1 unless ($@);
     }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'argon2i' ) {
+        eval 'use Crypt::Argon2;';
+        $this->{ARGON2} = 1 unless ($@);
+    }
     else {
         print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
           . $Foswiki::cfg{Htpasswd}{Encoding} . "\n";
@@ -149,6 +155,10 @@ sub finish {
     $this->SUPER::finish();
     undef $this->{LocalCache};
     undef $this->{LocalTimestamp};
+    undef $this->{BCRYPT};
+    undef $this->{APR};
+    undef $this->{SHA};
+    undef $this->{error};
 }
 
 =begin TML
@@ -272,7 +282,8 @@ sub _readPasswd {
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         print STDERR
-          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n";
+          "WARNING - $Foswiki::cfg{Htpasswd}{FileName} DOES NOT EXIST\n"
+          if TRACE;
         return $data;
     }
 
@@ -315,7 +326,7 @@ sub _readPasswd {
             if (
                 $tPass eq $Foswiki::cfg{AuthRealm}
                 || (   defined $fields[0]
-                    && length( $fields[0] ) eq 32
+                    && length( $fields[0] ) == 32
                     && defined $fields[1]
                     && $fields[1] =~ m/@/ )
               )
@@ -329,32 +340,46 @@ sub _readPasswd {
                 next;
             }
 
-            if ( length($tPass) eq 33 && $tPass =~ m/^\{SHA\}/ ) {
+            if ( length($tPass) == 33 && substr( $tPass, 0, 5 ) eq '{SHA}' ) {
                 $data->{$hID}->{enc} = 'sha1';
             }
-            elsif ( length($tPass) eq 34 && $tPass =~ m/^\$1\$/ ) {
+            elsif ( length($tPass) == 34 && substr( $tPass, 0, 2 ) eq '$1' ) {
                 $data->{$hID}->{enc} = 'crypt-md5';
             }
-            elsif ( length($tPass) eq 37 && $tPass =~ m/^\$apr1\$/ ) {
+            elsif ( length($tPass) == 37 && substr( $tPass, 0, 6 ) eq '$apr1$' )
+            {
                 $data->{$hID}->{enc} = 'apache-md5';
             }
-            elsif ( length($tPass) eq 60 && $tPass =~ m/^\$2a\$/ ) {
+            elsif ( length($tPass) == 60 && substr( $tPass, 0, 4 ) eq '$2a$' ) {
                 $data->{$hID}->{enc} = 'bcrypt';
             }
-            elsif ( length($tPass) eq 13
+            elsif ( length($tPass) == 13
                 && ( !$fields[0] || $fields[0] =~ m/@/ ) )
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( length($tPass) gt 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+            elsif ( length($tPass) > 60
+                && substr( $tPass, 0, 9 ) eq '$argon2i$' )
+            {
+
+                $data->{$hID}->{enc} = 'argon2i';
+            }
+            elsif (
+                length($tPass) >> 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
                 $data->{$hID}->{enc} = 'plain';
             }
-            elsif ( length($tPass) eq 0 && !$fields[0]
-                || $fields[0] =~ m/@/ )
+            elsif (
+                length($tPass) == 0
+                && (  !$fields[0]
+                    || $fields[0] =~ m/@/ )
+              )
             {
-                $data->{$hID}->{enc} = 'sha';
+                # Password is zero length, no way to determine encoding.
+                $data->{$hID}->{enc} = 'unknown';
             }
 
             if ( $data->{$hID}->{enc} ) {
@@ -549,10 +574,10 @@ sub encrypt {
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
-            my @saltchars = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '.', '/' );
-            $salt =
-                $saltchars[ int( rand( $#saltchars + 1 ) ) ]
-              . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
+
+            $salt = Foswiki::generateRandomChars( 2,
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./'
+            );
         }
         return crypt( Foswiki::encode_utf8($passwd),
             Foswiki::encode_utf8( substr( $salt, 0, 2 ) ) );
@@ -577,19 +602,7 @@ sub encrypt {
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$apr1$';
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 7 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt .= Foswiki::generateRandomChars(8);
         }
         return Crypt::PasswdMD5::apache_md5_crypt(
             Foswiki::encode_utf8($passwd),
@@ -600,19 +613,7 @@ sub encrypt {
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$1$';
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 7 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt .= Foswiki::generateRandomChars(8);
         }
 
         # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
@@ -637,31 +638,49 @@ sub encrypt {
             return 0;
         }
 
+        my $cost = $Foswiki::cfg{Htpasswd}{BCryptCost};
+        $cost = 8 unless defined $cost;
+        $cost = sprintf( "%02d", $cost );
+
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
-            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-            foreach my $i ( 0 .. 15 ) {
-
-                # generate a salt not only from rand() but also mixing
-                # in the users login name: unecessary
-                $salt .= $saltchars[
-                  (
-                      int( rand( $#saltchars + 1 ) ) +
-                        $i +
-                        ord( substr( $login, $i % length($login), 1 ) ) )
-                  % ( $#saltchars + 1 )
-                ];
-            }
+            $salt = Foswiki::generateRandomChars(16);
             $salt =
               Crypt::Eksblowfish::Bcrypt::en_base64(
                 Foswiki::encode_utf8($salt) );
-            $salt = '$2a$08$' . $salt;
+            $salt = '$2a$' . $cost . '$' . $salt;
         }
         $salt = substr( $salt, 0, 29 );
         return Crypt::Eksblowfish::Bcrypt::bcrypt(
             Foswiki::encode_utf8($passwd),
             Foswiki::encode_utf8($salt) );
+    }
+    elsif ( $enc eq 'argon2i' ) {
+        unless ( $this->{ARGON2} ) {
+            $this->{error} = "Unsupported Encoding";
+            return 0;
+        }
+
+        my $cost = $Foswiki::cfg{Htpasswd}{Argon2Timecost};
+        $cost = 8 unless defined $cost;
+
+        my $threads = $Foswiki::cfg{Htpasswd}{Argon2Threads};
+        $threads = 2 unless defined $threads;
+
+        my $mem = $Foswiki::cfg{Htpasswd}{Argon2Memcost};
+        $mem = '512k' unless defined $mem;
+
+        ASSERT( $fresh,
+'HtpasswdUser::encrypt() Called without "fresh" flag. Argon2i cannot recreate hash from encoded salt!'
+        ) if DEBUG;
+        my $salt = Foswiki::generateRandomChars(16);
+        print STDERR " ARGON2:  Cost:$cost Mem:$mem Threads:$threads \n"
+          if (TRACE);
+        my $encoded =
+          Crypt::Argon2::argon2i_pass( $passwd, $salt, $cost, $mem, $threads,
+            16 );
+        return $encoded if ($encoded);
     }
     die 'Unsupported password encoding ' . $enc;
 }
@@ -735,6 +754,8 @@ sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
     ASSERT($login) if DEBUG;
 
+    $this->{error} = undef;
+
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -744,6 +765,10 @@ sub setPassword {
         $this->{error} = $login . ' already exists';
         return 0;
     }
+    $this->{error} =
+      undef;    # Clear {error} - fetchPass will set it for missing users!
+
+    my $hashed = $this->encrypt( $login, $newUserPassword, 1 );
 
     my $lockHandle;
     try {
@@ -753,8 +778,8 @@ sub setPassword {
         #  - Don't trust cache
         my $db = $this->_readPasswd( 0, 1 );
 
-        $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
-        $db->{$login}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
+        $db->{$login}->{pass} = $hashed;
+        $db->{$login}->{enc}  = $Foswiki::cfg{Htpasswd}{Encoding};
         $db->{$login}->{realm} =
           (      $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
               || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' )
@@ -779,7 +804,7 @@ sub setPassword {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
-    $this->{error} = undef;
+    return 0 if ( $this->{error} );
     return 1;
 }
 
@@ -845,29 +870,44 @@ Returns 1 on success, 0 on failure.
 sub checkPassword {
     my ( $this, $login, $password ) = @_;
     my ( $pw, $entry ) = $this->fetchPass($login);
+    my $passed = 0;
 
     # $pw will be 0 if there is no pw
-    return 0 unless defined $pw;
+    return 0 unless defined $pw && length($pw);
 
-    my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
-    return 0 unless ($encryptedPassword);
-
-    $this->{error} = undef;
-
-    #print STDERR "Checking $pw against $encryptedPassword\n" if (TRACE);
-
-    if ( length($pw) != length($encryptedPassword) ) {
-
-    #print STDERR "Fail on length mismatch ($pw) vs enc ($encryptedPassword)\n";
-        $this->{error} = 'Invalid user/password';
-        return 0;
+    if ( $entry->{enc} eq 'argon2i' ) {
+        if ( $this->{ARGON2} ) {
+            $this->{error} = '';
+            $passed = Crypt::Argon2::argon2i_verify( $pw, $password );
+        }
+        else {
+            $this->{error} =
+              'Internal error - Argon2 password routines not installed';
+            Foswiki::Func::writeWarning( $this->{error} );
+            return 0;
+        }
     }
-    return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
+    else {
+        my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
+        return 0 unless ($encryptedPassword);
 
-    # pw may validly be '', and must match an unencrypted ''. This is
-    # to allow for sysadmins removing the password field in .htpasswd in
-    # order to reset the password.
-    return 1 if ( defined $password && $pw eq '' && $password eq '' );
+        $this->{error} = undef;    # encrypt() will set the error string
+
+        if ( length($pw) == length($encryptedPassword) ) {
+            $passed = 1 if ( $pw && ( $encryptedPassword eq $pw ) );
+        }
+    }
+
+    if ($passed) {
+        if (   $Foswiki::cfg{Htpasswd}{ForceChangeEncoding}
+            && $entry->{enc} ne $Foswiki::cfg{Htpasswd}{Encoding} )
+        {
+            $this->{error} = 'Password change required';
+            Foswiki::Func::setSessionValue( 'FOSWIKI_TOPICRESTRICTION',
+                'System.ChangePassword' );
+        }
+        return 1;
+    }
 
     $this->{error} = 'Invalid user/password';
     return 0;
@@ -975,7 +1015,7 @@ sub findUserByEmail {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

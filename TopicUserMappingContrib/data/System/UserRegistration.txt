@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1452812379" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1520218740" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 <!--
 
@@ -6,7 +6,12 @@ DO NOT EDIT THIS TOPIC.
 
    * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
 -->
-%INCLUDE{"%USERSWEB%.%TOPIC%, %SYSTEMWEB%.Default%TOPIC%"}%
+
+%IF{
+"istopic '%USERSWEB%.%TOPIC%'"
+   then="$percentINCLUDE{$quot%USERSWEB%.%TOPIC%$quot warn=$quot%MAKETEXT{"User Registration is not available."}%$quot}$percent"
+   else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot }$percent"
+}%
 
 %IF{"context isadmin AND NOT istopic '%USERSWEB%.%TOPIC%'" then='<div class="foswikiHelp">
 *Tailoring instructions:* You are currently viewing the default registration page without local tailoring.  This topic looks whether a

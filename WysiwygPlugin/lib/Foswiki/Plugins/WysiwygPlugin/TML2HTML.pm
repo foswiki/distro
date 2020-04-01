@@ -432,7 +432,7 @@ s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
 s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/'<' . $this->_protectTag($1, 'TMLhtml') . $2 . '>'/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       $this->_getNamedColour($1, $2)#ge;
 
@@ -589,7 +589,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ($inHTMLTable) {
             if ( $line =~ m/<\/table>/i ) {
                 $inHTMLTable = 0;
-                $this->_addListItem( \@result, '', '', '' ) if $inList;
+                $this->_addListItem( \@result ) if $inList;
                 $inList = 0;
                 push( @result, $line );
                 next;
@@ -615,7 +615,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ m/^(\s*\|.*\|\s*)$/ ) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+            $this->_addListItem( \@result ) if $inList;
             $inList = 0;
             push( @result, _processTableRow( $1, $inTable, \%table ) );
             $inTable = 1;
@@ -631,7 +631,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ /$Foswiki::regex{headerPatternDa}/o ) {
 
             # Running head
-            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+            $this->_addListItem( \@result ) if $inList;
             $inList = 0;
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
@@ -644,7 +644,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                 $class .= ' numbered';
             }
             my $l = length($indicator);
-            $line = "<h$l class='$class'> $heading </h$l>";
+            $line = "<h$l class='$class'>$heading</h$l>";
 
         }
         elsif ( $line =~ /^\s*$/ ) {
@@ -661,44 +661,68 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
             if ($inHTMLTable) {
                 $line = '<p' . $class . '></p>';
-                $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+                $this->_addListItem( \@result ) if $inList;
                 $inList = 0;
             }
             else {
                 $line = '<p' . $class . '>';
 
-                $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+                $this->_addListItem( \@result ) if $inList;
                 $inList = 0;
 
                 $inParagraph = 1;
             }
         }
-        elsif ( $line =~
-            s/^((\t|   )+)\$\s(([^:]+|:[^\s]+)+?):\s/<dt> $3 <\/dt><dd> /o )
+        elsif ( index( $line, '$' ) >= 0
+            && $line =~ s/^((?:\t|   )+)\$\s*([^:]+):\s+// )
         {
 
             # Definition list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
+            $this->_addListItem(
+                \@result,
+                $1,
+                {
+                    list_tag    => 'dl',
+                    item_pretag => "<dt> $2 <\/dt>",
+                    item_tag    => 'dd'
+                }
+            );
             $inList = 1;
 
         }
-        elsif ( $line =~ s/^((\t|   )+)(\S+?):\s/<dt> $3<\/dt><dd> /o ) {
+        elsif ( $line =~ s/^((?:\t|   )+)(\S+?):\s+// ) {
 
-            # Definition list
+            # Definition list (deprecated)
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
+            _addListItem(
+                $this,
+                \@result,
+                $1,
+                {
+                    list_tag    => 'dl',
+                    item_pretag => "<dt> $2 <\/dt>",
+                    item_tag    => 'dd'
+                }
+            );
             $inList = 1;
-
         }
-        elsif ( $line =~ s/^((\t|   )+)\*(\s|$)/<li> /o ) {
+        elsif ( $line =~ s/^((?:\t|   )+)\* // ) {
 
-            # Unnumbered list
+            # Bulleted list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'ul', 'li', '', $1 );
+            _addListItem(
+                $this,
+                \@result,
+                $1,
+                {
+                    list_tag => 'ul',
+                    item_tag => 'li'
+                }
+            );
             $inList = 1;
 
             # TinyMCE won't let the cursor go into an empty element
@@ -707,40 +731,47 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
         }
         elsif ($this->{opts}->{supportsparaindent}
-            && $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o )
+            && $line =~ s/^((\t|   )+): // )
         {
 
             # Indent pseudo-list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $line .= '&nbsp;'
-              if ( length($line) eq 28 )
-              ;    # empty divs are not rendered, so make it non-empty.
-            $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',
-                $1 );
+
+            _addListItem(
+                $this,
+                \@result,
+                $1,
+                {
+                    list_tag   => 'ul',
+                    item_tag   => 'li',
+                    list_class => 'foswikiListStyleNone'
+                }
+            );
+
             $inList = 1;
         }
-        elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
+        elsif ( $line =~ s/^((?:\t|   )+)([0-9AaIi])\.? ?// ) {
+
+            my ( $ind, $tag ) = ( $1, $2 );
+            $tag =~ s/\d/1/g;
 
             # Numbered list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            my $ot = $3;
-            $ot =~ s/^(.).*/$1/;
-            if ( $ot !~ /^\d$/ ) {
-                $ot = ' type="' . $ot . '"';
-            }
-            else {
-                $ot = '';
-            }
-            $line =~ s/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/<li$ot> /;
-            $this->_addListItem( \@result, 'ol', 'li', '', $1 );
+
+            _addListItem(
+                $this,
+                \@result,
+                $ind,
+                {
+                    list_tag   => 'ol',
+                    item_tag   => 'li',
+                    list_class => "foswikiListStyle$tag"
+                }
+            );
+
             $inList = 1;
-
-            # TinyMCE won't let the cursor go into an empty element
-            # so make sure that the element isn't empty.
-            $line =~ s/^(<li\Q$ot\E>)\s*$/$1&nbsp;/;
-
         }
         elsif ($inList
             && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e )
@@ -865,7 +896,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         push( @result, _emitTable( \%table ) );
     }
     elsif ($inList) {
-        $this->_addListItem( \@result, '', '', '' );
+        $this->_addListItem( \@result );
     }
     elsif ($inParagraph) {
 
@@ -898,7 +929,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
         # Need to also include protected content marker as part of
         # start wikiword delim
-        my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+        my $startww = qr/$STARTWW|(?<=$TT2)/;
         $text =~
 s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
         Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
@@ -960,12 +991,12 @@ sub _liftOutSquab {
     }
 
     # Handle colour tags specially (hack, hack, hackity-HACK!
-    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       $this->_getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
-    my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+    my $startww = qr/$STARTWW|(?<=$TT2)/;
     if ( $url =~
 m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/
         && $url eq $text )
@@ -1011,16 +1042,16 @@ sub _protectMacrosInSquab {
 
 sub _handleMarkup {
 
-    $_[0] =~ s(${WC::STARTWW}==([^\s]+?|[^\s].*?[^\s])==$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}==([^\s]+?|[^\s].*?[^\s])==$ENDWW)
       (<b><span class='WYSIWYG_TT'>$1</span></b>)gm;
-    $_[0] =~ s(${WC::STARTWW}__([^\s]+?|[^\s].*?[^\s])__$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}__([^\s]+?|[^\s].*?[^\s])__$ENDWW)
       (<b><i>$1</i></b>)gm;
-    $_[0] =~ s(${WC::STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$ENDWW)
       (<b>$1</b>)gm;
 
-    $_[0] =~ s(${WC::STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$ENDWW)
       (<i>$1</i>)gm;
-    $_[0] =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
+    $_[0] =~ s(${STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$ENDWW)
       (<span class='WYSIWYG_TT'>$1</span>)gm;
 
 }
@@ -1469,48 +1500,107 @@ sub _parseParams {
     return $params;
 }
 
-# Lifted straight out of Render.pm
+# Wrapper for lists with invisible indents
+my $WRAPPER_LIST = {
+    list_tag   => 'ul',
+    list_class => 'foswikiListStyleNone',
+    item_tag   => 'li'
+};
+
+# The whitespaces either side of the tags are required for the
+# emphasis REs to work.
+sub _openList {
+    my $info = $_[0];
+    my $r    = " <$info->{list_tag}"
+      . ( $info->{list_class} ? " class=\"$info->{list_class}\"" : '' ) . "> ";
+
+    #print STDERR "OL $r\n";
+    return $r;
+}
+
+sub _closeList {
+    my $info = $_[0];
+    my $r    = '';
+    $r .= " </$info->{list_tag}> " if $info->{list_tag};
+
+    #print STDERR "CL $r\n";
+    return $r;
+}
+
+sub _openItem {
+    my $info = $_[0];
+    my $r    = '';
+    $r .= ' ' . ( $info->{item_pretag} || '' ) . "<$info->{item_tag}> "
+      if $info->{item_tag};
+
+    #print STDERR "OI $r\n";
+    return $r;
+}
+
+sub _closeItem {
+    my $info = $_[0];
+    my $r = $info->{item_tag} ? " </$info->{item_tag}> " : '';
+
+    #print STDERR "CI $r\n";
+    return $r;
+}
+
 sub _addListItem {
-    my ( $this, $result, $type, $element, $opts, $indent ) = @_;
+    my ( $this, $result, $indent, $info ) = @_;
+    $info               ||= {};
+    $info->{list_tag}   ||= '';
+    $info->{item_tag}   ||= '';
+    $info->{list_class} ||= '';
+
     $indent ||= '';
     $indent =~ s/   /\t/g;
     my $depth = length($indent);
 
-    my $size = scalar( @{ $this->{LIST} } );
-    if ( $size < $depth ) {
-        my $firstTime = 1;
-        while ( $size < $depth ) {
-            push( @{ $this->{LIST} }, { type => $type, element => $element } );
-            push( @$result, "<$element" . ( $opts ? " $opts" : "" ) . ">" )
-              unless ($firstTime);
-            push( @$result, "<$type>" ) if $type;
-            $firstTime = 0;
-            $size++;
-        }
-    }
-    else {
-        while ( $size > $depth ) {
-            my $tags = pop( @{ $this->{LIST} } );
-            push( @$result, "</$tags->{element}>" );
-            push( @$result, "</$tags->{type}>" ) if $tags->{type};
-            $size--;
-        }
-        if ($size) {
-            push( @$result, "</$this->{LIST}->[$size-1]->{element}>" );
-        }
+    # {LIST} is a stack of open lists
+
+    my $curd = scalar( @{ $this->{LIST} } );
+
+    # Add intermediate list levels if required, up to one above the
+    # target level
+    while ( $curd < $depth - 1 ) {
+        push( @$result, _openItem($WRAPPER_LIST) )
+          if ( scalar( @{ $this->{LIST} } ) );
+        push( @$result,           _openList($WRAPPER_LIST) );
+        push( @{ $this->{LIST} }, $WRAPPER_LIST );
+        $curd++;
     }
 
-    if ($size) {
-        my $oldt = $this->{LIST}->[ $size - 1 ];
-        if ( $oldt->{type} ne $type ) {
-            my $r = '';
-            $r .= "</$oldt->{type}>" if $oldt->{type};
-            $r .= "<$type>" if $type;
-            push( @$result, $r );
-            pop( @{ $this->{LIST} } );
-            push( @{ $this->{LIST} }, { type => $type, element => $element } );
-        }
+    # Close open lists that are already deeper, up to (but not including)
+    # the target level
+    while ( $curd && $curd > $depth ) {
+        my $top = pop( @{ $this->{LIST} } );
+        $curd--;
+        push( @$result, _closeItem($top) . _closeList($top) );
     }
+
+    return unless $depth > 0;
+
+    # If there's an open list at the current level, check if it's
+    # compatible
+    if ( $curd == $depth ) {
+        my $top = $this->{LIST}->[-1];
+        push( @$result, _closeItem($top) );
+        if (   $top->{list_tag} eq $info->{list_tag}
+            && $top->{list_class} eq $info->{list_class} )
+        {
+            push( @$result, _openItem($info) );
+            return;
+        }
+
+        # Not compatible, need to remove current top and add a new one
+        push( @$result, _closeList($top) );
+        pop( @{ $this->{LIST} } );
+        $curd--;
+    }
+
+    push( @$result,           _openList($info) );
+    push( @$result,           _openItem($info) );
+    push( @{ $this->{LIST} }, $info );
 }
 
 sub _emitTR {

@@ -63,7 +63,9 @@ use constant TRACE => 0;
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript
 sub _getSecretCookieName {
-    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . 'FOSWIKISTRIKEONE';
+    my $secure = ( $Foswiki::Plugins::SESSION->{request}->https() ) ? 'S' : '';
+    ( $Foswiki::cfg{Sessions}{CookieNamePrefix} || '' ) . $secure
+      . 'FOSWIKISTRIKEONE';
 }
 
 =begin TML
@@ -385,7 +387,8 @@ sub _getSecret {
     unless ($secret) {
 
         # Use hex encoding to make it cookie-friendly
-        $secret = Digest::MD5::md5_hex( $cgis->id(), rand(time) );
+        $secret =
+          Digest::MD5::md5_hex( $cgis->id(), Foswiki::generateRandomChars(12) );
         $cgis->param( _getSecretCookieName(), $secret );
     }
     return $secret;

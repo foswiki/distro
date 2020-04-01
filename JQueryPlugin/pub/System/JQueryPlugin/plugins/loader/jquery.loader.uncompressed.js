@@ -1,236 +1,193 @@
 /*
- * jQuery Loader plugin 2.11
+ * jQuery Loader plugin 4.00
  *
- * Copyright (c) 2011-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
  */
-jQuery(function($) {
+"use strict";
+(function($) {
 
   // global defaults
   var defaults = {
-    mode: 'auto', // auto, manual
-    placeholder: "<img src='"+foswiki.getPreference("PUBURLPATH")+"/System/JQueryPlugin/images/spinner.gif' width='16' height='16' />",
+    mode: 'manual', // auto, manual
     url: undefined,
-    params: undefined,
+    params: {},
     topic: undefined,
     section: undefined,
     skin: 'text',
     select: undefined,
-    minHeight: 0,
-    effect: 'fade', // show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
-    effectspeed: 500,
-    effectopts: {},
+    hideEffect: 'fadeOut', 
+    showEffect: 'fadeIn', 
     reloadAfter: 0,
     delay: 0,
     onload: function() {},
     finished: function() {},
-    beforeload: function() {
-      if (typeof(this.container) !== 'undefined') {
-        this.container.css({opacity:0.5});
-      }
-    }
+    beforeload: function() {}
   };
 
   // constructor
-  function JQLoader(elem, options) {
+  function JQLoader(elem, opts) {
     var self = this;
 
-    self.element = elem;
-    self.options = $.extend({}, defaults, options);
+    self.elem = $(elem);
+    self.container = self.elem.contents().wrapAll("<div class='jqLoaderContainer'></div>");
+    self.opts = $.extend({}, defaults, opts);
 
     self.init();
 
-    if (self.options.mode === 'auto') {
-      if (self.options.delay) {
-        // delayed loading 
-        window.setTimeout(function() {
-          self.load();
-        }, self.options.delay);
-      } else {
-        // immediate loading
-        self.load();
+    if (self.opts.mode === 'auto') {
+      self.loadAfter();
+    } else {
+      if (self.opts.reloadAfter) {
+        self.loadAfter(self.opts.reloadAfter);
       }
     }
-  };
+  }
 
   // init method
   JQLoader.prototype.init = function() {
-    var self = this,
-        $elem = $(self.element);
+    var self = this;
 
     // add refresh listener
-    $elem.bind("refresh.jqloader", function(e, opts) {
-      $.extend(self.options, opts);
-      self.load();
+    self.elem.on("refresh.jqloader", function(e, opts) {
+      $.extend(self.opts, opts);
+      self.loadAfter(0);
     });
 
     // add onload listener 
-    if (typeof(self.options.onload) === 'function') {
-      $elem.bind("onload.jqloader", function() {
-        self.options.onload.call(self);
+    if (typeof(self.opts.onload) === 'function') {
+      self.elem.on("onload.jqloader", function() {
+        self.opts.onload.call(self);
       });
     }
     
     // add beforeload listener 
-    if (typeof(self.options.beforeload) === 'function') {
-      $elem.bind("beforeload.jqloader", function() {
-        self.options.beforeload.call(self);
+    if (typeof(self.opts.beforeload) === 'function') {
+      self.elem.on("beforeload.jqloader", function() {
+        self.opts.beforeload.call(self);
       });
     }
     
     // add finished listener 
-    if (typeof(self.options.finished) === 'function') {
-      $elem.bind("finished.jqloader", function() {
-        self.options.finished.call(self);
+    if (typeof(self.opts.finished) === 'function') {
+      self.elem.on("finished.jqLoader", function() {
+        self.opts.finished.call(self);
       });
     }
 
     // add auto-reloader
-    if (self.options.reloadAfter) {
-      $elem.bind("finished.jqloader", function() {
-        window.setTimeout(function() {
-            self.load();
-          }, self.options.reloadAfter
-        );
+    if (self.opts.reloadAfter) {
+      self.elem.on("finished.jqLoader", function() {
+        self.loadAfter(self.opts.reloadAfter);
       });
     }
-
-    self.prepareContainer();
   };
 
-  // prepares the container
-  JQLoader.prototype.prepareContainer = function() {
-    var self = this,
-        $elem = $(self.element),
-        $placeholder;
+  // delayed loading 
+  JQLoader.prototype.loadAfter = function(delay) {
+    var self = this;
 
+    delay = delay || self.opts.delay;
 
-    if (typeof(self.options.placeholder) !== 'undefined' && self.options.placeholder !== '') {
-      $placeholder = $(decodeURI(self.options.placeholder)).hide();
-      $placeholder.insertBefore($elem);
+    if (typeof(self.timer) !== 'undefined') {
+      window.clearTimeout(self.timer);
+      self.timer = undefined;
+    }
 
-      // listen to beforeload event to show the placeholder
-      $elem.bind("beforeload.jqloader", function() {
-        $placeholder.show();
-      });
-
-      // listen to onload event to hide the placeholder
-      $elem.bind("onload.jqloader", function() {
-        $placeholder.hide();
-      });
-
-      // add clickhandler to placeholder when not in auto mode
-      if (self.options.mode !== 'auto') {
-        $placeholder.click(function() {
-          $elem.trigger("refresh.jqloader", self);
-        });
-      }
-    } 
+    if (delay) {
+      self.timer = window.setTimeout(function() {
+        self.load();
+      }, delay);
+    } else {
+      self.load();
+    }
   };
 
   // load method
   JQLoader.prototype.load = function() {
     var self = this,
-        pubUrlPath = foswiki.getPreference("PUBURLPATH"),
-        $elem = $(self.element),
-        web = self.options.web || foswiki.getPreference("WEB"),
-        topic = self.options.topic || foswiki.getPreference("TOPIC"),
-        params = $.extend({}, self.options.params);
+        web = self.opts.web || foswiki.getPreference("WEB"),
+        topic = self.opts.topic || foswiki.getPreference("TOPIC"),
+        params = $.extend({}, self.opts.params),
+        url = self.opts.url;
 
-    // construct url
-    if (typeof(self.options.url) === 'undefined') {
-      self.options.url = foswiki.getScriptUrl("view", web, topic);
+    // construct url and params
+    if (typeof(url) === 'undefined') {
+      url = foswiki.getScriptUrl("view", web, topic);
     }
 
-    if (typeof(self.options.section) !== 'undefined') {
-      params.section = self.options.section;
+    if (typeof(self.opts.section) !== 'undefined') {
+      params.section = self.opts.section;
     }
 
-    if (typeof(self.options.skin) !== 'undefined' && self.options.skin) {
-      params.skin = self.options.skin;
+    if (typeof(self.opts.skin) !== 'undefined' && self.opts.skin) {
+      params.skin = self.opts.skin;
     }
+
+    // hide effect
+    if (self.opts.hideEffect) {
+      self.container.animateCSS({
+        effect: self.opts.hideEffect
+      });
+    } 
 
     // trigger beforeload
-    $elem.trigger("beforeload.jqloader", self);
+    self.elem.trigger("beforeload.jqloader", self);
 
-    if (self.options.url) {
-
-      if (typeof(self.container) === 'undefined') {
-        self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
-
-        // apply min height
-        if (self.options.minHeight) {
-          self.container.css("min-height", self.options.minHeight);
-          $(window).trigger("resize");
+    $.get(
+      url,
+      params,
+      function(data) {
+        if (typeof(self.opts.select) !== 'undefined') {
+          data = $(data).find(self.opts.select);
         }
-      }
 
-      $.get(
-        self.options.url,
-        params,
-        function(data) {
-          if (typeof(self.options.select) !== 'undefined') {
-            data = $(data).find(self.options.select);
-          }
+        // insert data
+        self.elem.empty();
+        self.container = $("<div class='jqLoaderContainer' />").appendTo(self.elem);
+        self.container.append(data);
 
-          self.container.remove();
-          self.container = $("<div class='jqLoaderContainer' />").insertAfter($elem);
+        // trigger onload
+        self.elem.trigger("onload.jqloader", self);
 
-          // apply min height
-          if (self.options.minHeight) {
-            self.container.css("min-height", self.options.minHeight);
-            $(window).trigger("resize");
-          }
+        // show effect
+        var effect = self.opts.effect || self.opts.showEffect;
+        if (effect) {
+          self.container.animateCSS({
+            effect: effect
+          }).on("stop.animate", function() {
 
-          // insert data
-          self.container.append(data);
+          // trigger finished
+            self.elem.trigger("finished.jqLoader", self);
+          });
+        } else {
+          // trigger finished
+          self.elem.trigger("finished.jqLoader", self);
+        }
 
-          $elem.trigger("onload.jqloader", self);
-
-          // effect
-          if (typeof(self.options.effect) !== 'undefined' && self.options.effect !== 'show') {
-            self.container.hide();
-            if (self.options.effect === 'fade') {
-              self.container.fadeIn(self.options.effectspeed, function() {
-                // trigger finished
-                $elem.trigger("finished.jqloader", self);
-              });
-            } else {
-              self.container.show(self.options.effect, self.options.effectopts, self.options.effectspeed, function() {
-                // trigger finished
-                $elem.trigger("finished.jqloader", self);
-              });
-            }
-          } else {
-            // trigger finished
-            $elem.trigger("finished.jqloader", self);
-          }
-
-        }, 'html');
-    } else {
-      throw("error: no url");
-    }
+      }, 'html');
   };
 
   // register plugin to jquery core
-  $.fn.jqLoader = function(options) {
+  $.fn.jqLoader = function(opts) {
     return this.each(function() {
-      if (!$.data(this, 'plugin_jqLoader')) {
-        $.data(this, 'plugin_jqLoader',
-          new JQLoader(this, options)
+      if (!$.data(this, 'jqLoader')) {
+        $.data(this, 'jqLoader',
+          new JQLoader(this, opts)
         );
       }
     });
-  }
+  };
 
   // register css class 
-  $(".jqLoader:not(.jqLoaderInited)").livequery(function() {
-    var $this = $(this),
+  $(".jqLoader").livequery(function() {
+    var $this = $(this), 
         opts = $.extend({}, $this.data(), $this.metadata());
-    $this.addClass("jqLoaderInited").jqLoader(opts);
+
+    $this.jqLoader(opts);
   });
-});
+})(jQuery);

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443573973" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1506603718" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -45,9 +45,10 @@ Template directives look a lot like standard [[macros]].
    * =%<nop>TMPL:END%= ends a block definition.
    * =%<nop>TMPL:PREV%=: returns the previous definition of the block being defined.
    * =%<nop>TMPL:P{"name"}%= includes a previously defined block.
-   * =%<nop>{...}%= is a comment. Whitespace either side of the comment
+   * =#<nop>{...}#= is a comment. Whitespace either side of the comment
      (newlines, spaces, tabs etc) is treated as part of the comment, and
-     removed when the comment is removed.
+     removed when the comment is removed. An alternate syntax =%<nop>{...}%=
+     is also supported - see #Comments below for why.
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
@@ -95,14 +96,10 @@ then
 </verbatim>
 will expand to =x1000z=.
 
-
 ---++++ Naming
 Any alphanumeric characters can be used in parameter names. =TMPL:P= parameters
 override any other possible definition of the name, so you should not use
 parameter names that might clash with [[Macros]].
-
-
-
 
 ---+++ Conditional expansion
 ---++++ Using context identifiers
@@ -162,9 +159,35 @@ and then =* Set SKIN=crumbless,pattern=
 Remember: the template path contains the most specific template first.
 
 ---+++ Comments
-Comments =%{...}%= are removed from the templates as soon as the file is
-read, before any other template macros are evaluated. Whitespace either side
-of the comment (newlines, spaces, tabs etc) is also removed.
+Comments delimited by =%<nop>{...}%= are removed from the templates as soon as
+the file is read, before any other template macros are evaluated. 
+
+An alternative comment type =#<nop>{...}#= will automatically absorb whitespace
+either side of the comment (newlines, spaces, tabs etc). This type of comment
+only works in templates.
+
+The alternative comment type becomes really useful when we have skin templates defined in topics,
+because we can now use it to delimit content that should be _displayed when the topic is viewed normally_, but _removed when the templates are instantiated_.
+
+or example, we might have templates in a topic like this:
+<verbatim class="tml">
+%TMPL:DEF{"example"}%
+#{ This comment will always be removed }#
+%{ This comment will be removed when the template is instantiated }%
+Example
+%TMPL:END%
+</verbatim>
+
+When we view the topic, we'll see:
+
+<pre>
+%<nop>TMPL:DEF{"example"}%
+#{ This comment will always be removed }#
+%{ This comment will be removed when the template is instantiated }%
+Example
+%<nop>TMPL:END%
+</pre>
+but all comments will be removed when the template is actually used.
 
 #FindingTemplates
 ---++ Finding Skin Templates
@@ -254,6 +277,12 @@ Note that topics containing templates are checked for VIEW access using the
 normal [[AccessControl][Foswiki access controls]]. Any access control failure
 is silently ignored, and the template path expansion continues.
 
+---++ Predefined templates
+Most predefined templates are stored in =.tmpl= files. There are also a
+couple of standard topics that contain skin templates:
+    * WebCreateNewTopicTemplate - Page shown when you click on a %ICON{newtopic}% *Create New Topic* link. It provides a form requesting the necessary information to create a new, nonexistent topic.
+   * TopicDoesNotExistViewTemplate - Alert page shown when you try to view a nonexistent topic and usually used as a prompt to help you create this new topic. For this reason, the form of the WebCreateNewTopicTemplate is included and therefore shown, too.
+
 ---++ Developing new templates
 ---+++ Debugging
 When writing new templates, it can sometimes it can be hard to work out
@@ -302,7 +331,28 @@ Next, there are a number of action-specific templates, such as =view.tmpl=,
 the same name. Their purpose is to include =foswiki.tmpl=, and provide new,
 page-specific, definitions of the blocks described above.
 
-Several of the action-specific templates have _skinned_ versions, such as =view.print.tmpl= and =view.text.tmpl=. These skinned versions are used to view the page in a specific way - for printing, or as plain text, for example.
+Several of the action-specific templates have _skinned_ versions, such as =view.print.tmpl= and =view.text.tmpl=.
+These skinned versions are used to view the page in a specific way - for printing, or as plain text, for example.
+
+---++++ Template processing
+
+The templates that render topic text are typically broken up into 3 areas,
+divided by a token =%<nop>TEXT%=. 
+<verbatim>
+..header area before any topic text...
+%TEXT%  (will be substituted with topic text)
+...footer area after the topic text...
+</verbatim>
+
+When the core expands the template, it happens in 3 phases
+   1 Macros are expanded and TML is rendered in the header area before the %<nop>TEXT% token, with context =header_text= set.
+   1 The topic text then has its macros expanded, and TML rendered with context =body_text= set. The results replaces the %<nop>TEXT% token.
+   1 Finally the footer area has it's macros expanded  and TML rendered in the area after the %<nop>TEXT% token with context =footer_text= set.
+
+The contexts - =header_text=, =body_text= and =footer_text= are not used by the Foswiki core, but can be used by extensions during macro expansion to
+determine which part  of the page is being processed.
+
+---+++ Other important templates:
 
 =messages.tmpl= is an important template; it provides the basic definitions of
 all error and warning messages that Foswiki issues. These are defined using
@@ -328,12 +378,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1443573973" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1443573973" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1443573973" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1443573973" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1443573973" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1443573973" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1443573973" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1443573973" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1443573973" size="8209" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1506603718" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1506603718" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1506603718" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1506603718" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1506603718" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1506603718" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1506603718" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1506603718" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1506603718" size="8209" user="ProjectContributor" version="1"}%

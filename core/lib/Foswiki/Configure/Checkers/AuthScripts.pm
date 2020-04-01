@@ -8,8 +8,17 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    my $msg  = '';
+    my ( $this, $reporter ) = @_;
+    my $msg = '';
+
+    my $notCLI =
+      ( defined $Foswiki::cfg{Engine}
+          && substr( $Foswiki::cfg{Engine}, -3 ) ne 'CLI' );
+
+    my $templateLogin = eval {
+        $Foswiki::cfg{LoginManager}
+          ->isa('Foswiki::LoginManager::TemplateLogin');
+    };
 
     if ( $Foswiki::cfg{AuthScripts} ) {
         if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
@@ -20,16 +29,16 @@ other than 'none' or clear this setting.
 EOF
         }
 
-        if ( $Foswiki::cfg{LoginManager} ne
-            'Foswiki::LoginManager::TemplateLogin' )
-        {
-            $reporter->WARN(<<'EOF');
+        if ($notCLI) {
+            unless ($templateLogin) {
+                $reporter->WARN(<<'EOF');
 You have specified an alternative (non-TemplateLogin) login manager.
 It is critical that this list of scripts be consistent with the scripts
 protected by the Web Server. For example, if you are using Apache then
 verify that this setting is consistent with the =FilesMatch= or
 =LocationMatch= directive that requires a valid user for the scripts.
 EOF
+            }
         }
 
         unless ( $Foswiki::cfg{AuthScripts} =~ m/statistics/ ) {
@@ -71,10 +80,10 @@ HERE
     closedir(D);
 
     $reporter->NOTE(
-"The following scripts can be run by unauthenticated users: =$unauth=" )
+        "The following scripts can be run by unauthenticated users: =$unauth=")
       if $unauth;
 
-    if ( $unauth =~ m/auth\b/ ) {
+    if ( $unauth =~ m/auth\b/ && $Foswiki::cfg{LoginManager} ne 'none' ) {
         $reporter->ERROR(
             <<"EOF"
 There are one or more *auth scripts found in $Foswiki::cfg{ScriptDir} that are missing

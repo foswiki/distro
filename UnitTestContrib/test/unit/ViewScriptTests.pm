@@ -413,6 +413,8 @@ sub urltest {
 sub test_urlparsing {
     my $this = shift;
 
+    #$Foswiki::cfg{StrictURLParsing} = 0;
+
     $this->urltest( '',  $this->{users_web}, 'WebHome' );
     $this->urltest( '/', $this->{users_web}, 'WebHome' );
 

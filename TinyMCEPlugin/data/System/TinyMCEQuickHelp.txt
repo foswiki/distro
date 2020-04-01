@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485356379" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1512490670" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---+!! !TinyMCE Editor Help Summary 
 <!--%STARTSECTION{"CSS"}%<style type="text/css" media="all">
@@ -97,7 +97,7 @@
   <span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
-   * Select <img src="%PUBURL%/%WEB%/TinyMCEPlugin/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
+   * Select <img src="%PUBURLPATH%/%WEB%/TinyMCEPlugin/plugins/foswiki/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
 </td>
 <td>
 
@@ -114,14 +114,14 @@
 </div>
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="autosave.png" attr="h" comment="" date="1485356379" size="655" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="indent.png" attr="h" comment="" date="1485356379" size="327" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="chili_formatting.png" attr="h" comment="" date="1485356379" size="12756" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="h" comment="" date="1485356379" size="6515" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="unlink.png" attr="h" comment="" date="1485356379" size="426" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="outdent.png" attr="h" comment="" date="1485356379" size="324" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="table_contextmenu.png" attr="h" comment="" date="1485356379" size="9076" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="link.png" attr="h" comment="" date="1485356379" size="385" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="anchor.png" attr="h" comment="" date="1485356379" size="397" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="clear_formatting.png" attr="h" comment="" date="1485356379" size="459" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="fullscreen.png" attr="h" comment="" date="1485356379" size="384" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="autosave.png" attr="h" comment="" date="1512490670" size="655" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="indent.png" attr="h" comment="" date="1512490670" size="327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chili_formatting.png" attr="h" comment="" date="1512490670" size="12756" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="h" comment="" date="1512490670" size="6515" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="unlink.png" attr="h" comment="" date="1512490670" size="426" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="outdent.png" attr="h" comment="" date="1512490670" size="324" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table_contextmenu.png" attr="h" comment="" date="1512490670" size="9076" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="link.png" attr="h" comment="" date="1512490670" size="385" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="anchor.png" attr="h" comment="" date="1512490670" size="397" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clear_formatting.png" attr="h" comment="" date="1512490670" size="459" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.png" attr="h" comment="" date="1512490670" size="384" user="ProjectContributor" version="1"}%

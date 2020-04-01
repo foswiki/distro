@@ -33,7 +33,7 @@ sub new {
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/datepicker/',
             javascript   => ['jquery.ui.datepicker.init.js'],
-            dependencies => [ 'ui', 'livequery' ],
+            dependencies => ['ui'],
         ),
         $class
     );
@@ -67,7 +67,7 @@ sub init {
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::UI::LANG",
             <<"HERE", 'JQUERYPLUGIN::UI' );
-<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
+<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
 HERE
     }
 }
@@ -77,7 +77,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

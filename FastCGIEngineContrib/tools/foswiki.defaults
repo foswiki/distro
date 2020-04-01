@@ -1,8 +1,12 @@
-FOSWIKI_ROOT=/home/www-data/foswiki/core
+# Tailor these settings for your installation
+FOSWIKI_ROOT=/var/www/foswiki
 FOSWIKI_FCGI=foswiki.fcgi
-FOSWIKI_BIND=127.0.0.1:9001
+FOSWIKI_BIND=127.0.0.1:9000
 FOSWIKI_CHILDREN=3
 FOSWIKI_MAX_REQUESTS=-1
 FOSWIKI_MAX_SIZE=200000
 FOSWIKI_CHECK_SIZE=10
+FOSWIKI_PNAME=foswiki
+# The followng variables are NOT used by the systemd/foswiki.service file.
 FOSWIKI_QUIET=true
+#FOSWIKI_PIDFILE=/var/run/foswiki.pid

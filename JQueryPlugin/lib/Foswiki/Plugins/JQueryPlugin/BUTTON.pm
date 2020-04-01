@@ -33,7 +33,7 @@ sub new {
             tags         => 'BUTTON',
             css          => ['jquery.button.css'],
             javascript   => ['jquery.button.init.js'],
-            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::FORM' ],
+            dependencies => [ 'metadata', 'JQUERYPLUGIN::FORM' ],
         ),
         $class
     );
@@ -75,17 +75,19 @@ sub handleButton {
     my $theIcon = '';
 
     if ($theIconName) {
-        if ( $theIconName =~ /^fa-/ ) {
-            Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin(
-                'fontawesome');
-            $theIcon = "<i class='jqButtonIcon fa fa-fw $theIconName'></i>";
-        }
-        else {
-            $theIcon = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath(
-                $theIconName);
-            $theIcon =
-"<span class='jqButtonIcon' style='background-image:url($theIcon)'></span>"
-              if $theIcon;
+        my $icon = Foswiki::Plugins::JQueryPlugin->getIconService()
+          ->getIcon($theIconName);
+        if ( defined $icon ) {
+            if ( defined $icon->{fontName} ) {
+                $theIcon =
+"<i class='jqButtonIcon $icon->{prefix} $icon->{prefix}-fw $theIconName'></i>";
+                Foswiki::Plugins::JQueryPlugin->getIconService->loadIconFont(
+                    $icon->{fontName} );
+            }
+            else {
+                $theIcon =
+"<span class='jqButtonIcon img' style='background-image:url($icon->{url})'></span>";
+            }
         }
     }
 
@@ -142,6 +144,12 @@ sub handleButton {
     $result .= " style='$theStyle' "         if $theStyle;
     $result .= " onclick=\"$theOnClick\" "   if $theOnClick;
 
+    while ( my ( $key, $val ) = each %$params ) {
+        if ( $key =~ s/^data_/data-/ ) {
+            $result .= " $key='$val'";
+        }
+    }
+
     $result .= ">$theIcon$theText</a>";
     $result .= "<input type='submit' style='display:none' />"
       if $theType eq 'submit';
@@ -153,7 +161,7 @@ sub handleButton {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

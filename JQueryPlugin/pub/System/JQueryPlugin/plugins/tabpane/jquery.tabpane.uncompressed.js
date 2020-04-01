@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 2.00
+ * jQuery Tabpane plugin 2.10
  *
- * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2019 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -17,7 +17,8 @@ var bottomBarHeight = -1;
     select: 1,
     animate: false,
     autoMaxExpand: false,
-    minHeight: 230
+    remember: false,
+    minHeight: 0
   };
 
   /* plugin constructor *****************************************************/
@@ -28,7 +29,6 @@ var bottomBarHeight = -1;
 
     // gather options by merging global defaults, plugin defaults and element defaults
     self.opts = $.extend({}, defaults, self.elem.data(), opts);
-    self.tabs = {};
     self.init();
   }
 
@@ -37,212 +37,265 @@ var bottomBarHeight = -1;
     var self = this,
         $tabGroup, index;
 
+    self.id = self.getId();
+
     // create tab group
     self.elem.prepend('<span class="foswikiClear"></span>');
-    $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo(self.elem);
+    $tabGroup = $('<ul class="jqTabGroup clearfix"></ul>').prependTo(self.elem);
 
     // get all headings and create tabs
     index = 1;
     self.elem.find("> .jqTab").each(function() {
       var $this = $(this),
           title = $this.find('.jqTabLabel:first').remove().html();
-      $tabGroup.append('<li><a href="#" data-id="'+this.id+'">'+title+'</a></li>');
-      $this.data("hash", '!'+this.id);
-      if(index === self.opts.select || $(this).hasClass(self.opts.select)) {
-        self.switchTab($this);
-      }
+
+      $tabGroup.append('<li><a href="#" data-index="'+index+'">'+title+'</a></li>');
+
+      $this.data("index", index);
+
       index++;
     });
 
+    if (typeof(self.currentIndex) === 'undefined') {
+      self.switchTab(1);
+    }
 
     /* establish auto max expand */
     if (self.opts.autoMaxExpand) {
       self.autoMaxExpand();
     }
 
-    self.elem.find(".jqTabGroup > li > a").click(function() {
-      var $this = $(this);
+    /* establish click behaviour */
+    self.elem.find(".jqTabGroup > li > a").on("click", function() {
+      var $this = $(this), 
+          index = $this.data("index");
 
       $this.blur();
 
-      if ($this.data("id") !== self.currentTabId) {
-        self.switchTab("#"+$this.data("id"));
-
-        // set hash
-/* DISABLED for performance reasons: see http://foswiki.org/Tasks/Item13018
-        var newHash = $("#"+newTabId).data("hash"), oldHash = window.location.hash.replace(/^.*#/, "");
-        if (newHash != oldHash) {
-          window.location.hash = newHash;
+      if (index !== self.currentIndex) {
+        self.switchTab(index);
+        if (self.opts.remember) {
+          self.setHash(index);
         }
-*/
       }
+
       return false;
     });
 
-    self.initCurrentTab();
-    $(window).bind("hashchange", function() {
-      //$.log("TABPANE: got hashchange event");
-      self.initCurrentTab();
-    });
+    if (self.opts.remember) {
+      $(window).bind("hashchange", function() {
+        self.switchTab(self.getHash() || self.opts.select || 1);
+      });
+
+      self.switchTab(self.getHash() || self.opts.select || 1);
+    } else {
+      self.switchTab(self.opts.select || 1);
+    }
   };
 
-  /* switch tab based on location hash****************************************/
-  TabPane.prototype.initCurrentTab = function() {
-    var self = this,
-        currentHash = window.location.hash.replace(/^.*#/, "");
+  /* read window hash and split it into a meaningfull structure **************/
+  TabPane.prototype.parseHash = function() {
+    var hash = window.location.hash.replace(/^.*#!/, "").split(";"),
+        item,
+        params = {}, i, len = hash.length;
 
-    if (typeof(self.prevHash) !== undefined && self.prevHash === currentHash) {
-      return;
+    for(i = 0; i < len; i++) {
+      item = hash[i].split("=");
+      if (item.length == 2) {
+        params[item[0]] = parseInt(item[1], 10);
+      }
     }
 
-    //$.log("TABPANE: initCurrentTab, currentHash="+currentHash+", prevHash="+self.prevHash);
-    self.prevHash = currentHash;
+    return params;
+  }
 
-    self.elem.find("> .jqTab").filter(function(index) {
-      var $this = $(this);
-      if (currentHash === '') {
-        return (self.opts.select == index+1 || $this.hasClass(self.opts.select));
-      } else {
-        return ('!'+$this.attr("id") === currentHash);
+  /* get id and make sure it is unique ***************************************/
+  TabPane.prototype.getId = function() {
+    var self = this,
+        id = self.elem.attr("id"),
+        tabPanes = $("#"+id+".jqTabPane");
+
+    if (tabPanes.length > 1) {
+      id = parseInt(id.replace(/^tabpane/, ""), 10),
+      self.elem.prop("id", "tabpane"+(id+1));
+      return self.getId();
+    }
+
+    return id;
+  };
+
+  /* get my hash value for this tabpane **************************************/
+  TabPane.prototype.getHash = function() {
+    var self = this,
+        params = self.parseHash();
+
+    return params[self.id];
+  };
+
+  /* set my hash value *******************************************************/
+  TabPane.prototype.setHash = function(val) {
+    var self = this,
+        params = self.parseHash(),
+        hash = [],
+        oldVal = params[self.id];
+
+    if (val === oldVal) {
+      return;
+    }
+  
+    if (typeof(val) !== 'undefined') {
+      params[self.id] = val;
+    } else {
+      delete params[self.id];
+    }
+
+    $.each(params, function(key, val) {
+      if ($.isArray(val)) {
+        val = join("|", val);
       }
-    }).each(function() {
-      self.switchTab($(this));
+      hash.push(key+="="+val);
     });
+
+    hash = '!' + hash.join(";");
+   
+    window.location.hash = hash;
   };
 
   /***************************************************************************
-   * get next tab
+   * get tab specified by "selector"
+   * selector can be:
+   * - the index of a tab (1-based)
+   * - or a jQuery selector expression
+   * - or undefined returning the currently selected tab
+   */
+  TabPane.prototype.getTab = function(selector) {
+    var self = this, tab;
+
+    selector = selector || self.currentIndex || self.opts.select;
+
+    if (typeof(selector) === 'object') {
+      tab = selector;
+    } else if (typeof(selector) === 'number') {
+      tab = self.elem.find("> .jqTab").eq(selector-1);
+    } else {
+      tab = self.elem.find(selector);
+    }
+
+    if (typeof(tab) !== 'undefined' && tab.length == 0) {
+      tab = undefined;
+    }
+
+    return tab;
+  };
+
+  /***************************************************************************
+   * get the following tab after a selected one
    */
   TabPane.prototype.getNextTab = function(selector) {
     var self = this,
-        tabs = self.elem.find("> .jqTab"),
-        index = 0;
+        tab = self.getTab(selector);
 
-    if (tabs.length === 1) {
-      return;
-    }
-
-    selector = selector || "#"+self.currentTabId;
-    tabs.each(function(i) {
-      var $this = $(this);
-      if ($this.is(selector)) {
-        index = i;
-        return false;
-      }
-    });
-    index++;
-    if (index >= tabs.length) {
-      index = 0;
-    }
-
-    return tabs.eq(index);
+    if (tab) {
+      return self.getTab(tab.data("index")+1);
+    }    
   };
 
   /***************************************************************************
    * hide tab and select the next one
    */
   TabPane.prototype.hideTab = function(selector) {
-    var self = this, nextTab;
+    var self = this,
+        tab = self.getTab(selector),
+        index;
 
-    selector = selector || "#"+self.currentTabId;
-    nextTab = self.getNextTab(selector);
+    if (!tab) {
+      return;
+    }
 
-    self.elem.find(selector).hide();
-    self.getNaviOfTab(selector).hide();
-    self.switchTab(nextTab);
+    index = tab.data("index");
+    tab.hide();
+    self.getNaviOfTab(index).hide();
+
+    self.switchTab(index+1);
   };
 
   /***************************************************************************
    * show a hidden tab and select it
    */
   TabPane.prototype.showTab = function(selector) {
-    var self = this, tab;
+    var self = this, 
+        tab = self.getTab(index), 
+        index;
 
-    selector = selector || "#"+self.currentTabId;
-    tab = self.elem.find(selector);
-
-    if (tab.length) {
-      self.getNaviOfTab(selector).show();
-      if (self.currentTabId === tab.attr("id")) {
-        tab.show();
-      }
+    if (!tab) {
+      return;
     }
+
+    index = tab.data("index");
+
+    self.getNaviOfTab(index).show();
+    tab.show();
   };
 
   /***************************************************************************
    * get list elem of tab
    */
-  TabPane.prototype.getNaviOfTab = function(selectorOrObject) {
-    var self = this, result = $(), tabId, selector;
+  TabPane.prototype.getNaviOfTab = function(selector) {
+    var self = this, 
+        tab = self.getTab(selector),
+        index;
 
-    if (typeof(selectorOrObject) === 'object') {
-      tabId = selectorOrObject.attr("id");
-    } else {
-      selector = selectorOrObject || "#"+self.currentTabId;
-      tabId = self.elem.find(selector).attr("id");
+    if (!tab) {
+      return $();
     }
 
-    self.elem.find("li a").each(function() {
-      var $this = $(this);
-      if ($this.data("id") === tabId) {
-        result = $this;
-        return false;
-      }
-    });
+    index = tab.data("index");
 
-    return result;
+    return self.elem.find("> .jqTabGroup li a").eq(index-1);
   };
 
   /***************************************************************************
    * switching from tab1 to tab2
    */
-  TabPane.prototype.switchTab = function(selectorOrObject) {
+  TabPane.prototype.switchTab = function(selector) {
     var self = this,
-        oldTabId = self.currentTabId,
-        newTabId,
-        $newTab, $newContainer,
-        $oldTab = $("#"+oldTabId),
-        $oldContainer = $oldTab.find('.jqTabContents:first'),
-        oldHeight = $oldContainer.height(), // why does the container not work
+        oldIndex = self.currentIndex,
+        $oldTab, $oldContainer, oldHeight,
+        newIndex,
+        $newTab = self.getTab(selector), 
+        $newContainer,
         data, $innerContainer, isInnerContainer;
 
-    if (typeof(selectorOrObject) === 'string') {
-      $newTab= self.elem.find(selectorOrObject);
-    } else {
-      $newTab = selectorOrObject;
-    }
-
-    if ($newTab &&  $newTab.length) {
-      newTabId = $newTab.attr("id");
-    }
-
-    //console.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
-
-
-    $oldTab.removeClass("current");
-    self.getNaviOfTab($oldTab).parent().removeClass("current");
-    if ($newTab) {
-      $newTab.addClass("current");
-      self.getNaviOfTab($newTab).parent().addClass("current");
-    }
-
-    // only switch off the old tab, no new tab there to activate
     if (!$newTab) {
       return;
     }
 
-    if (oldTabId === newTabId) {
+    if (typeof(oldIndex) !== 'undefined') {
+      $oldTab = self.getTab(oldIndex);
+      $oldContainer = $oldTab.find('.jqTabContents:first');
+      oldIndex = $oldTab.data("index");
+      oldHeight = $oldContainer.height();
+    }
+
+    newIndex = $newTab.data("index");
+
+    if (oldIndex === newIndex) {
       return;
     }
 
-    if (!self.tabs[newTabId]) {
-      self.tabs[newTabId] = $newTab.data();
+    if ($oldTab) {
+      $oldTab.removeClass("current").hide();
+      self.getNaviOfTab(oldIndex).parent().removeClass("current");
     }
-    data = self.tabs[newTabId];
+
+    $newTab.addClass("current").show();
+    self.getNaviOfTab(newIndex).parent().addClass("current");
+
+    data = $newTab.data();
 
     // before click handler
     if (typeof(data.beforeHandler) !== "undefined") {
-      window[data.beforeHandler].call(self, oldTabId, newTabId);
+      window[data.beforeHandler].call(self, oldIndex, newIndex);
     }
 
     $newContainer = $newTab.find('.jqTabContents:first');
@@ -306,21 +359,21 @@ var bottomBarHeight = -1;
 
       // after click handler
       if (typeof(data.afterHandler) !== "undefined") {
-        window[data.afterHandler].call(self, oldTabId, newTabId);
+        window[data.afterHandler].call(self, oldIndex, newIndex);
       }
 
-      self.currentTabId = newTabId;
+      self.currentIndex = newIndex;
     }
 
     // async loader
     if (typeof(data.url) != "undefined") {
       $innerContainer.load(data.url, undefined, function() {
         if (typeof(data.afterLoadHandler) !== "undefined") {
-          window[data.afterLoadHandler].call(self, oldTabId, newTabId);
+          window[data.afterLoadHandler].call(self, oldIndex, newIndex);
         }
         _finally();
       });
-      delete self.tabs[newTabId].url;
+      $newTab.removeData("url");
     } else {
       _finally();
     }
@@ -346,42 +399,32 @@ var bottomBarHeight = -1;
    */
   TabPane.prototype.fixHeight = function() {
     var self = this,
-        $container = self.elem.find("> .jqTab.current .jqTabContents:first"),
-        paneOffset = $container.offset(),
-        paneTop, windowHeight, height, $debug;
+        elem = self.elem.find("> .jqTab.current .jqTabContents:first"),
+        windowHeight = $(window).height() || window.innerHeight,
+        newHeight;
 
     //$.log("TABPANE: called fixHeight()");
 
-    if (typeof(paneOffset) === 'undefined' || $container.is(".jqTabDisableMaxExpand")) {
+    if (!elem.length || elem.is(".jqTabDisableMaxExpand")) {
       return;
     }
 
-    paneTop = paneOffset.top; // || $container[0].offsetTop;
     if (bottomBarHeight <= 0) {
-      bottomBarHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($container.css('padding-bottom'), 10) *2.5;
+      bottomBarHeight = $(".natEditBottomBar").outerHeight(true) + elem.outerHeight(true) - elem.height();
     }
 
-    windowHeight = $(window).height();
-    if (!windowHeight) {
-      windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
-    }
+    newHeight = windowHeight - elem.offset().top - bottomBarHeight - 2;
 
-    height = windowHeight - paneTop - bottomBarHeight;
-    $debug = $("#DEBUG");
-    if ($debug.length) {
-      height -= $debug.outerHeight(true);
-    }
-    if (self.opts && self.opts.minHeight && height < self.opts.minHeight) {
+    if (self.opts && self.opts.minHeight && newHeight < self.opts.minHeight) {
       //$.log("tabpane: minHeight reached");
-      height = self.opts.minHeight;
+      newHeight = self.opts.minHeight;
     }
 
-    if (height < 0) {
+    if (newHeight < 0) {
       return;
     }
 
-    $.log("TABPANE: fixHeight height=",height);
-    $container.height(height);
+    elem.height(newHeight);
   };
 
   $.fn.tabpane = function (opts) {
@@ -395,7 +438,7 @@ var bottomBarHeight = -1;
   $(function() {
     $(".jqTabPane:not(.jqInitedTabpane)").livequery(function() {
       var $this = $(this);
-      $this.addClass("jqInitedTabpane").tabpane();
+      $this.tabpane().addClass("jqInitedTabpane");
     });
   });
 

@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var browserify = require("browserify");
+var babelify = require("babelify");
+
+var entryPoint = process.argv[2];
+var inFile = process.argv[3];
+
+browserify(inFile, {
+    standalone: entryPoint
+  })
+  .transform(babelify, {presets: ["env"]})
+  .bundle()
+  .pipe(process.stdout);

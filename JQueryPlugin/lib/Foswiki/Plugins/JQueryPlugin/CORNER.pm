@@ -27,12 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Corner',
-            version      => '2.12',
-            author       => 'Dave Methvin, Mike Alsup',
-            homepage     => 'http://jquery.malsup.com/corner',
-            javascript   => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
-            dependencies => ['livequery'],
+            name       => 'Corner',
+            version    => '2.12',
+            author     => 'Dave Methvin, Mike Alsup',
+            homepage   => 'http://jquery.malsup.com/corner',
+            javascript => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
         ),
         $class
     );
@@ -45,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

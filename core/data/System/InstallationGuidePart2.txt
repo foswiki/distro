@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -104,7 +104,7 @@ Foswiki is installed by default supporting standard CGI scripts as well as CLI a
 %X% *Caution*
    * Foswiki 2.0 can be "bootstrapped" with either of these accelerators active, however it is often simpler to initially configure Foswiki using CGI.
    * The [[https://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
-   * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
+   * Enabling the apache configuration without installing the pre-req modules will break your site!
    * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
 
 ---++++ Page Caching

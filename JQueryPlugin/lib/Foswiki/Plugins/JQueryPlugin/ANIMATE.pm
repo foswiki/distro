@@ -27,13 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Animate',
-            version      => '3.4.0',
-            author       => 'Daniel Eden',
-            homepage     => 'http://daneden.me/animate',
-            css          => ['animate.css'],
-            javascript   => ['animate.js'],
-            dependencies => ['livequery'],
+            name       => 'Animate',
+            version    => '3.7.0',
+            author     => 'Daniel Eden',
+            homepage   => 'http://daneden.me/animate',
+            css        => ['animate.css'],
+            javascript => ['animate.js'],
         ),
         $class
     );
@@ -46,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

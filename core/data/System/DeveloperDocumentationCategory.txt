@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435707485" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Category"}%
 ---+ Developer Documentation
  List of documents for application developers as well as developers of skins and extensions.
@@ -54,8 +54,9 @@ Topics for programmers that which to design new skins and develop new extensions
 ---+++ Reference
    $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
    $ [[DevelopingPlugins]] : An introduction to developing Plugins
-   $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
-   $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts
+   $ [[ContributedAddOns][[AddOns]] : A short introduction to Add-Ons. Add-Ons are the old name for Contribs. 
+   $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that do not implement macros or register to the Plugins API.
+   $ [[Plugins]] : A short introduction to Plugins.
    $ [[Skins]] : An introduction to skins and skin development
    $ [[PerlDoc]] : This topic is a helper topic that enables displaying the inline documentation of the Foswiki perl modules. It is used in the [[DevelopingPlugins]] topic
 
@@ -85,7 +86,7 @@ Topics for programmers that which to design new skins and develop new extensions
 
 More in-depth developer documentation can be found in the [[Foswiki:Support.SupplementalDocuments][supplemental documentation]].
 
-Really detailed documentation, includigng how to get started as a core developer, can be found on the [[Foswiki:Development.WebHome][Foswiki developer site]].
+Really detailed documentation, including how to get started as a core developer, can be found on the [[Foswiki:Development.WebHome][Foswiki developer site]].
 
 ---++ Related Topics
 %SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"

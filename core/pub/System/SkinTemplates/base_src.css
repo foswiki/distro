@@ -264,8 +264,29 @@ pre {
 .foswikiHorizontalList ul li.foswikiLast {
 	border:none;
 }
-.foswikiIndent {
-	padding-left: 3em;
+
+.foswikiListStyleNone {
+    list-style-type: none;
+}
+
+.foswikiListStyle1 {
+    list-style-type: decimal;
+}
+
+.foswikiListStyleA {
+    list-style-type: upper-alpha;
+}
+
+.foswikiListStylea {
+    list-style-type: lower-alpha;
+}
+
+.foswikiListStylei {
+    list-style-type: lower-roman;
+}
+
+.foswikiListStyleI {
+    list-style-type: upper-roman;
 }
 
 .foswikiToc.foswikiRight {

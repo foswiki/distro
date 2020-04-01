@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -59,7 +59,7 @@ when hovering over this element.
 The plugin comes with a set of convenient parameters that can be specified using HTML5 data attributes. See the examples below.
 
 | *Name* | *Description* | *Default* |
-| arrow | boolean flag to display a small arrow next to the tooltip pointing to its root element |
+| arrow | boolean flag to display a small arrow next to the tooltip pointing to its root element | =false= |
 | delay | milliseconds delay before the tooltip appears | 500 | 
 | duration | duration of the animation to show/hide the tooltip | 200 |
 | position | specifies the position of the tooltip relative to the element it appears at; this can either be one of the standard position specifiers known to jQuery or one of the short-cuts =bottom=, =top=, =left=, =right= | default |

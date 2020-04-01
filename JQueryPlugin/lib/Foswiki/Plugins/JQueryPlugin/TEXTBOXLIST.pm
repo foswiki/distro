@@ -28,13 +28,13 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name     => 'TextboxList',
-            version  => '1.01',
+            version  => '2.21',
             author   => 'Michael Daum',
             homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
             css      => ['jquery.textboxlist.css'],
             javascript =>
               [ 'jquery.textboxlist.js', 'jquery.textboxlist.init.js' ],
-            dependencies => [ 'ui', 'metadata', 'livequery' ],
+            dependencies => [ 'ui', 'metadata' ],
         ),
         $class
     );
@@ -47,7 +47,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

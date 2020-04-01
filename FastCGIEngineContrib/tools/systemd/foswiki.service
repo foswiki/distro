@@ -1,0 +1,58 @@
+# SystemD start file for Foswiki
+#
+# Note that you need to replace the path in 'WorkingDirectory' 
+# to suite your needs if you don't use the default path
+# as there is no variable substitution possible for that setting
+
+[Unit]
+Description=Foswiki
+
+[Service]
+#Environment=SYSTEMD_LOG_LEVEL=debug
+
+Environment=FOSWIKI_ROOT=/var/www/foswiki
+Environment=FOSWIKI_FCGI=foswiki.fcgi
+Environment=FOSWIKI_BIND=127.0.0.1:9000
+Environment=FOSWIKI_CHILDREN=3
+Environment=FOSWIKI_MAX_REQUESTS=-1
+Environment=FOSWIKI_MAX_SIZE=250000
+Environment=FOSWIKI_CHECK_SIZE=10
+Environment=FOSWIKI_PNAME=foswiki
+
+# Optional, overrides settings above
+EnvironmentFile=-/etc/default/foswiki
+
+# The User, Group, PIDFile and WorkingDirectory  cannot be specified by Environment variables. Update as needed.
+# Typical settings:
+#  RedHat, Fedora, CentOS, Gentoo, Mandriva USER=apache   GROUP=apache
+#  debian, Ubuntu, Kubuntu                  USER=www-data GROUP=www-data
+#  Suse:                                    USER=wwwrun   GROUP=www
+#  FreeBSD:                                 USER=www      GROUP=wwwadmin
+User=www-data
+Group=www-data
+
+# If changing pidfile,  be sure to also update the -p argument on the ExecStart command
+# The PIDFile directory must exist and  be writable by the User:Group specified above
+PIDFile=/var/www/foswiki/working/foswiki.pid
+#PIDFile=/var/run/foswiki/foswiki.pid         # conventional location
+
+# Path to the foswiki bin directory, including a trailing slash
+WorkingDirectory=/var/www/foswiki/bin/
+
+# Starts foswiki fcgi service
+ExecStart=/usr/bin/perl ${FOSWIKI_ROOT}/bin/${FOSWIKI_FCGI} \
+        -n $FOSWIKI_CHILDREN \
+        -l $FOSWIKI_BIND \
+        -c $FOSWIKI_CHECK_SIZE \
+        -x $FOSWIKI_MAX_REQUESTS \
+        -s $FOSWIKI_MAX_SIZE \
+        -p ${FOSWIKI_ROOT}/working/foswiki.pid \
+        -a $FOSWIKI_PNAME \
+        -d
+
+Type=forking
+Restart=always
+SyslogIdentifier=foswiki
+
+[Install]
+WantedBy=multi-user.target

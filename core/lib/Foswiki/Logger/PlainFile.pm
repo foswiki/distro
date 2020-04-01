@@ -114,6 +114,11 @@ sub log {
         ( $level, @fields ) = @_;
     }
 
+    #   The fields array has the level prepended below here.
+    if ( $level eq 'info' ) {
+        return if ( Foswiki::Logger::filterLogInfoAction( $fields[1] ) );
+    }
+
     my $now  = _time();
     my @logs = _getLogsForLevel( [$level] );
     my $log  = shift @logs;
@@ -171,13 +176,14 @@ sub _lock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
    * =$time= - a time in the past
    * =\@levels= - log levels to return events for.  Individual level or array reference.
    * =$version= - Version 1 of API returns a hash instead of an array.
+   * =$lock= - boolean switch to enable locking, off by default
 
 See Foswiki::Logger for the interface.
 
 =cut
 
 sub eachEventSince {
-    my ( $this, $time, $level, $version ) = @_;
+    my ( $this, $time, $level, $version, $lock ) = @_;
 
     $level = ref $level ? $level : [$level];
 
@@ -230,9 +236,10 @@ sub eachEventSince {
                 my $logIt =
                   new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
                     $reqLevel, $version, $logfile );
-                $logIt->{logLocked} =
-                  eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
-                                                  #   print STDERR " pushed iterator for $reqLevel \n";
+                if ($lock) {
+                    $logIt->{logLocked} =
+                      eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                }
                 push( @iterators, $logIt );
             }
             else {
@@ -347,7 +354,7 @@ sub _rotate {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

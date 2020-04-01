@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1485184197" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1573560816" format="1.1"  version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -18,20 +18,7 @@ Click below button to force checking foswiki.org for extension updates. A messag
 at the top of the page.  Normally it is displayed only when updates are required, but clicking this button will always display the banner.
 Note: The search for updates can take a while, depending upon the responsiveness of Foswiki.org.  Please be patient.
 
-%BUTTON{"%MAKETEXT{"Search for updates"}%" id="forceCheck" icon="bricks"}%
-
-<literal>
-<script>
-jQuery(function($) {
-    $(document).on("click", "#forceCheck", function() {
-      //console.log("click #forceCheck calling loadPluginInfo.");
-      $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
-      $(document).trigger("forceRefresh");
-    });
-});
-</script>
-</literal>
-%JQREQUIRE{"cookie"}%
+%BUTTON{"%MAKETEXT{"Search for updates"}%" icon="fa-refresh" href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?refresh=updates"}%
 
 The upgrade decision is stored locally, so that the plugin will only check for
 updates again when this cookie expires (in 7 days).
@@ -66,6 +53,11 @@ to prevent disclosing them to the outside world.
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 2.00 (12 Nov 2019) | Foswikitask:Item14873: rewrite and simplify |
+| 1.04 (22 Jan 2018) | Foswikitask:Item14448: fixed broken outdated plugins report<br/>\
+                       Foswikitask:Item14529: UpdatesPlugin should not cookie realm.<br/>\
+                       Foswikitask:Item14605: Fix a compile error on perl <= 5.10. | 
+| 1.03 (03 May 2017) | Foswikitask:Item13907: Report list of extensions needing update. |
 | 1.02 (23 Jan 2017) | Foswikitask:Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
 | 1.01 (24 Jul 2015) | Foswikitask:Item13555: Compare VERSION not RELEASE strings.<br/>\
                        Foswikitask:Item13524: Plugin reports "0 extensions need update - too noisy |
@@ -76,13 +68,10 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value=""}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2017"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2019"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1485184197" size="53676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js" attr="h" comment="" date="1485184197" size="2322" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.js.gz" attr="h" comment="" date="1485184197" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.updates.uncompressed.js" attr="h" comment="" date="1485184197" size="4313" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1485184197" size="127" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1573560816" size="53676" user="ProjectContributor" version="1"}%

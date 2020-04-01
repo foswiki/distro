@@ -1,6 +1,6 @@
 #
 # Copyright (C) 2004-2014 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2014 Foswiki Contributors
+# Copyright (C) 2008-2019 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1145,6 +1145,12 @@ sub target_pod {
 ---++++ build($target)
 Build the given target
 
+=pre= and =post= hooks will be executed before and after the target,
+repsectively. I.e., if =$target= is 'install' then method =pre_target_install()=
+will be executed before =target_install()=; and =post_target_install()= will be
+given control after the target. If target fails then post-hook will receive
+error object =$@= as it's single parameter.
+
 =cut
 
 sub build {
@@ -1154,7 +1160,9 @@ sub build {
     if ( $this->{-v} ) {
         print 'Building ', $target, "\n";
     }
-    my $fn = "target_$target";
+    my $fn      = "target_$target";
+    my $pre_fn  = "pre_" . $fn;
+    my $post_fn = "post_" . $fn;
     unless ( $this->can($fn) ) {
         my $file = 'Foswiki/Contrib/BuildContrib/Targets/' . $target . '.pm';
         unless ( do $file ) {
@@ -1166,19 +1174,40 @@ sub build {
             }
         }
     }
-    $this->$fn();
-    if ($@) {
-        die 'Failed to build ', $target, ': ', $@;
+    $this->$pre_fn() if $this->can($pre_fn);
+    if ( $this->{-v} ) {
+        print 'Executing pre-', $target, "\n";
     }
     if ( $this->{-v} ) {
+        print 'Executing ', $target, "\n";
+    }
+    $this->$fn();
+    my $error;
+    if ($@) {
+        $error = $@;
+    }
+    elsif ( $this->{-v} ) {
         print 'Built ', $target, "\n";
     }
+    if ( $this->{-v} ) {
+        print 'Executing post-', $target, "\n";
+    }
+    $this->$post_fn($error) if $this->can($post_fn);
+    die 'Failed to build ', $target, ': ', $error if $error;
 }
 
 1;
 __DATA__
 You do not need to install anything in the browser to use this extension. The following instructions are for the administrator who installs the extension on the server.
 
-Open configure, and open the "Extensions" section. Use "Find More Extensions" to get a list of available extensions. Select "Install".
+Open configure, and open the "Extensions" section. "Extensions Operation and Maintenance" Tab -&gt; "Install, Update or Remove extensions" Tab.  Click the "Search for Extensions" button.  
+Enter part of the extension name or description and press search.   Select the desired extension(s) and click install. If an extension is already installed, it will *not* show up in the
+search results.
 
-If you have any problems, or if the extension isn't available in =configure=, then you can still install manually from the command-line. See http://foswiki.org/Support/ManuallyInstallingExtensions for more help.
+You can also install from the shell by running the extension installer as the web server user: (Be sure to run as the webserver user, not as root!)
+<verbatim>
+cd /path/to/foswiki
+perl tools/extension_installer <NameOfExtension> install
+</verbatim>
+
+If you have any problems, or if the extension isn't available in =configure=, then you can still install manually from the command-line. See https://foswiki.org/Support/ManuallyInstallingExtensions for more help.

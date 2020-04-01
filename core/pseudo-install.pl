@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # See bottom of file for license and copyright information
 use strict;
 use warnings;
@@ -1141,9 +1141,10 @@ sub enablePlugin {
     my $changed = 0;
 
     if ( $cfg =~
-        s/\$Foswiki::cfg{Plugins}{$module}{Enabled}\s*=\s*(\d+)[\s;]+//sg )
+        s/\$Foswiki::cfg\{Plugins\}\{$module\}\{Enabled\}\s*=\s*(\d+)[\s;]+//sg
+      )
     {
-        $cfg =~ s/\$Foswiki::cfg{Plugins}{$module}{Module}\s*=.*?;\s*//sg;
+        $cfg =~ s/\$Foswiki::cfg\{Plugins\}\{$module\}\{Module\}\s*=.*?;\s*//sg;
 
         # Removed old setting
         $changed = 1;

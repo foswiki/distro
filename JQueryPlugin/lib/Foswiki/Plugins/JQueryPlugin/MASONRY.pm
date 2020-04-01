@@ -28,11 +28,11 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Masonry',
-            version      => '3.3.2',
+            version      => '4.2.2',
             author       => 'David <nop>DeSandro',
-            homepage     => 'http://masonry.desandro.com',
+            homepage     => 'https://masonry.desandro.com',
             javascript   => ['jquery.masonry.js'],
-            dependencies => [ 'metadata', 'livequery', 'imagesloaded' ],
+            dependencies => [ 'metadata', 'imagesloaded' ],
         ),
         $class
     );
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

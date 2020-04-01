@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
-"Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: foswiki-developers@lists.foswiki.org\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-29 22:21+0200\n"
+"PO-Revision-Date: 2018-01-17 16:33+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -78,7 +78,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 додано до групи %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1112
 msgid "%1 cannot be removed from %2"
 msgstr "%1 не може бути видалений з %2"
 
@@ -188,6 +188,10 @@ msgstr "%1 щоб почати працювати в новому розділі
 msgid "%1 topic does not exist"
 msgstr "тема %1 не існує"
 
+#: core/templates/registermessages.tmpl:459
+msgid "%1 topic not found. No users registered."
+msgstr "Топік %1 не знайдено. Користувачі не зареєстровані."
+
 #: core/templates/registerfailedremoved.tmpl:11
 msgid "%1 tried to register with e-mail %2"
 msgstr "%1 намагався зареєструватись за електронною адресою %2"
@@ -206,7 +210,7 @@ msgstr "%1: некоректне ім'я шаблону (%2) – містить 
 msgid "&Cancel"
 msgstr "Скасувати"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "&History"
 msgstr "Історія"
 
@@ -393,6 +397,10 @@ msgstr ""
 "*Додати новий файл:* Файл буде оновлено чи додано якщо Ви виберете інший у "
 "браузері."
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:31
+msgid "*Bulk registration is restricted to Administrators.*"
+msgstr "*Масова реєстрація доступна лише адміністраторам.*"
+
 #: core/templates/attachagain.tmpl:18
 msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
@@ -436,6 +444,15 @@ msgstr ""
 "*Властивості:* Коментар та видимість (тобто чи приховано прикріплений файл) "
 "можуть бути змінені без завантаження файлу шляхом натиснення  \"Змінити "
 "тільки властивості\"."
+
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
+"*Цей текст буде надіслано користувачам у їх звістці про скидання паролю.* "
+"Логін та пароль будуть заповнені автоматично."
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -588,7 +605,7 @@ msgstr ""
 "шістнадцяткових цифр, наприклад: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1363
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Підтвердження відправлено по електронній пошті до %1"
 
@@ -664,7 +681,7 @@ msgstr "Дія"
 msgid "Action %1: %2 by user %3."
 msgstr "Дія %1: %2 користувачем %3."
 
-#: core/data/Main/WikiGroups.txt:64
+#: core/data/System/WikiGroupsComponents.txt:58
 msgid "Actions"
 msgstr "Дії"
 
@@ -681,7 +698,7 @@ msgstr "Внутрішня помилка активації за кодом %1.
 msgid "Add"
 msgstr "Додати"
 
-#: core/data/Main/GroupViewTemplate.txt:203
+#: core/data/System/GroupViewTemplate.txt:207
 msgid "Add Members to %1"
 msgstr "Додати членів до %1"
 
@@ -695,11 +712,11 @@ msgstr "Додати нову форму до <nop>%1"
 msgid "Add form"
 msgstr "Додати форму"
 
-#: core/data/Main/GroupViewTemplate.txt:212
+#: core/data/System/GroupViewTemplate.txt:216
 msgid "Add members"
 msgstr "Додати членів"
 
-#: core/data/Main/GroupViewTemplate.txt:163
+#: core/data/System/GroupViewTemplate.txt:167
 msgid "Add members..."
 msgstr "Додати членів..."
 
@@ -708,7 +725,7 @@ msgstr "Додати членів..."
 msgid "Add row"
 msgstr "Додати рядок"
 
-#: core/data/Main/GroupViewTemplate.txt:189
+#: core/data/System/GroupViewTemplate.txt:193
 msgid "Add user management options to this topic."
 msgstr "Додати опції керування користувачами до цього топіку."
 
@@ -724,7 +741,7 @@ msgstr "Ідентифікація адміністратора Foswiki"
 msgid "Admin Maintenance"
 msgstr "Адміністрування"
 
-#: core/data/Main/GroupViewTemplate.txt:161
+#: core/data/System/GroupViewTemplate.txt:165
 msgid "Administration"
 msgstr "Керування"
 
@@ -931,6 +948,10 @@ msgstr "Доступні шаблони у розділі %1:"
 msgid "Back to topic"
 msgstr "Назад до теми"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:35
+msgid "Back to:"
+msgstr "Назад до:"
+
 #: core/templates/more.tmpl:86
 msgid "Backlinks"
 msgstr "Зворотні посилання"
@@ -971,6 +992,15 @@ msgstr "Жирний"
 msgid "Both body and title"
 msgstr "Включно у тексті та заголовку"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:25
+msgid "Bulk Register these users"
+msgstr "Зареєструвати цих користувачів"
+
+#: core/templates/registermessages.tmpl:468
+msgid ""
+"Bulk Registration run by %1 at %2. See [[%3]] for more detailed information."
+msgstr "Масову реєстрацію виконано %1 о %2. Більше інформації у [[%3]]."
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:73
 msgid "Bullet list"
 msgstr "Маркований список"
@@ -994,12 +1024,12 @@ msgstr ""
 "обмеження  =ALLOWWEBVIEW= з [[WebPreferences][Параметрів розділу]]."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:916
 msgid "CHANGE not permitted by %1"
 msgstr "Редагування не дозволено для %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%2 не дозволив редагування для %1"
 
@@ -1030,12 +1060,12 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
-#: core/data/Main/GroupViewTemplate.txt:192
-#: core/data/Main/GroupViewTemplate.txt:213
-#: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
-#: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
+#: core/data/System/GroupViewTemplate.txt:196
+#: core/data/System/GroupViewTemplate.txt:217
+#: core/data/System/GroupViewTemplate.txt:244 core/templates/edit.tmpl:46
+#: core/templates/foswiki.tmpl:112 core/templates/settings.tmpl:12
+#: core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -1072,7 +1102,8 @@ msgstr "З урахуванням регістра"
 msgid "Categories"
 msgstr "Категорії"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:142
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:7
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
@@ -1174,7 +1205,7 @@ msgid "Changes"
 msgstr "Зміни"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:620
+#: core/lib/Foswiki/UI/RDiff.pm:621
 msgid "Changes from r%1 to r%2"
 msgstr "Зміни з r%1 по r%2"
 
@@ -1391,7 +1422,7 @@ msgstr "Створити нову тему в розділі %1"
 msgid "Create a link to the attached file"
 msgstr "Створити посилання на додаток"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/System/WikiGroupsComponents.txt:11
 msgid "Create a new group"
 msgstr "Створити нову групу"
 
@@ -1403,7 +1434,7 @@ msgstr "Створити нову таблицю"
 msgid "Create account"
 msgstr "Створити користувача"
 
-#: core/data/Main/WikiGroups.txt:42
+#: core/data/System/WikiGroupsComponents.txt:36
 msgid "Create group"
 msgstr "Створити групу"
 
@@ -1678,6 +1709,10 @@ msgstr "Редагувати цю таблицю"
 msgid "Edit this topic text (e)"
 msgstr "Редагувати текст цієї теми (e)"
 
+#: TopicUserMappingContrib/data/System/GroupTemplate.txt:9
+msgid "Edit this topic to add a description to the %1"
+msgstr "Щоб додати опис до %1 змініть цю тему"
+
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Редагувати налаштування теми"
@@ -1742,7 +1777,7 @@ msgstr "Емотікон"
 msgid "End presentation"
 msgstr "Закінчити презентацію"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Enlarge edit box"
 msgstr "Розширити область редагування"
 
@@ -1768,7 +1803,7 @@ msgstr ""
 "Введіть ім'я теми як Вікі<nop>Слово або ввімкніть дозвіл на не-"
 "Вікі<nop>Слова."
 
-#: core/data/Main/GroupViewTemplate.txt:209
+#: core/data/System/GroupViewTemplate.txt:213
 msgid "Enter users or groups to add to this group"
 msgstr "Введіть імена користувачів або груп щоб додати до цієї групи"
 
@@ -1988,7 +2023,7 @@ msgstr "Отримувати повідомлення про зміни за ц�
 msgid "Globe"
 msgstr "Глобус"
 
-#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/foswiki.tmpl:116 core/templates/messages.tmpl:328
 #: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Повернутися"
@@ -2021,20 +2056,20 @@ msgstr "Хороші приклади:"
 msgid "GoodStyle"
 msgstr "ГарнийСтиль"
 
-#: core/data/Main/WikiGroups.txt:62
+#: core/data/System/WikiGroupsComponents.txt:56
 msgid "Group"
 msgstr "Група"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:944
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Група не існує і створення не дозволене"
 
-#: core/data/Main/WikiGroups.txt:28
+#: core/data/System/WikiGroupsComponents.txt:22
 msgid "Group name"
 msgstr "Назва групи"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
 msgid "Group names must end in Group"
 msgstr "Назви груп мають закінчуватись на Group"
 
@@ -2075,7 +2110,7 @@ msgstr "Заголовок 5"
 msgid "Heading 6"
 msgstr "Заголовок 6"
 
-#: core/templates/foswiki.tmpl:146
+#: core/templates/foswiki.tmpl:147
 msgid "Hello %1!"
 msgstr "Привіт %1!"
 
@@ -2307,7 +2342,8 @@ msgstr ""
 "отримувати на неї пошту) і Ви забули свій пароль, то, будь ласка, зв'яжіться "
 "з %1."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:143
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputTemplate.txt:8
 msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
@@ -2317,7 +2353,7 @@ msgstr ""
 "користувачі вже зареєстровані у ньому, масова реєстрація все одно може стати "
 "у нагоді. Зв'яжіться з %1 як маєте сумніви."
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:6
+#: UpdatesPlugin/templates/updatesplugin.tmpl:13
 msgid "Ignore for 7 days"
 msgstr "Ігнорувати 7 днів"
 
@@ -2537,7 +2573,7 @@ msgstr ""
 msgid "Italic"
 msgstr "Курсив"
 
-#: core/data/Main/GroupViewTemplate.txt:256
+#: core/data/System/GroupViewTemplate.txt:260
 msgid "Join %1"
 msgstr "Увійти до %1"
 
@@ -2597,7 +2633,7 @@ msgstr "Прізвище:"
 msgid "Latest revision: %1"
 msgstr "Остання редакція: %1"
 
-#: core/data/Main/GroupViewTemplate.txt:268
+#: core/data/System/GroupViewTemplate.txt:272
 msgid "Leave %1"
 msgstr "Покинути %1"
 
@@ -2611,12 +2647,12 @@ msgstr "Обмежити результати до:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:175 core/lib/Foswiki/UI/RDiff.pm:176
+#: core/lib/Foswiki/UI/RDiff.pm:176 core/lib/Foswiki/UI/RDiff.pm:177
 msgid "Line: %1"
 msgstr "Рядок: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:331
+#: core/lib/Foswiki/UI/RDiff.pm:332
 msgid "Line: %1 to %2"
 msgstr "Рядок: з %1 по %2"
 
@@ -2646,7 +2682,7 @@ msgstr "Увійти"
 msgid "Log Out"
 msgstr "Вийти"
 
-#: core/data/Main/GroupViewTemplate.txt:144
+#: core/data/System/GroupViewTemplate.txt:148
 msgid "Log in to continue."
 msgstr "Увійдіть щоб продовжити."
 
@@ -2691,8 +2727,9 @@ msgstr "Провести пошук:"
 msgid "Maximum %1 items per web"
 msgstr "Щонайбільше %1 пунктів з розділу"
 
-#: core/data/Main/GroupViewTemplate.txt:21 core/data/Main/WikiGroups.txt:37
-#: core/data/Main/WikiGroups.txt:63
+#: core/data/System/GroupViewTemplate.txt:25
+#: core/data/System/WikiGroupsComponents.txt:31
+#: core/data/System/WikiGroupsComponents.txt:57
 msgid "Members"
 msgstr "Члени"
 
@@ -2708,7 +2745,7 @@ msgstr "Не визначена команда для дії"
 msgid "Missing or illegal web name"
 msgstr "Відсутнє чи невірне ім'я розділу"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:54
+#: PatternSkin/templates/foswiki.pattern.tmpl:59
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Змінити пошук"
@@ -2908,7 +2945,7 @@ msgstr "Нема дочірніх тем."
 msgid "No group name specified"
 msgstr "Ім'я групи не задане"
 
-#: core/data/Main/GroupViewTemplate.txt:52
+#: core/data/System/GroupViewTemplate.txt:56
 msgid "No members"
 msgstr "Нема членів"
 
@@ -3003,7 +3040,7 @@ msgstr "Сповіщення"
 msgid "Number of changes for each Web"
 msgstr "Кількість змін у кожному розділі"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:53
+#: PatternSkin/templates/foswiki.pattern.tmpl:58
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
@@ -3025,7 +3062,7 @@ msgstr "Вкладення об'єкту"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:114 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/registermessages.tmpl:334
 #: core/templates/registermessages.tmpl:342
@@ -3062,7 +3099,7 @@ msgstr "Лише адміністраторам дозволено видаля�
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Тільки членам %1 дозволено виконати цю дію."
 
-#: core/data/Main/GroupViewTemplate.txt:147
+#: core/data/System/GroupViewTemplate.txt:151
 msgid "Only members or admins may update group."
 msgstr "Лише члени або адміністратори можуть оновлювати групу."
 
@@ -3281,6 +3318,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
+#: core/templates/registermessages.tmpl:461
 msgid "Please go back in your browser and try again."
 msgstr "Поверніться у браузері, будь ласка, і спробуйте знову."
 
@@ -3439,7 +3477,7 @@ msgstr "Оновити"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
-#: core/templates/foswiki.tmpl:148
+#: core/templates/foswiki.tmpl:149
 msgid "Register"
 msgstr "Реєструватися"
 
@@ -3456,11 +3494,15 @@ msgstr "Зареєстровані користувачі"
 msgid "Registration"
 msgstr "Реєстрація"
 
+#: core/templates/registermessages.tmpl:467
+msgid "Registration Results Summary"
+msgstr "Підсумок результатів реєстрації"
+
 #: core/data/System/PendingRegistrationsTemplate.txt:21
 msgid "Registration approval is not enabled."
 msgstr "Підтвердження реєстрації не ввімкнено."
 
-#: core/lib/Foswiki/UI/Register.pm:790
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3510,21 +3552,22 @@ msgstr "Відмовити"
 msgid "Related Topics for Administrators:"
 msgstr "Пов'язані теми для адміністраторів:"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:37
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
 msgid "Related Topics:"
 msgstr "Пов'язані теми:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:149
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:705
-#: core/data/System/FormattedSearch.txt:401
+#: core/data/System/CommandAndCGIScripts.txt:758
+#: core/data/System/FormattedSearch.txt:402
 #: core/data/System/GlossaryOfTerms.txt:27
+#: core/data/System/GroupViewTemplate.txt:38
 #: core/data/System/SkinTemplateViewTemplate.txt:9
 #: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
 #: core/templates/messages.tmpl:428
@@ -3551,7 +3594,7 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Пам'ятаєте Ваш пароль?"
 
-#: core/data/Main/GroupViewTemplate.txt:225
+#: core/data/System/GroupViewTemplate.txt:229
 msgid "Remove Members from %1"
 msgstr "Вилучити членів з %1"
 
@@ -3559,7 +3602,7 @@ msgstr "Вилучити членів з %1"
 msgid "Remove User"
 msgstr "Видалити користувача"
 
-#: core/data/Main/GroupViewTemplate.txt:165
+#: core/data/System/GroupViewTemplate.txt:169
 msgid "Remove members..."
 msgstr "Вилучити членів..."
 
@@ -3568,7 +3611,7 @@ msgid "Remove of user account other than your own is denied"
 msgstr ""
 "Видалення іншого облікового запису, окрім Вашого особистого, не дозволене"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/System/GroupViewTemplate.txt:243
 msgid "Remove selected members"
 msgstr "Видалити обраних членів"
 
@@ -3621,6 +3664,10 @@ msgstr "Замінити форму...."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Запит на перевірку"
+
+#: core/templates/registermessages.tmpl:457
+msgid "Requested bulk registration topic not found."
+msgstr "Не знайдено потрібний топік масової реєстрації."
 
 #: core/templates/messages.tmpl:148
 msgid ""
@@ -3685,6 +3732,10 @@ msgstr ""
 #: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "Відновлення відключено тому, що ця тема має лише одну редакцію."
+
+#: core/templates/registermessages.tmpl:471
+msgid "Results"
+msgstr "Результати"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -3930,7 +3981,7 @@ msgstr "Вибір старішої (зліва) та пізнішої (спра
 msgid "Select groups to join:"
 msgstr "Вибір груп для вступу:"
 
-#: core/data/Main/GroupViewTemplate.txt:234
+#: core/data/System/GroupViewTemplate.txt:238
 msgid "Select members to remove from this group:"
 msgstr "Вибір членів для вилучення з цієї групи:"
 
@@ -3991,7 +4042,7 @@ msgstr "Показати підказку"
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Показано редакції %1 - %2 (з %3)"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
@@ -4172,7 +4223,7 @@ msgstr "Підсумки"
 msgid "Superscript"
 msgstr "Надрядкове"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:83
+#: PatternSkin/templates/foswiki.pattern.tmpl:89
 msgid "Switch to monotype or proportional font"
 msgstr "Перемкнути між фіксованим та пропорційним шрифтом"
 
@@ -4184,7 +4235,7 @@ msgstr "Перемикнути на WYSIWYG"
 msgid "Symbol"
 msgstr "Символ"
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/System/GroupViewTemplate.txt:145
 msgid "System user list."
 msgstr "Перелік користувачів системи."
 
@@ -4270,11 +4321,11 @@ msgstr ""
 "кінець сторінки підпис у вигляді Вашого %4 з датою."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
-#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:6
 #: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:28
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
-#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
-#: core/data/_default/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:6 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:6
 msgid "The %1 web of %2."
 msgstr "Розділ %1 з %2."
 
@@ -4650,7 +4701,7 @@ msgstr ""
 "допомогою цієї форми, зберігаються в секреті та *не* будуть опубліковані "
 "ніде на цьому сайті."
 
-#: core/data/Main/GroupViewTemplate.txt:138
+#: core/data/System/GroupViewTemplate.txt:142
 msgid "This group should not have members."
 msgstr "Ця група не може мати членів."
 
@@ -4907,7 +4958,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Тема не може бути оновлена з таблиці категорій старого стилю"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:72
 msgid "Topic data"
 msgstr "Дані теми"
 
@@ -5060,13 +5111,13 @@ msgstr "Оновити додаток %1 до %2"
 msgid "Update links"
 msgstr "Оновити посилання"
 
-#: UpdatesPlugin/templates/updatesplugin.tmpl:5
-#: core/data/Main/GroupViewTemplate.txt:182
-#: core/data/Main/GroupViewTemplate.txt:191
+#: UpdatesPlugin/templates/updatesplugin.tmpl:12
+#: core/data/System/GroupViewTemplate.txt:186
+#: core/data/System/GroupViewTemplate.txt:195
 msgid "Upgrade"
 msgstr "Оновлення"
 
-#: core/data/Main/GroupViewTemplate.txt:172
+#: core/data/System/GroupViewTemplate.txt:176
 msgid "Upgrade group topic..."
 msgstr "Оновити тему групи..."
 
@@ -5132,12 +5183,12 @@ msgstr ""
 "потрібен Вам; інакше зверніться до теми WebChanges для кожного розділу."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1145
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Користувач %1 не має дозволу змінювати %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1134
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 не може бути вилучений бо не входіть до групи"
@@ -5186,12 +5237,12 @@ msgid "Users"
 msgstr "Користувачі"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Users cannot be added to %1"
 msgstr "Користувачі не можуть бути додані до %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1104
 msgid "Users cannot be removed from %1"
 msgstr "Користувачі не можуть бути вилучені з %1"
 
@@ -5231,7 +5282,7 @@ msgstr "Історія версій %1"
 msgid "View"
 msgstr "Перегляд"
 
-#: core/templates/foswiki.tmpl:140
+#: core/templates/foswiki.tmpl:141
 msgid "View complete topic history"
 msgstr "Перегляд повної історії теми"
 
@@ -5321,11 +5372,11 @@ msgstr "Увага: Не можу знайти тему %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Увага: Не можу знайти розділ %1 для теми %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1356
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Увага: Не вдалося послати підтвердження по електронній пошті"
 
-#: core/lib/Foswiki/UI/Register.pm:1368
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Увага: не можу відправити підтвердження, електронну пошту вимкнено"
 
@@ -5335,8 +5386,8 @@ msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:11
-msgid "Warning: Updates found for %1 extension(s)."
-msgstr "Увага: Знайдено оновлення для %1 розширень(я)."
+msgid "Warning: Updates found for %1 extension(s): %2"
+msgstr "Увага! Знайдено оновлення для %1 розширень(я): %2"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
@@ -5794,32 +5845,36 @@ msgstr ""
 "[пропусків кратно до 3-х] * [пропуск] Set [пропуск] ІМ&amp;ЯЗМІННОЇ "
 "[пропуск] = [значення]"
 
+#: TopicUserMappingContrib/data/System/BulkRegistrationInputViewTemplate.txt:21
+msgid "_Be sure to remember to save any table changes!_"
+msgstr "_Не забудьте зберегти зміни до таблиці!_"
+
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Українська"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:166
 msgid "access denied on root"
 msgstr "відмовлено у доступі до кореню"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:102
 msgid "access denied on topic"
 msgstr "у доступі до теми відмовлено"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:138
 msgid "access denied on web"
 msgstr "у доступі до розділу відмовлено"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:176
 msgid "access not allowed on root"
 msgstr "немає доступу до кореню"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:125
 msgid "access not allowed on topic"
 msgstr "немає доступу до теми"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:150
 msgid "access not allowed on web"
 msgstr "немає доступу до розділу"
 
@@ -5932,7 +5987,7 @@ msgid "now %1"
 msgstr "зараз %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:149
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
@@ -6125,6 +6180,9 @@ msgstr "проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "чому у Вас запитують підтвердження"
+
+#~ msgid "*This text will be sent to users in their "
+#~ msgstr "*Цей текст буде надіслано користувачам у їх "
 
 #~ msgid "%1 has been approved and registered with e-mail %2"
 #~ msgstr "%1 було підтверджено та зареєстровано з адресою %2"

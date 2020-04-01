@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460338963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1507509397" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -274,9 +274,34 @@ limited value if the users access Foswiki via a proxy or other device that cause
 
 ---++++ Optional Sessions for Guest users
 
-_EXPERIMENTAL feature:_ In Foswiki version 2.0, sessions can be suppressed for guest users.   This is generally safe if guests have no ability to update.
-However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, (See VarSESSIONVAR) then guest sessions should be enabled. See the
+In Foswiki version 2.0, sessions can be suppressed for guest users.   This is generally safe if guests have no ability to update, and is especially helpful if the site is subjected
+to a large workload from indexing and search bots.
+If guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, (See VarSESSIONVAR) then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%][configure]] interface, =Security And Authentication= tab for more information.
+
+It's also possible to tell Foswiki to create a session on specific pages.  See expert setting: ={Sessions}{TopicsRequireGuestSessions}=.  Set it to a
+list of topics that should cause creation of a Foswiki session.  The default setting matches any topic containing the string "Registration" or "ResetPassword".
+
+---+++ Other Login methods
+
+The Foswiki Login Manager attempts to establish the identity of the current user through a series of steps:
+   1 It asks the configured login manager for the Web Server provided identity.
+      * Apache Login provides the REMOTE_USER identity.  Template Login does not supply an identity.
+   1 It examines any Session Cookie or IP Session mapping for the stored identity.
+      * Note that the session identity is allowed to override the web server's provided identity, for example, to support admin sudo login.
+   1 %N% If it still does not have an identity, it looks for an authentication token parameter =authtoken=[md5 key]=
+      * Auth tokens are new with Foswiki 2.2.  An Auth token can be created to "invite" a user, granting them a single-use login.
+      * The user can be restricted to access a single topic, such as ChangePassword.  All normal Web & Topic ACLs still apply.
+      * Auth tokens have a lifetime of 15 minutes by default.  See: =$Foswiki::cfg{Login}{TokenLifetime}=
+      * Token details are stored in $Foswiki::cfg{WorkingDir}/tmp/tokenauth_[md5-key]=
+   1 Finally, if it still does not have an identity, it looks for query params or X-Autentication headers and asks the Password Manager to check the credentials.  *This is considered insecure*, especially for non-SSL http: type connections.
+      * In CLI mode, the =-username= and =-password= CLI options will be checked.  If a username/password is provided and the check fails, the script will run as the Guest user. (By default, CLI Scripts always run as admin).
+      * With web access, there are two options
+         1 =username= and =password= query parameters. These are usable in very limited circumstances:
+            * ={Session}{AcceptUserPwParam}= must match the script.  Default is only =view= and =viewauth=.
+            * ={Session}{AcceptUserPwParamOnGET}= must be enabled, or use is restricted to POST operations.  This helps prevent emailing of links with embedded passwords.
+         1 =X-Authentication= header can be set to =Foswikibasic userid:password=  (userid:password must be encoded with MIME Base64 encoding.
+See [[%SCRIPTURLPATH{"view" topic="PerlDoc" web="System" module="Foswiki::LoginManager"}%]] for more details.
 
 #HowTo
 ---++ Important Considerations
