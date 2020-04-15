@@ -638,6 +638,67 @@ sub saveData {
     }
 }
 
+# Parse "copyOnAdd" attrib. Returns map of column indices to be copied.
+#    * ncols - Number of columns of the table row to be copied.
+sub parseCopyOnAdd {
+    my ( $this, $ncols ) = @_;
+
+    my $attrs     = $this->{attrs};
+    my @copyOnAdd = split( ',', $attrs->{copyonadd} );
+
+    my %copyCols;
+    if ( scalar(@copyOnAdd) > 0 ) {
+        if ( $copyOnAdd[0] eq "all" ) {
+            %copyCols = map { $_ => 1 } ( 0 .. $ncols );
+        }
+        else {
+            # parse the specifier
+            for ( my $i = 0 ; $i < scalar(@copyOnAdd) ; $i++ ) {
+                my $spec = $copyOnAdd[$i];
+                if ( $spec eq "on" || $spec eq "yes" || $spec eq "1" ) {
+                    $copyCols{$i} = 1;
+                }
+            }
+        }
+    }
+
+    return %copyCols;
+}
+
+# Make new row by copying specified row. Respects the "copyOnAdd" attrib. Returns new row.
+#    * srcRowIdx - Index of row to be copied.
+sub makeRowCopy {
+    my ( $this, $srcRowIdx ) = @_;
+
+    # create new row
+    my $new_row = $this->row_class->new($this);
+
+    # fill the column data with default
+    my @rowData = map { $_->{initial_value} } @{ $this->{colTypes} };
+    while ( scalar(@rowData) < $ncols ) {
+        push( @rowData, '  ' );
+    }
+
+    if ( $srcRowIdx < $this->totalRows() ) {
+
+        # parse the copy specifier
+        my $ncols    = scalar( @{ $this->{rows}->[$srcRowIdx]->{cols} } );
+        my %copyCols = $this->parseCopyOnAdd($ncols);
+
+        # copy column data from the source row
+        foreach my $col ( @{ $this->{rows}->[$srcRowIdx]->{cols} } ) {
+            if ( exists( $copyCols{ $col->number() } ) ) {
+                $rowData[ $col->number() ] = $col->stringify();
+            }
+        }
+
+        # give the column data to the row
+        $new_row->setRow( \@rowData );
+    }
+
+    return $new_row;
+}
+
 # Construct and add a row _after_ the given row. URL params:
 #    * erp_row - 0-based index of the row to add _after_._
 #      If =erp_row= < 0, then adds the row to the end of
@@ -658,14 +719,25 @@ sub addRowCmd {
     # a table not currently being edited
     if ( $urps->{erp_row} >= 0 ) {
 
-        $this->addRow( $urps->{erp_row} + 1 );
+        # make copy of current row
+        $this->addRow( $urps->{erp_row},
+            $this->makeRowCopy( $urps->{erp_row} ) );
 
         # Make the current row the one we just added
         $urps->{erp_row}++;
     }
     else {
         # Add before footer
-        $this->addRow( $this->totalRows() );
+        if ( $this->totalRows() > 0 ) {
+
+            # copy the last row
+            my $idx = $this->totalRows() - 1;
+            $this->addRow( $idx, $this->makeRowCopy($idx) );
+        }
+        else {
+            # nothing to copy
+            $this->addRow(0);
+        }
     }
 }
 

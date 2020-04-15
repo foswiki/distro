@@ -117,6 +117,15 @@ Parameters:
      editing mode.
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
    * ==js== gives local, per-table control over the =EDITROWPLUGIN_JS= preference <a href="#js">described below</a>.
+   * ==copyonadd== -
+     Configures how the cells of new row are filled when a row is added. 
+     The value can be ="all"=, which cause all cells to be copied. The 
+     content of =copyonadd= can also be comma-separated list of values 
+     ="on"= or ="off"=, which can be used to configure if the cell 
+     value of the matching column should be taken from the source row 
+     (ie. ="on"=) or from the initial value as specified in the =format= 
+     (ie. ="off"=). By default, when no copyonadd is specified, the 
+     initial value as specified in the =format= is used.
 Table rows are shown with a row edit button %UICON%pencil%NOCIU% in the first column,
 and a table edit button <button type="button" class="erp-edittable"></button> after the
 table. When the table is
