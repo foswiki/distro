@@ -275,6 +275,53 @@ var Types = {};
 
   });
 
+  Types.XML = Types.BaseType.extend({
+      createUI: function(change_handler) {
+          if (!(this.spec.SIZE && this.spec.SIZE.match(/\b(\d+)x(\d+)\b/))) {
+              this.spec.SIZE = "80x20";
+          }
+          return this._super(function(evt) {
+              var val = $(this).val().trim();
+              if (val != '') {
+                  var oParser = new DOMParser();
+                  var oDOM = oParser.parseFromString(val, "text/xml");
+                  if (!(oDOM.getElementsByTagName('parsererror').length)) {
+                      $(this).css('background-color', '');
+                      $(this).val(val);
+                      change_handler.call(this, evt);
+                  } else {
+                      $(this).css('background-color', 'yellow');
+                      alert('"' + val + '" is not a valid XML document');
+                  }
+	      }
+          });
+      },
+
+  });
+
+  Types.CERT = Types.BaseType.extend({
+      createUI: function(change_handler) {
+          if (!(this.spec.SIZE && this.spec.SIZE.match(/\b(\d+)x(\d+)\b/))) {
+              this.spec.SIZE = "80x20";
+          }
+          return this._super(function(evt) {
+              var val = $(this).val().trim();
+              if (val != '') {
+                  if ((/^-----BEGIN CERTIFICATE-----[\s\S]*-----END CERTIFICATE-----$/.test(val)) || 
+                     (/^-----BEGIN PRIVATE KEY-----[\s\S]*-----END PRIVATE KEY-----$/.test(val))) {
+                      $(this).css('background-color', '');
+                      $(this).val(val);
+                      change_handler.call(this, evt);
+                  } else {
+                      $(this).css('background-color', 'yellow');
+                      alert('"' + val + '" is not a valid base64 encoded certificate');
+                  }
+	      }
+          });
+      },
+
+  });
+
   Types.NUMBER = Types.BaseType.extend({
       // Local first-line validator
       createUI: function(change_handler) {
