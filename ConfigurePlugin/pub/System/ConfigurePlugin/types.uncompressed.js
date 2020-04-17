@@ -282,16 +282,18 @@ var Types = {};
           }
           return this._super(function(evt) {
               var val = $(this).val().trim();
-              var oParser = new DOMParser();
-              var oDOM = oParser.parseFromString(val, "text/xml");
-              if (!(oDOM.getElementsByTagName('parsererror').length)) {
-                  $(this).css('background-color', '');
-		  $(this).val(val);
-                  change_handler.call(this, evt);
-              } else {
-                  $(this).css('background-color', 'yellow');
-                  alert('"' + val + '" is not a valid XML document');
-              }
+              if (val != '') {
+                  var oParser = new DOMParser();
+                  var oDOM = oParser.parseFromString(val, "text/xml");
+                  if (!(oDOM.getElementsByTagName('parsererror').length)) {
+                      $(this).css('background-color', '');
+                      $(this).val(val);
+                      change_handler.call(this, evt);
+                  } else {
+                      $(this).css('background-color', 'yellow');
+                      alert('"' + val + '" is not a valid XML document');
+                  }
+	      }
           });
       },
 
@@ -304,15 +306,17 @@ var Types = {};
           }
           return this._super(function(evt) {
               var val = $(this).val().trim();
-              if ((/^-----BEGIN CERTIFICATE-----[\s\S]*-----END CERTIFICATE-----$/.test(val)) || 
-		  (/^-----BEGIN PRIVATE KEY-----[\s\S]*-----END PRIVATE KEY-----$/.test(val))) {
-                  $(this).css('background-color', '');
-		  $(this).val(val);
-                  change_handler.call(this, evt);
-              } else {
-                  $(this).css('background-color', 'yellow');
-                  alert('"' + val + '" is not a valid base64 encoded certificate');
-              }
+              if (val != '') {
+                  if ((/^-----BEGIN CERTIFICATE-----[\s\S]*-----END CERTIFICATE-----$/.test(val)) || 
+                     (/^-----BEGIN PRIVATE KEY-----[\s\S]*-----END PRIVATE KEY-----$/.test(val))) {
+                      $(this).css('background-color', '');
+                      $(this).val(val);
+                      change_handler.call(this, evt);
+                  } else {
+                      $(this).css('background-color', 'yellow');
+                      alert('"' + val + '" is not a valid base64 encoded certificate');
+                  }
+	      }
           });
       },
 
