@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1587128398" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,6 +42,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  17 Apr 2020: | (1.10) Foswikitask:Item14901: Add support for XML and CERT data types in configure pages |
 |  08 Dec 2017: | (1.09) Foswikitask:Item14536: Configure leaves "wait" cursor spinning while waiting for user action.<br/>\
                          Foswikitask:Item14472: replaced use of =attr()= with =prop()= where needed; fixed use of =null= value trying to trim values |
 |  04 Apr 2017: | (1.08) Foswikitask:Item13883: Updated base template to suggest solutions when configure shows base login page.<br/>\
@@ -57,7 +58,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2013-2017, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2013-2020, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[https://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
