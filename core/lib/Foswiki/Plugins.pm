@@ -450,9 +450,8 @@ sub _handleFAILEDPLUGINS {
 
     my $text = CGI::start_table(
         {
-            border  => 1,
-            class   => 'foswikiTable',
-            summary => $this->{session}->i18n->maketext("Failed plugins")
+            border => 1,
+            class  => 'foswikiTable',
         }
     ) . CGI::Tr( {}, CGI::th( {}, 'Plugin' ) . CGI::th( {}, 'Errors' ) );
 
@@ -496,9 +495,8 @@ sub _handleFAILEDPLUGINS {
     $text .= CGI::end_table()
       . CGI::start_table(
         {
-            border  => 1,
-            class   => 'foswikiTable',
-            summary => $this->{session}->i18n->maketext("Plugin handlers")
+            border => 1,
+            class  => 'foswikiTable',
         }
       ) . CGI::Tr( {}, CGI::th( {}, 'Handler' ) . CGI::th( {}, 'Plugins' ) );
 
