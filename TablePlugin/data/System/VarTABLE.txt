@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1513079351" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1590420059" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABLE -- control attributes of tables and sorting of table columns
 The =%<nop>TABLE{}%= macro is handled by the TablePlugin
@@ -14,7 +14,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =headerrows=       | Number of header rows to exclude from sort. (will be rendered in a HTML =thead= section) | ="1"= | =headerrows="1"= |
      | =footerrows=       | Number of footer rows to exclude from sort. (will be rendered in a HTML =tfoot= section) | ="0"= | =footerrows="1"= |
      | =id=               | Unique table identifier string, used for targeting a table with CSS. | =tableN= (where N is the table order number on the page)  | =id="userTable"= |
-     | =summary=          | Table summary used by screen readers: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span> | =summary="List of subscribed users"= |
+     | =summary=          | Table summary used by screen readers: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span>; WARNING: this attribute is deprecated in HTML5, don't use it anymore. | =summary="List of subscribed users"= |
      | =caption=          | Table caption: A title that will be displayed just above the table.| <span class="foswikiGrayText">unspecified</span> | =caption="Users"= |
      | =inlinemarkup=     | Set to "on" to generate inline markup HTML (in addition to the CSS markup); useful if you need to copy the table, for instance to paste the table into an email). | <span class="foswikiGrayText">unspecified</span> | =inlinemarkup="on"= |
      | =class=            | Add specified class to the default =foswikiTable= class. | <span class="foswikiGrayText">unspecified</span> | =class="mytable"= |

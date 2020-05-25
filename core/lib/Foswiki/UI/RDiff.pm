@@ -68,9 +68,7 @@ sub _renderCellData {
           '|*META '.$1.'*|'._renderAttrs($2).'||'/gem;
         if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
             $data = "\n"
-              . '%TABLE{summary="'
-              . $session->i18n->maketext('Topic data')
-              . '" tablerules="all" databg="#ffffff" headeralign="left"}%'
+              . '%TABLE{tablerules="all" databg="#ffffff" headeralign="left"}%'
               . "\n"
               . $data;
         }
@@ -432,7 +430,6 @@ sub _renderRevisionDiff {
     return CGI::table(
         {
             class       => 'foswikiDiffTable',
-            summary     => 'changes to ' . $topicObject->topic,
             width       => '100%',
             cellspacing => 0,
             cellpadding => 0
