@@ -641,7 +641,11 @@ sub getWebNames {
 
     my $edir = _encode( $dir, 1 );
     my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
-    return map {$_ =~ s/^.*\/(.*)\/$webid$/$1/; $_} glob("$edir/*/$webid");
+    return map {
+      my $tmp = $_;
+      $tmp =~ s/^.*\/(.*)\/$webid$/$1/; 
+      Foswiki::Sandbox::untaintUnchecked($tmp)
+    } glob("$edir/*/$webid");
 }
 
 =begin TML
