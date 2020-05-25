@@ -590,7 +590,7 @@ __END__
 
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 George Clark and Foswiki Contributors.
+Copyright (C) 2014-2020 George Clark and Foswiki Contributors.
 All Rights Reserved. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.

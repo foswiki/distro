@@ -1,3 +1,4 @@
+# Copyright (C) 2007-2020 Foswiki Contributors
 # Copyright (C) 2004 Crawford Currie
 
 package PrefsTests;

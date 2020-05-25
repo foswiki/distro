@@ -1,4 +1,5 @@
 # Copyright (C) 2005-2011 Sven Dowideit & Crawford Currie
+# Copyright (C) 2011-2020 Foswiki Contributors
 #
 # Tests for the Foswiki::Store API used by the Foswiki::Meta class to
 # interact with the store.

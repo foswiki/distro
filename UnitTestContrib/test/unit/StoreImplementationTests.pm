@@ -1,3 +1,4 @@
+# Copyright (C) 2007-2020 Foswiki Contributors
 # Copyright (C) 2012 Crawford Currie
 #
 # Tests for the Foswiki::Store API used by the Foswiki::Meta class to
