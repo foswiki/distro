@@ -231,6 +231,7 @@ sub registerUser {
     $this->createNewFoswikiSession( undef, $q );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 }
+1;
 
 __DATA__
 
@@ -250,4 +251,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-1;
