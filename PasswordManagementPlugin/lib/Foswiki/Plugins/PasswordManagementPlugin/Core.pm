@@ -467,12 +467,12 @@ sub _RESTchangePassword {
     my $resetActive = $loginManager->getSessionValue('FOSWIKI_PASSWORDRESET');
 
     if ($resetActive) {
-        $oldpassword = 1;    # Allow password change without oldpassword.
+        $oldpassword = undef;    # Allow password change without oldpassword.
     }
     elsif ( $users->isAdmin($requestUser)
         && !length($oldpassword) )
     {
-        $oldpassword = 1;    # Allow an admin to omit the oldpassword
+        $oldpassword = undef;    # Allow an admin to omit the oldpassword
     }
     else {
         # check if required fields are filled in
