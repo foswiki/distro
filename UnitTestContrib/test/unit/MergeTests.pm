@@ -1,5 +1,6 @@
 # Copyright (C) 2005 Greg Abbas
 # Copyright (C) 2006 Crawford Currie http://c-dot.co.uk
+# Copyright (C) 2006-2020 Foswiki Contributors
 package MergeTests;
 use strict;
 use warnings;

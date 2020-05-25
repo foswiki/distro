@@ -197,7 +197,7 @@ sub html_matches {
 1;
 __DATA__
 
-Copyright (C) 2004-2013 Foswiki Contributors
+Copyright (C) 2004-2020 Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

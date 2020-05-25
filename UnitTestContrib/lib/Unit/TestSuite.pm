@@ -29,7 +29,7 @@ __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2008-2010 Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors
 Copyright (C) 2007-2008 WikiRing, http://wikiring.com
 All Rights Reserved.
 

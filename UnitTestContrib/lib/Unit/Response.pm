@@ -53,7 +53,7 @@ __DATA__
 
 Author: Gilmar Santos Jr
 
-Copyright (C) 2008-2010 Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

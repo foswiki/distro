@@ -1,3 +1,4 @@
+# Copyright (C) 2012-2020 Foswiki Contributors
 # Copyright (C) 2012 Sven Dowideit
 #
 # these tests are to ensure the topic file format works out

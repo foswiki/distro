@@ -1,3 +1,4 @@
+# Copyright (C) 2006-2020 Foswiki Contributors
 # Copyright (C) 2006 WikiRing http://wikiring.com
 # Tests for form def parser
 package FormDefTests;

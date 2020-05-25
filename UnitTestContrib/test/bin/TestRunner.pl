@@ -180,6 +180,8 @@ This script runs the test suites/cases defined on the command-line.
 
 Author: Crawford Currie, http://c-dot.co.uk
 
+Copyright (C) 2007-2020 Foswiki Contributors
+
 Copyright (C) 2007 WikiRing, http://wikiring.com
 All Rights Reserved.
 

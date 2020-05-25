@@ -1,3 +1,4 @@
+# Copyright (C) 2004-2020 Foswiki Contributors
 # Copyright (C) 2004 Florian Weimer
 package RobustnessTests;
 require 5.008;
