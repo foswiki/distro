@@ -349,7 +349,7 @@ DONE
         $Foswiki::cfg{Htpasswd}{Encoding} = $user;
         $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
-        my $added = $impl->setPassword( $user, "pw$user", 1 );
+        my $added = $impl->setPassword( $user, "pw$user" );
         $this->assert_null( $impl->error() );
     }
 

@@ -298,6 +298,7 @@ sub _readPasswd {
     while ( defined( $line = <$IN_FILE> ) ) {
         next if ( substr( $line, 0, 1 ) eq '#' );
         chomp $line;
+        next if $line =~ /^\s*$/;    # skip empty lines
         $pwcount++;
         my @fields = split( /:/, $line, 5 );
 
@@ -725,12 +726,12 @@ sub fetchPass {
 If the $oldPassU matches matches the user's password, then it will
 replace it with $newPassU.
 
-If $oldPassU is not correct and not 1, will return 0.
+If $oldPassU is defined but incorrect, will return 0.
 
-If $oldPassU is 1, will force the change irrespective of
+If $oldPassU is undefined, will force the change irrespective of
 the existing password, adding the user if necessary.
 
-Otherwise returns 1 on success, undef on failure.
+Otherwise returns 1 on success, 0 on failure.
 
 The password file is locked for exclusive access before being updated.
 
@@ -741,13 +742,7 @@ sub setPassword {
     ASSERT($login) if DEBUG;
 
     if ( defined($oldUserPassword) ) {
-        unless ( $oldUserPassword eq '1' ) {
-            return 0 unless $this->checkPassword( $login, $oldUserPassword );
-        }
-    }
-    elsif ( $this->fetchPass($login) ) {
-        $this->{error} = $login . ' already exists';
-        return 0;
+        return 0 unless $this->checkPassword( $login, $oldUserPassword );
     }
 
     my $lockHandle;
@@ -778,7 +773,7 @@ sub setPassword {
         print STDERR "ERROR: failed to setPassword - $! ($e)";
         $this->{error} = 'unknown error in setPassword'
           unless ( $this->{error} && length( $this->{error} ) );
-        return undef;
+        return 0;
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;

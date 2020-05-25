@@ -150,7 +150,7 @@ sub _resetUsersPassword {
     require Foswiki::Users;
     my $password = Foswiki::Users::randomPassword();
 
-    unless ( $users->setPassword( $user, $password, 1 ) ) {
+    unless ( $users->setPassword( $user, $password ) ) {
         $$pMess .= $session->inlineAlert( 'alertsnohtml', 'reset_bad', $user );
         return 0;
     }

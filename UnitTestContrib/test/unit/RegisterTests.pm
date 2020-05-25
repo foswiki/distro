@@ -1770,9 +1770,7 @@ sub verify_resetPasswordOkay {
     $this->assert( $this->{session}->{users}->userExists($cUID),
         " $cUID does not exist?" );
     my $newPassU = '12345';
-    my $oldPassU = 1;         #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
+    $this->assert( $this->{session}->{users}->setPassword( $cUID, $newPassU ) );
     $this->assert( $this->{session}->{users}
           ->checkPassword( $this->{new_user_login}, $newPassU ) );
     my @emails = $this->{session}->{users}->getEmails($cUID);
@@ -2584,9 +2582,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->assert( $this->{session}->{users}->userExists($cUID),
         " $cUID does not exist?" );
     my $newPassU = '12345';
-    my $oldPassU = 1;         #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
+    $this->assert( $this->{session}->{users}->setPassword( $cUID, $newPassU ) );
     $this->assert( $this->{session}->{users}
           ->checkPassword( $this->{new_user_login}, $newPassU ) );
     my @emails = $this->{session}->{users}->getEmails($cUID);
