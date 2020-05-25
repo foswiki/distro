@@ -11,7 +11,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::View();
-use HTML::Tidy();
+use HTML::Tidy5();
 use Error qw( :try );
 
 my $UI_FN;
@@ -34,8 +34,8 @@ my %expect_non_html = (
     resetpasswd  => 1,
 );
 
-my $HTMLTIDY_version = $HTML::Tidy::VERSION;
-my $libTidy_version  = HTML::Tidy::tidyp_version();
+my $HTMLTIDY_version = $HTML::Tidy5::VERSION;
+my $libTidy_version  = HTML::Tidy5::tidy_library_version();
 
 # Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
 # CGI::radio_group() uses HTML3 tables (missing summary attribute) for layout
@@ -66,7 +66,7 @@ sub set_up {
     my $this = shift;
 
 #see http://tidy.sourceforge.net/docs/quickref.html for parameters - be warned that some cause HTML::Tidy to crash
-    $this->{tidy} = HTML::Tidy->new(
+    $this->{tidy} = HTML::Tidy5->new(
         {
 
             #turn off warnings until we have fixed errors
@@ -398,7 +398,8 @@ sub verify_switchboard_function {
         };
 
         #$this->assert_null($this->{tidy}->messages());
-        my $output = join( "\n", $this->{tidy}->messages() );
+        my $output =
+          join( "\n", map { $_->as_string } $this->{tidy}->messages() );
 
         #TODO: disable missing DOCTYPE issues - we've been
         if ( defined( $expect_non_html{$SCRIPT_NAME} )
@@ -419,18 +420,6 @@ sub verify_switchboard_function {
                 # Empty style, see Item11608
 s/^$warn trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
                 s/^$warn inserting implicit <(?:ins)>\n?$//gm;
-
-                # Remove warnings about HTML5 not being covered by
-                # HTML::Tidy properly, see Item13134
-                s/^$warn <a> proprietary attribute "data-.*$//gm;
-                s/^$warn <textarea> proprietary attribute "data-.*$//gm;
-                s/^$warn <input> proprietary attribute "placeholder".*$//gm;
-                s/^$warn <meta> proprietary attribute "charset".*$//gm;
-                s/^$warn <meta> lacks "content" attribute.*$//gm;
-                s/^$warn <[^>]+> proprietary attribute "class".*$//gm;
-
-                # These elements are no longer suppported in HTML5
-                s/^$warn <table> lacks "summary" attribute$//gm;
 
                 if ($Foswiki::UNICODE) {
 
