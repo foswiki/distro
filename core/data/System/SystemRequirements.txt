@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519446557" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1590704300" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -62,6 +62,7 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | IO::Socket::IP | =libio-socket-ip-perl= | First shipped perl 5.19.8 |
 | IO::Socket::SSL | =libio-socket-ssl-perl= | |
 | JSON | =libjson-perl= | |
+| Locale::Codes | =liblocale-codes-perl= | |
 | Locale::Maketext | =liblocale-maketext-perl= |  |
 | Locale::Maketext::Lexicon | =liblocale-maketext-lexicon-perl= | Optional, needed for internationalization |
 | Locale::Msgfmt | =liblocale-msgfmt-perl= | Optional, needed for internationalization |
