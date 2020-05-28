@@ -332,7 +332,7 @@ sub _parseFormDefinition {
 
             #repeat same again with {default}
             if ( exists( $field{default} ) ) {
-                my $vals = $field{default} || '';
+                my $vals = $field{default} // '';
                 if ( $vals =~ m/%/ ) {
                     $vals = $this->expandMacros($vals);
                 }
