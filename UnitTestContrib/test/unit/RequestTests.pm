@@ -250,7 +250,8 @@ sub test_forwarded_for {
         $req->url( -base => 1 ),
         'Wrong BASE url with Forwarded-Host header'
     );
-    print STDERR $req->url() . "\n";
+
+    #print STDERR $req->url() . "\n";
 
     $req->header( 'X-Forwarded-Host' => 'onehop.com:8080' );
     $base = 'https://onehop.com:8080';
@@ -260,14 +261,16 @@ sub test_forwarded_for {
         'Wrong BASE url with Forwarded-Host multiple header'
     );
 
-    $base = 'http://your.domain.com';
+    $base                              = 'http://your.domain.com';
+    $Foswiki::cfg{DefaultUrlHost}      = 'http://your.domain.com';
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;
     $this->assert_str_equals(
         $base,
         $req->url( -base => 1 ),
         'Wrong BASE url with Forwarded-Host single header + forceDefaultUrlHost'
     );
-    print STDERR $req->url() . "\n";
+
+    #print STDERR $req->url() . "\n";
 
 }
 
