@@ -602,16 +602,17 @@ sub verify_RevAtTime {
     my ($this) = @_;
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'AtTime', "" );
-    $rcs->addRevisionFromText( "Rev0\n", '', "RcsWrapper", 0 );
-    $rcs->addRevisionFromText( "Rev1\n", '', "RcsWrapper", 1000 );
-    $rcs->addRevisionFromText( "Rev2\n", '', "RcsWrapper", 2000 );
+    my $now = time();
+    $rcs->addRevisionFromText( "Rev0\n", '', "RcsWrapper", $now );
+    $rcs->addRevisionFromText( "Rev1\n", '', "RcsWrapper", $now + 1000 );
+    $rcs->addRevisionFromText( "Rev2\n", '', "RcsWrapper", $now + 2000 );
     $rcs = $class->new( new StoreStub, $testWeb, 'AtTime', "" );
 
-    my ($r) = $rcs->getRevisionAtTime(500);
+    my ($r) = $rcs->getRevisionAtTime($now + 500);
     $this->assert_equals( 1, $r );
-    $r = $rcs->getRevisionAtTime(1500);
+    $r = $rcs->getRevisionAtTime($now + 1500);
     $this->assert_equals( 2, $r );
-    $r = $rcs->getRevisionAtTime(2500);
+    $r = $rcs->getRevisionAtTime($now + 2500);
     $this->assert_equals( 3, $r );
 }
 
@@ -620,39 +621,40 @@ sub verify_RevInfo {
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'RevInfo', "" );
 
-    $rcs->addRevisionFromText( "Rev1\n", 'FirstComment',  "FirstUser",  0 );
-    $rcs->addRevisionFromText( "Rev2\n", 'SecondComment', "SecondUser", 1000 );
-    $rcs->addRevisionFromText( "Rev3\n", 'ThirdComment',  "ThirdUser",  2000 );
+    my $now = time();
+    $rcs->addRevisionFromText( "Rev1\n", 'FirstComment',  "FirstUser",  $now );
+    $rcs->addRevisionFromText( "Rev2\n", 'SecondComment', "SecondUser", $now + 1000 );
+    $rcs->addRevisionFromText( "Rev3\n", 'ThirdComment',  "ThirdUser",  $now + 2000 );
 
     $rcs = $class->new( new StoreStub, $testWeb, 'RevInfo', "" );
 
     my $info = $rcs->getInfo(1);
     $this->assert_equals( 1, $info->{version} );
-    $this->assert_equals( 0, $info->{date} );
+    $this->assert_equals( $now, $info->{date} );
     $this->assert_str_equals( 'FirstUser',    $info->{author} );
     $this->assert_str_equals( 'FirstComment', $info->{comment} );
 
     $info = $rcs->getInfo(2);
     $this->assert_equals( 2,    $info->{version} );
-    $this->assert_equals( 1000, $info->{date} );
+    $this->assert_equals( $now + 1000, $info->{date} );
     $this->assert_str_equals( 'SecondUser',    $info->{author} );
     $this->assert_str_equals( 'SecondComment', $info->{comment} );
 
     $info = $rcs->getInfo(3);
     $this->assert_equals( 3,    $info->{version} );
-    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_equals( $now + 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
     $info = $rcs->getInfo(0);
     $this->assert_equals( 3,    $info->{version} );
-    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_equals( $now + 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
     $info = $rcs->getInfo(4);
     $this->assert_equals( 3,    $info->{version} );
-    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_equals( $now + 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
