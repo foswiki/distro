@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1506603718" format="1.1" version="1"}%
+%META:TOPICINFO{author="BaseUserMapping_333" comment="" date="1598685717" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -238,6 +238,8 @@ For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are sear
 
 When a skin name or template name is used to build a topic name, the first character is automatically capitalised.
 
+When a !SubWeb is used, the $web reference  must be qualified with a dot (.), not slash (/). For instance: If SANDBOXWEB above is a !SubWeb, then the reference must be <code>SANDBOXWEB = !Sandbox.SubWeb</code>. =Sandbox/SubWeb= does not work.
+
 The _skin path_ is set as described in [[Skins]].
 
 #TemplatePreferences
@@ -253,9 +255,9 @@ then the indicated templates will be chosen for =view= and =edit= respectively. 
 
 Note that the topic name specified as a template may need to be fully qualified with Web and !SubWeb. E.g.
 <verbatim>
-   * Set VIEW_TEMPLATE = Web/SubWeb.SpecificViewTemplate
+   * Set VIEW_TEMPLATE = Web.SubWeb.SpecificViewTemplate
 </verbatim>
-Also the qualification needs to be given in the form !Web/SubWeb.TopicTemplate as in the example; !Web/SubWeb/TopicTemplate does not work.
+Also the qualification needs to be given in the form !Web.SubWeb.TopicTemplate as in the example; !Web/SubWeb.TopicTemplate or !Web/SubWeb/TopicTemplate does not work.
 
 #TemplateSecurity
 ---+++ Security and usability
