@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512501336" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1590419979" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -149,7 +149,7 @@ Files attached to a topic are displayed in a directory table, showing the differ
 The file attachment table is normally displayed at the bottom of the page, or optionally, hidden and accessed when you click =[Attach]=.
 
 <div class="foswikiAttachments">
-<table summary="Topic attachments" style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable" rules="rows" border="1">
   <caption>Topic attachments</caption>
   <tr class="foswikiTableEven">
     <th style="text-align:center;vertical-align:middle;" class="foswikiFirstCol"> 
@@ -263,5 +263,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr=""  date="1512501336" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr=""  date="1512501336" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1590419979" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1590419979" size="94" user="ProjectContributor" version="1"}%

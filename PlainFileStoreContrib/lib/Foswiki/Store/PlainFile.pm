@@ -779,7 +779,11 @@ sub eachWeb {
     my $dir = $Foswiki::cfg{DataDir};
     $dir .= '/' . $web if defined $web;
 
-    my @list = map { $_ =~ s/^.*\/(.*)\/$wptn$/$1/; $_ } glob("$dir/*/$wptn");
+    my @list = map {
+        my $tmp = $_;
+        $tmp =~ s/^.*\/(.*)\/$wptn$/$1/;
+        Foswiki::Sandbox::untaintUnchecked($tmp)
+    } glob("$dir/*/$wptn");
 
     if ($all) {
         my $root = $web ? "$web/" : '';

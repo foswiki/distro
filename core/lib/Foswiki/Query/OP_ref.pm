@@ -43,8 +43,8 @@ sub evaluate {
 
         # Has to be relative to the web of the topic we are querying
         my ( $w, $t ) =
-          $Foswiki::Plugins::SESSION->normalizeWebTopicName(
-            $Foswiki::Plugins::SESSION->{webName}, $v );
+          $Foswiki::Plugins::SESSION->normalizeWebTopicName( $domain{tom}->web,
+            $v );
         try {
             my $submeta =
               $Foswiki::cfg{Store}{QueryAlgorithm}

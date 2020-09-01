@@ -347,7 +347,7 @@ sub test_render_formfield_with_form {
     my $text   = $meta->text;
     my $res    = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURLPATH{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURLPATH{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
@@ -368,7 +368,7 @@ HERE
     $this->{session}->enterContext('preview');
     $res = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1'><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
 _An issue_
 </td></tr></noautolink><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Description </td><td>
 ---+ Example problem
@@ -410,7 +410,7 @@ sub test_render_for_edit {
     my $expected = <<'HERE';
 <div class="foswikiForm foswikiEditForm">
 <h3>Topic data</h3>
-<table class="foswikiFormTable" summary="Topic data">
+<table class="foswikiFormTable">
 
 <tr><th>Issue Name<span class="foswikiAlert"> *</span></th><td style="text-align:left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField foswikiMandatory" /></td></tr>
 <tr><th>State</th><td style="text-align:left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
@@ -487,7 +487,7 @@ Form definition 'NonExistantPluginTestForm' not found
 </span>
 <div class="foswikiForm foswikiFormStep">
 <h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURLPATH{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>
-<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>
+<table class='foswikiFormTable' border='1'>
  <tr style='vertical-align:top'>
   <td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> ExtensionName </td>
   <td> Example </td>

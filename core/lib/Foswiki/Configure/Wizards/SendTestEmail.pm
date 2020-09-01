@@ -179,7 +179,7 @@ in the message are active, the topic mentioned does not exist.):
 <p>
 <em>New or changed topics in Foswiki.Development, since 04 Nov 2012 - 12:40:</em>
 </p>
-<table width="100%" border="0" cellpadding="0" cellspacing="4" summary="Changes">
+<table width="100%" border="0" cellpadding="0" cellspacing="4">
 <tr bgcolor="#B9DAFF">
   <td width="50%">
     <b>Topics in Development web:</b>

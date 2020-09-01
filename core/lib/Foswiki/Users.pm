@@ -1014,9 +1014,9 @@ sub checkPassword {
 If the $oldPassU matches matches the user's password, then it will
 replace it with $newPassU.
 
-If $oldPassU is not correct and not 1, will return 0.
+If $oldPassU is defined but incorrect, will return 0.
 
-If $oldPassU is 1, will force the change irrespective of
+If $oldPassU is undefined, will force the change irrespective of
 the existing password, adding the user if necessary.
 
 Otherwise returns 1 on success, undef on failure.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512466074" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1590418588" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !UnitTestContrib
 <!--
@@ -104,7 +104,7 @@ Use the =SeleniumConfigTests= to verify your configuration.
 Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
 
 |  Contrib Author(s) | Crawford Currie http://c-dot.co.uk and test authors |
-|  Copyright | &copy; 2007-2010 Foswiki Contributors |
+|  Copyright | &copy; 2007-2020 Foswiki Contributors |
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version | %$VERSION% |
 |  Release | %$RELEASE% | 
@@ -116,5 +116,5 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
 
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1512466074" size="16557" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512466074" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1590418588" size="16557" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1590418588" size="1343" user="ProjectContributor" version="1"}%

@@ -644,7 +644,7 @@ __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2007-2013 Foswiki Contributors
+Copyright (C) 2007-2020 Foswiki Contributors
 All Rights Reserved.
 
 This program is free software; you can redistribute it and/or

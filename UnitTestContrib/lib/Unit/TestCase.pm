@@ -356,20 +356,8 @@ sub assert_matches {
     $this->assert_not_null( $expected, "Expected value may not be null" );
     $this->assert_not_null( $got,
         $mess || "Expected:'$expected'\n But got null value\n" );
-    if ( $] < 5.010 ) {
-
-        # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
-        no warnings;
-        $* = $expected =~ /\(\?[^-]*m/;
-        use warnings;
-    }
     $this->assert( scalar( $got =~ /$expected/ ),
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
-    if ( $] < 5.010 ) {
-        no warnings;
-        $* = 0;
-        use warnings;
-    }
 }
 
 =begin TML
@@ -385,20 +373,8 @@ sub assert_does_not_match {
     $this->assert_not_null( $expected, "Expected value may not be null" );
     $this->assert_not_null( $got,
         $mess || "Expected:'$expected'\n But got null value\n" );
-    if ( $] < 5.010 ) {
-
-        # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
-        no warnings;
-        $* = /\(\?[^-]*m/;
-        use warnings;
-    }
     $this->assert( scalar( $got !~ /$expected/ ),
         $mess || "Expected:'$expected'\n And got:'$got'\n" );
-    if ( $] < 5.010 ) {
-        no warnings;
-        $* = 0;
-        use warnings;
-    }
 }
 
 =begin TML
@@ -742,7 +718,7 @@ __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2008-2010 Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors
 
 Additional copyrights apply to some or all of the code in this file
 as follows:

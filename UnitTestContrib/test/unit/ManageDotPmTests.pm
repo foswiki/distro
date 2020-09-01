@@ -1052,9 +1052,7 @@ sub verify_deleteUser {
       ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
     my $cUID     = $this->{session}->{users}->getCanonicalUserID($uname);
     my $newPassU = '12345';
-    my $oldPassU = 1;    #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
+    $this->assert( $this->{session}->{users}->setPassword( $cUID, $newPassU ) );
 
     my $query = Unit::Request->new(
         {
