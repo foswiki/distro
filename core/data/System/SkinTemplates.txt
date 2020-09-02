@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1490476899" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1599028794" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -215,6 +215,8 @@ For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are sear
 
 When a skin name or template name is used to build a topic name, the first character is automatically capitalised.
 
+When a !SubWeb is used, the $web reference  must be qualified with a dot (.), not slash (/). For instance: If SANDBOXWEB above is a !SubWeb, then the reference must be <code>SANDBOXWEB = !Sandbox.SubWeb</code>. =Sandbox/SubWeb= does not work.
+
 The _skin path_ is set as described in [[Skins]].
 
 #TemplatePreferences
@@ -230,9 +232,9 @@ then the indicated templates will be chosen for =view= and =edit= respectively. 
 
 Note that the topic name specified as a template may need to be fully qualified with Web and !SubWeb. E.g.
 <verbatim>
-   * Set VIEW_TEMPLATE = Web/SubWeb.SpecificViewTemplate
+   * Set VIEW_TEMPLATE = Web.SubWeb.SpecificViewTemplate
 </verbatim>
-Also the qualification needs to be given in the form !Web/SubWeb.TopicTemplate as in the example; !Web/SubWeb/TopicTemplate does not work.
+Also the qualification needs to be given in the form !Web.SubWeb.TopicTemplate as in the example; !Web/SubWeb.TopicTemplate or !Web/SubWeb/TopicTemplate does not work.
 
 #TemplateSecurity
 ---+++ Security and usability
@@ -348,13 +350,3 @@ see what PatternSkin defines.
 <!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%
-
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1490476899" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1490476899" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1490476899" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1490476899" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1490476899" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1490476899" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1490476899" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1490476899" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1490476899" size="8209" user="ProjectContributor" version="1"}%
