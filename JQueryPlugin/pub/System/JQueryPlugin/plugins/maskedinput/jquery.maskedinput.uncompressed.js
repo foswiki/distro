@@ -98,7 +98,7 @@
                     tryFireCompleted();
                 }
                 function blurEvent() {
-                    checkVal(), input.val() != focusText && input.change();
+                    checkVal(), input.val() != focusText && input.trigger("change");
                 }
                 function keydownEvent(e) {
                     if (!input.prop("readonly")) {

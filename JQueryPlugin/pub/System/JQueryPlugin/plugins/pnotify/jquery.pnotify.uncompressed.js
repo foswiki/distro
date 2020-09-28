@@ -59,7 +59,7 @@
 		body = $("body");
 		jwindow = $(window);
 		// Reposition the notices when the window resizes.
-		jwindow.bind('resize', function(){
+		jwindow.on('resize', function(){
 			if (timer)
 				clearTimeout(timer);
 			timer = setTimeout($.pnotify_position_all, 10);
@@ -650,7 +650,7 @@
 					$(this).trigger("pnotify_icon");
 				}
 			})
-			.bind("pnotify_icon", function(){
+			.on("pnotify_icon", function(){
 				$(this).children().removeClass(styles.pin_up+" "+styles.pin_down).addClass(opts.hide ? styles.pin_up : styles.pin_down);
 			})
 			.append($("<span />", {"class": styles.pin_up}))

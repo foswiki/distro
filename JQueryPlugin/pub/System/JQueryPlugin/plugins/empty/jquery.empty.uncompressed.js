@@ -51,8 +51,8 @@
 
   // Enable declarative widget instanziation
   $(function() {
-    $(".jqEmptyPlugin:not(.jqEmptyPluginInited)").livequery(function() {
-      $(this).addClass("jqEmptyPluginInited").emptyPlugin();
+    $(".jqEmptyPlugin").livequery(function() {
+      $(this).emptyPlugin();
     });
   });
 

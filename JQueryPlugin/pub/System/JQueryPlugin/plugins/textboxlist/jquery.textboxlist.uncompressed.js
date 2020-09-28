@@ -1,7 +1,7 @@
 /*
- * jQuery textbox list plugin 2.22
+ * jQuery textbox list plugin 2.23
  *
- * Copyright (c) 2009-2019 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2020 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -81,7 +81,7 @@
 
     // clear button
     if (self.opts.clearControl) {
-      $(self.opts.clearControl).click(function() {
+      $(self.opts.clearControl).on("click", function() {
         self.clear();
         this.blur();
         return false;
@@ -90,7 +90,7 @@
 
     // reset button
     if (self.opts.resetControl) {
-      $(self.opts.resetControl).click(function() {
+      $(self.opts.resetControl).on("click", function() {
         self.reset();
         this.blur();
         return false;
@@ -103,7 +103,7 @@
         source: self.opts.autocomplete,
         select: function(event, ui) {
           $.log("TEXTBOXLIST: selected value="+ui.item.value+" label="+ui.item.label);
-          self.select(ui.item.value+"="+ui.item.label);
+          self.select([ui.item.value+"="+ui.item.label]);
           return false;
         }
       });
@@ -272,7 +272,7 @@
       if (self.opts.enableClose) {
         close = $("<a href='#' title='remove "+title+"'></a>").
           addClass(self.opts.closeClass).
-          click(function(e) {
+          on("click", function(e) {
             e.preventDefault();
             self.input.trigger("DeleteValue", $(this).parent().find("input").val());
             return false;

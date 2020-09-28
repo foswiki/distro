@@ -91,7 +91,7 @@
       fb = initFarbtastic(colorPicker, $this);
 
       // click
-      $this.click(function() {
+      $this.on("click", function() {
         var colorPickerPos, computePosInterval;
 
         // link again
@@ -127,7 +127,7 @@
         // show
         colorPicker.farbtastic().fadeIn(opts.fade);
 
-      }).blur(function() {
+      }).on("blur", function() {
         colorPicker.farbtastic().hide();
 
         // call our own callback

@@ -1,7 +1,7 @@
 /*
- * jQuery Loader plugin 4.00
+ * jQuery Loader plugin 4.20
  *
- * Copyright (c) 2011-2019 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2020 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -34,8 +34,14 @@
     var self = this;
 
     self.elem = $(elem);
-    self.container = self.elem.contents().wrapAll("<div class='jqLoaderContainer'></div>");
     self.opts = $.extend({}, defaults, opts);
+
+    if (self.elem.is("pre")) {
+      self.setContent("");
+    } else {
+      //self.setContent();
+      self.container = self.elem.contents().wrapAll("<div class='jqLoaderContainer'></div>").parent();
+    }
 
     self.init();
 
@@ -47,6 +53,24 @@
       }
     }
   }
+
+  // set content
+  JQLoader.prototype.setContent = function(content) {
+    var self = this;
+
+    if (typeof (self.container) !== 'undefined') {
+      self.container.remove();
+    }
+    self.elem.empty();
+    self.container = $("<div class='jqLoaderContainer'></div>");
+    $(content).appendTo(self.container);
+
+    if (self.elem.is("pre")) {
+      self.container.insertAfter(self.elem);
+    } else {
+      self.container.appendTo(self.elem);
+    }
+  };
 
   // init method
   JQLoader.prototype.init = function() {
@@ -132,6 +156,8 @@
     if (self.opts.hideEffect) {
       self.container.animateCSS({
         effect: self.opts.hideEffect
+      }).one("stop.animate", function() {
+        self.container.hide();
       });
     } 
 
@@ -148,8 +174,7 @@
 
         // insert data
         self.elem.empty();
-        self.container = $("<div class='jqLoaderContainer' />").appendTo(self.elem);
-        self.container.append(data);
+        self.setContent(data);
 
         // trigger onload
         self.elem.trigger("onload.jqloader", self);
@@ -190,4 +215,7 @@
 
     $this.jqLoader(opts);
   });
+
+  // add css sheet
+  $("head").append("<style>pre.jqLoader { display:none; }</style>");
 })(jQuery);

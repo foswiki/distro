@@ -5,14 +5,15 @@
  * 
  */
 jQuery(function($) {
-  $(".jqFocus,.foswikiFocus").livequery(function() {
-    var $this = $(this);
+  $(".jqFocus, .foswikiFocus").livequery(function() {
+    var $this = $(this),
+        opts = $.extend({}, { timeout: 100 }, $this.data());
     window.setTimeout(function() {
       try {
-        $this.focus();
+        $this.trigger("focus");
       } catch (error) {
         // ignore
       };
-    }, 100);
+    }, opts.timeout);
   });
 });

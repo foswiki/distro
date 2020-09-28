@@ -1,0 +1,43 @@
+--- jquery.render.uncompressed.js.orig	2020-08-12 19:26:34.776116977 +0200
++++ jquery.render.uncompressed.js	2020-08-12 19:29:56.414307201 +0200
+@@ -2638,7 +2638,7 @@
+ 		if (typeof source === OBJECT || $isFunction(source)) {
+ 			for (key in source) {
+ 				prop = source[key];
+-				if (key !== $expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$.isFunction(prop))) {
++				if (key !== $expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$isFunction(prop))) {
+ 					propsArr.push({key: key, prop: prop});
+ 				}
+ 			}
+@@ -2832,13 +2832,6 @@
+ 		$.renderFile = $.__express = $.compile = function() { throw "Node.js: use npm jsrender, or jsrender-node.js"; };
+ 
+ 		//END BROWSER-SPECIFIC CODE
+-		$.isFunction = function(ob) {
+-			return typeof ob === "function";
+-		};
+-
+-		$.isArray = Array.isArray || function(obj) {
+-			return ({}.toString).call(obj) === "[object Array]";
+-		};
+ 
+ 		$sub._jq = function(jq) { // private method to move from JsRender APIs from jsrender namespace to jQuery namespace
+ 			if (jq !== $) {
+@@ -2854,7 +2847,8 @@
+ 	}
+ 	$subSettings = $sub.settings;
+ 	$subSettings.allowCode = false;
+-	$isFunction = $.isFunction;
++        $isFunction = function(ob) { return typeof ob === "function"; };
++        $isArray = Array.isArray || function(obj) { return ({}.toString).call(obj) === "[object Array]"; };
+ 	$.render = $render;
+ 	$.views = $views;
+ 	$.templates = $templates = $views.templates;
+@@ -3007,7 +3001,6 @@
+ }
+ //========================== Define default delimiters ==========================
+ $subSettings = $sub.settings;
+-$isArray = ($||jsr).isArray;
+ $viewsSettings.delimiters("{{", "}}", "^");
+ 
+ if (jsrToJq) { // Moving from jsrender namespace to jQuery namepace - copy over the stored items (templates, converters, helpers...)

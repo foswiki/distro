@@ -26,6 +26,7 @@ SUBDIRS=\
   livequery \
   loader \
   localscroll \
+  observer \
   maskedinput \
   masonry \
   media \

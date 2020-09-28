@@ -34,6 +34,7 @@ sub finish {
     $this->SUPER::finish();
     undef $this->{valueMap};
     undef $this->{json};
+    undef $this->{params};
 }
 
 sub json {
@@ -44,6 +45,22 @@ sub json {
     }
 
     return $this->{json};
+}
+
+sub param {
+    my ( $this, $key, $val ) = @_;
+
+    unless ( defined $this->{params} ) {
+        my %params = Foswiki::Func::extractParameters( $this->{attributes} );
+        $this->{params} = \%params;
+    }
+
+    if ( defined $key && defined $val ) {
+        $this->{params}{$key} = $val;
+        return $val;
+    }
+
+    return ( defined $key ) ? $this->{params}{$key} : $this->{params};
 }
 
 sub getOptions {
@@ -101,15 +118,31 @@ sub getDataValues {
     return "data-values='" . $this->json->encode( \@vals ) . "'";
 }
 
+sub getHtmlData {
+    my $this = shift;
+
+    my %htmlData = ();
+
+    $htmlData{"num-stars"} = 'data-num-stars="' . $this->{size} . '"';
+
+    while ( my ( $key, $val ) = each %{ $this->param() } ) {
+        next if $key eq '_DEFAULT';
+        next if $key eq '_RAW';
+        $key = lc( Foswiki::spaceOutWikiWord( $key, "-" ) );
+        $htmlData{$key} = 'data-' . $key . '="' . $val . '"';
+    }
+
+    return join( " ", values %htmlData );
+}
+
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
 
     my $result =
-"<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
-      . "data-num-stars='"
-      . $this->{size} . "' "
+"<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars' "
+      . $this->getHtmlData() . " "
       . $this->getDataValues() . ">";
 
     return ( '', $result );
@@ -133,20 +166,19 @@ sub getDisplayValue {
 
     $value = '' unless defined $value;
 
-    return
-"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='"
-      . $value
-      . "' class='jqStars {$this->{attributes}}' "
-      . "data-num-stars='"
-      . $this->{size} . "' "
+    my $format =
+"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars' "
+      . $this->getHtmlData() . " "
       . $this->getDataValues() . ">";
+
+    return $format;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

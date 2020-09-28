@@ -286,7 +286,7 @@ $.fn.chili = function( options ) {
 					var aux = arguments; // this unmasks chef's arguments inside the next function
 					if( aux[ j ] ) {
 						var replacement = '';
-						if( $.isFunction( step.replacement ) ) {
+						if( typeof( step.replacement ) === "function") {
 							var matches = []; //Array.slice.call( aux, j, step.length );
 							for (var k = 0, kTop = step.length; k < kTop; k++) {
 								matches.push( aux[ j + k ] );

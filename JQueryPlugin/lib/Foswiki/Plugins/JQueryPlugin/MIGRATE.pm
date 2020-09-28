@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Migrate',
-            version      => '3.2.1',
+            version      => '3.3.1',
             author       => 'jQuery Foundation, Inc. and other contributors',
             homepage     => 'https://github.com/jquery/jquery-migrate/',
             javascript   => ['jquery.migrate.js'],
@@ -38,7 +38,9 @@ sub new {
     );
 
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || '';
-    $this->{javascript} = ['jquery.migrate-3.js'] if $jQuery =~ /jquery\-3/;
+    if ( $jQuery =~ /jquery\-3/ ) {
+        $this->{javascript} = [ 'jquery.context.js', 'jquery.migrate-3.js' ];
+    }
 
     return $this;
 }
@@ -48,7 +50,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

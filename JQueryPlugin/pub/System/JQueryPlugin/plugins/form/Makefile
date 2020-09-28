@@ -5,6 +5,6 @@ git:
 	git clone https://github.com/malsup/form.git $@
 
 ifneq (,$(wildcard git))
-jquery.form.uncompressed.js: git/jquery.form.js
+jquery.form.uncompressed.js: git/src/jquery.form.js
 	cat $^ > $@
 endif

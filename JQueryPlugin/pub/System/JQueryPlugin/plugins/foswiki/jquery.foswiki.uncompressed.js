@@ -1,15 +1,16 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 2.14
+ * Version: 3.01
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
-var foswiki = foswiki || {
-  preferences: {}
-};
 
-(function($) {
 "use strict";
+(function($) {
+
+  var foswiki = {
+    preferences: {}
+  };
 
   // POSIX character class simulation
   foswiki.RE = {
@@ -51,6 +52,23 @@ var foswiki = foswiki || {
       uid += Math.floor(Math.random() * 65535).toString(32);
     }
     return uid;
+  };
+
+  /**
+   * normalize web and topic. implements Foswiki::normalizeWebTopicName
+   */
+  foswiki.normalizeWebTopicName = function(web, topic) {
+    if (typeof(topic) !== 'undefined') {
+      var match = topic.match(/^(.*)[.\/](.*?)$/);
+      if (match) {
+        web = match[1];
+        topic = match[2];
+      }
+    }
+    web = web || foswiki.getPreference("USERSWEB");
+    topic = topic || "WebHome"
+
+    return [web, topic];
   };
 
   /**
@@ -124,15 +142,15 @@ var foswiki = foswiki || {
     url = foswiki.getPreference(prefName) || '/';
 
     if (typeof(web) !== 'undefined') {
-      url += "/"+web;
+      url += "/"+web.replace(/\./g, "/");
     }
 
     if (typeof(topic) !== 'undefined') {
-      url += "/"+topic;
+      url += "/"+encodeURIComponent(topic);
     }
 
     if (typeof(file) !== 'undefined') {
-      url += "/"+file;
+      url += "/"+encodeURIComponent(file);
     }
 
     if (typeof(params) !== 'undefined') {
@@ -238,16 +256,18 @@ var foswiki = foswiki || {
     return $(inRootElem).find(tag + "." + inClassName).get();
   };
 
+
   /**
    * document ready handler
    */
+
   $(function() {
     /* Remove 'has no javascript' class from body element (written in template). */
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
 
     /* load foswiki preferences */
     $(".foswikiPreferences").livequery(function() {
-      $.extend(true, foswiki.preferences, $.parseJSON($(this).html()));
+      $.extend(true, foswiki.preferences, JSON.parse($(this).html()));
     });
 
     /* special treatment for NAMEFILTER */
@@ -255,4 +275,7 @@ var foswiki = foswiki || {
       foswiki.preferences.NAMEFILTER = new RegExp(foswiki.preferences.NAMEFILTER, "g");
     }
   });
+
+  /* export */
+  window.foswiki = foswiki;
 }(jQuery));

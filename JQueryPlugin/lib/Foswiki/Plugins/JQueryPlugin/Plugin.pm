@@ -121,8 +121,10 @@ sub init {
     }
 
     # gather dependencies
-    my @dependencies =
-      ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
+    my @dependencies = (
+        'JQUERYPLUGIN::FOSWIKI', 'JQUERYPLUGIN::MIGRATE',
+        'JQUERYPLUGIN::OBSERVER'
+    );    # jquery.foswiki is in there by default
 
     # add i18n when required
     push @{ $this->{dependencies} }, "i18n" if $this->{i18n};

@@ -27,11 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name     => 'Farbtastic',
-            version  => '1.2',
-            author   => 'Steven Wittens',
-            homepage => 'http://acko.net/dev/farbtastic',
-            css      => ['jquery.farbtastic.css'],
+            name    => 'Farbtastic',
+            version => '1.2',
+            author  => 'Steven Wittens',
+            homepage =>
+              'https://acko.net/blog/farbtastic-jquery-color-picker-plug-in/',
+            css => ['jquery.farbtastic.css'],
             javascript =>
               [ 'jquery.farbtastic.js', 'jquery.farbtastic.init.js' ],
             dependencies => [ 'ui', 'metadata' ],

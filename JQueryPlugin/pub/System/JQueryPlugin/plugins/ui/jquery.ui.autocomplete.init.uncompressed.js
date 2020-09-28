@@ -7,7 +7,7 @@ jQuery(function($) {
     cache: true // SMELL: note, if you disable caching, extraParams won't be processed either
   };
 
-  $("input[autocomplete]:not([autocomplete=off]):not(.jqInitedAutocomplete, .jqTextboxList), .jqUIAutocomplete").livequery(function() {
+  $("input[autocomplete]:not([autocomplete=off]):not([autocomplete=new-password]):not(.jqInitedAutocomplete, .jqTextboxList), .jqUIAutocomplete").livequery(function() {
     var $this = $(this), 
         cache = {}, lastXhr,
         src = $this.attr('autocomplete'),

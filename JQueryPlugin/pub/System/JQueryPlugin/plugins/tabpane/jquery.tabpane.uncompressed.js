@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 2.10
+ * jQuery Tabpane plugin 2.11
  *
- * Copyright (c) 2008-2019 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2020 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -70,7 +70,7 @@ var bottomBarHeight = -1;
       var $this = $(this), 
           index = $this.data("index");
 
-      $this.blur();
+      $this.trigger("blur");
 
       if (index !== self.currentIndex) {
         self.switchTab(index);
@@ -83,7 +83,7 @@ var bottomBarHeight = -1;
     });
 
     if (self.opts.remember) {
-      $(window).bind("hashchange", function() {
+      $(window).on("hashchange", function() {
         self.switchTab(self.getHash() || self.opts.select || 1);
       });
 
@@ -150,7 +150,7 @@ var bottomBarHeight = -1;
     }
 
     $.each(params, function(key, val) {
-      if ($.isArray(val)) {
+      if (Array.isArray(val)) {
         val = join("|", val);
       }
       hash.push(key+="="+val);
