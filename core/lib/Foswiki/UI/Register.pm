@@ -71,11 +71,15 @@ sub register_cgi {
         # absolute URL context for email generation
         $session->enterContext('absolute_urls');
 
-        no strict 'refs';
-        &$handler($session);
-        use strict 'refs';
-
-        $session->leaveContext('absolute_urls');
+        try {
+            no strict 'refs';
+            &$handler($session);
+            use strict 'refs';
+        }
+        finally {
+            # always leave absolute_urls context, even on an error
+            $session->leaveContext('absolute_urls');
+        };
     }
     else {
         throw Foswiki::OopsException(
@@ -2400,7 +2404,7 @@ sub _removeUserTopic {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
