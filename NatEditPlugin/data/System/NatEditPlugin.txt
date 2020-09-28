@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1522901969" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1601305462" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -28,7 +28,8 @@ jquery.natedit docu
 <a href="%ATTACHURLPATH%/screenshot1.png" title="screenshot"><img src="%ATTACHURLPATH%/screenshot1.png" alt="screenshot" border="0" /></a>
 
 ---++ Configuration
-*PatternSkin:* %BR%
+
+---+++ PatternSkin
 To enable the <nop>NatEditPlugin add the identifier =natedit= to the =SKIN= 
 variable in %LOCALSITEPREFS% or %WEBPREFSTOPIC%, e.g.
 
@@ -36,7 +37,7 @@ variable in %LOCALSITEPREFS% or %WEBPREFSTOPIC%, e.g.
    * <!-- -->Set SKIN = natedit,pattern
 </pre>
 
-*NatSkin:* %BR%
+---+++ NatSkin
 No extra configuration steps are needed in case you are using <nop>NatSkin.
 <nop>NatEditPlugin is the default editor for <nop>NatSkin, that is the normal
 
@@ -48,26 +49,28 @@ is sufficient.
 
 <!--
    * Set STUB = %$STUB%
-   * Set SHORTDESCRIPTION = A Wikiwyg Editor
+   * Set SHORTDESCRIPTION = %FORMFIELD{"Description"}%
 -->
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-|  Copyright &copy;: | 2007-2018 Michael Daum http://michaeldaumconsulting.com |
-|  Change History: | |
-|  04 Apr 2018 (9.30) | Foswiki 2.2 - Foswikitask:Item14631: Compatibilty issues with new TinyMCE API. |
-|  25 Feb 2018 (9.21) | Foswikitask:Item14630: Topic ACLs are lost when copying to a new topic, and when editing some topics.<br/>\
+
+|  28 Sep 2020 | Foswikitask:Item14897: rationalized edit template for better customization <br /> \
+                 Foswikitask:Item14685: fixed initialization of defaults in permissions tab |
+|  04 Apr 2018 | Foswiki 2.2 - Foswikitask:Item14631: Compatibilty issues with new TinyMCE API. |
+|  25 Feb 2018 | Foswikitask:Item14630: Topic ACLs are lost when copying to a new topic, and when editing some topics.<br/>\
+|  25 Feb 2018 | Foswikitask:Item14630: Topic ACLs are lost when copying to a new topic, and when editing some topics.<br/>\
                  Foswikitask:Item14632: Topic autocompletion not functional.<br/>\
                  Foswikitask:Item14634: Use jquery.i18n for translations in jquery.natedit |
 |  18 Dec 2017 | Foswikitask:Item14586: fixed height computation of natedit textarea |
 |  04 Dec 2017 | Foswikitask:Item13835: enable !TopicTitle field when feature available |
-|  04 May 2017 | Foswikitask:Item14388: NatEditPlugin does not honor the ScriptSuffix setting, and doesn't accommodate short URLs.<br/>\
-                 Foswikitask:Item14404: NatEdit Save and Continue action fails on mod_perl systems. |
-|  20 Jan 2017 | Foswikitask:Item14265: NatEdit plugin leaves UI blocked after some save errors<br/>\
+|  04 May 2017 | Foswikitask:Item14388: NatEditPlugin does not honor the <nop>ScriptSuffix setting, and doesn't accommodate short URLs.<br/>\
+                 Foswikitask:Item14404: <nop>NatEdit Save and Continue action fails on mod_perl systems. |
+|  20 Jan 2017 | Foswikitask:Item14265: <nop>NatEdit plugin leaves UI blocked after some save errors<br/>\
                  Foswikitask:Item14285: fixed error clicking on disabled toolbar buttons |
 |  06 Jan 2016 | Add helper to insert a data form table header. |
-|  08 Sep 2015 | Remove RevCommentPlugin hooks from templates,  Hide TopicTitle when unused. |
+|  08 Sep 2015 | Remove <nop>RevCommentPlugin hooks from templates,  Hide <nop>TopicTitle when unused. |
 |  30 Aug 2015 | fixed default implementation for =topictitle= |
 |  29 Jul 2015 | added missing image in documentation |
 |  06 Mar 2015 | fixed permissions editor |
@@ -184,9 +187,10 @@ is sufficient.
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="A Wikiwyg Editor"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1522901969" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attachment="screenshot1.png" attr="h" comment="" date="1601305462" path="screenshot1.png" size="104954" user="ProjectContributor" version="1"}%

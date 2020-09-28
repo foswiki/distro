@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2018 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2020 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ BEGIN {
 }
 
 our $VERSION           = '9.30';
-our $RELEASE           = '04 Apr 2018';
+our $RELEASE           = '28 Sep 2020';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -96,123 +96,6 @@ sub initPlugin {
     $doneNonce = 0;
 
     return 1;
-}
-
-###############################################################################
-# This function will store the TopicTitle in a preference variable if it isn't
-# part of the DataForm of this topic. In a way, we do the reverse of
-# WebDB::onReload() where the TopicTitle is extracted and put into the cache.
-sub beforeSaveHandler {
-    my ( $text, $topic, $web, $meta ) = @_;
-
-    writeDebug("called beforeSaveHandler($web, $topic)");
-
-    # find out if we received a TopicTitle
-    my $request = Foswiki::Func::getCgiQuery();
-
-    my $newTopic = $request->param('newtopic');
-    $newTopic = Foswiki::Sandbox::untaint( $newTopic,
-        \&Foswiki::Sandbox::validateTopicName );
-
-    my $topicTitle = $request->param('TopicTitle');
-    $topicTitle = Foswiki::Sandbox::untaintUnchecked($topicTitle);
-
-# the "newtopic" urlparam either holds a new topic name in case of a rename action,
-# or a boolean flag indicating that the topic being created is a new topic
-    if (   defined($newTopic)
-        && $newTopic ne ''
-        && $newTopic ne '1'
-        && $newTopic ne $topic )
-    {
-        writeDebug("not saving the topic being rename ... no action");
-        return;
-    }
-
-    unless ( defined $topicTitle ) {
-        writeDebug("didn't get a TopicTitle, nothing do here");
-        return;
-    }
-
-    if ( $topicTitle =~ m/X{10}|AUTOINC\d/ ) {
-        writeDebug("ignoring topic being auto-generated");
-        return;
-    }
-
-    my $fieldTopicTitle = $meta->get( 'FIELD', 'TopicTitle' );
-    writeDebug("topic=$web.$topic, topicTitle=$topicTitle");
-
-    if ( $topicTitle eq $topic ) {
-        writeDebug("same as topic name ... nulling");
-        $request->param( "TopicTitle", "" );
-        $topicTitle = '';
-        if ( defined $fieldTopicTitle ) {
-            $fieldTopicTitle->{value} = "";
-        }
-    }
-
-    # find out if this topic can store the TopicTitle in its metadata
-    if ( defined $fieldTopicTitle ) {
-        writeDebug("storing it into the formfield");
-
-        # however, check if we've got a TOPICTITLE preference setting
-        # if so remove it. this happens if we stored a topic title but
-        # then added a form that now takes the topic title instead
-        if ( defined $meta->get( 'PREFERENCE', 'TOPICTITLE' ) ) {
-            writeDebug("removing redundant TopicTitles in preferences");
-            $meta->remove( 'PREFERENCE', 'TOPICTITLE' );
-        }
-
-        $fieldTopicTitle->{value} = $topicTitle;
-        return;
-    }
-
-    writeDebug("we need to store the TopicTitle in the preferences");
-
-    # if it is a topic setting, override it.
-    my $topicTitleHash = $meta->get( 'PREFERENCE', 'TOPICTITLE' );
-    if ( defined $topicTitleHash ) {
-        writeDebug(
-"found old TopicTitle in preference settings: $topicTitleHash->{value}"
-        );
-        if ($topicTitle) {
-
-            # set the new value
-            $topicTitleHash->{value} = $topicTitle;
-        }
-        else {
-
-            # remove the value if the new TopicTitle is an empty string
-            $meta->remove( 'PREFERENCE', 'TOPICTITLE' );
-        }
-        return;
-    }
-
-    writeDebug("no TopicTitle in preference settings");
-
-    # if it is a bullet setting, replace it.
-    if ( $text =~
-s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n]))/$1$topicTitle$3/
-      )
-    {
-        writeDebug("found old TopicTitle defined as a bullet setting: $2");
-        $_[0] = $text;
-        return;
-    }
-
-    writeDebug(
-        "no TopicTitle stored anywhere. creating a new preference setting");
-
-    if ($topicTitle) {    # but only if we don't set it to the empty string
-        $meta->putKeyed(
-            'PREFERENCE',
-            {
-                name  => 'TOPICTITLE',
-                title => 'TOPICTITLE',
-                type  => 'Local',
-                value => $topicTitle
-            }
-        );
-    }
 }
 
 ###############################################################################

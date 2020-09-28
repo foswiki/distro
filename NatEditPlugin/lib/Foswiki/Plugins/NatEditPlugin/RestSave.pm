@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2017 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2013-2020 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +17,7 @@ use warnings;
 use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
 use Foswiki::Validation    ();
+use Foswiki::Func          ();
 use Encode                 ();
 use Error qw( :try );
 
@@ -47,15 +48,21 @@ sub handle {
     # do a normal save
     my $error;
     my $status = 200;
+
+    # enter save context
+    Foswiki::Func::getContext()->{save} = 1;
+
     try {
         Foswiki::UI::Save::save($session);
 
-        # get a new lease
-        my $topicObject =
-          Foswiki::Meta->new( $session, $session->{webName},
-            $session->{topicName} );
-        $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+        if ( $request->param("action_checkpoint") ) {
 
+            # get a new lease
+            my $topicObject =
+              Foswiki::Meta->new( $session, $session->{webName},
+                $session->{topicName} );
+            $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+        }
     }
     catch Foswiki::OopsException with {
         $error  = shift;
@@ -76,7 +83,8 @@ sub handle {
         my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
 
         $response->pushHeader( 'X-Foswiki-Validation',
-            _generateValidationKey( $cgis, $context, $usingStrikeOne ) );
+            _generateValidationKey( $cgis, $context, $usingStrikeOne ) )
+          if $cgis;
     }
 
     return ( defined $error ) ? stringifyError($error) : '';
@@ -116,7 +124,7 @@ sub stringifyError {
 sub toSiteCharSet {
     my $string = shift;
 
-    return $string unless $string;
+    return unless defined $string;
 
     return $string if $Foswiki::UNICODE;
 

@@ -90,7 +90,7 @@ msgstr "Farbe"
 
 #: templates/editdialog.natedit.tmpl:44
 msgid "Columns"
-msgstr "Kommentare"
+msgstr "Spalten"
 
 #: templates/previewtoolbar.natedit.tmpl:18
 msgid "Continue editing"
@@ -98,7 +98,7 @@ msgstr "Bearbeitung fortsetzen"
 
 #: templates/editdialog.natedit.tmpl:32
 msgid "Create a new table"
-msgstr "Neue tabelle"
+msgstr "Neue Tabelle"
 
 #: templates/edittoolbar.natedit.tmpl:206
 msgid "Creates a new topic revision when saving"
