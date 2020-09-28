@@ -2,6 +2,7 @@
 *,pfv
 *.gz
 *.jslint
+**/git
 /JQueryPlugin.md5
 /JQueryPlugin.sha1
 /JQueryPlugin.tgz
@@ -39,9 +40,9 @@
 /pub/System/JQueryPlugin/jquery-2.2.2.js
 /pub/System/JQueryPlugin/jquery-2.2.3.js
 /pub/System/JQueryPlugin/jquery-2.2.4.js
-/pub/System/JQueryPlugin/jquery-3.2.1.js
-/pub/System/JQueryPlugin/jquery-3.3.1.js
+/pub/System/JQueryPlugin/jquery-3.5.1.js
 /pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css
+pub/System/JQueryPlugin/plugins/fontawesome/git-fontawesome-animation/
 /pub/System/JQueryPlugin/noconflict.js
 /pub/System/JQueryPlugin/plugins/animate/animate.css
 /pub/System/JQueryPlugin/plugins/animate/animate.js

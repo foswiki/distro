@@ -27,11 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'LiveQuery',
-            version    => '1.3.6',
-            author     => 'Brandon Aaron, Alexander Zaytsev',
-            homepage   => 'https://github.com/hazzik/livequery',
-            javascript => ['jquery.livequery.js'],
+            name         => 'LiveQuery',
+            version      => '1.3.6',
+            author       => 'Brandon Aaron, Alexander Zaytsev',
+            homepage     => 'https://github.com/hazzik/livequery',
+            javascript   => ['jquery.livequery.js'],
+            dependencies => ['migrate'],
         ),
         $class
     );

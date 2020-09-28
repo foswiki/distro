@@ -1,7 +1,7 @@
 /*
- * jQuery WikiWord plugin 3.40
+ * jQuery WikiWord plugin 3.41
  *
- * Copyright (c) 2008-2019 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2020 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -54,9 +54,9 @@ $.wikiword = {
 
       $source.on("change", function() {
         $.wikiword.handleChange($source, $this, thisOpts);
-      }).keyup(function() {
+      }).on("keyup", function() {
         $.wikiword.handleChange($source, $this, thisOpts);
-      }).change();
+      }).trigger("change");
     });
   },
 

@@ -11,8 +11,8 @@
  *
  */
 
-(function($) {
 "use strict";
+(function($) {
 
   var queue = {};
 
@@ -99,6 +99,4 @@
       })
     }); 
   } 
-
-
 })(jQuery);

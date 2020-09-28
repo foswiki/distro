@@ -188,6 +188,8 @@ sub renderIcon {
     my $iconFormat  = $params->{format};
     my $iconStyle   = $params->{style};
     my $iconAnimate = $params->{animate};
+    my $iconWidth   = $params->{width} || 16;
+    my $iconHeight  = $params->{height} || 'auto';
     my $iconPath;
 
     my $iconClass = $params->{class};
@@ -208,7 +210,7 @@ sub renderIcon {
     }
     else {
         $iconFormat =
-'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle/>'
+'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' height=\'$iconHeight\' />'
           unless $iconFormat;
         $iconPath = $icon->{url};
         push @iconClass, "foswikiIcon", "jqIcon";
@@ -228,6 +230,8 @@ sub renderIcon {
     $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
     $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
     $img =~ s/\$(iconAlt|iconTitle|iconStyle)//g;
+    $img =~ s/\$iconWidth/$iconWidth/g;
+    $img =~ s/\$iconHeight/$iconHeight/g;
 
     return $img;
 }
@@ -379,17 +383,23 @@ sub _readIconPath {
           Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{SystemWebName},
             $item );
 
-        my $iconDir = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/';
+        my $iconDir  = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
+        my $iconPath = $pubUrlPath . '/' . $web . '/' . $topic;
+
+        if ( -d "$iconDir/icons" ) {
+            $iconDir  .= "/icons";
+            $iconPath .= "/icons";
+        }
 
         opendir( my $dh, $iconDir ) || next;
-        foreach my $icon ( grep { /\.(png|gif|jpe?g)$/i } readdir($dh) ) {
+        foreach my $icon ( grep { /\.(png|gif|jpe?g|svgz?)$/i } readdir($dh) ) {
             next
               if $icon =~
 /^(SilkCompanion1Thumb|index_abc|geosilk|silk\-companion\-II|igp_.*)\.png$/
               ;    # filter some more
             next if $icon =~ /^igp_/;
             my $id = $icon;
-            $id =~ s/\.(png|gif|jpe?g)$//i;
+            $id =~ s/\.(png|gif|jpe?g|svgz?)$//i;
 
             # check whether the icon already exists and rename it if so
             if ( $seen{$id} ) {
@@ -401,13 +411,17 @@ sub _readIconPath {
             }
             $seen{$id} = 1;
 
-            push @{ $this->{_icons} },
-              {
-                id   => $id,
-                text => $id,
-                url  => $pubUrlPath . '/' . $web . '/' . $topic . '/' . $icon,
-                categories => [ $topic, "imageicon" ],
-              };
+            my $category = $topic;
+            $category =~ s/(Plugin|Contrib)$//;
+
+            my $desc = {
+                id         => $id,
+                text       => $id,
+                url        => $iconPath . '/' . $icon,
+                categories => [ $category, "imageicon" ],
+            };
+
+            push @{ $this->{_icons} }, $desc;
         }
 
         closedir $dh;

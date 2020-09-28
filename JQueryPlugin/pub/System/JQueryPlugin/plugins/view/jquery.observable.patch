@@ -1,0 +1,14 @@
+--- jquery.observable.uncompressed.js.orig	2020-08-12 19:31:17.637578238 +0200
++++ jquery.observable.uncompressed.js	2020-08-12 19:31:37.673398424 +0200
+@@ -72,9 +72,9 @@
+ 	$sub = $views.sub,
+ 	$subSettings = $sub.settings,
+ 	$subSettingsAdvanced = $subSettings.advanced,
+-	$isFunction = $.isFunction,
++        $isFunction = function(ob) { return typeof ob === "function"; };
++        $isArray = Array.isArray || function(obj) { return ({}.toString).call(obj) === "[object Array]"; };
+ 	$expando = $.expando,
+-	$isArray = $.isArray,
+ 	OBJECT = "object";
+ 
+ if ($views.jsviews !== versionNumber) {

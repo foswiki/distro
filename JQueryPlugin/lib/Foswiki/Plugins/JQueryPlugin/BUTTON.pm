@@ -27,7 +27,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Button',
-            version      => '2.0',
+            version      => '2.1',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
@@ -145,7 +145,8 @@ sub handleButton {
     $result .= " onclick=\"$theOnClick\" "   if $theOnClick;
 
     while ( my ( $key, $val ) = each %$params ) {
-        if ( $key =~ s/^data_/data-/ ) {
+        if ( $key =~ /^data_/ ) {
+            $key =~ s/_/-/g;
             $result .= " $key='$val'";
         }
     }
@@ -161,7 +162,7 @@ sub handleButton {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

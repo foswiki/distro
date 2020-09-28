@@ -16,7 +16,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'Render',
-            version    => '0.9.90',
+            version    => '1.0.7',
             author     => 'Boris Moore',
             homepage   => 'http://www.jsviews.com',
             javascript => [ 'jquery.render.js', 'jquery.template-loader.js' ],
@@ -59,7 +59,8 @@ sub restTmpl {
     }
 
     $result = Foswiki::Func::expandCommonVariables( $result, $topic, $web )
-      || '';
+      if $result =~ /%/;
+    $result ||= '';
     $result = Foswiki::Func::renderText( $result, $web ) if $doRender;
 
     # Item13667: clean up html that could disturb jquery-ui
@@ -87,7 +88,7 @@ sub restTmpl {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

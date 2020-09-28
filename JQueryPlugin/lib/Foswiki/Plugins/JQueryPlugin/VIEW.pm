@@ -16,7 +16,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'View',
-            version      => '0.9.90',
+            version      => '1.0.7',
             author       => 'Boris Moore',
             homepage     => 'http://www.jsviews.com',
             dependencies => ['render'],
@@ -37,7 +37,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

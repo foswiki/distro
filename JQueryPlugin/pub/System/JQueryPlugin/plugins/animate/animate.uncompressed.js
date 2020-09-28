@@ -79,7 +79,6 @@
     self.elem = $(elem);
     self.opts = $.extend({}, self.elem.data(), opts);
     self.init();
-    self.animate();
   }
 
   AnimateCSS.prototype.init = function () {
@@ -176,8 +175,8 @@
         $.data(this, "animateCSS", ctrl);
       } else {
         $.extend(ctrl.opts, opts);
-        ctrl.animate();
       }
+      return ctrl.animate();
     });
   };
 

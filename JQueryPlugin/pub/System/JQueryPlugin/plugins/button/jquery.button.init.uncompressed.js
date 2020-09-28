@@ -19,7 +19,7 @@ jQuery(function($) {
       // submit button
       if ($this.is(".jqSubmitButton")) {
         $this.on("click", function() {
-          $this.closest("form").submit();
+          $this.closest("form").trigger("submit");
           return false;
         });
       } 
@@ -31,7 +31,7 @@ jQuery(function($) {
           if(typeof(foswikiStrikeOne) == "function") {
             foswikiStrikeOne(form[0]); 
           }
-          form.submit();
+          form.trigger("submit");
           return false;
         });
       } 

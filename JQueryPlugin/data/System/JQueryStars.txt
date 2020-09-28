@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1601306642" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"stars"
@@ -72,7 +72,7 @@ The jquery stars plugin is used to implement a =rating= formfield. Here are some
 | *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* |
 | Rating1 | rating | 5 | | | |
 | Rating2 | rating | 1 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
-| Rating3 | rating | 10 | | | split:2 | 
+| Rating3 | rating | 10 | | | split="2" | 
 | Rating4 | rating+values | 1 | very low=1, low=2, substandard=3, standard=4, superior=5, I like it=6, quite good=7, good=8, very good=9, excellent=10  | | |
 
    * Rating1 defines a simple numeric 5 star rating

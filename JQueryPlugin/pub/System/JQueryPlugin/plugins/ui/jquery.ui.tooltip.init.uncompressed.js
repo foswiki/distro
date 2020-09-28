@@ -45,11 +45,11 @@ jQuery(function($) {
     $modal.css(coords);
   }
 
-  $(".jqUITooltip:not(.jqInitedTooltip)").livequery(function() {
+  $(".jqUITooltip:not(.inited)").livequery(function() {
     var $this = $(this),
         opts = $.extend({}, defaults , $this.data());
 
-    $this.addClass("jqInitedTooltip");
+    $this.addClass("inited");
 
     opts.show = $.extend(opts.show, {
       effect: opts.showEffect,
@@ -115,6 +115,23 @@ jQuery(function($) {
     
     if (typeof(opts.position) === 'object') {
       opts.position.using = addFeedbackClass;
+    }
+
+    if (opts.ajax) {
+      opts.content = function(callback) {
+        var $this = $(this);
+
+        if ($this.data("content")) {
+          return $this.data("content");
+        }
+
+        $.get(opts.ajax).then(function(data) {
+          $this.data("content", data);
+          callback(data);
+        });
+      };
+
+      opts.items = $this;
     }
 
     $this.tooltip(opts).on("tooltipopen", function(ev, ui) {

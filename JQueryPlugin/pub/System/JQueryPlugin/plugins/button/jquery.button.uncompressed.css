@@ -75,6 +75,7 @@ a.jqButton:hover {
   padding:0px 0px 0px 20px;
   background-repeat:no-repeat;
   background-position:0 49%;
+  background-size:contain;
 }
 .jqButtonIcon.ma,
 .jqButtonIcon.fa {

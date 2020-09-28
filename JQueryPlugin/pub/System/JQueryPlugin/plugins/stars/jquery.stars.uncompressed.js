@@ -1,11 +1,9 @@
 /*
- * jQuery Stars plugin 2.10
+ * jQuery Stars plugin 3.00
  *
- * Copyright (c) 2014-2019 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2014-2020 Foswiki Contributors http://foswiki.org
  *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
  */
 /* global sprintf:false */
@@ -20,7 +18,7 @@
   };
 
   // plugin constructor 
-  function Plugin(elem, opts) {
+  function Stars(elem, opts) {
     var self = this;
 
     self.elem = $(elem);
@@ -40,14 +38,14 @@
   function _isString(str) {
     return str.constructor === String;
   }
-  Plugin.prototype._toFixed = function(num) {
+  Stars.prototype._toFixed = function(num) {
     num = Number(num);
-    return Number(num.toFixed(this._prec));
+    return Number(num.toFixed(this.prec));
   };
 
   ////////////////////////////////////////////////////////////////////////////////
   // initializer 
-  Plugin.prototype.init = function() {
+  Stars.prototype.init = function() {
     var self = this, key, values;
 
     self.elem
@@ -75,20 +73,19 @@
         self.opts.values = values;
       }
 
-      self.opts.numStars = self.opts.values.length;
+      self.opts.numStars = self.opts.values.length - 1;
       self.opts.split = 1;
     } 
 
-
-    self._prec = 0;
+    self.prec = 0;
     if (self.opts.split > 1) {
-      self._prec++;
+      self.prec++;
     }
     if (self.opts.split > 10) {
-      self._prec++;
+      self.prec++;
     }
     if (self.opts.split > 100) {
-      self._prec++;
+      self.prec++;
     }
 
     self.blockMouseMove = false;
@@ -131,7 +128,7 @@
       });
 
       self.container.on("mouseenter", function() {
-        self.elem.focus();
+        self.elem.trigger("focus");
         self.blockMouseMove = false;
       });
 
@@ -179,12 +176,12 @@
           switch(ev.keyCode) {
             case 38: /* up */
             case 33: /* page up */
-              self._tmpIndex = Math.round(self._tmpIndex + 1);
+              self._tmpIndex = Math.floor(self._tmpIndex + 1);
               found = true;
               break;
             case 40: /* down */
             case 34: /* page down */
-              self._tmpIndex = Math.round(self._tmpIndex - 1);
+              self._tmpIndex = Math.ceil(self._tmpIndex - 1);
               found = true;
               break;
             case 35: /* end */
@@ -225,35 +222,51 @@
   };
 
   ////////////////////////////////////////////////////////////////////////////////
-  Plugin.prototype.getDisplayVal = function(index) {
+  Stars.prototype.getStoreValue = function(index) {
     var self = this, val;
 
+    index = index || 0;
+
+    val = typeof(self.mapping[index]) === 'undefined' ? self.getDisplayVal(index) : index;
+
+    //console.log("called getStoreValue(",index,") = ",val);
+
+    return val;
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////
+  Stars.prototype.getDisplayVal = function(index) {
+    var self = this, val;
+
+    //console.log("called getDisplayVal(",index,")");
     if (self.opts.values) {
-      val = self.opts.values[index-1];
+      val = self.opts.values[index];
+      //console.log("... val=",val);
       if (typeof(self.mapping[val]) !== 'undefined') {
         val = self.mapping[val];
+        //console.log("... mapping to",val);
       }
     } else {
-      val = sprintf("%." + self._prec + "f", index);
+      val = sprintf("%." + self.prec + "f", index);
+      //console.log("... numerical value is",val);
     }
 
     return val;
   };
 
   ////////////////////////////////////////////////////////////////////////////////
-  Plugin.prototype.displayAtIndex = function(index) {
+  Stars.prototype.displayAtIndex = function(index) {
     var self = this, width, label;
 
-    if (typeof(index) === 'undefined' || index === 0) {
-      width = 0;
-      label = '';
-    } else {
-      index = Math.ceil(index * self.opts.split) / self.opts.split;
-      index = self._toFixed(index);
+    if (typeof(index) === 'undefined') {
+      index = 0;
+    } 
 
-      width = self.widthStar * index;
-      label = self.getDisplayVal(index);
-    }
+    index = Math.ceil(index * self.opts.split) / self.opts.split;
+    index = self._toFixed(index);
+
+    width = self.widthStar * index;
+    label = self.getDisplayVal(index);
 
     if (index === self._tmpIndex) {
       return;
@@ -268,14 +281,14 @@
 
 
   ////////////////////////////////////////////////////////////////////////////////
-  Plugin.prototype.display = function(val) {
+  Stars.prototype.display = function(val) {
     var self = this,
       index;
 
-    if (typeof(val) === 'undefined' || val === '' || val === 0) {
-      index = undefined;
+    if (typeof(val) === 'undefined' || val === '') {
+      index = 0;
     } else if (typeof(self.opts.values) !== 'undefined') {
-      index = self.opts.values.indexOf(val)+1;
+      index = self.opts.values.indexOf(val);
     } else {
       index = val;
     }
@@ -284,43 +297,44 @@
   };
 
   ////////////////////////////////////////////////////////////////////////////////
-  Plugin.prototype.selectAtIndex = function(index) {
+  Stars.prototype.selectAtIndex = function(index) {
     var self = this, val;
 
+    //console.log("called selectAtIndex(",index,")");
     self._tmpIndex = undefined;
 
-    if (typeof(index) === 'undefined' || index === 0) {
-      val = '';
+    if (typeof(index) === 'undefined') {
+      index = 0;
+    } 
+
+    if (typeof(self.opts.values) !== 'undefined') {
+      val = self.opts.values[index];
     } else {
-      if (typeof(self.opts.values) !== 'undefined') {
-        val = self.opts.values[index-1];
-      } else {
-        val = index;
-      }
+      val = index;
     }
 
     self.displayAtIndex(index);
-
-    val = sprintf("%." + self._prec + "f", index);
+    val = self.getStoreValue(index);
+    //console.log("... val=",val);
     self.elem.val(val);
   };
 
   ////////////////////////////////////////////////////////////////////////////////
-  Plugin.prototype.select = function(val) {
+  Stars.prototype.select = function(val) {
     var self = this;
 
     self._tmpIndex = undefined;
 
     self.display(val);
-    self.elem.val(val);
+    self.elem.val(self.getStoreValue(val));
   };
 
   ////////////////////////////////////////////////////////////////////////////////
   // plugin wrapper around the constructor
   $.fn.stars = function(opts) {
     return this.each(function() {
-      if (!$.data(this, '_stars')) {
-        $.data(this, '_stars', new Plugin(this, opts));
+      if (!$.data(this, 'stars')) {
+        $.data(this, 'stars', new Stars(this, opts));
       }
     });
   };
@@ -330,7 +344,7 @@
   $(function() {
     $(".jqStars:not(.jqStarsInited)").livequery(function() {
       var $this = $(this),
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
       $this.stars(opts);
     });
   });

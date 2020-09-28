@@ -24,22 +24,30 @@ CAT=cat
 DEBUG=false
 
 NPM_INSTALL=npm install -g
-JSMIN=terser -m -c --
-CSSMIN=cssmin
+JSMIN=$(shell which terser 2>/dev/null || which uglifyjs) -m -c --
+CSSMIN=$(shell which csso 2>/dev/null || which cssmin || echo cat) 
 ESLINT=eslint -f compact
 SASS=node-sass --output-style expanded
 
 DEV_DEPENDENCIES=\
-  cssmin \
+  csso \
+  csso-cli \
   eslint \
   sass \
-  terser
+  terser 
 
-.SUFFIXES: .js .css .jslint .install
-.PHONY: subdirs $(SUBDIRS) deps
+.SUFFIXES: .js .css .jslint .install 
+.PHONY: subdirs $(SUBDIRS) deps vars
 
-all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
+all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz) $(TARGET:.ttf=.ttf.gz) $(TARGET:.eot=.eot.gz) $(TARGET:.otf=.otf.gz) $(TARGET:.svg=.svg.gz)
 	@echo -n ""
+
+vars:
+	@echo "NPM_INSTALL=$(NPM_INSTALL)"
+	@echo "JSMIN=$(JSMIN)"
+	@echo "CSSMIN=$(CSSMIN)"
+	@echo "ESLINT=$(ESLINT)"
+	@echo "SASS=$(SASS)"
 
 deps: 
 	@$(NPM_INSTALL) $(DEV_DEPENDENCIES) >/dev/null
@@ -55,35 +63,82 @@ $(SRC_DIR)/%.jslint: %_src.js
 	@echo checking code quality of $<
 	@$(ESLINT) $< && touch $@
 
-$(BUILD_DIR)/%.js: %.uncompressed.js
+# src -> build
+$(BUILD_DIR)/%.js: $(SRC_DIR)/%.uncompressed.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
 	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-$(BUILD_DIR)/%.js: %_src.js
+$(BUILD_DIR)/%.js: $(SRC_DIR)/%_src.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
 	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
 	fi
 
-$(BUILD_DIR)/%.gz: %
-	@echo zipping $< to $@
-	@$(GZIP) -c $< > $@
-
-$(BUILD_DIR)/%.css: %.uncompressed.css
+$(BUILD_DIR)/%.css: $(SRC_DIR)/%.uncompressed.css
 	@echo minifying $@ from $<
 	@$(CSSMIN) $< > $@
 
-$(BUILD_DIR)/%.uncompressed.css: %.scss
+$(BUILD_DIR)/%.css: $(SRC_DIR)/%_src.css
+	@echo minifying $@ from $<
+	@$(CSSMIN) $< > $@
+
+$(BUILD_DIR)/%.uncompressed.css: $(SRC_DIR)/%.scss
 	@echo sassing $@ from $<
 	@$(SASS) $< > $@
 
-$(BUILD_DIR)/%.css: %_src.css
+# lib -> build
+$(BUILD_DIR)/%.js: $(LIB_DIR)/%.uncompressed.js
+	@if $(DEBUG); then \
+	  echo creating $@ from $<; $(CAT) $< > $@; \
+	else \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
+	fi
+
+$(BUILD_DIR)/%.js: $(LIB_DIR)/%_src.js
+	@if $(DEBUG); then \
+	  echo creating $@ from $<; $(CAT) $< > $@; \
+	else \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
+	fi
+
+$(BUILD_DIR)/%.css: $(LIB_DIR)/%.uncompressed.css
 	@echo minifying $@ from $<
 	@$(CSSMIN) $< > $@
+
+$(BUILD_DIR)/%.css: $(LIB_DIR)/%_src.css
+	@echo minifying $@ from $<
+	@$(CSSMIN) $< > $@
+
+# build -> buid
+$(BUILD_DIR)/%.gz: $(BUILD_DIR)/%
+	@echo zipping $< to $@
+	@$(GZIP) -9 -c $< > $@
+
+$(BUILD_DIR)/%.css: $(BUILD_DIR)/%.uncompressed.css
+	@echo minifying $@ from $<
+	@$(CSSMIN) $< > $@
+
+$(BUILD_DIR)/%.css: $(BUILD_DIR)/%_src.css
+	@echo minifying $@ from $<
+	@$(CSSMIN) $< > $@
+
+$(BUILD_DIR)/%.js: $(BUILD_DIR)/%.uncompressed.js
+	@if $(DEBUG); then \
+	  echo creating $@ from $<; $(CAT) $< > $@; \
+	else \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
+	fi
+
+$(BUILD_DIR)/%.js: $(BUILD_DIR)/%_src.js
+	@if $(DEBUG); then \
+	  echo creating $@ from $<; $(CAT) $< > $@; \
+	else \
+	  echo minifying $@ from $<; $(JSMIN) $< > $@; \
+	fi
 
 subdirs: $(SUBDIRS)
 

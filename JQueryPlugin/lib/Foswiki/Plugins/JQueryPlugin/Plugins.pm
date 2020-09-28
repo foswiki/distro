@@ -10,8 +10,7 @@ my %themes;
 my $debug;
 my $currentTheme;
 
-use constant JQUERY1_DEFAULT => 'jquery-1.12.4';
-use constant JQUERY2_DEFAULT => 'jquery-2.2.4';
+use constant JQUERY_DEFAULT => 'jquery-2.2.4';
 
 =begin TML
 
@@ -51,7 +50,7 @@ sub init {
 
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
-      || JQUERY2_DEFAULT;
+      || JQUERY_DEFAULT;
 
     # test for the jquery library to be present
     unless ( -e $Foswiki::cfg{PubDir} . '/'
@@ -63,47 +62,14 @@ sub init {
         Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
         );
-        $jQuery = JQUERY2_DEFAULT;
+        $jQuery = JQUERY_DEFAULT;
     }
 
     $jQuery .= ".uncompressed" if $debug;
 
-    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
-    $jQueryIE = JQUERY1_DEFAULT unless defined $jQueryIE;
-
-    my $code;
-    if ($jQueryIE) {
-
-        # test for the jquery library to be present
-        unless ( -e $Foswiki::cfg{PubDir} . '/'
-            . $Foswiki::cfg{SystemWebName}
-            . '/JQueryPlugin/'
-            . $jQueryIE
-            . '.js' )
-        {
-            Foswiki::Func::writeWarning(
-"CAUTION: jQuery $jQueryIE not found. please fix the {JQueryPlugin}{JQueryVersionForOldIEs} settings."
-            );
-            $jQueryIE = JQUERY1_DEFAULT;
-        }
-
-        $jQueryIE .= ".uncompressed" if $debug;
-
-        $code = <<"HERE";
-<literal><!--[if lte IE 9]>
-<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
-<![endif]-->
-<!--[if gt IE 9]><!-->
-<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
-<!--<![endif]-->
-</literal>
-HERE
-    }
-    else {
-        $code = <<"HERE";
+    my $code = <<"HERE";
 <script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 HERE
-    }
 
     # switch on noconflict mode
     if ( $Foswiki::cfg{JQueryPlugin}{NoConflict} ) {
@@ -370,7 +336,7 @@ sub getRandom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2019 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

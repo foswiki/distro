@@ -30,7 +30,7 @@
         input.addClass(opts.css_class);
         input.val(input.attr('placeholder'));
       }
-    }).blur().parents('form').submit(function() {
+    }).blur().parents('form').on("submit", function() {
       $(this).find('[placeholder]').each(function() {
         var input = $(this);
         if (input.hasClass(opts.css_class)) {

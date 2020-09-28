@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574079135" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1601306678" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ BUTTON -- renders a nice button 
 ---++ Parameters
@@ -8,7 +8,7 @@
      | =value= | text to be put on this button | |
      | =accesskey= | access key used for this button | | 
      | =class= | e.g. use =simple= for a non-3D button | | 
-     | =data-...= | add html5 data attributes | |
+     | =data_...= | add html5 data attributes | |
      | =align= | left, right, center |
      | =href= | url of the click target | # | 
      | =icon= | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
