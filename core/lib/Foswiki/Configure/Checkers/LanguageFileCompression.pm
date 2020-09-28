@@ -11,30 +11,6 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 =begin TML
 
----++ ObjectMethod check() -> $checkmsg
-
-This is a generic (item-independent) checker for LANGUAGE items.
-
-These have keys of the form {Languages}{ language }{Enabled}.
-
-=cut
-
-sub check_current_value {
-    my ( $this, $reporter ) = @_;
-
-    return unless ( $Foswiki::cfg{UserInterfaceInternationalisation} );
-
-    my $enabled = $this->checkExpandedValue($reporter);
-    return unless $enabled;
-
-    $reporter->WARN(
-"Langugage file compression has been known to cause issues, and is considered experimental."
-    );
-
-}
-
-=begin TML
-
 ---++ ObjectMethod onSave()
 
 This routine is called during the Save wizard, for any key that being
@@ -121,7 +97,7 @@ sub removeCompression {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
