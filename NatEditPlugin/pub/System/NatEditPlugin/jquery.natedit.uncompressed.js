@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2018 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2020 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -474,7 +474,7 @@ $.NatEditor.prototype.initGui = function() {
     });
   }
 
-  self.form.find(".ui-natedit-details-container input").on("blur", function() {
+  self.form.find(".ui-natedit-details-container").not(".inited").addClass("inited").find("input").on("blur", function() {
     var $this = $(this);
     $this.trigger("AddValue", $this.val());
   }).textboxlist({
@@ -1034,6 +1034,7 @@ $.NatEditor.prototype.initForm = function() {
   }));
 
   self.form.validate({
+    ignore: ":hidden, .foswikiIgnoreValidation",
     meta: "validate",
     invalidHandler: function(e, validator) {
       var errors = validator.numberOfInvalids(),
@@ -2424,7 +2425,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       stopButton: ".ui-natedit-uploader-cancel"
     }).data("uploader");
 
-    self.uploader.bind("StateChanged", function() {
+    self.uploader.on("StateChanged", function() {
       var file = self.uploader.files[0];
 
       if (self.uploader.state == plupload.STARTED) {
@@ -2450,7 +2451,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       }
     });
 
-    self.uploader.bind("Error", function(up, err) {
+    self.uploader.on("Error", function(up, err) {
       var msg, 
           response = $.parseJSON(err.response);
 
