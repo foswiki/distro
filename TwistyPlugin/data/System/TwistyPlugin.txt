@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1461594420" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1601308837" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -475,9 +475,9 @@ You can override some default settings in the plugin by setting the following [[
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Info
+---++ Change History
 
-|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Sep 2020 | 1.64 removed dependency on deprecated livequery module |
 |  25 Apr 2016 | 1.63 Bump version due to minor documentation updates.  Released with Foswiki 2.1.1 |
 |  17 Jun 2014 | 1.62 Foswikitask:Item12597: Expand/Collapse all is acting as a toggle.<br />\
                       Foswikitask:Item12694 Default to fast animation speed.<br/>\
@@ -537,16 +537,3 @@ You can override some default settings in the plugin by setting the following [[
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="twisty.css" attr="h" comment="" date="1461594420" size="27" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.css" attr="h" comment="" date="1461594420" size="33" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js.gz" attr="h" comment="" date="1461594420" size="1125" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.uncompressed.js" attr="h" comment="" date="1461594420" size="7676" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css.gz" attr="h" comment="" date="1461594420" size="20" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js" attr="h" comment="" date="1461594420" size="4857" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.js.gz" attr="h" comment="" date="1461594420" size="1275" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.js" attr="h" comment="" date="1461594420" size="4439" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.css" attr="h" comment="" date="1461594420" size="0" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="twisty.css.gz" attr="h" comment="" date="1461594420" size="47" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.uncompressed.js" attr="h" comment="" date="1461594420" size="10828" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1461594420" size="181" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.twisty.css" attr="h" comment="" date="1461594420" size="0" user="ProjectContributor" version="1"}%
