@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1601308075" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  28 Sep 2020: | (10.00) - Item14918: removed support for old Internet Exporers (IE<11) |
 |  18 Nov 2019: | (9.20) - Item14874: deprecate uglify-js and yuicompressor in favor of terser %BR%\
                          - Item14875: remove =type/javascript= and =type/css= as per html5; \
                                       fixes to jquery ajax helpers when no results were found; \
