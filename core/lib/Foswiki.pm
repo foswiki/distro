@@ -3532,7 +3532,7 @@ sub _expandMacroOnTopicRendering {
                     my $val = $attrs->{$tag};
                     $val = $tattrs->{default} unless defined $val;
                     return expandStandardEscapes($val) if defined $val;
-                    return undef;
+                    return;
                 },
                 $topicObject,
                 1
@@ -3801,7 +3801,7 @@ sub readFile {
     my $name = shift;
     ASSERT(0) if DEBUG;
     my $IN_FILE;
-    open( $IN_FILE, "<$name" ) || return '';
+    open( $IN_FILE, '<', $name ) || return '';
     local $/ = undef;
     my $data = <$IN_FILE>;
     close($IN_FILE);
