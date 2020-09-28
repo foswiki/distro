@@ -33,7 +33,7 @@ sub new {
             author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
             homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
-            dependencies => [ 'livequery', 'JavascriptFiles/foswikiPref' ],
+            dependencies => ['JavascriptFiles/foswikiPref'],
             javascript   => ['jquery.twisty.js'],
             css          => ['twisty.css']
         ),
@@ -54,7 +54,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
