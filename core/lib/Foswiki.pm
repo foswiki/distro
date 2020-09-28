@@ -567,7 +567,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
            )
          )
          |
-           (?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])      # dotted triplets IP Address
+           (?:[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})      # dotted triplets IP Address
          )
        )oxi;
 
@@ -821,7 +821,10 @@ BOGUS
         $text = '' unless $this->setETags( $cachedPage, $hopts );
     }
 
-    if ( $Foswiki::cfg{HttpCompress} && length($text) ) {
+    if (  !$this->{context}{command_line}
+        && $Foswiki::cfg{HttpCompress}
+        && length($text) )
+    {
 
         # Generate a zipped page, if the client accepts them
 
@@ -891,7 +894,7 @@ sub satisfiedByCache {
     my $cache = $this->{cache};
     return 0 unless $cache;
 
-    my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
+    my $cachedPage = $cache ? $cache->getPage( $web, $topic ) : undef;
     return 0 unless $cachedPage;
 
     Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
@@ -3220,7 +3223,8 @@ sub _processMacros {
     #my $grunt = 1; uncomment lines mentioning $grunt for tracing
 
     unless ($depth) {
-        my $mess = "Max recursive depth reached: $text";
+        my $mess =
+          "Max recursive depth reached: $text at " . $topicObject->getPath();
         $this->logger->log( 'warning', $mess );
 
         # prevent recursive expansion that just has been detected
