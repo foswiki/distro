@@ -1285,8 +1285,8 @@ sub test_mailWithoutMailto {
 '1 <a href="mailto:pitiful@exampleSTUFFED.com">mailto:pitiful@exampleSTUFFED.com</a>',
         '2 At endSentence@some.museum.' =>
 '2 At <a href="mailto:endSentence@someSTUFFED.museum">endSentence@someSTUFFED.museum</a>.',
-        '3 byIP@[192.168.1.10]' =>
-          '3 <a href="mailto:byIP@[192.168.1.10]">byIP@[192.168.1.10]</a>',
+        '3 byIP@192.168.1.10' =>
+'3 <a href="mailto:byIP@192STUFFED.168.1.10">byIP@192STUFFED.168.1.10</a>',
         '4 "Some Name"@blah.com' =>
 '4 <a href="mailto:%22Some%20Name%22@blahSTUFFED.com">"Some Name"@blahSTUFFED.com</a>',
         '5 _somename@example.com' =>
@@ -1353,7 +1353,7 @@ Space"@blahSTUFFED.com</a>',
           => '33 <a href="mailto:test@exampleSTUFFED.tom">Text with <nop>test@exampleSTUFFED.com shouldnt link</a>',
     );
 
-    foreach my $url ( keys %urls ) {
+    foreach my $url ( sort keys %urls ) {
         my $expected = $urls{$url};
 
         # URL in text
