@@ -23,7 +23,7 @@ sub process {
 
     unless ($query) {
         print CGI::header( -status => 500 );
-        return undef;
+        return;
     }
 
     my $active_topic = $query->param('erp_topic');
@@ -115,7 +115,7 @@ sub process {
     }
     $response->print( JSON->new->allow_nonref->encode($result) );
 
-    return undef;
+    return;
 }
 
 1;

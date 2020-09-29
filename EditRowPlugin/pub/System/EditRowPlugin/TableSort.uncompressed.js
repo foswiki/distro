@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Foswiki Contributors
+ * Copyright (C) 2015-2020 Foswiki Contributors
  * Author: Crawford Currie http://c-dot.co.uk
  *
  * sortTable(el, headrows, footrows, init)
@@ -12,6 +12,8 @@
  *
  * Automatically detects and sorts data types; numbers and dates
  */
+/* exported sortTable */
+"use strict";
 function sortTable(el, init) {
     var $td = $(el).closest("td,th"),
     $tr = $td.closest("tr"),
@@ -27,7 +29,7 @@ function sortTable(el, init) {
             reversed: [],
             last_col: init.col || -1
         };
-        for (i = $tr.children().length; i > 0; i--)
+        for (var i = $tr.children().length; i > 0; i--)
             sort.reversed.push(false);
 
         if (typeof init.col !== "undefined")
@@ -107,7 +109,7 @@ function sortTable(el, init) {
         if (sort.bgs > 0) {
             $(this).addClass(
                 "foswikiTableRowdataBg" + (index % sort.bgs)
-                    + " foswikiTableRowdataBgSorted" + (index % sort.bgs))
+                    + " foswikiTableRowdataBgSorted" + (index % sort.bgs));
         }
 
         $(this).addClass("foswikiTable" +
@@ -148,7 +150,7 @@ var WIKIDATE = new RegExp(
     "(\\s*(-\\s*)?([0-9]{2}):([0-9]{2}))?", "i");
 var RFC8601 = new RegExp(
     "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" +
-    "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
+    "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\\.([0-9]+))?)?" +
     "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?");
 
 // Convert date/time to epoch seconds. Return 0 if a valid date
@@ -160,7 +162,7 @@ function s2d(s) {
         var nd = new Date();
         nd.setDate(Number(d[1]));
         nd.setMonth(months[d[2].toLowerCase()]);
-        if (d[3].length == 2) {
+        if (d[3].length === 2) {
             var year = d[3];
             // I'll be dead by the time this fails :-)
             if (year > 59)
@@ -179,7 +181,7 @@ function s2d(s) {
 
     // RFC8601 date/time
     // (Paul Sowden, http://delete.me.uk/2005/03/iso8601.html)
-    var d = s.match(RFC8601);
+    d = s.match(RFC8601);
     if (d == null)
         return 0;
 
@@ -194,12 +196,11 @@ function s2d(s) {
     if (d[12]) date.setMilliseconds(Number("0." + d[12]) * 1000);
     if (d[14]) {
         offset = (Number(d[16]) * 60) + Number(d[17]);
-        offset *= ((d[15] == '-') ? 1 : -1);
+        offset *= ((d[15] === '-') ? 1 : -1);
     }
 
     offset -= date.getTimezoneOffset();
-    time = (Number(date) + (offset * 60 * 1000));
-    return time;
+    return (Number(date) + (offset * 60 * 1000));
 }
 
 function compareValues(v1, v2) {
@@ -227,7 +228,7 @@ function compareValues(v1, v2) {
         v1 = v1.normalize("NFKD");
     if (typeof v2 === "string")
         v2 = v2.normalize("NFKD");
-    if (v1 == v2)
+    if (v1 === v2)
         return 0;
     if (v1 > v2)
         return 1;

@@ -1,7 +1,7 @@
 /**
  * Support for EditRowPlugin
  * 
- * Copyright (c) 2009-2014 Foswiki Contributors
+ * Copyright (c) 2009-2020 Foswiki Contributors
  * Copyright (C) 2007 WindRiver Inc.
  * All Rights Reserved. Foswiki Contributors are listed in the
  * AUTHORS file in the root of this distribution.
@@ -22,18 +22,19 @@
  * 
  * Do not remove this notice.
  */
+/* global Calendar StrikeOne sortTable */
+"use strict";
 (function($) {
     var instrument;
-    var editing_element;
 
     // Date editable
     if ($.editable) {
         $.editable.addInputType('datepicker', {
-            element : function(settings, original) {
+            element : function(settings) {
                 var input = $('<input>');
-                if (settings.width  != 'none')
+                if (settings.width !== 'none')
                     input.width(settings.width);
-                if (settings.height != 'none')
+                if (settings.height !== 'none')
                     input.height(settings.height);
                 input.prop('autocomplete', false);
                 $(this).append(input);
@@ -62,7 +63,7 @@
                 cal.setRange(1900, 2070);
                 cal.create();
                 if (settings.format) {
-                    cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) != -1);
+                    cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) !== -1);
                     cal.setDateFormat(settings.format);
                     cal.setTtDateFormat(settings.format);
                 }
@@ -72,7 +73,7 @@
 
         // Radio button editable
         $.editable.addInputType('radio', {
-            element : function(settings, original) {
+            element : function(settings) {
                 // 'this' is the form
                 var hinput = $('<input type="hidden" id="' + settings.name
                                + '" name="' + settings.name + '" value="" />');
@@ -88,7 +89,7 @@
                               '_buttons" id="' + id + '"' + checked + ' value="'
                               + key + '" />');
                     $(this).append(input);
-                    input.click(function() {
+                    input.on("click", function() {
                         $('#' + settings.name).val($(this).val());
                     });
                     cnt++;
@@ -104,7 +105,7 @@
         // 'keys' contains the key mapped to the string title of the key; and
         // 'selected' contains the string value of the currently selected key.
         $.editable.addInputType('erpselect', {
-            element : function(settings, original) {
+            element : function() {
                 var select = $('<select />');
                 $(this).append(select);
                 return(select);
@@ -112,7 +113,7 @@
             content: function(data, settings, original) {
                 console.debug("content");
                 /* If it is string assume it is json. */
-                if (String == data.constructor) {      
+                if (typeof(data) === 'string') {
                     eval ('var json = ' + data);
                 } else {
                     /* Otherwise assume it is a hash already. */
@@ -128,8 +129,8 @@
                 }
                 /* Loop option again to set selected. IE needed this... */ 
                 $('select', this).children().each(function() {
-                    if ($(this).val() == json.selected || 
-                        $(this).text() == $.trim(original.revert)) {
+                    if ($(this).val() === json.selected || 
+                        $(this).text() === $.trim(original.revert)) {
                         $(this).prop('selected', true);
                     }
                 });
@@ -138,7 +139,7 @@
 
         // Checkbox editable
         $.editable.addInputType('checkbox', {
-            element : function(settings, original) {
+            element : function(settings) {
                 // 'this' is the form
                 // data is CSV list
                 var hinput = $('<input type="hidden" id="' + settings.name
@@ -157,7 +158,7 @@
                     $(this).append(input);
                     $(this).append('<label for="' + id + '">' +
                                    settings.data[key] + '</label>');
-                    input.change(function() {
+                    input.on("change", function() {
                         // The :checked selector doesn't work :-(
                         var vs = 'input[name="' + settings.name + '_buttons"]';
                         var vals = [];
@@ -177,21 +178,23 @@
     var onDrop = function(event, container, dragee, rows) {
         var target = $(event.target);
         var edge;
+        var posY;
+        var top;
         // A drop outside the table
         // is triggered on the drag helper instead of the
         // droppable at the end of the table.
         if (target.hasClass("drag-helper")) {
-            var top = rows.first().offset().top;
-            var posY = event.pageY - top;
+            top = rows.first().offset().top;
+            posY = event.pageY - top;
             edge = (posY < (rows.last().offset().top() +
                             rows.last().height() - top) / 2)
                 ? 'top' :'bottom';
-            if (edge == 'top')
+            if (edge === 'top')
                 target = rows.first();
             else
                 target = rows.last();
         } else {
-            var posY = event.pageY - target.offset().top;
+            posY = event.pageY - target.offset().top;
             edge = (posY < target.height() / 2)
                 ? 'top' :'bottom';
         }
@@ -214,10 +217,10 @@
         $.each(table.data('erp-data'), function(k, v) {
             move_data['erp_' + k] = v;
         });
-        if (edge == 'bottom')
+        if (edge === 'bottom')
             new_pos++;
         
-        if (new_pos == old_pos)
+        if (new_pos === old_pos)
             return;
         
         // Send the good news to the server
@@ -227,8 +230,9 @@
         move_data.erp_action = 'moveRowCmd';
         move_data.old_pos = old_pos;
         move_data.new_pos = new_pos;
-	if (move_data.erp_row == null)
-	    move_data.erp_row = old_pos;
+	if (move_data.erp_row == null) {
+          move_data.erp_row = old_pos;
+        }
         // Tell the server *not* to return us to edit mode
         move_data.erp_stop_edit = 1;
 
@@ -256,7 +260,7 @@
             data: move_data,
             success: function(response) {
                 var table = $('#' + tid);
-                if (response.indexOf("RESPONSE") != 0) {
+                if (response.indexOf("RESPONSE") !== 0) {
                     // We got something other than a REST response -
                     // probably an auth prompt. Need to edit the
                     // login form and clear noredirect so that the
@@ -272,23 +276,23 @@
                     newtable.addClass("erp_new_table");
                     table.replaceWith(newtable);
                     $(document).find(".erp_new_table").each(
-                        function(index, value) {
+                        function() {
                             $(this).removeClass("erp_new_table");
                             instrument($(this));
                         });
                 }
-                if (edge == 'top')
+                if (edge === 'top')
                     dragee.insertBefore(target);
                 else
                     dragee.insertAfter(target);
 		table.css('cursor', 'auto');
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 // Cancel the drag
                 dragee.fadeTo("fast", 1.0);
                 $('#' + tid).css("cursor", "auto");
                 var mess = jqXHR.responseText;
-                if (mess && mess.indexOf('RESPONSE') == 0)
+                if (mess && mess.indexOf('RESPONSE') === 0)
                     mess = mess.replace(/^RESPONSE/, ': ');
                 else
                     mess = '';
@@ -323,14 +327,14 @@
                     containment: container,
                     axis: 'y',
                     appendTo: container,
-                    helper: function(event) {
+                    helper: function() {
                         return dragHelper(tr);
                     },
-                    start: function(event, ui) {
+                    start: function() {
                         tr.fadeTo("fast", 0.3); // to show it's moving
                         var rows = container.find("tr");
                         rows.not(tr).not('.drag-helper').droppable({
-                            drop: function(event, ui) {
+                            drop: function(event) {
                                 onDrop(event, container, tr, rows);
                             }
                         });
@@ -350,7 +354,7 @@
 
         // use a function to get the submit data from the store
         // because the row index may change if rows are moved/added/deleted
-        submitdata: function(value, settings) {
+        submitdata: function() {
             var d = $.extend(
                 { action: "saveCellCmd" },
                 $(this).data('erp-data'),
@@ -395,7 +399,7 @@
             self.isSubmitting = false;
             $(self).parent().find('.erp-clock').remove();
             $(self).next().show();
-            if (mess.indexOf('RESPONSE') == 0)
+            if (mess.indexOf('RESPONSE') === 0)
                 alert(mess.replace(/^RESPONSE/, ''));
         },
 
@@ -438,7 +442,7 @@
                 $(this).val("?" + nonce);
             });
         }
-        if (status != 'success') {
+        if (status !== 'success') {
             alert(jqXHR.responseText);
         }
     };
@@ -447,8 +451,9 @@
     var attachJEditable = function(el) {
         var p = el.data('erp-data');
 
-        if (!p || !p.type || p.type == 'label')
+        if (!p || !p.type || p.type === 'label') {
             return;
+        }
 
         // Add edit trigger button (yellow stain)
         // Note we need the extra <div class="erpJS_container" for
@@ -460,9 +465,8 @@
         el.closest("td, th").prepend(div);
 
         // Action on edit cell
-        button.click(function() {
+        button.on("click", function() {
             // Send the event to the cell
-            editing_element = el;
             el.triggerHandler('erp_edit');
         });
 
@@ -470,7 +474,7 @@
             {
                 event: "erp_edit",
                 placeholder: '<div class="erp_empty"></div>',
-                callback: (p.type == "text" || p.type == "textarea")
+                callback: (p.type === "text" || p.type === "textarea")
                     ? textCallback : otherCallback,
                 tooltip: '',
                 // SMELL: use undocumented ajaxoptions
@@ -584,13 +588,13 @@
                 .remove();
        });
 
-        context.find('.erpJS_input').change(function() {
+        context.find('.erpJS_input').on("change", function() {
             erp_dataDirty = true;
         });
 
         // Action on select row and + row. Check if the data is
         // dirty, and if it is, prompt for save
-        context.find('a.erpJS_willDiscard').click(function(event) {
+        context.find('a.erpJS_willDiscard').on("click", function() {
             if (erp_dataDirty) {
                 if (!confirm("This action will discard your changes.")) {
                     erp_dirtyVeto = true;
@@ -604,7 +608,7 @@
             // No button support in IE 7 and below
             context.find('a.erpJS_submit').button();
 
-        context.find('a.erpJS_submit').click(function() {
+        context.find('a.erpJS_submit').on("click", function() {
             var cont = true;
             if (erp_dirtyVeto) {
                 erp_dirtyVeto = false;
@@ -613,7 +617,7 @@
                 var form = $(this).closest("form");
                 if (form && form.length > 0) {
                     form[0].erp_action.value = $(this).attr('href');
-                    form.submit();
+                    form.trigger("submit");
                     cont = false;
                 }
             }
@@ -621,7 +625,7 @@
         });
 
         $('.interactive_sort', context)
-            .click(function() {
+            .on("click", function() {
                 sortTable(this, $(this).data("sort"));
                 return false;
             })
@@ -644,15 +648,15 @@
                 $("<div></div>")
                     .addClass("tableSortIcon ui-icon erp-button "
                               + "ui-icon-circle-triangle-" + 
-                              ((s && s.reverse == 1) ? "s" : "n"))
+                              ((s && s.reverse === 1) ? "s" : "n"))
                     .attr("title", "Sorted " +
-                          ((s && s.reverse == 1) ? "descending" : "ascending"))
+                          ((s && s.reverse === 1) ? "descending" : "ascending"))
                     .appendTo($this.closest("td,th"));
             });
 
         var current_row = null;
-        $('.ui-draggable').mouseover(
-            function(e) {
+        $('.ui-draggable').on("mouseover",
+            function() {
                 var tr = $(this);
 
                 if (!tr.is(".erp_instrumented")) {
@@ -663,11 +667,11 @@
                         makeRowDraggable(tr);
 
                     // Attach an editor to each editable cell
-                    tr.find('.erpJS_cell').each(function(index, value) {
+                    tr.find('.erpJS_cell').each(function() {
                         attachJEditable($(this));
                     });
                 }
-                if (!current_row || tr[0] != current_row[0]) {
+                if (!current_row || tr[0] !== current_row[0]) {
                     if (current_row) {
                         current_row.find('.erpJS_container').fadeOut("fast");
                     }
@@ -678,22 +682,13 @@
     };
 
     $.ajaxSetup({
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status == 401)
+        error: function (jqXHR) {
+            if (jqXHR.status === 401)
                 alert("Please log in before editing");
         }});
 
     $(function() {
         instrument($(document));
-    });
-
-    $(window).load(function() {
-        var btn  = $(".erp-edittable");
-        var link = $(btn).parent();
-        var href = $(link).attr("href");
-        $(btn).click(function() {
-            window.location.assign(href);
-        });
     });
 
 })(jQuery);

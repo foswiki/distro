@@ -276,7 +276,6 @@ sub render {
         my $isLard = ( $row->isHeader || $row->isFooter );
         $n++ unless $isLard;
 
-        my $rowtext;
         if ( $editing
             && ( $r == $opts->{active_row} || $wholeTable && !$isLard ) )
         {
@@ -761,8 +760,8 @@ sub generateHelp {
         my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
         $text =~ s/.*?%STARTINCLUDE%//s;
         $text =~ s/%(?:STOP|END)INCLUDE%.*//s;
-        $text =~ s/^\s*//s;
-        $text =~ s/\s*$//s;
+        $text =~ s/^\s+//s;
+        $text =~ s/\s+$//s;
         $help = Foswiki::Func::renderText($text);
         $help =~ s/\n/ /g;
     }
