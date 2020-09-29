@@ -30,7 +30,7 @@ sub process {
 
     unless ($query) {
         print CGI::header( -status => 500 );
-        return undef;
+        return;
     }
 
     my $ajax = $query->param('noredirect');
@@ -250,7 +250,7 @@ sub process {
     else {
         Foswiki::Func::redirectCgiQuery( undef, $url );
     }
-    return undef;
+    return;
 }
 
 1;
