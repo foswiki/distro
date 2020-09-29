@@ -6,7 +6,7 @@
 
 %TMPL:DEF{"versions"}%---++ %MAKETEXT{"Version history of [_1]" args="<nop>%FILENAME%"}%
 <div class="foswikiAttachments">
-%TABLE{%TMPL:P{"commonattachtableattributes"}% caption="%MAKETEXT{"Version history"}%"}%
+%TABLE{%TMPL:P{"commonattachtableattributes"}%}%
 %ATTACHTABLE%</div>%TMPL:END%
 
 
@@ -19,11 +19,11 @@
 
 
 
-%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited">
+%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited"><noautolink>
 %MAKETEXT{"More actions for [_1]:" args="=%FILENAME%="}%
 %BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%FILENAME%" value=" %MAKETEXT{"Move"}% "}%
 %BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%FILENAME%" value=" %MAKETEXT{"Delete"}% "}%
-</input></div>
+</noautolink></div>
 %TMPL:END%
 
 
