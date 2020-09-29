@@ -189,7 +189,7 @@ sub renderIcon {
     my $iconStyle   = $params->{style};
     my $iconAnimate = $params->{animate};
     my $iconWidth   = $params->{width} || 16;
-    my $iconHeight  = $params->{height} || 'auto';
+    my $iconHeight  = $params->{height} || '';
     my $iconPath;
 
     my $iconClass = $params->{class};
@@ -209,8 +209,9 @@ sub renderIcon {
         $this->loadIconFont( $icon->{fontName} );
     }
     else {
+        my $iconHeightFormat = $iconHeight ? 'height=\'$iconHeight\'' : '';
         $iconFormat =
-'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' height=\'$iconHeight\' />'
+'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' $iconHeightFormat />'
           unless $iconFormat;
         $iconPath = $icon->{url};
         push @iconClass, "foswikiIcon", "jqIcon";
