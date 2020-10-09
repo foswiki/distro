@@ -158,14 +158,22 @@ use the older signature =check=.
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    my $keys = $this->{item}{keys};
+    if ( $this->{_seen}{$keys} ) {
+        die "recursion found while checking $keys";
+    }
+    $this->{_seen}{$keys} = 1;
+
+# SMELL: this ends up in a deep recursion of a checker doesn't implement check_current_value() nor check()
+
     # If we get all the way back up the inheritance tree without
     # finding a check_current_value implementation, then see if
     # there is a check().
-    if ( $this->can('check') ) {
-        $this->{reporter} = $reporter;
-        $this->check( $this->{item} );
-        delete $this->{reporter};
-    }
+    # if ( $this->can('check') ) {
+    #     $this->{reporter} = $reporter;
+    #     $this->check( $this->{item} );
+    #     delete $this->{reporter};
+    # }
 }
 
 ###################################################################
