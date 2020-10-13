@@ -12,7 +12,6 @@ lib/Foswiki/Plugins/CommentPlugin/Config.spec 0444 Configuration module
 lib/Foswiki/Plugins/CommentPlugin/JQuery.pm 0644
 lib/Foswiki/Configure/Checkers/Plugins/CommentPlugin/GuestCanComment.pm 0644
 lib/Foswiki/Configure/Checkers/Plugins/CommentPlugin/RequiredForSave.pm 0644
-pub/System/CommentPlugin/wikiringlogo20x20.png 0644
 pub/System/CommentPlugin/comment.css 0644
 pub/System/CommentPlugin/comment.js 0644
 pub/System/CommentPlugin/comment.uncompressed.css 0644
