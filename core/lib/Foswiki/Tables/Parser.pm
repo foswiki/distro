@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::Parsers::Table
+---+ package Foswiki::Tables::Parser
 
 Re-usable sequential access event-based parser for TML tables.
 
