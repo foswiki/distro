@@ -25,7 +25,6 @@ use Foswiki::Search::ResultSet                  ();
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::Meta            ();
-use Foswiki::MetaCache       ();
 use Foswiki::Query::Node     ();
 use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
@@ -93,7 +92,6 @@ sub _search {
         my ( $Iweb, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
-#TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         my $file;
         my $enc = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
         if (

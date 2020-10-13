@@ -24,7 +24,6 @@ use Foswiki::Search::ResultSet                  ();
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::Meta            ();
-use Foswiki::MetaCache       ();
 use Foswiki::Query::Node     ();
 use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
