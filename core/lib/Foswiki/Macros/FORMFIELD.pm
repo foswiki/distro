@@ -94,7 +94,7 @@ sub FORMFIELD {
         $text = $default unless length($text);
     }
     else {
-        $text = $altText || '';
+        $text = $altText;
     }
 
     # $formname is correct. $form works but is deprecated for
