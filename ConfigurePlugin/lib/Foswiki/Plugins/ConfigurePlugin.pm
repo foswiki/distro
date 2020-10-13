@@ -147,19 +147,9 @@ sub _JSONwrap {
         my $reporter = Foswiki::Configure::Reporter->new();
 
         no strict 'refs';
-        my $response;
-
-        eval { require Taint::Runtime; };
-        if ($@) {
-            $response = &$method( $request->params(), $reporter );
-        }
-        else {
-            # Disable taint checking, it's more trouble than it's worth
-            local $Taint::Runtime::TAINT = 0;
-            $response = &$method( $request->params(), $reporter );
-        }
-
+        my $response = &$method( $request->params(), $reporter );
         use strict 'refs';
+
         unless ($response) {
 
             # Should never get here

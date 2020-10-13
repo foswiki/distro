@@ -380,20 +380,6 @@ BEGIN {
         import locale();
     }
 
-    # Set environment var FOSWIKI_NOTAINT to disable taint checks even
-    # if Taint::Runtime is installed
-    elsif ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {
-        eval { require Taint::Runtime; };
-        if ($@) {
-            print STDERR
-"DEVELOPER WARNING: taint mode could not be enabled. Is Taint::Runtime installed?\n";
-        }
-        else {
-            # Enable taint checking
-            Taint::Runtime::_taint_start();
-        }
-    }
-
     # If not set, default to strikeone validation
     $Foswiki::cfg{Validation}{Method} ||= 'strikeone';
     $Foswiki::cfg{Validation}{ValidForTime} = $Foswiki::cfg{LeaseLength}
