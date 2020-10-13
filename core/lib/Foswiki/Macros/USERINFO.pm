@@ -51,7 +51,12 @@ my %USERINFO_tokens = (
     },
     registrationdate => sub {
         my ( $this, $user ) = @_;
-        return $this->{users}->getRegistrationDate($user) || "";
+
+        return '' if ($USERINFO_cloak);
+
+        my $date = $this->{users}->getRegistrationDate($user) || "";
+        $date = Foswiki::Time::formatTime($date) if $date =~ /^\d+$/;
+        return $date;
     },
     emails => sub {
         my ( $this, $user ) = @_;
