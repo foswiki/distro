@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1602602196" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ INCLUDE -- include another topic, or subsection of a topic, or a URL, or Foswiki embedded documentation
 
@@ -37,6 +37,7 @@
   %TABLE{sort="off"}%
   | *Parameter* | *Description* | *Default* |
   | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
+  | =publicOnly= | Boolean to extract only public methods | on |
   | =level= | Override the root heading level to the specified number | |
   | =pattern= |Include a subset of the module. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
    * Examples: See [[%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][%SYSTEMWEB%/PerlDoc?module=Foswiki::Func]]

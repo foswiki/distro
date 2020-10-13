@@ -15,7 +15,8 @@ package Foswiki::IncludeHandlers::doc;
 use strict;
 use warnings;
 
-use Foswiki ();
+use Foswiki       ();
+use Foswiki::Func ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -31,7 +32,7 @@ sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
     my $class         = $control->{_DEFAULT} || 'doc:Foswiki';
-    my $publicOnly    = ( $params->{publicOnly} || '' ) eq 'on';
+    my $publicOnly    = Foswiki::Func::isTrue( $params->{publicOnly}, 1 );
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
 
     # SMELL This is no longer being used in PerlDoc ...
