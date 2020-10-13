@@ -69,6 +69,7 @@ sub new {
     # The only default DEF, used by %SEP% and by unit tests (hack)
     $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
+    $this->{templateFile}        = {};
     return $this;
 }
 
@@ -87,6 +88,7 @@ sub finish {
     undef $this->{VARS};
     undef $this->{session};
     undef $this->{expansionRecursions};
+    undef $this->{templateFile};
 }
 
 =begin TML
@@ -254,7 +256,7 @@ sub readTemplate {
     $this->{files} = ();
 
     # recursively read template file(s)
-    my $text = _readTemplateFile( $this, $name, $skins, $web );
+    my $text = $this->_readTemplateFile( $name, $skins, $web );
 
     # Check file was found
     unless ( defined $text ) {
@@ -280,7 +282,7 @@ sub readTemplate {
     # SMELL: unchecked implicit untaint?
     while ( $text =~ m/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/s ) {
         $text =~ s/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/
-          _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
+          $this->_readTemplateFile( $1, $skins, $web ) || ''/ge;
     }
 
     if ( $text !~ /%TMPL\:/ ) {
@@ -373,8 +375,6 @@ sub readTemplate {
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|gem;
 
-    #$this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
-    #  if (TRACE);
     return $result;
 }
 
@@ -383,19 +383,16 @@ sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
 
+    # normalize web topic path
+    $name =~ s/\//./g;
+
     # zap anything suspicious
     $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ m/\.tmpl$/ ) {
-        my $text =
-          _decomment(
-            _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
-
-        #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-        #  if (TRACE);
-        return $text;
+        return $this->_readFile("$Foswiki::cfg{TemplateDir}/$name");
     }
 
     my $userdirweb  = $web;
@@ -426,11 +423,7 @@ sub _readTemplateFile {
               . "<!--/$userdirweb/$userdirname-->\n"
               if (TRACE);
 
-            $text = _decomment($text);
-
-            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-            #  if (TRACE);
-            return $text;
+            return _decomment($text);
         }
     }
     else {
@@ -549,11 +542,7 @@ sub _readTemplateFile {
                 $text = "<!--$web1.$name1-->\n$text<!--/$web1.$name1-->\n"
                   if (TRACE);
 
-                $text = _decomment($text);
-
-                #$this->saveTemplateToCache( '_cache', $name, $skins, $web,
-                #    $text ) if (TRACE);
-                return $text;
+                return _decomment($text);
             }
         }
         elsif ( -e $file ) {
@@ -562,11 +551,7 @@ sub _readTemplateFile {
             # recursion prevention.
             $this->{files}->{$file} = 1;
 
-            my $text = _decomment( _readFile( $session, $file ) );
-
-            #$this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
-            #  if (TRACE);
-            return $text;
+            return $this->_readFile($file);
         }
     }
 
@@ -575,20 +560,23 @@ sub _readTemplateFile {
 }
 
 sub _readFile {
-    my ( $session, $fn ) = @_;
-    my $F;
+    my ( $this, $fn ) = @_;
 
+    my $text = $this->{templateFile}{$fn};
+    return $text if defined $text;
+
+    my $F;
     if ( open( $F, '<:encoding(utf-8)', $fn ) ) {
         local $/;
-        my $text = <$F>;
+        $text = <$F>;
         close($F);
 
         $text = "<!--$fn-->\n$text<!--/$fn-->\n" if (TRACE);
 
-        return $text;
+        return $this->{templateFile}{$fn} = _decomment($text);
     }
     else {
-        $session->logger->log( 'warning', "$fn: $!" );
+        $this->{session}->logger->log( 'warning', "$fn: $!" );
         return undef;
     }
 }
