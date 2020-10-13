@@ -1,7 +1,7 @@
 /*
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -82,7 +82,7 @@ This is an example of a simple AJAX comment submission.
 
         // Handler for when an AJAXed "Add Comment" button is clicked
         // Compose and send off a rest request to save the new comment.
-        $("input.commentPluginAjax").click(
+        $("input.commentPluginAjax").on("click",
             function(e) {
                 var form = $(this).parents("form")[0];
                 $("body").css("cursor", "wait");
