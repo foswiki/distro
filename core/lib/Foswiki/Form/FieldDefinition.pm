@@ -101,6 +101,16 @@ sub isMultiValued { 0 }
 
 =begin TML
 
+---++ isValueMapped() -> $boolean
+
+Is the field type has got a value map, see ListFieldDefinition
+
+=cut
+
+sub isValueMapped { 0 }
+
+=begin TML
+
 ---++ isTextMergeable() -> $boolean
 
 Is this field type mergeable using a conventional text merge?
