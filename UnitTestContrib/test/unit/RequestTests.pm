@@ -292,10 +292,16 @@ sub perform_url_test {
     my $absolute .=
       $Foswiki::cfg{ScriptUrlPath} . "/$action$Foswiki::cfg{ScriptSuffix}";
     $this->assert_str_equals( $base . $absolute, $req->url, 'Wrong FULL url' );
-    $this->assert_str_equals( $absolute,
-        $req->url( -absolute => 1, 'Wrong ABSOLUTE url' ) );
-    $this->assert_str_equals( $action . $Foswiki::cfg{ScriptSuffix},
-        $req->url( -relative => 1, 'Wrong RELATIVE url' ) );
+    $this->assert_str_equals(
+        $absolute,
+        $req->url( -absolute => 1 ),
+        'Wrong ABSOLUTE url'
+    );
+    $this->assert_str_equals(
+        $action . $Foswiki::cfg{ScriptSuffix},
+        $req->url( -relative => 1 ),
+        'Wrong RELATIVE url'
+    );
 
     $this->assert_str_equals(
         $base . $absolute . $path,
