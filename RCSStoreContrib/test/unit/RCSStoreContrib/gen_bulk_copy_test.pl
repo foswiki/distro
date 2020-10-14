@@ -38,6 +38,7 @@
 #
 # The web generated is called Testbulkcopy.
 use strict;
+use warnings;
 use Encode;
 use POSIX qw(locale_h);
 use locale;
@@ -166,14 +167,14 @@ sub make_topic {
     my $path = "data/$web/"
       . Encode::encode( $source_encoding, $name, Encode::FB_CROAK );
     push( @made, "topic $name version $rev " );
-    open( F, ">:encoding($source_encoding)", "$path.txt" )
+    open( my $F, ">:encoding($source_encoding)", "$path.txt" )
       || die recode("Failed $path $!");
-    print F <<THIS;
+    print $F <<THIS;
 %META:TOPICINFO{author="ProjectContributor" date="$time" format="1.1" version="$rev"}%
 $text
 THIS
     $time++;
-    close(F);
+    close($F);
     ci("$path.txt");
 }
 
@@ -184,10 +185,10 @@ sub make_attachment {
     mkdir $path;
     my $path =
       $path . Encode::encode( $source_encoding, $name, Encode::FB_CROAK );
-    open( F, ">", $path ) || die recode("Failed $path $!");
-    binmode(F);
-    print F $data;
-    close(F);
+    open( my $F, ">", $path ) || die recode("Failed $path $!");
+    binmode($F);
+    print $F $data;
+    close($F);
     ci($path);
     push( @made, "attachment $path:$rev" );
 }

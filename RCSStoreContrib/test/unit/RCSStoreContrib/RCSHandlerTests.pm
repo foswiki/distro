@@ -6,6 +6,7 @@
 package RCSHandlerTests;
 
 use strict;
+use warnings;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
@@ -107,9 +108,10 @@ sub set_up {
 
     File::Path::mkpath("$Foswiki::cfg{DataDir}/$testWeb");
     File::Path::mkpath("$Foswiki::cfg{PubDir}/$testWeb");
-    $this->assert( open( F, ">$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
-    print F "old";
-    $this->assert( close(F), $! );
+    my $F;
+    $this->assert( open( $F, ">", "$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
+    print $F "old";
+    $this->assert( close($F), $! );
     require Foswiki::Users::BaseUserMapping;    #
 }
 
@@ -530,11 +532,12 @@ sub verify_Keywords {
 HERE
     $check .=
 '$Author$ $Date$ $Header$ $Id$ $Locker$ $Log$ $Name$ $RCSfile$ $Revision$ $Source$ $State$';
-    $rcs->addRevisionFromText( $check, "comment", "UserForRev0" );
-    open( F, "<$rcs->{file}" ) || die "Failed to open $rcs->{file}";
+    $rcs->addRevisionFromText( $check, "comment", "UserForRev0", $time );
+    my $F;
+    open( $F, "<", $rcs->{file} ) || die "Failed to open $rcs->{file}";
     local $/ = undef;
-    $this->assert_str_equals( $check, <F> );
-    close(F);
+    $this->assert_str_equals( $check, <$F> );
+    close($F);
 }
 
 sub checkDifferences {
@@ -713,9 +716,10 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
     sleep 2;
-    open( FH, '>>', "$rcs->{file}" );
-    print FH "Modified";
-    close FH;
+    my $FH;
+    open( $FH, '>>', $rcs->{file} );
+    print $FH "Modified";
+    close $FH;
 
     $info = $rcs->getInfo(0);
     my $time1 = "$info->{date}\n";
@@ -764,9 +768,10 @@ sub verify_MissingVrestoreRev {
 
     my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
-    open( F, ">$file" ) || die;
-    print F "Rev 1\n";
-    close(F);
+    my $F;
+    open( $F, ">", $file ) || die;
+    print $F "Rev 1\n";
+    close($F);
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
@@ -797,9 +802,10 @@ sub verify_MissingVrepRev {
 
     my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
-    open( F, ">$file" ) || die;
-    print F "Rev 1\n";
-    close(F);
+    my $F;
+    open( $F, ">", $file ) || die;
+    print $F "Rev 1\n";
+    close($F);
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
@@ -833,9 +839,10 @@ sub verify_MissingVdelRev {
 
     my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
-    open( F, ">$file" ) || die;
-    print F "Rev 1";
-    close(F);
+    my $F;
+    open( $F, ">", $file ) || die;
+    print $F "Rev 1";
+    close($F);
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
@@ -915,9 +922,10 @@ F
 B
 HERE
     my $file = "$Foswiki::cfg{DataDir}/$testWeb/Item2957.txt";
-    open( F, ">$file" ) || die;
-    print F $rev1;
-    close(F);
+    my $F;
+    open( $F, ">", $file ) || die;
+    print $F $rev1;
+    close($F);
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
     $rcs->addRevisionFromText( $rev2, "more", "idiot", $time );
@@ -974,7 +982,7 @@ HERE
     sleep(1);
 
     my $fh;
-    $this->assert( open( $fh, "<$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
+    $this->assert( open( $fh, "<", "$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
     $rcs->addRevisionFromStream( $fh, "more", "idiot", $time );
     close($fh);
 

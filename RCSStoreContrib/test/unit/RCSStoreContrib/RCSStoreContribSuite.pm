@@ -1,5 +1,8 @@
 package RCSStoreContribSuite;
 
+use strict;
+use warnings;
+
 use Unit::TestSuite;
 our @ISA = qw( Unit::TestSuite );
 
