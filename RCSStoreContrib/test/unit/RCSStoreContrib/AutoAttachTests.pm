@@ -4,6 +4,7 @@
 # 3) Turn autoattach = on. Ask for the list of attachments. attachmentAdded should appear. attachmentMissing should not.
 
 package AutoAttachTests;
+
 use strict;
 use warnings;
 
@@ -112,7 +113,7 @@ sub sneakAttachmentsAddedToTopic {
 sub touchFile {
     my $filename = shift;
     $filename = Encode::encode_utf8($filename);
-    open( my $fh, ">$filename" );
+    open( my $fh, ">", $filename );
     binmode $fh, ":encoding(utf-8)";
     print $fh "Test attachment $filename\n";
     close($fh);
@@ -252,9 +253,10 @@ sub check_normal_attachment {
 
     $this->assert( $this->{session}->topicExists( $this->{test_web}, $topic ) );
 
-    open( FILE, ">$Foswiki::cfg{TempfileDir}/$attachment" );
-    print FILE "Test attachment\n";
-    close(FILE);
+    my $FILE;
+    open( $FILE, ">", "$Foswiki::cfg{TempfileDir}/$attachment" );
+    print $FILE "Test attachment\n";
+    close($FILE);
 
     my $saveCmd         = "";
     my $doNotLogChanges = 0;
