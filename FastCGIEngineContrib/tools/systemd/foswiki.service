@@ -17,6 +17,7 @@ Environment=FOSWIKI_CHILDREN=3
 Environment=FOSWIKI_MAX_REQUESTS=-1
 Environment=FOSWIKI_MAX_SIZE=250000
 Environment=FOSWIKI_CHECK_SIZE=10
+Environment=FOSWIKI_WARMING=1
 Environment=FOSWIKI_PNAME=foswiki
 
 # Optional, overrides settings above
@@ -47,6 +48,7 @@ ExecStart=/usr/bin/perl ${FOSWIKI_ROOT}/bin/${FOSWIKI_FCGI} \
         -x $FOSWIKI_MAX_REQUESTS \
         -s $FOSWIKI_MAX_SIZE \
         -p ${FOSWIKI_ROOT}/working/foswiki.pid \
+        -w $FOSWIKI_WARMING \
         -a $FOSWIKI_PNAME \
         -d
 

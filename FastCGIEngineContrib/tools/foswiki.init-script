@@ -24,10 +24,11 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 USER=www-data
 GROUP=www-data
+HOME=/var/www
 
 # The following defaults are overridden in etc/default/foswiki
 
-FOSWIKI_ROOT=/var/www/foswiki
+FOSWIKI_ROOT=$HOME/foswiki
 FOSWIKI_FCGI=foswiki.fcgi
 FOSWIKI_BIND=127.0.0.1:9000
 FOSWIKI_CHILDREN=3
@@ -36,6 +37,7 @@ FOSWIKI_MAX_SIZE=250000
 FOSWIKI_CHECK_SIZE=10
 FOSWIKI_QUIET=true
 FOSWIKI_PNAME=foswiki
+FOSWIKI_WARMING=1
 
 FOSWIKI_PIDFILE=/var/run/$NAME.pid
 
@@ -44,8 +46,24 @@ if [ -f /etc/default/$NAME ] ; then
     . /etc/default/$NAME
 fi
 
+if [ ! -d $FOSWIKI_ROOT ]; then
+    exit
+fi
+
+cd $HOME || exit 3
+export HOME
+
+if [ -d $HOME/.plenv ]; then
+  export PATH=$HOME/.plenv/bin:$PATH
+  eval "$(plenv init -)"
+fi
+
+if [ -d $HOME/local/lib ]; then
+  export LD_LIBRARY_PATH=$HOME/local/lib
+fi
+
 FOSWIKI_DAEMON=$FOSWIKI_ROOT/bin/$FOSWIKI_FCGI
-FOSWIKI_DAEMON_OPTS="-n $FOSWIKI_CHILDREN -l $FOSWIKI_BIND -p $FOSWIKI_PIDFILE -d -c $FOSWIKI_CHECK_SIZE -x $FOSWIKI_MAX_REQUESTS -s $FOSWIKI_MAX_SIZE -a $FOSWIKI_PNAME"
+FOSWIKI_DAEMON_OPTS="-n $FOSWIKI_CHILDREN -l $FOSWIKI_BIND -p $FOSWIKI_PIDFILE -d -c $FOSWIKI_CHECK_SIZE -x $FOSWIKI_MAX_REQUESTS -s $FOSWIKI_MAX_SIZE -a $FOSWIKI_PNAME -w $FOSWIKI_WARMING"
 
 if $FOSWIKI_QUIET; then
   FOSWIKI_DAEMON_OPTS="$FOSWIKI_DAEMON_OPTS -q"

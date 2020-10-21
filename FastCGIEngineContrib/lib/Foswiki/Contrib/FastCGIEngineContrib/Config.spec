@@ -25,4 +25,8 @@ $Foswiki::cfg{FastCGIContrib}{CheckSize} = 10;
 # required for any configuration change to LocalSite.cfg to take effect.
 $Foswiki::cfg{FastCGIContrib}{CheckLocalSiteCfg} = 1;
 
+# **STRING 80 LABEL="Warmup URL"**
+# A web.topic name to be called warming up backend processes.
+$Foswiki::cfg{FastCGIContrib}{WarmupURL} = '$Foswiki::cfg{ScriptUrlPaths}{view}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}';
+
 1;

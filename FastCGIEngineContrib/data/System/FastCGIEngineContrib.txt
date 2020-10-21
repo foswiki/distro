@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1513046660" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1603295536" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -248,9 +248,12 @@ After the update, each process will still serve one more request before reloadin
 %X% !FastCGI support on IIS 6.0 (and maybe other versions) is *broken* with respect to the =STDERR= stream. This may cause problems.
 </div>
 
----++ Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-| Change History: | |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  21 Oct 2020 | (1.10) Foswikitask:Item14963 - add warmup parameter |
 |  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task.<br/>\
                         Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=.<br/>\
                         Foswikitask:Item14577 - Add sample init scripts for !FreeBSD. |
@@ -269,12 +272,10 @@ After the update, each process will still serve one more request before reloadin
 |  21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswikitask:Item8238 |
 |  24 Jan 2009 | Documentation enhancements and some fixes (Foswikitask:Item853) |
 |  25 Dec 2008 | Initial Release |
-| Dependencies: | %$DEPENDENCIES% |
-| Home page: | http://foswiki.org/Extensions/%TOPIC% |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2017 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2020 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
