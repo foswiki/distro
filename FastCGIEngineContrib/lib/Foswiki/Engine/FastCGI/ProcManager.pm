@@ -1,7 +1,7 @@
 # FastCGI Runtime Engine Component of Foswiki - The Free and Open Source Wiki,
 # http://foswiki.org/
 #
-# Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2020 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #

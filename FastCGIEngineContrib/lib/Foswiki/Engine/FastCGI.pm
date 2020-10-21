@@ -16,6 +16,7 @@ use strict;
 use warnings;
 
 use Foswiki          ();
+use Foswiki::Request ();
 use Foswiki::Sandbox ();
 use Foswiki::Engine::CGI;
 our @ISA = qw( Foswiki::Engine::CGI );
@@ -79,7 +80,9 @@ sub run {
         $args->{nproc}   ||= 1;
 
         $this->fork() if $args->{detach};
-        eval "use " . $args->{manager} . "; 1";
+        my $path = $args->{manager} . '.pm';
+        $path =~ s/::/\//g;
+        eval { require $path };
         unless ($@) {
             my $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
             my $maxSize     = $Foswiki::cfg{FastCGIContrib}{MaxSize}     || 0;
@@ -102,6 +105,8 @@ sub run {
                       ( defined $args->{check} ? $args->{check} : $checkSize ),
                 }
             );
+
+            $this->warmup($manager) if $args->{warming};
 
             $manager->pm_manage();
             $manager->pm_change_process_name(
@@ -162,8 +167,33 @@ sub run {
         }
         $manager && $manager->pm_post_dispatch();
     }
+
     reExec() if $hupRecieved;
     closeSocket();
+}
+
+sub warmup {
+    my ( $this, $manager ) = @_;
+
+    eval {
+        local $ENV{FOSWIKI_ACTION} = 'view';
+
+        my $req = Foswiki::Request->new(
+            { url => $Foswiki::cfg{FastCGIContrib}{WarmupURL} } );
+
+        my $session = new Foswiki( undef, $req, { view => 1 } );
+        $session->finish() if $session;
+    };
+
+    if ($@) {
+        my $message = "Error while warming: $@\n";
+        if ($manager) {
+            $manager->pm_notify($message);
+        }
+        else {
+            warn $message;
+        }
+    }
 }
 
 sub preparePath {
@@ -186,7 +216,7 @@ sub preparePath {
     $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#
       if ( $ENV{PATH_INFO} && defined $Foswiki::cfg{ScriptUrlPath} );
 
-    return $this->SUPER::preparePath();
+    return $this->SUPER::preparePath(@_);
 }
 
 sub write {
@@ -254,9 +284,9 @@ Daemonize process. Currently not portable...
 sub daemonize {
     umask(0);
     chdir File::Spec->rootdir;
-    open STDIN,  File::Spec->devnull or die $!;
-    open STDOUT, ">&STDIN"           or die $!;
-    open STDERR, ">&STDIN"           or die $!;
+    open STDIN,  "<",  File::Spec->devnull or die $!;
+    open STDOUT, ">&", STDIN               or die $!;
+    open STDERR, ">&", STDIN               or die $!;
     POSIX::setsid();
 }
 
@@ -266,7 +296,7 @@ __END__
 FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 http://foswiki.org/
 
-Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+Copyright (C) 2008-2020 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 contributors. Foswiki contributors are listed in the AUTHORS file in the root
 of Foswiki distribution.
 

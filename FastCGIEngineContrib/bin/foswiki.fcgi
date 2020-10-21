@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2017 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2020 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -46,10 +46,8 @@ my @argv = @ARGV;
 
 my (
     $listen,  $nproc,  $max,  $size,  $check, $pidfile,
-    $manager, $detach, $help, $quiet
+    $manager, $detach, $help, $quiet, $pname, $warming,
 );
-
-my $pname = 'foswiki';  # Default process name.
 
 GetOptions(
     'listen|l=s'  => \$listen,
@@ -63,6 +61,7 @@ GetOptions(
     'help|?'      => \$help,
     'quiet|q'     => \$quiet,
     'pname|a=s'   => \$pname,
+    'warming|w=i' => \$warming,
 );
 
 pod2usage(1) if $help;
@@ -87,6 +86,7 @@ $Foswiki::engine->run(
         size    => $size,
         check   => $check,
         pname   => $pname,
+        warming => $warming,
     }
 );
 
@@ -107,7 +107,8 @@ foswiki.fcgi [options]
     -d --daemon     Detach from terminal and keeps running as a daemon
     -q --quiet      Disable notification messages
     -? --help       Display this help and exits
-    -N --pname      Process name to display in ps output for the process-manager task.
+    -a --pname      Process name to display in ps output for the process-manager task.
+    -w --warming    Enable warming of workers, defaults to 1
 
   Note:
     FCGI manager class defaults to Foswiki::Engine::FastCGI::ProcManager, a
