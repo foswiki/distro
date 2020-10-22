@@ -106,7 +106,7 @@ sub INCLUDE {
     my $response = $session->net->getExternalResource($url);
     if ( !$response->is_error() ) {
         my $contentType = $response->header('content-type');
-        $text = $response->content();
+        $text = $response->decoded_content();
         if ( $contentType =~ m/^text\/html/ ) {
             if ( !$control->{raw} ) {
                 $url =~ m!^([a-z]+:/*[^/]*)(/[^#?]*)!;
