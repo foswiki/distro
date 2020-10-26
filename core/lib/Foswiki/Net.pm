@@ -450,9 +450,13 @@ sub _installMailHandler {
             $this->_logMailError( 'error', "Failed to load module: $@" );
         }
         else {
-            $handler = \&_sendEmailByNetSMTP;
-
-          #_logMailError('debug', "Set EMAIL HANDLER to $this->{MAIL_METHOD}" );
+            eval { require Email::Address::XS; };
+            if ($@) {
+                $this->_logMailError( 'error', "Failed to load module: $@" );
+            }
+            else {
+                $handler = \&_sendEmailByNetSMTP;
+            }
         }
     }
 
@@ -818,13 +822,13 @@ sub _sendEmailByNetSMTP {
 
     # extract @to from 'To:', 'CC:', 'BCC:'
     foreach my $field (qw(To CC BCC)) {
-        require Email::Address;
+        require Email::Address::XS;
 
 # Remove names part from addresses. I.e. convert "John Smith <jsmith@nowhere.com>"
 # to just jsmith@nowhere.com
         push @to,
           map { $_->address }
-          Email::Address->parse( $header->header_raw($field) );
+          Email::Address::XS->parse( $header->header_raw($field) );
     }
 
     if ( !( scalar(@to) ) ) {
