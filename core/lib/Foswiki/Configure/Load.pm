@@ -257,7 +257,7 @@ be expanded as 'undef'.
 
 sub expanded {
     my $val = shift;
-    return undef unless defined $val;
+    return unless defined $val;
     expandValue($val);
     return $val;
 }
@@ -273,7 +273,7 @@ hash or array reference, or a scalar value. The replacement is done in-place.
 $mode - How to handle undefined values:
    * false:  'undef' (string) is returned when an undefined value is
      encountered.
-   * 1 : return undef if any undefined value is encountered.
+   * 1 : return if any undefined value is encountered.
    * 2 : return  '' for any undefined value (including embedded)
    * 3 : die if an undefined value is encountered.
 

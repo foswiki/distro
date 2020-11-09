@@ -99,7 +99,7 @@ which will read the file until it finds a matching record.
 sub snoopNext {
     my $this = shift;
     return $this->{_nextParsed};    # if defined $this->{_nextParsed};
-                                    #return undef unless $this->hasNext();
+                                    #return unless $this->hasNext();
                                     #return $this->{_nextParsed};
 }
 

@@ -170,7 +170,7 @@ The correct setting for $keys is probably =$info->{SCRIPT_NAME}=.  (Server may b
     unless ($try) {
         $reporter->ERROR("Excessive redirects stopped trace.");
     }
-    return undef;    # return the report
+    return;    # return the report
 }
 
 1;

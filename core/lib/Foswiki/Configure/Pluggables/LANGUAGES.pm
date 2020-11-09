@@ -100,7 +100,7 @@ sub construct {
     foreach my $label ( sort keys %langs ) {
         push( @$settings, $langs{$label} );
     }
-    return undef;
+    return;
 }
 
 1;

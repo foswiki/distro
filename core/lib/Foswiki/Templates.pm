@@ -263,7 +263,7 @@ sub readTemplate {
 
         # if no_oops is given, return undef silently
         if ( $opts{no_oops} ) {
-            return undef;
+            return;
         }
         else {
             throw Foswiki::OopsException(
@@ -556,7 +556,7 @@ sub _readTemplateFile {
     }
 
     # File was not found
-    return undef;
+    return;
 }
 
 sub _readFile {
@@ -577,7 +577,7 @@ sub _readFile {
     }
     else {
         $this->{session}->logger->log( 'warning', "$fn: $!" );
-        return undef;
+        return;
     }
 }
 

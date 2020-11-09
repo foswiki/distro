@@ -1357,10 +1357,10 @@ sub get {
         if ( defined $name ) {
 
             my $indices = $this->{_indices};
-            return undef unless defined $indices;
+            return unless defined $indices;
             $indices = $indices->{$type};
-            return undef unless defined $indices;
-            return undef unless defined $indices->{$name};
+            return unless defined $indices;
+            return unless defined $indices->{$name};
             return $data->[ $indices->{$name} ];
         }
         else {
@@ -1368,7 +1368,7 @@ sub get {
         }
     }
 
-    return undef;
+    return;
 }
 
 =begin TML

@@ -74,7 +74,7 @@ sub _restNotify {
         Foswiki::Contrib::MailerContrib::mailNotify( \@webs, \@exwebs,
             %options );
     }
-    return undef;
+    return;
 }
 
 1;

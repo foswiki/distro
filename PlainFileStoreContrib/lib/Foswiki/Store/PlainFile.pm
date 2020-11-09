@@ -886,7 +886,7 @@ sub getRevisionAtTime {
     my $d;
     unless ( opendir( $d, _encode( $hd, 1 ) ) ) {
         return 1 if ( $time >= ( _stat( _latestFile($meta) ) )[9] );
-        return undef;
+        return;
     }
     my @revs;
     _loadRevs( \@revs, $hd );
@@ -900,7 +900,7 @@ sub getRevisionAtTime {
         return $rev if ( $time >= ( _stat("$hd/$rev") )[9] );
     }
 
-    return undef;
+    return;
 }
 
 # Implement Foswiki::Store

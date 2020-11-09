@@ -224,7 +224,7 @@ sub cachePage {
     $web =~ s/\//./g;
 
     Foswiki::Func::writeDebug("called cachePage($web, $topic)") if TRACE;
-    return undef unless $this->isCacheable( $web, $topic );
+    return unless $this->isCacheable( $web, $topic );
 
     # delete page and all variations if we ask for a refresh copy
     my $refresh = $request->param('refresh') || '';
@@ -292,7 +292,7 @@ sub cachePage {
 
     # store page variation
     Foswiki::Func::writeDebug("PageCache: Stored data") if TRACE;
-    return undef
+    return
       unless $this->setPageVariation( $web, $topic, $variationKey, $variation );
 
     # assert newly autotetected dependencies
@@ -324,7 +324,7 @@ sub getPage {
 
         if ( $session->{users}->isAdmin( $session->{user} ) ) {
             $this->deleteAll();
-            return undef;
+            return;
         }
         else {
             my $session = $Foswiki::Plugins::SESSION;
@@ -350,18 +350,18 @@ sub getPage {
     }
 
     # check cacheability
-    return undef unless $this->isCacheable( $web, $topic );
+    return unless $this->isCacheable( $web, $topic );
 
     # check availability
     my $variationKey = $this->genVariationKey();
 
     my $variation = $this->getPageVariation( $web, $topic, $variationKey );
 
-    # check expiry date of this entry; return undef if it did expire, not
+    # check expiry date of this entry; return if it did expire, not
     # deleted from cache as it will be recomputed during a normal view
     # cycle
-    return undef
-      if defined($variation)
+    return
+         if defined($variation)
       && defined( $variation->{expire} )
       && $variation->{expire} < time();
 

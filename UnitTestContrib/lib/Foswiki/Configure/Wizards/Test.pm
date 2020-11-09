@@ -35,7 +35,7 @@ sub test1 {
     $reporter->NOTE("This is a note");
     $Foswiki::cfg{UnitTestContrib}{Configure}{STRING} = 'ROPE';
     $reporter->CHANGED('{UnitTestContrib}{Configure}{STRING}');
-    return undef;
+    return;
 }
 
 =begin TML
@@ -49,7 +49,7 @@ Test prettified value
 sub format {
     my ( $this, $reporter ) = @_;
     $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{PERL}');
-    return undef;
+    return;
 }
 
 1;

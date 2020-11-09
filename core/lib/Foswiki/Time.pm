@@ -151,7 +151,7 @@ sub parseTime {
         #$year -= 1900 if ( $year > 1900 );
 
         my $mon = $MON2NUM{ lc($2) };
-        return undef unless defined $mon;
+        return unless defined $mon;
 
         #TODO: %MON2NUM needs to be updated to use i8n
         #TODO: and should really work for long form of the month name too.
@@ -221,18 +221,18 @@ m/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?
         #$year -= 1900 if ( $year > 1900 );
 
         #range checks
-        return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );
+        return if ( defined($M) && ( $M < 1 || $M > 12 ) );
         my $month = ( $M || 1 ) - 1;
         my $monthlength = $MONTHLENS[$month];
 
         # If leap year, note February is month number 1 starting from 0
         $monthlength = 29 if ( $month == 1 && _daysInYear($year) == 366 );
-        return undef if ( defined($D) && ( $D < 0 || $D > $monthlength ) );
-        return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
-        return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
-        return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
+        return if ( defined($D) && ( $D < 0 || $D > $monthlength ) );
+        return if ( defined($h) && ( $h < 0 || $h > 24 ) );
+        return if ( defined($m) && ( $m < 0 || $m > 60 ) );
+        return if ( defined($s) && ( $s < 0 || $s > 60 ) );
 
-        #return undef if ( defined($year) && $year < 60 );
+        #return if ( defined($year) && $year < 60 );
 
         my $day  = $D || 1;
         my $hour = $h || 0;
@@ -242,8 +242,8 @@ m/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?
         return &$timelocal( $sec, $min, $hour, $day, $month, $year );
     }
 
-    # give up, return undef
-    return undef;
+    # give up, return
+    return;
 }
 
 =begin TML

@@ -748,7 +748,7 @@ sub _sendEmailByNetSMTP {
         }
         chomp $msg;
         $this->_logMailError( 'error', "Failed: $msg\n" );
-        return undef;
+        return;
     };
 
     # IGNORE SIGPIPE caused by errors that cause Net::Cmd to close

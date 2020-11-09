@@ -107,7 +107,7 @@ sub readTopic {
         }
     }
     else {
-        undef $version;  # if it's a non-numeric string, we need to return undef
+        undef $version;  # if it's a non-numeric string, we need to return
     }
 
     return ( undef, undef ) unless $handler->storedDataExists();
@@ -226,7 +226,7 @@ sub copyAttachment {
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
         $oldAttachment );
-    return undef unless $handler->storedDataExists();
+    return unless $handler->storedDataExists();
 
     my $rev =
       $handler->copyAttachment( $this, $newTopicObject->web,

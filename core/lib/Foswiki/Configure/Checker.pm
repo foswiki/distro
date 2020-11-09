@@ -137,7 +137,7 @@ sub loadChecker {
             $checkers{$chkmod} = '';
         }
     }
-    return undef;
+    return;
 }
 
 =begin TML

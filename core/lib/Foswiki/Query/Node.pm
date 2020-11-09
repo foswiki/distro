@@ -282,7 +282,7 @@ sub _getField {
             }
         }
         return \@res if ( scalar(@res) );
-        return undef;
+        return;
     }
 
     if ( ref($data) eq 'HASH' ) {

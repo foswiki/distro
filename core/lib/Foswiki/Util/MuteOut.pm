@@ -64,11 +64,11 @@ sub new {
 
     unless ( open $oldOut, ">&", STDOUT ) {
         Foswiki::Util::Dependencies::_msg( "Cannot dup STDOUT: " . $! );
-        return undef;
+        return;
     }
     unless ( open $oldErr, ">&", STDERR ) {
         Foswiki::Util::Dependencies::_msg( "Cannot dup STDERR: " . $! );
-        return undef;
+        return;
     }
     unless ( open STDOUT, ">", $outFile ) {
         Foswiki::Util::Dependencies::_msg( "Failed to redirect STDOUT: " . $! );

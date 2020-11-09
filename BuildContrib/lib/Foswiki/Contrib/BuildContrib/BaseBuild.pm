@@ -78,7 +78,7 @@ sub readManifest {
         &$noManifestFileHook()
           if defined($noManifestFileHook)
           ;    #CodeSmell - calling package sub not object method
-        return undef;
+        return;
     }
     my @files;
     my @otherModules;
@@ -200,7 +200,7 @@ sub findInINC {
             return $dir . '/' . $fileName;
         }
     }
-    return undef;
+    return;
 }
 
 1;

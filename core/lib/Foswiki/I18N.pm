@@ -316,10 +316,11 @@ sub enabled_languages {
     my $this = shift;
 
     unless ( $this->{checked_enabled} ) {
+        $this->{checked_enabled} = 1;
         _discover_languages($this);
+        _add_language( $this, "en", "English" );
     }
 
-    $this->{checked_enabled} = 1;
     return $this->{enabled_languages};
 
 }
@@ -329,10 +330,12 @@ sub _discover_languages {
     my $this       = shift;
     my $cache_open = 0;
 
+    my $LANGUAGE;
+
     #use the cache, if available
-    if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
+    if ( open $LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         $cache_open = 1;
-        foreach my $line ( map { Foswiki::decode_utf8($_) } <LANGUAGE> ) {
+        foreach my $line ( map { Foswiki::decode_utf8($_) } <$LANGUAGE> ) {
             my ( $key, $name ) = split( '=', $line );
 
             # Filter on enabled languages
@@ -347,11 +350,11 @@ sub _discover_languages {
 
         # Rebuild the cache, filtering on enabled languages.
         $cache_open =
-          open( LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache" );
+          open( $LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache" );
         foreach my $tag ( available_languages() ) {
             my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
-            print LANGUAGE Foswiki::encode_utf8("$tag=$name\n") if $cache_open;
+            print $LANGUAGE Foswiki::encode_utf8("$tag=$name\n") if $cache_open;
 
             # Filter on enabled languages
             next
@@ -361,7 +364,7 @@ sub _discover_languages {
         }
     }
 
-    close LANGUAGE if $cache_open;
+    close $LANGUAGE if $cache_open;
     $this->{checked_enabled} = 1;
 
 }

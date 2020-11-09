@@ -724,7 +724,7 @@ sub fetchPass {
             print STDERR "ERROR: failed to fetchPass - $! ($e)";
             $this->{error} = 'unknown error in fetchPass'
               unless ( $this->{error} && length( $this->{error} ) );
-            return undef;
+            return;
         };
     }
     else {
@@ -842,7 +842,7 @@ sub removeUser {
         print STDERR "ERROR: failed to removeUser - $! ($e)";
         $this->{error} = 'unknown error in removeUser'
           unless ( $this->{error} && length( $this->{error} ) );
-        return undef;
+        return;
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;

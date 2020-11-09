@@ -212,7 +212,7 @@ sub _getACL {
     }
 
     my $text = $meta->getPreference($mode);
-    return undef unless defined $text;
+    return unless defined $text;
 
     if ( $Foswiki::cfg{AccessControlACL}{EnableAdditiveRules}
         && substr( $text, 0, 1 ) eq '+' )

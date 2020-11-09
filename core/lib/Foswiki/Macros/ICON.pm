@@ -25,7 +25,7 @@ BEGIN {
 sub _lookupIcon {
     my ( $this, $choice ) = @_;
 
-    return undef unless defined $choice;
+    return unless defined $choice;
 
     if ( !defined $this->{_ICONSPACE} ) {
         my $iconTopic = $this->{prefs}->getPreference('ICONTOPIC');
@@ -42,7 +42,7 @@ sub _lookupIcon {
             }
         }
     }
-    return undef unless $this->{_ICONSPACE};
+    return unless $this->{_ICONSPACE};
 
     # Have we seen it before?
     $this->{_KNOWNICON} ||= {};

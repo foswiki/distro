@@ -75,7 +75,7 @@ sub _getPackage {
         }
         else {
             $reporter->ERROR("Repository $repo not found\n> Cannot proceed.");
-            return undef;
+            return;
         }
     }
 
@@ -162,7 +162,7 @@ sub manifest {
         $pkg->finish();
     }
 
-    return undef;    # return the report
+    return;    # return the report
 }
 
 =begin TML
@@ -196,7 +196,7 @@ OMG
         $pkg->finish();
     }
 
-    return undef;    # return the report
+    return;    # return the report
 }
 
 =begin TML
@@ -224,7 +224,7 @@ sub remove {
         $pkg->finish();
     }
 
-    return undef;
+    return;
 }
 
 1;

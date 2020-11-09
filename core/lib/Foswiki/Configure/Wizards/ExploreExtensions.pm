@@ -89,7 +89,7 @@ sub _getListOfExtensions {
 Invalid regular expression: $msg <p />
 See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> for help with Perl regular expressions.
 MESS
-                    return undef;
+                    return;
                 }
             }
             $url .= ";$k=" . Foswiki::urlEncode($v);
@@ -214,7 +214,7 @@ sub get_installed_extensions {
     my ( $this, $reporter ) = @_;
 
     $this->_get_extensions( $reporter, 'Installed' );
-    return undef;    # return the report
+    return;    # return the report
 }
 
 # Wizard - Constructs an HTML table of not-installed extensions
@@ -222,7 +222,7 @@ sub get_other_extensions {
     my ( $this, $reporter ) = @_;
 
     $this->_get_extensions( $reporter, 'Uninstalled' );
-    return undef;    # return the report
+    return;    # return the report
 }
 
 sub _get_extensions {
@@ -448,7 +448,7 @@ sub find_extension_1 {
         }
     );
     $reporter->NOTE( $reporter->WIZARD( 'Find Extension', \%data ) );
-    return undef;
+    return;
 }
 
 =begin TML
@@ -470,7 +470,7 @@ sub find_extension_2 {
         $filters{$p} = $pa->{$p} if ( $pa->{$p} );
     }
     $this->_get_extensions( $reporter, 'Uninstalled', %filters );
-    return undef;
+    return;
 }
 
 # Build descriptive hashes for the repositories listed in

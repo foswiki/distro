@@ -356,7 +356,7 @@ sub _maintainUsersTopic {
     }
     else {
 
-        return undef if ( $action eq 'del' );
+        return if ( $action eq 'del' );
 
         # Construct a new users topic from the template
         my $templateTopicObject =

@@ -135,7 +135,7 @@ sub untaint {
     return $datum unless defined $datum;
 
     # Untaint the datum before validating it
-    return undef unless $datum =~ m/^(.*)$/s;
+    return unless $datum =~ m/^(.*)$/s;
     return &$method( $1, @_ );
 }
 
@@ -189,7 +189,7 @@ The individual path components are filtered by $Foswiki::cfg{AttachmentNameFilte
 sub validateAttachmentName {
     my $string = shift;
 
-    return undef unless $string;
+    return unless $string;
 
     # Attachment names are always relative to web/topic, so leading /'s
     # are simply an expression of that root.
@@ -198,7 +198,7 @@ sub validateAttachmentName {
     my @dirs = split( /\/+/, $string );
     my @result;
     foreach my $component (@dirs) {
-        return undef unless defined($component) && $component ne '';
+        return unless defined($component) && $component ne '';
         next if $component eq '.';
         if ( $component eq '..' ) {
             if ( scalar(@result) ) {
@@ -210,7 +210,7 @@ sub validateAttachmentName {
             else {
 
                 # Illegal relative path name
-                return undef;
+                return;
             }
         }
         else {
