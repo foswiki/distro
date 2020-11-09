@@ -376,8 +376,7 @@ sub _maintainUsersTopic {
     $entry .= $login . " - " if $login;
 
     my $today =
-      Foswiki::Time::formatTime( time(), $Foswiki::cfg{DefaultDateFormat},
-        'gmtime' );
+      Foswiki::Time::formatTime( time(), '$day $mon $year', 'gmtime' );
 
     my $user;
 
@@ -1347,7 +1346,7 @@ sub getEmails {
 
 =begin TML
 
----++ ObjectMethod getRegistrationDate($name) -> @emailAddress
+---++ ObjectMethod getRegistrationDate($name) -> $epoch
 
 returns the date this user has registered. 
 
@@ -1636,6 +1635,7 @@ sub _cacheUser {
     ASSERT($wikiname) if DEBUG;
 
     $login ||= $wikiname;
+    $date  ||= time;
 
     #discard users that are the BaseUserMapper's responsibility
     return
@@ -1645,6 +1645,8 @@ sub _cacheUser {
     my $cUID = $this->login2cUID( $login, 1 );
     return unless ($cUID);
     ASSERT($cUID) if DEBUG;
+
+    $date = Foswiki::Time::parseTime($date) unless $date =~ /^\d+$/;
 
     #$this->{U2L}->{$cUID}     = $login;
     $this->{U2W}->{$cUID}     = $wikiname;
@@ -1674,9 +1676,6 @@ sub _getListOfGroups {
     if ( !$this->{groupsList} || $reset ) {
         my $users = $this->{session}->{users};
         $this->{groupsList} = [];
-
-        #create a MetaCache _before_ we do silly things with the session's users
-        $this->{session}->search->metacache();
 
         # Temporarily set the user to admin, otherwise it cannot see groups
         # where %USERSWEB% is protected from view
