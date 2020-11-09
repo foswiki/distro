@@ -257,7 +257,7 @@ sub save {
                     $reporter->ERROR(
                         "SAVE ABORTED: Could not interpret new value for $k: "
                           . Foswiki::Configure::Reporter::stripStacktrace($@) );
-                    return undef;
+                    return;
                 }
             }
             elsif (TRACE_SAVE) {
@@ -280,7 +280,7 @@ sub save {
                 $reporter->ERROR(
 "SAVE ABORTED: undef given as value for $k, but the spec is not undefok"
                 );
-                return undef;
+                return;
             }
             ASSERT( !$@, $@ ) if DEBUG;
         }
@@ -385,7 +385,7 @@ sub save {
         unlink $backup if ($backup);
         $reporter->NOTE("No changes needed to be made to $lsc");
     }
-    return undef;    # return the report
+    return;    # return the report
 }
 
 # $reporter is set to undef when recursing into a hash below the

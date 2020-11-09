@@ -614,7 +614,7 @@ sub _isKnownColour {
     {
         return $1;
     }
-    return undef;
+    return;
 }
 
 # Text that is taken from a web page and added to the parameters of an XHR

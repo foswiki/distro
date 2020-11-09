@@ -149,7 +149,7 @@ sub getSectionObject {
         my $cvo = $child->getSectionObject( $head, $depth );
         return $cvo if $cvo;
     }
-    return undef;
+    return;
 }
 
 # Implements Foswiki::Configure::Item

@@ -821,7 +821,7 @@ sub getPreferencesValue {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     if ($web) {
         $web = _checkWTA($web);
-        return undef unless defined $web;
+        return unless defined $web;
 
         # Web preference
         my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
@@ -1835,7 +1835,7 @@ sub readAttachment {
     catch Error with {
         $fh = undef;
     };
-    return undef unless $fh;
+    return unless $fh;
     local $/;
     my $data = <$fh>;
     return $data;

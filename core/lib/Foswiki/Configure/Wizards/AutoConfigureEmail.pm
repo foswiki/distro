@@ -138,7 +138,7 @@ sub _slurpFile {
     my $fh;
     unless ( open $fh, "<", $file ) {
         $reporter->WARN( "Cannot open capture file '$file': " . $! );
-        return undef;
+        return;
     }
 
     local $/;
@@ -236,7 +236,7 @@ OUT
 
     _setConfig( $reporter, '{EnableEmail}', $ok );
 
-    return undef;    # return the reporter content
+    return;    # return the reporter content
 }
 
 # Return 0 on failure
@@ -703,7 +703,7 @@ sub _autoconfigSMTP {
             }
             chomp $msg;
             $tlog .= "${pad}Failed: $msg\n";
-            return undef;
+            return;
         };
 
         # IGNORE SIGPIPE caused by errors that cause Net::Cmd to close

@@ -938,7 +938,7 @@ sub getRevisionAtTime {
     my $version = $this->{head};
     while ( $this->{revs}[$version]->{date} > $date ) {
         $version--;
-        return undef if $version == 0;
+        return if $version == 0;
     }
 
     if ( $version == $this->{head} && !$this->noCheckinPending() ) {

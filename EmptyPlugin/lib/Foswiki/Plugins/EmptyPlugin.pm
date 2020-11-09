@@ -255,7 +255,7 @@ exceptions handled by =Foswiki::UI= (for example, =Foswiki::OopsException=).
 =cut
 
 #sub earlyInitPlugin {
-#    return undef;
+#    return;
 #}
 
 =begin TML

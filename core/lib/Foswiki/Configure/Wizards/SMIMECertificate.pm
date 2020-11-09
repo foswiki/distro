@@ -91,7 +91,7 @@ sub generate_cert {
         $reporter->CHANGED('{Email}{SmimeKeyPassword}');
     }
 
-    return undef;    # return the report
+    return;    # return the report
 }
 
 sub _inner_generate {
@@ -319,7 +319,7 @@ sub cancel_cert {
     else {
         $reporter->NOTE("No request pending");
     }
-    return undef;    # return the report
+    return;    # return the report
 }
 
 =begin TML
@@ -339,7 +339,7 @@ sub show_request {
 
     unless ( -r $csrfile ) {
         $reporter->ERROR("No CSR pending");
-        return undef;
+        return;
     }
 
     my $output;
@@ -356,7 +356,7 @@ sub show_request {
         $reporter->NOTE($output);
     }
 
-    return undef;    # return the report
+    return;    # return the report
 }
 
 1;

@@ -169,7 +169,7 @@ sub import {
 
 # SMELL:   If anything but undef is returned,  that result is passed back to the caller as a report.
 # If config changes are to be applied by the wizard, it must return undef.
-    return undef;
+    return;
 
 }
 

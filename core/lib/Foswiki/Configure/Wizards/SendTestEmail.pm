@@ -47,7 +47,7 @@ sub send {
 
     eval { _sendTestEmail($reporter); };
     die $@ if $@;
-    return undef;           # return the report
+    return;                 # return the report
 }
 
 # Send a test email to the address in the value

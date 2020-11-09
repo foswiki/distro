@@ -300,7 +300,7 @@ sub write {
     if ( !$this->{r}->connection->aborted && defined $data ) {
         return $this->{r}->print($data);
     }
-    return undef;
+    return;
 }
 
 1;

@@ -337,7 +337,7 @@ I could not see your execution environment to test for mod_perl. Please re-run t
 BADXENV
     }
     $reporter->NOTE("| mod_perl enabled? | $n (Only =jsonrpc= is tested) |");
-    return undef;
+    return;
 }
 
 sub _compareHashes {
@@ -459,7 +459,7 @@ sub _getScriptENV {
         };
         if ($@) {
             $reporter->ERROR("Server returned incorrect diagnostic data: $@");
-            return undef;
+            return;
         }
         else {
             return $xenv->{result};
@@ -467,7 +467,7 @@ sub _getScriptENV {
         last;
     }
     $reporter->ERROR("Excessive redirects (>$limit) stopped diagnostic.");
-    return undef;
+    return;
 }
 
 sub _getBinDir {

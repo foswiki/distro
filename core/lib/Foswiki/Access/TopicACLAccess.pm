@@ -219,7 +219,7 @@ sub _getACL {
     }
 
     my $text = $meta->getPreference($mode);
-    return undef unless defined $text;
+    return unless defined $text;
 
     # Remove HTML tags (compatibility, inherited from Users.pm
     $text =~ s/(<[^>]*>)//g;

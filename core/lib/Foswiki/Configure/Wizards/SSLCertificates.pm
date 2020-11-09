@@ -94,7 +94,7 @@ sub guess_locations {
             }
         }
     }
-    return undef if ($guessed);
+    return if ($guessed);
 
     # Check for common bundle files:
     foreach $file (@CERT_FILES) {
@@ -106,7 +106,7 @@ sub guess_locations {
         }
     }
 
-    return undef if ( $guessed && !$supportBoth );
+    return if ( $guessed && !$supportBoth );
 
     # First see if the linux default path work
     foreach $path (@CERT_DIRS) {
@@ -123,7 +123,7 @@ sub guess_locations {
 "Unable to find ENV settings for =PERL_LWP_SSL_CA_FILE=, =PERL_LWP_SSL_CA_PATH=, =HTTPS_CA_FILE=, or =HTTPS_CA_DIR=, and =Mozilla::CA= does not appear to be installed."
         );
     }
-    return undef;
+    return;
 }
 
 sub _setLocations {
@@ -182,7 +182,7 @@ sub validate {
 
     unless ($path) {
         $reporter->ERROR('{Email}{SSLCaPath} is not set; nothing to validate');
-        return undef;
+        return;
     }
 
     $path =~ m,^([\w_./]+)$,
@@ -287,7 +287,7 @@ sub validate {
     else {
         $reporter->NOTE("No CRLs found");
     }
-    return undef;
+    return;
 }
 
 # Identify file type
@@ -395,7 +395,7 @@ sub show_active {
     $this->NOTE( "Certificate data from $certfile",
         '<verbatim>', $output, '</verbatim>' );
 
-    return undef;
+    return;
 }
 
 =begin TML
@@ -458,7 +458,7 @@ $data
     if ($?) {
         $reporter->ERROR(
             "Operation failed" . ( $? == -1 ? " (No openssl: $!)" : '' ) );
-        return undef;
+        return;
     }
 
     if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
@@ -494,7 +494,7 @@ $data
     unlink("$certfile.csr")
       or $reporter->ERROR("Can't delete $certfile.csr: $!");
 
-    return undef;
+    return;
 }
 
 1;

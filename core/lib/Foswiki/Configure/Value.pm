@@ -364,7 +364,7 @@ sub getExpandedValue {
     my ( $this, $name ) = @_;
 
     my $val = $this->getRawValue();
-    return undef unless defined $val;
+    return unless defined $val;
     Foswiki::Configure::Load::expandValue($val);
     return $val;
 }
@@ -389,7 +389,7 @@ to other tools, such as UIs, in a type-sensitive way.
 sub encodeValue {
     my ( $this, $value ) = @_;
 
-    return undef unless defined $value;
+    return unless defined $value;
 
     if ( ref($value) eq 'Regexp' ) {
 
@@ -426,7 +426,7 @@ sub decodeValue {
     my ( $this, $value ) = @_;
 
     # Empty string always interpreted as undef
-    return undef unless defined $value;
+    return unless defined $value;
 
     if ( $this->isFormattedType() ) {
         $value = eval($value);
@@ -463,7 +463,7 @@ sub CHECK_option {
         return $this->{CHECK}->{$opt}->[0];
     }
     return $this->{CHECK}->{$opt};
-    return undef;
+    return;
 }
 
 # Implements Foswiki::Configure::item

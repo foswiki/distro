@@ -109,7 +109,7 @@ sub findFileOnPath {
             return "$incdir/$file";
         }
     }
-    return undef;
+    return;
 }
 
 =begin TML
@@ -136,7 +136,7 @@ sub lscFileName {
     }
 
     # No existing file we can use
-    return undef;
+    return;
 }
 
 =begin TML
@@ -232,7 +232,7 @@ sub checkCanCreateFile {
         if ( @{ $report->{messages} } ) {
             return join( "\n", @{ $report->{messages} } );
         }
-        return undef;
+        return;
     }
 
     # check the containing dir
@@ -263,7 +263,7 @@ sub checkCanCreateFile {
 ---++ StaticMethod checkTreePerms($path, $perms, %options) -> \%report
 
 Perform a recursive check of the specified path.
-No failures will return undef, otherwise a string report is generated.
+No failures will return, otherwise a string report is generated.
 
 $perms is a string of permissions to check:
 
@@ -947,7 +947,7 @@ sub _unzip {
         `unzip -n $archive`;
         return "$? - $!" if ($?);
     }
-    return undef;
+    return;
 }
 
 sub _untar {
@@ -984,7 +984,7 @@ sub _untar {
         `tar xvf$compressed $archive`;
         return "$? - $!" if ($?);
     }
-    return undef;
+    return;
 }
 
 =begin TML

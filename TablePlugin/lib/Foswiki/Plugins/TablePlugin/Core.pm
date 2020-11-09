@@ -483,7 +483,7 @@ sub _getIncludeParams {
 
 _convertStringToDate ( $text ) -> $number
 
-Convert text to number if syntactically possible, otherwise return undef.
+Convert text to number if syntactically possible, otherwise return.
 Assumes that the text has been stripped from HTML markup.
 
 =cut
@@ -491,9 +491,9 @@ Assumes that the text has been stripped from HTML markup.
 sub _convertStringToDate {
     my ($text) = @_;
 
-    return undef if !defined $text;
-    return undef if $text eq '';
-    return undef if ( $text =~ /^\s*$/ );
+    return if !defined $text;
+    return if $text eq '';
+    return if ( $text =~ /^\s*$/ );
 
     my $date = undef;
 
@@ -519,7 +519,7 @@ sub _convertStringToDate {
 
 _convertStringToNumber ( $text ) -> $number
 
-Convert text to number if syntactically possible, otherwise return undef.
+Convert text to number if syntactically possible, otherwise return.
 Assumes that the text has been stripped from HTML markup.
 
 =cut
@@ -527,9 +527,9 @@ Assumes that the text has been stripped from HTML markup.
 sub _convertStringToNumber {
     my ($text) = @_;
 
-    return undef if !defined $text;
-    return undef if $text eq '';
-    return undef if ( $text =~ /^\s*$/ );
+    return if !defined $text;
+    return if $text eq '';
+    return if ( $text =~ /^\s*$/ );
 
     # very course testing on IP (could in fact be anything with n.n. syntax
     if (
@@ -549,7 +549,7 @@ sub _convertStringToNumber {
         _debug("\t $text looks like an IP address, or something similar");
 
         # should be sorted by text
-        return undef;
+        return;
     }
 
     if (
@@ -572,7 +572,7 @@ sub _convertStringToNumber {
         # make sure to return a number, not a string
         return $1 * 1.0;
     }
-    return undef;
+    return;
 }
 
 sub _processTableRow {
@@ -877,7 +877,7 @@ sub _setSortTypeForCells {
 sub _stripHtml {
     my ($text) = @_;
 
-    return undef if !defined $text;
+    return if !defined $text;
     $text =~
       s/\[\[[^\]]+\]\[([^\]]+)\]\]/$1/go; # extract label from [[...][...]] link
 
@@ -2009,7 +2009,7 @@ sub _mergeHashes {
 sub _cleanParamValue {
     my ($inValue) = @_;
 
-    return undef if !$inValue;
+    return if !$inValue;
 
     $inValue =~ s/ //go;    # remove spaces
     return $inValue;
@@ -2022,7 +2022,7 @@ sub _cleanParamValue {
 sub _arrayRefFromParam {
     my ($inValue) = @_;
 
-    return undef if !$inValue;
+    return if !$inValue;
 
     $inValue =~ s/ //go;    # remove spaces
     my @list = split( /,/, $inValue );

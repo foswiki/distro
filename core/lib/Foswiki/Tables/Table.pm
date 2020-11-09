@@ -371,7 +371,7 @@ sub getCellData {
     my $d;
     if ( defined $row ) {
         if ( defined $col ) {
-            return undef
+            return
               unless $row < $this->totalRows()
               && $col < scalar( @{ $this->{rows}->[$row]->{cols} } );
             $d = $this->{rows}->[$row]->{cols}->[$col]->{text};
@@ -379,7 +379,7 @@ sub getCellData {
         else {
 
             # This entire row
-            return undef unless $row < $this->totalRows();
+            return unless $row < $this->totalRows();
             $d = [];
             foreach my $col ( @{ $this->{rows}->[$row]->{cols} } ) {
                 push( @$d, $col->{text} );

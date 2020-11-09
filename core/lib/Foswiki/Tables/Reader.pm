@@ -32,7 +32,7 @@ BEGIN {
 unless ( defined &Foswiki::Attrs::findFirstOccurenceAttrs ) {
     *Foswiki::Attrs::findFirstOccurenceAttrs = sub {
         my ( $macro, $text ) = @_;
-        return undef unless $text =~ m/\%${macro}[%{]/s;
+        return unless $text =~ m/\%${macro}[%{]/s;
         my @queue = split( /(%[A-Za-z0-9_]*{|}%|\%${macro}\%)/, $text );
         my $eat   = 0;
         my $eaten = '';

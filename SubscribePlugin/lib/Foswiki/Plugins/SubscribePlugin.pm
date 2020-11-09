@@ -174,7 +174,7 @@ sub _rest_subscribe {
         )
     );
 
-    return undef;
+    return;
 }
 
 sub _getNonce {

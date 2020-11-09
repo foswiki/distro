@@ -125,7 +125,7 @@ sub getcfg {
         foreach my $key (@$keys) {
             unless ( $key =~ m/^($Foswiki::Configure::Load::ITEMREGEX)$/ ) {
                 $reporter->ERROR("Bad key '$key'");
-                return undef;
+                return;
             }
 
             # Implicit untaint for use in eval
@@ -137,20 +137,20 @@ sub getcfg {
                 $root = Foswiki::Configure::Root->new();
                 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
                 if ( $reporter->has_level('errors') ) {
-                    return undef;
+                    return;
                 }
                 Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root,
                     \%Foswiki::cfg );
             }
             unless ( eval("exists \$Foswiki::cfg$key") ) {
                 $reporter->ERROR("$key not defined");
-                return undef;
+                return;
             }
             eval("\$what->$key=\$Foswiki::cfg$key");
             if ($@) {
                 $reporter->ERROR(
                     Foswiki::Configure::Reporter::stripStacktrace($@) );
-                return undef;
+                return;
             }
         }
     }
@@ -179,7 +179,7 @@ sub search {
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
     if ( $reporter->has_level('errors') ) {
-        return undef;
+        return;
     }
 
     # An empty search isn't fatal, just uninteresting
@@ -252,7 +252,7 @@ sub getspec {
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
     if ( $reporter->has_level('errors') ) {
-        return undef;
+        return;
     }
     Foswiki::Configure::LoadSpec::addCfgValuesToSpec( \%Foswiki::cfg, $root );
 
@@ -315,7 +315,7 @@ sub check_current_value {
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $frep );
     if ( $frep->has_level('errors') ) {
-        return undef;
+        return;
     }
 
     my @report;
@@ -509,33 +509,33 @@ sub wizard {
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
     if ( $reporter->has_level('errors') ) {
-        return undef;
+        return;
     }
 
     my $target;
     if ( defined $params->{wizard} ) {
         unless ( $params->{wizard} =~ m/^(\w+)$/ ) {    # untaint
             $reporter->ERROR("Bad wizard");
-            return undef;
+            return;
         }
         $target = Foswiki::Configure::Wizard::loadWizard( $1, $params );
     }
     else {
         unless ( $params->{keys} ) {
             $reporter->ERROR("No wizard and no keys");
-            return undef;
+            return;
         }
         my $vob = $root->getValueObject( $params->{keys} );
         $target = Foswiki::Configure::Checker::loadChecker($vob);
     }
     unless ($target) {
         $reporter->ERROR("Bad thing");
-        return undef;
+        return;
     }
     my $method = $params->{method};
     unless ( $method =~ m/^(\w+)$/ ) {
         $reporter->ERROR("Bad method");
-        return undef;
+        return;
     }
     $method = $1;    # untaint
 
