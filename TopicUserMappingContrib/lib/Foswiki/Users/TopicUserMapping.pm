@@ -25,15 +25,19 @@ Subclasses should be named 'XxxxUserMapping' so that configure can find them.
 =cut
 
 package Foswiki::Users::TopicUserMapping;
-use Foswiki::UserMapping ();
-our @ISA = ('Foswiki::UserMapping');
 
 use strict;
 use warnings;
+
+use Foswiki::UserMapping ();
+our @ISA = ('Foswiki::UserMapping');
+
 use Assert;
 use Error qw( :try );
 use Foswiki::ListIterator ();
 use Foswiki::Func         ();
+use Foswiki::Time         ();
+use Foswiki::Users        ();
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
@@ -101,6 +105,7 @@ sub finish {
     undef $this->{passwords};
     undef $this->{eachGroupMember};
     undef $this->{singleGroupMembers};
+    undef $this->{isGroup};
     $this->SUPER::finish();
 }
 
@@ -296,7 +301,6 @@ sub addUser {
         # add a new user
 
         unless ( defined($password) ) {
-            require Foswiki::Users;
             $password = Foswiki::Users::randomPassword();
         }
 
@@ -371,7 +375,6 @@ sub _maintainUsersTopic {
     my $entry = "   * $wikiname - ";
     $entry .= $login . " - " if $login;
 
-    require Foswiki::Time;
     my $today =
       Foswiki::Time::formatTime( time(), $Foswiki::cfg{DefaultDateFormat},
         'gmtime' );
@@ -743,9 +746,10 @@ See baseclass for documentation
 sub isGroup {
     my ( $this, $user ) = @_;
 
+    return $this->{isGroup}{$user} if defined $this->{isGroup}{$user};
+
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
-
     return 0 unless ( $user =~ m/Group$/ );
 
    #actually test for the existance of this group
@@ -757,9 +761,13 @@ sub isGroup {
     my $iterator = $this->eachGroup();
     while ( $iterator->hasNext() ) {
         my $groupname = $iterator->next();
-        return 1 if ( $groupname eq $user );
+        if ( $groupname eq $user ) {
+            $this->{isGroup}{$user} = 1;
+            last;
+        }
     }
-    return 0;
+
+    return $this->{isGroup}{$user};
 }
 
 =begin TML
