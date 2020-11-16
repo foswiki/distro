@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1430848859" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1605551505" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JSCalendarContrib"}%
 ---+ %TOPIC%
 
@@ -11,19 +11,9 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 <verbatim class="tml">
 %STARTINCLUDE%%STARTSECTION{"loadCalendar"}%%ADDTOZONE{
   "head"
-  id="JSCalendarContrib/calendar-%IF{
-    "defined style and $style!=''"
-    then="%style%"
-    else="large"
-  }%"
-  text="<style type='text/css' media='all'>
-    @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-%IF{
-      "defined style and $style!=''"
-      then="%style%"
-      else="large"
-    }%.css');
-    .calendar {z-index:2000;}
-</style>"
+  id="JSCalendarContrib/calendar-%style{default="large"}%"
+  text="<link rel='stylesheet' type='text/css' media='all' href='%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-%style{default="large"}%.css' />
+<style>.calendar {z-index:2000;}</style>"
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/calendar"
