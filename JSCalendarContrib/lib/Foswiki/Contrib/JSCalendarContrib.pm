@@ -18,8 +18,8 @@ use warnings;
 
 use Foswiki::Func ();    # The plugins API
 
-our $VERSION = '1.56';
-our $RELEASE = '08 Dec 2017';
+our $VERSION = '1.60';
+our $RELEASE = '16 Nov 2020';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
@@ -206,35 +206,40 @@ sub addHEAD {
     my $base = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
 
     my $css = <<HERE;
-<style type='text/css' media='all'>
- \@import url('$base/calendar-$style.css');
- .calendar {z-index:2000;}
-</style>
+<style> .calendar {z-index:2000;}</style>
+<link rel='stylesheet' href='$base/calendar-$style.css' media='all' />
 HERE
-    Foswiki::Func::addToZone( 'head', 'JSCalendarContrib/css', $css );
+    Foswiki::Func::addToZone( 'head', "JSCalendarContrib/calendar-$style",
+        $css );
 
-    Foswiki::Func::addToZone( 'script', 'JSCalendarContrib/calendar',
-        "<script type='text/javascript' src='$base/calendar.js'></script>" );
+    Foswiki::Func::addToZone(
+        'script',
+        'JSCalendarContrib/calendar',
+        "<script src='$base/calendar.js'></script>"
+    );
 
     Foswiki::Func::addToZone(
         'script',
         'JSCalendarContrib/calendar-lang',
-"<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>",
+        "<script src='$base/lang/calendar-$lang.js'></script>",
         'JSCalendarContrib/calendar'
     );
 
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
-    Foswiki::Func::addToZone( 'script', "JSCalendarContrib/$setup",
-        "<script type='text/javascript' src='$base/$setup.js'></script>",
-        'JSCalendarContrib/calendar' );
+    Foswiki::Func::addToZone(
+        'script',
+        "JSCalendarContrib/$setup",
+        "<script src='$base/$setup.js'></script>",
+        'JSCalendarContrib/calendar'
+    );
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
