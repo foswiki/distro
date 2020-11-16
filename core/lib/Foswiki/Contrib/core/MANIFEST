@@ -322,6 +322,7 @@ data/System/WikiName.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
 data/System/WikiWord.txt 0644
 data/System/WYSIWYG.txt 0644
+data/System/YouAreHere.txt 0644
 data/Trash/TrashAttachment.txt 0644
 data/Trash/WebAtom.txt 0644
 data/Trash/WebChanges.txt 0644
@@ -773,6 +774,7 @@ pub/System/MainFeatures/grids-min.css.gz 0644
 pub/System/MainFeatures/icon_plus.png 0644
 pub/System/PlainSkin/fullscreen.gif 0644
 pub/System/PlainSkin/screenshot.gif 0644
+pub/System/PreferenceSettings/prefs-stack.odp 0644
 pub/System/PreferenceSettings/prefs-stack.jpg 0644
 pub/System/PreviewBackground/blankltgraybg.gif 0644
 pub/System/PreviewBackground/blankwhitebg.gif 0644
@@ -802,6 +804,7 @@ pub/System/SkinTemplates/oopsmore_diff_debug.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sequential.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sidebyside.gif 0644
 pub/System/TopicsAndWebs/diagram.png 0644
+pub/System/TopicsAndWebs/diagram.odp 0644
 pub/System/WindowsInstallCookbook/cygwin-icon.gif 0644
 readme.txt 0444
 robots.txt 0444
