@@ -10,8 +10,8 @@ use Foswiki::AccessControlException ();
 
 # =========================
 #   Simple decimal version,  no leading "v"
-our $VERSION           = "1.14";
-our $RELEASE           = '22 Jan 2018';
+our $VERSION           = "1.20";
+our $RELEASE           = '16 Nov 2020';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
@@ -154,7 +154,7 @@ sub _handleHistory {
         $revinfo =~ s/\$web/$web/g;
         $revinfo =~ s/\$topic/$topic/g;
         $revinfo =~ s/\$rev/$rev/g;
-        $revinfo =~ s/\$date/Foswiki::Func::formatTime($date)/ge;
+        $revinfo =~ s/\$date/Foswiki::Func::formatTime($date, '$longdate')/ge;
         $revinfo =~
 s/\$(year|ye|week|web|wday|tz|topic|time|seconds|rev|rcs|month|mo|minutes|longdate|isotz|iso|http|hours|epoch|email|dow|day)/_formatTime("\$$1", $web, $topic, $rev)/ge;
         $revinfo =~ s/\$username/$user/g;
@@ -249,7 +249,7 @@ sub _handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
