@@ -780,7 +780,7 @@ sub eachWeb {
     $dir .= '/' . $web if defined $web;
 
     my @list = map {
-        my $tmp = $_;
+        my $tmp = _decode($_);
         $tmp =~ s/^.*\/(.*)\/$wptn$/$1/;
         Foswiki::Sandbox::untaintUnchecked($tmp)
     } glob("$dir/*/$wptn");
