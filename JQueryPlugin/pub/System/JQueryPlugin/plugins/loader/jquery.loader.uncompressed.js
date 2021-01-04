@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 4.20
+ * jQuery Loader plugin 4.30
  *
  * Copyright (c) 2011-2020 Foswiki Contributors http://foswiki.org
  *
@@ -63,7 +63,7 @@
     }
     self.elem.empty();
     self.container = $("<div class='jqLoaderContainer'></div>");
-    $(content).appendTo(self.container);
+    self.container.append(content);
 
     if (self.elem.is("pre")) {
       self.container.insertAfter(self.elem);
