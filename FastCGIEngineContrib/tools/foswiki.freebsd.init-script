@@ -15,33 +15,25 @@ rcvar=foswiki_enable
 
 load_rc_config ${name}
 : ${foswiki_enable:="NO"}
-
-#: ${foswiki_bind:="/var/run/foswiki/foswiki.sock"}
-: ${foswiki_bind:="127.0.0.1:9000"}
+: ${foswiki_bind:="127.0.0.1:9001"}
 : ${foswiki_check_size:=10}
 : ${foswiki_children:=3}
 : ${foswiki_fcgi:="foswiki.fcgi"}
-: ${foswiki_group:="foswiki"}
+: ${foswiki_group:="www"}
 : ${foswiki_max_requests:=-1}
-: ${foswiki_max_size:=250000}
-: ${foswiki_user:="foswiki"}
-: ${foswiki_pidfile:="/var/run/foswiki/foswiki.pid"}
-: ${foswiki_quiet:="YES"}
+: ${foswiki_max_size:=1024000}
+: ${foswiki_user:="www"}
 : ${foswiki_root:="/usr/local/www/foswiki"}
 : ${foswiki_procname:="foswiki"}
 
-: ${foswiki_sock_user:="foswiki"}
+: ${foswiki_sock_user:="www"}
 : ${foswiki_sock_group:="nginx"}
 : ${foswiki_sock_mode:="660"}
 
 procname="${foswiki_procname}-fcgi-pm"
 
 command="${foswiki_root}/bin/${foswiki_fcgi}"
-command_args=" -n ${foswiki_children}  -l ${foswiki_bind}  -p ${foswiki_pidfile}  -d -c ${foswiki_check_size}  -x ${foswiki_max_requests}  -s ${foswiki_max_size} -a ${foswiki_procname}"
-
-if [ "x${foswiki_quiet}" = "xYES" ] ; then
-  commmand_args="${command_args} -q"
-fi
+command_args="-q -n ${foswiki_children}  -l ${foswiki_bind}  -d -c ${foswiki_check_size}  -x ${foswiki_max_requests}  -s ${foswiki_max_size} -a ${foswiki_procname}"
 
 extra_commands="reload"
 
