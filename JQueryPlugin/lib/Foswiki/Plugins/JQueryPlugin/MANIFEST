@@ -458,8 +458,6 @@ pub/System/JQueryPlugin/plugins/pnotify/jquery.pnotify.js 0644
 pub/System/JQueryPlugin/plugins/pnotify/jquery.pnotify.js.gz 0644
 pub/System/JQueryPlugin/plugins/pnotify/jquery.pnotify.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/pnotify/Makefile 0644
-pub/System/JQueryPlugin/plugins/pnotify/tmp/pnotify.uncompressed.css 0644
-pub/System/JQueryPlugin/plugins/pnotify/tmp/pnotify.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.js 0644
 pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.js.gz 0644
 pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.uncompressed.js 0644
@@ -785,10 +783,6 @@ pub/System/JQueryPlugin/plugins/ui/themes/flickr/jquery-ui.css 0644
 pub/System/JQueryPlugin/plugins/ui/themes/flickr/jquery-ui.css.gz 0644
 pub/System/JQueryPlugin/plugins/ui/themes/flickr/jquery-ui.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/ui/themes/flickr/Makefile 0644
-pub/System/JQueryPlugin/plugins/ui/themes/foswiki-fontawesome/jquery-ui.css 0644
-pub/System/JQueryPlugin/plugins/ui/themes/foswiki-fontawesome/jquery-ui.css.gz 0644
-pub/System/JQueryPlugin/plugins/ui/themes/foswiki-fontawesome/jquery-ui.uncompressed.css 0644
-pub/System/JQueryPlugin/plugins/ui/themes/foswiki-fontawesome/Makefile 0644
 pub/System/JQueryPlugin/plugins/ui/themes/foswiki/images/select2.png 0644
 pub/System/JQueryPlugin/plugins/ui/themes/foswiki/images/select2x2.png 0644
 pub/System/JQueryPlugin/plugins/ui/themes/foswiki/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
