@@ -46,26 +46,6 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
-    my $uglify = `echo ''|uglifyjs --version 2>&1`;
-    if ($?) {
-        print "$uglify\n";
-        print "Install node.js 'uglifyjs' (npm --global install uglifyjs)\n";
-        die "Building a release not possible. js compressor is missing.";
-    }
-    else {
-        print "Building with $uglify\n";
-    }
-
-    my $cssmin = `echo ''|cssmin -h 2>&1`;
-    if ($?) {
-        print "$cssmin\n";
-        print "Install node.js 'cssmin' (npm --global install cssmin)\n";
-        die "Building a release not possible. CSS minifier is missing.";
-    }
-    else {
-        print "Building with node.js cssmin\n";
-    }
-
     while ( scalar(@ARGV) > 1 ) {
         my $arg = pop(@ARGV);
         if ( $arg eq '-auto' ) {
@@ -92,8 +72,8 @@ sub new {
         print "detected git installation at $gitdir\n";
 
  # Verify that all files are committed and all commits are pushed to github TODO
-        my $gitstatus = `git status -uno`;
         unless ($nocheck) {
+            my $gitstatus = `git status -uno`;
             die
 "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
               if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
