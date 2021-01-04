@@ -124,6 +124,14 @@ sub _build_css {
     my ( $this, $to ) = @_;
 
     if ( !$minifiers{css} ) {
+        if ( $this->_havecsso() ) {
+            $minifiers{css} = sub {
+                return $this->_csso( @_, 'css' );
+            };
+        }
+    }
+
+    if ( !$minifiers{css} ) {
         if ( $this->_havecssmin() ) {
             $minifiers{css} = sub {
                 return $this->_cssmin( @_, 'css' );
@@ -328,6 +336,31 @@ sub _yuiMinify {
     return $out;
 }
 
+sub _csso {
+    my ( $this, $from, $to ) = @_;
+    my $lcall = $ENV{'LC_ALL'};
+    my $cmd;
+
+    $cmd = "csso $from";
+
+    warn "$cmd\n";
+    my $out = `$cmd`;
+
+    unless ( $this->{-n} ) {
+        if ( open( F, '>', $to ) ) {
+            local $/ = undef;
+            print F $out;
+            close(F);
+        }
+        else {
+            die "$to: $!";
+        }
+    }
+
+    $ENV{'LC_ALL'} = $lcall;
+    return $out;
+}
+
 sub _cssmin {
     my ( $this, $from, $to ) = @_;
     my $lcall = $ENV{'LC_ALL'};
@@ -444,6 +477,25 @@ return 1 if we have uglifyjs as a command
 sub _haveuglifyjs {
     my $this   = shift;
     my $info   = `echo ''|uglifyjs 2>&1`;
+    my $result = 0;
+
+    if ( not $? ) {
+        $result = 1;
+    }
+
+    return $result;
+}
+
+=begin TML
+
+---++++ _havecsso
+return 1 if we have csso as a command
+
+=cut
+
+sub _havecsso {
+    my $this   = shift;
+    my $info   = `csso -h 2>&1`;
     my $result = 0;
 
     if ( not $? ) {
