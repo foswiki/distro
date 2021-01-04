@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1573735696" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1609783495" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <img src="%ATTACHURLPATH%/logo.gif" alt="WikiRing" class="foswikiRight" />
@@ -179,12 +179,13 @@ to generate another that is functionally identical, but smaller for faster
 download. It will search for an avaliable minifier:
 
    * [[https://npmjs.org/package/terser][terser]] *Recommended*
+   * [[https://www.npmjs.com/package/csso][csso]] *Recommended*
    * [[https://npmjs.org/package/uglify-js][uglifyjs]] 
    * [[https://npmjs.org/package/cssmin][cssmin]] 
 
 To make the recommended compressor avaliable on your system, first install
 [[http://nodejs.org/][Node.js]],   and then use "npm" to install the
-compressors:  =npm install -g terser=  and =npm install -g cssmin=
+compressors:  =npm install -g terser=  and =npm install -g csso=
 This will install both terser and !MinCSS.
 
 The compression can work with a number of different naming schemes, depending
@@ -309,7 +310,6 @@ Created pub/TWiki/EditRowPlugin/TableSort.js
 Created pub/TWiki/EditRowPlugin/TableSort_src.js
 Created pub/TWiki/EditRowPlugin/erp.js
 Created pub/TWiki/EditRowPlugin/erp_src.js
-Created pub/TWiki/EditRowPlugin/wikiringlogo20x20.png
 Created lib/TWiki/Plugins/EditRowPlugin/MANIFEST
 Created lib/TWiki/Plugins/EditRowPlugin/DEPENDENCIES
 Created lib/TWiki/Plugins/EditRowPlugin/build.pl
@@ -650,15 +650,8 @@ You are strongly recommended to use this Contrib to help split your code develop
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Info
 
-Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
-
-See the repository for full change history.
-
-
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1573735696" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1573735696" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1609783495" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2019, All Rights Reserved"}%
