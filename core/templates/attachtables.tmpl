@@ -45,7 +45,7 @@
 
 %{ Row for versions table in attach screen }%
 %{ Use %A_URL% instead of %PUBURLPATH%/%WEB%/%TOPIC%/%A_FILE% to get a viewfile link }%
-%TMPL:DEF{ATTACH:versions:row}%| %A_REV%  | <a href="%SCRIPTURL{viewfile}%/%WEB%/%TOPIC%?filename=%ENCODE{%A_FILE%}%;rev=%A_REV%">%MAKETEXT{"view"}%</a>  |  <span class="foswikiNoBreak">%A_DATE%</span>|%A_USER%  |%A_COMMENT%  |
+%TMPL:DEF{ATTACH:versions:row}%| %A_REV%  | <a href="%SCRIPTURLPATH{viewfile}%/%WEB%/%TOPIC%?filename=%ENCODE{%A_FILE%}%;rev=%A_REV%">%MAKETEXT{"view"}%</a>  |  <span class="foswikiNoBreak">%A_DATE%</span>|%A_USER%  |%A_COMMENT%  |
 %TMPL:END%
 
 %{ Footer for versions table in attach screen }%

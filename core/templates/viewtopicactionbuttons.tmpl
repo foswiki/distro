@@ -2,14 +2,14 @@
 
 %TMPL:DEF{nowysiwyg}%;nowysiwyg=1%TMPL:END%
 
-%TMPL:DEF{"create_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a>%TMPL:END%
+%TMPL:DEF{"create_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a>%TMPL:END%
 
 
-%TMPL:DEF{"edit_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%" else="%MAKETEXT{"title='Edit this topic text' >Edit"}%" }% </a>%TMPL:END%
+%TMPL:DEF{"edit_topic_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%" else="%MAKETEXT{"title='Edit this topic text' >Edit"}%" }% </a>%TMPL:END%
 
-%TMPL:DEF{"raw_edit_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a>%TMPL:END%
+%TMPL:DEF{"raw_edit_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a>%TMPL:END%
 
-%TMPL:DEF{"view_topic_link"}%<span><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a></span>%TMPL:END%
+%TMPL:DEF{"view_topic_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a></span>%TMPL:END%
 
 
 %TMPL:DEF{"attach_link"}%<a class='foswikiRequiresChangePermission' href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%" else="%MAKETEXT{"title='Attach an image or document to this topic'>Attach"}%" }%</a>%TMPL:END%
