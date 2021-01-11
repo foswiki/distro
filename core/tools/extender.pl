@@ -222,7 +222,7 @@ sub install {
     my ( $vol, $path, $file ) = File::Spec->splitpath(__FILE__);
     my $configure = File::Spec->catpath( $vol, $path, 'configure' );
 
-    print STDERR "\n=========\n"
+    print "\n=========\n"
       . $configure . ' '
       . join( ' ', @ARGV )
       . "\n========\n";
