@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1610365493" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -116,7 +116,7 @@ been removed from Foswiki 2.0.
    <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</div>
    <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
    <verbatim class="tml">
-      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
+      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURLPATH%/$fileurl][$filename]]: $comment
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
@@ -131,8 +131,8 @@ been removed from Foswiki 2.0.
       * Set WIKITOOLNAME = Foswiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in <nop>%WEBPREFSTOPIC% for individual webs by defining these settings there.
-      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
-      * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
+      * Set WIKILOGOIMG = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
+      * Set WIKILOGOURL = %SCRIPTURLPATH{"view"}%/%USERSWEB%/%HOMETOPIC%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
    * Home page of this site
