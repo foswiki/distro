@@ -83,7 +83,7 @@ sub _limits_are_exceeded {
 
     return $size if $this->max_size && $size > $this->max_size;
 
-    $this->pm_notify( "size=$size after $this->{_request_counter} requests" );
+    #$this->pm_notify( "size=$size after $this->{_request_counter} requests" );
 
     return 0 unless $share;
 
