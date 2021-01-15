@@ -193,20 +193,22 @@
 }
 
 .natEditForceNewRevision label,
-.natEditForceNewRevision input {
+.natEditForceNewRevision input,
+.natEditMinorChange label,
+.natEditMinorChange input {
   margin:4px;
   border:0px;
   vertical-align:middle;
 }
 
 /* RevCommentPlugin support */
-.revComment {
+.natEditRevComment {
   margin:0.5em 0px;
 }
-.revComment label {
+.natEditRevComment label {
   font-weight:bold;
 }
-.revComment input {
+.natEditRevComment input {
   width:80%;
 }
 .natEditDoneButton img,

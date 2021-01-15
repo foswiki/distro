@@ -13,22 +13,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/edittoolbar.natedit.tmpl:190
+#: templates/edittoolbar.natedit.tmpl:194
 msgid "Abandon changes and exit"
-msgstr "&&Auml;nderungen verwerfen und verlassen"
+msgstr "Änderungen verwerfen und verlassen"
 
-#: data/System/NatEditWordHelpText.txt:31
+#: data/System/NatEditWordHelpText.txt:29
 msgid "Access keys"
 msgstr "Funktions-Tasten"
 
 #. ("$theWeb.$theTopic")
 #: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
 msgid "Add a new form to <nop>%1"
-msgstr "Eine neue Formularvorlage zu <nop>%1 hinzuf&&uuml;gen"
+msgstr "Eine neue Formularvorlage zu <nop>%1 hinzufügen"
 
 #: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 msgid "Add form"
-msgstr "Formular hinzuf&&uuml;gen"
+msgstr "Formular hinzufügen"
 
 #: templates/edittoolbar.natedit.tmpl:62
 msgid "Align left"
@@ -54,8 +54,7 @@ msgstr "Fett"
 msgid "Bullet list"
 msgstr "Unsortierte Liste"
 
-#: templates/edit.natedit.tmpl:70 templates/editdialog.natedit.tmpl:152
-#: templates/edittoolbar.natedit.tmpl:189
+#: templates/edit.natedit.tmpl:67 templates/edittoolbar.natedit.tmpl:193
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -74,13 +73,9 @@ msgstr "Formular wechseln"
 #. ("$theWeb.$theTopic")
 #: lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:72
 msgid "Change the current form of <nop>%1"
-msgstr "Aktuelle Formularvorlage von <nop>%1 &&auml;ndern"
+msgstr "Aktuelle Formularvorlage von <nop>%1 ändern"
 
-#: templates/editdialog.natedit.tmpl:151
-msgid "Choose files"
-msgstr "W&&auml;hlen sie Dateien aus"
-
-#: templates/edittoolbar.natedit.tmpl:129 templates/preview.natedit.tmpl:6
+#: templates/edittoolbar.natedit.tmpl:130 templates/preview.natedit.tmpl:6
 msgid "Close"
 msgstr "Schließen"
 
@@ -100,25 +95,33 @@ msgstr "Bearbeitung fortsetzen"
 msgid "Create a new table"
 msgstr "Neue Tabelle"
 
-#: templates/edittoolbar.natedit.tmpl:206
+#: templates/edittoolbar.natedit.tmpl:210
 msgid "Creates a new topic revision when saving"
 msgstr "Erzeugt eine neue Version des Topics beim Speichern"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr "DataForm-Tabellenkopfes"
+
+#: templates/editdialog.natedit.tmpl:40
+msgid "Data rows"
+msgstr "Tabellenzeilen"
 
 #: templates/edittoolbar.natedit.tmpl:97
 msgid "Date"
 msgstr "Datum"
 
-#: templates/edit.natedit.tmpl:146 templates/edit.natedit.tmpl:182
+#: templates/edit.natedit.tmpl:198 templates/edit.natedit.tmpl:251
 msgid "Default"
 msgstr "Default"
 
-#: data/System/NatEditWordHelpText.txt:18
+#: data/System/NatEditWordHelpText.txt:16
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: templates/editdialog.natedit.tmpl:147
-msgid "Drag files here"
-msgstr "Dateien hierhin fallen lassen"
+#: templates/settings.natedit.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Jede Präferenz hat die Syntax"
 
 #: templates/previewtoolbar.natedit.tmpl:14
 msgid "Edit"
@@ -128,6 +131,10 @@ msgstr "Editieren"
 msgid "Editable"
 msgstr "Editierbar"
 
+#: data/System/NatEditWordHelpText.txt:21
+msgid "EditingShorthand"
+msgstr "EditingShorthand"
+
 #: templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr "Externes Objekt einbetten"
@@ -136,11 +143,11 @@ msgstr "Externes Objekt einbetten"
 msgid "Emoticon"
 msgstr "Emoticon"
 
-#: templates/edittoolbar.natedit.tmpl:130
+#: templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
-msgstr ""
+msgstr "Markup schützen"
 
-#: templates/edit.natedit.tmpl:151
+#: templates/edit.natedit.tmpl:205
 msgid "Everybody"
 msgstr "Jeder"
 
@@ -152,7 +159,11 @@ msgstr "Extern"
 msgid "File"
 msgstr "Datei"
 
-#: templates/edittoolbar.natedit.tmpl:206
+#: templates/edittoolbar.natedit.tmpl:211
+msgid "Flag the changes as being minor"
+msgstr "Kennzeichnen Sie die Änderungen als geringfügig"
+
+#: templates/edittoolbar.natedit.tmpl:210
 msgid "Force new revision"
 msgstr "Neue Revision erzwingen"
 
@@ -160,7 +171,7 @@ msgstr "Neue Revision erzwingen"
 msgid "Form"
 msgstr "Formular"
 
-#: data/System/NatEditWordHelpText.txt:26
+#: data/System/NatEditWordHelpText.txt:24
 msgid "Form based input"
 msgstr "Formularbasierte Eingabe"
 
@@ -168,7 +179,7 @@ msgstr "Formularbasierte Eingabe"
 msgid "Format selected text"
 msgstr "Formatierte selektierten Text"
 
-#: data/System/NatEditWordHelpText.txt:25
+#: data/System/NatEditWordHelpText.txt:23
 msgid "Formatted Search"
 msgstr "Formatierte Suche"
 
@@ -176,40 +187,44 @@ msgstr "Formatierte Suche"
 msgid "Formula"
 msgstr "Formular"
 
-#: data/System/NatEditWordHelpText.txt:22
+#: templates/settings.natedit.tmpl:33
+msgid "Get help on setting topic preferences"
+msgstr "Mehr erfahren über das Setzen von Topic-Einstellungen"
+
+#: data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
 msgstr "Guter Stil"
 
+#: templates/editdialog.natedit.tmpl:36
+msgid "Header rows"
+msgstr "Kopfzeilen"
+
 #: templates/edittoolbar.natedit.tmpl:28
 msgid "Heading 1"
-msgstr "&&Uuml;berschriften 1"
+msgstr "Überschriften 1"
 
 #: templates/edittoolbar.natedit.tmpl:29
 msgid "Heading 2"
-msgstr "&&Uuml;berschriften 2"
+msgstr "Überschriften 2"
 
 #: templates/edittoolbar.natedit.tmpl:30
 msgid "Heading 3"
-msgstr "&&Uuml;berschriften 3"
+msgstr "Überschriften 3"
 
 #: templates/edittoolbar.natedit.tmpl:31
 msgid "Heading 4"
-msgstr "&&Uuml;berschriften 4"
+msgstr "Überschriften 4"
 
 #: templates/edittoolbar.natedit.tmpl:32
 msgid "Heading 5"
-msgstr "&&Uuml;berschriften 5"
+msgstr "Überschriften 5"
 
 #: templates/edittoolbar.natedit.tmpl:33
 msgid "Heading 6"
-msgstr "&&Uuml;berschriften 6"
+msgstr "Überschriften 6"
 
-#: templates/editdialog.natedit.tmpl:36
-msgid "Headings"
-msgstr "&&Uuml;berschriften"
-
-#: templates/edit.natedit.tmpl:114 templates/edithelp.natedit.tmpl:2
-#: templates/settings.natedit.tmpl:21
+#: templates/edit.natedit.tmpl:89 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
 msgid "Help"
 msgstr "Hilfe"
 
@@ -221,77 +236,80 @@ msgstr "Horizontale Linie"
 msgid "Icon"
 msgstr "Icon"
 
-#: data/System/NatEditWordHelpText.txt:27
+#: data/System/NatEditWordHelpText.txt:25
 msgid "Including"
 msgstr "Inkludieren"
 
 #: templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
-msgstr "Einr&&uuml;cken"
+msgstr "Einrücken"
 
 #: templates/editdialog.natedit.tmpl:2 templates/edittoolbar.natedit.tmpl:96
 msgid "Insert a color code"
-msgstr "Einen Farbcode einf&&uuml;gen"
+msgstr "Einen Farbcode einfügen"
+
+#: templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr "Tabellen-Überschrift für Formulardaten einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
-msgstr "Eine Datum einf&&uuml;gen"
+msgstr "Eine Datum einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:106
 msgid "Insert a horizontal ruler"
-msgstr "Eine horizontale Linie einf&&uuml;gen"
+msgstr "Eine horizontale Linie einfügen"
 
 #: templates/editdialog.natedit.tmpl:66 templates/edittoolbar.natedit.tmpl:83
 msgid "Insert a link"
-msgstr "Verweis einf&&uuml;gen"
+msgstr "Verweis einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:102
 msgid "Insert a link to a topic or an external resource"
-msgstr ""
+msgstr "Link zu einem Topic oder einer externen Ressource einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:104
 msgid "Insert a link to a user-profile"
-msgstr ""
+msgstr "Link zu einem Benutzerprofil einfügen"
 
-#: templates/edittoolbar.natedit.tmpl:109
+#: templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
-msgstr ""
+msgstr "Makro einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:107
 msgid "Insert a mathematical formula"
-msgstr ""
+msgstr "Mathematische Formel einfügen"
 
-#: templates/edittoolbar.natedit.tmpl:101
-#: templates/edittoolbar.natedit.tmpl:82
+#: templates/edittoolbar.natedit.tmpl:101 templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr "Neue Tabelle einf&&uuml;gen"
+msgstr "Neue Tabelle einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
-msgstr "Symbol einf&&uuml;gen"
+msgstr "Symbol einfügen"
 
 #: templates/editdialog.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:103
 #: templates/edittoolbar.natedit.tmpl:84
 msgid "Insert an attachment"
-msgstr "Anhang einf&&uuml;gen"
+msgstr "Anhang einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:94
 msgid "Insert an emoticon"
-msgstr "Emoticon einf&&uuml;gen"
+msgstr "Emoticon einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:93
 msgid "Insert an icon"
-msgstr "Icon einf&&uuml;gen"
+msgstr "Icon einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:105
 msgid "Insert your signature"
-msgstr ""
+msgstr "Ihre Signatur einfügen"
 
 #: templates/edittoolbar.natedit.tmpl:43
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
-#: templates/edit.natedit.tmpl:161 templates/edit.natedit.tmpl:192
+#: templates/edit.natedit.tmpl:219 templates/edit.natedit.tmpl:265
 msgid "Just me"
 msgstr "Nur ich"
 
@@ -301,125 +319,121 @@ msgstr "Blocktext"
 
 #: templates/edittoolbar.natedit.tmpl:102
 msgid "Link"
-msgstr ""
+msgstr "Verweis"
 
-#: templates/edittoolbar.natedit.tmpl:109
+#: templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Makro"
 
-#: data/System/NatEditWordHelpText.txt:24
+#: data/System/NatEditWordHelpText.txt:22
 msgid "Macros"
 msgstr "Makro"
 
+#: templates/edittoolbar.natedit.tmpl:211
+msgid "Minor change"
+msgstr "Geringfügige Änderung"
+
 #: templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
-msgstr ""
+msgstr "Weitere Zeichenformate"
 
 #: templates/edittoolbar.natedit.tmpl:86
 msgid "More objects to insert"
-msgstr ""
+msgstr "Weitere einfügbare Objekte"
 
-#: templates/edittoolbar.natedit.tmpl:119
+#: templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
-msgstr ""
+msgstr "Mehr Werkzeuge"
 
 #: templates/editdialog.natedit.tmpl:51
 msgid "No"
 msgstr "Nein"
 
-#: templates/edit.natedit.tmpl:166 templates/edit.natedit.tmpl:197
+#: templates/edit.natedit.tmpl:226 templates/edit.natedit.tmpl:272
 msgid "Nobody"
 msgstr "Niemand"
 
 #: templates/edittoolbar.natedit.tmpl:72
 msgid "Numbered list"
-msgstr ""
+msgstr "Nummerierte Liste"
 
 #: templates/edittoolbar.natedit.tmpl:99
 msgid "OEmbed"
-msgstr ""
+msgstr "OEmbed"
 
 #: templates/edittoolbar.natedit.tmpl:75
 msgid "Outdent"
-msgstr ""
+msgstr "Ausrücken"
 
 #: templates/edittoolbar.natedit.tmpl:22
 msgid "Paragraph"
-msgstr ""
+msgstr "Absatz"
 
 #: templates/edit.natedit.tmpl:104
-msgid "Parent topic"
-msgstr "Ober-Topic"
-
-#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:128
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: templates/edit.natedit.tmpl:67
+#: templates/edit.natedit.tmpl:64
 msgid "Please validate"
-msgstr "Bitte &&uuml;berpr&&uuml;fen"
+msgstr "Bitte überprüfen"
 
-#: data/System/NatEditWordHelpText.txt:10
+#: data/System/NatEditWordHelpText.txt:8
 msgid "Plugins"
 msgstr "Plugins"
 
-#: templates/settings.natedit.tmpl:15
+#: templates/settings.natedit.tmpl:16
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: templates/edittoolbar.natedit.tmpl:181 templates/preview.natedit.tmpl:1
+#: templates/edittoolbar.natedit.tmpl:185 templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "Vorschau"
 
-#: templates/edittoolbar.natedit.tmpl:182
+#: templates/edittoolbar.natedit.tmpl:186
 msgid "Preview your changes"
-msgstr "Vorschau der &&Auml;nderungen"
+msgstr "Vorschau der Änderungen"
 
-#: templates/edittoolbar.natedit.tmpl:117
+#: templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
-msgstr "Widerherstellen der vorherigen &&Auml;nderungen"
+msgstr "Widerherstellen der vorherigen Änderungen"
 
-#: templates/edit.natedit.tmpl:156 templates/edit.natedit.tmpl:187
+#: templates/edit.natedit.tmpl:212 templates/edit.natedit.tmpl:258
 msgid "Registered users"
 msgstr "Registrierte Benutzer"
 
-#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:129
+#: templates/editdialog.natedit.tmpl:18 templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: templates/edittoolbar.natedit.tmpl:142
+#: templates/edittoolbar.natedit.tmpl:146
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: templates/edittoolbar.natedit.tmpl:158
+#: templates/edittoolbar.natedit.tmpl:162
 msgid "Restore and Continue"
 msgstr "Wiederherstellen und fortsetzen"
 
-#: templates/edittoolbar.natedit.tmpl:159
+#: templates/edittoolbar.natedit.tmpl:163
 msgid "Restore and continue editing"
 msgstr "Wiederherstellen und Berabeitung fortsetzen"
 
-#: templates/edittoolbar.natedit.tmpl:143
+#: templates/edittoolbar.natedit.tmpl:147
 msgid "Restore and exit"
 msgstr "Wiederherstellen und beenden"
 
-#: templates/editdialog.natedit.tmpl:40
-msgid "Rows"
-msgstr "Reihen"
-
-#: templates/edit.natedit.tmpl:69 templates/edittoolbar.natedit.tmpl:150
+#: templates/edit.natedit.tmpl:66 templates/edittoolbar.natedit.tmpl:154
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/edittoolbar.natedit.tmpl:165
+#: templates/edittoolbar.natedit.tmpl:169
 msgid "Save and Continue"
 msgstr "Speichern und fortsetzen"
 
-#: templates/edittoolbar.natedit.tmpl:166
+#: templates/edittoolbar.natedit.tmpl:170
 msgid "Save and continue editing"
 msgstr "Speichern und Bearbeitung fortsetzen"
 
-#: templates/edittoolbar.natedit.tmpl:151
+#: templates/edittoolbar.natedit.tmpl:155
 msgid "Save and exit"
 msgstr "Speichern und beenden"
 
@@ -427,42 +441,38 @@ msgstr "Speichern und beenden"
 msgid "Search"
 msgstr "Suchen"
 
-#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:129
+#: templates/editdialog.natedit.tmpl:10 templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "Suchen && Ersetzen"
-
-#: templates/edit.natedit.tmpl:95
-msgid "Settings"
-msgstr "Einstellungen"
 
 #: templates/edittoolbar.natedit.tmpl:105
 msgid "Signature"
 msgstr "Unterschrift"
 
-#: templates/edittoolbar.natedit.tmpl:127
+#: templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "Aufsteigend sortieren"
 
-#: templates/edittoolbar.natedit.tmpl:128
+#: templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "Absteigend sortieren"
 
-#: templates/edittoolbar.natedit.tmpl:127
-msgid "Sort selected lines ascending"
-msgstr "Ausgew&&auml;hlte Zeilen absteigend sortieren"
-
 #: templates/edittoolbar.natedit.tmpl:128
-msgid "Sort selected lines descending"
-msgstr "Ausgew&&auml;hlte Zeilen aufsteigend sortieren"
+msgid "Sort selected lines ascending"
+msgstr "Ausgewählte Zeilen absteigend sortieren"
 
-#: templates/edit.natedit.tmpl:171 templates/edit.natedit.tmpl:202
+#: templates/edittoolbar.natedit.tmpl:129
+msgid "Sort selected lines descending"
+msgstr "Ausgewählte Zeilen aufsteigend sortieren"
+
+#: templates/edit.natedit.tmpl:233 templates/edit.natedit.tmpl:279
 msgid "Specific users/groups"
 msgstr "Spezifische Benutzer/Gruppen"
 
 #: templates/workflowedit.natedit.tmpl:3
 msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
 msgstr ""
-"Zustands&&auml;nderung von *%1* nach *%2* (siehe [[%3][Workflow-"
+"Zustandsänderung von *%1* nach *%2* (siehe [[%3][Workflow-"
 "Definition]])."
 
 #: templates/edittoolbar.natedit.tmpl:52
@@ -473,11 +483,15 @@ msgstr "Durchstreichen"
 msgid "Subscript"
 msgstr "Tiefstellen"
 
+#: templates/edittoolbar.natedit.tmpl:215
+msgid "Summary of changes"
+msgstr "Zusammenfassung der Änderungen"
+
 #: templates/edittoolbar.natedit.tmpl:53
 msgid "Superscript"
 msgstr "Hochstellen"
 
-#: templates/edittoolbar.natedit.tmpl:118
+#: templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "Umschalten nach Wysiwyg"
 
@@ -489,59 +503,59 @@ msgstr "Symbol"
 msgid "Table"
 msgstr "Tabelle"
 
-#: templates/edit.natedit.tmpl:92 templates/editdialog.natedit.tmpl:105
+#: templates/edit.natedit.tmpl:86 templates/editdialog.natedit.tmpl:105
 #: templates/editdialog.natedit.tmpl:133 templates/editdialog.natedit.tmpl:91
 msgid "Text"
 msgstr "Text"
 
-#: data/System/NatEditWordHelpText.txt:23
-msgid "TextFormatting"
-msgstr "Text-Formatierung"
+#: templates/edit.natedit.tmpl:80
+msgid "Title"
+msgstr "Titel"
 
 #: templates/editdialog.natedit.tmpl:119 templates/editdialog.natedit.tmpl:69
 #: templates/editdialog.natedit.tmpl:87
 msgid "Topic"
 msgstr "Topic"
 
-#: templates/edit.natedit.tmpl:99
-msgid "Topic settings"
-msgstr "Topic-Einstellungen"
+#: templates/editdialog.natedit.tmpl:101
+msgid "URL"
+msgstr "URL"
 
 #: templates/edittoolbar.natedit.tmpl:44
 msgid "Underline"
 msgstr "Unterstreichen"
 
-#: templates/edittoolbar.natedit.tmpl:116
+#: templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
-msgstr "Widerherstellen der letzten &&Auml;nderungen"
+msgstr "Widerherstellen der letzten Änderungen"
 
-#: templates/edittoolbar.natedit.tmpl:131
+#: templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
-msgstr ""
-
-#: templates/editdialog.natedit.tmpl:140
-msgid "Upload"
-msgstr "Hochladen"
+msgstr "Markupschutz entfernen"
 
 #: templates/editdialog.natedit.tmpl:127
 msgid "Upload a file"
 msgstr "Datei Hochladen"
 
-#: templates/editdialog.natedit.tmpl:101
-msgid "Url"
-msgstr "Url"
-
-#: templates/edit.natedit.tmpl:179
+#: templates/edit.natedit.tmpl:245
 msgid "Users who may edit"
 msgstr "Benutzer mit Schreibrechten"
 
-#: templates/edit.natedit.tmpl:143
+#: templates/edit.natedit.tmpl:192
 msgid "Users who may view"
 msgstr "Benutzer mit Leserechten"
 
 #: templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
 msgstr "Verbatim"
+
+#: templates/edit.natedit.tmpl:142
+msgid ""
+"Warning: Incompatible permission settings detected. Use the =Edit settings= "
+"dialog to change the ACLs."
+msgstr ""
+"Warnung: Inkompatible Berechtigungseinstellungen erkannt. Benutzen Sie den "
+"Dialog =Topic-Präferenzen Bearbeiten=, um die Zugriffsrechte zu verändern."
 
 #: templates/editdialog.natedit.tmpl:115 templates/editdialog.natedit.tmpl:83
 msgid "Web"
@@ -551,36 +565,42 @@ msgstr "Web"
 msgid "Yes"
 msgstr "Ja"
 
-#: templates/edit.natedit.tmpl:144 templates/edit.natedit.tmpl:180
+#: templates/settings.natedit.tmpl:30
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[Vielfaches von 3 Leerzeichen] * [Leerzeichen] Set [Leerzeichen] "
+"VARIABLENNAME [Leerzeichen] = [Wert]"
+
+#: templates/edit.natedit.tmpl:196 templates/edit.natedit.tmpl:249
 msgid "default as defined in the %1"
 msgstr "Default wie in %1 definiert"
 
-#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+#: templates/edit.natedit.tmpl:8 templates/form.natedit.tmpl:2
 msgid "edit"
 msgstr "editieren"
 
 #: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
-#: templates/editform.natedit.tmpl:4
 msgid "edit form"
 msgstr "Formular bearbeiten"
 
 #: templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
-msgstr ""
+msgstr "Groß-/Kleinschreibung ignorieren"
 
 #: templates/form.natedit.tmpl:4
 msgid "indicates mandatory fields"
 msgstr "kennzeichnet Pflichtfelder"
 
-#: templates/edit.natedit.tmpl:10
+#: templates/edit.natedit.tmpl:9
 msgid "new"
 msgstr "neu"
 
-#: templates/edit.natedit.tmpl:149
+#: templates/edit.natedit.tmpl:203
 msgid "public view access"
-msgstr "&&ouml;ffentliche Leserechte"
+msgstr "öffentliche Leserechte"
 
-#: templates/edit.natedit.tmpl:7
+#: templates/edit.natedit.tmpl:6
 msgid "restore"
 msgstr "Wiederherstellen"
 
@@ -588,30 +608,30 @@ msgstr "Wiederherstellen"
 msgid "restore form"
 msgstr "Formular wiederherstellen"
 
-#: templates/edit.natedit.tmpl:159 templates/edit.natedit.tmpl:190
+#: templates/edit.natedit.tmpl:217 templates/edit.natedit.tmpl:263
 msgid "restrict access to %1"
-msgstr "Zugriff nur f&&uuml;r %1"
+msgstr "Zugriff nur für %1"
 
-#: templates/edit.natedit.tmpl:154
+#: templates/edit.natedit.tmpl:210
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
-"Leserechte auf Benutzer einschr&&auml;nken, die auf dieser Internetseite"
-"registriert sind"
+"Leserechte auf Benutzer einschränken, die auf dieser "
+"Internetseiteregistriert sind"
 
-#: templates/edit.natedit.tmpl:185
+#: templates/edit.natedit.tmpl:256
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
-"Schreibrechte auf Benutzer einschr&&auml;nken, die auf dieser Internetseite"
-"registriert sind"
+"Schreibrechte auf Benutzer einschränken, die auf dieser "
+"Internetseiteregistriert sind"
 
-#: templates/edit.natedit.tmpl:169 templates/edit.natedit.tmpl:200
+#: templates/edit.natedit.tmpl:231 templates/edit.natedit.tmpl:277
 msgid "specify a list of users and/or groups"
 msgstr "geben Sie eine Liste von Benutzern und/oder Gruppen an"
 
-#: templates/edit.natedit.tmpl:164
+#: templates/edit.natedit.tmpl:224
 msgid "strictly deny any access to this topic"
-msgstr "jeden Zugriff auf dieses Topic einschr&&auml;nken"
+msgstr "jeden Zugriff auf dieses Topic einschränken"
 
-#: templates/edit.natedit.tmpl:195
+#: templates/edit.natedit.tmpl:270
 msgid "strictly deny write access to this topic"
-msgstr "jeden Schreibzugriff auf dieses Topic einschr&&auml;nken"
+msgstr "jeden Schreibzugriff auf dieses Topic einschränken"
