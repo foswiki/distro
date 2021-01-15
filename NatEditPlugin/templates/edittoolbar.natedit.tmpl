@@ -135,7 +135,10 @@
 
 %{ ################################################################################ }%
 %TMPL:DEF{"bottomtopicactions"}%<div class="natEditBottomBar">
-<ul>%TMPL:P{"saveorrestorebutton"}%%TMPL:P{"checkpointbutton"}%%TMPL:P{"previewbutton"}%%TMPL:P{"formbutton"}%%TMPL:P{"changeform"}%%TMPL:P{"cancelbutton"}%%TMPL:P{"forcenewrevision"}%</ul>
+%IF{"context RevCommentPluginEnabled and '%DISPLAYREVCOMMENT{default="on"}%'!='off'" 
+  then="$percntTMPL:P{\"revcomment\"}$percnt"
+}%%{}%
+<ul>%TMPL:P{"saveorrestorebutton"}%%TMPL:P{"checkpointbutton"}%%TMPL:P{"previewbutton"}%%TMPL:P{"formbutton"}%%TMPL:P{"changeform"}%%TMPL:P{"cancelbutton"}%%TMPL:P{"forcenewrevision"}%%TMPL:P{"minorchange"}%</ul>
 %CLEAR%
 </div>
 %TMPL:END%
@@ -205,3 +208,10 @@
   }$percnt"
 }%</li>%TMPL:END%
 %TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="%MAKETEXT{"Creates a new topic revision when saving"}%" id="forcenewrevision" name="forcenewrevision" %IF{"'%URLPARAM{"forcenewrevision" default="%FORCENEWREVISIONCHECKBOX%"}%'=~'1|on|yes|checked'" then="checked"}% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%
+%TMPL:DEF{"minorchange"}%<li class="natEditMinorChange"><label for="minorchange"><input type="checkbox" title="%MAKETEXT{"Flag the changes as being minor"}%" id="minorchange" name="dontnotify" value="checked" %IF{"'%URLPARAM{"dontnotify"}%'=~'1|on|yes|checked'" then="checked"}% />%MAKETEXT{"Minor change"}%</label></li>%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"revcomment"}%<div class="natEditRevComment">
+  <label for="revcomment">%MAKETEXT{"Summary of changes"}%:</label> 
+  <input class="foswikiInputField" type="text" size="100" name="revcomment" id="revcomment" value="%URLPARAM{"revcomment"}%" /> 
+</div>%TMPL:END%

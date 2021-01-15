@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1601305462" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1610722741" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,6 +56,7 @@ is sufficient.
 %$INSTALL_INSTRUCTIONS%
 
 
+|  15 Jan 2021 | Foswikitask:Item15008: bring back support for "dontnotify" in natedit; bring back support for <nop>RevCommentPlugin |
 |  28 Sep 2020 | Foswikitask:Item14897: rationalized edit template for better customization <br /> \
                  Foswikitask:Item14685: fixed initialization of defaults in permissions tab |
 |  04 Apr 2018 | Foswiki 2.2 - Foswikitask:Item14631: Compatibilty issues with new TinyMCE API. |
@@ -193,4 +194,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attachment="screenshot1.png" attr="h" comment="" date="1601305462" path="screenshot1.png" size="104954" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attachment="screenshot1.png" attr="h" comment="" date="1610722741" path="screenshot1.png" size="104954" user="ProjectContributor" version="1"}%

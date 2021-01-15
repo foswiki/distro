@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/edittoolbar.natedit.tmpl:191
+#: templates/edittoolbar.natedit.tmpl:194
 msgid "Abandon changes and exit"
 msgstr ""
 
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Bullet list"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:59 templates/edittoolbar.natedit.tmpl:190
+#: templates/edit.natedit.tmpl:67 templates/edittoolbar.natedit.tmpl:193
 msgid "Cancel"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Create a new table"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:207
+#: templates/edittoolbar.natedit.tmpl:210
 msgid "Creates a new topic revision when saving"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:126 templates/edit.natedit.tmpl:162
+#: templates/edit.natedit.tmpl:198 templates/edit.natedit.tmpl:251
 msgid "Default"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Escape markup"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:131
+#: templates/edit.natedit.tmpl:205
 msgid "Everybody"
 msgstr ""
 
@@ -157,7 +157,11 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:207
+#: templates/edittoolbar.natedit.tmpl:211
+msgid "Flag the changes as being minor"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:210
 msgid "Force new revision"
 msgstr ""
 
@@ -217,7 +221,7 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:86 templates/edithelp.natedit.tmpl:2
+#: templates/edit.natedit.tmpl:89 templates/edithelp.natedit.tmpl:2
 #: templates/settings.natedit.tmpl:22 templates/settings.natedit.tmpl:25
 msgid "Help"
 msgstr ""
@@ -274,8 +278,7 @@ msgstr ""
 msgid "Insert a mathematical formula"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:101
-#: templates/edittoolbar.natedit.tmpl:82
+#: templates/edittoolbar.natedit.tmpl:101 templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
 msgstr ""
 
@@ -304,7 +307,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:141 templates/edit.natedit.tmpl:172
+#: templates/edit.natedit.tmpl:219 templates/edit.natedit.tmpl:265
 msgid "Just me"
 msgstr ""
 
@@ -324,6 +327,10 @@ msgstr ""
 msgid "Macros"
 msgstr ""
 
+#: templates/edittoolbar.natedit.tmpl:211
+msgid "Minor change"
+msgstr ""
+
 #: templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
 msgstr ""
@@ -340,7 +347,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:146 templates/edit.natedit.tmpl:177
+#: templates/edit.natedit.tmpl:226 templates/edit.natedit.tmpl:272
 msgid "Nobody"
 msgstr ""
 
@@ -360,11 +367,11 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:98
+#: templates/edit.natedit.tmpl:104
 msgid "Permissions"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:56
+#: templates/edit.natedit.tmpl:64
 msgid "Please validate"
 msgstr ""
 
@@ -376,11 +383,11 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:182 templates/preview.natedit.tmpl:1
+#: templates/edittoolbar.natedit.tmpl:185 templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:183
+#: templates/edittoolbar.natedit.tmpl:186
 msgid "Preview your changes"
 msgstr ""
 
@@ -388,7 +395,7 @@ msgstr ""
 msgid "Redo previous change"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:136 templates/edit.natedit.tmpl:167
+#: templates/edit.natedit.tmpl:212 templates/edit.natedit.tmpl:258
 msgid "Registered users"
 msgstr ""
 
@@ -396,35 +403,35 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:143
+#: templates/edittoolbar.natedit.tmpl:146
 msgid "Restore"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:159
+#: templates/edittoolbar.natedit.tmpl:162
 msgid "Restore and Continue"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:160
+#: templates/edittoolbar.natedit.tmpl:163
 msgid "Restore and continue editing"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:144
+#: templates/edittoolbar.natedit.tmpl:147
 msgid "Restore and exit"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:58 templates/edittoolbar.natedit.tmpl:151
+#: templates/edit.natedit.tmpl:66 templates/edittoolbar.natedit.tmpl:154
 msgid "Save"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:166
+#: templates/edittoolbar.natedit.tmpl:169
 msgid "Save and Continue"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:167
+#: templates/edittoolbar.natedit.tmpl:170
 msgid "Save and continue editing"
 msgstr ""
 
-#: templates/edittoolbar.natedit.tmpl:152
+#: templates/edittoolbar.natedit.tmpl:155
 msgid "Save and exit"
 msgstr ""
 
@@ -456,7 +463,7 @@ msgstr ""
 msgid "Sort selected lines descending"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:151 templates/edit.natedit.tmpl:182
+#: templates/edit.natedit.tmpl:233 templates/edit.natedit.tmpl:279
 msgid "Specific users/groups"
 msgstr ""
 
@@ -470,6 +477,10 @@ msgstr ""
 
 #: templates/edittoolbar.natedit.tmpl:54
 msgid "Subscript"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:215
+msgid "Summary of changes"
 msgstr ""
 
 #: templates/edittoolbar.natedit.tmpl:53
@@ -488,13 +499,13 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:83 templates/editdialog.natedit.tmpl:105
+#: templates/edit.natedit.tmpl:86 templates/editdialog.natedit.tmpl:105
 #: templates/editdialog.natedit.tmpl:133 templates/editdialog.natedit.tmpl:91
 msgid "Text"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:77
-msgid "Title:"
+#: templates/edit.natedit.tmpl:80
+msgid "Title"
 msgstr ""
 
 #: templates/editdialog.natedit.tmpl:119 templates/editdialog.natedit.tmpl:69
@@ -522,16 +533,22 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:159
-msgid "Users who may edit:"
+#: templates/edit.natedit.tmpl:245
+msgid "Users who may edit"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:123
-msgid "Users who may view:"
+#: templates/edit.natedit.tmpl:192
+msgid "Users who may view"
 msgstr ""
 
 #: templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:142
+msgid ""
+"Warning: Incompatible permission settings detected. Use the =Edit settings= "
+"dialog to change the ACLs."
 msgstr ""
 
 #: templates/editdialog.natedit.tmpl:115 templates/editdialog.natedit.tmpl:83
@@ -547,11 +564,11 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:124 templates/edit.natedit.tmpl:160
+#: templates/edit.natedit.tmpl:196 templates/edit.natedit.tmpl:249
 msgid "default as defined in the %1"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:9 templates/form.natedit.tmpl:2
+#: templates/edit.natedit.tmpl:8 templates/form.natedit.tmpl:2
 msgid "edit"
 msgstr ""
 
@@ -567,15 +584,15 @@ msgstr ""
 msgid "indicates mandatory fields"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:10
+#: templates/edit.natedit.tmpl:9
 msgid "new"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:129
+#: templates/edit.natedit.tmpl:203
 msgid "public view access"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:7
+#: templates/edit.natedit.tmpl:6
 msgid "restore"
 msgstr ""
 
@@ -583,26 +600,26 @@ msgstr ""
 msgid "restore form"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:139 templates/edit.natedit.tmpl:170
+#: templates/edit.natedit.tmpl:217 templates/edit.natedit.tmpl:263
 msgid "restrict access to %1"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:134
+#: templates/edit.natedit.tmpl:210
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:165
+#: templates/edit.natedit.tmpl:256
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:149 templates/edit.natedit.tmpl:180
+#: templates/edit.natedit.tmpl:231 templates/edit.natedit.tmpl:277
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:144
+#: templates/edit.natedit.tmpl:224
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: templates/edit.natedit.tmpl:175
+#: templates/edit.natedit.tmpl:270
 msgid "strictly deny write access to this topic"
 msgstr ""
