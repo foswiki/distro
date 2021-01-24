@@ -5,8 +5,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 use strict;
 use warnings;
 use Assert;
+use version;
 
-use constant REQUIRED_RCS_VERSION => 5.7;
+use constant REQUIRED_RCS_VERSION => "v5.7";
 
 =begin TML
 
@@ -26,7 +27,6 @@ sub checkRCSProgram {
     my $err  = '';
     my $prog = $Foswiki::cfg{RCS}{$key} || '';
     my $version;
-    my $fullversion;
 
     $prog =~ s/^\s*(\S+)\s.*$/$1/;    # Extract out program name and untaint
     $prog =~ m/^(.*)$/;
@@ -59,10 +59,9 @@ sub checkRCSProgram {
                 next;
             }
             elsif ( defined $msg
-                && $msg =~ m/^.*?([0-9]+\.[0-9]+)(\.[0-9]+)?$/m )
+                && $msg =~ m/^.*?([0-9]+\.[0-9]+(\.[0-9]+))?$/m )
             {
                 $version = $1 if defined($1);
-                $fullversion = $1 . ( $2 || '' ) if defined($1);
                 last unless DEBUG;
             }
 
@@ -73,8 +72,7 @@ sub checkRCSProgram {
         if ( !defined $version ) {
             $err .= "Unable to determine version of $prog. ";
         }
-        elsif ( $version < REQUIRED_RCS_VERSION ) {
-
+        elsif ( version->parse("v$version") < version->parse(REQUIRED_RCS_VERSION) ) {
             # RCS too old
             $err .=
                 $prog
@@ -84,7 +82,7 @@ sub checkRCSProgram {
         }
     }
 
-    $mess .= $this->NOTE("$prog $fullversion detected.") if defined $fullversion;
+    $mess .= $this->NOTE("$prog $version detected.") if defined $version;
 
     if ($err) {
         $mess .= $this->ERROR(
@@ -102,7 +100,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

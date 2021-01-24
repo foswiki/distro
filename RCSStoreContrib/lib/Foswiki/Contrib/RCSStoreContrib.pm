@@ -19,8 +19,8 @@ use warnings;
 
 use Foswiki::Configure::Load;
 
-our $VERSION = '1.10';
-our $RELEASE = '5 Jan 2018';
+our $VERSION = '1.20';
+our $RELEASE = '24 Jan 2021';
 our $SHORTDESCRIPTION =
   'A wiki topic and attachment store using the RCS revision control system';
 
@@ -89,7 +89,7 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Author: FoswikiContributor
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
