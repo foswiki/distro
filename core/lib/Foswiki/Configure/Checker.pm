@@ -237,7 +237,12 @@ sub check {
 sub NOTE {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->NOTE(@_);
+    if ( defined $this->{reporter} ) {
+        $this->{reporter}->NOTE(@_);
+    }
+    else {
+        print STDERR "NOTE: " . join( ' ', @_ ) . "\n";
+    }
     return join( ' ', @_ );
 }
 
@@ -246,7 +251,12 @@ sub NOTE {
 sub WARN {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->WARN(@_);
+    if ( defined $this->{reporter} ) {
+        $this->{reporter}->WARN(@_);
+    }
+    else {
+        print STDERR "WARN: " . join( ' ', @_ ) . "\n";
+    }
     return join( ' ', @_ );
 }
 
@@ -255,7 +265,12 @@ sub WARN {
 sub ERROR {
     my $this = shift;
     ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->ERROR(@_);
+    if ( defined $this->{reporter} ) {
+        $this->{reporter}->ERROR(@_);
+    }
+    else {
+        print STDERR "ERROR: " . join( ' ', @_ ) . "\n";
+    }
     return join( ' ', @_ );
 }
 
@@ -327,11 +342,11 @@ sub checkPerlModule {
     );
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
     if ( $mod{ok} ) {
-        $this->{reporter}->NOTE( $mod{check_result} );
+        $this->NOTE( $mod{check_result} );
         return '';
     }
     else {
-        $this->{reporter}->ERROR( $mod{check_result} );
+        $this->ERROR( $mod{check_result} );
         return 'ERROR';
     }
 }
