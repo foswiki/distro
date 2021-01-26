@@ -67,7 +67,7 @@ sub checkRCSProgram {
 
         }
 
-        ASSERT( REQUIRED_RCS_VERSION =~ m/^\d+(\.\d+)?$/ ) if DEBUG;
+        ASSERT( REQUIRED_RCS_VERSION =~ m/^v\d+(\.\d+)?$/ ) if DEBUG;
 
         if ( !defined $version ) {
             $err .= "Unable to determine version of $prog. ";
