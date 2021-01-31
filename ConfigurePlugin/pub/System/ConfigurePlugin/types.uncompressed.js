@@ -173,7 +173,7 @@ var Types = {};
       createUI: function(change_handler) {
           this._super(change_handler);
           this.$ui.attr('type', 'password');
-          this.$ui.prop('autocomplete', false);
+          this.$ui.attr('autocomplete', 'new-password');
           return this.$ui;
       }
   });
