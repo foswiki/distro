@@ -1,5 +1,5 @@
 /*
- * jQuery Shrinkurls plugin 2.01
+ * jQuery Shrinkurls plugin 2.02
  *
  * Copyright (c) 2007-2020 Foswiki Contributors http://foswiki.org
  *
@@ -29,8 +29,8 @@
  *
  */
 
-(function($) {
 "use strict";
+(function($) {
 
   $.fn.extend({
 
@@ -50,7 +50,6 @@
             (settings.whitespace || !text.match(/\s/))) {
           var firstPart = "";
           var lastPart = "";
-          var middlePart = "";
           //$.log("length="+txtlength+", text="+text);
           switch (settings.trunc) {
             case 'head':

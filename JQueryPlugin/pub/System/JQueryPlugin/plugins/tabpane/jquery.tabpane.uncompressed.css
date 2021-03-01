@@ -76,7 +76,6 @@ ul.jqTabGroup a {
   background-position: right top;
   padding:0 3px 0 0;
   margin:0 4px 0 0;
-  *margin:5px 4px -6px 0; /* IE7 */
   height:28px;
 }
 .jqTabPaneDefault > .jqTabGroup a:hover,
@@ -155,7 +154,6 @@ ul.jqTabGroup a {
 .jqTabPaneSimple > .jqTabGroup li {
   background:transparent;
   margin:0 0.4615em 0 0; /* 0 6px ... */
-  *height:2.3077em; /* IE7 ... 30px */
 }
 .jqTabPanePlain > .jqTabGroup li.current a,
 .jqTabPaneSimple > .jqTabGroup li.current a {
@@ -169,7 +167,6 @@ ul.jqTabGroup a {
   background:#eee;
   border: 1px solid #ccc;
   color:inherit;
-  *color:#111; /* IE7 */
   padding:5px 10px;
 }
 .jqTabPanePlain > .jqTabGroup a:hover,
