@@ -413,11 +413,12 @@ sub getAttachmentLink {
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$attName/;        # deprecated
-    $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
+    $fileLink =~ s/\$name/$attName/g;        # deprecated
+    $fileLink =~ s/\$name/$attName/g;        # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
     $fileLink =~ s/\$fileurl/$attName/g;
-    $fileLink =~ s/\$fileext/$fileExt/;
+    $fileLink =~ s/\$fileext/$fileExt/g;
+    $fileLink =~ s/\$filetime/$fileTime/g;
 
     # Expand \t and \n early (only in the format, not
     # in the comment) - TWikibug:Item4581
@@ -426,9 +427,6 @@ sub getAttachmentLink {
     $fileLink =~ s/\$comment/$fileComment/g;
     $fileLink =~ s/\$size/$imgSize/g;
     $fileLink =~ s/([^\n])$/$1\n/;
-
-    require Foswiki::Time;
-    $fileLink = Foswiki::Time::formatTime( $fileTime, $fileLink );
     $fileLink = Foswiki::expandStandardEscapes($fileLink);
 
     return $fileLink;
