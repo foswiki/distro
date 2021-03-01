@@ -23,7 +23,7 @@
   background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(#ffffff 0%,#dfdfdf 100%); 
 }
 a.jqButton:visited,
 a.jqButton:link,
@@ -43,7 +43,7 @@ a.jqButton:hover {
   background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
-  background: linear-gradient(top, #ffffff 0%,#ededed 100%);
+  background: linear-gradient(#ffffff 0%,#ededed 100%);
 }
 .jqButton:active {
   background: #ededed;
@@ -53,7 +53,7 @@ a.jqButton:hover {
   background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: linear-gradient(#ededed 0%,#ffffff 50%);
 }
 
 .jqButton.foswikiRight:hover,

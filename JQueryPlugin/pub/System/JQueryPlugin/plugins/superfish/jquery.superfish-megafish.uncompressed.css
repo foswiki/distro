@@ -42,7 +42,6 @@
   border-top: 1px solid rgba(255,255,255,.5);
   padding: .75em 1em;
   text-decoration: none;
-  zoom: 1; /* IE7 */
   color: #13a;
 }
 .sf-menu > li {
@@ -74,10 +73,8 @@
 }
 
 
-/*** arrows (for all except IE7) **/
 .sf-arrows .sf-with-ul {
   padding-right: 2.5em;
-  *padding-right: 1em; /* no CSS arrows for IE7 (lack pseudo-elements) */
 }
 /* styling for both css and generated arrows */
 .sf-arrows .sf-with-ul:after {

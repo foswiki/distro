@@ -578,7 +578,6 @@ a.ui-state-highlight.ui-state-hover,
   zoom: 1; 
   display: block;
   padding: .5em .5em .5em .7em;
-  min-height: 0; /* support: IE7 */
   border:0;
   background:transparent;
 }
