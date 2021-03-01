@@ -604,42 +604,6 @@ sub test_linkformat {
 qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedgehog/ms,
         $text
     );
-
-    # Test a formatted link using standard escapes, and time tokens.
-    $result = $this->do_upload(
-        'Flappadoodle.txt',
-        $data,
-        undef,
-        hidefile    => 1,
-        filecomment => 'Wikiworld',
-        createlink  => 1,
-        linkformat =>
-'$n |$year-$mo $wday|Effort $lt--        |[[$percntATTACHURL$percnt/$name][$percntICON{$fileext}$percnt $name]]| received from $comment |',
-        changeproperties => 1
-    );
-    $this->assert_matches( qr/^Status: 302/ms, $result );
-    ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-
-    my $format = '$year-$mo $wday';
-    my $formatted = Foswiki::Time::formatTime( time, $format );
-
-    if ( $this->check_dependency('Foswiki,<,1.2') ) {
-        $this->assert_matches(
-qr#^\$n\Q |$format|Effort \E\$\Qlt--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{\E\$\Qfileext}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
-            $text
-        );
-    }
-    else {
-
-# Item5935 added time and standard tokens to the attachment link text to version 1.2
-        $this->assert_matches(
-qr#^\Q |$formatted|Effort <--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{txt}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
-            $text
-        );
-    }
-
-    return;
 }
 
 sub test_imagelink {
