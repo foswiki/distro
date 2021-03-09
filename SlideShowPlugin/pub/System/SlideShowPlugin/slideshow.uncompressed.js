@@ -1,4 +1,29 @@
+/*
+
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+As per the GPL, removal of this notice is prohibited.
+*/
+
+"use strict";
+
 (function($) {
+
   function switchSlide(incr) {
     var hash = window.location.hash,
         slideNumber, slide,
@@ -6,20 +31,16 @@
         maxSlideNumber = parseInt(lastSlide.attr("id").replace(/GoSlide/, ''), 10);
 
     if (hash.match(/^#GoSlide\d+$/)) {
+      if (typeof(incr) === 'undefined') {
+        // load slide as defined in the hash
+        slide = $("div"+hash);
 
-      if (incr === Number.MAX_VALUE) {
+      } else if (incr === Number.MAX_VALUE) {
         // go to last
         slide = lastSlide;
         hash = "#GoSlide" + maxSlideNumber;
 
-      } else if (incr === 0) {
-
-        // go to first
-        hash = "#GoSlide1";
-        slide = $("div"+hash);
-
       } else {
-
         // got to other slide
         slideNumber  = parseInt(hash.replace(/^#GoSlide/, '', 'g'), 10);
         if (isNaN(slideNumber)) {
@@ -45,39 +66,46 @@
 
     $(".slideShowPane").removeClass("slideShowCurrentSlide");
     slide.addClass("slideShowCurrentSlide");
-    window.location.hash = hash;
+
+    // scroll into view
+    if (window.location.hash === hash) {
+      slide[0].scrollIntoView(1);
+    } else {
+      window.location.hash = hash;
+    }
   }
 
   $(function() {
-    switchSlide(0);
+    switchSlide();
+
     $(document).on("keydown", function(ev) {
-      switch (ev.keyCode) {
-        case 27: // esc
+      switch (ev.key) {
+        case "Escape":
           window.location.href = window.location.href.replace(/\?.*$/, '');
           return false;
-        case 33: // page up
+        case "PageUp":
           switchSlide(-10);
           return false;
-        case 34: // page down
+        case "PageDown":
           switchSlide(10);
           return false;
-        case 35: // end
+        case "End":
           switchSlide(Number.MAX_VALUE);
           return false;
-        case 36: // pos1
+        case "Home":
           switchSlide(0);
           return false;
-        case 37: // right
+        case "ArrowLeft":
           switchSlide(-1);
           return false;
-        case 32: // space
-        case 39: // left
+        case " ":
+        case "ArrowRight":
           switchSlide(1);
           return false;
-        case 38: // up
+        case "ArrowUp":
           $(".slideShowCurrentSlide").scrollTo("-=21px", 0, {"axis":"y"});
           return false;
-        case 40: // down
+        case "ArrowDown":
           $(".slideShowCurrentSlide").scrollTo("+=21px", 0, {"axis":"y"});
           return false;
         default:
