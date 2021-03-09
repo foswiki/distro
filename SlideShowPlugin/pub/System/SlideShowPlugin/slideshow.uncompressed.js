@@ -26,52 +26,60 @@ As per the GPL, removal of this notice is prohibited.
 
   function switchSlide(incr) {
     var hash = window.location.hash,
-        slideNumber, slide,
-        lastSlide = $(".slideShowLastSlide"),
-        maxSlideNumber = parseInt(lastSlide.attr("id").replace(/GoSlide/, ''), 10);
+        slideNumber,
+        maxSlideNumber,
+        slide,
+        lastSlide;
 
     if (hash.match(/^#GoSlide\d+$/)) {
+      lastSlide = $(".slideShowLastSlide");
+      maxSlideNumber = parseInt(lastSlide.attr("id").replace(/GoSlide/, ''), 10);
+      slideNumber  = parseInt(hash.replace(/^#GoSlide/, '', 'g'), 10);
+
+      if (isNaN(slideNumber)) {
+        slideNumber = 0;
+      }
+
       if (typeof(incr) === 'undefined') {
         // load slide as defined in the hash
-        slide = $("div"+hash);
+      } else if (incr === 0) {
+        // go to first 
+        slideNumber = 1;
 
       } else if (incr === Number.MAX_VALUE) {
         // go to last
-        slide = lastSlide;
-        hash = "#GoSlide" + maxSlideNumber;
+        slideNumber = maxSlideNumber
 
       } else {
-        // got to other slide
-        slideNumber  = parseInt(hash.replace(/^#GoSlide/, '', 'g'), 10);
-        if (isNaN(slideNumber)) {
-          slideNumber = 0;
-        }
-
+        // switch to slide by incr value
         slideNumber += incr;
-
-        if (slideNumber < 1 ) {
-          slideNumber = 1;
-        }
-
-        if (slideNumber > maxSlideNumber) {
-          slideNumber = maxSlideNumber;
-        }
-
-        hash = "#GoSlide"+slideNumber;
-        slide = $("div"+hash);
       }
+
+      if (slideNumber < 1 ) {
+        slideNumber = 1;
+      }
+
+      if (slideNumber > maxSlideNumber) {
+        slideNumber = maxSlideNumber;
+      }
+
+      hash = "#GoSlide" + slideNumber;
+      slide = $("div"+hash);
+
     } else {
       slide = $(".slideShowFirstSlide");
     }
 
-    $(".slideShowPane").removeClass("slideShowCurrentSlide");
-    slide.addClass("slideShowCurrentSlide");
-
     // scroll into view
-    if (window.location.hash === hash) {
-      slide[0].scrollIntoView(1);
-    } else {
-      window.location.hash = hash;
+    if (slide.length) {
+      $(".slideShowPane").removeClass("slideShowCurrentSlide");
+      slide.addClass("slideShowCurrentSlide");
+
+      if (window.location.hash === hash) {
+        slide[0].scrollIntoView(1);
+      } else {
+        window.location.hash = hash;
+      }
     }
   }
 
@@ -109,7 +117,7 @@ As per the GPL, removal of this notice is prohibited.
           $(".slideShowCurrentSlide").scrollTo("+=21px", 0, {"axis":"y"});
           return false;
         default:
-          //console.log("key=",ev.keyCode);
+          //console.log("no actions for key=",ev.key);
           break;
       }
     });
