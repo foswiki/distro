@@ -7,15 +7,21 @@
 %TMPL:DEF{"standardfooter"}%%TMPL:END%
 %TMPL:DEF{"sidebar"}%%TMPL:END%
 
-%TMPL:DEF{"slideshow::js"}%<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.js'></script>%TMPL:END%
+%TMPL:DEF{"slideshow::js"}%<script src='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.js'></script>%TMPL:END%
 %TMPL:DEF{"slideshow::css"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css' media='all' type='text/css' />%TMPL:END%
 
 %TMPL:DEF{"content"}%%TEXT%
 #TopicEnd
-%JQREQUIRE{"scrollto"}%
-%ADDTOZONE{"script" id="SLIDESHOWPLUGIN::JS" text="%TMPL:P{"slideshow::js"}%" requires="JQUERYPLUGIN::SCROLLTO"}%
-%ADDTOZONE{"head" id="SLIDESHOWPLUGIN::CSS" text="%TMPL:P{"slideshow::css"}%"}%
-%TMPL:END%
+%JQREQUIRE{"scrollto"}%%ADDTOZONE{
+  "script" 
+  id="SLIDESHOWPLUGIN::JS" 
+  text="%TMPL:P{"slideshow::js"}%" 
+  requires="JQUERYPLUGIN::SCROLLTO"
+}%%ADDTOZONE{
+  "head" 
+  id="SLIDESHOWPLUGIN::CSS" 
+  text="%TMPL:P{"slideshow::css"}%"
+}%%TMPL:END%
 
 %TMPL:DEF{"BUTTON_FIRST"}%%BUTTON{"%MAKETEXT{"First"}%" class="simple slideShowFirst" icon="fa-step-backward" href="%viewurl%%querystring%#GoSlide1"}%%TMPL:END%
 %TMPL:DEF{"BUTTON_LAST"}%%BUTTON{"%MAKETEXT{"Last"}%" class="simple slideShowLast" icon="fa-step-forward" href="%viewurl%%querystring%#GoSlide%max%"}%%TMPL:END%

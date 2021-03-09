@@ -89,10 +89,7 @@ sub renderSlideShow {
         $textPre  = '';
         $textPost = '';
 
-        $textPre .= "\n#StartPresentation\n";
-
-        #        $textPre .=
-        #          $this->renderSlideNav( 1, 1, "e" );
+        $textPre .= "#StartPresentation";
 
         my $slideMax = 0;
 
@@ -100,7 +97,7 @@ sub renderSlideShow {
             $textPre .= $1;
             $text = $3;
             my $level = $2;
-            $level =~ s/\+/\\\+/go;
+            $level =~ s/\+/\\\+/g;
             my @slides = split( /[\n\r]\-\-\-+$level(?=\!* )/, $text );
             $text = "";
 
@@ -129,22 +126,22 @@ sub renderSlideShow {
                 my $isFirstClass =
                   ( $slideNum == 1 ) ? ' slideShowFirstSlide' : '';
                 $slideText = $this->{slideTemplate};
-                $slideText =~ s/%SLIDETITLE%/$slideTitle/go;
-                $slideText =~ s/%SLIDETEXT%/$slideBody/go;
-                $slideText =~ s/%SLIDENUM%/$slideNum/go;
-                $slideText =~ s/%SLIDEMAX%/$slideMax/go;
+                $slideText =~ s/%SLIDETITLE%/$slideTitle/g;
+                $slideText =~ s/%SLIDETEXT%/$slideBody/g;
+                $slideText =~ s/%SLIDENUM%/$slideNum/g;
+                $slideText =~ s/%SLIDEMAX%/$slideMax/g;
                 $slideText =~ s/%SLIDENAV%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "fpn" )/geo;
+                    $slideNum, $slideMax, "fpn" )/ge;
                 $slideText =~ s/%SLIDENAVALL%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "fpnlx" )/geo;
+                    $slideNum, $slideMax, "fpnlx" )/ge;
                 $slideText =~ s/%SLIDENAVFIRST%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "f" )/geo;
+                    $slideNum, $slideMax, "f" )/ge;
                 $slideText =~ s/%SLIDENAVPREV%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "p" )/geo;
+                    $slideNum, $slideMax, "p" )/ge;
                 $slideText =~ s/%SLIDENAVNEXT%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "n" )/geo;
+                    $slideNum, $slideMax, "n" )/ge;
                 $slideText =~ s/%SLIDENAVLAST%/$this->renderSlideNav(
-                    $slideNum, $slideMax, "l" )/geo;
+                    $slideNum, $slideMax, "l" )/ge;
                 $slideText =
 "<div class='slideShowPane$isFirstClass$isLastClass' id='GoSlide"
                   . $slideNum
@@ -154,11 +151,11 @@ sub renderSlideShow {
                 $text =~ s/%SLIDECOMMENT%/$slideComment/gs;
                 $slideNum++;
             }
-            $text =~ s/%TOC(?:\{.*?\})?%/$this->renderSlideToc( @titles )/geo;
+            $text =~ s/%TOC(?:\{.*?\})?%/$this->renderSlideToc( @titles )/ge;
             $text .= "\n#GoSlide$slideNum\n";
         }
 
-        $text = "<div class='slideShow'>\n$textPre\n$text\n";
+        $text = "<div class='slideShow'>\n$textPre$text\n";
         $text .= $textPost . "\n</div>\n";
 
     }
@@ -167,7 +164,7 @@ sub renderSlideShow {
         # in normal topic view mode
         if ( $text =~ /[\n\r]\-\-\-+(\++)/s ) {
             my $level = $1;
-            $level =~ s/\+/\\\+/go;
+            $level =~ s/\+/\\\+/g;
 
             # add slide number to heading
             my $slideNum = 1;
@@ -269,9 +266,9 @@ sub readSlideTemplate {
     }
 
     # SMELL: these override system vars..sort of reproduces INCLUDE
-    $text =~ s/%WEB%/$web/go;
-    $text =~ s/%TOPIC%/$topic/go;
-    $text =~ s/%ATTACHURL%/%PUBURL%\/$web\/$topic/go;
+    $text =~ s/%WEB%/$web/g;
+    $text =~ s/%TOPIC%/$topic/g;
+    $text =~ s/%ATTACHURL%/%PUBURL%\/$web\/$topic/g;
 
     return $text;
 }
@@ -297,7 +294,7 @@ sub _urlEncode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
