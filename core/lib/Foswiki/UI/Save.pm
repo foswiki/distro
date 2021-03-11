@@ -544,7 +544,6 @@ WARN
     my $redirecturl;
 
     if ( $saveaction eq 'checkpoint' ) {
-        $query->param( -name => 'dontnotify', -value => 'checked' );
         my $edittemplate = $query->param('template');
         my %p = ( t => time() );
 
@@ -761,7 +760,7 @@ WARN
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
