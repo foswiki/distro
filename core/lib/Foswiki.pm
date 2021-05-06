@@ -2370,7 +2370,6 @@ sub finish {
     undef $this->{_addedToHEAD};
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
-    undef $this->{_ffCache};
     $this->{zones}->finish() if $this->{zones};
     undef $this->{zones};
     $this->{renderer}->finish() if $this->{renderer};
