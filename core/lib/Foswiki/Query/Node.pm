@@ -240,6 +240,7 @@ sub _getField {
     my ( $this, $data, $name ) = @_;
 
     if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
+        return unless $data->haveAccess("VIEW");
 
         # If the data is a Foswiki::Meta, pass on to the query algorithm
         return $Foswiki::cfg{Store}{QueryAlgorithm}
