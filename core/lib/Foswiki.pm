@@ -2567,7 +2567,6 @@ sub finish {
     undef $this->{_addedToHEAD};
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
-    undef $this->{_ffCache};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {

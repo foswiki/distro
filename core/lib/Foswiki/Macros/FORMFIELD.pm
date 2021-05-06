@@ -60,30 +60,28 @@ sub FORMFIELD {
         $format = '$value';
     }
 
-    my $formTopicObject = $this->{_ffCache}{ $topicObject->getPath() . $rev };
+    unless ( $topicObject->latestIsLoaded() ) {
 
-    unless ($formTopicObject) {
-        $formTopicObject =
-          Foswiki::Meta->load( $this, $topicObject->web, $topicObject->topic,
-            $rev );
-        unless ( $formTopicObject->haveAccess('VIEW') ) {
+        # load latest rev
+        $topicObject =
+          Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+            $topicObject->topic );
+    }
 
-            # Access violation, create dummy meta with empty text, so
-            # it looks like it was already loaded.
-            $formTopicObject = Foswiki::Meta->new( $this, $topicObject->web,
-                $topicObject->topic, '' );
-        }
+    unless ( $topicObject->haveAccess('VIEW') ) {
 
-        $this->{_ffCache}{ $formTopicObject->getPath() . $rev } =
-          $formTopicObject;
+        # Access violation, create dummy meta with empty text, so
+        # it looks like it was already loaded.
+        $topicObject = Foswiki::Meta->new( $this, $topicObject->web,
+            $topicObject->topic, '' );
     }
 
     my $found = 0;
-    my $field = $formTopicObject->get( 'FIELD', $formField );
+    my $field = $topicObject->get( 'FIELD', $formField );
     if ($field) {
         my $name = $field->{name};
         my $title = $field->{title} || $name;
-        $text = $formTopicObject->renderFormFieldForDisplay(
+        $text = $topicObject->renderFormFieldForDisplay(
             $name, $format,
             {
                 showhidden => 1,
@@ -100,8 +98,8 @@ sub FORMFIELD {
     # $formname is correct. $form works but is deprecated for
     # compatibility with SEARCH{format}
     if ( $text =~ m/\$form(name)?/ ) {
-        my @defform = $formTopicObject->find('FORM');
-        my $form    = $defform[0];                     # only one form per topic
+        my @defform = $topicObject->find('FORM');
+        my $form    = $defform[0];                  # only one form per topic
         my $fname   = '';
         $fname = $form->{name} if $form;
         $text =~ s/\$form(name)?/$fname/g;
