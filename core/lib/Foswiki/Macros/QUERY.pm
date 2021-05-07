@@ -30,7 +30,6 @@ sub QUERY {
 
         my $rev = $params->{rev};
 
-       # FORMFIELD does its own caching.
        # Either the home-made cache there should go into Meta so that both
        # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
 
