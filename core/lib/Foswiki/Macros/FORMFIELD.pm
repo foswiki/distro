@@ -60,7 +60,15 @@ sub FORMFIELD {
         $format = '$value';
     }
 
-    unless ( $topicObject->latestIsLoaded() ) {
+    if ( defined $rev && length($rev) ) {
+        my $crev = $topicObject->getLoadedRev();
+        if ( defined $crev && $crev != $rev ) {
+            $topicObject =
+              Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+                $topicObject->topic, $rev );
+        }
+    }
+    elsif ( !$topicObject->latestIsLoaded() ) {
 
         # load latest rev
         $topicObject =
