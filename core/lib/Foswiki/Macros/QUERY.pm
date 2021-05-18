@@ -38,6 +38,14 @@ sub QUERY {
                     $topicObject->topic, $rev );
             }
         }
+        elsif ( $topicObject->existsInStore && !$topicObject->latestIsLoaded() )
+        {
+
+            # load latest rev
+            $topicObject =
+              Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+                $topicObject->topic );
+        }
     }
 
     # Recursion block.
