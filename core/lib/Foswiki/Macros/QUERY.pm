@@ -30,9 +30,6 @@ sub QUERY {
 
         my $rev = $params->{rev};
 
-       # Either the home-made cache there should go into Meta so that both
-       # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
-
         if ( defined $rev && length($rev) ) {
             my $crev = $topicObject->getLoadedRev();
             if ( defined $crev && $crev != $rev ) {
@@ -40,13 +37,6 @@ sub QUERY {
                   Foswiki::Meta->load( $topicObject->session, $topicObject->web,
                     $topicObject->topic, $rev );
             }
-        }
-        elsif ( !$topicObject->latestIsLoaded() ) {
-
-            # load latest rev
-            $topicObject =
-              Foswiki::Meta->load( $topicObject->session, $topicObject->web,
-                $topicObject->topic );
         }
     }
 
