@@ -68,13 +68,6 @@ sub FORMFIELD {
                 $topicObject->topic, $rev );
         }
     }
-    elsif ( !$topicObject->latestIsLoaded() ) {
-
-        # load latest rev
-        $topicObject =
-          Foswiki::Meta->load( $topicObject->session, $topicObject->web,
-            $topicObject->topic );
-    }
 
     unless ( $topicObject->haveAccess('VIEW') ) {
 
