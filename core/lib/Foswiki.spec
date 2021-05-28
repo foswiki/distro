@@ -2246,11 +2246,10 @@ $Foswiki::cfg{TemplatePath} =
 # automatically recognize in absolute links.
 # Add any extra protocols specific to your environment (for example, you might
 # add 'imap' or 'pop' if you are using shared mailboxes accessible through
-# your browser, or 'tel' if you have a softphone setup that supports links
-# using this URI scheme). A list of popular URI schemes can be
+# your browser. A list of popular URI schemes can be
 # found in [[http://en.wikipedia.org/wiki/URI_scheme][Wikipedia]].
 $Foswiki::cfg{LinkProtocolPattern} =
-  '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
+  '(file|ftp|https|http|irc|mailto|tel)';
 
 # **NUMBER LABEL="Acronym Length" CHECK="min:2" EXPERT**
 # Length of linking acronyms.  Minimum number of consecutive upper case
