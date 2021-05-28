@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1482207453" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1622192427" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERY -- get the value of meta-data
 Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data from one specified topic.
@@ -8,7 +8,7 @@ Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to g
    * replaces the =[[VarFORMFIELD][FORMFIELD]]= macro for most applications.
 See !QuerySearch for more details of how to write queries
 ---++ Parameters
-   | *Parameter* | *Description* | *Default* |
+   | *Parameter* | *Description* |
    | ="item"= | The meta-data to query |
    | =style= | set the output format (see below) |
    | =rev= | operate on the given version of the current topic. Note that this will _only_ affect simple queries that refer to the current topic, such as =form.name=. More complex queries that use searches or indirection to refer to other topics always use the *latest* version of those topics. |
