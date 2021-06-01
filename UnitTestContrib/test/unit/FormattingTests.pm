@@ -1296,7 +1296,6 @@ sub test_protocols {
     my %urls = (
         'file://fnurfle'                         => 0,
         'ftp://bleem@snot.grumph:flibble'        => 0,
-        'gopher://go.for.it/'                    => 0,
         'http://flim.flam.example.com/path:8080' => 0,
         'http://some.host/with/WikiName'         => 0,
         'https://flim.flam.example.com/path'     => 0,
@@ -1307,9 +1306,7 @@ sub test_protocols {
 '<a href="mailto:pitiful@exampleSTUFFED.com.au">mailto:pitiful@exampleSTUFFED.com.au</a>',
         'mailto:pitiful@server.example.com.au' =>
 '<a href="mailto:pitiful@serverSTUFFED.example.com.au">mailto:pitiful@serverSTUFFED.example.com.au</a>',
-        'news:b52.on.moon'        => 0,
-        'nntp:slobba.dobba'       => 0,
-        'telnet://some.address:5' => 0,
+        'tel:012345' => 0,
     );
 
     foreach my $url ( keys %urls ) {
