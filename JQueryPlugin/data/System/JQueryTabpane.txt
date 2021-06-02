@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479816293" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1622618832" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 
@@ -145,10 +145,10 @@ in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam
 ut nonummy rutrum, sem felis ultrices nunc, sed mollis dolor diam et purus.
 %ENDTAB%
 %TAB{"Ajax Foo" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=foo;skin=text"}%
-<span class="jqAjaxLoader">&nbsp;</span>
+%JQICON{"fa-refresh" animate="spin" style="color:var(--color-foreground, #eee)"}%
 %ENDTAB%
 %TAB{"Ajax Bar" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=bar;skin=text"}%
-<span class="jqAjaxLoader">&nbsp;</span>
+%JQICON{"fa-refresh" animate="spin" style="color:var(--color-foreground, #eee)"}%
 %ENDTAB%
 %ENDTABPANE%
 %ENDSECTION{"foo"}%

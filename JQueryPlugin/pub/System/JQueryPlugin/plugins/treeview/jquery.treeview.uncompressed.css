@@ -19,11 +19,6 @@
 	float: left;
 	cursor: pointer;
 }
-/* fix for IE6 */
-* html .hitarea {
-	display: inline;
-	float:none;
-}
 
 .treeview li { 
   margin: 0px !important;

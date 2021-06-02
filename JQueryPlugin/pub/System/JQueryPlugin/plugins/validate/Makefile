@@ -17,7 +17,6 @@ jquery.validate.additional-methods.uncompressed.js: git/dist/additional-methods.
 	@cp $^ $@
 
 localization: git/dist/localization
-	@echo getting localization
 	@cp $^/* $@
 endif
 

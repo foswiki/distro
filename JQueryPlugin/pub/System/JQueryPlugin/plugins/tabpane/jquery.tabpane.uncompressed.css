@@ -32,7 +32,6 @@ ul.jqTabGroup {
   padding:0;
   list-style:none;
   display:block;
-  float:left;
   overflow:visible !important;
   position:relative;
   bottom:-1px;
