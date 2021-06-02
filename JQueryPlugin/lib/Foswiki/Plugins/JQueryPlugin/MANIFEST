@@ -177,6 +177,7 @@ pub/System/JQueryInnerFade/tuev.jpg 0644
 pub/System/JQueryInnerFade/whizzkids.gif 0644
 pub/System/JQueryMasonry/jQuery-Masonry.jpg 0644
 pub/System/JQueryPlugin/images/nobody.gif 0644
+pub/System/JQueryPlugin/images/nobody.png 0644
 pub/System/JQueryPlugin/images/spinner_arrows.gif 0644
 pub/System/JQueryPlugin/images/spinner.gif 0644
 pub/System/JQueryPlugin/jquery-2.2.4.js 0644
@@ -185,6 +186,9 @@ pub/System/JQueryPlugin/jquery-2.2.4.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-3.5.1.js 0644
 pub/System/JQueryPlugin/jquery-3.5.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-3.5.1.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-3.6.0.js 0644
+pub/System/JQueryPlugin/jquery-3.6.0.js.gz 0644
+pub/System/JQueryPlugin/jquery-3.6.0.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/noconflict.js 0644

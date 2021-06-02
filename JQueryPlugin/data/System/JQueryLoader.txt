@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1622618832" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -48,10 +48,10 @@ The =jqLoader= element is able to receive !JavaScript events and process them ac
 events can be used to hook your own callbacks to be processed when they are fired.
 
 | *Event* | *Description* |
-| refresh.jqLoader | when triggered will reload the content from the backend |
-| beforeload.jqLoader | is triggered before requesting the content from the backend (see =beforeload= parameter above) |
-| onload.jqLoader | is triggered when the content has been successfully been loaded (see =onload= parameter above) |
-| finished.jqLoader | is triggered when content has been loaded and finally been displayed on the page (see =finished= parameter above) |
+| refresh.jqloader | when triggered will reload the content from the backend |
+| beforeload.jqloader | is triggered before requesting the content from the backend (see =beforeload= parameter above) |
+| afterload.jqloader | is triggered when the content has been successfully been loaded (see =onload= parameter above) |
+| finished.jqloader | is triggered when content has been loaded and finally been displayed on the page (see =finished= parameter above) |
 
 ---++ Examples
 

@@ -1,7 +1,7 @@
 /*
- * jQuery Loader plugin 4.30
+ * jQuery Loader plugin 4.40
  *
- * Copyright (c) 2011-2020 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2021 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -98,14 +98,14 @@
     
     // add finished listener 
     if (typeof(self.opts.finished) === 'function') {
-      self.elem.on("finished.jqLoader", function() {
+      self.elem.on("finished.jqloader", function() {
         self.opts.finished.call(self);
       });
     }
 
     // add auto-reloader
     if (self.opts.reloadAfter) {
-      self.elem.on("finished.jqLoader", function() {
+      self.elem.on("finished.jqloader", function() {
         self.loadAfter(self.opts.reloadAfter);
       });
     }
@@ -181,17 +181,17 @@
 
         // show effect
         var effect = self.opts.effect || self.opts.showEffect;
-        if (effect) {
+        if (effect && effect !== 'show' && effect !== 'hide') {
           self.container.animateCSS({
             effect: effect
           }).on("stop.animate", function() {
 
           // trigger finished
-            self.elem.trigger("finished.jqLoader", self);
+            self.elem.trigger("finished.jqloader", self);
           });
         } else {
           // trigger finished
-          self.elem.trigger("finished.jqLoader", self);
+          self.elem.trigger("finished.jqloader", self);
         }
 
       }, 'html');

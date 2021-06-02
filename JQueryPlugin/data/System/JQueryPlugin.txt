@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1601308075" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1622618832" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,9 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
+                                       added jquery-3.6.0; \
+                                       prevent csso from restructuring css too much |
 |  28 Sep 2020: | (10.00) - Item14918: removed support for old Internet Exporers (IE<11) |
 |  18 Nov 2019: | (9.20) - Item14874: deprecate uglify-js and yuicompressor in favor of terser %BR%\
                          - Item14875: remove =type/javascript= and =type/css= as per html5; \

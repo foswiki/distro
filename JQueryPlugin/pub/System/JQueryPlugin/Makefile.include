@@ -25,8 +25,9 @@ DEBUG=false
 
 NPM_INSTALL=npm install -g
 JSMIN=$(shell which terser 2>/dev/null || which uglifyjs) -m -c --
-CSSMIN=$(shell which csso 2>/dev/null || which cssmin || echo cat) 
-ESLINT=eslint -f compact
+CSSMIN=$(shell which csso 2>/dev/null || echo cat) 
+CSSMIN_ARGS="--no-restructure"
+ESLINT=eslint -f compact --env es6
 SASS=node-sass --output-style expanded
 
 DEV_DEPENDENCIES=\
@@ -34,7 +35,8 @@ DEV_DEPENDENCIES=\
   csso-cli \
   eslint \
   sass \
-  terser 
+  terser \
+  node-sass
 
 .SUFFIXES: .js .css .jslint .install 
 .PHONY: subdirs $(SUBDIRS) deps vars
@@ -80,11 +82,11 @@ $(BUILD_DIR)/%.js: $(SRC_DIR)/%_src.js
 
 $(BUILD_DIR)/%.css: $(SRC_DIR)/%.uncompressed.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS)> $@
 
 $(BUILD_DIR)/%.css: $(SRC_DIR)/%_src.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS) > $@
 
 $(BUILD_DIR)/%.uncompressed.css: $(SRC_DIR)/%.scss
 	@echo sassing $@ from $<
@@ -107,11 +109,11 @@ $(BUILD_DIR)/%.js: $(LIB_DIR)/%_src.js
 
 $(BUILD_DIR)/%.css: $(LIB_DIR)/%.uncompressed.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS) > $@
 
 $(BUILD_DIR)/%.css: $(LIB_DIR)/%_src.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS) > $@
 
 # build -> buid
 $(BUILD_DIR)/%.gz: $(BUILD_DIR)/%
@@ -120,11 +122,11 @@ $(BUILD_DIR)/%.gz: $(BUILD_DIR)/%
 
 $(BUILD_DIR)/%.css: $(BUILD_DIR)/%.uncompressed.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS) > $@
 
 $(BUILD_DIR)/%.css: $(BUILD_DIR)/%_src.css
 	@echo minifying $@ from $<
-	@$(CSSMIN) $< > $@
+	@$(CSSMIN) $< $(CSSMIN_ARGS) > $@
 
 $(BUILD_DIR)/%.js: $(BUILD_DIR)/%.uncompressed.js
 	@if $(DEBUG); then \

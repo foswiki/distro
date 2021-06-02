@@ -1948,7 +1948,7 @@ body .ui-tooltip {
   margin-left: -7px;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid #444;
+  border-top: 7px solid var(--ui-widget-border, #444);
 }
 
 .ui-tooltip.position-bottom .ui-arrow {
@@ -1956,7 +1956,7 @@ body .ui-tooltip {
   margin-left: -7px;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-bottom: 7px solid #444;
+  border-bottom: 7px solid var(--ui-widget-border, #444);
 }
 .ui-tooltip.position-right .ui-arrow {
   top: 50%;
@@ -1964,7 +1964,7 @@ body .ui-tooltip {
   margin-top: -7px;
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-right: 7px solid #444;
+  border-right: 7px solid var(--ui-widget-border, #444);
 }
 .ui-tooltip.position-left .ui-arrow {
   top: 50%;
@@ -1972,13 +1972,13 @@ body .ui-tooltip {
   margin-top: -7px;
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-left: 7px solid #444;
+  border-left: 7px solid var(--ui-widget-border, #444);
 }
 
 /* default theme */
 .ui-tooltip.default {
   background-color:#fefefe;
-  border:1px solid #444;
+  border:1px solid var(--ui-widget-border, #444);
 }
 
 /* transparent theme */
