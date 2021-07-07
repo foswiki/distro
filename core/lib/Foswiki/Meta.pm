@@ -678,6 +678,7 @@ sub getPreference {
         $this->{_preferences} =
           $this->{_session}->{prefs}->loadPreferences($this);
     }
+    return unless $this->{_preferences};
     return $this->{_preferences}->get($key);
 }
 
@@ -3858,7 +3859,7 @@ sub type {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
