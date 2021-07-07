@@ -63,8 +63,8 @@
 %TMPL:DEF{"editcaptcha"}%%TMPL:P{context="CaptchaEnableSave" then="editcaptcha::impl"}%%TMPL:END%
 %TMPL:DEF{"editcaptcha::impl"}%<div class="jqUIDialog foswikiFormSteps {modal:true, resizable:false, width:'auto', draggable:true, appendTo:'#EditForm'}" id="editcaptcha" title="%MAKETEXT{"Please validate"}%" >
 %CAPTCHAFORM{validateonsubmit="off"}%
-<a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-disk'}">%MAKETEXT{"Save"}%</a> 
-<a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
+<a class="jqUIDialogButton jqUIDialogSubmit" data-icon="ui-icon-disk">%MAKETEXT{"Save"}%</a> 
+<a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a> 
 </div>%TMPL:END%
 
 %TMPL:DEF{"tabpane"}%%TABPANE{class="plain" automaxexpand="on" animate="on" remember="on" select="%URLPARAM{"natedittab" default="%TMPL:P{"selectedtab"}%"}%"}%
@@ -78,7 +78,10 @@
   <table>
   <tr>
     <th>%MAKETEXT{"Title"}%:</th>
-    <td><input class='foswikiInputField' type='text' name='TopicTitle' size='75' value='%URLPARAM{"TopicTitle" default="%GETTOPICTITLE{hideautoinc="on"}%" encode="safe"}%' /></td>
+    <td><literal>
+          <input class='foswikiInputField' type='text' name='TopicTitle' size='75' value='%URLPARAM{"TopicTitle" default="%GETTOPICTITLE{hideautoinc="on" encode="entity"}%" encode="entity"}%' />
+        </literal>
+    </td>
   </tr>
   </table>
 </div>%TMPL:END%
@@ -119,12 +122,12 @@
     ('%permset_view%'='registeredusers' and '%denytopic_view%'!='' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='WikiGuest')) or
     ('%permset_view%'='justauthor' and ('%allowtopic_view%'='' or '%denytopic_view%'!='')) or
     ('%permset_view%'='nobody' and '%allowtopic_view%'!= '' and ('%allowtopic_view%'!='AdminUser' or '%denytopic_view%'!='')) or
-    ('%permset_view%'='details' and ('%allowtopic_view%'='' or '%denytopic_view%'!='')) or
+    ('%permset_view%'='details' and ('%denytopic_view%'!='')) or
     ('%permset_change%'=~'^(default|)$' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='')) or
     ('%permset_change%'='registeredusers' and '%denytopic_change%'!='' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='WikiGuest')) or
     ('%permset_change%'='justauthor' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) or
     ('%permset_change%'='nobody' and '%allowtopic_change%'!='' and ('%allowtopic_change%'!='AdminUser' or '%denytopic_change%'!='')) or
-    ('%permset_change%'='details' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) 
+    ('%permset_change%'='details' and ('%denytopic_change%'!='')) 
   "
   then="$percntTMPL:P{\"permissionstab::message\"}$percnt"
   else="$percntTMPL:P{\"permissionstab::impl\"
