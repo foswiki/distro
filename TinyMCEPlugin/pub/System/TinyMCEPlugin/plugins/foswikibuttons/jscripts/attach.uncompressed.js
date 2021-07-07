@@ -93,7 +93,7 @@ var AttachDlg = {
 
     submit: function(url, $form) {
         var key_carrier = parent.document.EditForm.validation_key;
-        if (typeof(StrikeOne) !== 'undefined') {
+        if (typeof(StrikeOne) !== 'undefined' && key_carrier) {
              // Get the validation key from the textarea
             var nonce = key_carrier.value;
             if (nonce) {
