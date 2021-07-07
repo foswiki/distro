@@ -1178,12 +1178,8 @@ sub _complete {
         }
 
         my $cUID = $users->addUser(
-            $data->{LoginName},
-            $data->{WikiName},
-            $session->inContext("passwords_modifyable")
-            ? $data->{Password}
-            : undef,
-            $data->{Email}
+            $data->{LoginName}, $data->{WikiName},
+            $data->{Password},  $data->{Email}
         );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );
@@ -2309,7 +2305,7 @@ sub _processDeleteUser {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
