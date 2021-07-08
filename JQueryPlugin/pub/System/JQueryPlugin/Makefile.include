@@ -47,7 +47,7 @@ all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz) $(TARGET:.ttf
 vars:
 	@echo "NPM_INSTALL=$(NPM_INSTALL)"
 	@echo "JSMIN=$(JSMIN)"
-	@echo "CSSMIN=$(CSSMIN)"
+	@echo "CSSMIN=$(CSSMIN) $(CSSMIN_ARGS)"
 	@echo "ESLINT=$(ESLINT)"
 	@echo "SASS=$(SASS)"
 
