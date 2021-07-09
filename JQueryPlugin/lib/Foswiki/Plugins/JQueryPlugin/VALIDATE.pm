@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Validate',
-            version      => '1.19.3',
+            version      => '1.19.4',
             author       => 'Joern Zaefferer',
             homepage     => 'http://jqueryvalidation.org/',
             javascript   => ['pkg.js'],
@@ -76,7 +76,7 @@ sub init {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

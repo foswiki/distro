@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1622618832" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1625829459" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  09 Jul 2021: | (10.02) - Item15033: update jquery.validate |
 |  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
                                        added jquery-3.6.0; \
                                        prevent csso from restructuring css too much |
@@ -425,7 +426,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2019 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2021 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
