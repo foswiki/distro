@@ -181,7 +181,7 @@ Near the footer of the page you usually find an action bar which looks similar t
       * Depending on your site configuration, you will probably see a WYSIWYG editor and can start writing right away, just like you would in a text processor.
       * But if you clicked on the "Edit Wiki Text" link, what you see doesn't look much like what was on the page before.
 
-=_Everyone_ <nop>*knows* that <nop>=the world= is a %<nop>BLUE%flat%<nop>ENCDCOLOR%=
+=_Everyone_ <nop>*knows* that <nop>=the world= is %<nop>BLUE%flat%<nop>ENDCOLOR%=
    * Now what? <p> </p>
 ---++ What's in a page
    * The hieroglyphics are what's known as "Topic Markup Language"
