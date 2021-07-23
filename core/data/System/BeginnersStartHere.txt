@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1627037842" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! %TOPIC%
 
@@ -181,7 +181,7 @@ Near the footer of the page you usually find an action bar which looks similar t
       * Depending on your site configuration, you will probably see a WYSIWYG editor and can start writing right away, just like you would in a text processor.
       * But if you clicked on the "Edit Wiki Text" link, what you see doesn't look much like what was on the page before.
 
-=_Everyone_ <nop>*knows* that <nop>=the world= is a %<nop>BLUE%flat%<nop>ENCDCOLOR%=
+=_Everyone_ <nop>*knows* that <nop>=the world= is %<nop>BLUE%flat%<nop>ENDCOLOR%=
    * Now what? <p> </p>
 ---++ What's in a page
    * The hieroglyphics are what's known as "Topic Markup Language"
@@ -360,13 +360,13 @@ If you get stuck, you can refer to the https://foswiki.org/Support web, which ha
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="hula.gif" attr="h" comment="" date="1457496285" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="myco.gif" attr="h" comment="" date="1457496285" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attr="h" comment="" date="1457496285" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attr="h" comment="" date="1457496285" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attr="h" comment="" date="1457496285" size="13734" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attr="h" comment="" date="1457496285" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attr="h" comment="" date="1457496285" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attr="h" comment="" date="1457496285" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attr="h" comment="" date="1457496285" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attr="h" comment="" date="1457496285" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attr="h" comment="" date="1627037842" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attr="h" comment="" date="1627037842" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attr="h" comment="" date="1627037842" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attr="h" comment="" date="1627037842" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attr="h" comment="" date="1627037842" size="13734" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attr="h" comment="" date="1627037842" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attr="h" comment="" date="1627037842" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attr="h" comment="" date="1627037842" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attr="h" comment="" date="1627037842" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attr="h" comment="" date="1627037842" size="2394" user="ProjectContributor" version="1"}%
