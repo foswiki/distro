@@ -43,7 +43,7 @@ sub FORMFIELD {
     if ( $fdef && ( !defined $fdef->{value} || $fdef->{value} eq '' ) ) {
 
         # SMELL: weird; ignores format=
-        $text = $args->{default} || '';
+        $text = $args->{default} // '';
         $text =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;
         return $text;
     }
