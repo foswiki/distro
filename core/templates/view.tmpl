@@ -17,9 +17,11 @@
 
 %TMPL:DEF{"simpleheader"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"standardheader"}%%TMPL:P{"flashnote"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%<div class="foswikiTopicText">%TEXT%
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">%TMPL:P{"text"}%
 #TopicEnd
 </div>%TMPL:END%
+
+%TMPL:DEF{"text"}%%TEXT%%TMPL:END%
 
 %TMPL:DEF{"contentwrapper"}%%TMPL:P{"contentheaderstylewrapper"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%
 %TMPL:P{"content"}%

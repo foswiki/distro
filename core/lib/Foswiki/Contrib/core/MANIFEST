@@ -868,6 +868,7 @@ templates/searchformat.tmpl 0444
 templates/searchmeta.tmpl 0444
 templates/settings.tmpl 0444
 templates/validate.tmpl 0444
+templates/view.include.tmpl 0444
 templates/view.plain.tmpl 0444
 templates/view.print.tmpl 0444
 templates/view.rss.tmpl 0444
