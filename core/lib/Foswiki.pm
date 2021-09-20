@@ -2543,6 +2543,8 @@ sub finish {
 
     undef $this->{request};
     undef $this->{cgiQuery};
+    undef $system_message;
+    undef $bootstrap_message;
 
     undef $this->{digester};
     undef $this->{urlHost};
