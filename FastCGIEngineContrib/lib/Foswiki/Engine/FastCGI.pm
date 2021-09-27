@@ -84,9 +84,9 @@ sub run {
         $path =~ s/::/\//g;
         eval { require $path };
         unless ($@) {
-            my $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
-            my $maxSize     = $Foswiki::cfg{FastCGIContrib}{MaxSize}     || 0;
-            my $checkSize   = $Foswiki::cfg{FastCGIContrib}{CheckSize}   || 10;
+            my $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} // 100;
+            my $maxSize     = $Foswiki::cfg{FastCGIContrib}{MaxSize}     // 0;
+            my $checkSize   = $Foswiki::cfg{FastCGIContrib}{CheckSize}   // 10;
 
             $manager = $args->{manager}->new(
                 {
@@ -101,8 +101,9 @@ sub run {
                     max_size =>
                       ( defined $args->{size} ? $args->{size} : $maxSize ),
 
-                    sizecheck_num_requests =>
-                      ( defined $args->{check} ? $args->{check} : $checkSize ),
+                    sizecheck_num_requests => (
+                        defined $args->{check} ? $args->{check} : $checkSize
+                    ),
                 }
             );
 
@@ -118,7 +119,13 @@ sub run {
             # we handle SIGHUP ourslves.
             eval {
                 sigaction( SIGHUP,
-                    POSIX::SigAction->new( sub { $hupRecieved++ } ) );
+                    POSIX::SigAction->new(
+                        sub {
+                            print STDERR "...received SIGHUP\n";
+                            $hupRecieved++;
+                        }
+                    )
+                );
             };
             warn "Could not install SIGHUP handler: $@$!" if $@ || $@;
         }
@@ -178,11 +185,15 @@ sub warmup {
     eval {
         local $ENV{FOSWIKI_ACTION} = 'view';
 
-        my $req = Foswiki::Request->new(
-            { url => $Foswiki::cfg{FastCGIContrib}{WarmupURL} } );
+        my $url = $Foswiki::cfg{FastCGIContrib}{WarmupURL};
+        if ($url) {
 
-        my $session = new Foswiki( undef, $req, { view => 1 } );
-        $session->finish() if $session;
+            #$manager->pm_notify("warming up using $url");
+
+            my $req     = Foswiki::Request->new( { url => $url } );
+            my $session = new Foswiki( undef, $req, { view => 1 } );
+            $session->finish() if $session;
+        }
     };
 
     if ($@) {
@@ -296,7 +307,7 @@ __END__
 FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 http://foswiki.org/
 
-Copyright (C) 2008-2020 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+Copyright (C) 2008-2021 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 contributors. Foswiki contributors are listed in the AUTHORS file in the root
 of Foswiki distribution.
 

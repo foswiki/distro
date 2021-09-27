@@ -1,6 +1,6 @@
 # Contrib for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2020 Foswiki Contributors. 
+# Copyright (C) 2008-2021 Foswiki Contributors. 
 
 # Foswiki Contributors are listed in the AUTHORS file in the root of this
 # distribution. NOTE: Please extend that file, not this notice.
@@ -21,8 +21,8 @@ package Foswiki::Contrib::FastCGIEngineContrib;
 use strict;
 use warnings;
 
-our $VERSION          = '1.10';
-our $RELEASE          = '21 Oct 2020';
+our $VERSION          = '1.20';
+our $RELEASE          = '27 Sep 2021';
 our $SHORTDESCRIPTION = 'Permits Foswiki to be executed with FastCGI';
 
 1;

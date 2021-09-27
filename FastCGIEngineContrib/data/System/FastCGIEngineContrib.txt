@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1603295536" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1632756599" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -253,6 +253,7 @@ After the update, each process will still serve one more request before reloadin
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  27 Sep 2021 | (1.20) Foswikitask:Item15043 - fixed parameter handling, i.e. when using zeor max requests |
 |  21 Oct 2020 | (1.10) Foswikitask:Item14963 - add warmup parameter |
 |  02 Dec 2017 | (1.05) Foswikitask:Item14532 - Allow process name to be overridden when running as started task.<br/>\
                         Foswikitask:Item11491 - Document relationship between =ATTACHFILESIZELIMIT= and =FcgidMaxRequestLen=.<br/>\
@@ -275,7 +276,7 @@ After the update, each process will still serve one more request before reloadin
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2020 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2021 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

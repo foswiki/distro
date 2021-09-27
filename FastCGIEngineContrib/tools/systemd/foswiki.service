@@ -23,7 +23,7 @@ Environment=FOSWIKI_PNAME=foswiki
 # Optional, overrides settings above
 EnvironmentFile=-/etc/default/foswiki
 
-# The User, Group, PIDFile and WorkingDirectory  cannot be specified by Environment variables. Update as needed.
+# The User, Group and WorkingDirectory  cannot be specified by Environment variables. Update as needed.
 # Typical settings:
 #  RedHat, Fedora, CentOS, Gentoo, Mandriva USER=apache   GROUP=apache
 #  debian, Ubuntu, Kubuntu                  USER=www-data GROUP=www-data
@@ -31,11 +31,6 @@ EnvironmentFile=-/etc/default/foswiki
 #  FreeBSD:                                 USER=www      GROUP=wwwadmin
 User=www-data
 Group=www-data
-
-# If changing pidfile,  be sure to also update the -p argument on the ExecStart command
-# The PIDFile directory must exist and  be writable by the User:Group specified above
-PIDFile=/var/www/foswiki/working/foswiki.pid
-#PIDFile=/var/run/foswiki/foswiki.pid         # conventional location
 
 # Path to the foswiki bin directory, including a trailing slash
 WorkingDirectory=/var/www/foswiki/bin/
@@ -47,12 +42,11 @@ ExecStart=/usr/bin/perl ${FOSWIKI_ROOT}/bin/${FOSWIKI_FCGI} \
         -c $FOSWIKI_CHECK_SIZE \
         -x $FOSWIKI_MAX_REQUESTS \
         -s $FOSWIKI_MAX_SIZE \
-        -p ${FOSWIKI_ROOT}/working/foswiki.pid \
         -w $FOSWIKI_WARMING \
-        -a $FOSWIKI_PNAME \
-        -d
+        -a $FOSWIKI_PNAME
 
-Type=forking
+ExecReload=/bin/kill -HUP $MAINPID
+
 Restart=always
 SyslogIdentifier=foswiki
 
