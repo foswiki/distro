@@ -1724,7 +1724,7 @@ msgstr "Bearbeitbar"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
-msgstr "[[EditingShorthand][Formatierungskürzel]]"
+msgstr "Formatierungskürzel"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
@@ -2071,7 +2071,7 @@ msgstr "Gute Beispiele:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr "[[GoodStyle][Guter Stil]]"
+msgstr "Guter Stil"
 
 #: core/data/Main/WikiGroups.txt:62
 msgid "Group"

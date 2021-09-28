@@ -1712,7 +1712,7 @@ msgstr "Modificabile"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
-msgstr "[[EditingShorthand][Modifica]]"
+msgstr "Modifica"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
