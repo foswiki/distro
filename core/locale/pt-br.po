@@ -1742,7 +1742,7 @@ msgstr "Editável"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
 msgid "EditingShorthand"
-msgstr "[[EditingShorthand][Manual de edição]]"
+msgstr "Manual de edição"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
@@ -2074,7 +2074,7 @@ msgstr "Bons exemplos:"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:20
 msgid "GoodStyle"
-msgstr "[[GoodStyle][BomEstilo]]"
+msgstr "BomEstilo"
 
 #: core/data/System/WikiGroupsComponents.txt:56
 msgid "Group"
