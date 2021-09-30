@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1611495974" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1633017459" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -65,6 +65,7 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.21 (30 Sep 2021): | Foswikitask:Item15045: getRevisionInfo of an attachment always returned the revision info of the first attachment of a topic |
 |  1.20 (24 Jan 2021): | Foswikitask:Item15010: accept rcs versions &gt; 5.10 |
 |  1.10 (5 Jan 2018): | Foswikitask:Item14591: Fixed loading old revisions |
 |  1.06 (4 Apr 2017): | Foswikitask:Item14368: Failure to handle edge cases leads to obscure bug. |
