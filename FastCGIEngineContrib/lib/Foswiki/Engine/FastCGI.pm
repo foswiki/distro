@@ -192,7 +192,7 @@ sub warmup {
         local $ENV{FOSWIKI_ACTION} = 'view';
 
         foreach my $url (
-            split( /\s*,\s*/, $Foswiki::cfg{FastCGIContrib}{WarmupURLs} ) )
+            split( /\s*,\s*/, $Foswiki::cfg{FastCGIContrib}{WarmupURLs} // '' ) )
         {
             $manager->pm_notify("warming up using $url");
 
