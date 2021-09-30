@@ -314,7 +314,7 @@ sub _getAttachmentVersionInfo {
     my $info;
 
     if ( !defined($rev) ) {
-        my $attachInfo = $topicObject->get('FILEATTACHMENT');
+        my $attachInfo = $topicObject->get('FILEATTACHMENT', $attachment);
 
         # rewrite to info format similar to TOPICINFO
         if ( defined $attachInfo ) {

@@ -19,8 +19,8 @@ use warnings;
 
 use Foswiki::Configure::Load;
 
-our $VERSION = '1.20';
-our $RELEASE = '24 Jan 2021';
+our $VERSION = '1.21';
+our $RELEASE = '30 Sep 2021';
 our $SHORTDESCRIPTION =
   'A wiki topic and attachment store using the RCS revision control system';
 
