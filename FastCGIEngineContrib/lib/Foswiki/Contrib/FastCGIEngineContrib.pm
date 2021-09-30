@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 our $VERSION          = '1.20';
-our $RELEASE          = '27 Sep 2021';
+our $RELEASE          = '30 Sep 2021';
 our $SHORTDESCRIPTION = 'Permits Foswiki to be executed with FastCGI';
 
 1;

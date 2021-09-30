@@ -23,7 +23,7 @@ our @ISA = qw( Foswiki::Engine::CGI );
 
 use FCGI;
 use POSIX qw(:signal_h);
-require File::Spec;
+use File::Spec ();
 
 use vars qw( $VERSION $RELEASE );
 
@@ -157,7 +157,7 @@ sub run {
 
         my $req = $this->prepare;
         if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
-            my $res = Foswiki::UI::handleRequest($req);
+            my $res = $this->handleRequest($req);
             $this->finalize( $res, $req );
         }
 
@@ -179,16 +179,22 @@ sub run {
     closeSocket();
 }
 
+sub handleRequest {
+    my ( $this, $req ) = @_;
+
+    return Foswiki::UI::handleRequest($req);
+}
+
 sub warmup {
     my ( $this, $manager ) = @_;
 
     eval {
         local $ENV{FOSWIKI_ACTION} = 'view';
 
-        my $url = $Foswiki::cfg{FastCGIContrib}{WarmupURL};
-        if ($url) {
-
-            #$manager->pm_notify("warming up using $url");
+        foreach my $url (
+            split( /\s*,\s*/, $Foswiki::cfg{FastCGIContrib}{WarmupURLs} ) )
+        {
+            $manager->pm_notify("warming up using $url");
 
             my $req     = Foswiki::Request->new( { url => $url } );
             my $session = new Foswiki( undef, $req, { view => 1 } );
