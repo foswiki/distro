@@ -191,14 +191,7 @@ sub new {
     }
     else {
         require Foswiki::I18N::Fallback;
-
         $this = new Foswiki::I18N::Fallback();
-
-        # we couldn't initialise 'optional' I18N infrastructure, warn that we
-        # can only use English if I18N has been requested with configure
-        $session->logger->log( 'warning',
-            'Could not load I18N infrastructure; falling back to English' )
-          if $Foswiki::cfg{UserInterfaceInternationalisation};
     }
 
     # keep a reference to the session object
