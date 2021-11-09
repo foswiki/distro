@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 4.40
+ * jQuery Loader plugin 4.50
  *
  * Copyright (c) 2011-2021 Foswiki Contributors http://foswiki.org
  *
@@ -162,7 +162,7 @@
     } 
 
     // trigger beforeload
-    self.elem.trigger("beforeload.jqloader", self);
+    self.elem.trigger("beforeload.jqloader", self, params);
 
     $.get(
       url,

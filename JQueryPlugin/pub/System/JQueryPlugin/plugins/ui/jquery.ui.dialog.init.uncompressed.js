@@ -26,6 +26,7 @@ jQuery(function($) {
       button.text = $button.text();
       button.class = $button.attr("class").replace(/ *jqUIDialogButton */, "");
       button.accesskey = $button.attr("accesskey");
+      button.title = $button.attr("title");
 
       if (typeof(href) !== 'undefined' && href !== '#') {
         button.click = function() {
