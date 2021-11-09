@@ -971,7 +971,7 @@ $.NatEditor.prototype.initForm = function() {
   }));
 
   self.form.validate({
-    ignore: ":hidden, .foswikiIgnoreValidation",
+    ignore: ":hidden:not(.jqSelect2), .foswikiIgnoreValidation",
     meta: "validate",
     invalidHandler: function(e, validator) {
       var errors = validator.numberOfInvalids(),
