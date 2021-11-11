@@ -281,6 +281,13 @@ $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 # One month is roughly equal to 2600000 seconds.
 $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 
+# **BOOLEAN EXPERT LABEL="Hide Session Variable" CHECK='undefok'**
+# Protect access to the session variable and id. This is very sensitive information that 
+# shall only be available to the session owner. It normally is only stored in the users cookie
+# as well as in the session object on the server associated with it. Unauthorized access to
+# can be used to take over a user's account. 
+$Foswiki::cfg{Sessions}{HideSessionVariable} = $TRUE;
+
 # **BOOLEAN LABEL="IDs in Urls" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'"**
 # Foswiki will normally use a cookie in
 # the browser to store the session ID. If the client has cookies disabled,
