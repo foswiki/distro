@@ -920,9 +920,23 @@ sub userLoggedIn {
 
     if ( $this->{_cgisession} ) {
         $this->_addSessionCookieToResponse();
+
+        my $sessionVar;
+        my $sessionId;
+
+        # hide session information unless configured otherwise
+        if ( $Foswiki::cfg{Sessions}{HideSessionVariable} ) {
+            $sessionVar = '';
+            $sessionId  = '';
+        }
+        else {
+            $sessionVar = $CGI::Session::NAME;
+            $sessionId  = $this->{_cgisession}->id();
+        }
+
         $session->{prefs}->setInternalPreferences(
-            SESSIONID  => $this->{_cgisession}->id(),
-            SESSIONVAR => $CGI::Session::NAME
+            SESSIONID  => $sessionId,
+            SESSIONVAR => $sessionVar
         );
     }
 
@@ -1600,7 +1614,7 @@ sub removeUserSessions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
