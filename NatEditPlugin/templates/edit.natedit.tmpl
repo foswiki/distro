@@ -15,8 +15,8 @@
 
 %TMPL:DEF{"contenttitle::topictitle"}%<h1 class="natEditTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
-  then="<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%' target='_blank'>%URLPARAM{"TopicTitle" default="$percntGETTOPICTITLE{hideautoinc=\\"off\\"}$percnt"}%</a>" 
-  else="<nop>%URLPARAM{"TopicTitle" default="$percntGETTOPICTITLE{hideautoinc=\\"off\\"}$percnt"}% <span class='natEditTitleStatus'>(%TMPL:P{"titleaction"}%)</span>"
+  then="<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%' target='_blank'>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="off"}%"}%</a>" 
+  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="off"}%"}% <span class='natEditTitleStatus'>(%TMPL:P{"titleaction"}%)</span>"
 }%</h1>%TMPL:END%
 
 %TMPL:DEF{"contenttitle::default"}%<h1 class="natEditTitle">%IF{
@@ -26,6 +26,10 @@
 }%</h1>%TMPL:END%
 
 %TMPL:DEF{"windowtitle"}%<title>(%TMPL:P{"titleaction"}%) <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
+
+%TMPL:DEF{"topictitle"}%%TMPL:P{context="TopicTitlePlugin" then="topictitle_topictitle" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%FORMFIELD{"TopicTitle" alttext="%BASETOPIC%" default="%BASETOPIC%"}%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_topictitle"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
@@ -79,7 +83,7 @@
   <tr>
     <th>%MAKETEXT{"Title"}%:</th>
     <td><literal>
-          <input class='foswikiInputField' type='text' name='TopicTitle' size='75' value='%URLPARAM{"TopicTitle" default="%GETTOPICTITLE{hideautoinc="on" encode="entity"}%" encode="entity"}%' />
+          <input class='foswikiInputField' type='text' name='TopicTitle' size='75' value='%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="on"}%" encode="entity"}%' />
         </literal>
     </td>
   </tr>
