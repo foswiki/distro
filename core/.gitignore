@@ -4,6 +4,7 @@
 /working/**/events.*
 /working/**/error.*
 /working/**/cgisess_*
+/working/cache
 /lib/LocalSite.cfg*
 /data/**/*.lease
 /data/**/*.changes

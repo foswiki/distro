@@ -1780,7 +1780,7 @@ $Foswiki::cfg{Cache}{DBI}{TablePrefix} = 'foswiki_cache';
 # **STRING 80 LABEL="DBI DSN" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /Generic$/'"**
 # Default database driver DSN. See the documentation of your DBI driver for the
 # exact syntax of the DSN parameter string. *NOTE* this is a default, used only
-# by the 'Generic' DBI driver. It is ignored by the SQLite, MySQL and
+# by the 'Generic' DBI driver. It is ignored by the SQLite, MariaDB, MySQL and
 # PostGreSQL drivers, which all have their own ways of setting the DSN.
 $Foswiki::cfg{Cache}{DBI}{DSN} = '';
 
@@ -1796,6 +1796,27 @@ $Foswiki::cfg{Cache}{DBI}{Password} = '';
 # Name of the SQLite database file.
 $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
   '$Foswiki::cfg{WorkingDir}/sqlite.db';
+
+# **STRING 80 LABEL="Database Host" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MariaDB' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MariaDB$/'"**
+# Name or IP address of the database server
+$Foswiki::cfg{Cache}{DBI}{MariaDB}{Host} = 'localhost';
+
+# **STRING 80 LABEL="Database Port" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MariaDB' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MariaDB$/ '"**
+# Port on the database server to connect to
+$Foswiki::cfg{Cache}{DBI}{MariaDB}{Port} = '';
+
+# **STRING 80 LABEL="Database Name" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MariaDB' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MariaDB$/ '"**
+# Name of the database on the server host.
+$Foswiki::cfg{Cache}{DBI}{MariaDB}{Database} = '';
+
+# **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MariaDB' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MariaDB$/ '"**
+# Database user name. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{MariaDB}{Username} = '';
+
+# **PASSWORD 80 LABEL="Database Password" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MariaDB' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MariaDB/ '"**
+# Database user password. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{MariaDB}{Password} = '';
+
 
 # **STRING 80 LABEL="Database Host" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::MySQL$/'"**
 # Name or IP address of the database server
