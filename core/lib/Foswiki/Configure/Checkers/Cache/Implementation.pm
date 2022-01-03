@@ -10,6 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Dependency;
 
 my %modmap = (
+    'DBI::MariaDB'    => 'DBD::MariaDB',
     'DBI::MySQL'      => 'DBD::mysql',
     'DBI::PostgreSQL' => 'DBD::Pg',
     'DBI::SQLite'     => 'DBD::SQLite',

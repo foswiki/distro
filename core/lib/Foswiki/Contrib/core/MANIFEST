@@ -607,6 +607,7 @@ lib/Foswiki/OopsException.pm 0444
 lib/Foswiki/PageCache.pm 0444
 lib/Foswiki/PageCache/DBI.pm 0444
 lib/Foswiki/PageCache/DBI/Generic.pm 0444
+lib/Foswiki/PageCache/DBI/MariaDB.pm 0444
 lib/Foswiki/PageCache/DBI/MySQL.pm 0444
 lib/Foswiki/PageCache/DBI/PostgreSQL.pm 0444
 lib/Foswiki/PageCache/DBI/SQLite.pm 0444
