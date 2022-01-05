@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1641402284" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"i18n"
@@ -75,7 +75,7 @@ When Foswiki renders a page, only the translations for the current language will
 plugin this would then be
 
 <verbatim class="html">
-<script type="application/l10n" data-i18n-language="en" data-i18n-namespace="SOMEPLUGIN" src="pub/System/SomePlugin/i18n/en.js"></script>
+<script type="application/l10n" data-i18n-language="en" data-i18n-namespace="SOMEPLUGIN" data-src="pub/System/SomePlugin/i18n/en.js"></script>
 </verbatim>
 
 This file will then be loaded by the =I18N= component and will translate all elements on the page flagged to be translatable.

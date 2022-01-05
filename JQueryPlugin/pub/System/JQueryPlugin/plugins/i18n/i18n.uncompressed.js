@@ -1,7 +1,7 @@
 /*
  * i18n - the simplest possible solution 
  *
- * Copyright (c) 2016-2020 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2016-2021 Michael Daum http://michaeldaumconsulting.com
  *
  * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
@@ -23,19 +23,18 @@
     // dynamically load localizations
     $('script[type="application/l10n"]').livequery(function() {
       var $this = $(this),
-          url = $this.attr("src"),
-          language = $this.data("i18nLanguage"),
-          namespace = $this.data("i18nNamespace"),
+          opts = $this.data(),
+          url = opts.src || $this$this.attr("src"),
           data;
 
-      if (language === self.currentLanguage) {
+      if (opts.language === self.currentLanguage) {
         // inline
         if (typeof(url) === 'undefined') {
           data = $.parseJSON($this.text());
-          self.addResource(data, language, namespace);
+          self.addResource(data, opts.language, opts.namespace);
           self.translateAllElements();
         } else {
-          self.loadResource(url, language, namespace);
+          self.loadResource(url, opts.language, opts.namespace);
         }
       }
     });

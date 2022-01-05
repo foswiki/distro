@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1625829459" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1641402284" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute |
 |  09 Jul 2021: | (10.02) - Item15033: update jquery.validate |
 |  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
                                        added jquery-3.6.0; \

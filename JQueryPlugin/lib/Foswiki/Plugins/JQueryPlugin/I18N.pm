@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'I18N',
-            version    => '1.1',
+            version    => '1.2',
             author     => 'Michael Daum',
             homepage   => 'https://foswiki.org/Extensions/JQueryPlugin',
             javascript => ['i18n.js'],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2021 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
