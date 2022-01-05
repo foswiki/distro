@@ -211,7 +211,8 @@ sub renderIcon {
     else {
         my $iconHeightFormat = $iconHeight ? 'height=\'$iconHeight\'' : '';
         $iconFormat =
-'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' $iconHeightFormat />'
+'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' '
+          . $iconHeightFormat . ' />'
           unless $iconFormat;
         $iconPath = $icon->{url};
         push @iconClass, "foswikiIcon", "jqIcon";
