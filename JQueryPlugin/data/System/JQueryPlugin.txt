@@ -125,7 +125,8 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute |
+|  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute; \
+                          - Item15060: add validation rule for the foswikiMandatory css class |
 |  09 Jul 2021: | (10.02) - Item15033: update jquery.validate |
 |  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
                                        added jquery-3.6.0; \
