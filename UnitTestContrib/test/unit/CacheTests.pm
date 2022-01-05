@@ -85,6 +85,7 @@ sub dbcheckDBI {
             ? ';port=' . $Foswiki::cfg{Cache}{DBI}{$cfg}{Port}
             : ''
           );
+
         $dbh = DBI->connect(
             $dsn,
             $Foswiki::cfg{Cache}{DBI}{$cfg}{Username},
@@ -136,6 +137,16 @@ sub dbcheck_MySQL {
 sub MySQL {
     require Foswiki::PageCache::DBI::MySQL;
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MySQL';
+    $Foswiki::cfg{Cache}{Enabled}        = 1;
+}
+
+sub dbcheck_MariaDB {
+    return dbcheckDBI( 'MariaDB', 'MariaDB' );
+}
+
+sub MariaDB {
+    require Foswiki::PageCache::DBI::MariaDB;
+    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MariaDB';
     $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
 
