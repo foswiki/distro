@@ -204,7 +204,7 @@ sub renderI18N {
             my $text .=
 "<script type='application/l10n' data-i18n-language='$langTag' data-i18n-namespace='"
               . uc( $this->{name} )
-              . "' data-src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
+              . "' data-i18n-src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
             Foswiki::Func::addToZone( 'script',
                 uc( $this->{name} ) . "::" . uc($langTag) . "::I8N",
                 $text, 'JQUERYPLUGIN::I18N' );
