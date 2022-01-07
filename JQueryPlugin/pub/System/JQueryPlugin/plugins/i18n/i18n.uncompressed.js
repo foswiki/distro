@@ -24,17 +24,17 @@
     $('script[type="application/l10n"]').livequery(function() {
       var $this = $(this),
           opts = $this.data(),
-          url = opts.src || $this.attr("src"),
+          url = opts.i18nSrc || $this.attr("src"),
           data;
 
-      if (opts.language === self.currentLanguage) {
+      if (opts.i18nLanguage === self.currentLanguage) {
         // inline
         if (typeof(url) === 'undefined') {
           data = $.parseJSON($this.text());
-          self.addResource(data, opts.language, opts.namespace);
+          self.addResource(data, opts.i18nLanguage, opts.i18nNamespace);
           self.translateAllElements();
         } else {
-          self.loadResource(url, opts.language, opts.namespace);
+          self.loadResource(url, opts.i18nLanguage, opts.i18nNamespace);
         }
       }
     });
