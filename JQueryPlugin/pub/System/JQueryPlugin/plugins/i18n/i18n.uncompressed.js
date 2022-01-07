@@ -24,7 +24,7 @@
     $('script[type="application/l10n"]').livequery(function() {
       var $this = $(this),
           opts = $this.data(),
-          url = opts.src || $this$this.attr("src"),
+          url = opts.src || $this.attr("src"),
           data;
 
       if (opts.language === self.currentLanguage) {
