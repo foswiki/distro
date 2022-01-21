@@ -15,6 +15,6 @@ TARGET=\
   jquery.ui.tooltip.init.js
 
 # TODO: not yet init'ed widgets
-# droppable, selectable, sortable
+# droppable, selectable, sortable, selectmenu
 
 -include ../../Makefile.include

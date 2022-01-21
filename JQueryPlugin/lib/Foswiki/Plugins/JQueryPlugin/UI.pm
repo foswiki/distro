@@ -29,7 +29,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI',
-            version      => '1.12.1',
+            version      => '1.13.1',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/',
@@ -63,7 +63,7 @@ sub init {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
