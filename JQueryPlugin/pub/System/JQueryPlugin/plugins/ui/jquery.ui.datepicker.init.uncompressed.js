@@ -6,7 +6,7 @@ jQuery(function($) {
     dateFormat:'yy/mm/dd',
     firstDay: 1,
     showOn: 'button',
-    buttonText: "<i class='fa fa-calendar'></i>"
+    buttonText: ""
   };
 
   $(".jqUIDatepicker").livequery(function() {

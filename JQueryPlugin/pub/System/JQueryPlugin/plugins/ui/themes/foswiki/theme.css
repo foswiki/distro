@@ -1390,6 +1390,10 @@ table.ui-datepicker-inline {
   border-radius:0 3px 3px 0;
   height:2em;
 }
+.ui-datepicker-trigger::after {
+  font-family: "Fontawesome";
+  content: "\f073";
+}
 /* jqGrid 
 ----------------------------------*/
 .ui-jqgrid.ui-widget-content {
