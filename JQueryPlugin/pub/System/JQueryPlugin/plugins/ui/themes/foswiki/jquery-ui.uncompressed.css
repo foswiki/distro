@@ -1,5 +1,5 @@
 /*!
- * jQuery UI CSS Framework 1.12.1
+ * jQuery UI CSS Framework 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -49,7 +49,7 @@
 	left: 0;
 	position: absolute;
 	opacity: 0;
-	filter:Alpha(Opacity=0); /* support: IE8 */
+	-ms-filter: "alpha(opacity=0)"; /* support: IE8 */
 }
 
 .ui-front {
@@ -668,7 +668,7 @@ button.ui-button::-moz-focus-inner {
 .ui-progressbar .ui-progressbar-overlay {
 	background: url("data:image/gif;base64,R0lGODlhKAAoAIABAAAAAP///yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJAQABACwAAAAAKAAoAAACkYwNqXrdC52DS06a7MFZI+4FHBCKoDeWKXqymPqGqxvJrXZbMx7Ttc+w9XgU2FB3lOyQRWET2IFGiU9m1frDVpxZZc6bfHwv4c1YXP6k1Vdy292Fb6UkuvFtXpvWSzA+HycXJHUXiGYIiMg2R6W459gnWGfHNdjIqDWVqemH2ekpObkpOlppWUqZiqr6edqqWQAAIfkECQEAAQAsAAAAACgAKAAAApSMgZnGfaqcg1E2uuzDmmHUBR8Qil95hiPKqWn3aqtLsS18y7G1SzNeowWBENtQd+T1JktP05nzPTdJZlR6vUxNWWjV+vUWhWNkWFwxl9VpZRedYcflIOLafaa28XdsH/ynlcc1uPVDZxQIR0K25+cICCmoqCe5mGhZOfeYSUh5yJcJyrkZWWpaR8doJ2o4NYq62lAAACH5BAkBAAEALAAAAAAoACgAAAKVDI4Yy22ZnINRNqosw0Bv7i1gyHUkFj7oSaWlu3ovC8GxNso5fluz3qLVhBVeT/Lz7ZTHyxL5dDalQWPVOsQWtRnuwXaFTj9jVVh8pma9JjZ4zYSj5ZOyma7uuolffh+IR5aW97cHuBUXKGKXlKjn+DiHWMcYJah4N0lYCMlJOXipGRr5qdgoSTrqWSq6WFl2ypoaUAAAIfkECQEAAQAsAAAAACgAKAAAApaEb6HLgd/iO7FNWtcFWe+ufODGjRfoiJ2akShbueb0wtI50zm02pbvwfWEMWBQ1zKGlLIhskiEPm9R6vRXxV4ZzWT2yHOGpWMyorblKlNp8HmHEb/lCXjcW7bmtXP8Xt229OVWR1fod2eWqNfHuMjXCPkIGNileOiImVmCOEmoSfn3yXlJWmoHGhqp6ilYuWYpmTqKUgAAIfkECQEAAQAsAAAAACgAKAAAApiEH6kb58biQ3FNWtMFWW3eNVcojuFGfqnZqSebuS06w5V80/X02pKe8zFwP6EFWOT1lDFk8rGERh1TTNOocQ61Hm4Xm2VexUHpzjymViHrFbiELsefVrn6XKfnt2Q9G/+Xdie499XHd2g4h7ioOGhXGJboGAnXSBnoBwKYyfioubZJ2Hn0RuRZaflZOil56Zp6iioKSXpUAAAh+QQJAQABACwAAAAAKAAoAAACkoQRqRvnxuI7kU1a1UU5bd5tnSeOZXhmn5lWK3qNTWvRdQxP8qvaC+/yaYQzXO7BMvaUEmJRd3TsiMAgswmNYrSgZdYrTX6tSHGZO73ezuAw2uxuQ+BbeZfMxsexY35+/Qe4J1inV0g4x3WHuMhIl2jXOKT2Q+VU5fgoSUI52VfZyfkJGkha6jmY+aaYdirq+lQAACH5BAkBAAEALAAAAAAoACgAAAKWBIKpYe0L3YNKToqswUlvznigd4wiR4KhZrKt9Upqip61i9E3vMvxRdHlbEFiEXfk9YARYxOZZD6VQ2pUunBmtRXo1Lf8hMVVcNl8JafV38aM2/Fu5V16Bn63r6xt97j09+MXSFi4BniGFae3hzbH9+hYBzkpuUh5aZmHuanZOZgIuvbGiNeomCnaxxap2upaCZsq+1kAACH5BAkBAAEALAAAAAAoACgAAAKXjI8By5zf4kOxTVrXNVlv1X0d8IGZGKLnNpYtm8Lr9cqVeuOSvfOW79D9aDHizNhDJidFZhNydEahOaDH6nomtJjp1tutKoNWkvA6JqfRVLHU/QUfau9l2x7G54d1fl995xcIGAdXqMfBNadoYrhH+Mg2KBlpVpbluCiXmMnZ2Sh4GBqJ+ckIOqqJ6LmKSllZmsoq6wpQAAAh+QQJAQABACwAAAAAKAAoAAAClYx/oLvoxuJDkU1a1YUZbJ59nSd2ZXhWqbRa2/gF8Gu2DY3iqs7yrq+xBYEkYvFSM8aSSObE+ZgRl1BHFZNr7pRCavZ5BW2142hY3AN/zWtsmf12p9XxxFl2lpLn1rseztfXZjdIWIf2s5dItwjYKBgo9yg5pHgzJXTEeGlZuenpyPmpGQoKOWkYmSpaSnqKileI2FAAACH5BAkBAAEALAAAAAAoACgAAAKVjB+gu+jG4kORTVrVhRlsnn2dJ3ZleFaptFrb+CXmO9OozeL5VfP99HvAWhpiUdcwkpBH3825AwYdU8xTqlLGhtCosArKMpvfa1mMRae9VvWZfeB2XfPkeLmm18lUcBj+p5dnN8jXZ3YIGEhYuOUn45aoCDkp16hl5IjYJvjWKcnoGQpqyPlpOhr3aElaqrq56Bq7VAAAOw==");
 	height: 100%;
-	filter: alpha(opacity=25); /* support: IE8 */
+	-ms-filter: "alpha(opacity=25)"; /* support: IE8 */
 	opacity: 0.25;
 }
 .ui-progressbar-indeterminate .ui-progressbar-value {
@@ -732,7 +732,7 @@ button.ui-button::-moz-focus-inner {
 	z-index: 2;
 	width: 1.2em;
 	height: 1.2em;
-	cursor: default;
+	cursor: pointer;
 	-ms-touch-action: none;
 	touch-action: none;
 }
@@ -906,7 +906,7 @@ body .ui-tooltip {
   background: -webkit-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
-  background: linear-gradient(#ffffff 0%,#f0f0f0 100%); /* W3C */
+  background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
 
 }
 .ui-widget-header a { 
@@ -932,7 +932,7 @@ body .ui-tooltip {
   background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: linear-gradient(#ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
 }
 a:link.ui-state-default,
 a:visited.ui-state-default,
@@ -981,7 +981,7 @@ a.ui-state-default:hover,
   background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
-  background: linear-gradient(#ffffff 0%,#ededed 100%);
+  background: linear-gradient(top, #ffffff 0%,#ededed 100%);
 }
 
 /* active */
@@ -1000,7 +1000,7 @@ a.ui-button:active,
   background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: linear-gradient(#ededed 0%,#ffffff 50%);
+  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
 
 }
 
@@ -1018,7 +1018,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: linear-gradient(#ededed 0%,#ffffff 50%);
+  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
 }
 
 /* error */
@@ -1037,7 +1037,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #f76f6f 0%,#b20000 100%);
   background: -o-linear-gradient(top, #f76f6f 0%,#b20000 100%);
   background: -ms-linear-gradient(top, #f76f6f 0%,#b20000 100%);
-  background: linear-gradient(#f76f6f 0%,#b20000 100%);
+  background: linear-gradient(top, #f76f6f 0%,#b20000 100%);
 }
 
 .ui-state-error.ui-state-hover,
@@ -1054,7 +1054,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #f87a7a 0%,#da0000 100%);
   background: -o-linear-gradient(top, #f87a7a 0%,#da0000 100%);
   background: -ms-linear-gradient(top, #f87a7a 0%,#da0000 100%);
-  background: linear-gradient(#f87a7a 0%,#da0000 100%);
+  background: linear-gradient(top, #f87a7a 0%,#da0000 100%);
 }
 
 .ui-state-error.ui-state-active,
@@ -1071,7 +1071,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #da0000 0%,#f87a7a 100%);
   background: -o-linear-gradient(top, #da0000 0%,#f87a7a 100%);
   background: -ms-linear-gradient(top, #da0000 0%,#f87a7a 100%);
-  background: linear-gradient(#da0000 0%,#f87a7a 100%);
+  background: linear-gradient(top, #da0000 0%,#f87a7a 100%);
 }
 
 
@@ -1387,6 +1387,9 @@ a.ui-state-highlight.ui-state-hover,
 } 
 
 .ui-dialog .ui-dialog-titlebar-close { 
+  background-image:url(images/x.png);
+  background-repeat: no-repeat; 
+  background-position:0px 0px;
   display: block;
   position: absolute;
   top: 50%;
@@ -1396,17 +1399,12 @@ a.ui-state-highlight.ui-state-hover,
   margin-top:-8px;
   border:0px;
 }
-.ui-dialog .ui-dialog-titlebar-close .ui-icon { 
-  background-image:url(images/x.png);
-  background-repeat: no-repeat; 
-  background-position:0px 0px;
-}
-.ui-dialog .ui-dialog-titlebar-close,
-.ui-dialog .ui-dialog-titlebar-close:hover {
-  background:transparent;
-}
-.ui-dialog .ui-dialog-titlebar-close:hover .ui-icon { 
+.ui-dialog .ui-dialog-titlebar-close:hover { 
   background-position:-16px 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span { 
+  visibility:hidden;
 }
 
 .ui-dialog .ui-dialog-content { 
@@ -1468,7 +1466,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
   background: -o-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
   background: -ms-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
-  background: linear-gradient(#f2f7ff 1%,#c6deff 100%);
+  background: linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
 
   -ms-touch-action: none;
   touch-action: none;
@@ -1484,7 +1482,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #f7faff 0%,#ddebff 100%);
   background: -o-linear-gradient(top, #f7faff 0%,#ddebff 100%);
   background: -ms-linear-gradient(top, #f7faff 0%,#ddebff 100%);
-  background: linear-gradient(#f7faff 0%,#ddebff 100%);
+  background: linear-gradient(top, #f7faff 0%,#ddebff 100%);
 }
 .ui-slider .ui-slider-handle.ui-state-active { 
   border:1px solid #0055b5;
@@ -1497,7 +1495,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #c6deff 0%,#f2f7ff 100%);
   background: -o-linear-gradient(top, #c6deff 0%,#f2f7ff 100%);
   background: -ms-linear-gradient(top, #c6deff 0%,#f2f7ff 100%);
-  background: linear-gradient(#c6deff 0%,#f2f7ff 100%);
+  background: linear-gradient(top, #c6deff 0%,#f2f7ff 100%);
 }
 .ui-slider .ui-slider-range { 
   position: absolute; 
@@ -1556,7 +1554,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -o-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -ms-linear-gradient(top, #629edd 0%,#0055b5 100%);
-  background: linear-gradient(#629edd 0%,#0055b5 100%);
+  background: linear-gradient(top, #629edd 0%,#0055b5 100%);
 }
 .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
 .ui-slider-vertical .ui-slider-range-max { top: 0; }
@@ -1590,7 +1588,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
   background: -o-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
   background: -ms-linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
-  background: linear-gradient(#f2f7ff 1%,#c6deff 100%);
+  background: linear-gradient(top, #f2f7ff 1%,#c6deff 100%);
 }
 .ui-progressbar .ui-progressbar-value {
   height:100%; 
@@ -1608,7 +1606,7 @@ a.ui-state-highlight.ui-state-hover,
   background: -webkit-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -o-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -ms-linear-gradient(top, #629edd 0%,#0055b5 100%);
-  background: linear-gradient(#629edd 0%,#0055b5 100%);
+  background: linear-gradient(top, #629edd 0%,#0055b5 100%);
 
   -webkit-transition: width ease-in-out 500ms; /* Safari */
   transition: width ease-in-out 500ms;
@@ -1702,6 +1700,7 @@ a.ui-state-highlight.ui-state-hover,
   zoom: 1; 
   display: block;
   padding: .5em .5em .5em .7em;
+  min-height: 0; /* support: IE7 */
   border:0;
   background:transparent;
 }
@@ -1901,7 +1900,7 @@ label.ui-button.ui-state-active:hover,
   background: -webkit-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -o-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -ms-linear-gradient(top, #629edd 0%,#0055b5 100%);
-  background: linear-gradient(#629edd 0%,#0055b5 100%);
+  background: linear-gradient(top, #629edd 0%,#0055b5 100%);
 }
 
 .ui-controlgroup .ui-checkboxradio-icon {
@@ -1948,7 +1947,7 @@ body .ui-tooltip {
   margin-left: -7px;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid var(--ui-widget-border, #444);
+  border-top: 7px solid #444;
 }
 
 .ui-tooltip.position-bottom .ui-arrow {
@@ -1956,7 +1955,7 @@ body .ui-tooltip {
   margin-left: -7px;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-bottom: 7px solid var(--ui-widget-border, #444);
+  border-bottom: 7px solid #444;
 }
 .ui-tooltip.position-right .ui-arrow {
   top: 50%;
@@ -1964,7 +1963,7 @@ body .ui-tooltip {
   margin-top: -7px;
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-right: 7px solid var(--ui-widget-border, #444);
+  border-right: 7px solid #444;
 }
 .ui-tooltip.position-left .ui-arrow {
   top: 50%;
@@ -1972,13 +1971,13 @@ body .ui-tooltip {
   margin-top: -7px;
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-left: 7px solid var(--ui-widget-border, #444);
+  border-left: 7px solid #444;
 }
 
 /* default theme */
 .ui-tooltip.default {
   background-color:#fefefe;
-  border:1px solid var(--ui-widget-border, #444);
+  border:1px solid #444;
 }
 
 /* transparent theme */
@@ -2220,7 +2219,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -o-linear-gradient(top, #629edd 0%,#0055b5 100%);
   background: -ms-linear-gradient(top, #629edd 0%,#0055b5 100%);
-  background: linear-gradient(#629edd 0%,#0055b5 100%);
+  background: linear-gradient(top, #629edd 0%,#0055b5 100%);
 }
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
 .ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
@@ -2325,7 +2324,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
-  background: linear-gradient(#ffffff 0%,#f0f0f0 100%); /* W3C */
+  background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
 }
 
 .ui-jqgrid.ui-widget-content tr th,
@@ -2389,7 +2388,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
   background: -o-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
   background: -ms-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
-  background: linear-gradient(#efffd8 0%,#ffffff 11%,#efffd8 100%);
+  background: linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
 
 }
 
@@ -2464,7 +2463,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: linear-gradient(#ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
 }
 .select2-container.select2-drop-above .select2-choice {
   border-bottom-color: #bcbcbc;
@@ -2490,7 +2489,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: linear-gradient(#ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   border-left: 1px solid #bcbcbc;
 }
 .select2-container .select2-choice:hover {
@@ -2503,7 +2502,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
-  background: linear-gradient(#ffffff 0%,#ededed 100%);
+  background: linear-gradient(top, #ffffff 0%,#ededed 100%);
 }
 .select2-container .select2-choice:hover div {
   background:transparent;
@@ -2529,7 +2528,7 @@ table.ui-datepicker-inline {
   background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: linear-gradient(#ededed 0%,#ffffff 50%);
+  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
   -webkit-border-bottom-left-radius : 0;
   -webkit-border-bottom-right-radius: 0;
   -moz-border-radius-bottomleft : 0;

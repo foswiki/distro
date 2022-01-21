@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1641402284" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1642766882" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  21 Jan 2022: | (10.20) - Item15061: upgraded to jquery-ui-1.13.1 |
 |  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute; \
                           - Item15060: add validation rule for the foswikiMandatory css class |
 |  09 Jul 2021: | (10.02) - Item15033: update jquery.validate |
@@ -428,7 +429,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2021 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2022 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%

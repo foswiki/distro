@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1642766882" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"ui"
@@ -12,12 +12,4 @@
 %STARTSECTION{"summary"}%
 Widget collection for jQuery. This is the official user interface library.
 %ENDSECTION{"summary"}%
-
----++ Installed themes
-The following themes are provided:
-   * foswiki
-   * flickr  
-   * lightness  
-   * redmond  
-   * smoothness
 
