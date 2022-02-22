@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,7 +56,10 @@ sub print {
     $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
     my $compressed = 0;
 
-    if ( $Foswiki::cfg{HttpCompress} || $ENV{'HTTP2'} ) {
+    if ( !Foswiki::Func::getContext()->{command_line}
+        && $Foswiki::cfg{HttpCompress}
+        || $ENV{'HTTP2'} )
+    {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
         require Compress::Zlib;
@@ -141,7 +144,9 @@ sub json {
 
     unless ( defined $this->{json} ) {
         $this->{json} =
-          JSON->new->pretty(DEBUG)->convert_blessed(1)->allow_nonref(1);
+          JSON->new->pretty(
+            Foswiki::Func::getContext()->{command_line} ? 1 : 0 )
+          ->convert_blessed(1)->allow_nonref(1);
     }
 
     return $this->{json};
