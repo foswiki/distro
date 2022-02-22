@@ -42,6 +42,7 @@ use constant TRACE => 0;    # toggle me
 ################################################################################
 # static
 sub writeDebug {
+    print STDERR $_[0] . "\n";
     Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
 }
 
@@ -106,8 +107,8 @@ sub dispatch {
             $session,
             code    => -32601,
             message => "Invalid invocation - unknown handler for "
-              . $request->namespace() . "."
-              . $request->method(),
+              . ( $request->namespace() || '' ) . "."
+              . ( $request->method() || '' ),
             id => $request->id()
         );
         return;

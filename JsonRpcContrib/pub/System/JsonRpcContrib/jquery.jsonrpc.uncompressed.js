@@ -1,4 +1,16 @@
+/*
+ * JsonRpc for Foswiki
+ *
+ * Copyright (c) 2011-2022 Michael Daum
+ *
+ * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
+ *
+ */
+
+"use strict";
+
 (function($) {
+
   /* helper function to create a json-rpc request object */
   function createRequest(options) {
     var data = { 
@@ -16,6 +28,10 @@
   }
 
   /* perform a single json-rpc */
+  foswiki.jsonRpc = function(options) {
+    return $.jsonRpc(foswiki.getScriptUrl("jsonrpc"), options);
+  };
+
   $.jsonRpc = function(endpoint, options) {
     var data = createRequest(options), 
         url = endpoint,
