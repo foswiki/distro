@@ -12578,11 +12578,12 @@ $.widget( "ui.dialog", {
 					event.preventDefault();
 				}
 			},
+/* BUG: don't change the z-index stack once established/
 			mousedown: function( event ) {
 				if ( this._moveToTop( event ) ) {
 					this._focusTabbable();
 				}
-			}
+			}*/
 		} );
 
 		// We assume that any existing aria-describedby attribute means

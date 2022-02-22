@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1645517959" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -107,17 +107,15 @@ Foswiki:Extensions.FlexWebListPlugin. "}% </div>
    * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
-%STARTSECTION{"web"}%%FLEXWEBLIST{
+%STARTSECTION{"web"}%[%FLEXWEBLIST{
   include="^%URLPARAM{"term" default="does not exist"}%.*"
   ignorecase="on"
   limit="%URLPARAM{"limit" default="10"}%"
-  header="["
   format="\"<nop>$web\""
-  footer="]"
   separator=", "
   subheader=", "
   subfooter=" "
-}%%ENDSECTION{"web"}%
+}%]%ENDSECTION{"web"}%
 </verbatim>
 
 ---+++ Example

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1642766882" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1645517959" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,9 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  22 Feb 2022: | (10.21) - Item15061: rating field is not mergeable; \
+                          - Item15067: patch z-index issue in jquery-ui dialogs; \
+                          - Item15068: don't bubble up jquery.loader events |
 |  21 Jan 2022: | (10.20) - Item15061: upgraded to jquery-ui-1.13.1 |
 |  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute; \
                           - Item15060: add validation rule for the foswikiMandatory css class |

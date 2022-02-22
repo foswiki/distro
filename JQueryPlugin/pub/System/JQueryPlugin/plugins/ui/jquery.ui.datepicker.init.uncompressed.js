@@ -13,7 +13,8 @@ jQuery(function($) {
     var $this = $(this), 
         lang = $this.data("lang") || '',
         opts = $.extend({}, $.datepicker.regional[lang], datepickerDefaults, $this.data(), $this.metadata()),
-        maxZIndex = 100, val = $this.val();
+        maxZIndex = 100, val = $this.val(),
+        trigger;
 
     $this.parents().each(function() {
       var zIndex = parseInt($(this).css("z-index"), 10);
@@ -27,7 +28,11 @@ jQuery(function($) {
       "z-index": maxZIndex + 1
     });
 
-    $this.datepicker(opts);    
+    trigger = $this.datepicker(opts).next();
+    console.log("trigger=",trigger);
+    if (trigger.is(".ui-datepicker-trigger")) {
+      trigger.prop("tabindex", -1);
+    }
 
     if (val !== '') {
       var orig = val;
