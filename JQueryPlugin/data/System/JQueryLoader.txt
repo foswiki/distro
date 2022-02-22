@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1622618832" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1645517959" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -37,6 +37,7 @@ Parameter are specified using HTML5 data, as in
 | params | url parameter that are sent to the server | ={"skin":"text"}= |
 | mode | specify whether the content is either loaded automatically or by clicking on the container; \
          possible values: =auto=, =manual= | =manual= |
+| reload-after | reload the content after the given milliseconds | 0 |
 | show-effect | the effect used when showing the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeIn= |
 | hide-effect | the effect when hiding the loaded content; possible values are listed in [[JQueryAnimate]] | =fadeOut= |
 | delay | additional time in miliseconds to delay fetching the content from the content; specifying =0= means load the content immediately; any other value will wait that time until issuing the request | 0 |

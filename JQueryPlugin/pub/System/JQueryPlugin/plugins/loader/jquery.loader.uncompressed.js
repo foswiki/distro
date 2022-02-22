@@ -1,7 +1,7 @@
 /*
- * jQuery Loader plugin 4.50
+ * jQuery Loader plugin 4.60
  *
- * Copyright (c) 2011-2021 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2022 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -77,36 +77,41 @@
     var self = this;
 
     // add refresh listener
-    self.elem.on("refresh.jqloader", function(e, opts) {
+    self.elem.on("refresh.jqloader", function(ev, opts) {
       $.extend(self.opts, opts);
       self.loadAfter(0);
+      ev.stopPropagation();
     });
 
     // add onload listener 
     if (typeof(self.opts.onload) === 'function') {
-      self.elem.on("onload.jqloader", function() {
+      self.elem.on("onload.jqloader", function(ev) {
         self.opts.onload.call(self);
+        ev.stopPropagation();
       });
     }
     
     // add beforeload listener 
     if (typeof(self.opts.beforeload) === 'function') {
-      self.elem.on("beforeload.jqloader", function() {
+      self.elem.on("beforeload.jqloader", function(ev) {
         self.opts.beforeload.call(self);
+        ev.stopPropagation();
       });
     }
     
     // add finished listener 
     if (typeof(self.opts.finished) === 'function') {
-      self.elem.on("finished.jqloader", function() {
+      self.elem.on("finished.jqloader", function(ev) {
         self.opts.finished.call(self);
+        ev.stopPropagation();
       });
     }
 
     // add auto-reloader
     if (self.opts.reloadAfter) {
-      self.elem.on("finished.jqloader", function() {
+      self.elem.on("finished.jqloader", function(ev) {
         self.loadAfter(self.opts.reloadAfter);
+        ev.stopPropagation();
       });
     }
   };

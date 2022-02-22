@@ -1,0 +1,25 @@
+diff --git a/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js b/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
+index 5d9bfa2f1..1a73408cf 100644
+--- a/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
++++ b/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
+@@ -12578,11 +12578,12 @@ $.widget( "ui.dialog", {
+ 					event.preventDefault();
+ 				}
+ 			},
++/* BUG: don't change the z-index stack once established/
+ 			mousedown: function( event ) {
+ 				if ( this._moveToTop( event ) ) {
+ 					this._focusTabbable();
+ 				}
+-			}
++			}*/
+ 		} );
+ 
+ 		// We assume that any existing aria-describedby attribute means
+@@ -19054,4 +19055,4 @@ var widgetsTooltip = $.ui.tooltip;
+ 
+ 
+ 
+-} );
+\ No newline at end of file
++} );
