@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1558485010" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1645803928" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
 This guide describes the steps for installing Foswiki using Apache as the web server, on Linux.
-<div class='foswikiHelp' style='border:2px orange solid' >
+<div class='foswikiHelp'>
 This guide describes the __specific steps for installations on Linux with the Apache web server__.%BR%
 If you would prefer to use a different web server, please refer to supplemental documentation when you reach the Apache-specific steps:
    * *Nginx:* [[https://foswiki.org/System/FastCGIEngineContrib#Nginx][FastCGIEngineContrib#Nginx]] and[[https://foswiki.org/Support/FoswikiOnNginx][Foswiki on Nginx]]
@@ -166,7 +166,7 @@ In details:
    * If you do not want to or are unable to configure from the web interface, there is an alternate command line configuration documented in %IF{"$skin = 'plain'" then="<nop>System.<nop>InstallationGuide#ConfiguringFoswikiManually in your installation" else="[[InstallationGuide#ConfiguringFoswikiManually]]"}%.
 </div>
 
-%IF{"$skin = 'plain'" then="<div class='foswikiHelp' style='border:2px orange solid' >$percntT$percntNow that your Foswiki installation is functional, you are encouraged to view this installation guide on your Foswiki site rather than the static =INSTALL.html= file included in the distribution. This will make it easier to implement the steps which follow because you will be able to use the embedded hyperlinks to jump directly to the referenced pages in your installation. To view this guide in your installation, follow the link provided in the bootstrap banner, or enter =System.InstallationGuide= in the jump-box.</div>"}%
+%IF{"$skin = 'plain'" then="<div class='foswikiHelp'>$percntT$percntNow that your Foswiki installation is functional, you are encouraged to view this installation guide on your Foswiki site rather than the static =INSTALL.html= file included in the distribution. This will make it easier to implement the steps which follow because you will be able to use the embedded hyperlinks to jump directly to the referenced pages in your installation. To view this guide in your installation, follow the link provided in the bootstrap banner, or enter =System.InstallationGuide= in the jump-box.</div>"}%
 
 ---+++ Step 6: Configure email
 
