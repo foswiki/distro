@@ -79,7 +79,8 @@ sub getOptions {
             if ( $meta->haveAccess('VIEW') ) {
 
                 # Process SEARCHES for Lists
-                my $text = $meta->expandMacros( $meta->text() );
+                my $text = $meta->text();
+                $text = $meta->expandMacros($text) if $text =~ /%/;
 
                 # SMELL: yet another table parser
                 my $inBlock = 0;
