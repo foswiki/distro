@@ -261,7 +261,7 @@ sub wysiwygEditingDisabledForThisContent {
     # Copy the content.
     # Then crunch verbatim blocks, because verbatim blocks may
     # contain *anything*.
-    my $text = $_[0];
+    my $text = $_[0] // '';
 
     # Look for combinations of sticky and other markup that cause
     # problems together
