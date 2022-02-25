@@ -12,6 +12,7 @@ application/font-tdpfr          pfr
 application/font-woff           woff
 application/font-woff2          woff2
 application/java-archive        jar
+application/json                json
 application/mac-binhex40        hqx
 application/mac-compactpro      cpt
 application/msword              doc dot
@@ -20,6 +21,7 @@ application/msexcel             csv
 application/octet-stream        bin dms lha lzh class w02 w03 w04 dmg
 application/oda                 oda
 application/ogg                 ogg 
+application/opensearchdescription+xml odd
 application/pdf                 pdf
 application/pgp-keys            key
 application/pgp-signature       pgp 
@@ -32,6 +34,8 @@ application/rss+xml             rss
 application/rtf                 rtf
 application/toolbook            tbk
 application/x-font-ttf          ttf
+application/x-perl              pl pm
+application/x-rdp               rdp
 application/vnd.adobe.air-application-installer-package+zip air
 application/vnd.mozilla.xul+xml xul 
 application/vnd.ms-fontobject   eot
@@ -157,7 +161,7 @@ model/vrml                      wrl vrml
 text/css                        css cssfrag
 text/h323                       323
 text/html                       html htm htmlfrag
-text/plain                      txt text diff sql sqlfrag log
+text/plain                      txt text diff sql sqlfrag log md
 text/richtext                   rtx
 text/tab-separated-values       tsv
 text/vnd.sun.j2me.app-descriptor    jad 
@@ -165,6 +169,7 @@ text/vnd.wap.wml                wml
 text/vnd.wap.wmlscript          wmls 
 text/xml                        rdf xsl xslt fo xml wsdl
 text/x-bibtex                   bib
+text/x-diff                     diff patch
 text/x-java-source              java javafrag
 text/x-setext                   etx
 text/x-sgml                     sgml sgm
