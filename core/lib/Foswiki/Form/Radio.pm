@@ -57,10 +57,11 @@ sub renderForEdit {
     foreach my $item ( @{ $this->getOptions() } ) {
         my $title = $item;
         $title = $this->{_descriptions}{$item} if $this->{_descriptions}{$item};
+        $title = $topicObject->expandMacros($title) if $title =~ /%/;
 
         $attrs{$item} = {
             class => $this->cssClasses('foswikiRadioButton'),
-            title => $topicObject->expandMacros($title)
+            title => $title,
         };
 
         $selected = $item if ( $item eq $value );
@@ -79,7 +80,10 @@ sub renderForEdit {
         $params{-labels} = $this->{valueMap};
     }
 
-    return ( '', CGI::radio_group(%params) );
+    return ( '',
+            '<div class="foswikiRadioButtonGroup">'
+          . CGI::radio_group(%params)
+          . '</div>' );
 }
 
 =begin TML

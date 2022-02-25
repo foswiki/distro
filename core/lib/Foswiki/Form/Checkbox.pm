@@ -107,7 +107,9 @@ sub renderForEdit {
         # NOTE: Does not expand $item in title
         $attrs{$item} = {
             class => $this->cssClasses('foswikiCheckbox'),
-            title => $topicObject->expandMacros($title),
+            title => $title =~ /%/
+            ? $topicObject->expandMacros($title)
+            : $title,
         };
 
         if ( $isSelected{$item} ) {
@@ -133,7 +135,10 @@ sub renderForEdit {
     if ( defined $this->{valueMap} ) {
         $params{-labels} = $this->{valueMap};
     }
-    $value = CGI::checkbox_group(%params);
+    $value =
+        '<div class="foswikiCheckboxGroup">'
+      . CGI::checkbox_group(%params)
+      . '</div>';
 
     # Item2410: We need a dummy control to detect the case where
     #           all checkboxes have been deliberately unchecked

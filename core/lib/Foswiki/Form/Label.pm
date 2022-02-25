@@ -24,7 +24,8 @@ sub renderForEdit {
     # Changing labels through the URL is a feature for Foswiki applications,
     # even though it's not accessible for standard edits. Some contribs
     # may want to override this to make labels editable.
-    my $renderedValue = $topicObject->expandMacros($value);
+    my $renderedValue =
+      ( $value =~ /%/ ? $topicObject->expandMacros($value) : $value );
 
     return (
         '',
