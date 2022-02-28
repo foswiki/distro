@@ -1043,7 +1043,7 @@ msgstr ""
 #: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
-msgstr "Rinuncia"
+msgstr "Annullare"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
