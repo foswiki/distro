@@ -81,6 +81,39 @@ However the TinyMCEPlugin is still unable to render image links while editing a 
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
+---++ Important changes in Foswiki 2.1.7
+
+---+++ Multiple cross-site scripting vulnerability in jQuery and jQuery UI
+
+These fixes are described in 
+
+   * [[https://nvd.nist.gov/vuln/detail/CVE-2021-41182][CVE-2021-41182]]: XSS in the `altField` option of the Datepicker widget in jQuery UI &lt; 1.30.0
+   * [[https://nvd.nist.gov/vuln/detail/CVE-2021-41183][CVE-2021-41183]]: XSS in `*Text` options of the Datepicker widget in jQuery UI &lt; 1.30.0
+   * [[https://nvd.nist.gov/vuln/detail/CVE-2021-41184][CVE-2021-41184]]: XSS in the `of` option of the `.position()` util in jQuery UI &kt; 1.30.0
+   * [[https://nvd.nist.gov/vuln/detail/CVE-2016-7103][CVE-2016-7103]]: XSS in closeText option of Dialog in jQuery UI &lt; 1.12.0 
+   * Fixes for [[https://www.cvedetails.com/cve/CVE-2015-9251/][CVE-2015-9251]] and [[https://www.cvedetails.com/cve/CVE-2019-11358/][CVE-2019-11358]] have been backported from jquery-3.x to jquery-2.x which is being used by default
+
+---+++ Regular Expression Denial of Service vulnerability in jquery.validate
+
+Details in CVE-2021-21252
+
+---+++ Possible server site request forgery exposing the session id
+
+For decades Foswiki and TWiki had ways to access the session id of a user and make it available on a wiki page using the =%SESSIONID= macro. 
+Anybody that has got access to a session id can use this session in behalf of the user that is associated with it.
+There are multiple ways to leak this information to the outside using this macro. Therefore the two related macros =%SESSIONID= and =%SESSIONVAR=
+are deprecated for security reasons and have been disabled by default using the ={Sessions}{HideSessionVariable}= setting. Note that these macros
+will be removed completely in the next minor release.
+
+---+++ QUERY macro does not check access rights
+
+While macros such as =%FORMFIELD= only allowed access only to information the current user has got view rights for, the =%QUERY= macro does __not__.
+
+---+++ Reimplementation of =livequery= using mutation observer
+
+The =LiveQuery= module is at the core of Foswiki's javascript framework, alas was abandoned upstream. In the meantime modern browsers now
+all support a feature called "mutation observer" to monitor changes to the DOM in an efficient standardized way. Thus a new module called =Observer= has been implemented 
+on this base to initialize javascript modules in a declarative way as it has been done before using =LiveQuery=.
 ---++ Important changes in Foswiki 2.1.6
 
 ---+++ CVE-2018-7446
