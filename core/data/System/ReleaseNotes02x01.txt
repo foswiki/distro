@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1646665356" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.6
+---+!! Foswiki Release 2.1.7
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
