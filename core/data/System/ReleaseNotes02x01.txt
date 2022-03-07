@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1646666094" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.6
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
-%ENDTWISTY{}%
+%ENDTWISTY%
 
 ---++ Foswiki - The Free and Open Source Wiki
 
@@ -17,7 +17,6 @@ Foswiki is a structured wiki with tools that enable users without programming sk
 Foswiki is backwards compatible with content generated on all previous Foswiki versions, and even content and many plugins from TWiki installations (Foswiki ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work in Foswiki. TWiki<sup>&reg;</sup> is a registered trademark of Peter Thoeny.)
 
 Foswiki is released under the GNU General Public License.
-
 
 ---++ Foswiki Releases
 
@@ -58,7 +57,6 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
    * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
    * Foswiki 2.1.6 was built on 27 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
-
 
 ---++ Pre-installed Extensions
 
@@ -123,6 +121,16 @@ of the body, just before the =&lt;body&gt;= tag.  This improves compatibity of P
 function correctly without this zone.   No changes are required unless you
 have replaced the =foswiki.tmpl= or =foswiki.pattern.tmpl= with a local
 version.
+
+---+++ Additional support for Proxy configurations.
+
+Foswiki has a new option under bin/configure -&gt; Security and Authentication -&gt; Proxies: ={PROXY}{UseForwardedForHeader}=.  Enable this setting
+if the Foswiki is accessed through a reverse proxy. Foswiki will the use the =X-Forwarded-For= header to determine the Client IP address.  This has several effects:
+   * Foswiki will log the real Client IP address instead of the address of the reverse proxy server.
+   * Session IP matching will use the real client IP when determining if the CGI Session is for the correct client.
+   * Plugins that perform security functions based upon the IP address will see the real client IP address.
+This setting should only be enabled if the majority of the clients access the server via the reverse proxy.  It is possible for clients to spoof the
+=X-Forwarded-For= header, so only enable this setting when appropriate to avoid client IP Address spoofing.
 
 ---+++ Change in HTTP status return for authentication failures.
 
@@ -308,7 +316,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 ---++ Foswiki Release 2.1 Details
 ---+++ New Features
-<noautolink>
+
 | [[%FO%/Development.AddConcatOptionToAttrs][AddConcatOptionToAttrs]] | Add +"more" and key+"more" options to Foswiki::Attrs |
 | [[%FO%/Development.CompleteMIMESupportInEmail][CompleteMIMESupportInEmail]] | Wrap all outgoing mails into uniform and safe MIME envelope. |
 | [[%FO%/Development.CustomNewUserTemplates][CustomNewUserTemplates]] | Enhance register script to specify a =templatetopic= param instead of hard-coded 'NewUserTemplate' |
@@ -646,9 +654,132 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14636][Item14636]] | jquery.wikiword not setting the regex options correctly. |
 | [[%BUGS%/Item14639][Item14639]] | Operational topics in Main, Sandbox webs should be protected from editing non-admins. |
 
-</noautolink>
+---++ Foswiki Release 2.1.7 Details
 
----
+---+++ Security
+
+| [[%BUGS%/Item14903][Item14903]] | change password accepts "1" as an old password |
+| [[%BUGS%/Item14918][Item14918]] | backport fix of CVE-2015-9251 and CVE-2019-11358 |
+| [[%BUGS%/Item14936][Item14936]] | eliminate use of 2-args open() |
+| [[%BUGS%/Item15024][Item15024]] | QUERY macro does not check access rights |
+| [[%BUGS%/Item15033][Item15033]] | update jquery.validate |
+| [[%BUGS%/Item15048][Item15048]] | disable access to sessionid |
+| [[%BUGS%/Item15061][Item15061]] | multiple cross-site scripting vulnerability in jQuery UI |
+
+---+++ Fixes
+| [[%BUGS%/Item14687][Item14687]] | SET macro documentation related to INCLUDE and topic scope is incorrect. |
+| [[%BUGS%/Item14688][Item14688]] | Typos in InterwikiPlugin documentation. |
+| [[%BUGS%/Item14773][Item14773]] | configure documentation refers to =FastReport=. Should be =JsonReport= |
+| [[%BUGS%/Item14809][Item14809]] | System/InstallGuide Step 2: Ownership table lists wrong FreeBSD group |
+| [[%BUGS%/Item14902][Item14902]] | Add new Ubuntu 20.04 required perl module to requirements |
+| [[%BUGS%/Item14660][Item14660]] | missing tab id causes a javascript error |
+| [[%BUGS%/Item14662][Item14662]] | comment type "return" not functional |
+| [[%BUGS%/Item14721][Item14721]] | fix loading of language files for jquery.i18n |
+| [[%BUGS%/Item14722][Item14722]] | add jquery.browser as a separate module being removed from newer jQuery |
+| [[%BUGS%/Item14725][Item14725]] | wrong initial color of jquery.farbtastic dialog |
+| [[%BUGS%/Item14729][Item14729]] | fix regular expression for headings trying to support ExplicitNumberingPlugin |
+| [[%BUGS%/Item14730][Item14730]] | can't use path with a 0 (zero) in it |
+| [[%BUGS%/Item14731][Item14731]] | illegal json returned by attachments rest handler  |
+| [[%BUGS%/Item14741][Item14741]] | EVAL(0) should return 0 not the empty string |
+| [[%BUGS%/Item14762][Item14762]] | jquery.loader does not clear timeout properly for automated reloading |
+| [[%BUGS%/Item14873][Item14873]] | rewrite and simplify UpdatesPlugin |
+| [[%BUGS%/Item14874][Item14874]] | deprecate uglify-js and yuicompressor in favor of terser and csso |
+| [[%BUGS%/Item14890][Item14890]] | breadcrumbs won't line-break on mobile devices |
+| [[%BUGS%/Item14910][Item14910]] | Remove Taint::Runtime |
+| [[%BUGS%/Item14929][Item14929]] | Single '0' (zero) not displayed in any table if plugin is activated for that topic |
+| [[%BUGS%/Item14931][Item14931]] | Error moving file with [space]WikiWord[space] name. |
+| [[%BUGS%/Item14933][Item14933]] | remove dependency on jquery.livequery module |
+| [[%BUGS%/Item14934][Item14934]] | language file compression isn't experimental anymore |
+| [[%BUGS%/Item14935][Item14935]] | leave absolute_urls context when an exception occured during registration |
+| [[%BUGS%/Item14937][Item14937]] | error parsing dotted triplets ip addresses  |
+| [[%BUGS%/Item14938][Item14938]] | don't return compressed content when calling foswiki on the command line |
+| [[%BUGS%/Item14941][Item14941]] | only load comment.js and comment.css on pages where it is required |
+| [[%BUGS%/Item14942][Item14942]] | make sure isValueMapped is defined for any formfield |
+| [[%BUGS%/Item14943][Item14943]] | document =publicOnly= parameter in %INCLUDE and make it a true boolean |
+| [[%BUGS%/Item14945][Item14945]] | improve performance of template loader |
+| [[%BUGS%/Item14946][Item14946]] | RCS storage tests fail with a one-off second difference sometimes |
+| [[%BUGS%/Item14990][Item14990]] | remove explicit undef from return statement |
+| [[%BUGS%/Item14991][Item14991]] | improve performance of =isGroup()= call |
+| [[%BUGS%/Item15000][Item15000]] | fix button's behavior in disabled state |
+| [[%BUGS%/Item15004][Item15004]] | use relative urls wherever possible |
+| [[%BUGS%/Item15007][Item15007]] | extender.pl too loud on STDERR  |
+| [[%BUGS%/Item15008][Item15008]] | bring back support for "dontnotify" in natedit |
+| [[%BUGS%/Item15026][Item15026]] | modernize default link protocol pattern |
+| [[%BUGS%/Item15027][Item15027]] | add jquery-3.6.0 |
+| [[%BUGS%/Item15029][Item15029]] | Meta::getPreferences() sometimes fails when called too early |
+| [[%BUGS%/Item15030][Item15030]] | encoding error including attachments |
+| [[%BUGS%/Item15031][Item15031]] | be less restrictive checking compatible acl settings in editor |
+| [[%BUGS%/Item15032][Item15032]] | tinymce cannot attach a file when strike one is disabled |
+| [[%BUGS%/Item15038][Item15038]] | select2 formfields were not validated |
+| [[%BUGS%/Item15057][Item15057]] | Add support for MariaDB |
+| [[%BUGS%/Item15058][Item15058]] | script tags for javascrit i18n should not use src attribute |
+| [[%BUGS%/Item15066][Item15066]] | rating formfield is not mergeable |
+| [[%BUGS%/Item15067][Item15067]] | jquery-ui's dialogs maniplulate the z-index of the widget on every mouseclick |
+| [[%BUGS%/Item15069][Item15069]] | improvements to radio, checkbox and label |
+| [[%BUGS%/Item15070][Item15070]] | use of uninitialized variable when there is no text  |
+| [[%BUGS%/Item15071][Item15071]] | add some more useful entries to mime.types |
+| [[%BUGS%/Item14564][Item14564]] | add jquery-3 and an appropriate migrate module |
+| [[%BUGS%/Item14685][Item14685]] | permissions read from the wrong topic |
+| [[%BUGS%/Item14689][Item14689]] | Email::Address is deprecated,  Email::Address::XS is the preferred module. |
+| [[%BUGS%/Item14732][Item14732]] | statistics script blocks all of foswiki |
+| [[%BUGS%/Item14739][Item14739]] | regression: cannot control logged actions anymore |
+| [[%BUGS%/Item14766][Item14766]] | deprecate all 1.x jquery, deprecate all 2.x except the latest |
+| [[%BUGS%/Item14819][Item14819]] | lost content on specific editor interactions |
+| [[%BUGS%/Item14839][Item14839]] | fix default value in textboxlist formfields |
+| [[%BUGS%/Item14840][Item14840]] | fix tooltip position in draggable elements |
+| [[%BUGS%/Item14884][Item14884]] | performance problem listing webs (hotfix available) |
+| [[%BUGS%/Item14906][Item14906]] | OP_ref has to read data relative to the topic being queried  |
+| [[%BUGS%/Item14908][Item14908]] | cannot use zero as a formfield default |
+| [[%BUGS%/Item14944][Item14944]] | cannot use zero in alttext of FORMFIELD |
+| [[%BUGS%/Item14970][Item14970]] | INCLUDEing an url does not decode the retrieved content according to its charset |
+| [[%BUGS%/Item14992][Item14992]] | always display date _and_ time of revisions |
+| [[%BUGS%/Item14996][Item14996]] | wrong url host if foswiki called via localhost |
+| [[%BUGS%/Item15006][Item15006]] | missing cpan dependencies for core engine |
+| [[%BUGS%/Item15010][Item15010]] | configure fails to accept newer rcs versions |
+| [[%BUGS%/Item15014][Item15014]] | prevent password fields from being autofilled in configure |
+| [[%BUGS%/Item15022][Item15022]] | Change notifications not send out under certain conditions |
+| [[%BUGS%/Item15023][Item15023]] | Eliminate local cache in FORMFIELD macro |
+| [[%BUGS%/Item15025][Item15025]] | FORMFIELD and QUERY don't read the correct topic object |
+| [[%BUGS%/Item15028][Item15028]] | store password during registration  |
+| [[%BUGS%/Item15041][Item15041]] | global FOSWIKI_BROADCAST not initialized correctly |
+| [[%BUGS%/Item15045][Item15045]] | getRevisionInfo of an attachment always returns the revision info of the first attachment on the topic |
+| [[%BUGS%/Item15047][Item15047]] | Deep recursion if UserInterfaceInternationalisation is enabled yet no languages are enabled |
+
+---+++ Enhancements
+| [[%BUGS%/Item14454][Item14454]] | Bundle JsViews as an option with JsRender |
+| [[%BUGS%/Item14567][Item14567]] | add keyboard navigation to jquery.stars |
+| [[%BUGS%/Item14568][Item14568]] | add chili recipes for autolisp and ini |
+| [[%BUGS%/Item14569][Item14569]] | deprecate jquery.placeholder |
+| [[%BUGS%/Item14571][Item14571]] | add manual sorting mode to textboxlist |
+| [[%BUGS%/Item14572][Item14572]] | upgrade jquery.livequery  |
+| [[%BUGS%/Item14720][Item14720]] | upgrade animate.css to latest release |
+| [[%BUGS%/Item14723][Item14723]] | upgrade jquery.sprintf |
+| [[%BUGS%/Item14724][Item14724]] | enhance Makefile system to support sass and babel |
+| [[%BUGS%/Item14726][Item14726]] | better support for +values in textboxlist |
+| [[%BUGS%/Item14727][Item14727]] | improve locale support of datepicker |
+| [[%BUGS%/Item14728][Item14728]] | forward "open" event of ui-dialogs to jqUIDialogLink element |
+| [[%BUGS%/Item14735][Item14735]] | use animate.css for jquery.loader effects instead of jQuery's own ones |
+| [[%BUGS%/Item14767][Item14767]] | implement a proper icon service |
+| [[%BUGS%/Item14837][Item14837]] | update animate.css to latest upstream version |
+| [[%BUGS%/Item14838][Item14838]] | add "remember" feature to tabs |
+| [[%BUGS%/Item14875][Item14875]] | various maintenance fixes |
+| [[%BUGS%/Item14897][Item14897]] | rationalize edit template structure for better customization |
+| [[%BUGS%/Item14901][Item14901]] | Add support for XML and CERT data types in configure pages |
+| [[%BUGS%/Item14963][Item14963]] | add warmup parameter |
+| [[%BUGS%/Item14994][Item14994]] | don't generate inline @import-ed css |
+| [[%BUGS%/Item15002][Item15002]] | improve placement of content in jquery.loader  |
+| [[%BUGS%/Item15003][Item15003]] | improve freebsd init script for foswiki service |
+| [[%BUGS%/Item15005][Item15005]] | too many log messages in fastcgi procmanager |
+| [[%BUGS%/Item15018][Item15018]] | rework some old css code in jQuery |
+| [[%BUGS%/Item15019][Item15019]] | give logos a proper dimension |
+| [[%BUGS%/Item15021][Item15021]] | multiple enhancements to SlideshowPlugin |
+| [[%BUGS%/Item15040][Item15040]] | add include cover |
+| [[%BUGS%/Item15043][Item15043]] | unable to configure zero max requests |
+| [[%BUGS%/Item15044][Item15044]] | improve free bsd startup scripts |
+| [[%BUGS%/Item15059][Item15059]] | JQICONs create a stray html attribute |
+| [[%BUGS%/Item15060][Item15060]] | add validation rule for foswikiMandatory css class |
+| [[%BUGS%/Item15065][Item15065]] | add jsonRpc api to foswiki namespace in javascript |
+| [[%BUGS%/Item15068][Item15068]] | don't bubble up jquery.loader events |
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = https://foswiki.org/Tasks
@@ -657,4 +788,4 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
    * Set NOAUTOLINK = 1
 -->
 
-*Related Topic:* ReleaseHistory
+*Related Topic:* [[ReleaseHistory]]
