@@ -3377,7 +3377,7 @@ sub _expandMacroOnTopicRendering {
                     return;
                 },
                 $topicObject,
-                1
+                16
             );
         }
     }
