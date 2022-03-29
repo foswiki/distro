@@ -65,9 +65,9 @@ files, but be warned, they can be overridden at upload time!
 # name of web to upload to
 $build->{UPLOADTARGETWEB} = 'Extensions';
 # Full URL of pub directory
-$build->{UPLOADTARGETPUB} = 'http://foswiki.org/pub';
+$build->{UPLOADTARGETPUB} = 'https://foswiki.org/pub';
 # Full URL of bin directory
-$build->{UPLOADTARGETSCRIPT} = 'http://foswiki.org/bin';
+$build->{UPLOADTARGETSCRIPT} = 'https://foswiki.org/bin';
 # Script extension
 $build->{UPLOADTARGETSUFFIX} = '';
 </verbatim>
