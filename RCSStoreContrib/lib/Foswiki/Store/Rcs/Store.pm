@@ -465,6 +465,7 @@ sub repRev {
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my $text    = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
     $text = _encode($text);
+    $cUID = _encode($cUID);
 
     $handler->replaceRevision( $text, 'reprev', $cUID,
         defined $options{forcedate} ? $options{forcedate} : $info->{date} );
@@ -716,7 +717,7 @@ sub removeSpuriousLeases {
 __END__
 Module of Foswiki Enterprise Collaboration Platform, http://Foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2022 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 
