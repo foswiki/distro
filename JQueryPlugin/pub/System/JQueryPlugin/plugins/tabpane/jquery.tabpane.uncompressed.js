@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 2.11
+ * jQuery Tabpane plugin 2.12
  *
- * Copyright (c) 2008-2020 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2022 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -201,7 +201,7 @@ var bottomBarHeight = -1;
   };
 
   /***************************************************************************
-   * hide tab and select the next one
+   * hide tab 
    */
   TabPane.prototype.hideTab = function(selector) {
     var self = this,
@@ -213,18 +213,18 @@ var bottomBarHeight = -1;
     }
 
     index = tab.data("index");
-    tab.hide();
     self.getNaviOfTab(index).hide();
-
-    self.switchTab(index+1);
+    if (self.currentIndex === index) {
+      tab.hide();
+    }
   };
 
   /***************************************************************************
-   * show a hidden tab and select it
+   * show a hidden tab 
    */
   TabPane.prototype.showTab = function(selector) {
     var self = this, 
-        tab = self.getTab(index), 
+        tab = self.getTab(selector), 
         index;
 
     if (!tab) {
@@ -232,9 +232,10 @@ var bottomBarHeight = -1;
     }
 
     index = tab.data("index");
-
     self.getNaviOfTab(index).show();
-    tab.show();
+    if (self.currentIndex === index) {
+      tab.show();
+    }
   };
 
   /***************************************************************************
