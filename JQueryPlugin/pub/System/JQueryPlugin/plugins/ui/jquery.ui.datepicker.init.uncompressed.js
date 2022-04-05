@@ -29,7 +29,6 @@ jQuery(function($) {
     });
 
     trigger = $this.datepicker(opts).next();
-    console.log("trigger=",trigger);
     if (trigger.is(".ui-datepicker-trigger")) {
       trigger.prop("tabindex", -1);
     }
