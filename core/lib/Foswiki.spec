@@ -1343,7 +1343,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # =configure= tests if 1901-01-01 is handled by the perl localtime function.
 $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 
-# **SELECT '$day $month $year', '$year-$mo-$day', '$year/$mo/$day', '$year.$mo.$day' LABEL="Default Date Format"**
+# **STRING 50 LABEL="Default Date Format"**
 # Set the default format for dates. The traditional Foswiki format is
 # '$day $month $year' (31 Dec 2007). The ISO format '$year-$mo-$day'
 # (2007-12-31) is recommended for non English language Foswikis. Note that $mo
