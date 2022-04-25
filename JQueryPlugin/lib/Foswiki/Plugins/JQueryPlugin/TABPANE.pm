@@ -29,7 +29,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Tabpane',
-            version      => '2.10',
+            version      => '2.13',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
@@ -182,7 +182,7 @@ sub handleEndTabPane {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

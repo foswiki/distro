@@ -1,5 +1,5 @@
 /*
- * jQuery Tabpane plugin 2.12
+ * jQuery Tabpane plugin 2.13
  *
  * Copyright (c) 2008-2022 Foswiki Contributors http://foswiki.org
  *
@@ -84,7 +84,10 @@ var bottomBarHeight = -1;
 
     if (self.opts.remember) {
       $(window).on("hashchange", function() {
-        self.switchTab(self.getHash() || self.opts.select || 1);
+        var index = self.getHash();
+        if (typeof(index) !== 'undefined') {
+          self.switchTab(index);
+        }
       });
 
       self.switchTab(self.getHash() || self.opts.select || 1);
