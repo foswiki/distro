@@ -140,7 +140,7 @@ sub _build_css {
     }
 
     if ( !$minifiers{css} ) {
-        warn "WARNING: yuicompressor is deprecated. please install cssmin.\n";
+        warn "WARNING: yuicompressor is deprecated. please install csso.\n";
         my $yui = $this->_haveYUI();
 
         if ($yui) {
@@ -150,14 +150,13 @@ sub _build_css {
         }
     }
     if ( !$minifiers{css} && eval { require CSS::Minifier::XS; 1 } ) {
-        warn
-          "WARNING: CSS::Minifier::XS is deprecated. please install cssmin.\n";
+        warn "WARNING: CSS::Minifier::XS is deprecated. please install csso.\n";
         $minifiers{css} = sub {
             return $this->_cpanMinify( @_, \&CSS::Minifier::XS::minify );
         };
     }
     if ( !$minifiers{css} && eval { require CSS::Minifier; 1 } ) {
-        warn "WARNING: CSS::Minifier is deprecated. please install cssmin.\n";
+        warn "WARNING: CSS::Minifier is deprecated. please install csso.\n";
         $minifiers{css} = sub {
             $this->_cpanMinify(
                 @_,
@@ -341,7 +340,7 @@ sub _csso {
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
-    $cmd = "csso $from";
+    $cmd = "csso $from --no-restructure";
 
     warn "$cmd\n";
     my $out = `$cmd`;

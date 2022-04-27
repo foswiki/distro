@@ -23,7 +23,7 @@ use LWP::UserAgent;
 
 # number of seconds to sleep between uploads,
 # to reduce average load on server
-use constant GLACIERMELT => 10;
+use constant GLACIERMELT => 0;
 
 my $lastUpload = 0;    # time of last upload (0 means none yet)
 
