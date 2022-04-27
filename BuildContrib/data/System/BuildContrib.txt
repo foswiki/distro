@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1609783495" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1651080173" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
-<img src="%ATTACHURLPATH%/logo.gif" alt="WikiRing" class="foswikiRight" />
+<img src="%ATTACHURLPATH%/logo.gif" alt="logo" class="foswikiRight" />
 %FORMFIELD{"Description"}%
 
 
@@ -651,10 +651,10 @@ You are strongly recommended to use this Contrib to help split your code develop
 %$INSTALL_INSTRUCTIONS%
 
 
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1609783495" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1651080173" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2019, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2022, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

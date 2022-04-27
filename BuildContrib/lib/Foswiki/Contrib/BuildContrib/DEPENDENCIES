@@ -1,5 +1,3 @@
 CGI,>=0,cpan,May be required
 Error,>=0,cpan,May be required
 LWP,>=0,cpan,May be required
-JavaScript::Minifier,>=0,cpan,Optional, used to build .js from _src.js
-CSS::Minifier,>=0,cpan,Optional, used to build .css from _src.css
