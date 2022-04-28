@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1515465502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1651137756" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
@@ -110,7 +110,7 @@ In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by 
 When emails are generated, they take into account a _subset_ of the user preferences of the user being mailed to (where these can be determined from user topics in the wiki), allowing things like (for example) user language preferences to be taken into account. The subset of preferences that is respected is defined =configure= setting ={MailerContrib}{RespectUserPrefs}= and defaults to =LANGUAGE=.
 
 ---++ Foswiki/Contrib/MailerContrib code library
-The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
+The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURLPATH{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -266,14 +266,13 @@ And we create a topic in the web called !WebNotifyCustomTemplate which contains 
 
 ---+++ Info
 
-Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
-
 Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
    * [[http://wikigardens.com][WikiGardens]]
 
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2014 Foswiki Contributors |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2022 Foswiki Contributors |
 |  Change History: | |
+|  2.90  (28 Apr 2022) | Foswikitask:Item15090: mailnotify script must run as admin user %BR% Foswikitask:Item15091: only notify people of topics that they have view access to |
 |  2.85  (8 Jan 2018) | Foswiki 2.1.5  Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
                         Foswikitask:Item13350: Mailnotify appears to skip notification of some changes.<br/>\ 
                         Foswikitask:Item14446: Unwritable =work_area= results in mega-spam.<br/>\
@@ -324,5 +323,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1515465502" size="11437" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1515465502" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1651137756" size="11437" user="ProjectContributor" version="1"}%

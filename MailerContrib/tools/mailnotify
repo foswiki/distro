@@ -75,6 +75,6 @@ foreach my $arg (@ARGV) {
 use Foswiki();
 use Foswiki::Contrib::MailerContrib ();
 
-new Foswiki();
+new Foswiki('admin');
 
 Foswiki::Contrib::MailerContrib::mailNotify( \@webs, \@exwebs, %options );

@@ -29,8 +29,8 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 # Also change Version/Release in Plugins/MailerContrib.pm
-our $VERSION          = '2.85';
-our $RELEASE          = '8 Jan 2018';
+our $VERSION          = '2.90';
+our $RELEASE          = '28 Apr 2022';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised
@@ -711,7 +711,7 @@ sub _UTF8print {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2022 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

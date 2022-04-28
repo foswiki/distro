@@ -263,21 +263,10 @@ sub processChange {
 
             # Check access is allowed to the most recent revision
             my $to =
-              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic,
-                $change->{CURR_REV} );
+              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
             unless ( $to->haveAccess( 'VIEW', $cuid ) ) {
                 print STDERR
 "$name has no permission to view r$change->{CURR_REV} of $web.$topic\n"
-                  if TRACE;
-                next;
-            }
-
-            $to =
-              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic,
-                $change->{BASE_REV} );
-            unless ( $to->haveAccess( 'VIEW', $cuid ) ) {
-                print STDERR
-"$name has no permission to view r$change->{BASE_REV} of $web.$topic\n"
                   if TRACE;
                 next;
             }
