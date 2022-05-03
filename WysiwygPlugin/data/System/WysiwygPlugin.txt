@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1528888127" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1651568542" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
@@ -176,8 +176,6 @@ If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing onl
 %ENDSECTION{"tinymceintegration"}%
 
 ---++ Plugin Info
-
-This plugin is brought to you by a <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing: Professional Wiki Innovation and Support" /> *WikiRing Partner* - working together to improve your wiki experience!
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
