@@ -1,3 +1,4 @@
+!noci
 bin/test 0755
 data/System/UnitTestContrib.txt 0644
 lib/Foswiki/Contrib/UnitTestContrib/DEPENDENCIES 0644
@@ -22,7 +23,6 @@ lib/Unit/TestCase.pm 0644
 lib/Unit/TestRunner.pm 0644
 lib/Unit/TestSuite.pm 0644
 pub/System/UnitTestContrib/logo.gif 0644
-pub/System/UnitTestContrib/wikiringlogo20x20.png 0644
 test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
 test/unit/AddToHeadTests.pm 0644
