@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512791273" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1651567862" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
 ---+ Subscribe Plugin
@@ -64,8 +64,6 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 
 ---++ Plugin Info
 
-Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="WikiRing" /> *WikiRing* - working together to improve your wiki experience!
-
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  3.6 (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
@@ -89,7 +87,4 @@ Another great Foswiki extension from the <img src="%ATTACHURLPATH%/wikiringlogo2
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h" comment="" date="1512791273" size="713" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h" comment="" date="1512791273" size="2378" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1512791273" size="21246" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1512791273" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1651567862" size="21246" user="ProjectContributor" version="1"}%
