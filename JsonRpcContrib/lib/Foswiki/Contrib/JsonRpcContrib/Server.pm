@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ use constant TRACE => 0;    # toggle me
 ################################################################################
 # static
 sub writeDebug {
-    print STDERR $_[0] . "\n";
+    print STDERR "JsonRpcContrib::Server - $_[0] \n";
     Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
 }
 
@@ -99,6 +99,14 @@ sub dispatch {
                 $session,
                 code    => $error->{code},
                 message => $error->{message}
+            );
+        }
+        catch Error with {
+            my $error = shift;
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $session,
+                code    => -32603,
+                message => $error,
             );
         };
     }
