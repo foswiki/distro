@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -109,6 +109,16 @@ sub new {
           unless $key =~ /^(jsonrpc|method|params|id)$/;
     }
 
+    # get topic parameter and set the context
+    my ( $web, $topic ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $this->param('topic') || $Foswiki::cfg{HomeTopicName} );
+
+    if ( $web ne $session->{webName} && $topic ne $session->{topicName} ) {
+        writeDebug("switching context to $web.$topic") if TRACE;
+        Foswiki::Func::pushTopicContext( $web, $topic );
+    }
+
     return $this;
 }
 
@@ -192,6 +202,7 @@ sub json {
 ################################################################################
 # static
 sub writeDebug {
+    print STDERR "JsonRpcContrib::Request - $_[0] \n";
     Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
 }
 
