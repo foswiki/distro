@@ -62,7 +62,7 @@ sub FORMFIELD {
 
     if ( defined $rev && length($rev) ) {
         my $crev = $topicObject->getLoadedRev();
-        if ( defined $crev && $crev != $rev ) {
+        if ( !defined($crev) || $crev != $rev ) {
             $topicObject =
               Foswiki::Meta->load( $topicObject->session, $topicObject->web,
                 $topicObject->topic, $rev );
