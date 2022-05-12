@@ -114,10 +114,8 @@ sub new {
       Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $this->param('topic') || $Foswiki::cfg{HomeTopicName} );
 
-    if ( $web ne $session->{webName} && $topic ne $session->{topicName} ) {
-        writeDebug("switching context to $web.$topic") if TRACE;
-        Foswiki::Func::pushTopicContext( $web, $topic );
-    }
+    writeDebug("switching context to $web.$topic") if TRACE;
+    Foswiki::Func::pushTopicContext( $web, $topic );
 
     return $this;
 }
