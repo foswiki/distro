@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2020 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2022 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -788,7 +788,9 @@ $.NatEditor.prototype.showMessage = function(type, msg, title) {
   */
 $.NatEditor.prototype.hideMessages = function() {
   var self = this;
-
+ 
+  self.form.find(".jqTabGroup a.error, input.error").removeClass("error");
+  self.form.find("label.error").hide();
   $.pnotify_remove_all();
 };
 
@@ -1007,9 +1009,6 @@ $.NatEditor.prototype.initForm = function() {
   // TODO: only use this for foswiki engines < 1.20
   self.form.find(".ui-natedit-cancel").on("click", function() {
     self.hideMessages();
-    $("label.error").hide();
-    $("input.error").removeClass("error");
-    $(".jqTabGroup a.error").removeClass("error");
     self.beforeSubmit("cancel");
     self.form.submit();
     return false;
@@ -1034,7 +1033,7 @@ $.NatEditor.prototype.initForm = function() {
   }));
 
   self.form.validate({
-    ignore: ":hidden:not(.jqSelect2), .foswikiIgnoreValidation",
+    ignore: "div, .foswikiIgnoreValidation",
     meta: "validate",
     invalidHandler: function(e, validator) {
       var errors = validator.numberOfInvalids(),
@@ -1051,10 +1050,13 @@ $.NatEditor.prototype.initForm = function() {
         $.unblockUI();
         self.showMessage("error", $.i18n('One or more fields have not been filled correctly'));
         $.each(validator.errorList, function() {
-          var $errorElem = $(this.element);
+          var $errorElem = $(this.element),
+              tabPane = $errorElem.parents(".jqTabPane:first").data("tabPane");
+
           $errorElem.parents(".jqTab").each(function() {
-            var id = $(this).attr("id");
-            $("[data=" + id + "]").addClass("error");
+            var id = $(this).attr("id"),
+                $tab = tabPane.getNaviOfTab('#'+id);
+            $tab.addClass("error");
           });
         });
       } else {
