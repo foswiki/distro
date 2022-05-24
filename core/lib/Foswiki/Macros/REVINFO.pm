@@ -26,6 +26,8 @@ sub REVINFO {
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     my $loadedRev = $topicObject->getLoadedRev();
+    $rev ||= $loadedRev;
+
     if (   $web ne $topicObject->web
         || $topic ne $topicObject->topic
         || !defined($loadedRev)
@@ -49,7 +51,7 @@ sub REVINFO {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
