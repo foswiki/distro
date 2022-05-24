@@ -1952,6 +1952,10 @@ sub save {
     # (side effect of getRevisionInfo)
     $this->getRevisionInfo();
 
+    # set this early enough for the beforeSaveHandler to see the correct values
+    $this->{_web}   = $opts{web}   if $opts{web};
+    $this->{_topic} = $opts{topic} if $opts{topic};
+
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
     if ( !$opts{nohandlers} && $plugins->haveHandlerFor('beforeSaveHandler') ) {
