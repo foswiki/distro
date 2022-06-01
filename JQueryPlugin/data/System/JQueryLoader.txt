@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1645517959" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1654084128" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -33,6 +33,7 @@ Parameter are specified using HTML5 data, as in
 | web | the web from where to load content | current web |
 | topic | the topic from where to load content | current topic |
 | section | the section within the topic (see %SYSTEMWEB%.VarSTARTSECTION) | |
+| caching | boolean if disabled will prevent browser caching | true |
 | select | jQuery selector to extract a specific node from the retrieved data | |
 | params | url parameter that are sent to the server | ={"skin":"text"}= |
 | mode | specify whether the content is either loaded automatically or by clicking on the container; \
