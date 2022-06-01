@@ -45,7 +45,7 @@ sub new {
     # icon search path
     unless ( defined $this->{_iconSearchPath} ) {
         my $iconSearchPath = $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
-          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+          // 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
         @{ $this->{_iconSearchPath} } = split( /\s*,\s*/, $iconSearchPath );
     }
 
@@ -434,7 +434,7 @@ sub _readIconPath {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

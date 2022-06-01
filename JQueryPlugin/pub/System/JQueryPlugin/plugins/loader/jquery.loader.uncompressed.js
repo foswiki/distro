@@ -19,6 +19,7 @@
     topic: undefined,
     section: undefined,
     skin: 'text',
+    caching: true,
     select: undefined,
     hideEffect: 'fadeOut', 
     showEffect: 'fadeIn', 
@@ -155,6 +156,10 @@
 
     if (typeof(self.opts.skin) !== 'undefined' && self.opts.skin) {
       params.skin = self.opts.skin;
+    }
+
+    if (!self.opts.caching) {
+      params.t = Date.now();
     }
 
     // hide effect
