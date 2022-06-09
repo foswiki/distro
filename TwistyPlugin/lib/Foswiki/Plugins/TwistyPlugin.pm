@@ -17,8 +17,8 @@ use warnings;
 use vars qw( @twistystack $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-our $VERSION = '1.64';
-our $RELEASE = '28 Sep 2020';
+our $VERSION = '1.65';
+our $RELEASE = '09 Jun 2022';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -66,11 +66,11 @@ sub _setDefaults {
     $prefShowLink =
          Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
-      || '%MAKETEXT{"More..."}%';
+      || '%MAKETEXT{"More ..."}%';
     $prefHideLink =
          Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
-      || '%MAKETEXT{"Close"}%';
+      || '%MAKETEXT{"Less ..."}%';
     $prefRemember =
          Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
@@ -449,7 +449,7 @@ sub _wrapInContainerDivIfNoJavascripClose {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
