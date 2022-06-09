@@ -2884,8 +2884,8 @@ msgstr "Mas acciones del tema..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
-msgstr "Más..."
+msgid "More ..."
+msgstr "Más ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41

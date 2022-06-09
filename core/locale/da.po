@@ -2809,8 +2809,8 @@ msgstr "Flere muligheder med denne side..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
-msgstr "Mere..."
+msgid "More ..."
+msgstr "Mere ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41

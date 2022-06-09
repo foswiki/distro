@@ -2903,7 +2903,7 @@ msgstr "Λοιπές ενέργειες θέματος ..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
+msgid "More ..."
 msgstr "Περισσότερα ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40

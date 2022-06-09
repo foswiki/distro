@@ -2848,8 +2848,8 @@ msgstr "Autres actions sur la page..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
-msgstr "Suite..."
+msgid "More ..."
+msgstr "Suite ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41

@@ -2678,7 +2678,7 @@ msgstr "更多主題功能..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
+msgid "More ..."
 msgstr "更多..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40

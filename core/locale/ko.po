@@ -2742,8 +2742,8 @@ msgstr "더 많은 토픽 액션..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
-msgstr "더 보기..."
+msgid "More ..."
+msgstr "더 보기 ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41

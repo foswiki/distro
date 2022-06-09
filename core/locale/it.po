@@ -2821,8 +2821,8 @@ msgstr "Ulteriori attività di manutenzione sulla pagina..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
-msgstr "Altro..."
+msgid "More ..."
+msgstr "Altro ..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:41

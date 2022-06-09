@@ -2872,7 +2872,7 @@ msgstr "もっと多くのトピックアクション"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
+msgid "More ..."
 msgstr "もっと多く…"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
