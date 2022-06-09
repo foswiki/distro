@@ -245,7 +245,7 @@ sub _expandAttrs {
     elsif ( $attr eq 'COMMENT' ) {
         my $comment = $info->{comment};
         if ($comment) {
-            $comment =~ s/\|/&#124;/g;
+            $comment = Foswiki::entityEncode($comment);
         }
         else {
             $comment = '';
@@ -683,7 +683,7 @@ sub _pngsize {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
