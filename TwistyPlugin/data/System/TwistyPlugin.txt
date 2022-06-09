@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1601308837" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1654778187" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -477,6 +477,7 @@ You can override some default settings in the plugin by setting the following [[
 
 ---++ Change History
 
+|  09 Jun 2022 | 1.65 better default labels for show and hide links |
 |  28 Sep 2020 | 1.64 removed dependency on deprecated livequery module |
 |  25 Apr 2016 | 1.63 Bump version due to minor documentation updates.  Released with Foswiki 2.1.1 |
 |  17 Jun 2014 | 1.62 Foswikitask:Item12597: Expand/Collapse all is acting as a toggle.<br />\
@@ -533,7 +534,7 @@ You can override some default settings in the plugin by setting the following [[
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2022"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%

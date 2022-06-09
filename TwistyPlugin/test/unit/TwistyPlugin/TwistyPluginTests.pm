@@ -71,7 +71,7 @@ sub test_TWISTY_mode_default {
 SOURCE
 
     my $expected =
-'<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">content</div></div>';
+'<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">content</div></div>';
 
     $this->do_test( $expected, $source );
 
@@ -86,7 +86,7 @@ sub test_TWISTY_mode_div {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">div content</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">div content</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -102,7 +102,7 @@ sub test_TWISTY_mode_default_with_id {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" style="" class="twistyContent twistyInited">content</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="myid1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" style="" class="twistyContent twistyInited">content</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -119,8 +119,8 @@ sub test_TWISTY_2_instances_with_id {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" style="" class="twistyContent twistyInited">content one</div></div>
-<div class="twistyPlugin foswikiMakeVisible"><span id="myid2show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid2hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myid2toggle" style="" class="twistyContent twistyInited">content two</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="myid1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" style="" class="twistyContent twistyInited">content one</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="myid2show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="myid2hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="myid2toggle" style="" class="twistyContent twistyInited">content two</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -136,7 +136,7 @@ sub test_TWISTYSHOW {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="myidshow" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span></div><div class="twistyPlugin foswikiMakeVisible"><span id="myidhide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myidtoggle" style="" class="twistyContent twistyInited">toggle content</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="myidshow" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span></div><div class="twistyPlugin foswikiMakeVisible"><span id="myidhide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="myidtoggle" style="" class="twistyContent twistyInited">toggle content</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -343,7 +343,7 @@ sub test_TWISTY_start_show {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyStartShow twistyTrigger foswikiUnvisited twistyInited1"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="" class="twistyStartShow twistyTrigger foswikiUnvisited twistyInited1"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyStartShow twistyContent twistyInited1">contents</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyStartShow twistyTrigger foswikiUnvisited twistyInited1"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="" class="twistyStartShow twistyTrigger foswikiUnvisited twistyInited1"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyStartShow twistyContent twistyInited1">contents</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -361,8 +361,8 @@ sub test_TWISTY_two_start_hidden {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<span class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid1hide" style="display:none" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></span><span class="twistyPlugin"><span id="myid1toggle" style="" class="twistyStartHide twistyContent twistyInited0">content one</span></span>
-<span class="twistyPlugin foswikiMakeVisible"><span id="myid2show" style="" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid2hide" style="display:none" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></span><span class="twistyPlugin"><span id="myid2toggle" style="" class="twistyStartHide twistyContent twistyInited0">content two</span></span>
+<span class="twistyPlugin foswikiMakeVisible"><span id="myid1show" style="" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="myid1hide" style="display:none" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></span><span class="twistyPlugin"><span id="myid1toggle" style="" class="twistyStartHide twistyContent twistyInited0">content one</span></span>
+<span class="twistyPlugin foswikiMakeVisible"><span id="myid2show" style="" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="myid2hide" style="display:none" class="twistyStartHide twistyTrigger foswikiUnvisited twistyInited0"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></span><span class="twistyPlugin"><span id="myid2toggle" style="" class="twistyStartHide twistyContent twistyInited0">content two</span></span>
 EXPECTED
 
     $this->do_test( $expected, $source );
