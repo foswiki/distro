@@ -2580,7 +2580,7 @@ msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:465
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
-msgid "More..."
+msgid "More ..."
 msgstr ""
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:40
