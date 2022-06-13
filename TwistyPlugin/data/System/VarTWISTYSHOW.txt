@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655109453" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYSHOW - Show/open link
 ---++ Parameters
@@ -6,7 +6,7 @@
     | *Parameter* | *Description* | *Default* |
     | =id= | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]] | required  |
     | =link= | Show link label  |  |
-    | =mode= | ="div"= or ="span"= Specify if the Twisty Show link will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | =&lt;div&gt;= |
+    | =mode= | ="block"= or ="inline"= Specify if the Twisty Show link will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =block= as well to create valid HTML markup. | =&lt;block&gt;= |
     | =img= | Specify the url of an image that will be displayed at the *right side* of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. |  |
     | =imgleft= | Specify the url of an image that will be displayed at the left side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. |  |
     | =imgright= | Specify the url of an image that will be displayed at the right side of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. |  |

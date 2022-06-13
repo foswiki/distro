@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655109453" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYHIDE - Hide/close link
 ---++ Parameters
@@ -6,7 +6,7 @@
     | *Parameter* | *Description* | *Default* |
     | =id= | Used to link [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE ][TWISTYHIDE ]] and [[VarTWISTYTOGGLE][TWISTYTOGGLE]] | required  |
     | =link= | Hide link label | |
-    | =mode= | ="div"= or ="span"= Specify if the Twisty Hide link will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | =&lt;div&gt;= |
+    | =mode= | ="block"= or ="inline"= Specify if the Twisty Hide link will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =block= as well to create valid HTML markup. | =&lt;block&gt;= |
     | =img= |  Specify the url of an image that will be displayed at the *right side* of the link. <br />You may use [[VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | |
     | =remember= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | |
     | =start= | ="hide"= or ="show"= Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | |

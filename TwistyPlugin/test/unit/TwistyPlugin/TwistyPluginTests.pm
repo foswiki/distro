@@ -78,15 +78,55 @@ SOURCE
     return;
 }
 
-sub test_TWISTY_mode_div {
+sub test_TWISTY_mode {
     my $this = shift;
 
     my $source = <<'SOURCE';
-%TWISTY{mode="div"}%div content%ENDTWISTY%
+%TWISTY{mode="div"}%block content%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">div content</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">block content</div></div>
+EXPECTED
+
+    $this->do_test( $expected, $source );
+
+    $source = <<'SOURCE';
+%TWISTY{mode="block"}%block content%ENDTWISTY%
+SOURCE
+
+    $expected = <<'EXPECTED';
+<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2toggle" style="" class="twistyContent twistyInited">block content</div></div>
+EXPECTED
+
+    $this->do_test( $expected, $source );
+
+    $source = <<'SOURCE';
+%TWISTY{mode="foobar"}%block content%ENDTWISTY%
+SOURCE
+
+    $expected = <<'EXPECTED';
+<div class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting3show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting3hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting3toggle" style="" class="twistyContent twistyInited">block content</div></div>
+EXPECTED
+
+    $this->do_test( $expected, $source );
+
+    $source = <<'SOURCE';
+%TWISTY{mode="span"}%inline content%ENDTWISTY%
+SOURCE
+
+    $expected = <<'EXPECTED';
+<span class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting4show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting4hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></span><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting4toggle" style="" class="twistyContent twistyInited">inline content</span></span>
+EXPECTED
+
+    $this->do_test( $expected, $source );
+
+    $source = <<'SOURCE';
+%TWISTY{mode="inline"}%inline content%ENDTWISTY%
+SOURCE
+
+    $expected = <<'EXPECTED';
+<span class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting5show" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More ...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting5hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Less ...</span></a></span></span><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting5toggle" style="" class="twistyContent twistyInited">inline content</span></span>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -166,7 +206,7 @@ sub test_TWISTY_with_icons {
 
     my $source = <<'SOURCE';
 %TWISTY{
-mode="div"
+mode="block"
 showlink="Show..."
 hidelink="Hide"
 showimgleft="%ICONURLPATH{toggleopen-small}%"
@@ -250,7 +290,7 @@ sub test_TWISTY_escaped_variable {
       Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $source = <<'SOURCE';
-%TWISTY{link="$percntY$percnt" mode="span"}%content%ENDTWISTY%
+%TWISTY{link="$percntY$percnt" mode="inline"}%content%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED1';
@@ -281,7 +321,7 @@ sub test_TWISTY_param_linkclass {
     my $this = shift;
 
     my $source = <<'SOURCE';
-%TWISTY{link="open" linkclass="foswikiButton" mode="div"}%contents%ENDTWISTY%
+%TWISTY{link="open" linkclass="foswikiButton" mode="block"}%contents%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED';
@@ -309,7 +349,7 @@ sub test_twistyInSubWeb {
 showlink="Show..."
 hidelink="Hide"
 remember="on"
-mode="span"
+mode="inline"
 }%
 my twisty content
 %ENDTWISTY%
@@ -339,7 +379,7 @@ sub test_TWISTY_start_show {
     my $this = shift;
 
     my $source = <<'SOURCE';
-%TWISTY{start="show" mode="div"}%contents%ENDTWISTY%
+%TWISTY{start="show" mode="block"}%contents%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED';
@@ -356,8 +396,8 @@ sub test_TWISTY_two_start_hidden {
     my $this = shift;
 
     my $source = <<'SOURCE';
-%TWISTY{id="myid1" start="hide" mode="span"}%content one%ENDTWISTY%
-%TWISTY{id="myid2" start="hide" mode="span"}%content two%ENDTWISTY%
+%TWISTY{id="myid1" start="hide" mode="inline"}%content one%ENDTWISTY%
+%TWISTY{id="myid2" start="hide" mode="inline"}%content two%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED';
