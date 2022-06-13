@@ -14,18 +14,23 @@ use CGI           ();
 use strict;
 use warnings;
 
-use vars qw( @twistystack $doneHeader $doneDefaults $twistyCount
-  $prefMode $prefShowLink $prefHideLink $prefRemember);
-
-our $VERSION = '1.65';
-our $RELEASE = '09 Jun 2022';
+our $VERSION = '2.00';
+our $RELEASE = '13 Jun 2022';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
 
-my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
-my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
-my $TWISTYPLUGIN_CONTENT_SHOWN  = 1;
+use constant TWISTYPLUGIN_COOKIE_PREFIX  => "TwistyPlugin_";
+use constant TWISTYPLUGIN_CONTENT_HIDDEN => 0;
+use constant TWISTYPLUGIN_CONTENT_SHOWN  => 1;
+
+my @twistystack;
+my $doneDefaults;
+my $twistyCount;
+my $prefMode;
+my $prefShowLink;
+my $prefHideLink;
+my $prefRemember;
 
 #there is no need to document this.
 sub initPlugin {
@@ -39,7 +44,6 @@ sub initPlugin {
     }
 
     $doneDefaults = 0;
-    $doneHeader   = 0;
     $twistyCount  = 0;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
@@ -59,42 +63,14 @@ sub _setDefaults {
     return if $doneDefaults;
     $doneDefaults = 1;
 
-    $prefMode =
-         Foswiki::Func::getPreferencesValue('TWISTYMODE')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYMODE')
-      || 'div';
-    $prefShowLink =
-         Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
+    $prefMode = Foswiki::Func::getPreferencesValue('TWISTYMODE')
+      || 'block';
+    $prefShowLink = Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
       || '%MAKETEXT{"More ..."}%';
-    $prefHideLink =
-         Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
+    $prefHideLink = Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
       || '%MAKETEXT{"Less ..."}%';
-    $prefRemember =
-         Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
+    $prefRemember = Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
       || '';
-
-    return;
-}
-
-sub _addHeader {
-    return if $doneHeader;
-    $doneHeader = 1;
-
-    if ( Foswiki::Func::getContext()->{JQueryPluginEnabled} ) {
-        Foswiki::Plugins::JQueryPlugin::createPlugin('twisty');
-    }
-    else {
-        my $header;
-        Foswiki::Func::loadTemplate('twistyplugin');
-
-        $header =
-            Foswiki::Func::expandTemplate("TwistyPlugin/twisty")
-          . Foswiki::Func::expandTemplate("TwistyPlugin/twisty.css");
-        Foswiki::Func::expandCommonVariables($header);
-    }
 
     return;
 }
@@ -141,7 +117,7 @@ If no ID is passed, creates a new unique id based on web and topic.
 sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-    _addHeader();
+    Foswiki::Plugins::JQueryPlugin::createPlugin('twisty');
     $params->{'id'} = _createId( $params, $theWeb, $theTopic );
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
@@ -164,7 +140,7 @@ sub _TWISTYTOGGLE {
       _createHtmlProperties( undef, $idTag, $mode, $params, $isTrigger,
         $cookieState );
     my $props = @propList ? " " . join( " ", @propList ) : '';
-    my $modeTag = '<' . $mode . $props . '>';
+    my $modeTag = '<' . _elemOfMode($mode) . $props . '>';
     return Foswiki::Func::decodeFormatTokens(
         _wrapInContentHtmlOpen($mode) . $modeTag );
 }
@@ -177,7 +153,8 @@ sub _ENDTWISTYTOGGLE {
 "<div class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</div>"
       unless $twisty->{mode};
 
-    my $modeTag = ( $twisty->{mode} ) ? '</' . $twisty->{mode} . '>' : '';
+    my $modeTag =
+      ( $twisty->{mode} ) ? '</' . _elemOfMode( $twisty->{mode} ) . '>' : '';
     return $modeTag . _wrapInContentHtmlClose($twisty);
 }
 
@@ -201,7 +178,7 @@ sub _createId {
 sub _twistyBtn {
     my ( $twistyControlState, $session, $params, $theTopic, $theWeb ) = @_;
 
-    _addHeader();
+    Foswiki::Plugins::JQueryPlugin::createPlugin('twisty');
 
     # not used yet:
     #my $triangle_right = '&#9658;';
@@ -326,16 +303,16 @@ sub _createHtmlProperties {
 
     # Mimic the rules in twist.js, function _update()
     my $state = '';
-    $state = $TWISTYPLUGIN_CONTENT_HIDDEN if $firstStartHidden;
-    $state = $TWISTYPLUGIN_CONTENT_SHOWN  if $firstStartShown;
+    $state = TWISTYPLUGIN_CONTENT_HIDDEN if $firstStartHidden;
+    $state = TWISTYPLUGIN_CONTENT_SHOWN  if $firstStartShown;
 
     # cookie setting may override  firstStartHidden and firstStartShown
-    $state = $TWISTYPLUGIN_CONTENT_HIDDEN if $cookieHide;
-    $state = $TWISTYPLUGIN_CONTENT_SHOWN  if $cookieShow;
+    $state = TWISTYPLUGIN_CONTENT_HIDDEN if $cookieHide;
+    $state = TWISTYPLUGIN_CONTENT_SHOWN  if $cookieShow;
 
     # startHidden and startShown may override cookie
-    $state = $TWISTYPLUGIN_CONTENT_HIDDEN if $startHidden;
-    $state = $TWISTYPLUGIN_CONTENT_SHOWN  if $startShown;
+    $state = TWISTYPLUGIN_CONTENT_HIDDEN if $startHidden;
+    $state = TWISTYPLUGIN_CONTENT_SHOWN  if $startShown;
 
     # assume trigger should be hidden
     # unless explicitly said otherwise
@@ -343,12 +320,12 @@ sub _createHtmlProperties {
     if ($isTrigger) {
         push( @classList, 'twistyTrigger foswikiUnvisited' );
 
-        if (   $state eq $TWISTYPLUGIN_CONTENT_SHOWN
+        if (   $state eq TWISTYPLUGIN_CONTENT_SHOWN
             && $twistyControlState eq 'hide' )
         {
             $shouldHideTrigger = 0;
         }
-        if (   $state eq $TWISTYPLUGIN_CONTENT_HIDDEN
+        if (   $state eq TWISTYPLUGIN_CONTENT_HIDDEN
             && $twistyControlState eq 'show' )
         {
             $shouldHideTrigger = 0;
@@ -402,7 +379,7 @@ sub _readCookie {
     my $cookie = $cgi->cookie('FOSWIKIPREF');
     my $tag    = $idTag;
     $tag =~ s/^(.*)(hide|show|toggle)$/$1/g;
-    my $key = $TWISTYPLUGIN_COOKIE_PREFIX . $tag;
+    my $key = TWISTYPLUGIN_COOKIE_PREFIX . $tag;
 
     return unless ( defined($key) && defined($cookie) );
 
@@ -423,12 +400,13 @@ sub _wrapInButtonHtml {
 
 sub _wrapInContentHtmlOpen {
     my ($mode) = @_;
-    return "<$mode class=\"twistyPlugin\">";
+
+    return "<" . _elemOfMode($mode) . " class=\"twistyPlugin\">";
 }
 
 sub _wrapInContentHtmlClose {
     my ($twisty) = @_;
-    my $closeTag = "</$twisty->{mode}>";
+    my $closeTag = "</" . _elemOfMode( $twisty->{mode} ) . ">";
 
     return $closeTag;
 }
@@ -436,13 +414,24 @@ sub _wrapInContentHtmlClose {
 sub _wrapInContainerHideIfNoJavascripOpen {
     my ($mode) = @_;
 
-    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisible">';
+    return
+        '<'
+      . _elemOfMode($mode)
+      . ' class="twistyPlugin foswikiMakeVisible">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
     my ($mode) = @_;
 
-    return '</' . $mode . '>';
+    return '</' . _elemOfMode($mode) . '>';
+}
+
+sub _elemOfMode {
+    my ($mode) = @_;
+
+    return $mode if $mode =~ /^(div|span)$/;    # legacy
+    return "span" if $mode eq 'inline';
+    return "div";
 }
 
 1;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1654778187" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655109453" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -51,22 +51,18 @@ You may have noticed that no parameters are passed to =%<nop>TWISTY{}%= but the 
 
 ---+++ Block or inline
 
-The default display mode of Twisty is =div=, that is, the contents is displayed as block element, displayed on the next line.
+The default display mode of Twisty is =block=, that is, the contents is displayed using a &lt;div> element, displayed on the next line.
 
-If you want to show the Twisty contents on the same line - inline - use =mode="span"=:
+If you want to show the Twisty contents on the same line - inline - use =mode="inline"=:
 <verbatim class="tml">
-%TWISTY{
-mode="span"
-}%
+%TWISTY{mode="inline"}%
 my twisty content
 %ENDTWISTY%
 </verbatim>
 
 Will generate:
 
-%TWISTY{
-mode="span"
-}%
+%TWISTY{mode="inline"}%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
@@ -378,8 +374,8 @@ Twisties generate a =&lt;div&gt;= or a =&lt;span&gt;= so it's important to not d
 </verbatim> | <ul> <li>L1</li> <li>L2 %TWISTY{}% Some content %ENDTWISTY{}%</li> <li>L3</li> </ul> |
 | | <verbatim>
    * L1
-   * L2 %TWISTY{mode="span"}% Some content %ENDTWISTY{}
-   * L3</verbatim> | <ul> <li>L1</li> <li>L2 %TWISTY{mode="span"}% Some content %ENDTWISTY{}%</li> <li>L3</li> </ul> |
+   * L2 %TWISTY{mode="inline"}% Some content %ENDTWISTY{}
+   * L3</verbatim> | <ul> <li>L1</li> <li>L2 %TWISTY{mode="inline"}% Some content %ENDTWISTY{}%</li> <li>L3</li> </ul> |
 
 ---++ Special syntax: format tokens
 
@@ -462,9 +458,9 @@ twisty if remember option is set, or a random number (useful for AJAX calls).
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 | *Preference* | *Meaning* | *Default* |
-| =TWISTYPLUGIN_TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
-| =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
-| =TWISTYPLUGIN_TWISTYMODE= | Either =div= or =span= | =span= |
+| =TWISTYPLUGIN_TWISTYSHOWLINK= | For example: =More ...= | %MAKETEXT{"More ..."}% |
+| =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Less ...= | %MAKETEXT{"Less ..."}% |
+| =TWISTYPLUGIN_TWISTYMODE= | Either =block= or =inline= | =block= |
 | =TWISTYPLUGIN_TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
 | =TWISTYPLUGIN_TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
 <!--
@@ -477,6 +473,7 @@ You can override some default settings in the plugin by setting the following [[
 
 ---++ Change History
 
+|  13 Jun 2022 | 2.00 removed unused assets from package; made twisty modes more meaningfull: was div/span - now is block/inline |
 |  09 Jun 2022 | 1.65 better default labels for show and hide links |
 |  28 Sep 2020 | 1.64 removed dependency on deprecated livequery module |
 |  25 Apr 2016 | 1.63 Bump version due to minor documentation updates.  Released with Foswiki 2.1.1 |

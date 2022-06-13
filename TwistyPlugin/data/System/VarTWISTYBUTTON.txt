@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655109453" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYBUTTON -- Shorthand version for TWISTYSHOW &amp; TWISTYHIDE
 This is useful if both the show and the hide button take the same arguments.
 ---++ Parameters
 All parameters supported by [[VarTWISTYSHOW][TWISTY]], except for
    * =noscript= and =class= (only used for 'toggle' content)
-   * =mode= button mode defaults to div
+   * =mode= button mode defaults to "block"
 
 ---++ Examples
 <verbatim class="tml">%TWISTYBUTTON{
