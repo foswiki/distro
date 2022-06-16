@@ -1258,6 +1258,7 @@ pre ul:last-child,
 /*
 * BUTTONS
 */
+.foswikiFileInput::file-selector-button,
 .foswikiButton,
 .foswikiButtonSmall,
 .foswikiButtonLarge,
@@ -1313,6 +1314,7 @@ pre ul:last-child,
 .foswikiButtonMini:link {
   text-decoration: none;
 }
+.foswikiFileInput::file-selector-button,
 .foswikiButton,
 .foswikiButtonSmall,
 .foswikiButtonLarge,
@@ -1371,6 +1373,7 @@ pre ul:last-child,
 .foswikiButtonMini:visited .foswikiCaret {
   border-top-color: rgba(85, 85, 85, 0.4);
 }
+.foswikiFileInput::file-selector-button:hover,
 .foswikiButton:hover,
 .foswikiButtonSmall:hover,
 .foswikiButtonLarge:hover,
@@ -1765,7 +1768,6 @@ fieldset {
 textarea,
 .foswikiTextarea,
 input[type='text'],
-input[type='file'],
 input[type='password'],
 .foswikiInputField {
   padding: 3px 5px;
@@ -1796,17 +1798,14 @@ input[type='password']::-webkit-input-placeholder,
   color: #aaaaaa;
 }
 input[type='text']:hover,
-input[type='file']:hover,
 input[type='password']:hover,
 .foswikiInputField:hover,
 input[type='text']:focus,
-input[type='file']:focus,
 input[type='password']:focus,
 .foswikiInputField:focus,
 textarea.focused,
 .foswikiTextarea.focused,
 input[type='text'].focused,
-input[type='file'].focused,
 input[type='password'].focused,
 .foswikiInputField.focused {
   background-color: #ffffff;
@@ -1863,7 +1862,6 @@ select {
   background-color: #ffffff;
 }
 select:focus,
-input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
   outline: 5px auto -webkit-focus-ring-color;
