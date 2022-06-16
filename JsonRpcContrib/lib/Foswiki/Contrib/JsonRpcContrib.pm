@@ -21,8 +21,8 @@ BEGIN {
 
 =cut
 
-our $VERSION           = '2.99_1';
-our $RELEASE           = '05 May 2022';
+our $VERSION           = '3.00';
+our $RELEASE           = '16 Jun 2022';
 our $SHORTDESCRIPTION  = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;
