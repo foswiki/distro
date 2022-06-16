@@ -1,6 +1,7 @@
 *,v
 *,pfv
 *.gz
+*.swp
 /JsonRpcContrib.md5
 /JsonRpcContrib.sha1
 /JsonRpcContrib.tgz

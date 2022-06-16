@@ -33,7 +33,7 @@ sub new {
 
     my $request = $session->{request};
 
-    my $this = bless( {}, $class );
+    my $this = bless( { session => $session, }, $class );
 
     # get json-rpc request object
     my $data = $request->param('POSTDATA');
@@ -148,6 +148,27 @@ sub version {
 }
 
 ##############################################################################
+sub uploads {
+    my $this = shift;
+
+    return $this->{session}{request}->uploads(@_);
+}
+
+##############################################################################
+sub upload {
+    my $this = shift;
+
+    return $this->{session}{request}->upload(@_);
+}
+
+##############################################################################
+sub uploadInfo {
+    my $this = shift;
+
+    return $this->{session}{request}->uploadInfo(@_);
+}
+
+##############################################################################
 sub id {
     my ( $this, $value ) = @_;
 
@@ -201,7 +222,8 @@ sub json {
 # static
 sub writeDebug {
     print STDERR "JsonRpcContrib::Request - $_[0] \n";
-    Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
+
+    #Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
 }
 
 ###############################################################################
