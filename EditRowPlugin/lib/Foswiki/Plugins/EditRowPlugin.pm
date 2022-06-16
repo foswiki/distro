@@ -2,8 +2,9 @@
 package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
-use Foswiki::Request ();
-use Foswiki::Render  ();
+use Foswiki::Request                      ();
+use Foswiki::Render                       ();
+use Foswiki::Plugins::EditRowPlugin::View ();
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
@@ -32,8 +33,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '3.330';
-our $RELEASE           = '29 Sep 2020';
+our $VERSION           = '3.40';
+our $RELEASE           = '16 Jun 2022';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -82,7 +83,6 @@ sub initPlugin {
 
 sub commonTagsHandler {
     my ( $text, $topic, $web, $included, $meta ) = @_;
-    require Foswiki::Plugins::EditRowPlugin::View;
     if (
         Foswiki::Plugins::EditRowPlugin::View::process(
             $text, $web, $topic, $meta
@@ -123,7 +123,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2008-2018 Foswiki Contributors
+Copyright (c) 2008-2022 Foswiki Contributors
 Copyright (c) 2007 WindRiver Inc.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.

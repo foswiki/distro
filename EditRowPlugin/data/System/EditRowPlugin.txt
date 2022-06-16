@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1601400182" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655377101" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -270,6 +270,7 @@ Provides the vertical row editing interface like
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.40 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
 |  3.330 (29 Sep 2020) | Foswikitask:Item14929: fixed single zero char not rendered in table cell | 
 |  3.321 (05 Feb 2018) | Foswikitask:Item14537: The plugin makes tables "shaky". |
 |  3.320 (12 Dec 2017) | Foswikitask:Item14490: missing css for the "edit table" button |
@@ -354,7 +355,7 @@ Provides the vertical row editing interface like
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value=""}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2020 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2022 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
