@@ -2,7 +2,7 @@
 # ---++ JQueryPlugin
 # ---+++ Extra plugins
 
-# **STRING**
+# **STRING EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{NatEdit}{Module} = 'Foswiki::Plugins::NatEditPlugin::NATEDIT';
 
 # **BOOLEAN**
