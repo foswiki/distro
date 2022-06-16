@@ -180,6 +180,7 @@ sub renderCSS {
 
 sub renderJS {
     my ( $this, $text ) = @_;
+
     $text =~ s/\.js$/.uncompressed.js/
       if $this->{debug} && $text !~ /(\.uncompressed|_src|\.dev)\./;
     $text .= '?version=' . $this->{version};
