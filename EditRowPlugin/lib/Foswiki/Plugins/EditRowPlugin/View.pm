@@ -7,6 +7,8 @@ use Assert;
 
 use Foswiki ();
 use Foswiki::Func();
+use Foswiki::Plugins::EditRowPlugin::TableParser ();
+use Foswiki::Plugins::JQueryPlugin               ();
 
 # Process the text of a topic through the plugin. Usually this involves
 # re-loading the raw topic content (as not yet processed by macros and
@@ -37,18 +39,7 @@ sub process {
     return 0
       if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE') =~ /full/;
 
-    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'EditRow',
-        'Foswiki::Plugins::EditRowPlugin::JQuery' );
-    unless (
-        Foswiki::Plugins::JQueryPlugin::createPlugin(
-            "EditRow", $Foswiki::Plugins::SESSION
-        )
-      )
-    {
-        die 'Failed to register JQuery plugin';
-    }
-
-    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    Foswiki::Plugins::JQueryPlugin::createPlugin("EditRow");
 
     my @varnames = $query->param();
     my $urps     = {};
