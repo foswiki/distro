@@ -257,12 +257,13 @@ sub prepareUploads {
     return unless $ENV{CONTENT_LENGTH};
     my %uploads;
     foreach my $key ( keys %{ $this->{uploads} } ) {
-        my $fname  = $this->{cgi}->param($key);
-        my $ufname = NFC( Foswiki::decode_utf8($fname) );
-        $uploads{$ufname} = new Foswiki::Request::Upload(
-            headers => $this->{cgi}->uploadInfo($fname),
-            tmpname => $this->{cgi}->tmpFileName($fname),
-        );
+        foreach my $fname ( $this->{cgi}->multi_param($key) ) {
+            my $ufname = NFC( Foswiki::decode_utf8($fname) );
+            $uploads{$ufname} = new Foswiki::Request::Upload(
+                headers => $this->{cgi}->uploadInfo($fname),
+                tmpname => $this->{cgi}->tmpFileName($fname),
+            );
+        }
     }
     delete $this->{uploads};
     $req->uploads( \%uploads );

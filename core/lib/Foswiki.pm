@@ -2064,6 +2064,7 @@ sub new {
     if ( $Foswiki::cfg{Password} ) {
         $initialContext->{admin_available} = 1;       # True if sudo supported.
     }
+    $initialContext->{"SUPPORTS_MULTIUPLOAD"} = 1;
 
     $query ||= new Foswiki::Request();
 

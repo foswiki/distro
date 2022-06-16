@@ -216,15 +216,16 @@ sub prepareUploads {
     my %uploads;
     if ( $this->{query}->isa('CGI') ) {
         foreach my $key ( keys %{ $this->{uploads} } ) {
-            my $fname = $this->{query}->param($key);
-            my $ufname =
-              ($Foswiki::UNICODE)
-              ? NFC( Foswiki::decode_utf8($fname) )
-              : $fname;
-            $uploads{$ufname} = new Foswiki::Request::Upload(
-                headers => $this->{query}->uploadInfo($fname),
-                tmpname => $this->{query}->tmpFileName($fname),
-            );
+            foreach my $fname ( $this->{query}->multi_param($key) ) {
+                my $ufname =
+                  ($Foswiki::UNICODE)
+                  ? NFC( Foswiki::decode_utf8($fname) )
+                  : $fname;
+                $uploads{$ufname} = new Foswiki::Request::Upload(
+                    headers => $this->{query}->uploadInfo($fname),
+                    tmpname => $this->{query}->tmpFileName($fname),
+                );
+            }
         }
     }
     else {

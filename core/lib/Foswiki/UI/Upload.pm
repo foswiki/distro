@@ -119,135 +119,140 @@ sub _upload {
     my $fileComment = $query->param('filecomment') || '';
     my $createLink  = $query->param('createlink')  || '';
     my $doPropsOnly = $query->param('changeproperties');
-    my $filePath    = $query->param('filepath')    || '';
-    my $fileName    = $query->param('filename')    || '';
-    if ( $filePath && !$fileName ) {
-        $filePath =~ m|([^/\\]*$)|;
-        $fileName = $1;
-    }
 
     $fileComment =~ s/\s+/ /g;
     $fileComment =~ s/^\s*//;
     $fileComment =~ s/\s*$//;
-    $fileName    =~ s/\s*$//;
-    $filePath    =~ s/\s*$//;
 
-    Foswiki::UI::checkWebExists( $session, $web, $topic, 'attach files to' );
-    Foswiki::UI::checkTopicExists( $session, $web, $topic, 'attach files to' );
-    my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
+    my @fileNames = ();
+    foreach my $filePath ( $query->multi_param("filepath") ) {
+        $filePath =~ m|([^/\\]*$)|;
+        my $fileName = $1;
+        $fileName =~ s/\s*$//;
+        $filePath =~ s/\s*$//;
 
-    my $origName = $fileName;
+        push @fileNames, $fileName;
 
-    # SMELL: would be much better to throw an exception if an attempt
-    # is made to upload an invalid filename. However, it has always
-    # been this way :-(
-    ( $fileName, $origName ) =
-      Foswiki::Sandbox::sanitizeAttachmentName($fileName);
+        Foswiki::UI::checkWebExists( $session, $web, $topic,
+            'attach files to' );
+        Foswiki::UI::checkTopicExists( $session, $web, $topic,
+            'attach files to' );
+        my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
-    my $stream;
-    my ( $fileSize, $fileDate, $tmpFilePath ) = '';
+        my $origName = $fileName;
 
-    unless ($doPropsOnly) {
-        my $fh = $query->param('filepath');
+        # SMELL: would be much better to throw an exception if an attempt
+        # is made to upload an invalid filename. However, it has always
+        # been this way :-(
+        ( $fileName, $origName ) =
+          Foswiki::Sandbox::sanitizeAttachmentName($fileName);
 
+        my $stream;
+        my ( $fileSize, $fileDate, $tmpFilePath ) = '';
+
+        unless ($doPropsOnly) {
+            my $fh = $query->param('filepath');
+
+            try {
+                $tmpFilePath = $query->tmpFileName($fh);
+            }
+            catch Error with {
+
+                # Item5130, Item5133 - Illegal file name, bad path,
+                # something like that
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'zero_size_upload',
+                    web    => $web,
+                    topic  => $topic,
+                    params => [ ( $filePath || '""' ) ]
+                );
+            };
+
+            $stream = $query->upload('filepath');
+
+            # check if upload has non zero size
+            if ($stream) {
+                my @stats = stat $stream;
+                $fileSize = $stats[7];
+                $fileDate = $stats[9];
+            }
+            unless ( $fileSize && $fileName ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'zero_size_upload',
+                    web    => $web,
+                    topic  => $topic,
+                    params => [ ( $filePath || '""' ) ]
+                );
+            }
+
+            my $maxSize =
+              $session->{prefs}->getPreference('ATTACHFILESIZELIMIT')
+              || 0;
+            $maxSize =~ s/\s+$//;
+            $maxSize = 0 unless ( $maxSize =~ m/([0-9]+)/ );
+
+            if ( $maxSize && $fileSize > $maxSize * 1024 ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'oversized_upload',
+                    web    => $web,
+                    topic  => $topic,
+                    params => [ $fileName, $maxSize ]
+                );
+            }
+        }
         try {
-            $tmpFilePath = $query->tmpFileName($fh);
+            $topicObject->attach(
+                name       => $fileName,
+                comment    => $fileComment,
+                hide       => $hideFile,
+                createlink => $createLink,
+                stream     => $stream,
+                file       => $tmpFilePath,
+                filepath   => $filePath,
+                filesize   => $fileSize,
+                filedate   => $fileDate,
+            );
+        }
+        catch Foswiki::OopsException with {
+            shift->throw();    # propagate
         }
         catch Error with {
-
-            # Item5130, Item5133 - Illegal file name, bad path,
-            # something like that
+            $session->logger->log( 'error', shift->{-text} );
             throw Foswiki::OopsException(
                 'attention',
-                def    => 'zero_size_upload',
+                def    => 'save_error',
                 web    => $web,
                 topic  => $topic,
-                params => [ ( $filePath || '""' ) ]
+                params => [
+                    $session->i18n->maketext(
+                        'Operation [_1] failed with an internal error', 'save'
+                    )
+                ],
             );
         };
+        close($stream) if $stream;
 
-        $stream = $query->upload('filepath');
-
-        # check if upload has non zero size
-        if ($stream) {
-            my @stats = stat $stream;
-            $fileSize = $stats[7];
-            $fileDate = $stats[9];
-        }
-        unless ( $fileSize && $fileName ) {
+        if ( $fileName ne $origName ) {
             throw Foswiki::OopsException(
                 'attention',
-                def    => 'zero_size_upload',
+                status => 200,
+                def    => 'upload_name_changed',
                 web    => $web,
                 topic  => $topic,
-                params => [ ( $filePath || '""' ) ]
+                params => [ $origName, $fileName ]
             );
         }
-
-        my $maxSize = $session->{prefs}->getPreference('ATTACHFILESIZELIMIT')
-          || 0;
-        $maxSize =~ s/\s+$//;
-        $maxSize = 0 unless ( $maxSize =~ m/([0-9]+)/ );
-
-        if ( $maxSize && $fileSize > $maxSize * 1024 ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'oversized_upload',
-                web    => $web,
-                topic  => $topic,
-                params => [ $fileName, $maxSize ]
-            );
-        }
-    }
-    try {
-        $topicObject->attach(
-            name       => $fileName,
-            comment    => $fileComment,
-            hide       => $hideFile,
-            createlink => $createLink,
-            stream     => $stream,
-            file       => $tmpFilePath,
-            filepath   => $filePath,
-            filesize   => $fileSize,
-            filedate   => $fileDate,
-        );
-    }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        $session->logger->log( 'error', shift->{-text} );
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'save_error',
-            web    => $web,
-            topic  => $topic,
-            params => [
-                $session->i18n->maketext(
-                    'Operation [_1] failed with an internal error', 'save'
-                )
-            ],
-        );
-    };
-    close($stream) if $stream;
-
-    if ( $fileName ne $origName ) {
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            def    => 'upload_name_changed',
-            web    => $web,
-            topic  => $topic,
-            params => [ $origName, $fileName ]
-        );
     }
 
     # generate a message useful for those calling this script
     # from the command line
     return ($doPropsOnly)
       ? 'properties changed'
-      : "$fileName uploaded";
+      : join( ", ", sort @fileNames ) . " uploaded";
 }
 
 1;
