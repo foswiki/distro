@@ -126,6 +126,8 @@ sub _upload {
 
     my @fileNames = ();
     foreach my $filePath ( $query->multi_param("filepath") ) {
+        next unless $filePath;
+
         $filePath =~ m|([^/\\]*$)|;
         my $fileName = $1;
         $fileName =~ s/\s*$//;
@@ -152,10 +154,8 @@ sub _upload {
         my ( $fileSize, $fileDate, $tmpFilePath ) = '';
 
         unless ($doPropsOnly) {
-            my $fh = $query->param('filepath');
-
             try {
-                $tmpFilePath = $query->tmpFileName($fh);
+                $tmpFilePath = $query->tmpFileName($filePath);
             }
             catch Error with {
 
@@ -170,7 +170,7 @@ sub _upload {
                 );
             };
 
-            $stream = $query->upload('filepath');
+            $stream = $query->upload($filePath);
 
             # check if upload has non zero size
             if ($stream) {
