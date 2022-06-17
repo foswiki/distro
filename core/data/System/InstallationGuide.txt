@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1645803928" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -87,7 +87,6 @@ If for some reason the file permissions have been modified, the shell script
 cd /path/to/foswiki
 sh tools/fix_file_permissions.sh
 </verbatim>
-
 
 For more information on the appropriate permissions to ensure security for your Foswiki data, see Foswiki:Support.SecuringYourSite.
 

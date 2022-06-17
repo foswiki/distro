@@ -1,10 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1487619523" format="1.1" version="1"}%
-
-
-
-
-
--- %CREATE:WIKIUSERNAME% - %CREATE:DATE%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %STARTSECTION{type="templateonly"}%
 This topic is needed for normal operation even if System web is restricted.
    * Set ALLOWTOPICVIEW = *

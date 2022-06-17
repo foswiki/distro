@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -45,3 +45,5 @@ Note: If a minimum version is identified, the extension requiring the highest mi
 </noautolink>
 
 %META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_VIEW" title="PERMSET_VIEW" type="Local" value="nobody"}%
