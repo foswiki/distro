@@ -1267,8 +1267,11 @@ sub _loadCreateCGISession {
     if ( $Foswiki::LoginManager::Session::VERSION < 4.0 ) {
         unless (
             -d $sessionDir
-            || (   mkdir( $Foswiki::cfg{WorkingDir} )
-                && mkdir($sessionDir) )
+            || (
+                mkdir( $Foswiki::cfg{WorkingDir},
+                    $Foswiki::cfg{Store}{dirPermission} )
+                && mkdir($sessionDir)
+            )
           )
         {
             die "Could not create $sessionDir for storing sessions";

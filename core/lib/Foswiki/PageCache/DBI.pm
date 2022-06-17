@@ -118,7 +118,8 @@ sub init {
     };
     return if $error;
 
-    mkdir $this->{cacheDir} unless -d $this->{cacheDir};
+    mkdir( $this->{cacheDir}, $Foswiki::cfg{Store}{dirPermission} )
+      unless -d $this->{cacheDir};
 
     return $this;
 }
