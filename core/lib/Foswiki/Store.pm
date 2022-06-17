@@ -153,7 +153,8 @@ sub getWorkArea {
     my $dir = "$Foswiki::cfg{WorkingDir}/work_areas/$key";
 
     unless ( -d $dir ) {
-        mkdir($dir) || throw Error::Simple(<<ERROR);
+        mkdir( $dir, $Foswiki::cfg{Store}{dirPermission} )
+          || throw Error::Simple(<<ERROR);
 Failed to create $key work area. Check your setting of {WorkingDir}
 in =configure=.
 ERROR
