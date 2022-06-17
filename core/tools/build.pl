@@ -1,8 +1,8 @@
 #! /usr/bin/env perl 
 #
 # Build for Foswiki
-# Crawford Currie & Sven Dowideit
-# Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
+# Crawford Currie, Sven Dowideit, Michael Daum
+# Copyright (C) 2006-2022 ProjectContributors. All rights reserved.
 # ProjectContributors are listed in the AUTHORS file in the root of
 # the distribution.
 
@@ -37,14 +37,10 @@ package FoswikiBuild;
 
 @FoswikiBuild::ISA = ("Foswiki::Contrib::Build");
 
-my $gitdir;
-
 sub new {
     my $class = shift;
-    my $autoBuild;    #set if this is an automatic build
-    my $commit;       #set if changes should be committed to the repo
-    my $nocheck;      #set to bypass git repo check
-    my $name;
+    my ( $version, $release ) = _getReleaseInfo();
+    my $name = "Foswiki-$version";
 
     while ( scalar(@ARGV) > 1 ) {
         my $arg = pop(@ARGV);
@@ -53,34 +49,9 @@ sub new {
             #build a name from major.minor.patch.-auto.gitrev
             my $rev = `git rev-parse --short HEAD`;
             chomp $rev;
-            $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
+            $name .= '-auto' . $rev;
             $name =~ s/\s*$//g;
-            $autoBuild = 1;
         }
-        if ( $arg eq '-commit' ) {
-
-            # Commit the changes back to the repo
-            $commit = 1;
-        }
-        if ( $arg eq '-nocheck' ) {
-
-            $nocheck = 1;
-        }
-    }
-
-    if ( my $gitdir = findPathToDir('.git') ) {
-        print "detected git installation at $gitdir\n";
-
- # Verify that all files are committed and all commits are pushed to github TODO
-        unless ($nocheck) {
-            my $gitstatus = `git status -uno`;
-            die
-"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
-              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-        }
-    }
-    else {
-        die "no .git dir detected, svn is ***OBSOLETE***, aborting!\n";
     }
 
     print <<END;
@@ -90,161 +61,10 @@ Note: DO NOT ATTEMPT TO GENERATE A RELEASE UNLESS ALL UNIT TESTS PASS.
 The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
-END
-    my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
-      split( '\n', `git tag` );
 
-    my $content;
-    open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
-
-    {
-        local $/ = undef;
-        $content = <PM>;
-        close(PM);
-    }
-
-    my $VERSION;
-    my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
-    substr( $version, 0, 0, 'use version 0.77; ' )
-      if ( $version =~ /version/ );
-    eval $version if ($version);
-
-    my $RELEASE;
-    my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
-    eval $release if ($release);
-
-    unless ($autoBuild) {
-
-        print <<END;
-
-Current version of Foswiki.pm: $VERSION, RELEASE: $RELEASE
-
-Enter the type of build.
-   - "test" or "rebuild" (the default) will rebuild the above version without modifying any files.
-   - "major", "minor", or "patch" will "release" that level, removing the alpha level.
-   - "next" does the right thing incrementing the alpha level.
-   - "nextminor" sets patch to 999 and sets alpha level to 001
-   - "nextmajor" sets patch and minor to 999 and sets alpha to 001.
-
-\$RELEASE is automatically derived from the calculated \$VERSION, plus
-a name appended for descriptive purposes.
+Current version of Foswiki.pm: $version, RELEASE: $release
 
 END
-        print <<END unless $commit;
--commit option was not specified, nothing will be committed to the git repository.
-If you are building a real release, Ctrl-c now and rerun:
-   perl ../tools/build.pl release -commit
- 
-END
-
-        my $buildtype = Foswiki::Contrib::Build::prompt(
-"Enter the type of build:  If this is for personal use, enter \"test\"
-or just press enter.",
-            'test'
-        );
-        while ( $buildtype !~
-            /^(major|minor|patch|test|rebuild|next(ma.*?|mi.*?)?)?$/ )
-        {
-            $buildtype = Foswiki::Contrib::Build::prompt(
-"Enter major, minor, patch, test, rebuild, next, nextmajor, nextminor or press enter for test builds: ",
-                $buildtype
-            );
-        }
-
-        unless ( $buildtype =~ /rebuild|test/ ) {
-            my ( $maj, $min, $pat, $alpha ) = split( /[._]/, $VERSION, 4 );
-
-            $maj =~ s/v//;
-
-            if ( $buildtype eq 'major' ) {
-
-# Releasing a new major release, increment major, reset minor & patch, remove alpha..
-                $maj++;
-                $min   = 0;
-                $pat   = 0;
-                $alpha = '';
-            }
-            elsif ( $buildtype eq 'minor' ) {
-
-    # Releasing a new minor release, increment minor, reset patch, remove alpha.
-                $min++;
-                $pat   = 0;
-                $alpha = '';
-            }
-            elsif ( $buildtype eq 'patch' ) {
-
-                # Release patch release, increment and remove alpha
-                $pat++;
-                $alpha = '';
-            }
-            elsif ( $buildtype =~ /^next/ ) {
-
-   # Just next in sequence,  If not alpha, increment patch, then increment alpha
-                if ($alpha) {
-                    $alpha++;
-                }
-                else {
-                    $alpha = '001';
-                    $min   = 999 if ( $buildtype =~ /^nextma/ );
-                    $pat   = 999 if ( $buildtype =~ /^next(ma|mi)/ );
-                }
-            }
-
-            my $newver = "v$maj.$min.$pat";
-            $newver .= "_$alpha" if ($alpha);
-
-            $content =~
-s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.77; \$VERSION = version->declare('$newver');/sm;
-
-            $name = 'Foswiki-' . "$maj.$min.$pat";
-            $name .= "_$alpha" if ($alpha);
-
-            while (
-                !Foswiki::Contrib::Build::ask(
-                    "Do you want to name this release as $name?", 'n'
-                )
-              )
-            {
-                $name = Foswiki::Contrib::Build::prompt(
-                    "Enter new release name, or press enter to accept default",
-                    $name
-                );
-            }
-
-            print "Building Release: $name from Version: $newver\n";
-
-            $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
-            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$name$2/;
-            open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
-            print PM $content;
-            close(PM);
-
-            # Note; the commit is unconditional, because we *must* update
-            # Foswiki.pm before building.
-            my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
-            my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-
-            print `$cmd` if $commit;
-            print "$cmd\n";
-            die $@ if $@;
-        }
-        else {
-
-            # This is a rebuild, just use the same name.
-            $name = "$RELEASE";
-        }
-    }
-    else {
-
-        my $rev = `git log --abbrev=12 --format=format:"Commit: %h - %ci" -1`;
-        my $br  = `git branch`;
-        ($br) = $br =~ m/^\* (.*)$/m;
-
-        $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1Branch: $br $rev$2/;
-        open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
-        print PM $content;
-        close(PM);
-    }
 
     # make sure the project name (and hence the files we generate)
     # do not contain spaces
@@ -252,19 +72,6 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
 
     my $this = $class->SUPER::new( $name, "Foswiki" );
     return $this;
-}
-
-# Search the current working directory and its parents
-# # for a directory called like the first parameter
-sub findPathToDir {
-    my $lookForDir = shift;
-
-    my @dirlist = File::Spec->splitdir( Cwd::getcwd() );
-    do {
-        my $dir = File::Spec->catdir( @dirlist, $lookForDir );
-        return File::Spec->catdir(@dirlist) if -d $dir;
-    } while ( pop @dirlist );
-    return;
 }
 
 # Override installer target; don't want an installer.
@@ -435,7 +242,7 @@ sub stage_gendocs {
     print "Automatic documentation built\n";
 }
 
-sub stage_rcsfiles() {
+sub stage_rcsfiles {
     my $this = shift;
 
     # Quick hack to force the old RCS code in this script
@@ -460,17 +267,24 @@ my $build = new FoswikiBuild();
 # Build the target on the command line, or the default target
 $build->build( $build->{target} );
 
-#returns the version number portion in the $RELEASE line in Foswiki.pm
-sub getCurrentFoswikiRELEASE {
+#returns the version number and release portion as stored in Foswiki.pm
+sub _getReleaseInfo {
     open( my $pm, '<', "../lib/Foswiki.pm" )
       or die "Cannot open Foswiki.pm: $!";
+
+    my $version = 'UNKNOWN';
+    my $release = 'UNKNOWN';
+
     while (<$pm>) {
-        if (/\$RELEASE\s*=\s*'Foswiki-(.*?)'/) {
-            close $pm;
-            return $1;
+
+        if (/\$VERSION\s*=\s*version\->declare\('v(.*?)'\)/) {
+            $version = $1;
+        }
+        if (/\$RELEASE\s*=\s*'(.*?)'/) {
+            $release = $1;
         }
     }
     close $pm;
-    return 'UNKNOWN';
+    return ( $version, $release );
 }
 
