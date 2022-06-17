@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ WEBLIST -- index of all webs
 Generate a list of webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
@@ -24,4 +24,3 @@ Create a dropdown of all public webs + Trash web, with the current web highlight
 %STOPINCLUDE%
 ---++ Related
 [[VarTOPICLIST][TOPICLIST]], [[VarSEARCH][SEARCH]]
-<!--%JQREQUIRE{"chili"}%-->

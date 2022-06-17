@@ -1,11 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -61,10 +57,11 @@ The !TopicUserMappingContrib specific settings have not yet been moved out of th
 ---++ Installation Instructions
 It's a part of the default distribution of the Foswiki Core.
 
----++ Contrib Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Contrib Author(s): | Copyright (C) 2007-2018 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  4.58 (25 Feb 2018) | Released with Foswiki 2.1.6<br/>\
                         Foswikitask:Item14629: Certain topics can be overridden without permission.<br/>\
                         Foswikitask:Item14639: Operational topics in Main, Sandbox webs should be protected from editing non-admins.<br/>\
@@ -143,18 +140,14 @@ It's a part of the default distribution of the Foswiki Core.
 |  4.2.2 (16 Dec 2008) | Foswiki version |
 |  4.2.1 (03 Aug 2008) | Distributed with TWiki 4.2.1 |
 |  4.2.0 (22 Jan 2008) | Distributed with TWiki 4.2.0 |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Contrib Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

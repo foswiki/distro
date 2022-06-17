@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ RSS News Feeds
-%JQREQUIRE{"chili"}%
 
 ---++ Find out What's New
 

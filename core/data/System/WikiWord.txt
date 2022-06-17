@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is a !WikiWord?
 A !WikiWord consists of two or more words with initial capitals, run together. WikiWords are used to refer to topics.
@@ -88,5 +88,4 @@ When you write a !WikiWord, it becomes a link. There are more ways
 
 ---
 *Related Topics:* TopicMarkupLanguage
-<!--%JQREQUIRE{"chili"}%-->
 %STOPINCLUDE%

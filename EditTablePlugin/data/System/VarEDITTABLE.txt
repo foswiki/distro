@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284876785" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="EditTablePlugin"}%
 #VarEDITTABLE
 ---+++ EDITTABLE{ _attributes_ } -- edit tables using edit fields and other input fields
@@ -20,9 +20,11 @@
 %ENDSECTION{"edittable_attributes"}%
 
 *Example:*
-   <verbatim class="tml">%EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%
+<verbatim class="tml">
+%EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%
 | *Name* | *Type* |
-| Foo    | two    |</verbatim><!-- %JQREQUIRE{"chili"}% -->
+| Foo    | two    |
+</verbatim>
 
 *Produces:*
 %EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%

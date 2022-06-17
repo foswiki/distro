@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1459561702" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SEARCH -- search content
 Inline search, shows a search result embedded in a topic
@@ -66,4 +66,3 @@ Results are sorted alphanumerically on the web name (major key) and topic name (
 %STOPINCLUDE%
 ---++ Related
 FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[VarTOPICLIST][TOPICLIST]], [[VarWEBLIST][WEBLIST]]
-<!-- %JQREQUIRE{"chili"}% -->

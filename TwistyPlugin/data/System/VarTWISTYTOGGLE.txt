@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655109453" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TWISTYTOGGLE -- Twisty Toggle contents section
 ---++ Parameters
@@ -17,4 +17,3 @@
 %STOPINCLUDE%
 ---++ Related
 %SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
-<!--%JQREQUIRE{"chili"}%-->

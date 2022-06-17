@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Hide the left bar
 
@@ -9,6 +9,5 @@ This line loads the extra style definition:
 </verbatim>
 You can write this line in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic, or on a single page.
 </div>
-<!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="hideleftbar.css" attr="" comment="css to hide the left bar" date="1437500521" size="178" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideleftbar.css" attr="" comment="css to hide the left bar" date="1655468868" size="178" user="ProjectContributor" version="1"}%

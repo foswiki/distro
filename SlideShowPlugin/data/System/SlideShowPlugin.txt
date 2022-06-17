@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1615283994" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -125,10 +125,6 @@ This text is not part of the slideshow.
 ---++ <nop>%TOPIC% preferences
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
 
 | *Preference* | *Meaning* | *Default* |
 | SLIDESHOWPLUGIN_TEMPLATE | Default template for slides: | SlideShowPlugin |
@@ -170,7 +166,7 @@ The part between the rulers defines the default format of a slide:
    * Test above example if the installation was successful.
 
 ---++ Change History
-
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  09 Mar 2021: (2.40) | Foswikitask:Item15021: multiple enhancements to SlideshowPlugin |
 |  06 Sep 2016: (2.32) | Foswikitask:Item14125: fix encoding of url parms of "start presentation" button; Foswikitask:Item14170: improved button layout |
 |  08 Apr 2016: (2.31) | Foswikitask:Item14022: Change all foswiki.org links to https. |

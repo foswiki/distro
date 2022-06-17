@@ -1,13 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1651567862" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-<img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
 ---+ Subscribe Plugin
+%FORMFIELD{"Description"}%
 
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-%SHORTDESCRIPTION%
-
+<img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
 Example (only works if plugin is installed, and you are logged in - you are: %WIKIUSERNAME% - and you are not %USERSWEB%.WikiGuest): %SUBSCRIBE%
 
 %X% This version is designed for use with Foswiki 2.0 and later. While it will work with Foswiki 1.1.x, it is *not* recommended that you install it there.
@@ -57,15 +53,17 @@ Parameters:
    * =subscribe_remove= true to unsubscribe. Default is to subscribe.
 Note that the calling user *must* be authenticated, and *must* have write permission for the !WebNotify topic in the relevant web.
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
 A word of warning; if you used !SubscribePlugin before version 3.1, please note that the use of GET requests for subscriptions is no longer supported. That means that Javascript *must* to be available in the browser..
 
----++ Plugin Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Dependencies: | %$DEPENDENCIES% |
-|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  3.6 (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
 |  3.5 (06 Nov 2015) | Foswikitask:Item13519: Add dependency on URI due to MailerContrib dependency. |
 |  3.4 (27 Jul 2015) | Foswikitask:Item13450: Fix support for FamFamFam skin.  |
@@ -79,12 +77,13 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Compatibility" title="Compatibility" value="2.0"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk %25BR%25 &copy; 2008-2014 Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk %25BR%25 &copy; 2008-2014 Foswiki Contributors"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1651567862" size="21246" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1655468868" size="21246" user="ProjectContributor" version="1"}%

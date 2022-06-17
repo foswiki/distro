@@ -1,11 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1512490670" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = 4 great free icon sets, by Mark James http://www.famfamfam.com
-%JQREQUIRE{"chili"}%
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -59,15 +54,16 @@ eg
 %INCLUDE{%SYSTEMWEB%.FamFamFamFoswikiExtras}%
 
 ---++ Installation Instructions
-
 %$INSTALL_INSTRUCTIONS%
 
----++ Contrib Info
+---++ Info
+Original Icons by Mark James http://www.famfamfam.com 
 
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
-|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner, Foswiki Contributors |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  03 Feb 2016 (1.9) | Fix typo in template =top:toolbarbutton_more=. |
 |  08 Sep 2015 (1.8) | Foswikitask:Item13504: Correct minor typos and documentation issues. |
 |  14 Jun 2015 (1.7) | Foswikitask:Item13393: SubscribePlugin changes to FamFamFam templates. |
@@ -94,26 +90,22 @@ eg
 |  02 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
 |  26 Nov 2008: | compatibility Foswiki |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Contrib Home: | http://foswiki.org/Extensions/FamFamFamContrib |
-|  Feedback: | http://foswiki.org/Extensions/FamFamFamContribDev |
 
 __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="[[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]]"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1512490670" size="169896" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1512490670" size="24969" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1512490670" size="13799" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1512490670" size="3242" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1512490670" size="14996" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1512490670" size="22024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1655468868" size="169896" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1655468868" size="24969" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1655468868" size="13799" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1655468868" size="3242" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1655468868" size="14996" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1655468868" size="22024" user="ProjectContributor" version="1"}%

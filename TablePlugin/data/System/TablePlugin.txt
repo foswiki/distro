@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1516634672" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
+%FORMFIELD{"Description"}%
 
 Gives extra control of table display:
    * Sorting
@@ -149,9 +150,6 @@ Results in:
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
-<!--
-      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 | *Preference* | *Meaning* | *Default* |
 | TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | =all= |
 | TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%][Configure Extensions tab, TablePlugin sub-tab]], and can be set on site level in %LOCALSITEPREFS%, on web level in any <nop>%WEBPREFSTOPIC% or on topic level. | =tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
@@ -183,16 +181,15 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 | <img src="%ICONURL{tablesortdown}%" width="11" height="13" alt="Sort table descending" border="0" />  | Sort descending | 
 | <img src="%ICONURL{tablesortdiamond}%" width="11" height="13" alt="Sort table" border="0" />  | Generic sort button if header label is a link, not a sort link |
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
    * Test if the plugin is correctly installed:
       * Check above example if the table renders as expected
       * Try click on heading to sort.  Other tables should also be sortable
 
----++ Plugin Info
+---++ Change History
 
-%TABLE{columnwidths="10%,90%"}%
-|  Change History: | <!-- specify latest version first -->&nbsp; |
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  22 Jan 2018 | 1.160: Foswikitask:Item14574 - fixed cellspacing, cellpadding and tableborder using css properties instead of html attributes now |
 |  03 Feb 2016 | 1.154: Foswikitask:Item13881 - Unicode column heading are incorrectly encoded,<br/>\
                         Foswikitask:Item13405 - Unicode NFC normalization |
@@ -273,14 +270,14 @@ Foswikitask:Item8991: header-only table violates XHTML DTD. |
 |  29 Nov 2001 | PTh: Fixed Perl warnings |
 |  16 Nov 2001 | PTh: Added table border, cell spacing, cell padding, gif files |
 |  07 Oct 2001 | JT: Initial version |
-<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2016 Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

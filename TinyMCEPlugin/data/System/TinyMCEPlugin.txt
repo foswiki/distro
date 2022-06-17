@@ -1,12 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1541293199" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
@@ -146,17 +141,43 @@ The =TINYMCEPLUGIN_INIT= string needs to be built differently, due to the API ch
 
 If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built based on the content of this documentation. The customisations should be reviewed to determine if they are still necessary.
 
----++ Known Issues of TinyMCEPlugin and WysiwygPlugin
-See http://foswiki.org/Tasks/TinyMCEPlugin and http://foswiki.org/Tasks/WysiwygPlugin
+---++ Known Issues of TinyMCEPlugin
+   * Foswikitask:Item8475 - Foswiki introduces errant spaces into table cells
+   * Foswikitask:Item8582 - X11 environments: TinyMCEPlugin editor copies current topic onto the "Primary Selection"
+   * Foswikitask:Item8712 - Outdenting list items in Firefox soemtimes does not work correctly
+      * Description: The list symbol (number, bullet, etc) sometimes disappears from the item after being outdented. When this happens, it is also not possible to outdent the item another level.
+      * Work-around: Position the cursor to the beginning of the line (where the symbol should appear) and press the enter key. The symbol should be restored and another outdent will be possible.
+   * Foswikitask:Item9198 - After inserting new table at top of document: unable to position cursor above
+      * Work-around: Use 'Save and continue' or switch to TML editing and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
+   * Foswikitask:Item8085 - International characters (example, &Scaron;) are converted to HTML entities (IE. =&amp;Scaron;= or =&amp;#352;=)
+      * Ensure you are using the latest version of WysiwygPlugin.
+      * Work-around: Try changing the =TINYMCEPLUGIN_ENTITY_ENCODING= setting to =raw=. It's possible this may cause problems on older browsers.
 
----++ Plugin Info
+---++ Known Issues of WysiwygPlugin (partial list)
+For the full list, consult [[WysiwygPlugin#Known_issues][WysiwygPlugin documentation]]
+%INCLUDE{"WysiwygPlugin" section="tinymceintegration"}%
 
-See the [[%ATTACHURLPATH%/tinymce/changelog.txt][TinyMCE Editor Change Log]] for detailed changes included in this release of the !TinyMCE Editor.
+Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
-|  Copyright: | &copy; 2007-2018 Crawford Currie http://c-dot.co.uk %BR%\
-                &copy; 2010-2018 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
-|             | This package also includes a complete release of the !TinyMCE editor which is covered by the [[https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html][GNU Lesser General Public License, Version 2.1] |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Copyright
+&copy; 2007-2010 Crawford Currie http://c-dot.co.uk,
+&copy; 2010-2017 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] 
+
+This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. 
+
+---++ Info
+
+Many thanks to the following sponsors for supporting this work:
+   * [[http://ilog.fr][ILOG]]
+   * [[http://www.carrier.com][Carrier Corporation]]
+   * [[http://twiki.net][TWIKI.NET]]
+
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  2.11 | Foswikitask:Item14323: Upgrade to TinyMCE 4.8.5 |
 |  2.10 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,11, |
 |  2.09 | Foswikitask:Item14323: Upgrade to TinyMCE 4.7,10, |
@@ -170,8 +191,11 @@ See the [[%ATTACHURLPATH%/tinymce/changelog.txt][TinyMCE Editor Change Log]] for
 |  2.01 | Foswikitask:Item14323: Upgrade to TinyMCE 4.6.6. Note that support for IE 8-10 has been removed. |
 |  2.00 | Foswikitask:Item14323: Upgrade to TinyMCE 4.5.3, much simplified UI, full unicode support. |
 |  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
-|  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
-|  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
+|  11 Feb 2019: | Foswikitask:Item14819: fix error in switch between raw and wysiwyg mode that could end up in losing edit changes |
+|  25 Jan 2017: | Foswikitask:Item14305: eliminate sporadic alert() by tinymce initializer |
+|  1.30 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.11 |
+|  21 Dec 2012 (TBD) | Foswikitask:Item12278: Changing a wikiword should not require visiting the !TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
+|  29 Oct 2012 (TBD) | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
 |  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
 |  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
 |  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
@@ -265,19 +289,14 @@ See the [[%ATTACHURLPATH%/tinymce/changelog.txt][TinyMCE Editor Change Log]] for
 |  14668 | Bugfixes and refinements done as part of 4.2 release |
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
-|  Dependencies: | %$DEPENDENCIES% |
-
-Many thanks to the following sponsors for supporting this work:
-   * [[http://ilog.fr][ILOG]]
-   * [[http://www.carrier.com][Carrier Corporation]]
-   * [[http://twiki.net][TWIKI.NET]]
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

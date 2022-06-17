@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490435890" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -756,4 +756,3 @@ Extensions, such as the MailerContrib, also install tool scripts. Check the docu
 
 ---
 *%MAKETEXT{"Related topics:"}%* AdminDocumentationCategory, DeveloperDocumentationCategory
-<!-- %JQREQUIRE{"chili"}% -->

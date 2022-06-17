@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505759671" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERZONE - render the content of a zone
 Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
@@ -53,4 +53,3 @@ Supports the [[FormatTokens][standard format tokens]] in all parameters.
 [[VarADDTOZONE][ADDTOZONE]]
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
 [[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]
-<!-- %JQREQUIRE{"chili"}% -->

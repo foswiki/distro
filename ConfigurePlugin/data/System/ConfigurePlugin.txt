@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1612081462" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,6 +42,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  31 Jan 2021: | (1.11) Foswikitask:Item15014: Prevent password fields form being auto-filled |
 |  17 Apr 2020: | (1.10) Foswikitask:Item14901: Add support for XML and CERT data types in configure pages |
 |  08 Dec 2017: | (1.09) Foswikitask:Item14536: Configure leaves "wait" cursor spinning while waiting for user action.<br/>\

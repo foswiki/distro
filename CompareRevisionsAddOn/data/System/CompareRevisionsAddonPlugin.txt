@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491685944" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CompareRevisionsAddOn"}%
-
 ---+ !CompareRevisionsAddOn Plugin
+%FORMFIELD{"Description"}%
 
 This is an helper plugin for the CompareRevisionsAddOn on Foswiki
 
@@ -24,14 +24,8 @@ It should be enabled (if necessary) with the configure script.
 
 Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPluginEnabled" then="" else="*not* "}%installed and enabled.
 
----++ Plugin Info
-
-|  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  08 Apr 2017 (1.115)  | Foswikitask:Item14366: Reorder initialization to allow local CGI::Carp. |
 |  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson. Convert to simple decimal version. |
 |  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
@@ -61,7 +55,16 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.008 |
-|  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
-|  Support: | http://foswiki.org/Support/CompareRevisionsAddOn |
 
 __Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CompareRevisionsAddOn"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CompareRevisionsAddOn"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -359,4 +359,3 @@ Test if a topic text contains a certain word:
    then="contains 'welcome'"
 }%
 </verbatim>
-<!-- %JQREQUIRE{"chili"}% -->

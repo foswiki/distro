@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1603730941" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -407,4 +407,3 @@ You can easily select a balance of browser capability versus look and feel. Try 
 
 *Related Topics:* AdminDocumentationCategory
 
-<!--%JQREQUIRE{"chili"}%-->

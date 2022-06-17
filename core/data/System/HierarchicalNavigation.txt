@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! Hierarchical Navigation
 
@@ -49,4 +49,3 @@ This is intended to be included in other topics, for example in a side navigatio
    format="<li class='childTopic'>$percentICON{line_ur_gray}$percent [[$web.$topic][$topic]]</li>"
 }%%ENDSECTION{"childlist"}%
 </verbatim>
-<!-- %JQREQUIRE{"chili"}% -->

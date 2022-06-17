@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TOPICLIST -- topic index of a web
 List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
@@ -29,4 +29,3 @@ List of all topics in a web. The "format" defines the format of one topic item. 
 %STOPINCLUDE%
 ---++ Related
  [[VarSEARCH][SEARCH]], [[VarWEBLIST][WEBLIST]]
-<!--%JQREQUIRE{"chili"}%-->

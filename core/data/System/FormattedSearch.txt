@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -400,4 +400,3 @@ jQuery(function($) {
 
 ---
 *%MAKETEXT{"Related topics:"}%* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
-<!-- %JQREQUIRE{"chili"}% -->

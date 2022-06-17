@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeprecatedMacros"}%
 ---+ METASEARCH -- special search of meta data
 
@@ -39,4 +39,3 @@
 ---++ Related
  [[VarSEARCH][SEARCH]], [[VarMETA][META]]
 
-<!-- %JQREQUIRE{"chili"}% -->

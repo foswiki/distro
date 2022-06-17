@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -417,4 +417,3 @@ If the currently-running Foswiki version is 1.1 _or later_, then the _handler wi
 
 ---+++ TWiki<sup>&reg;</sup> Plugins
 Most plugins written for TWiki can also be run in Foswiki, by installing the !TWikiCompatibilityPlugin. See Foswiki:Extensions.TWikiCompatibilityPlugin for more information.
-<!-- %JQREQUIRE{"chili"}% -->

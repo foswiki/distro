@@ -1,10 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426726301" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+!! !HomePagePlugin
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = Allow sitewide, user or hostname specified default pages
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -45,7 +41,6 @@ to an individual !HomePage defined in a UserForm field in the users personal top
 __Note__ that this means that any URLs emailed to them will only be useful after login.
 
 ---++ Installation Instructions
-
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Info
@@ -53,7 +48,11 @@ __Note__ that this means that any URLs emailed to them will only be useful after
 Many thanks to the following sponsors for supporting this work:
    * Created for Blackfin inc.
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 | 1.23 (18 Mar 2015) | Foswikitask:Item13312: Don't override URL params topic and defaultweb |
 | 1.22 (18 Dec 2014) | Foswikitask:Item12583: Use simple decimal version strings for better compatibility | 
 | 1.2.1 (16 Dec 2012) | Foswikitask:Item12297: Address perlcritic recommendation.%BR%\
@@ -63,16 +62,14 @@ Many thanks to the following sponsors for supporting this work:
 | 1.1.1 (1 Aug 2009) | fix bug in login screen usage |
 | 1.1.0 (July 2009) | add Expert hash allowing domain name based frontpage setting |
 | 1.0.0 (Feb 2009) | initial version |
-|  Dependencies: | %$DEPENDENCIES% |
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/HomePagePlugin"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]]"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HomePagePlugin"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.SvenDowideit"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com<br> &copy; 2012-2015 Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/HomePagePlugin"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]]"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/HomePagePlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

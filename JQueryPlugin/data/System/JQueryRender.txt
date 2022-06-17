@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -21,7 +21,6 @@ JsRender is a light-weight but powerful templating engine, highly extensible, an
 
 ---++ Usage
 
-%JQREQUIRE{"chili"}%
 Have you ever found yourself writing code like this?
 
 <verbatim class="js">
@@ -160,4 +159,4 @@ and return the rendered template.
 | ={{<nop>!-- ... --}}= | comments to templates, or commenting out sections of a template | ={{!-- this is a comment --}}= |
 
 
-%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1574078050" size="1241" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1655468868" size="1241" user="ProjectContributor" version="1"}%

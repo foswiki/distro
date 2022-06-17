@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SHOWPREFERENCE -- show where preferences are defined.
 Preference values are shown in a bulleted list, together with where they were defined.
@@ -16,4 +16,3 @@ Preference values are shown in a bulleted list, together with where they were de
 <pre class="tml">
 %SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%
 </pre>
-<!--%JQREQUIRE{"chili"}%-->

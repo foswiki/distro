@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1590420059" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABLE -- control attributes of tables and sorting of table columns
 The =%<nop>TABLE{}%= macro is handled by the TablePlugin
@@ -74,4 +74,3 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
 %STOPINCLUDE%
 ---++ Related
  See TablePlugin for more details
-<!--%JQREQUIRE{"chili"}%-->

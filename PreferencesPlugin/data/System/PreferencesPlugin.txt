@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434327981" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
+%FORMFIELD{"Description"}%
 
 Allows editing of preferences using fields predefined in a %SYSTEMWEB%.DataForms. However, the edit fields are inlined in the text, similar to how tables are edited in Foswiki:Extensions/EditTablePlugin.
 
@@ -22,18 +23,14 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
    * =%<nop>EDITPREFERENCES%= 
    * =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
 
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
    * If the installation was successful, an edit button should appear below:
 %EDITPREFERENCES%
 
----++ Plugin Info
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  14 Jun 2015 (1.16) | Foswikitask:Item13423: Perl 5.22 deprecations. Foswikitask:Item12864: Change to simple decimal versions. |
 |  23 Oct 2013 (1.1.5) | Foswikitask:Item12607: Document EDITBOX* settings ignored when cookie set |
 |  28 Nov 2012 (1.1.4) | Foswikitask:Item11267: Convert to perl version strings |
@@ -55,14 +52,13 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 ---
 *Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, %SYSTEMWEB%.DataForms
 
-
-
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2008-2015 Foswiki:Main.ThomasWeigert and Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

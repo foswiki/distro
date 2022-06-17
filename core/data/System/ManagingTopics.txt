@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Topics
@@ -84,7 +84,7 @@ Ultimately, the size, objectives, and policies of your site, the real-world beha
 
 The following shows some limitations of square bracket processing.
 
-<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
+<verbatim class="tml">
 [[Old Topic]]  => [[NewTopic][Old Topic]]
 [[old topic]]  => [[NewTopic][old topic]]
 [[old t opic]] => not changed

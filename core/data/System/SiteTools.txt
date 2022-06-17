@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Site Tools
@@ -146,6 +146,6 @@ The crontab command is used to schedule commands to be executed periodically.
 
 ---
 
-*%MAKETEXT{"Related Topics:"}%* AdminDocumentationCategory, AdminToolsCategory<!-- %JQREQUIRE{"chili"}% -->
+*%MAKETEXT{"Related Topics:"}%* AdminDocumentationCategory, AdminToolsCategory
 
 %STOPINCLUDE%

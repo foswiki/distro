@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1488333719" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %ADDTOZONE{"head" text="<style type='text/css'>
     #bulkReg .col1 {float:left; width:30%; margin:0 3% 0 0;}
@@ -142,8 +142,22 @@ Any fields you define in this table will end up in the User's topic. If a form (
   else='<div class="foswikiHelp">%X% <strong>%MAKETEXT{"Caution: The password system is currently read only. Users will not be added to the Password file."}%</strong>%BR%
   %MAKETEXT{"If your wiki uses an external password manager, and the users you want to register are known to the password manager, then bulk registration may still be useful.  Please contact [_1] if you are unsure." args="%WIKIWEBMASTER%"}%</strong></div>'
 }%
-<!--
-%JQREQUIRE{"chili"}%
--->
+#RegisterForm
+<form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
+<input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
+<input type="submit" class="foswikiSubmit" value="Bulk Register these people" />
+<input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
+<input type="hidden" name="OverwriteHomeTopics" value="%OVERWRITEHOMETOPICS%" />
+</form>
+
+---++ <nop>%REGISTERTOPIC%
+
+%INCLUDE{"%REGISTERTOPIC%" warn="Topic does not exist"}%
+
+---++ <nop>%LOGTOPIC%
+
+%INCLUDE{"%LOGTOPIC%" warn="Topic will be created during registration run."}%
+
+---
 
 *%MAKETEXT{"Related topics:"}%* AdminToolsCategory

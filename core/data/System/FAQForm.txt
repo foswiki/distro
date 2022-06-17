@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1489206078" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 | *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
 | <nop>TopicTitle  | text | 80 | | | H |
 | TopicClassification | select | 1 | | Classify a topic | |
@@ -19,4 +19,3 @@
   web="%URLPARAM{"web" default="%WEB%"}%"
 }%</noautolink></literal>%ENDSECTION{"topics"}%
 </verbatim>
-<!-- %JQREQUIRE{"chili"}% -->

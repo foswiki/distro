@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1573560816" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -26,10 +26,6 @@ updates again when this cookie expires (in 7 days).
 Note that the plugin requires Javascript and Cookies to be enabled in the
 browser.
 
----++ Installation Instructions
-
-%$INSTALL_INSTRUCTIONS%
-
 ---++ Notes
 The plugin sends update status requests to the repository server to retrieve
 the current release information for extensions. If these update status requests
@@ -47,12 +43,18 @@ as Open Source on foswiki.org then use the ={ExcludeExtensions}= parameter in =c
 to prevent disclosing them to the outside world.
 
 ---++ Info
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
+
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 | 2.00 (12 Nov 2019) | Foswikitask:Item14873: rewrite and simplify |
 | 1.04 (22 Jan 2018) | Foswikitask:Item14448: fixed broken outdated plugins report<br/>\
                        Foswikitask:Item14529: UpdatesPlugin should not cookie realm.<br/>\
@@ -61,17 +63,15 @@ This plugin was initially developed during a collaborative design and coding ses
 | 1.02 (23 Jan 2017) | Foswikitask:Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
 | 1.01 (24 Jul 2015) | Foswikitask:Item13555: Compare VERSION not RELEASE strings.<br/>\
                        Foswikitask:Item13524: Plugin reports "0 extensions need update - too noisy |
-|  Dependencies: | %$DEPENDENCIES% |
-
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
-%META:FIELD{name="Description" title="Description" value=""}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; Foswiki Contributors 2011-2019"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1573560816" size="53676" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1655468868" size="53676" user="ProjectContributor" version="1"}%

@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1651137756" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
+%FORMFIELD{"Description"}%
+
 <img src="%ATTACHURL%/logo.gif" class="foswikiRight" />
 
 Allows users to "subscribe" to regularly scheduled emails containing either:
@@ -205,10 +207,6 @@ Because there is a risk that someone could lock up your server by
 firing multiple notification requests at it, the REST handler is only
 accessible to administrators.
 
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
 ---+++ Tailoring the email format
 The changes emails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 
 | =HTML:before= | Section of an HTML email before the changes |
@@ -270,8 +268,8 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
    * [[http://wikigardens.com][WikiGardens]]
 
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2022 Foswiki Contributors |
-|  Change History: | |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  2.90  (28 Apr 2022) | Foswikitask:Item15090: mailnotify script must run as admin user %BR% Foswikitask:Item15091: only notify people of topics that they have view access to |
 |  2.85  (8 Jan 2018) | Foswiki 2.1.5  Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
                         Foswikitask:Item13350: Mailnotify appears to skip notification of some changes.<br/>\ 
@@ -295,7 +293,6 @@ Many thanks to the following sponsors for supporting this work:
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
 |  2.5.4 (25 Mar 2013) | Foswiki:Tasks/Item12447: correct support for character encodings |
 |  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples |
-|  | Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
 |  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |
 |  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
 |  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
@@ -315,12 +312,14 @@ Many thanks to the following sponsors for supporting this work:
 
 
 %META:FORM{name="PackageForm"}%
+%META:FIELD{name="" title="" value="Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1651137756" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1655468868" size="11437" user="ProjectContributor" version="1"}%

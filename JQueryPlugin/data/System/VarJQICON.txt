@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQICON -- render an image 
 Renders an icon made availabe by the IconService. 
@@ -67,4 +67,3 @@ Produces:
 
 ---++ Related
 [[VarJQICONPATH][JQICONPATH]], [[VarICON][ICON]], JQueryPlugin, FamFamFamSilkIcons, IconService
-<!--%JQREQUIRE{"chili"}%-->

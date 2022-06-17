@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1651080173" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <img src="%ATTACHURLPATH%/logo.gif" alt="logo" class="foswikiRight" />
@@ -643,7 +643,6 @@ histories are preserved.
 
 If you want your installer to do anything else then you will need to write a [[#InstallScripts][POSTINSTALL script]].
 
-<!-- %JQREQUIRE{"chili"}% -->
 
 ---++ Installation Instructions
 You are strongly recommended to use this Contrib to help split your code development away from your live Foswiki environment, as described [[#DevelopmentModel][above]].
@@ -651,7 +650,6 @@ You are strongly recommended to use this Contrib to help split your code develop
 %$INSTALL_INSTRUCTIONS%
 
 
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1651080173" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2022, All Rights Reserved"}%
@@ -662,3 +660,4 @@ You are strongly recommended to use this Contrib to help split your code develop
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/BuildContrib"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1655468868" size="14169" user="ProjectContributor" version="1"}%

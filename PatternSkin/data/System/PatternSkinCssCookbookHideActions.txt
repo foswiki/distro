@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Hide action buttons
 
@@ -18,7 +18,7 @@ most "friendly" approach in that a guest can click any button (for ex. edit or
 attach) and will be prompted to log in.
 
 This line loads the extra style definition:
-<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
+<verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookHideActions/hideunauthaction.css
 </verbatim>
 
@@ -32,7 +32,7 @@ engines from following edit links.  The buttons are present, but are hidden
 using CSS.</div>
 
 This line loads the extra style definition:
-<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
+<verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookHideActions/hideguestaction.css
 </verbatim>
 
@@ -60,5 +60,5 @@ CSS sets the opacity to 50%, and disables the button.
 </verbatim>
 
 
-%META:FILEATTACHMENT{name="hideguestaction.css" attr="h" comment="" date="1437500521" size="336" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="hideunauthaction.css" attr="h" comment="" date="1437500521" size="221" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideguestaction.css" attr="h" comment="" date="1655468868" size="336" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hideunauthaction.css" attr="h" comment="" date="1655468868" size="221" user="ProjectContributor" version="1"}%

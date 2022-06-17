@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505759671" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ADDTOZONE -- add content to a named zone on the page
 
@@ -162,4 +162,3 @@ identifier should appear beforehand.
 [[VarRENDERZONE][RENDERZONE]],
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
 [[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]
-<!-- %JQREQUIRE{"chili"}% -->

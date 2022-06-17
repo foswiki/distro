@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1602600476" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
+%FORMFIELD{"Description"}%
 
 Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.
 
@@ -251,10 +252,6 @@ If default permissions are not configured, then commenting will be permitted.
 </div>
 
 ---++ Settings
-<!-- Not used by the plugin
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
@@ -275,9 +272,8 @@ This plugin has been significantly changed from the =10 April 2011= version ship
    * The plugin uses a =rest= handler to update topics.  By default this script does not require authentication, and can now permit anonymous commenting.  Examine the [[%SCRIPTURL{"configure"}%]] ( =Security and Authentication= tab, =Login= sub-tab ) configuration ={AuthScripts}= setting, and the scripts requiring authentication in the Apache configuration.
    * The plugin no longer processes %COMMENT macros during save.  If you have developed any forms using the [[%SANDBOXWEB%.CommentPluginExamples#NoForm][=noform= and =templatetopic= examples]] they must be revised.
 
----++ Info
-
-|  Change History: | |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  2.94 (13 Oct 2020) | Foswikitask:Item14941: only load comment.js and comment.css on pages where it is required |
 |  2.93 (22 Jan 2018) | Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
                         Foswikitask:Item14605: Unescaped brace in Regular Expression,   Perl 5.27.8. |
@@ -325,13 +321,13 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 |  16 Dec 2008 | Foswiki version |
 |  06 Mar 2002 | initial commit |
 
-
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2020 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2020 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

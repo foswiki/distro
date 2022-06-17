@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 ---++ Description
 This plugin sets the VIEW_TEMPLATE and EDIT_TEMPLATE variables according to a
@@ -67,16 +67,11 @@ The following settings can be defined in configure
 | {Plugins}{AutoViewTemplatePlugin}{Override} | Form defined templates override VIEW_TEMPLATE and EDIT_TEMPLATE settings | Default: Off |
 | {Plugins}{AutoViewTemplatePlugin}{Mode} | The mode the plugin uses for defining templates. <br /> =exist= for deriving the template name from the form name <br /> =section= for defining the template in a section of the form definition topic | Default: =exist= |
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-
----++ Plugin Info
-<!--
-   * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
-%JQREQUIRE{"chili"}%
--->
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  8  Apr 2016: | Released with Foswiki 2.1.1. Foswikitask:Item14014: Template files not working in hierarchical webs. |
 |  7  Dec 2015: | Released with Foswiki 2.1. Foswikitask:Item13554: Enable non-ascii template names. |
 |  18 Aug 2015: | Foswikitask:Item13625: AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
@@ -101,11 +96,12 @@ The following settings can be defined in configure
 |  Other Dependencies: | none |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.OliverKrueger, Foswiki:Main.MichaelDaum"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2009, Oliver Krueger"}%
-%META:FIELD{name="Support" title="Support" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Extensions/AutoViewTemplatePlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

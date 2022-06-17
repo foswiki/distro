@@ -1,15 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. 
-Please add comments/questions/remarks to Support.TWikiCompatibilityPlugin -->
-
 ---+!! !TWikiCompatibilityPlugin
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -31,17 +23,20 @@ your Apache configuration _in the =pub= section_
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Info
+---++ Info
 
 Many thanks to the following sponsors for supporting this work:
    * Acknowledge any sponsors here
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  1.1.2 | Released with Foswiki 1.1.4 - minor cleanup of topics and code. |
 |  1.1.1 | Foswikitask:Item9415 - Documentation updates |
 |  1.1 | Foswikitask:Item8669 - MAINWEB mapping removed. It has instead been added to %WIKIPREFSTOPIC% in Foswiki 1.1 and forward so that upgraders do not have to enable this plugin just to map MAINWEB to USERSWEB. Many upgraders will not need any other function and would rather not have the code overhead of this plugin |
 |  1.0 | Version shipped with Foswiki 1.0.X |
-|  Dependencies: | %$DEPENDENCIES% |
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
@@ -49,9 +44,10 @@ Many thanks to the following sponsors for supporting this work:
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Sven Dowideit, Michael Daum, Crawford Currie"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; SvenDowideit@fosiki.com"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL3 (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

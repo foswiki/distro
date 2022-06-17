@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Center the page with a border
 
@@ -45,8 +45,7 @@ You can always write a =&lt;style>= in a topic - all current browsers support th
 	background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
 }</style>"
 }%
-<!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="centerpageborder.css" attr="" comment="css to frame the page centered on the screen" date="1437500521" size="100" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="striped_pageshadow.gif" attr="" comment="" date="1437500521" size="234" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="gradient_page.gif" attr="" comment="background image" date="1437500521" size="3854" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="centerpageborder.css" attr="" comment="css to frame the page centered on the screen" date="1655468868" size="100" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="striped_pageshadow.gif" attr="" comment="" date="1655468868" size="234" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="gradient_page.gif" attr="" comment="background image" date="1655468868" size="3854" user="ProjectContributor" version="1"}%

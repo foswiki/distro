@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1480387012" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="System.PatternSkinCssCookbook"}%
 <!--
    * Set NOWYSIWYG = 1
@@ -27,6 +27,5 @@ Change it to
 
 The formating and positioning is done in the css. When the sidebar is hidden, the button will appear in the lower left corner of the screen, appearing as the "hamburg" icon: ... %JQICON{fa-bars}%.
 </div>
-<!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1480387012" size="784" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1655468868" size="784" user="ProjectContributor" version="1"}%

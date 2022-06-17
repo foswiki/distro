@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WysiwygPlugin"}%
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
@@ -92,7 +92,7 @@ wish to change the settings, the following list is the default setting coded
 in the plugin:
 <pre class="tml">
    * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYGPLUGIN_STICKYBITS"}%
-</pre><!-- %JQREQUIRE{"chili"}%
+</pre><!-- 
 %STARTSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
         (?!IMG).*=id,lang,title,dir,on.*;
         A=accesskey,coords,shape,target;

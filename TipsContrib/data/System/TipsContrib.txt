@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
+%FORMFIELD{"Description"}%
 
 Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki features. Includes an application for creating custom tips for local installation.
 
@@ -13,10 +14,6 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 ---++ Detailed Documentation
    * See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
    * See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
-
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 
 ---++ CSS used by !TipsContrib
 
@@ -35,9 +32,11 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
      | *File:* | *Description:* |
      %$MANIFEST%
 
----++ Contrib Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  06 Nov 2015: (1.26) | Foswikitask:Item13796: Rewrite TipsOfTheDayInclude to avoid generating HTML from the CALCULATE macro. |
 |  02 Oct 2015: (1.25) | Foswikitask:Item13781: Update dependency on SpreadSheetPlugin version for better Foswiki 1.1 compatibility |
 |  29 Sep 2015: (1.24) | Released with Foswiki 2.0.2 Foswikitask:Item13741: Encode search strings |
@@ -55,7 +54,6 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  16 Dec 2008: | Foswiki version |
 |  04 Jan 2007: | Performance improvement |
 |  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
-|  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
 
 ---
 *Related Topics:* %LOCALSITEPREFS%
@@ -63,9 +61,10 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors, 2008-2015 Foswiki Contributors."}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
