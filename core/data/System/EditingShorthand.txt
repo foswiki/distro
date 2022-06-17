@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1473352704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -783,7 +783,6 @@ required
 </td>
 </tr>
 </table>
-<!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%
 ---

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+++ User Settings -- preference settings customizable by users
 Some of the preference settings are explicitly intended to be customized by users, though a default is provided in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and site wide customisation can take place in [[%LOCALSITEPREFS%]].
@@ -6,7 +6,7 @@ Some of the preference settings are explicitly intended to be customized by user
 User settings are customised by asetting a value in the users' personal topic.
 For example,
 Example:
-<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
+<verbatim class="tml">
    * Set LINKTOOLTIPINFO = off
 </verbatim>
 

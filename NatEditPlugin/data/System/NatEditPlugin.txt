@@ -1,5 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1652895976" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
+%FORMFIELD{"Description"}%
+
 %TOC%
 
 ---++ Description
@@ -49,14 +51,17 @@ is sufficient.
 
 <!--
    * Set STUB = %$STUB%
-   * Set SHORTDESCRIPTION = %FORMFIELD{"Description"}%
 -->
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
----++  Change History
+---++ Dependencies
+%$DEPENDENCIES%
 
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  18 May 2022 | Foswikitask:Item15131: natedit doesn't validate mandatory formfields properly |
 |  15 Jan 2021 | Foswikitask:Item15008: bring back support for "dontnotify" in natedit; bring back support for <nop>RevCommentPlugin |
 |  28 Sep 2020 | Foswikitask:Item14897: rationalized edit template for better customization <br /> \
@@ -181,17 +186,15 @@ is sufficient.
 |  03 Apr 2007 | added NATEDIT_HELPTEXT variable; \
                   be backwards compatible to <nop>PatternSkin |
 |  31 Mar 2007 | Initial version |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Perl Version: | - |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
-%META:FIELD{name="Description" title="Description" value="A Wikiwyg Editor"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Description" title="Description" value="A Wikiwyg Editor"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attachment="screenshot1.png" attr="h" comment="" date="1652895976" path="screenshot1.png" size="104954" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1655468868" size="104954" user="ProjectContributor" version="1"}%

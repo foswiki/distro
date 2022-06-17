@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443573973" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 #TemplateTopics
 ---+ Template topics
@@ -126,4 +126,3 @@ See CommandAndCGIScripts#edit for details of the parameters that the =edit= scri
 When you use [[Macros]] such as [[VarPUBURL][%<nop>PUBURL%]] and [[VarPUBURLPATH][%<nop>PUBURLPATH%]] in template topics you should be aware that using [[VarPUBURL][%<nop>PUBURL%]] instead of [[VarPUBURLPATH][%<nop>PUBURLPATH%]] puts absolute URLs in the produced HTML. This means that when a user saves a page in HTML and emails the file to someone outside a company firewall, the receiver has a severe problem viewing it. It is therefore recommended always to use the [[VarPUBURLPATH][%<nop>PUBURLPATH%]] to refer to images, CSS, Javascript files etc so links become relative. This way browsers just give up right away and show a usable html file.
 
 %ENDSECTION{"PowerUserGuide"}%
-<!-- %JQREQUIRE{"chili"}% -->

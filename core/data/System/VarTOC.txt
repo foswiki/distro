@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449273010" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TOC -- table of contents
 Shows a Table of Contents that is generated automatically based on headings of a topic. Headings in TopicMarkupLanguage (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
@@ -31,4 +31,3 @@ Default settings are defined in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overrid
 
 %X% If other topics are included using [[VarINCLUDE][INCLUDE]] then any =headingoffset= specified on the INCLUDE macro will not be seen by =TOC=.
 </div>
-<!--%JQREQUIRE{"chili"}%-->

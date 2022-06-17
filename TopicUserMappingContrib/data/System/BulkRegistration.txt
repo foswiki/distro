@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460853933" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -99,9 +99,6 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
   else='<div class="foswikiHelp">%X% <strong>%MAKETEXT{"Caution: The password system is currently read only. Users will not be added to the Password file."}%</strong>%BR%
   %MAKETEXT{"If your wiki uses an external password manager, and the users you want to register are known to the password manager, then bulk registration may still be useful.  Please contact [_1] if you are unsure." args="%WIKIWEBMASTER%"}%</strong></div>'
 }%
-<!--
-%JQREQUIRE{"chili"}%
--->
 #RegisterForm
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
 <input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>

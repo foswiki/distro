@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Escaping Foswiki rendering
 
@@ -6,7 +6,7 @@ Use the verbatim tag to surround code excerpts and other formatted text with =&l
 
 For Example:
 
-<!-- %JQREQUIRE{"chili"}% --><pre class="tml">
+<pre class="tml">
 &lt;verbatim&gt;
 | *Header1* | *Header1* |
 | Data1     | Data2     |

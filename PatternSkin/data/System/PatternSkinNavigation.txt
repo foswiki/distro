@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485108858" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin Navigation
 
@@ -90,5 +90,4 @@ jQuery(function($) {
 });
 </script>%ENDSECTION{"js"}%
 
-!-- %JQREQUIRE{"chili"}% -->
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

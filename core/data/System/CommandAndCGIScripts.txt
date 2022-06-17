@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1484612966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -701,4 +701,3 @@ Note that this script is a generic version of the =_installer= script shipped wi
 
 ---
 *%MAKETEXT{"Related topics:"}%* AdminDocumentationCategory, DeveloperDocumentationCategory
-<!-- %JQREQUIRE{"chili"}% -->

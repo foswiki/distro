@@ -1,11 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Render List Plugin
-
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 ---++ Syntax Rules
 
@@ -333,13 +329,12 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 | TREND | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif |
 | FILE | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif |
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
    * Test if the installation was successful: See if above examples work
 
----++ Plugin Info
-
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  08 Apr 2016: | 2.28: Foswikitask:Item14022 Change all foswiki.org links to https. |
 |  14 Jun 2015: | 2.27: Foswiki 2.0 release. Foswikitask:Item12864: Use simple decimal versions.  Foswikitask:Item13423: Perl 5.22 deprecations. |
 |  28 Nov 2012: | 2.2.7: Foswiki 1.1.6 release.  Item11267: Convert to perl version string. |
@@ -364,46 +359,43 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 |  11 Dec 2003: | Added =focus= and =depth= parameters |
 |  05 Dec 2003: | Fixed rendering issue with IE; added EMAIL_THEME |
 |  02 Dec 2003: | Initial version |
-|  Plugin Home: | https://foswiki.org/Extensions/%TOPIC% |
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, Foswiki:Extensions/TreePlugin
-<!-- %JQREQUIRE{"chili"}% -->
-
-
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2015 Foswiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="icon, 1, 16, 16, %25ATTACHURL%25/empty.gif, %25ATTACHURL%25/dot_udr.gif, %25ATTACHURL%25/dot_ud.gif, %25ATTACHURL%25/dot_ur.gif, %25ATTACHURL%25/home.gif"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="image.gif" attr="h" comment="" date="1460168492" size="943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h" comment="" date="1460168492" size="160" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualhome.gif" attr="h" comment="" date="1460168492" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="xls.gif" attr="h" comment="" date="1460168492" size="918" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="email.gif" attr="h" comment="" date="1460168492" size="183" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ur.gif" attr="h" comment="" date="1460168492" size="106" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="person.gif" attr="h" comment="" date="1460168492" size="153" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sound.gif" attr="h" comment="" date="1460168492" size="166" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folder.gif" attr="h" comment="" date="1460168492" size="903" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="persons.gif" attr="h" comment="" date="1460168492" size="164" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="doc.gif" attr="h" comment="" date="1460168492" size="922" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_udr.gif" attr="h" comment="" date="1460168492" size="109" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="empty.gif" attr="h" comment="" date="1460168492" size="100" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pdf.gif" attr="h" comment="" date="1460168492" size="938" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="folders.gif" attr="h" comment="" date="1460168492" size="913" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="home.gif" attr="h" comment="" date="1460168492" size="172" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="globe.gif" attr="h" comment="" date="1460168492" size="1024" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ppt.gif" attr="h" comment="" date="1460168492" size="921" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="zip.gif" attr="h" comment="" date="1460168492" size="940" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="file.gif" attr="h" comment="" date="1460168492" size="151" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="dot_ud.gif" attr="h" comment="" date="1460168492" size="108" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="group.gif" attr="h" comment="" date="1460168492" size="162" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="trend.gif" attr="h" comment="" date="1460168492" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="virtualperson.gif" attr="h" comment="" date="1460168492" size="149" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="see.gif" attr="h" comment="" date="1460168492" size="81" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="files.gif" attr="h" comment="" date="1460168492" size="907" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image.gif" attr="h" comment="" date="1655468868" size="943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualpersons.gif" attr="h" comment="" date="1655468868" size="160" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualhome.gif" attr="h" comment="" date="1655468868" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="xls.gif" attr="h" comment="" date="1655468868" size="918" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="email.gif" attr="h" comment="" date="1655468868" size="183" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ur.gif" attr="h" comment="" date="1655468868" size="106" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="person.gif" attr="h" comment="" date="1655468868" size="153" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound.gif" attr="h" comment="" date="1655468868" size="166" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folder.gif" attr="h" comment="" date="1655468868" size="903" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="persons.gif" attr="h" comment="" date="1655468868" size="164" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="doc.gif" attr="h" comment="" date="1655468868" size="922" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_udr.gif" attr="h" comment="" date="1655468868" size="109" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="empty.gif" attr="h" comment="" date="1655468868" size="100" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pdf.gif" attr="h" comment="" date="1655468868" size="938" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="folders.gif" attr="h" comment="" date="1655468868" size="913" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="home.gif" attr="h" comment="" date="1655468868" size="172" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="globe.gif" attr="h" comment="" date="1655468868" size="1024" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ppt.gif" attr="h" comment="" date="1655468868" size="921" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="zip.gif" attr="h" comment="" date="1655468868" size="940" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="file.gif" attr="h" comment="" date="1655468868" size="151" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="dot_ud.gif" attr="h" comment="" date="1655468868" size="108" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="group.gif" attr="h" comment="" date="1655468868" size="162" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="trend.gif" attr="h" comment="" date="1655468868" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="virtualperson.gif" attr="h" comment="" date="1655468868" size="149" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="see.gif" attr="h" comment="" date="1655468868" size="81" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="files.gif" attr="h" comment="" date="1655468868" size="907" user="ProjectContributor" version="1"}%

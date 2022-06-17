@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655109453" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -473,6 +473,7 @@ You can override some default settings in the plugin by setting the following [[
 
 ---++ Change History
 
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  13 Jun 2022 | 2.00 removed unused assets from package; made twisty modes more meaningfull: was div/span - now is block/inline |
 |  09 Jun 2022 | 1.65 better default labels for show and hide links |
 |  28 Sep 2020 | 1.64 removed dependency on deprecated livequery module |
@@ -523,8 +524,6 @@ You can override some default settings in the plugin by setting the following [[
 |  27 Sep 2006 | 1.101 Fixes !JavaScript handling when !AllowInlineScript in configure is not set |
 |  11 Jun 2006 | 1.100 Added parameters =start=, =firststart=, =noscript= and =class=; complete !JavaScript rewrite for speed |
 |  12 Sep 2005 | 1.000 First Version |
-|  Dependencies: | None |
-<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens"}%

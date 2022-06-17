@@ -366,4 +366,3 @@ Use the =$pattern()= token.
 %JQREQUIRE{"loader"}%
 %ENDSECTION{"click2exec"}%
 </verbatim>
-%JQREQUIRE{"chili"}%

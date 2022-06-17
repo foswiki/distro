@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQICONPATH -- render the url path to an image icon
 This is a shortcut for:
@@ -16,4 +16,3 @@ This web font holds all icons in one large font file and as such cannot be refer
 
 ---++ Related
  [[VarJQICON][JQICON]], [[VarICONURL][ICONURL]], JQueryPlugin, IconService
-<!--%JQREQUIRE{"chili"}%-->

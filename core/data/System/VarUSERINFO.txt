@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERINFO -- retrieve details about a user
 ---++ Parameters
@@ -27,4 +27,3 @@ Retrieve information about another user. You can use either a wikiname or a user
 %STOPINCLUDE%
 ---++ Related
  [[VarUSERNAME][USERNAME]], [[VarWIKINAME][WIKINAME]], [[VarWIKIUSERNAME][WIKIUSERNAME]], [[VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress
-<!--%JQREQUIRE{"chili"}%-->

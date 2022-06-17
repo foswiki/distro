@@ -1,11 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1549890474" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
 %FORMFIELD{"Description"}%
 
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
@@ -305,6 +300,16 @@ Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
 This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. 
 
+---++ Info
+
+Many thanks to the following sponsors for supporting this work:
+   * [[http://ilog.fr][ILOG]]
+   * [[http://www.carrier.com][Carrier Corporation]]
+   * [[http://twiki.net][TWIKI.NET]]
+
+---++ Dependencies
+%$DEPENDENCIES%
+
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
@@ -406,22 +411,14 @@ This package also includes the complete sources for version 3.5.7 of the !TinyMC
 |  14668 | Bugfixes and refinements done as part of 4.2 release |
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
-|  Dependencies: | %$DEPENDENCIES% |
-
-Many thanks to the following sponsors for supporting this work:
-   * [[http://ilog.fr][ILOG]]
-   * [[http://www.carrier.com][Carrier Corporation]]
-   * [[http://twiki.net][TWIKI.NET]]
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
-
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

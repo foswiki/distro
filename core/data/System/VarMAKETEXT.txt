@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
 Strings captured in the =MAKETEXT= macro are automatically mapped to the
@@ -46,4 +46,3 @@ The =%<nop>MAKETEXT= macro also supports a _limited_ subset of the =quant= style
    * The 2nd parameter must be the argument number
    * The 3rd parameter is the word or phrase to be made plural.
 
-<!--%JQREQUIRE{"chili"}%-->

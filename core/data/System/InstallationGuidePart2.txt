@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1502239930" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -274,7 +274,6 @@ Run the uninstall from the "root" of the Foswiki installation:%BR%
 ---++++ Restoring a removed, or previous version of an extension
 
 The backup can be extracted from the root directory of the Foswiki installation.  The archive is taken "relative" to the root of the installation, so an =unzip= or =tar -xzf= of the backup file should be all that is required:
-<!--%JQREQUIRE{"chili"}%-->
 <verbatim class='bash'>cd /root/of/foswiki
 tar -zxvf * working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].tgz
 # or

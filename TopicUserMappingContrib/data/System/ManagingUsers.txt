@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1482950646" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -237,7 +237,6 @@ Your Wiki Admin
 
 ---
 *Related Topics:* AdminDocumentationCategory
-<!-- %JQREQUIRE{"chili"}% -->
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 %META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="details"}%

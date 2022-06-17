@@ -1,9 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1651568074" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !UnitTestContrib
-<!--
-One line description, required for extensions repository catalog.
--->
 %FORMFIELD{"Description"}%
 
 %TOC%
@@ -95,16 +92,13 @@ Use the =SeleniumConfigTests= to verify your configuration.
    1 Go to =foswiki/test/unit= and run <noautolink> =perl -T ../bin/TestRunner.pl SeleniumConfigTests= </noautolink>
 
 ---++ Installation Instructions
-
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Dependencies
 %$DEPENDENCIES%
 
-
 __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
 
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk and test authors"}%
@@ -116,4 +110,4 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1651568074" size="16557" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1655468868" size="16557" user="ProjectContributor" version="1"}%

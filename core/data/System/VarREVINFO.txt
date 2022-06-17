@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505958329" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ REVINFO -- revision information of current topic
 =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
@@ -31,4 +31,3 @@ Supported formatting tokens:
 %STOPINCLUDE%
 ---++ Related
  [[VarREVARG][REVARG]],[[VarREVTITLE][REVTITLE]]
-<!--%JQREQUIRE{"chili"}%-->

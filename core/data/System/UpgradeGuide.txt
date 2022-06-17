@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1645803928" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -452,7 +452,6 @@ Re-execute your test plan to verify that your newly-upgraded site is accessible 
 
 Re-execute your test plan to verify that your Wiki applications and other key functionality work as intended.
 
-<!-- %JQREQUIRE{"chili"}% -->
 %STOPINCLUDE%
 
 ---

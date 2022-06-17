@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1519431680" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -517,4 +517,3 @@ This gives:
 
 ---
 *Related Topics:* MacrosQuickReference, PreferenceSettings, UserDocumentationCategory
-<!-- %JQREQUIRE{"chili"}% -->

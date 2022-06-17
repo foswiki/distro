@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -440,5 +440,4 @@ TWiki is a registered trademark of Peter Thoeny.
 
 *Related Topics:* %IF{"$skin = 'plain'" then="<nop>System.<nop>InstallationGuidePart2 in your installation" else="[[InstallationGuidePart2]]"}%, %IF{"$skin = 'plain'" then="<nop>System.<nop>AdminDocumentationCategory in your installation" else="[[AdminDocumentationCategory]]"}%, Foswiki:Support.SupplementalDocuments
 
-<!-- %JQREQUIRE{"chili"}% -->
 </noautolink>

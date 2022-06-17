@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1491353723" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Edit Table Plugin
-
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 Simply add an *[&nbsp;Edit&nbsp;table&nbsp;]* button to an existing table by writing =%<nop>EDITTABLE{}%= directly above the table. This can be added to tables that are formatted with TablePlugin: add the =EDITTABLE= macro just above or below the =TABLE= tag. It can also be used without any =TABLE= tag.
 
@@ -152,10 +151,7 @@ Table in edit mode:
 ---++ Plugin Settings
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
-<!--
-      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
+
 Note: Texts inside =%<nop>MAKETEXT{}%= are translated into other languages.
 | *Preference* | *Meaning* | *Default* |
 | EDITTABLEPLUGIN_JAVASCRIPTINTERFACE | Set to 0 to be disable the ability to directly move and delete row without page refresh. Can be overridden with parameter =javascriptinterface= | 1 |
@@ -193,11 +189,11 @@ Test if the Plugin is correctly installed:
    * The Edit Table Plugin is released under the [[http://www.gnu.org/licenses/gpl.html][GPL]]
 
 
----++ Plugin Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Copyright: | &copy; 2008-2012, Arthur Clemens, 2008-2015, Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Change History: | <!-- specify latest version first -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  04 Apr 2017: | 4.46: Item14324: Unescaped left brace - Perl 5.25.10 |
 |  28 Nov 2016: | 4.45: Released with Foswiki 2.1.3<br/>\
                   Foswikitask:Item14236: Include compressed and gziped versions of css and js. |
@@ -263,20 +259,27 @@ Test if the Plugin is correctly installed:
 |  18 Apr 2002: | Fixed bug where table was breaking when pasting multiple lines into an edit field using Netscape on Unix |
 |  08 Apr 2002: | Check for change permission and edit lock of topic |
 |  05 Apr 2002: | Initial version |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Perl Version: | 5.008 |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1491353723" size="7823" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h"  date="1491353723" size="2017" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h"  date="1491353723" size="3199" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h"  date="1491353723" size="145" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h"  date="1491353723" size="68" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h"  date="1491353723" size="298" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2012, Arthur Clemens, 2008-2015, Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1655468868" size="7823" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="" date="1655468868" size="2017" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="" date="1655468868" size="3199" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" date="1655468868" size="145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" date="1655468868" size="68" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%

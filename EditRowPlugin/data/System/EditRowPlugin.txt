@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655377101" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
+%FORMFIELD{"Description"}%
+
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = Replacement for some of !EditTablePlugin, some of !EditTablerowPlugin and some of !TablePlugin.
 %JQREQUIRE{"UI"}%
    * Set UICON = <button type="button" class="ui-icon erp-button ui-icon-
    * Set NOCIU = " ></button>
@@ -12,8 +13,6 @@ One line description, required for extensions repository catalog.
 @import url(%PUBURL%/%WEB%/%TOPIC%/erp.uncompressed.css);
 </style>
 </literal>
-
-%SHORTDESCRIPTION%
 
 %TOC%
 
@@ -267,9 +266,11 @@ All parameters to an applicable =%TABLE= macro are respected. If the same settin
 Provides the vertical row editing interface like
 !EditTablerowPlugin, with the row being edited shown in context in the table.
 
----++ Plugin Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  3.40 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
 |  3.330 (29 Sep 2020) | Foswikitask:Item14929: fixed single zero char not rendered in table cell | 
 |  3.321 (05 Feb 2018) | Foswikitask:Item14537: The plugin makes tables "shaky". |
@@ -345,17 +346,15 @@ Provides the vertical row editing interface like
 |  2.0.1 (24 Feb 2009) | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
 |  2.0.0 (15 Feb 2009) | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
 |  Earlier version history can be found in the Subversion repository |
-|  Dependencies: | %$DEPENDENCIES% |
 
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
-
+%META:FIELD{name="Description" title="Description" value=""}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
-%META:FIELD{name="Description" title="Description" value=""}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2022 Foswiki Contributors"}%
-%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/EditRowPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

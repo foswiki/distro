@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1610365493" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -473,4 +473,3 @@ never be attempted set or altered in any preference topic or topic settings.
 
 *Note*: Can't edit?
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][View raw topic]]
-<!-- %JQREQUIRE{"chili"}% -->

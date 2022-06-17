@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426281104" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 <div class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.%WIKIUSERSTOPIC% topic.</div>
 
@@ -15,7 +15,6 @@ Usage Notes:
    * There must not be any embedded blank lines in the list.  The Mapper will detect the first blank line as the end of the list, adding entries after that line.
 
 %TWISTY{showlink="Show code..."}%
-<!--%JQREQUIRE{"chili"}%-->
 <verbatim class="tml">
 %STARTSECTION{"WIKIUSERS"}%
 %FORMAT{"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z" 

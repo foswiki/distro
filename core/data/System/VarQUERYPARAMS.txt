@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERYPARAMS -- show parameters to the query
 Expands the parameters to the query that was used to display the page.
@@ -25,4 +25,3 @@ Using QUERYPARAMS can easily be misused for cross-site scripting unless specific
 %STOPINCLUDE%
 ---++ Related
 [[VarQUERYSTRING][QUERYSTRING]], [[VarURLPARAM][URLPARAM]]
-<!--%JQREQUIRE{"chili"}%-->

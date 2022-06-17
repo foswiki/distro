@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1318291174" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-
 ---+!! %TOPIC%
 
 %RED% *THIS TOPIC IS NOT PART OF THE DOCUMENTATION SET AND SHOULD NOT BE SHIPPED WITH A RELEASE* %ENDCOLOR%
@@ -9,17 +8,17 @@ This plugin is designed specifically for use in automatic test-cases.
 
 %TOC%
 
----+ Features
+---++ Features
 
 Provides comparison of rendered text with golden masters. The golden masters and the test text are together in a single topic and are marked by structured HTML comments that allow the plugin to extract them and compare.
 
----+ Usage
+---++ Usage
 
 The plugin is enabled when <code>?test=compare</code> is appended to the URL of a page.
 
 A test pass will generate an appropriate plain text message in the browser. A test failure is reported in a +diff= - style table. If neither of these outcomes is seen, and the topic renders as normal, then there is a problem with the installation (did you install Algorithm::Diff?)
 
----+ Syntax
+---++ Syntax
 
 In your testcase topic, enter the golden HTML surrounded by structured HTML comments:
 <verbatim class="tml">
@@ -56,19 +55,25 @@ Some notes about the comparison process:
 	1 =actual= and =expected= blocks can occur in any order, but there must be one =actual= for each =expected=.
     1 If there are differences, the report will indicate which =actual= / =expected= pair the difference was found in. The pairs are numbered from the start of the topic (number 1).
 
----+ Settings
+---++ Settings
 	* Description:
 *DO NOT CHANGE THIS TEXT* it is used in TestCases.TestCaseAutoFinalPrefs!
 		* Set SHORTDESCRIPTION = Support for automatic tests
 
----+ Plugin Installation Instructions
-	* The plugin is installed automatically when the source tree is checked out of subversion. There is no other way to install it.
+---++ Plugin Installation Instructions
+ The plugin is installed automatically when the source tree is checked out of subversion. There is no other way to install it.
 
----+ Plugin Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Author: | Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
-|  Dependencies: | Algorithm::Diff |
 
-<!-- %JQREQUIRE{"chili"}% -->
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2004 Crawford Currie, http://c-dot.co.uk"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

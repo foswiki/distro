@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERLIST -- render bullet lists in a variety of formats
 The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
@@ -20,4 +20,3 @@ The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
 %STOPINCLUDE%
 ---++ Related
  RenderListPlugin
-<!--%JQREQUIRE{"chili"}%-->

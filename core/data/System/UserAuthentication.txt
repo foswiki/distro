@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460338963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -248,7 +248,6 @@ You can get, set, and clear session variables from within Foswiki web pages or b
 
 To make use of these features, use the tags:
 
-<!-- %JQREQUIRE{"chili"}% -->
 <verbatim class='tml'>
 %SESSION_VARIABLE{ "varName" }%
 %SESSION_VARIABLE{ "varName" set="varValue" }%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ GMTIME -- formatted Greenwich Mean Time (UTC)
 ---++ Parameters
@@ -32,4 +32,3 @@ Tokens can be shortened to 3 characters
 %STOPINCLUDE%
 ---++ Related
  [[VarGMTIME][GMTIME]], [[VarREVINFO][REVINFO]], [[!VarSERVERTIME][SERVERTIME]]
-<!--%JQREQUIRE{"chili"}%-->

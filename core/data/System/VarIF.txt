@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ IF -- simple conditionals
 Evaluate a condition and show one text or another based on the result. See details in [[IfStatements]].
@@ -13,7 +13,6 @@ Evaluate a condition and show one text or another based on the result. See detai
    else="FUNFACTOR is not defined"
  }%</verbatim> renders as <pre class="tml">%IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%</pre>
 
-<!--%JQREQUIRE{"chili"}%-->
 %STOPINCLUDE%
 ---++ Related
 IfStatements

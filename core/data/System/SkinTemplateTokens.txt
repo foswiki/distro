@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432151677" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Template Tokens
@@ -178,6 +178,5 @@ merely a placeholder that is replaced by the script.
 
 ---
 *%MAKETEXT{"Related Topics:"}%* [[Skins]] [[Macros]] [[JavascriptFiles]]
-<!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%

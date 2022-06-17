@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -156,4 +156,3 @@ people:
 *Remember, Foswiki is an open-source project developed and supported entirely by volunteers.* Once you have built up a bit of expertise, you can say "thank you" to all those people by giving a bit of your time back - see https://foswiki.org/Community/HowYouCanHelp
 
 *Related Topics:* AdminDocumentationCategory
-<!-- %JQREQUIRE{"chili"}% -->

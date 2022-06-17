@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! !QuerySearch Pattern Cookbook
 
 This topic provides tips on the usage of QuerySearch.
-%JQREQUIRE{"chili"}%
+
 %TOC%
 
 ---++ Pattern 1: Show recent changes without user pages

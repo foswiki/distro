@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Some questions to answer:
    * Perhaps the plugin is installed, but did you remember to enable it in configure?
@@ -35,7 +35,6 @@ htmldoc,0,external,Obtain from http://www.htmldoc.org/software.php
    * [[Foswiki:Support.SupportQuestions][Ask a support question]]
    * [[Foswiki:Community.MailingLists][foswiki-discuss mailing list]]
    * [[Foswiki:Support.WikiConsultants][Commercial (paid) support]]
-<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Troubleshooting Extensions"}%

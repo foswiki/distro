@@ -1,11 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1651568542" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML ([[Topic Markup Language]] translator script. For WYSIWYG editing you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
 
@@ -123,7 +119,7 @@ Converts the HTML text to TML. =topic= *must* be specified.
 
 Converts the TML text to HTML. =topic= *must* be specified. The response is a =text/plain= page of converted content.
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Configuration Settings
@@ -175,16 +171,18 @@ If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing onl
          * Write a [[VarTABLE]] macro above the offending table that adds the desired attributes safely
 %ENDSECTION{"tinymceintegration"}%
 
----++ Plugin Info
+---++ Info
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
    * [[http://www.carrier.com][Carrier Corporation]]
    * [[http://twiki.net][TWIKI.NET]]
 
-|  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
-               &copy; 2008-2018 Foswiki Contributors |
-|  Change History: | |  
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History  
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  1.38   (13 Jun 2018) | Foswikitask:Item14731: use JSON.pm to create proper json in attachments rest handler |
 |  1.36   (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain |
 |  1.35   (04 Apr 2017) | Foswikitask:Item14324: Unescaped left brace - Perl 5.25.10. |
@@ -267,17 +265,14 @@ Many thanks to the following sponsors for supporting this work:
 |  22 Oct 2008 | Fixed TWikibug:Item5961 (emphasis), TWikibug:Item6089 (backslash in verbatim) |
 |  07 Aug 2008 | Fixed TWikibug:Item5707 (mod_perl) |
 | See Subversion logs for earlier versions ||
-|  Dependencies: | %$DEPENDENCIES% |
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
-
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]], Foswiki Contributors"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; ILOG 2005 http://www.ilog.fr, &copy; 2008-2022 Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

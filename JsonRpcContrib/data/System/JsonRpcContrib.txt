@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655380544" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -216,6 +216,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %$DEPENDENCIES%
 
 ---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  16 Jun 2022: (3.00) | make uploads available in json-rpc requests |
 |  05 May 2022: (2.40) | fixed switching web-topic context before dispatching the method |
 |  31 Jan 2022: (2.30) | added =foswiki.jsonRpc()= api |
