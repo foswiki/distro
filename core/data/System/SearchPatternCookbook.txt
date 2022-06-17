@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Search Pattern Cookbook
 
@@ -166,7 +166,6 @@ This will create similar functionality as Foswiki:Extensions.TopicClassification
 
 %INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution5"}%
 
-
 <!-- ============================== -->
 #SearchTopicParent
 ---++ Pattern 3: Extract the parent of a given topic
@@ -186,7 +185,6 @@ Parent of [[%TOPIC%]] is [[%QUERY{ "parent.name" }%]]
 </verbatim>
 
 %INCLUDE{"%WEB%.%TOPIC%" section="click2exec" id="solution6"}%
-
 
 <!-- ============================== -->
 #SearchTopicChildren
@@ -364,7 +362,7 @@ Use the =$pattern()= token.
 %STARTSECTION{"click2exec"}%
 %BUTTON{"Click to execute" onclick="jQuery('#%id%').trigger('refresh')"}%
 
-<div class="jqLoader {mode:'manual', web:'%INCLUDINGWEB%', topic:'%INCLUDINGTOPIC%', section:'%id%'}" id="%id%"></div>
+<div class="jqLoader" data-mode="manual" data-web="%INCLUDINGWEB%" data-topic="%INCLUDINGTOPIC%" data-section="%id%" id="%id%"></div>
 %JQREQUIRE{"loader"}%
 %ENDSECTION{"click2exec"}%
 </verbatim>

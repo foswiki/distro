@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1636961353" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -25,13 +25,12 @@
    * WebTopicEditTemplate
       * default template for new topics in this web, if this topic does not exist,  [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
 
-   * Set WEBFORMS = DefaultPreferencesForm, FAQForm
+   * Set WEBFORMS = DefaultPreferencesForm, FAQForm, PackageForm
       * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
 
 ---++ Copyright notice 
 
    * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="https://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.png" height="42" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
-
 
 ---++ Access control
 

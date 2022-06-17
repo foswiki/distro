@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456368117" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERINFO -- retrieve details about a user
 ---++ Parameters
-   | *Parameter* | *Description* |
+   | *Parameter* | *Description* | *Default* |
    | ="name"= | WikiName or [[UserName][login username]]. May be a group. | current user |
    | =format= | Format string; see below for supported formatting tokens. | =$username, $wikiusername, $emails= |
 Format tokens that can be used in =format=:

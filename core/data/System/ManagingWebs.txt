@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -15,7 +15,6 @@ Browser-based rename, move, copy, and delete for individual webs
     #createWeb .foswikiHelp {margin:.5em 0;}
     #createWeb .additionalSettings {margin:.5em -10px;}
     #createWeb .additionalSettings .foswikiActionFormStepSign {display:none;}
-    #createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
     #createWeb .additionalSettings .foswikiFormStep {padding:5px 10px;}
 </style>"}%
 <!-- %JQREQUIRE{"popupwindow"}% -->
