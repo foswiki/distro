@@ -715,7 +715,7 @@ to uploaded file.
 
 sub upload {
     my ( $this, $name ) = @_;
-    my $upload = $this->{uploads}{ $this->param($name) };
+    my $upload = $this->{uploads}{$name};
     return defined $upload ? $upload->handle : undef;
 }
 

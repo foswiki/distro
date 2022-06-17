@@ -114,6 +114,11 @@ sub _upload {
     my $user  = $session->{user};
 
     Foswiki::UI::checkValidationKey($session);
+    Foswiki::UI::checkWebExists( $session, $web, $topic, 'attach files to' );
+    Foswiki::UI::checkTopicExists( $session, $web, $topic, 'attach files to' );
+
+    my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';
@@ -134,14 +139,6 @@ sub _upload {
         $filePath =~ s/\s*$//;
 
         push @fileNames, $fileName;
-
-        Foswiki::UI::checkWebExists( $session, $web, $topic,
-            'attach files to' );
-        Foswiki::UI::checkTopicExists( $session, $web, $topic,
-            'attach files to' );
-        my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
-        Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
-
         my $origName = $fileName;
 
         # SMELL: would be much better to throw an exception if an attempt
