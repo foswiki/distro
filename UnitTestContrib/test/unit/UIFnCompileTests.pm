@@ -15,6 +15,7 @@ our $REQUEST;
 our %expected_status_main_webhome = (
     search => 302,
     save   => 302,
+    upload => 302,
     login  => 200,
     logon  => 200,
 );

@@ -92,7 +92,7 @@ sub do_upload {
     );
     $query->uploads( \%uploads );
 
-    my $stream = $query->upload('filepath');
+    my $stream = $query->upload($fn);
     $this->assert($stream);
     seek( $stream, 0, 0 );
 
