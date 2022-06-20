@@ -269,10 +269,11 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 ---++ Change History
+
 %TABLE{columnwidths="7em" tablewidth="100%"}%
 |  2.90  (28 Apr 2022) | Foswikitask:Item15090: mailnotify script must run as admin user %BR% Foswikitask:Item15091: only notify people of topics that they have view access to |
 |  2.85  (8 Jan 2018) | Foswiki 2.1.5  Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
-                        Foswikitask:Item13350: Mailnotify appears to skip notification of some changes.<br/>\ 
+                        Foswikitask:Item13350: Mailnotify appears to skip notification of some changes.<br/>\
                         Foswikitask:Item14446: Unwritable =work_area= results in mega-spam.<br/>\
                         Foswikitask:Item14588: mailnotify fills debug log with errors about "surprising mapping" and "missing mapping".<br/>\
                         Foswikitask:Item14590: missing closing tag in html diff of mailnotify. |
@@ -292,7 +293,8 @@ Many thanks to the following sponsors for supporting this work:
 |  2.60  (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834, Foswiki:Tasks/Item12583: Convert to simple decimal version. |
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
 |  2.5.4 (25 Mar 2013) | Foswiki:Tasks/Item12447: correct support for character encodings |
-|  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples |
+|  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples  <br /> \
+                         Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
 |  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |
 |  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
 |  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
@@ -312,7 +314,6 @@ Many thanks to the following sponsors for supporting this work:
 
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="" title="" value="Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
