@@ -384,7 +384,8 @@ sub verify_switchboard_function {
     add_attachments( $this, $this->{test_web}, $this->{test_topic} );
 
     my ( $status, $header, $text ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+      $this->call_UI_FN( $this->{test_web}, $this->{test_topic}, undef,
+        { noredirect => 1 } );
 
     unless ( $header =~ m/Content-type: text\/html\b/i ) {
 
