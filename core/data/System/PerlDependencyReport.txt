@@ -42,6 +42,7 @@ Note: If a minimum version is identified, the extension requiring the highest mi
 
 %PERLDEPENDENCYREPORT{"extensions" include="%URLPARAM{"include" default="missing"}%"}%
 </noautolink>
+
 %META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="AdminUser"}%
 %META:PREFERENCE{name="PERMSET_VIEW" title="PERMSET_VIEW" type="Local" value="nobody"}%

@@ -13,7 +13,6 @@ This page contains all documentation topics as one long, complete reference shee
 
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
-
 <verbatim class="foswikiHidden">
 %STARTSECTION{"content"}%
 ---+!! Reference Manual (%WIKIVERSION%)
