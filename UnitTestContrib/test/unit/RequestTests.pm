@@ -823,7 +823,8 @@ EOF
         $req->tmpFileName($fname),
         'Wrong tmpFileName()'
     );
-    my $fh = $req->upload('file');
+    my $fh = $req->upload('Temp.txt');
+    $this->assert($fh);
     my $text = join( '', <$fh> );
     $this->assert_str_equals( "Arbitrary file...\n",
         $text, 'Wrong file contents' );
