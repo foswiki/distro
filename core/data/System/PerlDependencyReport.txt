@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655716214" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -19,13 +19,13 @@ installation will require them.</div>
 %IF{"$include='all'" 
    else="$percntBUTTON{
       \"Show all dependencies\"
-      icon=\"book\"
-      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';\"
+      icon=\"fa-book\"
+      target=\"%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?include=all\"
    }$percnt" 
    then="$percntBUTTON{
       \"Show only missing dependencies\"
-      icon=\"book\"
-      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';\"
+      icon=\"fa-book\"
+      target=\"%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?include=missing\"
    }$percnt"
 }%
 
