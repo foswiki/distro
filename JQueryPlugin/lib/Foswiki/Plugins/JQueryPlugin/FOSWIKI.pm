@@ -106,10 +106,6 @@ sub init {
           || '';
     }
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
-    $prefs{"SUPPORTS_MULTIUPLOAD"} =
-      Foswiki::Func::getContext()->{SUPPORTS_MULTIUPLOAD}
-      ? $JSON::true
-      : $JSON::false;
 
     my $text =
         "<script class='\$zone \$id foswikiPreferences' type='text/json'>"
