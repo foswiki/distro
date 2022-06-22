@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655896597" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655897553" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -814,7 +814,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15065][Item15065]] | add jsonRpc api to foswiki namespace in javascript |
 | [[%BUGS%/Item15068][Item15068]] | don't bubble up jquery.loader events |
 
----++ Foswiki Release 2.1.7 Details
+---++ Foswiki Release 2.1.8 Details
 
 ---+++ Security
 
