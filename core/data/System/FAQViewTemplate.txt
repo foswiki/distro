@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1505958329" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655897812" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FAQForm"}%
 %{
 ---+ FAQ topic templates
@@ -19,7 +19,7 @@ Override the content template DEFinition. This normally just contains %TEXT%,
 but we add some more here to help decorate all the [[FAQForm]] topics in the
 same way.
 <verbatim class="tml">
-}%%TMPL:DEF{"content"}%
+}%%TMPL:DEF{"content"}%<!-- -->
 ---+ Question: %FORMFIELD{"TopicSummary"}%
 ---++ Answer
 %TEXT%

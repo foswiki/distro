@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 %FORMFIELD{"Description"}%
@@ -28,7 +28,7 @@ Uses Javascript (if available) to ensure feedback is as rapid as possible.
 ---++ Syntax
 #StandardAttrs
 Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a topic.
-%INCLUDE{"%SYSTEMWEB%.VarCOMMENT" section="comment_attributes"}%
+%INCLUDE{"VarCOMMENT" section="comment_attributes"}%
 (See also [[#MoreAttrs][additional attributes]])
 
 ---+++ Positioning the comment

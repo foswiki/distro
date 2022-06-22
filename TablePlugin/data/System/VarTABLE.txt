@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABLE -- control attributes of tables and sorting of table columns
 The =%<nop>TABLE{}%= macro is handled by the TablePlugin
 %STARTSECTION{"table_attributes"}%
 ---++++ Attributes for tables
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Parameter*         | *Description*  | *Default*  | *Example*  |
      | =tableborder=      | Table border width (pixels). | ="1"= | =tableborder="2"= |
      | =tablebordercolor= | Table border color. | <span class="foswikiGrayText">unspecified</span> | =tablebordercolor="#333"= |
@@ -20,7 +20,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =class=            | Add specified class to the default =foswikiTable= class. | <span class="foswikiGrayText">unspecified</span> | =class="mytable"= |
 
 ---++++ Attributes for table sorting
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =sort=           | Set the table sorting user interface (clickable column headers) ="on"= or ="off"=. | <span class="foswikiGrayText">unspecified</span> | =sort="on"= |
      | =initsort=       | Column to sort initially (use ="1"= for the first column). If specified, sorting is enabled; by setting =sort="off"= the sorting interface can be hidden. | <span class="foswikiGrayText">unspecified</span> | =initsort="2"= |
@@ -28,7 +28,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =disableallsort= | Disable all sorting, both initsort and header sort. This is mainly used by plugins such as the EditTablePlugin to disable sorting in a table while editing the table. | <span class="foswikiGrayText">unspecified</span> | =disableallsort="on"= |
 
 ---++++ Attributes for table cells
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Argument*       | *Description*  | *Default*  | *Example*  |
      | =cellpadding=    | Cell padding (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellpadding="0"= |
      | =cellspacing=    | Cell spacing (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellspacing="3"= |
@@ -37,7 +37,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =columnwidths=   | Column widths: Comma delimited list of column widths, percentage or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =columnwidths="80%,20%"= |
 
 ---++++ Attributes for data cells
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =datarules=    | Set to ="none"= (no rules), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). Overrides =tablerules= for data cells. | <span class="foswikiGrayText">unspecified</span>  | =datarules="none"= |
      | =datavalign=     | Vertical alignment of data cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =datavalign="top"= |
@@ -47,7 +47,7 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =datacolor=      | Data cell text colour, a comma separated list. | <span class="foswikiGrayText">unspecified</span> | =datacolor="#00c, #000"= |
 
 ---++++ Attributes for headers
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =headerrules=    | Set to ="none"= (no rules), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). Overrides =tablerules= for header cells. | <span class="foswikiGrayText">unspecified</span>  | =headerrules="none"= |
      | =headerbg=       | Header cell background colour. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#6b7f93"= | =headerbg="#999"= |
@@ -56,9 +56,9 @@ The =%<nop>TABLE{}%= macro is handled by the TablePlugin
      | =headervalign=   | Vertical alignment of header cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =headervalign="top"= |
      | =headeralign=    | Header cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =headeralign="left,right"= |
      | =headerrows=     | See: Attributes for tables |||
-     
+
 ---++++ Other attributes
-%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off"}%
      | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="%USERSWEB%.%HOMETOPIC%"= |
 
