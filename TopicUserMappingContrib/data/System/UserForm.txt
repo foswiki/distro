@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ User Form
 
 This is a maintenance topic, used by the Wiki administrator.
 
 ---++ Data form definition of user topics
-%INCLUDE{"%SYSTEMWEB%.UserFormHelp" section="note"}%
+%INCLUDE{"UserFormHelp" section="note"}%
 
 |*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
 | <nop>FirstName | text | 40 | | | |
@@ -24,5 +24,5 @@ This is a maintenance topic, used by the Wiki administrator.
 | <nop>HomePage | text | 40 | | | |
 | Comment | textarea | 50x6 | | | |
 
-%INCLUDE{"%SYSTEMWEB%.UserFormHelp" section="customform"}%
+%INCLUDE{"UserFormHelp" section="customform"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

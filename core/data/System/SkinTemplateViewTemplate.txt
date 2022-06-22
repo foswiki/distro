@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655897943" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
-%TMPL:DEF{"content"}%<div class="foswikiTopicText">
+%TMPL:DEF{"content"}%<!-- -->
 ---+!! %NOP%%TOPIC% is a Skin Template
 
 So should not be viewed directly. Use %TMPL:P{"raw_link"}% to see the Template source.
@@ -10,8 +10,7 @@ So should not be viewed directly. Use %TMPL:P{"raw_link"}% to see the Template s
 
 Set =VIEW_TEMPLATE=SkinTemplateView= to a topic that is a Skin Template
 
-
 #TopicEnd
-</div>%TMPL:END%
+%TMPL:END%
 
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

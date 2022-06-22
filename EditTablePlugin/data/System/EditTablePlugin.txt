@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Edit Table Plugin
 %FORMFIELD{"Description"}%
@@ -14,7 +14,7 @@ Multiple tables per topic are editable, but only one at a time can be edited.
 ---++ Per Table Settings
 
 Add a =%<nop>EDITTABLE{...}%= macro just before an existing table to make it editable, or add the variable anywhere in a topic to start a new table.
-%INCLUDE{"%SYSTEMWEB%.VarEDITTABLE" section="edittable_attributes"}%
+%INCLUDE{"VarEDITTABLE" section="edittable_attributes"}%
 
 ---+++ Using Macros in the Format Parameter
 
@@ -270,15 +270,15 @@ Test if the Plugin is correctly installed:
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1655468868" size="7823" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="" date="1655468868" size="2017" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="" date="1655468868" size="3199" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" date="1655468868" size="145" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" date="1655468868" size="68" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="" date="1655468868" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1655899072" size="7823" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="" date="1655899072" size="2017" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="" date="1655899072" size="3199" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" date="1655899072" size="145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" date="1655899072" size="68" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%

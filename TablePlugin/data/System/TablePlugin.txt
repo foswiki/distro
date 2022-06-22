@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 %FORMFIELD{"Description"}%
@@ -15,7 +15,7 @@ Gives extra control of table display:
 ---++ Table Attributes
 
 Attributes are defined as a =TABLEPLUGIN_TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
-%INCLUDE{"%SYSTEMWEB%.VarTABLE" section="table_attributes"}%
+%INCLUDE{"VarTABLE" section="table_attributes"}%
 
 ---+++ Specifying and overriding attributes
 Table attributes can be set in different ways. In top down order:

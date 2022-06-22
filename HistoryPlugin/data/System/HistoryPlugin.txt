@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1605548606" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -19,7 +19,7 @@ This plugins is designed to work together with !CompareRevisionsAddOn and !RevCo
 ---++ Syntax Rules
 Syntax: =%<nop>HISTORY{ _attributes_ }%=
 
-%INCLUDE{"%SYSTEMWEB%.VarHISTORY" section="history_attributes"}%
+%INCLUDE{"VarHISTORY" section="history_attributes"}%
 
 ---++ Custom settings:
 
@@ -49,12 +49,10 @@ Example screenshot of the topic history with !HistoryPlugin enabled and working 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-
 Test if the installation was successful:
    * Here should appear the history of this document inline:
      %HISTORY{"r1.$rev - $date - $wikiusername"}% <!-- -->
    * [[%SCRIPTURLPATH{oops}%/%USERSWEB%/%WIKIUSERSTOPIC%?template=oopshistory][Show the history of %USERSWEB%.%WIKIUSERSTOPIC%]]
-
 
 ---++ Dependencies
 %$DEPENDENCIES%
@@ -86,12 +84,12 @@ Test if the installation was successful:
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
-%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2020 Kenneth Lavrsen and Foswiki Contributors"}%
-%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
-%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/HistoryPlugin"}%
-%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/HistoryPlugin"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1605548606" size="72043" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2020 Kenneth Lavrsen and Foswiki Contributors"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/HistoryPlugin"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/HistoryPlugin"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1655899072" size="72043" user="ProjectContributor" version="1"}%

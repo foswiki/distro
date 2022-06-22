@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! Hierarchical Navigation
 
@@ -12,14 +12,14 @@ This is intended to be included in other topics, for example in a side navigatio
 ---++ Displaying parent, current and child topics
 
 <verbatim class="tml">
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
+%INCLUDE{"HierarchicalNavigation" section="all"}%
 </verbatim>
 
 ---++ Displaying child topics
 
 <verbatim class="tml">
 *Child topics:*
-%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
+%INCLUDE{"HierarchicalNavigation" section="children"}%
 </verbatim>
 
 <verbatim class="foswikiHidden">
