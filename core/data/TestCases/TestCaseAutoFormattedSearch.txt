@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1169762326" format="1.1"  version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655892550" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
+---+!! %TOPIC%
 Description: Automated formatted search tests.
 
 Results dependent on templates used to render search results. Tests only make sense when this topic is viewed with "pattern" skin and standard search templates.
@@ -306,4 +307,3 @@ option3
 <!-- actual -->
 %SEARCH{ "^FormattedSearch[12]" web="%BASEWEB%" scope="topic" type="regex" nonoise="on" format="<nop>$topic $percntIF{$quot'$parent'$quot then=$quotparent is <nop>$parent$n$quot else=$quot<nop>$quot}$percnt" }%
 <!-- /actual -->
-

@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectCoordinator" date="1242057514" format="1.1"  version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655894376" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
+---+!! %TOPIC%
 Description: Tag tests that can be automated
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=SpreadSheetPlugin,TestFixturePlugin&skin=pattern][run this test]]
@@ -24,11 +25,11 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$ABS(-12.5)"}%
    * Expected: <!-- expected above1 -->12.5<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$ABS(-12.5)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$ABS(12.5)"}%
    * Expected: <!-- expected above2 -->12.5<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$ABS(12.5)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$ABS(0)"}%
    * Expected: <!-- expected above3 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$ABS(0)"}%<!-- /actual -->
@@ -55,7 +56,6 @@ Designed by: Kenneth Lavrsen
 | 11 | 11 | 11 |
 | 14 | 14 | 14 |
 | %<nop>CALC{"$AVERAGE($ABOVE())"}% | <!-- expected average -->11.75<!-- /expected --> | <!-- actual -->%CALC{"$AVERAGE($ABOVE())"}%<!-- /actual --> |
-
 
 #FuncCHAR
 ---+++ CHAR( number ) -- ASCII character represented by number
@@ -193,19 +193,19 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$FIND(f, fluffy, 2)"}%
    * Expected: <!-- expected find2 -->4<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(f, fluffy, 2)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$FIND(y, fluffy, 6)"}%
    * Expected: <!-- expected find3 -->6<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(y, fluffy, 6)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$FIND(u, fluffy, 6)"}%
    * Expected: <!-- expected find4 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(u, fluffy, 6)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$FIND(@, fluffy, 1)"}%
    * Expected: <!-- expected find5 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(@, fluffy, 1)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$FIND(, fluffy, 0)"}%
    * Expected: <!-- expected find6 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(, fluffy, 0)"}%<!-- /actual -->
@@ -297,11 +297,11 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$INSERTSTRING(abcdefg, 0, XYZ)"}%
    * Expected: <!-- expected insertstring1 -->XYZabcdefg<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(abcdefg, 0, XYZ)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$INSERTSTRING(a, 0, XYZ)"}%
    * Expected: <!-- expected insertstring2 -->XYZa<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(a, 0, XYZ)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$INSERTSTRING(, 0, XYZ)"}%
    * Expected: <!-- expected insertstring3 -->XYZ<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(, 0, XYZ)"}%<!-- /actual -->
@@ -317,15 +317,15 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$INSERTSTRING(, 1, XYZ)"}%
    * Expected: <!-- expected insertstring6 --><!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(, 1, XYZ)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$INSERTSTRING(abcdefg, 3, XYZ)"}%
    * Expected: <!-- expected insertstring7 -->abcXYZdefg<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(abcdefg, 3, XYZ)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$INSERTSTRING(abcdefghijk, 3, )"}%
    * Expected: <!-- expected insertstring8 -->abcdefghijk<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(abcdefghijk, 3, )"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$INSERTSTRING(abcdefg, 7, XYZ)"}%
    * Expected: <!-- expected insertstring9 -->abcdefgXYZ<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$INSERTSTRING(abcdefg, 7, XYZ)"}%<!-- /actual -->
@@ -623,11 +623,10 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$REPLACE(10xxx, -2, 1, *)"}%
    * Expected: <!-- expected replace5 -->10x*x<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, -2, 1, *)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$REPLACE(10xxx, 2, 0, *)"}% (replace nothing at a position is actually same as inserting)
    * Expected: <!-- expected replace6 -->1*0xxx<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, 2, 0, *)"}%<!-- /actual -->
-
 
 #FuncRIGHT
 ---+++ RIGHT( ) -- address range of cells to the right of the current cell
@@ -645,11 +644,11 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$RIGHTSTRING(abcdefg, 0)"}%
    * Expected: <!-- expected rightstring2 --><!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$RIGHTSTRING(abcdefg, 0)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$RIGHTSTRING(abcdefg, 5)"}%
    * Expected: <!-- expected rightstring3 -->cdefg<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$RIGHTSTRING(abcdefg, 5)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$RIGHTSTRING(abcdefg, 7)"}%
    * Expected: <!-- expected rightstring4 -->abcdefg<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$RIGHTSTRING(abcdefg, 7)"}%<!-- /actual -->
@@ -661,7 +660,6 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$RIGHTSTRING(abcdefg, -2)"}%
    * Expected: <!-- expected rightstring6 --><!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$RIGHTSTRING(abcdefg, -2)"}%<!-- /actual -->
-
 
 #FuncROUND
 ---+++ ROUND( formula, digits ) -- round a number
@@ -690,15 +688,15 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$SEARCH([uy], fluffy, 4)"}%
    * Expected: <!-- expected search2 -->6<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SEARCH([uy], fluffy, 4)"}%<!-- /actual -->
-  
+
    * Test: %<nop>CALC{"$FIND([ua], fluffy, 6)"}%
    * Expected: <!-- expected search3 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$FIND(u, fluffy, 6)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SEARCH([abc], fluffy,)"}%
    * Expected: <!-- expected search4 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SEARCH([abc], fluffy,)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SEARCH(, fluffy, 0)"}%
    * Expected: <!-- expected search5 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SEARCH(, fluffy, 0)"}%<!-- /actual -->
@@ -714,11 +712,10 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$SEARCH(f, fluffy, 9)"}%
    * Expected: <!-- expected search8 -->0<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SEARCH(f, fluffy, 9)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SEARCH(k[ia]t, fluffy kitten)"}%
    * Expected: <!-- expected search9 -->8<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SEARCH(kit, fluffy kitten)"}%<!-- /actual -->
-
 
 #FuncSET
 ---+++ SET( name, value ) -- set a variable for later use
@@ -767,7 +764,7 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%
    * Expected: <!-- expected substitute3 -->Q2-2003<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%
    * Expected: <!-- expected substitute4 -->abc999def<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%<!-- /actual -->
@@ -779,7 +776,6 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$SUBSTITUTE(, 2, 3)"}%
    * Expected: <!-- expected substitute2 --><!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(, 2, 3)"}%<!-- /actual -->
-
 
 #FuncSUBSTRING
 ---+++ SUBSTRING( text, start, num ) -- extract a substring out of a text string
@@ -807,11 +803,11 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$SUBSTRING(abcdefghijk, 1, 15)"}%
    * Expected: <!-- expected substring6 -->abcdefghijk<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTRING(abcdefghijk, 1, 15)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SUBSTRING(abcdefghijk, 3, 0)"}%
    * Expected: <!-- expected substring7 --><!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTRING(abcdefghijk, 3, 0)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$SUBSTRING(abcdefghijk, 3, 4)"}%
    * Expected: <!-- expected substring8 -->cdef<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$SUBSTRING(abcdefghijk, 3, 4)"}%<!-- /actual -->
@@ -890,7 +886,7 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$TIME(2003/10/14 GMT)"}%
    * Expected: <!-- expected time1 -->1066089600<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$TIME(2003/10/14 GMT)"}%<!-- /actual -->
-   
+
    * Test: %<nop>CALC{"$TIME(2009/05/10 GMT)"}%
    * Expected: <!-- expected time2 -->1241913600<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$TIME(2009/05/10 GMT)"}%<!-- /actual -->
@@ -902,7 +898,6 @@ Designed by: Kenneth Lavrsen
    * Test: %<nop>CALC{"$TIME(10 May 2009 GMT)"}%
    * Expected: <!-- expected time4 -->1241913660<!-- /expected -->
    * Actual: <!-- actual -->%CALC{"$TIME(10 May 2009 00:01:00 GMT)"}%<!-- /actual -->
-
 
 #FuncTIMEADD
 ---+++ TIMEADD( serial, value, unit ) -- add a value to a serialized date
@@ -952,7 +947,7 @@ Designed by: Kenneth Lavrsen
 
 The 4th column contains  
  %<nop>CALC{"$WORKINGDAYS($TIME(2009/05/07), $TIME(2009/05/07))"}%
- 
+
  Note that the tests around March 2009 cross a Daylight Saving Time change.
 
 | *Start* | *End* | *Expected* | *Actual* |

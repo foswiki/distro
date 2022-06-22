@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1325291557" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655892772" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: verbatim tags should be nestable to at least two levels.
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -10,11 +10,11 @@ Designed by: Crawford Currie
 	* Set BACON = font color="purple"
 	* Set ENDBREAKFAST = /font
 
-<table>
+<table class="foswikiTable">
 <tr><th>Expected</th><th>Actual</th></tr>
 <tr><td>
 <!-- expected FIRST TEST -->
-<font color="purple"> Before Verbatim </font>
+<font color="purple">Before Verbatim </font>
 <pre>
 &lt;&#37;EGG&#37;&gt; In outer verbatim &lt;&#37;ENDBREAKFAST&#37;&gt;
 &lt;verbatim&gt;
@@ -22,7 +22,7 @@ In inner verbatim with &lt;text in angle braces&gt;
 &lt;/verbatim&gt;
 &lt;&#37;EGG&#37;&gt; In outer verbatim again &lt;&#37;ENDBREAKFAST&#37;&gt;
 </pre>
-<font color="purple"> After Verbatim </font>
+<font color="purple">After Verbatim</font>
 <!-- /expected -->
 </verbatim>
 </td><td>

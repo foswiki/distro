@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252460134" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655893211" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TestCase"}%
-
+---+!! %TOPIC%
 Description: Visual inspection tests for different skins.
 
 ---+ Different Skins
@@ -20,15 +20,9 @@ NB. Tested by visual inspection only.
 %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print
 
 ---++ Print current skin
-   * Is there a better way to invoke the printable view of pattern?
-%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print.%SKIN%
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?cover=print
 
 ---++ Traditional
 %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=twiki1985
 
-
-
-
 What about ?raw=on and ?skin=test&raw=on
-
-

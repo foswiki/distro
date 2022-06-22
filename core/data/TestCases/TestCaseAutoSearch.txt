@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1117992408" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655892842" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Automated search function tests.
 
 Results dependent on templates used to render search results. Tests only make sense when this topic is viewed with "pattern" skin and standard search templates.
@@ -36,8 +36,6 @@ Designed by: Crawford Currie
 %SEARCH{ "hit me with your rhythm stick" }%
 <!-- /actual -->
 
-
-
 ---+ Search with search parameter
 <verbatim>
 %SEARCH{ "hit me with your rhythm stick" search="sausages and mash" }%
@@ -60,8 +58,6 @@ Same as last test
 <!-- actual -->
 %SEARCH{ "hit me with your rhythm stick" search="sausages and mash" }%
 <!-- /actual -->
-
-
 
 ---+ Topic search with two webs specified, all summary fields disabled (expand rex TWOWEBS)
 %SYSTEMWEB%
@@ -109,8 +105,6 @@ Same as last test
 }%
 <!-- /actual -->
 
-
-
 ---+ Topic search with all webs specified
 <verbatim>
 %SEARCH{ "WhatIsWikiWiki" scope="topic" web="all" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
@@ -135,8 +129,6 @@ Same as last test
 <!-- actual -->
 %SEARCH{ "WhatIsWikiWiki" scope="topic" web="all" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
 <!-- /actual -->
-
-
 
 ---+ Text search with topic parameter
 <verbatim>
@@ -163,7 +155,6 @@ Same as last test
 %SEARCH{ "hit me with" topic="TestCaseAuto*" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
 <!-- /actual -->
 
-
 ---+ Text search with excludetopic parameter set to a topic
 <verbatim>
 %SEARCH{ "your rhythm"
@@ -188,9 +179,6 @@ Same as last test
 <!-- actual -->
 %SEARCH{ "your rhythm" excludetopic="TestCaseAutoSearch" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
 <!-- /actual -->
-
-
-
 
 ---+ Text search with excludetopic parameter set to a wildcard
 <verbatim>
@@ -228,10 +216,6 @@ Same as last test
 <!-- actual -->
 %SEARCH{ "hit me with" excludetopic="TestCaseAutoSearch, WhatIsWikiWiki" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
 <!-- /actual -->
-
-
-
-
 
 ---+ Text search with multiple set
 <verbatim>
@@ -283,9 +267,6 @@ Same as last test
 <!-- actual -->
 %SEARCH{ "hit me" web="TestCases" multiple="on" reverse="on" limit="1" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
 <!-- /actual -->
-
-
-
 
 ---+ Regex search
 ---++ Expected
@@ -384,8 +365,6 @@ Same as last test
 }%
 <!-- /actual -->
 
-
-
 ---+ 4 webs, default outputting
 ---++ Expected
 <!-- expected expand rex old Tmwiki default multi-weboutput 4 webs -->
@@ -441,8 +420,6 @@ Same as last test
 }%
 <!-- /actual -->
 
-
-
 ---+ bookview="on"
 
 ---+ expandvariables="on"
@@ -451,6 +428,4 @@ Same as last test
 
 ---+ separator=", " (default newline)
 ---+ newline="%BR%" 	Line separator within a search hit, effective only in FormattedSearch.
-
-
 

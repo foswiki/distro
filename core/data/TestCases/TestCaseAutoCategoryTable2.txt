@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655892512" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Test for category table and attachment upgrading from 1.0beta
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]

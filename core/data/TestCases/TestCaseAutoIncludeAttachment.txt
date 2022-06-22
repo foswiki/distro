@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1330255730" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655892586" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Tests for inclusion of attachments
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -33,5 +33,4 @@ Designed by: Crawford Currie
 <!-- manual /actual -->
 
 
-%META:FILEATTACHMENT{name="attachment.html" attachment="attachment.html" attr="" comment="" date="1101889684" path="attachment.html" size="18" tmpFilename="/var/tmp/CGItemp34644" user="ProjectContributor" version="1.1"}%
-
+%META:FILEATTACHMENT{name="attachment.html" attachment="attachment.html" attr="" comment="" date="1101889684" path="attachment.html" size="18" tmpFilename="/var/tmp/CGItemp34644" user="ProjectContributor" version="1"}%

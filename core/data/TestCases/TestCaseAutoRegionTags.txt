@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434390873" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655892804" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: testcases for Foswiki extension tags verbatim, noautolink and pre
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]

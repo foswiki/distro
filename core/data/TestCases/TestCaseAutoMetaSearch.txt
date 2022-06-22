@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1228689750" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655892678" format="1.1" version="1"}%
 %META:TOPICPARENT{name="RecursiveInclude"}%
-
+---+!! %TOPIC%
 Description: tests for METASEARCH tags
 
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -67,7 +67,7 @@ Actual:
 <!-- actual -->
 %METASEARCH{type="parent" topic="RecursiveInclude" format="[[$web.$topic][$topic(4,...)]]"}%
 <!-- /actual -->
-   
+
 ---+++ Color
 Expected:
 <!-- expected expand -->

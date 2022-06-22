@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655893309" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Intranet Registration manual tests
 
 ---++ Preconditions
@@ -16,5 +16,4 @@ Description: Intranet Registration manual tests
 	3 There is no .htpasswd entry for RemoteUser 
 	4 Email is sent to administrator
 	5 Email is sent to user
- 
 

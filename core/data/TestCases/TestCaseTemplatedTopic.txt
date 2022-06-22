@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
-
+%META:TOPICINFO{author="ProjectContributor" date="1655894396" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Manual test to check creation of topics with a template topic.
 
 The following link will create a new topic that should be templated from *this* topic.

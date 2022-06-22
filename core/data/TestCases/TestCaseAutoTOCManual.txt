@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434390873" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655893112" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: test to make sure TOC doesn't override manually generated
 anchors.
 

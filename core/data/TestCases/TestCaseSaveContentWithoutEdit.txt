@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="LynnwoodBrown" date="1124300292" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="LynnwoodBrown" date="1124300292" format="1.1" version="1"}%
 
 ---+!! %TOPIC%
 

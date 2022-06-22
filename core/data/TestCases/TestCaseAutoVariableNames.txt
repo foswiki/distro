@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1228250944" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655893158" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 
@@ -27,7 +27,7 @@ Designed by: Kenneth Lavrsen
 
 ---++ Test Cases
 
-<table border="1"><tr><th>Case</th><th>Expected</th><th>Actual</th></tr>
+<table class="foswikiTable"><tr><th>Case</th><th>Expected</th><th>Actual</th></tr>
   <tr>
     <td>Lowercase</td>
     <td><!-- expected -->lowercase<!-- /expected --></td>

@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="SimianApe" date="1236364209" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655892600" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Check for the correct detection and handling of recursive and repeated includes
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
