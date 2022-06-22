@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
-| *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* |
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+| *Name:* | *Type:* | *Size:* | *Values:* | *Description:* |
 | Author | text | 60 | | |
 | Version | text | 60 | | Numerical version number e.g. 1.2 |
 | Release | text | 60 | | Release identifier (usually the date) |

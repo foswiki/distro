@@ -7,7 +7,7 @@ This is a maintenance topic, used by the Wiki administrator.
 ---++ Data form definition of user topics
 %INCLUDE{"UserFormHelp" section="note"}%
 
-|*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
+|*Name*  |*Type*  |*Size*  |*Values*  |*Description*  |*Attributes*  |
 | <nop>FirstName | text | 40 | | | |
 | <nop>LastName | text | 40 | | | |
 | <nop>OrganisationName | text | 40 | | | |

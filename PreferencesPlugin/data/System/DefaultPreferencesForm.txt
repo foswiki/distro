@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PreferencesPlugin"}%
-|*Name*|*Type*|*Size*|*Value*|*Tooltip message* |*Attributes*|
+|*Name*|*Type*|*Size*|*Value*|*Description* |*Attributes*|
 | WEBBGCOLOR | text | 20 | #FFD8AA | HTML Color | S |
 | FAVICON | text | 30 | %PUBURL%/%WEB%/WebPreferences/favicon.ico | URL of an icon image | S |
 | WEBCOPYRIGHT | textarea | | Copyright &copy; 1999-%GMTIME{"$year"}% by the contributing authors. \nAll material on this collaboration platform is the property of the contributing authors. <br /> \nIdeas, requests, problems regarding <nop>%WIKITOOLNAME%? <a href="mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%&#32;Feedback&#32;on&#32;%WEB%.%TOPIC%">Send feedback</a> | Long form copyright | S |

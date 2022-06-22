@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"farbtastic"
@@ -28,7 +28,7 @@ The widget can be parametrized using [[JQueryMetadata][metadata]] inside the cla
 
 With the farbtastic plugin comes a formfield type ==color= that lets you add one or more color formfields to %SYSTEMWEB%.DataForms. Try
 
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* |
 | Color1 | color | 10 | | | |
 | Color2 | color | 10 | | | |
 | Color3 | color | 10 | | | |
