@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1646665356" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655896597" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.7
+---+!! Release Notes 2.1.x
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -813,6 +813,41 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15060][Item15060]] | add validation rule for foswikiMandatory css class |
 | [[%BUGS%/Item15065][Item15065]] | add jsonRpc api to foswiki namespace in javascript |
 | [[%BUGS%/Item15068][Item15068]] | don't bubble up jquery.loader events |
+
+---++ Foswiki Release 2.1.7 Details
+
+---+++ Security
+
+| [[%BUGS%/Item15141][Item15141]] | possible XSS attack in attachment comments |
+
+---+++ Fixes
+| [[%BUGS%/Item15074][Item15074]] | remove hardcoded options from build.pl of some extensions |
+| [[%BUGS%/Item15075][Item15075]] | deep recursion on innocent code |
+| [[%BUGS%/Item15076][Item15076]] | RCS store does not properly encode topic information |
+| [[%BUGS%/Item15077][Item15077]] | broken api to show/hide tabs in jquery tabpane |
+| [[%BUGS%/Item15078][Item15078]] | body zone merged to script zone |
+| [[%BUGS%/Item15080][Item15080]] | make ={DefaultDateFormat}= a text field  |
+| [[%BUGS%/Item15081][Item15081]] | handle hash changes of own tabpane only |
+| [[%BUGS%/Item15090][Item15090]] | mailnotify script must run as admin user |
+| [[%BUGS%/Item15091][Item15091]] | only notify people of topics that they have view access to |
+| [[%BUGS%/Item15113][Item15113]] | jsonrpc doesn't set the web-topic context properly |
+| [[%BUGS%/Item15129][Item15129]] | FORMFIELD rev parameter broken |
+| [[%BUGS%/Item15131][Item15131]] | natedit doesn't validate mandatory formfields properly |
+| [[%BUGS%/Item15136][Item15136]] | Foswiki::Meta::save() sets topic and web too late when copying a topic |
+| [[%BUGS%/Item15137][Item15137]] | REVINFO doesn't return the top revision info with a zero rev parameter |
+| [[%BUGS%/Item15142][Item15142]] | better default labels for twisty links |
+| [[%BUGS%/Item15146][Item15146]] | require packages during compile time, not during runtime  |
+
+---+++ Enhancements
+| [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
+| [[%BUGS%/Item15139][Item15139]] | add optional t parameter to jquery.loader to prevent browser caching |
+| [[%BUGS%/Item15140][Item15140]] | a natedit formfield cannot be checked for mandatoryness |
+| [[%BUGS%/Item15144][Item15144]] | remove unused files from TwistyPlugin |
+| [[%BUGS%/Item15147][Item15147]] | in spec files, all {Module} settings are expert level |
+| [[%BUGS%/Item15148][Item15148]] | core's RELEASE and VERSION scheme should follow standards established in skins and extensions |
+| [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
+
+
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = https://foswiki.org/Tasks
