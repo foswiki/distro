@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
-| *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+| *Name:* | *Type:* | *Size:* | *Values:* | *Description:* | *Attributes* |
 | <nop>TopicTitle  | text | 80 | | | H |
 | TopicClassification | select | 1 | | Classify a topic | |
 | Topic Summary | text | 80 | | Short summary of feature/bug/idea | |

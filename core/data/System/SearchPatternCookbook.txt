@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Search Pattern Cookbook
 
@@ -17,10 +17,10 @@ Most people not familiar (enough) with Regular Expressions mostly cut and paste 
 Suppose there is a topic with a table defining entries in a [[DataForms][data form]]. I.e. they define select menu items in a form definition. They are then formatted like:
 
 <verbatim class="tml">
-| *Name*  | *Type* | *Tooltip message* |
-| option1 | option |                   |
-| option2 | option |                   |
-| option3 | option |                   |
+| *Name*  | *Type* | *Description* |
+| option1 | option |               |
+| option2 | option |               |
+| option3 | option |               |
 </verbatim>
 
 How to extract the 'name' values, i.e. 'option1', 'option2' and 'option3' and put them in a HTML form select input?

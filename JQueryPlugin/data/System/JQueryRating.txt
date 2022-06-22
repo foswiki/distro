@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"rating"
@@ -29,7 +29,7 @@ radio box, or the title if present.
 
 The jquery rating plugin is used to implement a ==rating== formfield. Here are some examples:
 
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* |
 | Rating1 | rating | 5 | | | |
 | Rating2 | rating | 10 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
 | Rating3 | rating | 20 | 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10   | | split:2 |
