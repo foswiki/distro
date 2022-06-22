@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1471025722" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655891169" format="1.1" version="1"}%
 ---+ !TestCases Web
 
 If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so:
@@ -31,5 +31,7 @@ Automatic testcases may be run by clicking on the =run= link for the testcase in
 %TABLE{}%
 -->
 |*Testcase* |*Description*  |*Tests*  |
-%SEARCH{"^TestCaseAuto" type="regex" scope="topic" nosearch="on" nototal="on" format="|$topic  |$pattern(.*Description:(.*?)\n.*)  |[[%SCRIPTURL{"view"}%/%WEB%/$topic?test=compare&debugenableplugins=TestFixturePlugin,CommentPlugin,InterwikiPlugin&skin=pattern][run]]  |"}%
-%SEARCH{"^TestCase(?!Auto)" type="regex" scope="topic" nosearch="on" nototal="on" format="|$topic  |$pattern(.*Description:(.*?)\n.*)  |manual  |"}%
+%SEARCH{"^TestCaseAuto" type="regex" scope="topic" nosearch="on" nototal="on" format="| [[$topic]]  |$pattern(.*Description:(.*?)\n.*)  |[[%SCRIPTURL{"view"}%/%WEB%/$topic?test=compare&debugenableplugins=TestFixturePlugin,CommentPlugin,InterwikiPlugin&skin=pattern][run]]  |"}%
+%SEARCH{"^TestCase(?!Auto)" type="regex" scope="topic" nosearch="on" nototal="on" format="| [[$topic]]  |$pattern(.*Description:(.*?)\n.*)  |manual  |"}%
+
+%META:PREFERENCE{name="TOPICTITLE" title="TOPICTITLE" type="Local" value="TestCases"}%

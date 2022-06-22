@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655894313" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Plugins management tags
 
 Can't automate this because the list of plugins depends on what's installed in the test environment

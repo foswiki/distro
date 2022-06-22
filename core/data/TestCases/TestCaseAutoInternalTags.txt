@@ -1,11 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399379775" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655892651" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Tag tests that can be automated
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 
 Designed by: Crawford Currie
 
-<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+<table class="foswikiTable"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
  <tr>
   <td>TOPIC</td>
   <td><!-- expected three -->TOPIC TestCaseAutoInternalTags<!-- /expected --></td>
@@ -159,7 +160,7 @@ Designed by: Crawford Currie
 %INCLUDE{"FixtureIncludedTopic"}%
 
 %META:FORM{name="ThisForm"}%
-%META:FIELD{name="Squeegle" attributes="" title="Squeegle" value="Hugh Pugh Barney McGrew"}%
-%META:FIELD{name="Smomble" attributes="" title="Smomble" value=""}%
-%META:FIELD{name="Rubaduba" attributes="" title="Rubaduba" value=""}%
-%META:FIELD{name="SlashSlashEscape" attributes="" title="Slash Slash Escape" value="One"}%
+%META:FIELD{name="Squeegle" title="Squeegle" value="Hugh Pugh Barney McGrew"}%
+%META:FIELD{name="Smomble" title="Smomble" value=""}%
+%META:FIELD{name="Rubaduba" title="Rubaduba" value=""}%
+%META:FIELD{name="SlashSlashEscape" title="Slash Slash Escape" value="One"}%

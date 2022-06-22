@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1127097700" format="1.1" version="1.4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1655894358" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 
@@ -19,7 +19,7 @@ the result of clicking on the link in the right column.  Ouch.
 
 ---++ First (Non Nested) Section
 
-<table border="1">
+<table class="foswikiTable">
   <tr>
     <th>Section Name</th><th>Included</th><th>As Link</th>
   </tr>

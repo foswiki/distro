@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="CharlesBrown" date="1118856954" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="CharlesBrown" date="1118856954" format="1.1" version="1"}%
 The topic %TOPIC% was correctly created from the template in TopicTemplateWithUrlParamFixture
 
 If =%URLPARAM{"testtext"}%= is =text from the url= then the test *passed*.

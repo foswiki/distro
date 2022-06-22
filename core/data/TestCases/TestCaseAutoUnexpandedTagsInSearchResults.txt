@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655893135" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Search results can contain tags. These tags must be correctly expanded in the output.
-
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 
@@ -10,7 +9,7 @@ Designed by: Crawford Currie
 <!--
 TAGME %SYSTEMWEB%
 -->
-<table border=1>
+<table class="foswikiTable">
 <tr><th>Expected</th><th>Actual</th></tr>
 <tr><td>
 <!-- expected expand -->

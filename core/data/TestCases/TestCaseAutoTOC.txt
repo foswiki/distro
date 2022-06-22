@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449273010" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1655894079" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: tests for TOCs included from other topics and with funny deprecated syntaxes.
 
 *NOTE: requires {RequireCompatibleAnchors} = 0*
@@ -9,7 +9,8 @@ Description: tests for TOCs included from other topics and with funny deprecated
 Designed by: Crawford Currie
 %BR% Modified by: Markus Ueberall (documented anchor name handling)
 
-<table><tr><th>Expected</th><th>Actual</th></tr>
+<table class='foswikiTable'>
+<tr><th>Expected</th><th>Actual</th></tr>
 <tr valign="top"><td>
 <!-- expected expand rex -->
 <div class="foswikiToc" id="foswikiTOC">
@@ -33,7 +34,9 @@ Designed by: Crawford Currie
 <!-- actual -->
 %TOC{"TocFixture"}%
 <!-- /actual -->
-</td></tr><tr valign="top"><td>
+</td>
+</tr>
+<tr><td>
 <!-- expected expand rex wine -->
 <div class="foswikiToc" id="foswikiTOC2">
 <span class="foswikiTocTitle">The Top</span>

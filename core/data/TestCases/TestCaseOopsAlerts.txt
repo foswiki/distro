@@ -1,9 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1655893600" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Load message templates for review
 
 To exercise the testcase for another skin, view this topic with a skin set in the URL.
 
 <form action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%">
-Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
+*Skin:* <input type="text" size="10" name="skin" value="%URLPARAM{"skin" default="%ENCODE{"%SKIN%" type="safe"}%"}%" />
 <input type="submit" value="Try this skin" />
 </form>
 

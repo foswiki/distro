@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
-
+%META:TOPICINFO{author="ProjectContributor" date="1655893284" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Intranet Registration manual tests
 
 ---++ Preconditions
@@ -37,6 +36,4 @@ If you get it wrong takes you to oopsregcode
 
 ---++ Post test
 	1 Go back to the email. Try clicking the link on the email again. It should now take you to oopsregcode.
- 
-
 

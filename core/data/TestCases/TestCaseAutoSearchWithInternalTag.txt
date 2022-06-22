@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
-
+%META:TOPICINFO{author="ProjectContributor" date="1655892880" format="1.1" version="1"}%
+---+!! %TOPIC%
 Description: Tags embedded in the format option must expand correcly
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -16,7 +16,7 @@ Fixture for test: TestCaseAutoSearchWithInternalTag
 %STARTINCLUDE%Test Passed Ok%STOPINCLUDE%
 -->
 
-<table border=1>
+<table class="foswikiTable">
 <tr><th>Expected</th><th>Actual</th></tr>
 <tr><td>
 <!-- expected -->Test Passed Ok<!-- /expected -->
