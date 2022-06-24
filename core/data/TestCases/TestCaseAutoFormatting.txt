@@ -1,5 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1655892575" format="1.1" version="1"}%
----+!! %TOPIC%
 LinkAtStart
 <!-- /actual -->
 <!-- expected expand LINKATSTART -->
