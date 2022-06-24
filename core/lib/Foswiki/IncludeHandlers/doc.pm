@@ -35,10 +35,9 @@ sub INCLUDE {
     my $publicOnly    = Foswiki::Func::isTrue( $params->{publicOnly}, 1 );
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
 
-    # SMELL This is no longer being used in PerlDoc ...
-    #    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', '' );
+    Foswiki::Func::setPreferencesValue( 'DOC_PARENT',   '' );
     Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
-    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',    '---++ !! !%TOPIC%' );
+    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',    '<nop>%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
     $class ||= 'Foswiki';     # provide a reasonable default
 
@@ -49,55 +48,60 @@ sub INCLUDE {
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
     _setNavigation( $class, $publicOnly, \%publicPackages );
     Foswiki::Func::setPreferencesValue( 'DOC_TITLE',
-        "---++ !! =$visibility package= " . _renderTitle($class) );
+        "=$visibility package= " . _renderTitle( $class, $publicOnly ) );
 
-    my $pmfile;
+    my $pmFile;
     $class =~ s#::#/#g;
     foreach my $inc (@INC) {
         if ( -f "$inc/$class.pm" ) {
-            $pmfile = "$inc/$class.pm";
+            $pmFile = "$inc/$class.pm";
             last;
         }
     }
-    return '' unless $pmfile;
+    return '' unless $pmFile;
 
-    my $PMFILE;
-    open( $PMFILE, '<', $pmfile ) || return '';
     my $inPod      = 0;
     my $pod        = '';
     my $howSmelly  = 0;
     my $showSmells = !Foswiki::Func::isGuest();
     local $/ = undef;
-    my $perl = <$PMFILE>;
-    my $isa;
+    my $perl = Foswiki::Func::readFile($pmFile);
+    my $isa  = "";
     my $inSuppressedMethod;
 
     if ( $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/ ) {
-        $isa = " ==is a== $1";
-        $isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)#' ' . _doclink($1)#ge;
+        $isa = " =is a= $1";
     }
     $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
+
     foreach my $line ( split( /\r?\n/, $perl ) ) {
+
         if ( $line =~ m/^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod              = 1;
             $inSuppressedMethod = 0;
+            next;
         }
-        elsif ( $line =~ m/^=cut/ ) {
+
+        if ( $line =~ m/^=cut/ ) {
             $inPod = 0;
+            next;
         }
-        elsif ($inPod) {
-            if ( $line =~ m/^---\+(!!)?\s+package\s+\S+\s*$/ ) {
-                if ($isa) {
-                    $line .= $isa;
-                    $isa = undef;
-                }
-                $line =~
-s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
+
+        if ($inPod) {
+            if ( $line =~
+s/^---\+(?:!!)?\s+package\s*(.*)/<h1> =$visibility package= <nop>$1 $isa<\/h1>/
+              )
+            {
+                $isa = "";
             }
-            else {
-                $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#ge;
-            }
-            if ( $line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= / ) {
+
+            $line =~
+s#(?<!<nop>)\b(Foswiki(?:::[A-Z]\w+)+)(?:::([a-z]\w+))?(\(.*?\))?#_doclink($1, $publicOnly, $1, $2, $3)#ge;
+
+            if ( $line =~
+s/^---(\++)\s+(\w+Method)?\s*(.*?)(\(.*)\)?\s*$/_makeAnchorHeading($2,length($1), $3, $4)/ge
+              )
+            {
                 $line =~ s/\s+[-=]>\s+/ &rarr; /;
                 if ( $publicOnly && $line =~ m/Method=\s+_/ ) {
                     $inSuppressedMethod = 1;
@@ -107,27 +111,27 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
                 $inSuppressedMethod = 0;
             }
             $pod .= "$line\n"
-              unless $inSuppressedMethod;
+              unless $inSuppressedMethod || $line =~ /SMELL|FIXME|TODO/;
         }
+
         if (  !$inSuppressedMethod
-            && $line =~ m/(SMELL|FIXME|TODO)/
+            && $line =~ m/SMELL|FIXME|TODO/
             && $showSmells )
         {
             $howSmelly++;
-            $pod .= "<blockquote class=\"foswikiAlert\">$line</blockquote>";
+            $line =~ s/\s*#\s*//;
+            $pod .= "<div class='foswikiMessage foswikiBold'>$line</div>";
         }
     }
-    close($PMFILE);
     Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim', 'verbatim' );
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%(?:END|STOP)INCLUDE%.*//s;
     if ($howSmelly) {
         my $podSmell =
-            '<blockquote class="foswikiAlert">'
-          . " *SMELL / FIX / TODO count: $howSmelly*\n"
-          . '</blockquote>';
-        $pod .= $podSmell;
+            '<div class="foswikiMessage foswikiBold">'
+          . " SMELL / FIX / TODO count: $howSmelly\n"
+          . '</div>';
         Foswiki::Func::setPreferencesValue( 'SMELLS', $podSmell );
     }
 
@@ -139,6 +143,8 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
         my $minhead = '+' x 100;
         $pod =~ s/^---(\++)/
           $minhead = $1 if length($1) < length($minhead); "---$1"/gem;
+        $pod =~ s/<h(\d) /
+          $minhead = $1 if $1 < length($minhead); "<h$1 "/gem;
         return $pod if length($minhead) == 100;
         my $newroot = '+' x $params->{level};
         $minhead =~ s/\+/\\+/g;
@@ -154,9 +160,10 @@ sub _setNavigation {
     my %childrenDesc;
     my $classPrefix = $class . '::';
 
-#    my $classParent = $class;
-#    $classParent =~ s/::[^:]+$//;
-#    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', _doclink($classParent) );
+    my $classParent = $class;
+    $classParent =~ s/::[^:]+$//;
+    Foswiki::Func::setPreferencesValue( 'DOC_PARENT',
+        _doclink( $classParent, $publicOnly ) );
     $class =~ s#::#/#g;
 
     foreach my $inc (@INC) {
@@ -184,7 +191,8 @@ sub _setNavigation {
         foreach my $child (@children) {
             my $desc =
               $childrenDesc{$child} ? ' - ' . $childrenDesc{$child} : '';
-            $children .= '<li>' . _doclink($child) . "$desc</li>\n";
+            $children .=
+              '<li>' . _doclink( $child, $publicOnly ) . "$desc</li>\n";
         }
     }
     $children .= '</ul>';
@@ -193,11 +201,11 @@ sub _setNavigation {
 
 # get a summary of the pod documentation by looking directly after the ---+ package TML.
 sub _getPackSummary ($) {
-    my $pmfile = $_[0];
+    my $pmFile = $_[0];
     my @summary;
 
     my $PMFILE;
-    open( $PMFILE, '<', $pmfile ) || return '';
+    open( $PMFILE, '<', $pmFile ) || return '';
     my $inPod     = 0;
     my $inPackage = 0;
     while ( my $line = <$PMFILE> ) {
@@ -255,22 +263,44 @@ sub _loadPublishedAPI {
 
 # Make each intermediate package into a doc link.
 sub _renderTitle {
-    my $pack = $_[0];
+    my ( $pack, $publicOnly ) = @_;
+
     my @packComps = split '::', $pack;
+
     my @packLinks =
-      map { _doclink( ( join '::', @packComps[ 0 .. $_ ] ), $packComps[$_] ) }
-      0 .. $#packComps - 1;
-    my $packageTitle = join '::', @packLinks, $packComps[$#packComps];
-    return $packageTitle;
+      map {
+        _doclink( ( join '::', @packComps[ 0 .. $_ ] ),
+            $publicOnly, $packComps[$_] )
+      } 0 .. $#packComps;
+
+    return join '::', @packLinks;
 }
 
-sub _doclink ($) {
-    my $module = $_[0];
-    my $title = $_[1] || $module;
+sub _doclink {
+    my ( $module, $publicOnly, $title, $method, $params ) = @_;
 
-    # SMELL relying on TML to set publicOnly
+    $publicOnly = $publicOnly ? "&publicOnly=on" : "";
+    $title  ||= $module;
+    $method ||= '';
+    $params ||= '';
+
+    if ($method) {
+        $title .= "::$method";
+        $method = "#$method";
+    }
+
     return
-"[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
+"<a href='%SCRIPTURLPATH{view}%/%SYSTEMWEB%/PerlDoc?module=$module$publicOnly$method'>$title$params</a>";
+}
+
+sub _makeAnchorHeading {
+    my ( $spec, $level, $method, $params ) = @_;
+
+    my $html = "<h$level id='$method'>";
+    $html .= " =$spec=" if $spec;
+    $html .= " $method$params </h$level>";
+
+    return $html;
 }
 
 1;
@@ -278,7 +308,7 @@ sub _doclink ($) {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
