@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655892550" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1656052253" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 Description: Automated formatted search tests.
@@ -85,7 +85,7 @@ Forma...
 ---++ Expected
 
 <!-- expected with $parent -->
-Revision 4 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
+Revision 1 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
 <!-- /expected -->
 
 ---++ Actual
