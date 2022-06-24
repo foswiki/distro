@@ -796,7 +796,7 @@ sub test_docInclude {
     my $text = $this->{test_topicObject}->expandMacros("%INCLUDE{doc:$class}%");
     my $expected = <<"EXPECTED";
 
----+ =internal package= Foswiki::IncludeHandlers::doc
+<h1> =internal package= <nop>Foswiki::IncludeHandlers::doc </h1>
 
 This package is designed to be lazy-loaded when Foswiki sees
 an INCLUDE macro with the doc: protocol. It implements a single

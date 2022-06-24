@@ -1,25 +1,25 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1656057755" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
-%DOC_TITLE%
+---+!! %TOPIC%
+See PublishedAPI for packages intended to be used by Plugin and Contrib authors, or [[PerlDoc?module=Foswiki][browse all packages]].<br>
+See also [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]]
+
 <form class='foswikiForm' action='%SCRIPTURLPATH{view}%/%SYSTEMWEB%/PerlDoc'>
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
-      See PublishedAPI for packages intended to be used by Plugin and Contrib authors, or [[PerlDoc?module=Foswiki][browse all packages]].<br>
-      See also [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
-  </div>
-  <div class='foswikiFormStep'>
     <label for='module'><b>Perl Module:</b></label>
     <input type='text' name='module' id='module' size='60' value='%URLPARAM{module}%' class='foswikiInputField' />
+    <input type='submit' value='%MAKETEXT{"Submit"}%' class='foswikiSubmit' />
 <!--
 Commented this out right before 1.1.5 - we should distinguish between 'public' and 'published' classes.
     <label for='publicOnly'><b>Public Only:</b></label>
     <input type='checkbox' name='publicOnly' id='publicOnly' value='on' %IF{"$publicOnly = 'on'" then="checked='checked'"}% class='foswikiInputField' />
 -->
-    <input type='submit' value='%MAKETEXT{"Submit"}%' class='foswikiSubmit' />
   </div>
-  <div class='foswikiFormStep'>
-    %TWISTY{link="Child packages" linkclass="foswikiButton" remember="on"}%
-
+---
+  <div class='foswikiformStep'>
+   *Parent package:* %DOC_PARENT% %BR%
+   *Child packages*: %TWISTY{remember="on"}%
 %DOC_CHILDREN%
     %ENDTWISTY%
   </div>
