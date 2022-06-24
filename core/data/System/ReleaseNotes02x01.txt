@@ -845,6 +845,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15144][Item15144]] | remove unused files from TwistyPlugin |
 | [[%BUGS%/Item15147][Item15147]] | in spec files, all {Module} settings are expert level |
 | [[%BUGS%/Item15148][Item15148]] | core's RELEASE and VERSION scheme should follow standards established in skins and extensions |
+| [[%BUGS%/Item15149][Item15149]] | improve perl doc renderer |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
 
