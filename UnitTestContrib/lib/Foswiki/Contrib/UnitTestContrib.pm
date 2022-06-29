@@ -14,6 +14,7 @@
 package Foswiki::Contrib::UnitTestContrib;
 
 use strict;
+use warnings;
 
 # Simple decimal version, use parse method, no leading "v"
 our $VERSION          = '1.2';

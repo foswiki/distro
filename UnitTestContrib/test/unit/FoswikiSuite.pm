@@ -1,12 +1,13 @@
 # Run _all_ test suites in the current directory (core and plugins)
-require 5.006;
-
 package FoswikiSuite;
+
+require 5.006;
+use strict;
+use warnings;
+
 use Unit::TestSuite;
 use Cwd;
 our @ISA = qw( Unit::TestSuite );
-
-use strict;
 
 # Assumes we are run from the "test/unit" directory
 

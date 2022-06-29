@@ -1,8 +1,8 @@
-use strict;
-
 # tests for basic formatting
-
 package RenderListPluginTests;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );

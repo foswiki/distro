@@ -10,6 +10,7 @@ Abstract model of a table cell, suitable for use with the tables parser.
 =cut
 
 use strict;
+use warnings;
 use Assert;
 
 BEGIN {

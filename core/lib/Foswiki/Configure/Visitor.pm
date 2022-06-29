@@ -9,6 +9,9 @@ Node visitor interface for traversing a .spec tree
 
 package Foswiki::Configure::Visitor;
 
+use strict;
+use warnings;
+
 =begin TML
 
 --++ ObjectMethod startVisit($node) -> $boolean

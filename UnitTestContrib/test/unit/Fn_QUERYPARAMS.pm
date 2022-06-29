@@ -2,10 +2,12 @@
 #
 #
 package Fn_QUERYPARAMS;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
+
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub new {
     my $self = shift()->SUPER::new( 'QUERYPARAMS', @_ );

@@ -1,6 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Infix::OP;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+ package Foswiki::Infix::OP

@@ -182,7 +182,7 @@ encoded using UTF-8.
 BEGIN {
 
     # First thing we do; make sure we print unicode errors
-    binmode( STDERR, ":utf8" );
+    binmode( STDERR, ":encoding(UTF-8)" );
 
     #Monitor::MARK("Start of BEGIN block in Foswiki.pm");
     if (DEBUG) {
@@ -194,7 +194,7 @@ BEGIN {
             # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
             # production environment, and no stack traces or paths are
             # output to the browser.
-            $SIG{'__WARN__'} = sub { die @_ };
+            local $SIG{'__WARN__'} = sub { die @_ };
             $Error::Debug = 1;    # verbose stack traces, please
         }
         else {
@@ -503,12 +503,16 @@ BEGIN {
                 $regex{webNameBaseRegex}
                 (?:(?:[\.\/]$regex{webNameBaseRegex})+)*
            )xo;
+        $regex{defaultWebNameRegex} = qr(
+                _[[:alnum:]_]+
+                (?:(?:[\.\/]$regex{webNameBaseRegex})+)*
+           )xo;
     }
     else {
-        $regex{webNameRegex} = $regex{webNameBaseRegex};
+        $regex{webNameRegex}        = $regex{webNameBaseRegex};
+        $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
     }
-    $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
-    $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
+    $regex{anchorRegex} = qr/\#[[:alnum:]:._]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/o;
 
@@ -637,7 +641,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
         # the benefit of pre-1.0 CGI scripts)
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
     }
-    $engine = eval qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);
+    $engine = eval
+      qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);    ## no critic
     die $@ if $@;
 
     #Monitor::MARK('End of BEGIN block in Foswiki.pm');
@@ -1976,7 +1981,7 @@ sub new {
 
         # Rejig the store impl's ISA to use each Class  in order.'
         load_package($class);
-        no strict 'refs';
+        no strict 'refs';    ## no critic
         push( @{ $class . '::ISA' }, $base );
         use strict 'refs';
         $base = $class;
@@ -3056,7 +3061,7 @@ sub takeOutBlocks {
     foreach my $token ( split( /(<\/?$re[^>]*>)/, $intext ) ) {
         if ( $token =~ m/<$re\b([^>]*)?>/ ) {
             $depth++;
-            if ( $depth eq 1 ) {
+            if ( $depth == 1 ) {
                 $tagParams = $1;
                 next;
             }
@@ -3064,7 +3069,7 @@ sub takeOutBlocks {
         elsif ( $token =~ m/<\/$re>/ ) {
             if ( $depth > 0 ) {
                 $depth--;
-                if ( $depth eq 0 ) {
+                if ( $depth == 0 ) {
                     my $placeholder = "$tag$BLOCKID";
                     $BLOCKID++;
                     $map->{$placeholder}{text}   = $scoop;
@@ -3390,7 +3395,7 @@ sub _expandMacroOnTopicRendering {
             $tag = $1;
             eval "require Foswiki::Macros::$tag";
             die $@ if $@;
-            $macros{$tag} = eval "\\&$tag";
+            $macros{$tag} = eval "\\&$tag";    ## no critic
             die $@ if $@;
         }
 

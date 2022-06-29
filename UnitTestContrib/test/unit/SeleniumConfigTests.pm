@@ -1,6 +1,7 @@
-use strict;
-
 package SeleniumConfigTests;
+
+use strict;
+use warnings;
 
 use FoswikiSeleniumTestCase;
 our @ISA = qw( FoswikiSeleniumTestCase );

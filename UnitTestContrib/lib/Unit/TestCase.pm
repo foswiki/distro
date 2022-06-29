@@ -12,6 +12,7 @@ Foswiki.
 =cut
 
 use strict;
+use warnings;
 use Error qw( :try );
 use Carp;
 use Unit::HTMLDiffer;

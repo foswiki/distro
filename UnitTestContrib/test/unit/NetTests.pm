@@ -1,9 +1,11 @@
 # Tests for Foswiki::Net
 package NetTests;
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
 
 use strict;
+use warnings;
+
+use Unit::TestCase;
+our @ISA = qw( Unit::TestCase );
 
 use Foswiki::Net;
 

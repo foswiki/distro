@@ -22,7 +22,8 @@ package Foswiki::Plugins::RenderFormPlugin::Core;
 # + additional form field definitions that can be used with URLPARAM in the templatetopic
 # + AJAX form data submit
 
-#use strict;
+use strict;
+use warnings;
 
 use vars
   qw( $pluginName %defaults @requiredOptions @flagOptions %validOptions %options $defaultsInitialized @unknownParams @missingParams @invalidParams $formCounter );

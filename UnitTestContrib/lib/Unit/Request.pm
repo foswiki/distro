@@ -1,6 +1,9 @@
 # See bottom of file for license and copyright
 package Unit::Request;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+ package Unit::Request

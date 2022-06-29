@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
+use warnings;
 use Foswiki::Request                      ();
 use Foswiki::Render                       ();
 use Foswiki::Plugins::EditRowPlugin::View ();

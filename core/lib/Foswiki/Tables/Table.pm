@@ -30,6 +30,7 @@ A Table object has the following public fields:
 package Foswiki::Tables::Table;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Tables::Row ();

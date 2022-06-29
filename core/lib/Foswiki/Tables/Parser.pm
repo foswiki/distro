@@ -15,6 +15,7 @@ are recognised.
 package Foswiki::Tables::Parser;
 
 use strict;
+use warnings;
 use Assert;
 
 use constant TRACE => 0;

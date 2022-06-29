@@ -6,6 +6,7 @@ package Assert;
 # optimiser fails to see as a constant.
 
 use strict;
+use warnings;
 
 our $VERSION = "1.200";
 $VERSION = eval $VERSION;

@@ -11,6 +11,7 @@ A singleton object of this class manages the access control database.
 package Foswiki::Access;
 
 use strict;
+use warnings;
 use Assert;
 
 use constant MONITOR => 0;

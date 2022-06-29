@@ -622,7 +622,7 @@ sub _parse {
                 if ( $plaus->{$type} and $opts->{ $plaus->{$type} } ) {
 
                     # If an "unambiguous" form, put it first in the @trylist.
-                    if ( $plaus->{$type} eq 2 ) {
+                    if ( $plaus->{$type} == 2 ) {
                         unshift( @trylist, $type );
                         $normalform = $type;
 

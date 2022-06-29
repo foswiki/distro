@@ -16,6 +16,7 @@
 package Foswiki::Contrib::Build;
 
 use strict;
+use warnings;
 
 my $collector;
 

@@ -16,6 +16,7 @@
 package Foswiki::Contrib::Build;
 
 use strict;
+use warnings;
 
 # Build POD documentation. This target defines =%$POD%= - it
 # does not generate any output. The target will be invoked

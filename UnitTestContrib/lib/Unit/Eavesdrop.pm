@@ -1,6 +1,9 @@
 # See bottom of file for description
 package Unit::Eavesdrop;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+ package Unit::Eavesdrop
@@ -25,8 +28,6 @@ close(F);
 
 use Tie::Handle;
 our @ISA = qw( Tie::Handle );
-
-use strict;
 
 =begin TML
 

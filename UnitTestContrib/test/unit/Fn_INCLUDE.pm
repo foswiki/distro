@@ -1,8 +1,8 @@
-use strict;
-
 # tests for the correct expansion of INCLUDE
-
 package Fn_INCLUDE;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

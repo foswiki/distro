@@ -1,12 +1,15 @@
 # See bottom of file for license and copyright
 package Unit::HTMLDiffer;
+
+use strict;
+use warnings;
+
 use HTML::Parser;
 our @ISA = qw( HTML::Parser );
 
 # Module for comparing two blocks of HTML to see if
 # they would render to the same thing.
 
-use strict;
 use Algorithm::Diff;
 use HTML::Entities;
 

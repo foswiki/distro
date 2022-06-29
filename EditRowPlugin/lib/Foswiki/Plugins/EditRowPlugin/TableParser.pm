@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin::TableParser;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Attrs          ();

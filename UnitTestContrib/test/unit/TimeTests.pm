@@ -6,10 +6,13 @@
 # Warning! as of June2010, strawberry perl does not implement POSIX::tzset and thus crashes these tests completely
 
 package TimeTests;
+
+use strict;
+use warnings;
+
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
-use strict;
 use Foswiki::Time;
 require POSIX;
 use Time::Local qw( timelocal timegm timelocal_nocheck timegm_nocheck);

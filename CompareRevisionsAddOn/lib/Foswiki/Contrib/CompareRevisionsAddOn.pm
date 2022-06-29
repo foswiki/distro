@@ -1,5 +1,6 @@
 package Foswiki::Contrib::CompareRevisionsAddOn;
 use strict;
+use warnings;
 
 # Also update CompareRevisionsAddOnPlugin
 our $VERSION = '1.115';

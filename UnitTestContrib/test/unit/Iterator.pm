@@ -1,8 +1,9 @@
-use strict;
-
 # tests for the Foswiki Iterators
 
 package Iterator;
+
+use strict;
+use warnings;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );

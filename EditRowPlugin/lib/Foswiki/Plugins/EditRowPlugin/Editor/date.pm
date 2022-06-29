@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin::Editor::date;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();

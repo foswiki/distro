@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin::Table;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Tables::Table ();

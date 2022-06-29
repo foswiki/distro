@@ -1,8 +1,8 @@
-use strict;
-
 # Test the Unit::Eavesdrop package
-
 package EavesdropTests;
+
+use strict;
+use warnings;
 
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );

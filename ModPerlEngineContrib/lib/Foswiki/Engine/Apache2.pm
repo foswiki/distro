@@ -36,6 +36,7 @@ Refer to the Foswiki::Engine documentation for further information.
 package Foswiki::Engine::Apache2;
 
 use strict;
+use warnings;
 use Foswiki::Engine::Apache;
 our @ISA = qw( Foswiki::Engine::Apache );
 

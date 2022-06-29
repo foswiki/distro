@@ -1,6 +1,9 @@
 # See bottom of file for license and copyright
 package Unit::Response;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+ package Unit::Request
@@ -12,7 +15,6 @@ package Unit::Response;
 
 use Foswiki::Response;
 our @ISA = qw( Foswiki::Response );
-use strict;
 
 our $response;    # for proper finalization
 

@@ -1,8 +1,8 @@
-use strict;
-
 # Example test case; use this as a basis to build your own
-
 package AddToHeadTests;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

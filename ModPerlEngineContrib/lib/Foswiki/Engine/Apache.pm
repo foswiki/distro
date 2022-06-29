@@ -36,6 +36,7 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache;
 
 use strict;
+use warnings;
 
 use Foswiki::Engine;
 our @ISA = qw( Foswiki::Engine );

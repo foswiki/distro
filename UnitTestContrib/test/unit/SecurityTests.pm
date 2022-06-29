@@ -1,4 +1,8 @@
 package SecurityTests;
+
+use strict;
+use warnings;
+
 use FoswikiFnTestCase();
 use Foswiki::UI::Attach();
 our @ISA = qw( FoswikiFnTestCase );

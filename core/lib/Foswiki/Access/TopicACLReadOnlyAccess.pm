@@ -15,6 +15,7 @@ use Foswiki::Access::TopicACLAccess;
 use constant MONITOR => 0;
 
 use strict;
+use warnings;
 use Assert;
 
 BEGIN {

@@ -242,7 +242,7 @@ sub _parseFormDefinition {
 
     {
 
-        package Foswiki::Form::ParseFinished;
+        package Foswiki::Form::ParseFinished;    ## no critic
         our @ISA = ('Error');
     }
 

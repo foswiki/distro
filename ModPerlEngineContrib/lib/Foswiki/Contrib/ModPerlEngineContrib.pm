@@ -20,6 +20,7 @@
 package Foswiki::Contrib::ModPerlEngineContrib;
 
 use strict;
+use warnings;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 

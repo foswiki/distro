@@ -4,6 +4,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor;
 # Base class of editor plugins
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Func ();

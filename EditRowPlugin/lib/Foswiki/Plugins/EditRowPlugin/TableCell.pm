@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin::TableCell;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Func                           ();

@@ -1,6 +1,9 @@
 # See bottom of file for license and copyright
 package Unit::TestSuite;
 
+use strict;
+use warnings;
+
 =begin TML
 
 ---+ package Unit::TestSuite
@@ -16,8 +19,6 @@ Foswiki.
 
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
-
-use strict;
 
 sub include_tests {
     return ();

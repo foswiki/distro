@@ -2,6 +2,7 @@
 package Foswiki::Prefs::Request;
 
 use strict;
+use warnings;
 use Assert;
 
 BEGIN {

@@ -1,12 +1,10 @@
-use strict;
-
 package PlainFileStoreContribTests;
+use strict;
+use warnings;
 
+use Foswiki;
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
-
-use strict;
-use Foswiki;
 
 sub new {
     my $self = shift()->SUPER::new(@_);

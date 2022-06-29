@@ -2,6 +2,7 @@
 package TableTests;
 
 use strict;
+use warnings;
 use FoswikiTestCase;
 use Foswiki::Attrs;
 use Foswiki::Tables::Table;

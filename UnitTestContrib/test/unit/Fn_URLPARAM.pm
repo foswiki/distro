@@ -3,10 +3,12 @@
 # Author: Koen Martens
 #
 package Fn_URLPARAM;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
+
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub new {
     my $self = shift()->SUPER::new( 'URLPARAM', @_ );

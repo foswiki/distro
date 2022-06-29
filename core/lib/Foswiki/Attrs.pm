@@ -311,9 +311,8 @@ syntax observed (no {} brackets, though).
 
 sub stringify {
     my $this = shift;
-    my $key;
     my @ss;
-    foreach $key ( sort keys %$this ) {
+    foreach my $key ( sort keys %$this ) {
         if ( $key ne '_ERROR' && $key ne '_RAW' ) {
             my $es = ( $key eq '_DEFAULT' ) ? '' : $key . '=';
             my $val = $this->{$key};

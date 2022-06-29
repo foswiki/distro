@@ -1,8 +1,8 @@
-use strict;
-
 # tests for the correct expansion of SEP
-
 package Fn_SEP;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

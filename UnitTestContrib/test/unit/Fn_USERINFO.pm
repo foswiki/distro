@@ -1,8 +1,8 @@
-use strict;
-
 # tests for the correct expansion of USERINFO
-
 package Fn_USERINFO;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );

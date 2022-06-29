@@ -2,6 +2,7 @@
 package Foswiki::Plugins::EditRowPlugin::Editor::editbutton;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor::label ();

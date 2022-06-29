@@ -1,6 +1,7 @@
 package Foswiki::UI::Test;
 
 use strict;
+use warnings;
 
 #use Storable qw(thaw freeze); # unreliable
 

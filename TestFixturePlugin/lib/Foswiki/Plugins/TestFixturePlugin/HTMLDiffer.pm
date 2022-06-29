@@ -15,6 +15,9 @@
 #
 package Foswiki::Plugins::TestFixturePlugin::CleanHTML;
 
+use strict;
+use warnings;
+
 use HTML::Parser;
 
 @Foswiki::Plugins::TestFixturePlugin::CleanHTML::ISA = ('HTML::Parser');

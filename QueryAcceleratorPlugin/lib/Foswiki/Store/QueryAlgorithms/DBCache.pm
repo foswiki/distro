@@ -11,6 +11,7 @@ Part of QueryAcceleratorPlugin.
 
 package Foswiki::Store::QueryAlgorithms::DBCache;
 use strict;
+use warnings;
 
 #@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
 

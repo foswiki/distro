@@ -16,6 +16,7 @@ use Foswiki::Access;
 use constant MONITOR => 0;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki        ();

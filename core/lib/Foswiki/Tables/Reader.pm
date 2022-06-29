@@ -16,6 +16,7 @@ can be interrogated for the =cell_class= (default: Foswiki::Tables::Cell).
 package Foswiki::Tables::Reader;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Attrs          ();
