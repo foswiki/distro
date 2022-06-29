@@ -161,7 +161,7 @@ sub dispatch {
     my $code = 0;
     my $result;
     try {
-        no strict 'refs';
+        no strict 'refs';    ## no critic
         my $function = $handler->{function};
         writeDebug( "calling handler for "
               . $request->namespace . "."
@@ -230,7 +230,7 @@ sub getHandler {
 
             writeDebug("compiling $def->{package} for $namespace.$method")
               if TRACE;
-            eval qq(use $def->{package});
+            eval qq(use $def->{package});    ## no critic
 
             # disable on error
             if ($@) {
