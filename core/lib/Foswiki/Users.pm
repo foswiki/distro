@@ -795,8 +795,6 @@ sub eachUser {
     my @list =
       ( $this->{basemapping}->eachUser(@_), $this->{mapping}->eachUser(@_) );
     return new Foswiki::AggregateIterator( \@list, 1 );
-
-    return shift->{mapping}->eachUser(@_);
 }
 
 =begin TML
