@@ -1,6 +1,7 @@
-use strict;
-
 package RenderTests;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

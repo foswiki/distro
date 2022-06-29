@@ -16,6 +16,7 @@
 package Foswiki::Contrib::Build;
 
 use strict;
+use warnings;
 
 our @twikiFilters = (
     { RE => qr/\.pm$/,          filter => '_twikify_perl' },

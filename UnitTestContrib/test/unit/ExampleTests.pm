@@ -1,7 +1,8 @@
-use strict;
-
 # Pathologically simple test case.
 package ExampleTests;
+
+use strict;
+use warnings;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );

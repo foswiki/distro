@@ -11,6 +11,7 @@ Plugin for an alternative query algorithm using DBCacheContrib
 package Foswiki::Plugins::QueryAcceleratorPlugin;
 
 use strict;
+use warnings;
 
 use Assert;
 

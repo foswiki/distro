@@ -1,6 +1,7 @@
-use strict;
-
 package RequestCacheTests;
+
+use strict;
+use warnings;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );

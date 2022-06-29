@@ -22,6 +22,7 @@
 package W3CValidator;
 
 use strict;
+use warnings;
 use LWP::UserAgent;
 
 sub new {

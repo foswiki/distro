@@ -30,7 +30,7 @@ sub _upgradeCategoryItem {
     my @cmd         = split( /\|/, $catitems );
     my $src         = '';
     my $len         = @cmd;
-    if ( $len < '2' ) {
+    if ( $len < 2 ) {
 
         # FIXME
         return ( $catname, $catmodifier, $catvalue );
@@ -289,8 +289,7 @@ sub migrateToFileAttachmentMacro {
     $atext = '' if ( !$atext );
 
     if ( $atext =~ m/<TwkNextItem>/ ) {
-        my $line = '';
-        foreach $line ( split( /<TwkNextItem>/, $atext ) ) {
+        foreach my $line ( split( /<TwkNextItem>/, $atext ) ) {
             my (
                 $fileName, $filePath, $fileSize,
                 $fileDate, $fileUser, $fileComment
@@ -316,9 +315,8 @@ sub migrateToFileAttachmentMacro {
     else {
 
         # Format of macro that came before META:ATTACHMENT
-        my $line = '';
         require Foswiki::Attrs;
-        foreach $line ( split( /\r?\n/, $atext ) ) {
+        foreach my $line ( split( /\r?\n/, $atext ) ) {
             if ( $line =~ m/%FILEATTACHMENT\{\s"([^"]*)"([^}]*)\}%/ ) {
                 my $name   = $1;
                 my $values = new Foswiki::Attrs($2);
@@ -401,12 +399,12 @@ sub makeCompatibleAnchors {
     # Use the old algorithm to generate the old style, non-unique, anchor
     # target.
     my $badAnchor = _makeBadAnchorName( $text, 0 );
-    push( @anchors, $badAnchor ),
+    push( @anchors, $badAnchor );
 
-      # There's an even older algorithm we have to allow for
-      my $worseAnchor = _makeBadAnchorName( $text, 1 );
+    # There's an even older algorithm we have to allow for
+    my $worseAnchor = _makeBadAnchorName( $text, 1 );
     if ( $worseAnchor ne $badAnchor ) {
-        push( @anchors, $worseAnchor ),;
+        push( @anchors, $worseAnchor );
     }
 
     return @anchors;

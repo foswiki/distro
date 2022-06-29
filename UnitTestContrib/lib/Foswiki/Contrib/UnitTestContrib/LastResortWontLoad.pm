@@ -1,5 +1,8 @@
 package Foswiki::Contrib::UnitTestContrib::LastResortWontLoad;
 
+use strict;
+use warnings;
+
 # This module exists only to provide a module with version number
 # that can't be loadded due to other errors.
 #

@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::EditRowPlugin::JQuery;
 use strict;
+use warnings;
 
 use Assert;
 

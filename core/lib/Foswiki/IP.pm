@@ -188,7 +188,7 @@ sub hostInfo {
         };
     }
     else {
-        $@ = 'Use gethostbyname';
+        local $@ = 'Use gethostbyname';
     }
 
     if ($@) {

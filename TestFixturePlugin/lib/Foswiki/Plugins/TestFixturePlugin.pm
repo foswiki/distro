@@ -16,6 +16,7 @@
 package Foswiki::Plugins::TestFixturePlugin;
 
 use strict;
+use warnings;
 
 use Foswiki::Func                                   ();    # The plugins API
 use Foswiki::Attrs                                  ();

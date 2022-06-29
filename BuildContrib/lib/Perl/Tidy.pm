@@ -57,6 +57,7 @@ use 5.004;    # need IO::File from 5.004 or later
 BEGIN { $^W = 1; }    # turn on warnings
 
 use strict;
+use warnings;
 use Exporter;
 use Carp;
 $|++;

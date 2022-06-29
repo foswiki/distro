@@ -1,8 +1,8 @@
-use strict;
-
 # tests for the correct expansion of SCRIPTURL
-
 package Fn_SCRIPTURL;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

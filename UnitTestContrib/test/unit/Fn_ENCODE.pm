@@ -2,10 +2,12 @@
 #
 #
 package Fn_ENCODE;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
+
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub new {
     my $self = shift()->SUPER::new( 'ENCODE', @_ );

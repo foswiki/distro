@@ -4,6 +4,9 @@
 # asserts are active; it loads the debug implementations.
 
 use strict;
+
+#use warnings; SMELL
+
 use locale;    # so result of lc() is tainted
 
 our $DIRTY = lc('x');    # Used in TAINT

@@ -5,6 +5,7 @@
 # Assert module functions.
 
 use strict;
+use warnings;
 
 sub ASSERT { }
 

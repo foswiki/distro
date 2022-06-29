@@ -12,6 +12,7 @@ WikiGuest cannot be subscribed, only logged-in users.
 =cut
 
 use strict;
+use warnings;
 use Foswiki::Func                  ();
 use Foswiki::Plugins::JQueryPlugin ();
 use Assert;

@@ -1121,7 +1121,8 @@ sub emailToWikiNames {
         }
     }
 
-    return sort keys %matches;
+    my @wikiNames = sort keys %matches;
+    return @wikiNames;
 }
 
 =begin TML
@@ -1744,7 +1745,8 @@ sub getAttachmentList {
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     my $it = $topicObject->eachAttachment();
-    return sort $it->all();
+    my @list = sort $it->all();
+    return @list;
 }
 
 =begin TML
@@ -1836,7 +1838,7 @@ sub readAttachment {
         $fh = undef;
     };
     return unless $fh;
-    local $/;
+    local $/ = undef;
     my $data = <$fh>;
     return $data;
 }

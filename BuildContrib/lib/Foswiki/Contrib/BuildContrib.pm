@@ -1,5 +1,6 @@
 package Foswiki::Contrib::BuildContrib;
 use strict;
+use warnings;
 
 our $VERSION = '2.10';
 our $RELEASE = '27 Apr 2022';

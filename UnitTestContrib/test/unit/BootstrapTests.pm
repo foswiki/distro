@@ -1,10 +1,12 @@
 # See the bottom of the file for description, copyright and license information
 package BootstrapTests;
 
+use strict;
+use warnings;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Error (':try');
 use Data::Dumper;
 

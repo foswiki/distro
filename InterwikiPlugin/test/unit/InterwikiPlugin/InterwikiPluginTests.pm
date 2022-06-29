@@ -1,6 +1,7 @@
 package InterwikiPluginTests;
 
 use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

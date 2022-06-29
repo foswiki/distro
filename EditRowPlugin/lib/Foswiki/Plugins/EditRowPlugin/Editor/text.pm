@@ -9,6 +9,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor::text;
 # Note that textarea subclasses this class.
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();

@@ -15,6 +15,7 @@
 package Foswiki::Plugins::ZonePlugin;
 
 use strict;
+use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 

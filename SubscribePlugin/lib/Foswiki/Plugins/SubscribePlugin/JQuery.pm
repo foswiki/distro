@@ -1,6 +1,7 @@
 # See the bottom of the file for description, copyright and license information
 package Foswiki::Plugins::SubscribePlugin::JQuery;
 use strict;
+use warnings;
 
 use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );

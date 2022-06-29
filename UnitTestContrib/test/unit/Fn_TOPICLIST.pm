@@ -1,10 +1,13 @@
 # tests for the correct expansion of TOPICLIST
 
 package Fn_TOPICLIST;
+
+use strict;
+use warnings;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Error qw( :try );
 

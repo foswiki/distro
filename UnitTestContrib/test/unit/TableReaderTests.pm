@@ -2,6 +2,7 @@
 package TableReaderTests;
 
 use strict;
+use warnings;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 

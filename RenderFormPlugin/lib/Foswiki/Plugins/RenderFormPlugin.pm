@@ -19,6 +19,7 @@
 package Foswiki::Plugins::RenderFormPlugin;
 
 use strict;
+use warnings;
 
 use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 

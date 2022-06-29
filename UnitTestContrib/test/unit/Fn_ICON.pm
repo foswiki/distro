@@ -1,6 +1,9 @@
 # tests for the correct expansion of ICON*
 package Fn_ICON;
+
 use strict;
+use warnings;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 

@@ -109,13 +109,17 @@ sub makeLoginManager {
     {
 
         my $sessionname;
-        my $use = 'use Foswiki::LoginManager::Session';
         if ( $Foswiki::cfg{Sessions}{UseIPMatching} ) {
-            $use .= ' qw(-ip_match)';
+            eval 'use Foswiki::LoginManager::Session qw(-ip_match)';
         }
-        $use .= '; use CGI::Cookie ()';
-        eval $use;
+        else {
+            eval 'use Foswiki::LoginManager::Session';
+        }
         throw Error::Simple($@) if $@;
+
+        eval "use CGI::Cookie ()";
+        throw Error::Simple($@) if $@;
+
         if ( $session->{request}->https() ) {
             $sessionname = 'SFOSWIKISID';
         }
@@ -175,7 +179,7 @@ sub new {
     );
 
     # make sure the filePermission setting has got a sensible default
-    $Foswiki::cfg{Session}{filePermission} = 0600
+    $Foswiki::cfg{Session}{filePermission} = oct(600)
       unless defined $Foswiki::cfg{Session}{filePermission};
 
     $session->leaveContext('can_login');
@@ -1599,7 +1603,7 @@ sub removeUserSessions {
         }
     );
 
-    sub purge_user {
+    sub purge_user {    ## no critic
 
         #my ($session, $user, $msg) = @_;
         next if $_[0]->is_empty;    # <-- already expired?!
