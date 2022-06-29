@@ -19,7 +19,7 @@ use Foswiki::Func                           ();
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
     unless ( Foswiki::Request->can('multi_param') ) {
-        no warnings 'redefine';
+        no warnings 'redefine';    ## no critic
         *Foswiki::Request::multi_param = \&Foswiki::Request::param;
         use warnings 'redefine';
     }

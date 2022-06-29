@@ -201,7 +201,7 @@ sub renderI18N {
         my $messagePath = $path . '/' . $langTag . '.js';
         my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
         if ( -f $messageFile ) {
-            my $text .=
+            my $text =
 "<script type='application/l10n' data-i18n-language='$langTag' data-i18n-namespace='"
               . uc( $this->{name} )
               . "' data-i18n-src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";

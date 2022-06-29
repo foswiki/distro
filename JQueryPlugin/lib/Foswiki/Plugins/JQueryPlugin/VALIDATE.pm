@@ -62,7 +62,7 @@ sub init {
       . $langTag . '.js';
     my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
     if ( -f $messageFile ) {
-        my $text .=
+        my $text =
           "<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::VALIDATE::LANG",
