@@ -194,8 +194,8 @@ BEGIN {
             # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
             # production environment, and no stack traces or paths are
             # output to the browser.
-            local $SIG{'__WARN__'} = sub { die @_ };
-            $Error::Debug = 1;    # verbose stack traces, please
+            $SIG{'__WARN__'} = sub { die @_ };    ## no critic
+            $Error::Debug = 1;                    # verbose stack traces, please
         }
         else {
 
@@ -637,8 +637,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
         # the benefit of pre-1.0 CGI scripts)
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
     }
-    $engine = eval
-      qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);    ## no critic
+    $engine = eval    ## no critic
+      qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);
     die $@ if $@;
 
     #Monitor::MARK('End of BEGIN block in Foswiki.pm');
