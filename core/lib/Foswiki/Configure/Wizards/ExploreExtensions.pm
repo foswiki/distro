@@ -27,8 +27,8 @@ use Foswiki::Func                  ();
 
 # Ordered list of field names to column headings
 my %tableHeads = (
-    Installed   => [ 'description', 'release', 'installedRelease' ],
-    Uninstalled => [ 'description', 'release' ]
+    Installed   => [ 'description', 'version', 'installedVersion' ],
+    Uninstalled => [ 'description', 'version' ]
 );
 
 # Mapping to column heading string
