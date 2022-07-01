@@ -211,8 +211,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.999_001');
-    $RELEASE = '21 Jun 2022 Alpha';
+    use version 0.77; $VERSION = version->declare('v2.1.999_002');
+    $RELEASE = '01 Jul 2022 Alpha';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
