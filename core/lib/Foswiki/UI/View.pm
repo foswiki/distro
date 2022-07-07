@@ -387,17 +387,19 @@ sub view {
         $end = '';
     }
 
-    if ( $session->getSkin() =~ m/\brss/ ) {
-        $contentType = 'text/xml';
-    }
-    elsif ( $session->getSkin() =~ m/\bxml/ ) {
-        $contentType = 'text/xml';
-    }
-    elsif ( $raw eq 'text' || $raw eq 'all' ) {
-        $contentType = 'text/plain';
-    }
-    else {
-        $contentType = 'text/html';
+    unless ($contentType) {
+        if ( $session->getSkin() =~ m/\brss/ ) {
+            $contentType = 'text/xml';
+        }
+        elsif ( $session->getSkin() =~ m/\bxml/ ) {
+            $contentType = 'text/xml';
+        }
+        elsif ( $raw eq 'text' || $raw eq 'all' ) {
+            $contentType = 'text/plain';
+        }
+        else {
+            $contentType = 'text/html';
+        }
     }
     $session->{prefs}->setSessionPreferences(
         MAXREV  => $maxRev,
