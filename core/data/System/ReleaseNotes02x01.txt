@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1656665895" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1657193915" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -847,6 +847,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15148][Item15148]] | core's RELEASE and VERSION scheme should follow standards established in skins and extensions |
 | [[%BUGS%/Item15149][Item15149]] | improve perl doc renderer |
 | [[%BUGS%/Item15153][Item15153]] | report version numbers not release strings exploring installed extensions in configure |
+| [[%BUGS%/Item15154][Item15154]] | keep images and links in rss and atom feeds |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
 
