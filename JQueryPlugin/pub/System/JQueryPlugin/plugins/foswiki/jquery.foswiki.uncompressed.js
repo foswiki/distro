@@ -1,6 +1,6 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 3.01
+ * Version: 3.10
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
