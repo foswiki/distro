@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1650903009" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1657194353" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  07 Jul 2022: | (10.40) - Item15155: added foswiki.spaceOutWikiWord() to javascript API |
 |  25 Apr 2022: | (10.23) - Item15081: handle hash changes for own tabpane only |
 |  05 Apr 2022: | (10.22) - Item15077: fixed tabpane api to show/hide tabs |
 |  22 Feb 2022: | (10.21) - Item15061: rating field is not mergeable; \
@@ -132,7 +133,7 @@ required for Foswiki 1.1 or later.
                           - Item15068: don't bubble up jquery.loader events |
 |  21 Jan 2022: | (10.20) - Item15061: upgraded to jquery-ui-1.13.1 |
 |  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute; \
-                          - Item15060: add validation rule for the foswikiMandatory css class |
+                          - Item15060: added validation rule for the foswikiMandatory css class |
 |  09 Jul 2021: | (10.02) - Item15033: update jquery.validate |
 |  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
                                        added jquery-3.6.0; \
@@ -142,15 +143,15 @@ required for Foswiki 1.1 or later.
                          - Item14875: remove =type/javascript= and =type/css= as per html5; \
                                       fixes to jquery ajax helpers when no results were found; \
                                       fixes for perl critiques; \
-                                      add html5 data support for %BUTTON; \
+                                      added html5 data support for %BUTTON; \
                                       remove explicit and useless dependency on livequery; \
-                                      add BUILD_DIR, LIB_DIR and SRC_DIR support in Makefile system; \
+                                      added BUILD_DIR, LIB_DIR and SRC_DIR support in Makefile system; \
                                       removed babel tools from Makefile system; \
                                       fixed wikiword regex; \
                                       improved loader plugin to make it more usable; \
                                       upgraded third party plugins images-loaded and masonry |
 |  02 May 2019: | (9.10) - Item14837: updated animate.css %BR% \
-			   Item14838: add remember parameter to tabpane %BR% \
+			   Item14838: added remember parameter to tabpane %BR% \
 			   Item14839: fix default value in textboxlist formfields %BR% \
 			   Item14840: fix tooltip position in draggable elements |
 |  10 Jan 2019: | (9.00) - Item14767: implement a proper icon service |
@@ -163,7 +164,7 @@ required for Foswiki 1.1 or later.
                            Item14572: upgraded jquery.livequery %BR% \
                            Item14454: added jsview in addition to jsrender %BR% \
                            Item14721: fixed loading of language files for jquery.i18n %BR% \
-                           Item14722: add jquery.browser as a separate module %BR% \
+                           Item14722: added jquery.browser as a separate module %BR% \
                            Item14723: upgraded jquery.sprintf %BR% \
                            Item14724: enhance Makefile system to support sass and babel %BR% \
                            Item14727: improve locale support of datepicker %BR% \
@@ -173,7 +174,7 @@ required for Foswiki 1.1 or later.
 |  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
 |  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one %BR% \
                            Item14566: don't cache a null result in foswiki.getPreference() %BR% \
-                           Item14570: add "use strict" to farbtastic's init and fix js errors %BR% \
+                           Item14570: added "use strict" to farbtastic's init and fix js errors %BR% \
                            Item14573: fixed auto-height calculation of tabpane<br/>\
                            Item14584: jquery.wikiword changed interpretation of source parameter in a incompatible way. |
 |   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5%BR% \
@@ -274,7 +275,7 @@ required for Foswiki 1.1 or later.
                   docu improvements to textboxlixst and pnotify |
 |  10 Apr 2012: | (4.40) - Item11397, Item11742: \
                   use a JSON instead of &lt;meta> to export preferences to javascript; \
-                  add jquery-1.7.2 (new default); \
+                  added jquery-1.7.2 (new default); \
                   deprecate all jquery versions prior to 1.7.1 \
                   improve docu and integration of scrollto and serialscroll; \
                   removed deprecated foswiki.web, foswiki.topic etc properties |
@@ -428,7 +429,7 @@ required for Foswiki 1.1 or later.
                   implemented a jquery.tabpane plugin; \
                   updated jquery.dimensions plugin; \
                   added jquery.empty plugin to ease development of new plugins |
-|  15 Nov 2007: | use skin independent way to add javascript files to header |
+|  15 Nov 2007: | use skin independent way to added javascript files to header |
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
 |  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
 
