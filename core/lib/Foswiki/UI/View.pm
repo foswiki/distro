@@ -387,18 +387,11 @@ sub view {
         $end = '';
     }
 
-    # If minimalist is set, images and anchors will be stripped from text
-    my $minimalist = 0;
-    if ($contentType) {
-        $minimalist = ( $session->getSkin() =~ m/\brss/ );
-    }
-    elsif ( $session->getSkin() =~ m/\brss/ ) {
+    if ( $session->getSkin() =~ m/\brss/ ) {
         $contentType = 'text/xml';
-        $minimalist  = 1;
     }
     elsif ( $session->getSkin() =~ m/\bxml/ ) {
         $contentType = 'text/xml';
-        $minimalist  = 1;
     }
     elsif ( $raw eq 'text' || $raw eq 'all' ) {
         $contentType = 'text/plain';
@@ -435,10 +428,8 @@ sub view {
         $page = $text;
     }
     else {
-        my @args = ( $topicObject, $minimalist );
-
         $session->enterContext('header_text');
-        $page = _prepare( $start, @args );
+        $page = _prepare( $start, $topicObject );
         $session->leaveContext('header_text');
         Monitor::MARK('Rendered header');
 
@@ -458,13 +449,13 @@ sub view {
         }
         else {
             $session->enterContext('body_text');
-            $page .= _prepare( $text, @args );
+            $page .= _prepare( $text, $topicObject );
             $session->leaveContext('body_text');
         }
 
         Monitor::MARK('Rendered body');
         $session->enterContext('footer_text');
-        $page .= _prepare( $end, @args );
+        $page .= _prepare( $end, $topicObject );
         $session->leaveContext('footer_text');
         Monitor::MARK('Rendered footer');
     }
@@ -476,17 +467,11 @@ sub view {
 }
 
 sub _prepare {
-    my ( $text, $topicObject, $minimalist ) = @_;
+    my ( $text, $topicObject ) = @_;
 
     $text = $topicObject->expandMacros($text);
     $text = $topicObject->renderTML($text);
     $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
-
-    if ($minimalist) {
-        $text =~ s/<img [^>]*>//gi;    # remove image tags
-        $text =~ s/<a [^>]*>//gi;      # remove anchor tags
-        $text =~ s/<\/a>//gi;          # remove anchor tags
-    }
 
     return $text;
 }
@@ -584,7 +569,7 @@ sub revisionsAround {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
