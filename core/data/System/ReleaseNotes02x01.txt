@@ -848,6 +848,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15149][Item15149]] | improve perl doc renderer |
 | [[%BUGS%/Item15153][Item15153]] | report version numbers not release strings exploring installed extensions in configure |
 | [[%BUGS%/Item15154][Item15154]] | keep images and links in rss and atom feeds |
+| [[%BUGS%/Item15155][Item15155]] | add spaceOutWikiWord() to foswiki javascript API |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
 
