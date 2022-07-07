@@ -71,6 +71,24 @@
     return [web, topic];
   };
 
+  /** 
+   * space out wiki word
+   */
+  foswiki.spaceOutWikiWord = function(string, sep) {
+
+    foswiki._lowerUpper = foswiki._lowerUpper || new RegExp("(["+foswiki.RE.lower+"])(["+foswiki.RE.upper+foswiki.RE.digit+"]+)", "g");
+    foswiki._numberUpper = foswiki._numberUpper || new RegExp("("+foswiki.RE.digit+")("+foswiki.RE.upper+"+)", "g");
+    foswiki._upperLower = foswiki._upperLower || new RegExp("(["+foswiki.RE.upper+"])(["+foswiki.RE.upper+"])(?=["+foswiki.RE.lower+"])", "g");
+
+    sep = sep || ' ';
+    string = string || '';
+
+    return string
+      .replace(foswiki._lowerUpper, "$1"+sep+"$2")
+      .replace(foswiki._numberUpper, "$1"+sep+"$2")
+      .replace(foswiki._upperLower, "$1"+sep+"$2");
+  };
+
   /**
    * Get a Foswiki preference value. Preference values can be obtained
    * in three ways; (1) by reference to the pre-loaded foswiki.preferences
