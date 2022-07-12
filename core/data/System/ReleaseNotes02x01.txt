@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1657193915" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1657626417" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -836,6 +836,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15136][Item15136]] | Foswiki::Meta::save() sets topic and web too late when copying a topic |
 | [[%BUGS%/Item15137][Item15137]] | REVINFO doesn't return the top revision info with a zero rev parameter |
 | [[%BUGS%/Item15142][Item15142]] | better default labels for twisty links |
+| [[%BUGS%/Item15145][Item15145]] | add support for uploading multiple files in one request |
 | [[%BUGS%/Item15146][Item15146]] | require packages during compile time, not during runtime  |
 
 ---+++ Enhancements
