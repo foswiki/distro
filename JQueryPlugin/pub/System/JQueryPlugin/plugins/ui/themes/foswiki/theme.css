@@ -67,15 +67,6 @@ a.ui-state-default,
 
 /* hover, focus */
 .ui-state-hover, 
-.ui-widget-content .ui-state-hover, 
-.ui-widget-header .ui-state-hover, 
-.ui-state-focus, 
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus,
-.ui-button:hover, 
-.ui-button:focus
-
-.ui-state-hover, 
 .ui-widget-content .ui-state-hover,
 .ui-widget-header .ui-state-hover, 
 a.ui-state-default:hover,
@@ -513,8 +504,13 @@ a.ui-state-highlight.ui-state-hover,
   margin-top:-8px;
   border:0px;
 }
+.ui-dialog .ui-dialog-titlebar-close:active,
+.ui-dialog .ui-dialog-titlebar-close:focus,
+.ui-dialog .ui-dialog-titlebar-close:active:hover,
 .ui-dialog .ui-dialog-titlebar-close:hover { 
   background-position:-16px 0px;
+  background-image:url(images/x.png);
+  background-repeat: no-repeat; 
 }
 
 .ui-dialog .ui-dialog-titlebar-close span { 
@@ -709,7 +705,6 @@ a.ui-state-highlight.ui-state-hover,
   color:#fff;
   border-color:#004696;
   text-shadow:none;
-  padding:0 1em;
   text-align:right;
 
   background:#0055b5;
