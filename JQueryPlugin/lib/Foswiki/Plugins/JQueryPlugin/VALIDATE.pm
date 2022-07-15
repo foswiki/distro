@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Validate',
-            version      => '1.19.4_1',
+            version      => '1.19.6_1',
             author       => 'Joern Zaefferer',
             homepage     => 'http://jqueryvalidation.org/',
             javascript   => ['pkg.js'],
