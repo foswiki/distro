@@ -495,11 +495,7 @@ $.NatEditor.prototype.initGui = function() {
     onDeselect: updateDetails,
     onClear: updateDetails,
     onReset: updateDetails,
-    autocomplete: foswiki.getScriptUrl('view', self.opts.systemWeb, 'JQueryAjaxHelper', {
-        section: 'user',
-        skin:    'text',
-        contenttype: 'application/json'
-    })
+    autocomplete: foswiki.getScriptUrl("rest", "NatEditPlugin", "users")
   });
 
   function setPermissionSet(data) {
