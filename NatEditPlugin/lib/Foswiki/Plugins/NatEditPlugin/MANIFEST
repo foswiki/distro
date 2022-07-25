@@ -8,6 +8,7 @@ lib/Foswiki/Plugins/NatEditPlugin/NATEDIT.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/RestAttachments.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/RestSave.pm 0644
+lib/Foswiki/Plugins/NatEditPlugin/RestUsers.pm 0644
 locale/NatEditPlugin/de.po 0644
 locale/NatEditPlugin/Foswiki.pot 0644
 pub/System/NatEditHelpText/wikitext.png 0644

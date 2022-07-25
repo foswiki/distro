@@ -30,8 +30,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '9.41';
-our $RELEASE           = '18 May 2022';
+our $VERSION           = '9.50';
+our $RELEASE           = '25 Jul 2022';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -91,6 +91,18 @@ sub initPlugin {
         validate     => 0,             # doesn't update.
         http_allow   => 'GET,POST',    # doesn't update.
         description => 'Expand the list of attachments.'
+    );
+
+    Foswiki::Func::registerRESTHandler(
+        "users",
+        sub {
+            require Foswiki::Plugins::NatEditPlugin::RestUsers;
+            return Foswiki::Plugins::NatEditPlugin::RestUsers::handle(@_);
+        },
+        authenticate => 0,             # handler checks it's own security.
+        validate     => 0,             # doesn't update.
+        http_allow   => 'GET,POST',    # doesn't update.
+        description => 'Expand the list of users and groups.'
     );
 
     $doneNonce = 0;
