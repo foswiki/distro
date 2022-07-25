@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1657626417" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1658769235" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -839,6 +839,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15142][Item15142]] | better default labels for twisty links |
 | [[%BUGS%/Item15145][Item15145]] | add support for uploading multiple files in one request |
 | [[%BUGS%/Item15146][Item15146]] | require packages during compile time, not during runtime  |
+| [[%BUGS%/Item15160][Item15160]] | permissions editor can only auto-complete users and groups found in a topic of the users web |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
