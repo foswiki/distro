@@ -659,9 +659,10 @@ sub _sendEmailByNetSMTP {
 
 # Remove names part from addresses. I.e. convert "John Smith <jsmith@nowhere.com>"
 # to just jsmith@nowhere.com
-        push @to,
-          map { $_->address }
-          Email::Address::XS->parse( $header->header_raw($field) );
+        my $str = $header->header_raw($field);
+        next unless $str;
+
+        push @to, map { $_->address } Email::Address::XS->parse($str);
     }
 
     if ( !( scalar(@to) ) ) {
