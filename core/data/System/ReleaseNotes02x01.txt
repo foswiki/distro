@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1658769235" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1659446266" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -840,6 +840,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15145][Item15145]] | add support for uploading multiple files in one request |
 | [[%BUGS%/Item15146][Item15146]] | require packages during compile time, not during runtime  |
 | [[%BUGS%/Item15160][Item15160]] | permissions editor can only auto-complete users and groups found in a topic of the users web |
+| [[%BUGS%/Item15162][Item15162]] | perl error when parsing email address of an empty header |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |

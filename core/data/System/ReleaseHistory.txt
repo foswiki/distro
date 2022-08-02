@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1658769235" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1659446266" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 <noautolink>
@@ -10,7 +10,7 @@ The complete timeline of Foswiki Releases. Foswiki was forked from TWiki 4.2.4 a
 
 ---++ Foswiki Release 2.1.8 - XX XXX 2022
 
-Foswiki 2.1.8 contains 32 fixes and improvements, including 2 security related fix.
+Foswiki 2.1.8 contains 33 fixes and improvements, including 2 security related fix.
 
 ---++ Foswiki Release 2.1.7 - 28 Mar 2022
 
