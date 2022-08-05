@@ -199,6 +199,10 @@ sub validateAttachmentName {
     my @result;
     foreach my $component (@dirs) {
         return unless defined($component) && $component ne '';
+
+        # Filter nasty characters
+        $component =~ s/$Foswiki::cfg{AttachmentNameFilter}//g;
+
         next if $component eq '.';
         if ( $component eq '..' ) {
             if ( scalar(@result) ) {
@@ -214,9 +218,6 @@ sub validateAttachmentName {
             }
         }
         else {
-
-            # Filter nasty characters
-            $component =~ s/$Foswiki::cfg{AttachmentNameFilter}//g;
             push( @result, $component );
         }
     }

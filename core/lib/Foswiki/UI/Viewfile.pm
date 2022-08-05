@@ -153,6 +153,17 @@ sub viewfile {
     $fileName = Foswiki::Sandbox::untaint( $fileName,
         \&Foswiki::Sandbox::validateAttachmentName );
 
+    if ( !$fileName ) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'no_such_attachment',
+            web    => $web,
+            topic  => $topic,
+            status => 404,
+            params => ['?']
+        );
+    }
+
     #print STDERR "VIEWFILE: web($web), topic($topic), file($fileName)\n";
 
     my $rev = Foswiki::Store::cleanUpRevID( scalar( $query->param('rev') ) );
