@@ -1,0 +1,44 @@
+# Dockerfile for Foswiki
+
+Run pristine Foswiki in Debian container with Apache 2 and mod_perl.
+
+## Build
+
+```sh
+docker build . -t foswiki --progress plain
+
+```
+
+Notice this Dockerfile uses volume for `/var/www/foswiki`.
+
+## Run
+
+```sh
+docker run -dt --init --name foswiki -p 8888:80 -e TZ=Asia/Shanghai foswiki
+```
+
+Access http://localhost:8888 to further configure Foswiki:
+
+1. http://localhost:8888/bin/configure Security and Authentication -> Registration: select `Enable User Registration` and click button `Save 1 change` on the top right corner
+2. http://localhost:8888/System/UserRegistration Register your first user, such as WikiName `FirstAdmin`
+3. http://localhost:8888/Main/WikiGroups Click `Add Members...` in the group `AdminGroup`, add newly registered user's WikiName
+4. Run `docker restart foswiki` to restart the Docker container
+
+Although you can directly access Foswiki in the container, this container is expected to be behind a reverse proxy that terminates HTTPS connections and handles virtual site, you must replace the hostname above to `https://your-reverse-proxy?SSL=1`.
+
+## Install extension
+
+``` sh
+su -s /bin/bash www-data
+cd /var/www/foswiki
+tools/extension_installer NatSkin -r install
+```
+
+Check https://foswiki.org/Extensions for more extensions.
+
+## Reference
+
+* https://github.com/timlegge/docker-foswiki
+* https://foswiki.org/System/InstallationGuide
+* https://foswiki.org/System/InstallationGuidePart2
+
