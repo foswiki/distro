@@ -1,4 +1,5 @@
-FROM debian:11
+ARG base=debian:11
+FROM $base
 
 ARG url=https://github.com/foswiki/distro/releases/download/FoswikiRelease02x01x07/Foswiki-2.1.7.tgz
 ARG sha512=7196ce5a586a3770e2d198a79d0856f34724893746a40500b7f72d3efc48dcbdfb0292a3583186cf4e5b217a70df3b5dd8af80aa3e5c34987ca202a62dada0bf
@@ -16,7 +17,7 @@ RUN set -eux; \
     [ -z "$mirror" ] || sed -i -E "s|http(s?)://deb.debian.org|$mirror|" /etc/apt/sources.list; \
     apt update -y \
     && apt install -y curl diffutils grep less logrotate vim w3m \
-        apache2 libapache2-mod-perl2 \
+        apache2 libapache2-mod-fcgid libapache2-mod-perl2 nginx \
         libalgorithm-diff-perl \
         libapache2-request-perl \
         libarchive-zip-perl \
@@ -36,6 +37,7 @@ RUN set -eux; \
         liberror-perl \
         libfcgi-procmanager-perl \
         libfile-copy-recursive-perl \
+        libfile-mmagic-xs-perl \
         libjson-perl \
         liblocale-codes-perl \
         liblocale-maketext-lexicon-perl \
@@ -43,10 +45,9 @@ RUN set -eux; \
     && apt install -y --no-install-recommends \
         libimage-magick-perl \
     && rm -rf /var/lib/apt/lists/* \
-    && a2enmod access_compat perl rewrite \
-    && a2dissite 000-default
-
-COPY foswiki.conf /etc/apache2/sites-enabled/
+    && a2enmod access_compat rewrite \
+    && a2dissite 000-default \
+    && rm /etc/nginx/sites-enabled/default
 
 RUN set -eux; \
     mkdir -p $root \
@@ -58,10 +59,19 @@ RUN set -eux; \
     && rm foswiki.tgz foswiki.tgz.sha512 \
     && sh tools/fix_file_permissions.sh \
     && chown -R $user:$group $root \
-    && echo "0,30 * * * *  cd $root/bin && perl ../tools/tick_foswiki.pl" | crontab -u $user -
+    && echo "0,30 * * * *  cd $root/bin && perl ../tools/tick_foswiki.pl" | crontab -u $user - \
+    && cp tools/foswiki.init-script /etc/init.d/foswiki \
+    && chmod 755 /etc/init.d/foswiki \
+    && update-rc.d foswiki defaults \
+    && cp tools/foswiki.defaults /etc/default/foswiki \
+    && chmod 644 /etc/default/foswiki
+
+COPY foswiki-apache.conf /etc/apache2/sites-enabled/foswiki.conf
+COPY foswiki-nginx.conf /etc/nginx/sites-enabled/foswiki.conf
+COPY start.sh /start.sh
 
 VOLUME $root
 
 EXPOSE $port
 
-CMD ["/bin/sh", "-c", "service cron start && exec apache2ctl -DFOREGROUND -k start"]
+CMD ["/bin/sh", "/start.sh"]
