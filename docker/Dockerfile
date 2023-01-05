@@ -9,7 +9,7 @@ ARG group=www-data
 ARG port=80
 ARG lang=C.UTF-8
 ARG tz=Asia/Shanghai
-ARG mirror
+ARG mirror=""
 
 ENV LANG=$lang TZ=$tz
 
