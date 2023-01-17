@@ -1,7 +1,7 @@
 /*
- * jQuery Stars plugin 3.00
+ * jQuery Stars plugin 3.01
  *
- * Copyright (c) 2014-2020 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2014-2022 Foswiki Contributors http://foswiki.org
  *
  * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
@@ -40,7 +40,7 @@
   }
   Stars.prototype._toFixed = function(num) {
     num = Number(num);
-    return Number(num.toFixed(this.prec));
+    return Number(num.toFixed(this._prec));
   };
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -77,15 +77,16 @@
       self.opts.split = 1;
     } 
 
-    self.prec = 0;
+
+    self._prec = 0;
     if (self.opts.split > 1) {
-      self.prec++;
+      self._prec++;
     }
     if (self.opts.split > 10) {
-      self.prec++;
+      self._prec++;
     }
     if (self.opts.split > 100) {
-      self.prec++;
+      self._prec++;
     }
 
     self.blockMouseMove = false;
@@ -145,7 +146,7 @@
         function() { self.display(self.elem.val()); }
       );
       self.deleteElem.on("click", function() {
-        self.select();
+        self.selectAtIndex(0);
         return false;
       });
 
@@ -218,37 +219,21 @@
       });
     }
 
-    self.select(self.elem.val());
-  };
-
-  ////////////////////////////////////////////////////////////////////////////////
-  Stars.prototype.getStoreValue = function(index) {
-    var self = this, val;
-
-    index = index || 0;
-
-    val = typeof(self.mapping[index]) === 'undefined' ? self.getDisplayVal(index) : index;
-
-    //console.log("called getStoreValue(",index,") = ",val);
-
-    return val;
+    self.display(self.elem.val());
   };
 
   ////////////////////////////////////////////////////////////////////////////////
   Stars.prototype.getDisplayVal = function(index) {
     var self = this, val;
 
-    //console.log("called getDisplayVal(",index,")");
+    //console.log("called getDisplayVal",index);
     if (self.opts.values) {
       val = self.opts.values[index];
-      //console.log("... val=",val);
       if (typeof(self.mapping[val]) !== 'undefined') {
         val = self.mapping[val];
-        //console.log("... mapping to",val);
       }
     } else {
-      val = sprintf("%." + self.prec + "f", index);
-      //console.log("... numerical value is",val);
+      val = sprintf("%." + self._prec + "f", index);
     }
 
     return val;
@@ -258,16 +243,14 @@
   Stars.prototype.displayAtIndex = function(index) {
     var self = this, width, label;
 
-    if (typeof(index) === 'undefined') {
-      index = 0;
-    } 
-
+    //console.log("called displayAtIndex",index);
     index = Math.ceil(index * self.opts.split) / self.opts.split;
     index = self._toFixed(index);
 
     width = self.widthStar * index;
     label = self.getDisplayVal(index);
 
+    //console.log("... width=",width,"label=",label);
     if (index === self._tmpIndex) {
       return;
     }
@@ -285,6 +268,7 @@
     var self = this,
       index;
 
+    //console.log("called display val=",val);
     if (typeof(val) === 'undefined' || val === '') {
       index = 0;
     } else if (typeof(self.opts.values) !== 'undefined') {
@@ -292,20 +276,19 @@
     } else {
       index = val;
     }
+    //console.log("... index=",index);
 
     self.displayAtIndex(index);
+    return index;
   };
 
   ////////////////////////////////////////////////////////////////////////////////
   Stars.prototype.selectAtIndex = function(index) {
     var self = this, val;
 
-    //console.log("called selectAtIndex(",index,")");
+    //console.log("called selectAtIndex",index);
     self._tmpIndex = undefined;
-
-    if (typeof(index) === 'undefined') {
-      index = 0;
-    } 
+    index = index || 0;
 
     if (typeof(self.opts.values) !== 'undefined') {
       val = self.opts.values[index];
@@ -314,27 +297,16 @@
     }
 
     self.displayAtIndex(index);
-    val = self.getStoreValue(index);
-    //console.log("... val=",val);
+
     self.elem.val(val);
-  };
-
-  ////////////////////////////////////////////////////////////////////////////////
-  Stars.prototype.select = function(val) {
-    var self = this;
-
-    self._tmpIndex = undefined;
-
-    self.display(val);
-    self.elem.val(self.getStoreValue(val));
   };
 
   ////////////////////////////////////////////////////////////////////////////////
   // plugin wrapper around the constructor
   $.fn.stars = function(opts) {
     return this.each(function() {
-      if (!$.data(this, 'stars')) {
-        $.data(this, 'stars', new Stars(this, opts));
+      if (!$.data(this, '_stars')) {
+        $.data(this, '_stars', new Stars(this, opts));
       }
     });
   };
