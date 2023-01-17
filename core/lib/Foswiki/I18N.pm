@@ -100,7 +100,6 @@ BEGIN {
     # no languages enabled is the same as disabling
     # {UserInterfaceInternationalisation}
     my @languages = available_languages();
-    return unless ( scalar(@languages) );
 
     # we first assume it's ok
     $initialised = 1;
