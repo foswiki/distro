@@ -4,7 +4,7 @@ package Foswiki::Plugins::JQueryPlugin::UI::BUTTON;
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Plugins::JQueryPlugin::Plugin();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -29,7 +29,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI::Button',
-            version      => '1.13.1',
+            version      => '1.13.2',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/button/',
