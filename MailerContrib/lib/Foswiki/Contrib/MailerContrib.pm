@@ -29,8 +29,8 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 # Also change Version/Release in Plugins/MailerContrib.pm
-our $VERSION          = '2.90';
-our $RELEASE          = '28 Apr 2022';
+our $VERSION          = '2.91';
+our $RELEASE          = '17 Jan 2023';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised
@@ -399,7 +399,7 @@ sub _loadUserPreferences {
         my ( $uw, $ut ) =
           Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
             $name );
-        $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $uw, $ut );
+        $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $uw, $ut );
         $email2meta->{$email} = $meta;
     }
     if ($meta) {
@@ -408,7 +408,8 @@ sub _loadUserPreferences {
         {
 
             my $ov = Foswiki::Func::getPreferencesValue($k);
-            my $nv = $meta->getPreference($k);
+            my $nv = $meta->get( "PREFERENCE", $k );
+            $nv = $nv->{value} if $nv;
             if ( ( $nv || '' ) ne ( $ov || '' ) ) {
                 $oldPrefs->{$k} = $ov;
                 Foswiki::Func::setPreferencesValue( $k, $nv );
@@ -711,7 +712,7 @@ sub _UTF8print {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2022 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2023 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 
