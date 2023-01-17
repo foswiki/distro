@@ -40,11 +40,6 @@ sub SCRIPTURL {
       grep { !/^(_.*|path)$/ }
       keys %$params;
 
-    if ( $jsonrest && ( $params->{web} || $params->{topic} || scalar @p ) ) {
-        return
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>";
-    }
-
     return $this->getScriptUrl( !$relative, $script, $web, $topic, @p );
 }
 
@@ -52,7 +47,7 @@ sub SCRIPTURL {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
