@@ -843,6 +843,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15162][Item15162]] | perl error when parsing email address of an empty header |
 | [[%BUGS%/Item15173][Item15173]] | add same-site policy to cookies |
 | [[%BUGS%/Item15174][Item15174]] | jquery.stars in +values mode |
+| [[%BUGS%/Item15175][Item15175]] | page with multiple jquery.loader mix their options |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
