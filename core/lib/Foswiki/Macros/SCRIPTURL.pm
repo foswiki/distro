@@ -71,10 +71,6 @@ sub SCRIPTURL {
             return
 "<div class='foswikiAlert'>$script requires both 'subject' and 'verb' parameters if other parameters are supplied.</div>";
         }
-        if ( $script eq 'jsonrpc' && !$path1 && scalar @p ) {
-            return
-"<div class='foswikiAlert'>$script requires the 'namespace' parameter if other parameters are supplied.</div>";
-        }
     }
 
     return $this->getScriptUrl( !$relative, $script, $path1, $path2, @p );
@@ -84,7 +80,7 @@ sub SCRIPTURL {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
