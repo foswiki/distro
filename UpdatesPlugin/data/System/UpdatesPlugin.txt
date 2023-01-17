@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1673956135" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -34,9 +34,6 @@ extensions retrieved from the repository is cached in the
 working/work_areas/UpdatesPlugin directory for 24 hours (default) before being
 retrieved again. You can safely clear the cache at any time by deleting all
 files in this directory.
-
-The plugin defines a REST handler for handling proxy requests. The 'rest'
-script must be removed from the ={AuthScripts}= configuration for this to work.
 
 %T% If you are using private extensions on your wiki server that are not available
 as Open Source on foswiki.org then use the ={ExcludeExtensions}= parameter in =configure=
@@ -74,4 +71,4 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1655468868" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1673956135" size="53676" user="ProjectContributor" version="1"}%

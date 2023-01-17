@@ -1,3 +1,4 @@
+!noci
 data/System/UpdatesPlugin.txt 0644
 lib/Foswiki/Plugins/UpdatesPlugin/Config.spec 0644
 lib/Foswiki/Plugins/UpdatesPlugin/Core.pm 0644
