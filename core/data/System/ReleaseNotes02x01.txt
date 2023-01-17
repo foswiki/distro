@@ -844,6 +844,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15173][Item15173]] | add same-site policy to cookies |
 | [[%BUGS%/Item15174][Item15174]] | jquery.stars in +values mode |
 | [[%BUGS%/Item15175][Item15175]] | page with multiple jquery.loader mix their options |
+| [[%BUGS%/Item15176][Item15176]] | mailer fails to load language preferences for users |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
