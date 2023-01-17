@@ -238,15 +238,15 @@ sub _cleanUpFilePath {
         next unless ( defined($component) && $component ne '' || $first );
         $first = 0;
         $component = '' unless defined $component;
-        next if $component eq '.';
-        if ( $component eq '..' ) {
-            throw Error::Simple( 'relative path in filename ' . $string );
-        }
-        elsif ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
+        if ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
             throw Error::Simple( 'illegal characters in file name component "'
                   . $component
                   . '" of filename '
                   . $string );
+        }
+        next if $component eq '.';
+        if ( $component eq '..' ) {
+            throw Error::Simple( 'relative path in filename ' . $string );
         }
         push( @result, $component );
     }
