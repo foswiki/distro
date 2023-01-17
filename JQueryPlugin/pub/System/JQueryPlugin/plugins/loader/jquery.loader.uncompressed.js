@@ -1,7 +1,7 @@
 /*
- * jQuery Loader plugin 4.60
+ * jQuery Loader plugin 4.70
  *
- * Copyright (c) 2011-2022 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2023 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -78,8 +78,8 @@
     var self = this;
 
     // add refresh listener
-    self.elem.on("refresh.jqloader", function(ev, opts) {
-      $.extend(self.opts, opts);
+    self.elem.on("refresh.jqloader", function(ev, params) {
+      self.opts.params = $.extend({}, self.opts.params, params);
       self.loadAfter(0);
       ev.stopPropagation();
     });
