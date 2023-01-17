@@ -290,6 +290,21 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # If empty, this defaults to the current host.
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
+# **STRING 20 LABEL="Cookie Path" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
+# By default, the foswiki cookies live at the root of the path.  If foswiki shares
+# with other applications on the web server, it may be useful to set this to =/foswiki=
+# or another path appropriate for your site.
+#
+# If empty, the cookie will be at the '/' root.
+$Foswiki::cfg{Sessions}{CookiePath} = '/';
+
+# **SELECT Lax,Strict,None LABEL="Same-Site Cookie Policy" **
+# Control third party access to cookie information.
+#    * Lax: Cookies are not sent on normal cross-site subrequests (for example to load images or frames into a third party site), but are sent when a user is navigating to the origin site (i.e., when following a link).
+#    * Strict: Cookies will only be sent in a first-party context and not be sent along with requests initiated by third party websites.
+#    * None: Cookies will be sent in all contexts, i.e. in responses to both first-party and cross-site requests.
+$Foswiki::cfg{Sessions}{SameSite} = 'Lax';
+
 # **BOOLEAN LABEL="Use IP Matching" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # Enable this option to prevent a session from being accessed by
 # more than one IP Address. This gives some protection against session
