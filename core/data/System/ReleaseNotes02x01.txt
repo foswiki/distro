@@ -842,6 +842,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15160][Item15160]] | permissions editor can only auto-complete users and groups found in a topic of the users web |
 | [[%BUGS%/Item15162][Item15162]] | perl error when parsing email address of an empty header |
 | [[%BUGS%/Item15173][Item15173]] | add same-site policy to cookies |
+| [[%BUGS%/Item15174][Item15174]] | jquery.stars in +values mode |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
