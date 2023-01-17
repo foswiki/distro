@@ -28,8 +28,8 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'Cookie',
-            version => '20100921_1', # based on the blog posting on the homepage
-            author => 'Klaus Hartl, Uzbekjon',
+            version => '20221209',
+            author  => 'Klaus Hartl, Uzbekjon',
             homepage =>
 'http://jquery-howto.blogspot.com/2010/09/jquery-cookies-getsetdelete-plugin.html',
             javascript => ['jquery.cookie.js'],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2021 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2022 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

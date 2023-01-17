@@ -119,7 +119,8 @@ jQuery.cookie = function(name, value, options) {
             var path = options.path ? '; path=' + (options.path) : '';
             var domain = options.domain ? '; domain=' + (options.domain) : '';
             var secure = options.secure ? '; secure' : '';
-            document.cookie = name + '=' + encodeURIComponent(value) + expires + path + domain + secure;
+            var samesite = "; samesite=" + (options.samesite || 'lax');
+            document.cookie = name + '=' + encodeURIComponent(value) + expires + path + domain + secure + samesite;
         } else { // `name` is really an object of multiple cookies to be set.
           for (var n in name) { jQuery.cookie(n, name[n], value||options); }
         }
