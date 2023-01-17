@@ -847,6 +847,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15176][Item15176]] | mailer fails to load language preferences for users |
 | [[%BUGS%/Item15178][Item15178]] | wrong set of permissions selecting "registered users" access in natedit |
 | [[%BUGS%/Item15179][Item15179]] | always load a proper I18N class when internationalisation is enabled |
+| [[%BUGS%/Item15180][Item15180]] | broken SCRIPTURL macro for json-rpc links |
 
 ---+++ Enhancements
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
