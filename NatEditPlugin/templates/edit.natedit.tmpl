@@ -123,12 +123,12 @@
 %TMPL:DEF{"permissionstab::check"}%%IF{
   "
     ('%permset_view%'=~'^(default|)$' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='')) or
-    ('%permset_view%'='registeredusers' and '%denytopic_view%'!='' and ('%allowtopic_view%'!='' or '%denytopic_view%'!='WikiGuest')) or
+    ('%permset_view%'='registeredusers' and '%denytopic_view%'!='' and ('%allowtopic_view%'!='*' or '%denytopic_view%'!='WikiGuest')) or
     ('%permset_view%'='justauthor' and ('%allowtopic_view%'='' or '%denytopic_view%'!='')) or
-    ('%permset_view%'='nobody' and '%allowtopic_view%'!= '' and ('%allowtopic_view%'!='AdminUser' or '%denytopic_view%'!='')) or
+    ('%permset_view%'='nobody' and '%allowtopic_view%'!='' and ('%allowtopic_view%'!='AdminUser' or '%denytopic_view%'!='')) or
     ('%permset_view%'='details' and ('%denytopic_view%'!='')) or
     ('%permset_change%'=~'^(default|)$' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='')) or
-    ('%permset_change%'='registeredusers' and '%denytopic_change%'!='' and ('%allowtopic_change%'!='' or '%denytopic_change%'!='WikiGuest')) or
+    ('%permset_change%'='registeredusers' and '%denytopic_change%'!='' and ('%allowtopic_change%'!='*' or '%denytopic_change%'!='WikiGuest')) or
     ('%permset_change%'='justauthor' and ('%allowtopic_change%'='' or '%denytopic_change%'!='')) or
     ('%permset_change%'='nobody' and '%allowtopic_change%'!='' and ('%allowtopic_change%'!='AdminUser' or '%denytopic_change%'!='')) or
     ('%permset_change%'='details' and ('%denytopic_change%'!='')) 
@@ -215,7 +215,7 @@
 
 %TMPL:DEF{"permissionstab::impl::viewstep::registeredusers"}%<p>
     <label title='%MAKETEXT{"restrict read access to users that have an account on this site"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='{"deny":"WikiGuest"}' name="Local+PERMSET_VIEW" value="registeredusers" %IF{"'%permset_view%'='registeredusers'" then="checked"}% /> 
+      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='{"deny":"WikiGuest", "allow":"*"}' name="Local+PERMSET_VIEW" value="registeredusers" %IF{"'%permset_view%'='registeredusers'" then="checked"}% /> 
       %MAKETEXT{"Registered users"}%
     </label>
 </p>%TMPL:END%
