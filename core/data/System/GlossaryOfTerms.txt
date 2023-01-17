@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1673956278" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Glossary of Terms
@@ -17,7 +17,7 @@ Glossary of Foswiki-specific terminology.
    $ Site: An end-user installation accessible via the web.
    $ Skin: Skins define the header/footer layout of _pages_, and the style in which the topic is presented in the browser. Skins are typically enabled site-wide or per _web_. [[Skins][Details...]]
    $ Template: [[Template Topics]] set the default content for new _topics_. [[Skin Templates]] define how pages are rendered
-   $ <nop>TML: [[TML][Topic Markup Language]], a simple formatting shorthand that can be used when editing topics.
+   $ <nop>TML: [[Topic Markup Language]], a simple formatting shorthand that can be used when editing topics.
    $ Topic: The content of a Wiki _page_, consisting of text, an optional _form_ and optional _attachments_. It has a WikiName that's unique within its _web_. [[TopicsAndWebs][Details...]]
    $ Web: A collection of _topics_ under a common name. Various features, like search, access privileges, Plugin availability, template design, can be controlled on a web-wide basis. [[ManagingWebs][Details...]]
    $ Wiki<nop>Name: The name of a user as a WikiWord, usually their first name and last names connected by a space e.g. <nop>JaneSmith [[WikiName][Details...]]
@@ -25,5 +25,3 @@ Glossary of Foswiki-specific terminology.
 %STOPINCLUDE%
 ---
 *%MAKETEXT{"Related topics:"}%* UserDocumentationCategory
-
-
