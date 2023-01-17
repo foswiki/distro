@@ -1767,7 +1767,7 @@ sub getAttachmentList {
     ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    my $it = $topicObject->eachAttachment();
+    my $it   = $topicObject->eachAttachment();
     my @list = sort $it->all();
     return @list;
 }
@@ -2196,7 +2196,6 @@ sub moveTopic {
             $web, $topic, $Foswiki::Meta::reason );
     }
 
-    my $toWeb = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb );
     unless ( $from->haveAccess('CHANGE') ) {
         throw Foswiki::AccessControlException( 'CHANGE',
             $Foswiki::Plugins::SESSION->{user},
