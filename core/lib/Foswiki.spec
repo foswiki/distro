@@ -316,6 +316,13 @@ $Foswiki::cfg{Sessions}{CookieRealm} = '';
 # If empty, the cookie will be at the '/' root.
 $Foswiki::cfg{Sessions}{CookiePath} = '/';
 
+# **SELECT Lax,Strict,None LABEL="Same-Site Cookie Policy" **
+# Control third party access to cookie information.
+#    * Lax: Cookies are not sent on normal cross-site subrequests (for example to load images or frames into a third party site), but are sent when a user is navigating to the origin site (i.e., when following a link).
+#    * Strict: Cookies will only be sent in a first-party context and not be sent along with requests initiated by third party websites.
+#    * None: Cookies will be sent in all contexts, i.e. in responses to both first-party and cross-site requests.
+$Foswiki::cfg{Sessions}{SameSite} = 'Lax';
+
 # **STRING 20 LABEL="Cookie Name Prefix" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
 # With multiple Foswiki installations on the same host, it may be necessary to use unique names
 # for the cookies to avoid collisions.  This is especially true if the CookieRealm has been 
@@ -744,7 +751,7 @@ $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 #      password length of 72 bytes.  Passwords longer than 72 will be
 #      truncated and will generate identical hashes.
 #      See [[System.ReleaseNotes02x02]] for details on Apache compatibility.
-#    * =argon2i= - Hash based upon the Argon2, the 2015 Password hash competition winner.
+#    * =argon2= - Hash based upon the Argon2, the 2015 Password hash competition winner.
 #      Argon2 is tunable by specifying the cpu cost, memory cost and parallelism (threads).
 #      Argon2 would be considered stronger than bcrypt, but it is relatively new and not
 #      yet completely proven.

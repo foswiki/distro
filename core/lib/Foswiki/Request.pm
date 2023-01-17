@@ -537,13 +537,14 @@ sub cookie {
         return $this->{cookies}{$name}->value if defined $name && $name ne '';
     }
     return unless defined $name && $name ne '';
-    return new CGI::Cookie(
+    return CGI::Cookie->new(
         -name  => $name,
         -value => $value,
         -path  => $path || '/',
         -secure  => $secure  || $this->secure,
         -expires => $expires || abs( $Foswiki::cfg{Sessions}{ExpireAfter} ),
-        -domain => $Foswiki::cfg{Sessions}{CookieRealm} || '',
+        -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
+        -samesite => $Foswiki::cfg{Sessions}{SameSite}    || 'Lax',
     );
 }
 

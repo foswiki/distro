@@ -1315,6 +1315,7 @@ sub _addSessionCookieToResponse {
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
         -secure   => $this->{session}->{request}->secure,
+        -samesite => $Foswiki::cfg{Sessions}{SameSite} || 'Lax',
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
@@ -1349,6 +1350,7 @@ sub _delSessionCookieFromResponse {
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
         -secure   => $this->{session}->{request}->secure,
+        -samesite => $Foswiki::cfg{Sessions}{SameSite} || 'Lax',
         -expires  => '-1d'
     );
 
