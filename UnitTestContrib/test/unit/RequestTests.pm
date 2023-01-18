@@ -660,19 +660,21 @@ sub test_cookies {
         'cookie() did not return undef for invalid parameters' );
 
     $result[0] = $req->cookie(
-        -name    => 'c3',
-        -value   => 'value3',
-        -path    => '/test',
-        -expires => '1234',
-        -secure  => 1
+        -name     => 'c3',
+        -value    => 'value3',
+        -path     => '/test',
+        -expires  => '1234',
+        -secure   => 1,
+        -samesite => 'Lax',
     );
     $result[1] = new CGI::Cookie(
-        -name    => 'c3',
-        -domain  => 'weebles.wobble',
-        -value   => 'value3',
-        -path    => '/test',
-        -expires => '1234',
-        -secure  => 1
+        -name     => 'c3',
+        -domain   => 'weebles.wobble',
+        -value    => 'value3',
+        -path     => '/test',
+        -expires  => '1234',
+        -secure   => 1,
+        -samesite => 'Lax',
     );
 
     $this->assert_deep_equals( $result[0], $result[1],
