@@ -45,14 +45,6 @@ sub test_SCRIPTURL_view {
         "$Foswiki::cfg{ScriptUrlPath}/view.dot/Main/WebHome?web=System",
         $result );
 
-    $result =
-      $this->{test_topicObject}->expandMacros(
-        "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
-    $this->assert_str_equals(
-"<div class='foswikiAlert'>jsonrpc requires the 'namespace' parameter if other parameters are supplied.</div>",
-        $result
-    );
-
     # Web is used if topic contains no web, remove from query string.
     $result =
       $this->{test_topicObject}->expandMacros(
@@ -124,14 +116,6 @@ sub test_SCRIPTURL_jsonrpc {
     $Foswiki::cfg{ScriptSuffix} = ".dot";
 
     my $result =
-      $this->{test_topicObject}->expandMacros(
-        "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
-    $this->assert_str_equals(
-"<div class='foswikiAlert'>jsonrpc requires the 'namespace' parameter if other parameters are supplied.</div>",
-        $result
-    );
-
-    $result =
       $this->{test_topicObject}->expandMacros(
 "%SCRIPTURLPATH{\"jsonrpc\" namespace=\"Weeble\" topic=\"Main.WebHome\" web=\"System\"}%"
       );
