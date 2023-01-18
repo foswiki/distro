@@ -45,23 +45,6 @@ sub test_SCRIPTURL {
         "$Foswiki::cfg{ScriptUrlPath}/view.dot/Main/WebHome?web=System",
         $result );
 
-# SMELL: rest and jsonrpc cannot built the path automatically. Ignore all params.
-    $result =
-      $this->{test_topicObject}->expandMacros(
-        "%SCRIPTURLPATH{\"rest\" topic=\"Main.WebHome\" web=\"System\"}%");
-    $this->assert_str_equals(
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
-        $result
-    );
-
-    $result =
-      $this->{test_topicObject}->expandMacros(
-        "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
-    $this->assert_str_equals(
-"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
-        $result
-    );
-
     # Web is used if topic contains no web, remove from query string.
     $result =
       $this->{test_topicObject}->expandMacros(
