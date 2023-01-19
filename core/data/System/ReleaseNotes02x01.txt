@@ -823,6 +823,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15163][Item15163]] | ... will be disclosed during release ... |
 
 ---+++ Fixes
+
 | [[%BUGS%/Item15074][Item15074]] | remove hardcoded options from build.pl of some extensions |
 | [[%BUGS%/Item15075][Item15075]] | deep recursion on innocent code |
 | [[%BUGS%/Item15076][Item15076]] | RCS store does not properly encode topic information |
@@ -851,6 +852,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15180][Item15180]] | broken SCRIPTURL macro for json-rpc links |
 
 ---+++ Enhancements
+
 | [[%BUGS%/Item15138][Item15138]] | IconSearchPath can't be set to empty |
 | [[%BUGS%/Item15139][Item15139]] | add optional t parameter to jquery.loader to prevent browser caching |
 | [[%BUGS%/Item15140][Item15140]] | a natedit formfield cannot be checked for mandatoryness |
@@ -862,6 +864,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15154][Item15154]] | keep images and links in rss and atom feeds |
 | [[%BUGS%/Item15155][Item15155]] | add spaceOutWikiWord() to foswiki javascript API |
 | [[%BUGS%/Item15157][Item15157]] | update to jquery.validate 1.19.5 |
+| [[%BUGS%/Item15181][Item15181]] | update to jquery-3.6.3, remove previous jquery-3.x packages |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
 
