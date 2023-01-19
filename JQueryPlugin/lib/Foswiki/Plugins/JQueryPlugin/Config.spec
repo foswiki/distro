@@ -43,8 +43,8 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-2.2.4, jquery-3.5.1, jquery-3.6.0**
-# Note that jquery-3 is still rather experimental. You will most probably encounter problems with other modules.
+# **SELECT jquery-2.2.4, jquery-3.6.3**
+# Note that jquery-3 is not tested on Foswiki. You will most probably encounter problems with other modules.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
