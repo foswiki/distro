@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1673953903" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1675684512" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -822,6 +822,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15141][Item15141]] | possible XSS attack in attachment comments |
 | [[%BUGS%/Item15158][Item15158]] | update to jquery-ui 1.13.2 |
 | [[%BUGS%/Item15163][Item15163]] | ... will be disclosed during release ... |
+| [[%BUGS%/Item15182][Item15182]] | restricted allowed protocols to http and https |
 
 ---+++ Fixes
 
