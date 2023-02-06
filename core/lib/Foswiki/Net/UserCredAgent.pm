@@ -14,6 +14,9 @@ our @ISA = ('LWP::UserAgent');
 sub new {
     my ( $class, $user, $pass ) = @_;
     my $this = $class->SUPER::new();
+
+    $this->protocols_allowed( [ 'http', 'https' ] );
+
     $this->{user} = $user;
     $this->{pass} = $pass;
     return $this;
