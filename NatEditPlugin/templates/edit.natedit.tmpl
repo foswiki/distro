@@ -261,7 +261,7 @@
 
 %TMPL:DEF{"permissionstab::impl::editstep::registeredusers"}%<p>
     <label title='%MAKETEXT{"restrict write access to users that have an account on this site"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='{"deny":"WikiGuest"}' name="Local+PERMSET_CHANGE"  value="registeredusers" %IF{"'%permset_change%'='registeredusers'" then="checked"}% /> 
+      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='{"deny":"WikiGuest", "allow":"*"}' name="Local+PERMSET_CHANGE"  value="registeredusers" %IF{"'%permset_change%'='registeredusers'" then="checked"}% />
       %MAKETEXT{"Registered users"}%
     </label>
 </p>%TMPL:END%
