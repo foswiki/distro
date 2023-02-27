@@ -493,9 +493,9 @@ s/(?<!\!)\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2,'TMLlink')/ge;
     $text =~ s/<([A-Za-z]+(\s+\/)?)>/{$TT0$1}$TT0/g;
     $text =~ s/<(\S.*?)>/{$TT0$1}$TT0/g;
 
-    # entitify lone < and >, praying that we haven't screwed up :-(
-    $text =~ s/</&lt\;/g;
-    $text =~ s/>/&gt\;/g;
+    # DONT entitify lone < and >, praying that we haven't screwed up :-(
+    # $text =~ s/</&lt\;/g;
+    # $text =~ s/>/&gt\;/g;
     $text =~ s/{$TT0/</go;
     $text =~ s/}$TT0/>/go;
 

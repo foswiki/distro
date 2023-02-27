@@ -3497,7 +3497,7 @@ HERE
 <verbatim>
 <img src="ball&co<ck>s">&><"
 </verbatim>
-&&gt;&lt;"
+&><"
 HERE
         html => '<p>
 <span class="WYSIWYG_PROTECTED">&#60;smeg&#62;</span>'
