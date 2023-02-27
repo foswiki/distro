@@ -90,8 +90,12 @@ sub test_login {
     $this->{session} =
       Foswiki->new( $this->{test_user_login}, $query, { login => 1 } );
 
-    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
-    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
+    $this->assert_equals( 'TestTopic',
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals(
+        'TemporaryHomePagePluginTestWeb',
+        $Foswiki::Plugins::SESSION->{webName}
+    );
 }
 
 sub test_view {
@@ -111,8 +115,12 @@ sub test_view {
     $this->{session} =
       Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
 
-    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
-    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
+    $this->assert_equals( 'TestTopic',
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals(
+        'TemporaryHomePagePluginTestWeb',
+        $Foswiki::Plugins::SESSION->{webName}
+    );
 }
 
 sub test_invalid_redirect {
