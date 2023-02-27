@@ -321,7 +321,6 @@ sub test_forwarded_for {
     $ENV{HTTP_X_FORWARDED_PROTO} = 'https';
 
     #$ENV{HTTP_X_FORWARDED_PORT}  = '443';
-    $Foswiki::cfg{PROXY}{UseForwardedFor}     = 1;
     $Foswiki::cfg{PROXY}{UseForwardedHeaders} = 1;
 
     my $req = new Foswiki::Request("");
