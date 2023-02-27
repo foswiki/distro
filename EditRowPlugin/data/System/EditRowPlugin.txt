@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1677500014" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 %FORMFIELD{"Description"}%
 
@@ -271,7 +271,7 @@ Provides the vertical row editing interface like
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  3.40 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
+|  3.400 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
 |  3.330 (29 Sep 2020) | Foswikitask:Item14929: fixed single zero char not rendered in table cell | 
 |  3.321 (05 Feb 2018) | Foswikitask:Item14537: The plugin makes tables "shaky". |
 |  3.320 (12 Dec 2017) | Foswikitask:Item14490: missing css for the "edit table" button |
