@@ -228,6 +228,10 @@ DEFAULT
 
     $text =~ s/\s+$/\n/s;
 
+    # convert back any gts and lts to its original form
+    $text =~ s/\&gt;/>/g;
+    $text =~ s/\&lt;/</g;
+
     return $text;
 }
 

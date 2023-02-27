@@ -46,7 +46,7 @@ my $data = [
           . '&lt;/customtag&gt;'
           . $PROTECTOFF . '</p>',
         tml      => '<customtag>some >  text</customtag>',
-        finaltml => '<customtag>some &gt;  text</customtag>',
+        finaltml => '<customtag>some >  text</customtag>',
     },
     {
         exec  => TML2HTML | ROUNDTRIP,
@@ -67,7 +67,7 @@ my $data = [
           . '&lt;/customtag&gt;'
           . $PROTECTOFF . '</p>',
         tml      => '<customtag>some >  text</customtag>',
-        finaltml => '<customtag>some &gt;  text</customtag>',
+        finaltml => '<customtag>some >  text</customtag>',
     },
     {
         exec  => TML2HTML | ROUNDTRIP,
