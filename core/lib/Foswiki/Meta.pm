@@ -1382,7 +1382,7 @@ if there are no entries.
 
 For example,
 <verbatim>
-my $attachments = $meta->find( 'FILEATTACHMENT' );
+my @attachments = $meta->find( 'FILEATTACHMENT' );
 </verbatim>
 
 =cut
