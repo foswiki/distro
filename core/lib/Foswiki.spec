@@ -1102,6 +1102,23 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 # http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
 
+# **BOOLEAN LABEL="Forwarded Headers" **
+# Use the =Forwarded-*= headers to determine the URL Protocol, Hostname and Port.
+# Foswiki normally uses the local server information for identifying the connection information.
+# A reverse proxy will hide the URL used by the client.
+# <p/>
+# Enable this setting to make use of the Proxy headers provided by the Client or intermediate devices:
+#    * =X-Forwarded-For= _Identifies the client IP, overrides REMOTE_ADDRESS variable._
+#    * =X-Forwarded-Host= _Captures the hostname used by the client in it's initial request._
+#    * =X-Forwarded-Proto= _Specifies if the client used an HTTP or HTTPS secure connection._
+#    * =X-Forwarded-Port= _Specifies the original port used by the client._
+# <p/>
+# *Caution:* These headers are easily spoofed. Only enable this flag if you are certain that
+# a proxy server exists and that you trust the Proxy server.  If all users are behind the same
+# proxy server, the preferred configuration is to enable {ForceDefaultURLHost} instead of using these
+# headers for dynamic resolution.
+$Foswiki::cfg{PROXY}{UseForwardedHeaders} = $FALSE;
+
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots, which
