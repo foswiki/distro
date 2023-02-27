@@ -18,6 +18,20 @@ sub check_current_value {
 
         if ($proxy) {
 
+            if ( $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+                $reporter->WARN(
+"Be sure you trust the proxy server. Clients can use this header to spoof their IP addresses."
+                );
+            }
+            else {
+                $reporter->WARN(
+"Proxy detected, Enable this switch if Foswiki should use the =X-Forwarded-For= header to obtain the real client IP address."
+                );
+            }
+            $reporter->NOTE(
+"Remote Address is $ENV{REMOTE_ADDR}, Real client IP is =$client=."
+            );
+
             $reporter->NOTE(
 "Proxy server detected. Proxy URL is $protocol://$host:$port. Local server name is $ENV{HTTP_HOST}"
             );
@@ -55,7 +69,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2018 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

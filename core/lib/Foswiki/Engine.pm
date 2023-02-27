@@ -563,11 +563,8 @@ sub _getConnectionData {
     $port = $port || $ENV{SERVER_PORT} || 80;
     $proxy = '';
 
-    if (   $detectProxy
-        || $Foswiki::cfg{PROXY}{UseForwardedFor}
-        || $Foswiki::cfg{PROXY}{UseForwardedHeaders} )
-    {
-        my $fwdClient;
+    if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
+        my ( $fwdClient, $fwdProto, $fwdHost, $fwdPort, $hostport );
 
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_FOR} ) {
             my $ip = ( split /\s?,\s?/, $hdr )[0];
@@ -579,11 +576,8 @@ sub _getConnectionData {
                 $proxy = 1;
             }
         }
-        $client = $fwdClient if $fwdClient;
-    }
 
-    if ( $detectProxy || $Foswiki::cfg{PROXY}{UseForwardedHeaders} ) {
-        my ( $fwdProto, $fwdHost, $fwdPort, $hostport );
+        $client = $fwdClient if $fwdClient;
         if ( my $hdr = $ENV{HTTP_X_FORWARDED_HOST} ) {
             my $first = ( split /\s?,\s?/, $hdr )[0];
             if ( defined $first ) {
