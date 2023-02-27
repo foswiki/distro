@@ -2659,18 +2659,16 @@ sub verify_registerVerifyOKApproved {
         $this->assert_str_equals( "approve", $e->{def} );
         $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
+            my $body = $mail->body();
             $this->assert_matches( qr/registration approval required/m,
                 $mail->header('Subject') );
             $this->assert_matches( qr/RegoApprover <approve\@example.com>/m,
                 $mail->header('To') );
-            $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
-                $mail->body() );
+            $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m, $body );
             $this->assert_matches(
-                qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
-                $mail->body() );
-            $this->assert(
-                $mail->as_string() =~ m/action=3Dapprove;code=3D(.*?);/m,
-                $mail->as_string() . "MISSING APPROVAL" );
+                qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m, $body );
+            $this->assert( $body =~ m/action=approve;code=(.*?);/m,
+                $body . "MISSING APPROVAL" );
             $this->assert_equals( $this->{session}->{DebugVerificationCode},
                 $1 );
         }
@@ -2824,18 +2822,16 @@ sub verify_registerVerifyOKDisapproved {
         $this->assert_str_equals( "approve", $e->{def} );
         $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
+            my $body = $mail->body();
             $this->assert_matches( qr/^.* registration approval required/m,
                 $mail->header('Subject') );
             $this->assert_matches( qr/^RegoApprover <approve\@example.com>/m,
                 $mail->header('To') );
-            $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
-                $mail->body() );
+            $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m, $body );
             $this->assert_matches(
-                qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
-                $mail->body() );
-            $this->assert(
-                $mail->as_string() =~ m/action=3Ddisapprove;code=3D(.*?);/m,
-                $mail->as_string() . "MISSING DISAPPROVAL" );
+                qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m, $body );
+            $this->assert( $body =~ m/action=disapprove;code=(.*?);/m,
+                $body . "MISSING DISAPPROVAL" );
             $this->assert_equals( $this->{session}->{DebugVerificationCode},
                 $1 );
         }
