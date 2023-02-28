@@ -84,18 +84,15 @@ sub test_login {
     );
     $query->path_info("");
     $query->header( 'Host' => 'www.home.org' );
+    $ENV{HTTP_HOST} = 'www.home.org';
 
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     $this->{session}->finish()          if $this->{session};
     $this->{session} =
       Foswiki->new( $this->{test_user_login}, $query, { login => 1 } );
 
-    $this->assert_equals( 'TestTopic',
-        $Foswiki::Plugins::SESSION->{topicName} );
-    $this->assert_equals(
-        'TemporaryHomePagePluginTestWeb',
-        $Foswiki::Plugins::SESSION->{webName}
-    );
+    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
 }
 
 sub test_view {
@@ -109,18 +106,15 @@ sub test_view {
     );
     $query->path_info("");
     $query->header( 'Host' => 'www.home.org' );
+    $ENV{HTTP_HOST} = 'www.home.org';
 
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     $this->{session}->finish()          if $this->{session};
     $this->{session} =
       Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
 
-    $this->assert_equals( 'TestTopic',
-        $Foswiki::Plugins::SESSION->{topicName} );
-    $this->assert_equals(
-        'TemporaryHomePagePluginTestWeb',
-        $Foswiki::Plugins::SESSION->{webName}
-    );
+    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
 }
 
 sub test_invalid_redirect {
