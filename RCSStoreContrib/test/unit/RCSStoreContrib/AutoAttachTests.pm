@@ -154,7 +154,7 @@ sub verify_autoattach {
     $this->assert_not_null( $bfileAttributes,
         'bfile.txt is missing file attributes' );
     $this->assert_null( $bfileAttributes->{autoattached},
-        'bfile.txt shoud NOT be an autoattachment' );
+        'bfile.txt shoud NOT be an auto-attached' );
 
     # visibledirectory not autoattached.:
     my $visdirAttr = $meta->get( 'FILEATTACHMENT', "visibledirectory" );
@@ -187,12 +187,12 @@ sub verify_autoattach {
         'afile.txt incorrectly auto-attached'
     );
 
-    # Assert bfile.txt exists, and has changed to an autoattachment
+    # Assert bfile.txt exists, and has changed to an auto-attached
     $bfileAttributes = $meta->get( 'FILEATTACHMENT', "bfile.txt" );
     $this->assert_not_null( $bfileAttributes,
         'bfile.txt is missing file attributes' );
     $this->assert( $bfileAttributes->{autoattached},
-        'bfile.txt shoud now be an autoattachment' );
+        'bfile.txt shoud now be an auto-attached' );
 
     # Our added files now exist:
     my $sneakedfile1Attributes =

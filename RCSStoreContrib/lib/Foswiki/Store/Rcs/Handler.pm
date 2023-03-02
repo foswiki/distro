@@ -1396,7 +1396,7 @@ sub synchroniseAttachmentsList {
 
     foreach my $file ( keys %filesListedInPub ) {
         if (   $filesListedInMeta{$file}
-            && $filesListedInMeta{$file}{date} !=
+            && $filesListedInMeta{$file}{date} <
             $filesListedInPub{$file}{date} )
         {
             # File timestamp of existing file has changed.
