@@ -330,7 +330,7 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
-    $text =~ s/^>(.*?)$/'&gt;<cite>$1<\/cite><br \/>/gm;
+    $text =~ s/^>(.*?)$/<cite>&gt; $1<\/cite><br \/>/gm;
 
     # locate isolated < and > and translate to entities
     # Protect isolated <!-- and -->
