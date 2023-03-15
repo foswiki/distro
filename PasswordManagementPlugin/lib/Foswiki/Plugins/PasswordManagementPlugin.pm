@@ -37,7 +37,7 @@ use Foswiki::Configure::Checker      ();
 use Foswiki::Configure::Wizard       ();
 use Foswiki::Configure::Query        ();
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
