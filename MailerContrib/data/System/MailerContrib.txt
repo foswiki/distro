@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1673954960" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1678874477" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 %FORMFIELD{"Description"}%
@@ -271,6 +271,7 @@ Many thanks to the following sponsors for supporting this work:
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  2.92  (15 Mar 2023) | Foswikitask:Item14580: fix DIFF_TEXT |
 |  2.91  (17 Jan 2023) | Foswikitask:Item15176: mailer fails to load language preferences for users |
 |  2.90  (28 Apr 2022) | Foswikitask:Item15090: mailnotify script must run as admin user %BR% Foswikitask:Item15091: only notify people of topics that they have view access to |
 |  2.85  (8 Jan 2018) | Foswiki 2.1.5  Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
@@ -324,4 +325,4 @@ Many thanks to the following sponsors for supporting this work:
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1673954960" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1678874477" size="11437" user="ProjectContributor" version="1"}%
