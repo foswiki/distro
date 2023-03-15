@@ -173,7 +173,8 @@ sub expandDiff {
             $this->{TOPIC}, $this->{CURR_REV} );
         return '' unless ( $b->haveAccess('VIEW') );
         my $btext = Foswiki::Serialise::serialise( $b, 'Embedded' );
-        $btext =~ s/^%META:TOPICINFO\{.*\}%$//;
+        $btext =~ s/^%META:(?:TOPICINFO|TOPICPARENT|PREFERENCE)\{.*\}%$//gm;
+        $btext =~ s/^\s+|\s+$//g;
 
         return $btext if ( $this->{BASE_REV} < 1 );
 
@@ -182,12 +183,44 @@ sub expandDiff {
             $this->{TOPIC}, $this->{BASE_REV} );
         return '' unless ( $a->haveAccess('VIEW') );
         my $atext = Foswiki::Serialise::serialise( $a, 'Embedded' );
-        $atext =~ s/^%META:TOPICINFO\{.*\}%$//;
+        $atext =~ s/^%META:(?:TOPICINFO|TOPICPARENT|PREFERENCE)\{.*\}%$//gm;
+        $atext =~ s/^\s+|\s+$//g;
 
         require Foswiki::Merge;
         my $blocks = Foswiki::Merge::simpleMerge( $atext, $btext, qr/[\r\n]+/ );
-        $this->{TEXT_DIFF} =
-          '<verbatim>' . join( "\n", @$blocks ) . '</verbatim>';
+        my @result = ();
+        my $prev   = "";
+        my $next   = "";
+        my $state  = 0;
+        foreach my $block (@$blocks) {
+            $block =~ s/</&lt;/g;
+            $block =~ s/>/&gt;/g;
+
+            if ( $block =~ /^[+-]/ ) {
+                push @result, $prev if $prev;
+                $prev  = "";
+                $state = 1;
+                $block =~
+                  s/^\-(.*)$/<del style='background-color:#FFD3D8;'>$1<\/del>/m;
+                $block =~
+s/^\+(.*)$/<ins style='background-color:#ACE2AC;text-decoration:none;'>$1<\/ins>/m;
+                push @result, $block;
+                next;
+            }
+
+            if ( $state == 0 ) {
+                $prev = $block;
+                $next = "";
+                next;
+            }
+
+            if ( $state == 1 ) {
+                push @result, $next if $next;
+                $next  = "";
+                $state = 0;
+            }
+        }
+        $this->{TEXT_DIFF} = join( "<br />\n", @result );
     }
 
     return $this->expandVariables( $template, 'TEXT_DIFF' );
@@ -252,7 +285,7 @@ sub expandVariables {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2023 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 
