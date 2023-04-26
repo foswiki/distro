@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1674140310" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1682493842" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  26 Apr 2023: | (10.51) - Item15190: fixed potential XSS vulnerability in jQuery-2 |
 |  19 Jan 2023: | (10.50) - Item15181: update to jquery-3.6.3, remove previous jquery-3.x packages |
 |  15 Jul 2022: | (10.41) - Item15157: updated to jquery.validate 1.19.5 \
                           - Item15158: updated to jquery-ui 1.13.2 |
