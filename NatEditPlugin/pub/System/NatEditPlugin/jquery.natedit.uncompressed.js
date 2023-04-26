@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2022 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2023 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -1129,6 +1129,9 @@ $.NatEditor.prototype.preview = function() {
   self.beforeSubmit("preview").then(function() {
     self.form.ajaxSubmit({
       url: foswiki.getScriptUrl("rest", "NatEditPlugin", "save"),
+      beforeSerialize:function() {
+        self.form.find("input[name=redirectto]").prop('disabled',true);
+      },
       beforeSubmit: function() {
         self.hideMessages();
         $.blockUI({
@@ -1153,6 +1156,9 @@ $.NatEditor.prototype.preview = function() {
 
         data = data.replace(/%width%/g, width).replace(/%height%/g, height);
         $("body").append(data);
+      },
+      complete: function() {
+        self.form.find("input[name=redirectto]").prop('disabled',false);
       }
     });
   });
