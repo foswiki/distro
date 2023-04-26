@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1673955959" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1682492438" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %FORMFIELD{"Description"}%
 
@@ -62,6 +62,7 @@ is sufficient.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  26 Apr 2023 | Foswikitask:Item15189: fixed redirectto parameter breaking preview function |
 |  17 Jan 2023 | Foswikitask:Item15178: wrong set of permissions selecting "registered users" access in natedit |
 |  25 Jul 2022 | Foswikitask:Item15160: use custom rest handler for the permissions editor |
 |  18 May 2022 | Foswikitask:Item15131: natedit doesn't validate mandatory formfields properly |
@@ -199,4 +200,4 @@ is sufficient.
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1673955959" size="104954" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1682492438" size="104954" user="ProjectContributor" version="1"}%

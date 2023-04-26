@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2022 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2023 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -882,7 +882,7 @@ $.NatEditor.prototype.initForm = function() {
         self.beforeSubmit("save");
         document.title = "Saving ...";
         $.blockUI({
-          message: '<h1> Saving ... </h1>'
+          message: '<h1>'+$.i18n("Saving ...")+'</h1>'
         });
         self.form.submit();
       };
@@ -924,7 +924,7 @@ $.NatEditor.prototype.initForm = function() {
                 self.hideMessages();
                 document.title = "Saving ...";
                 $.blockUI({
-                  message: '<h1> Saving ... </h1>'
+                  message: '<h1>'+$.i18n("Saving ...")+'</h1>'
                 });
               },
               error: function(xhr, textStatus, errorThrown) {
@@ -971,10 +971,13 @@ $.NatEditor.prototype.initForm = function() {
 
       self.form.ajaxSubmit({
         url: foswiki.getScriptUrl( 'rest', 'NatEditPlugin', 'save'),  // SMELL: use this one for REST as long as the normal save can't cope with REST
+        beforeSerialize:function() {
+          self.form.find("input[name=redirectto]").prop('disabled',true);
+        },
         beforeSubmit: function() {
           self.hideMessages();
           $.blockUI({
-            message: '<h1> Loading preview ... </h1>'
+            message: '<h1>'+$.i18n("Loading preview ...")+'</h1>'
           });
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -995,6 +998,9 @@ $.NatEditor.prototype.initForm = function() {
 
           data = data.replace(/%width%/g, width).replace(/%height%/g, height);
           $("body").append(data);
+        },
+        complete: function() {
+          self.form.find("input[name=redirectto]").prop('disabled',false);
         }
       });
     }
