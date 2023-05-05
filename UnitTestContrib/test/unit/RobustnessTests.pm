@@ -207,8 +207,8 @@ sub test_sanitizeAttachmentName {
     $Foswiki::cfg{UploadFilter} = qr(^(
          (?i)\.htaccess                       # .htaccess needs to be case insensitive
         | .*\.(?i)                            # Case insensitive
-           (?:php[0-9s]?(\..*)?               # PHP files can have a suffix
-            | [sp]?htm[l]?(\..*)?             # html, shtml, phtml, htm, shtm, phtm
+           (?:php[0-9s]?                      # PHP files can have a suffix
+            | [sp]?htm[l]?                    # html, shtml, phtml, htm, shtm, phtm
             | pl                              # Perl
             | py                              # Python
             | cgi                             # CGI Scripts
@@ -223,13 +223,8 @@ sub test_sanitizeAttachmentName {
     # Trailing dot ignored on windows
     $this->assert_str_equals( ".HTacceSS..txt", _sanitize(".HTacceSS.") );
 
-    for my $i (qw(php shtm phtml  html pl py cgi PHP SHTM PHTML PL PY CGI)) {
+    for my $i (qw(php shtm phtml html pl py cgi PHP SHTM PHTML PL PY CGI)) {
         my $j = "bog.$i";
-        my $y = "$j.txt";
-        $this->assert_str_equals( $y, _sanitize($j) );
-    }
-    for my $i (qw(php php0 phtm shtml html PHP PHP0 PHTM SHTML)) {
-        my $j = "bog.$i.s";
         my $y = "$j.txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
@@ -240,6 +235,10 @@ sub test_sanitizeAttachmentName {
         my $y = "bog.$i..txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
+
+    # Item15191: secured attachemts must not be double secured
+    $this->assert_str_equals( "test.html.txt", _sanitize("test.html.txt") );
+    $this->assert_str_equals( "test.php.txt",  _sanitize("test.php.txt") );
 
     return;
 }
