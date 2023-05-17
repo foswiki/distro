@@ -1733,6 +1733,7 @@ sub _safeEvalPerl {
     # disable glob for security reasons
     $theText =~ s/^([\(\s]*)\<+/$1/g;
     $theText =~ s/\>+([\s\)]*)$/$1/g;
+    $theText =~ s/\<\s*\>/ /g;
 
     # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g;
