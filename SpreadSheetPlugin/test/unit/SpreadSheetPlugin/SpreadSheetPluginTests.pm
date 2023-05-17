@@ -438,6 +438,7 @@ sub test_EVAL_GLOB {
     my ($this) = @_;
 
     $this->assert( $this->CALC('$EVAL(<*>)')               =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL((<*>))')             =~ /^ERROR:/ );
     $this->assert( $this->CALC('$EVAL(< * >)')             =~ /^ERROR:/ );
     $this->assert( $this->CALC('$EVAL(<../../../ee*/* >)') =~ /^ERROR:/ );
 }
