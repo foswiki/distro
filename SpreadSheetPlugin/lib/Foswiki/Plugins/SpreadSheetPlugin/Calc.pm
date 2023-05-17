@@ -1726,18 +1726,21 @@ sub _safeEvalPerl {
 
     # Allow only simple math with operators - + * / % ( )
     $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
-      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
+
+    # keep only numbers and operators
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//g;
 
     # disable glob for security reasons
-    $theText =~ s/^(\s*)\<+/$1/g;
-    $theText =~ s/\>+(\s*)$/$1/g;
-    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g
-      ;    # remove leading 0s to defuse interpretation of numbers as octals
-    $theText =~
-      s/(^|[^0-9])e/$1/g;   # remove "e"-s unless in expression such as "123e-4"
+    $theText =~ s/^([\(\s]*)\<+/$1/g;
+    $theText =~ s/\>+([\s\)]*)$/$1/g;
+
+    # remove leading 0s to defuse interpretation of numbers as octals
+    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g;
+
+    # remove "e"-s unless in expression such as "123e-4"
+    $theText =~ s/(^|[^0-9])e/$1/g;
     $theText =~ /(.*)/;
-    $theText = $1;          # untainted variable
+    $theText = $1;    # untainted variable
     return "" unless defined($theText);
     local $SIG{__DIE__} =
       sub { Foswiki::Func::writeDebug( $_[0] ); warn $_[0] };
