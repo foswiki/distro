@@ -1728,6 +1728,10 @@ sub _safeEvalPerl {
     $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
       # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//g;
+
+    # disable glob for security reasons
+    $theText =~ s/^(\s*)\<+/$1/g;
+    $theText =~ s/\>+(\s*)$/$1/g;
     $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g
       ;    # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~

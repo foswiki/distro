@@ -434,6 +434,14 @@ sub test_EVAL {
     $this->assert( $this->CALC('$EVAL(0)') eq '0' );
 }
 
+sub test_EVAL_GLOB {
+    my ($this) = @_;
+
+    $this->assert( $this->CALC('$EVAL(<*>)')               =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(< * >)')             =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(<../../../ee*/* >)') =~ /^ERROR:/ );
+}
+
 sub test_EVEN {
     my ($this) = @_;
     $this->assert( $this->CALC('$EVEN(2)') == 1 );
