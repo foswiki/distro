@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1684321623" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -594,7 +594,7 @@ This function has two modes of operation.
    * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncPERCENTILE][$PERCENTILE()]]=
 
 #FuncMOD
----+++ MOD( num, divisor ) -- reminder after dividing ==num== by ==divisor==
+---+++ MOD( num, divisor ) -- residual amount after dividing ==num== by ==divisor==
    * Syntax: ==$MOD( num, divisor )==
    * Example: ==%<nop>CALC{"$MOD(7, 3)"}%== returns ==1==
    * Related: =[[#FuncEVAL][$EVAL()]]=
@@ -1003,6 +1003,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  17 May 2023: (1.25) | Foswikitask:Item15192: fixed EVAL feature exposes infromation about paths and files on the server |
 |  19 Jul 2018: (1.24) | Foswikitask:Item14741: EVAL(0) should return 0 not the empty string |
 |  20 Jan 2017: (1.23) | Released with Foswiki 2.1.3<br />\
                          Foswikitask:Item13892: Clarify documentation on CALC vs. CALCULATE |
@@ -1093,3 +1094,6 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
+%META:PREFERENCE{name="DENYTOPICVIEW" title="DENYTOPICVIEW" type="Set" value="WikiGuest"}%
+%META:PREFERENCE{name="PERMSET_VIEW" title="PERMSET_VIEW" type="Local" value="registeredusers"}%
