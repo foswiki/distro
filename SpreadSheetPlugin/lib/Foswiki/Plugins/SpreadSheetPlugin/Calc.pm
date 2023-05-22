@@ -1741,7 +1741,7 @@ sub _safeEvalPerl {
     # disable glob for security reasons
     $theText =~ s/^([\(\s]*)\<+/$1/g;
     $theText =~ s/\>+([\s\)]*)$/$1/g;
-    $theText =~ s/\<\s*\>/ /g;
+    $theText =~ s/\<[\.\*\/\?\s]*\>/ /g;
 
     return "" unless defined($theText);
 
