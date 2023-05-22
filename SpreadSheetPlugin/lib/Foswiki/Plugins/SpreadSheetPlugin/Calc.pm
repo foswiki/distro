@@ -1739,9 +1739,9 @@ sub _safeEvalPerl {
     $theText = $1;                               # untainted variable
 
     # disable glob for security reasons
-    $theText =~ s/^([\(\s]*)\<+/$1/g;
-    $theText =~ s/\>+([\s\)]*)$/$1/g;
-    $theText =~ s/\<[\.\*\/\?\s]*\>/ /g;
+    while ( $theText =~ s/\<[\.\*\/\?\se]*\>/ /g ) {
+        1;
+    }
 
     return "" unless defined($theText);
 
