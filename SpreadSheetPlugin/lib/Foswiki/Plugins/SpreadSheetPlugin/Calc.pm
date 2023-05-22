@@ -1735,11 +1735,13 @@ sub _safeEvalPerl {
 
     # remove "e"-s unless in expression such as "123e-4"
     $theText =~ s/(^|[^0-9])e/$1/g;
+
+    # untaint variable
     $theText =~ /(.*)/;
-    $theText = $1;                               # untainted variable
+    $theText = $1;
 
     # disable glob for security reasons
-    while ( $theText =~ s/\<[\.\*\/\?\se]*\>/ /g ) {
+    while ( $theText =~ s/\<[\.\*\/\?\se\<]*\>/ /g ) {
         1;
     }
 
