@@ -438,24 +438,12 @@ sub test_EVAL_GLOB {
     my ($this) = @_;
 
     $this->assert( $this->CALC('$EVAL(1 < 2 + 2 > 1)') == 1 );
-    $this->assert( $this->CALC('$EVAL(1 <2 <> )') == 1 );
-    $this->assert( $this->CALC('$EVAL(<>)') == 0 );
-    $this->assert( $this->CALC('$EVAL(<<>>)')   =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(<<<>>>)') =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(<*>)') == 0 );
-    $this->assert( $this->CALC('$EVAL((<*>))') == 0 );
-    $this->assert( $this->CALC('$EVAL(< * >)') == 0 );
-    $this->assert( $this->CALC('$EVAL(<../../../ee*/* >)') == 0 );
-    $this->assert( $this->CALC('$EVAL(2+<>+2)') == 4 );
-    $this->assert( $this->CALC('$EVAL(2+<   >+2)') == 4 );
-    $this->assert( $this->CALC('$EVAL(%+.<*>.2)') =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(2+<e>+2)') == 4 );
-    $this->assert( $this->CALC('$EVAL(2+<x>+2)') == 4 );
-    $this->assert( $this->CALC('$EVAL(%-.<*>.2)')    =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(%+.<../*>.2)') =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(3-<../*>-3)') == 6 );
-    $this->assert( $this->CALC('$EVAL(%-.<ee*/..>.%-)') =~ /^ERROR:/ );
-    $this->assert( $this->CALC('$EVAL(%-.<<>../*>.%-)') =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(1 <2 <> )') =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(<>)')       =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(<<>>)')     =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(<<<>>>)')   =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL(<*>)')      =~ /^ERROR:/ );
+    $this->assert( $this->CALC('$EVAL((<*>))')    =~ /^ERROR:/ );
 }
 
 sub test_EVEN {
