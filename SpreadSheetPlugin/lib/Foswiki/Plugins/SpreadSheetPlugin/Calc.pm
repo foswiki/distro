@@ -13,6 +13,7 @@ use warnings;
 use HTML::Entities;
 use Time::Local;
 use Time::Local qw( timegm_nocheck timelocal_nocheck );    # Necessary for DOY
+use Safe ();
 
 # =========================
 my $web;
@@ -29,6 +30,7 @@ my $escCloseP   = "\3";
 my $escNewLn    = "\4";
 my %varStore    = ();
 my $dontSpaceRE = "";
+my $safeCpt;
 
 # SMELL: I18N
 my @monArr = (
@@ -1722,7 +1724,13 @@ sub _getNumber {
 # =========================
 sub _safeEvalPerl {
     my ($theText) = @_;
+
     $theText = '' unless defined $theText;
+
+    unless ( defined $safeCpt ) {
+        $safeCpt = Safe->new();
+        $safeCpt->deny(":subprocess");
+    }
 
     # Allow only simple math with operators - + * / % ( )
     $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
@@ -1740,16 +1748,10 @@ sub _safeEvalPerl {
     $theText =~ /(.*)/;
     $theText = $1;
 
-    # disable glob for security reasons
-    while ( $theText =~ s/\<[\.\*\/\?\se\<]*\>/ /g ) {
-        1;
-    }
-
     return "" unless defined($theText);
 
-    local $SIG{__DIE__} =
-      sub { Foswiki::Func::writeDebug( $_[0] ); warn $_[0] };
-    my $result = eval $theText;
+    local $SIG{__DIE__} = sub { warn $_[0] };
+    my $result = $safeCpt->reval($theText);
 
     if ($@) {
         $result = $@;
@@ -1764,6 +1766,7 @@ sub _safeEvalPerl {
     else {
         $result = 0 unless ($result);    # logical false is "0"
     }
+
     return $result;
 }
 
