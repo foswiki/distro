@@ -539,8 +539,9 @@ $.NatEditor.prototype.initToolbar = function() {
       $txtarea = $(self.txtarea),
       url = foswiki.getScriptUrl('rest', "JQueryPlugin", "tmpl", {
        topic: self.opts.web+"."+self.opts.topic,
-       load:  self.opts.toolbar
-       });
+       load:  self.opts.toolbarTemplate || self.opts.toolbar,
+       name:  self.opts.toolbar,
+      });
 
   // load toolbar
   $.loadTemplate({
@@ -2575,6 +2576,7 @@ $.NatEditor.prototype.parseLinkSelection = function() {
 $.NatEditor.defaults = {
 
   // toolbar template
+  toolbarTemplate: "edittoolbar",
   toolbar: "edittoolbar",
 
   // Elements 0 and 2 are (respectively) prepended and appended.  Element 1 is the default text to use,

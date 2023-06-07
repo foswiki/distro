@@ -30,8 +30,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '9.61';
-our $RELEASE           = '26 Apr 2023';
+our $VERSION           = '9.62';
+our $RELEASE           = '07 Jun 2023';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
