@@ -167,7 +167,10 @@ if (!foswiki) foswiki = {};
           height:'show',
           opacity:'show'
         },
-        ref.speed
+        ref.speed,
+        function() {
+          $(elem).trigger("showcompleted");
+        }
       );
     };
     
@@ -179,7 +182,10 @@ if (!foswiki) foswiki = {};
           height:'hide',
           opacity:'hide'
         },
-        ref.speed
+        ref.speed,
+        function() {
+          $(elem).trigger("hidecompleted");
+        }
       );
     };
 

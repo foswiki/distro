@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1689074228" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -474,6 +474,7 @@ You can override some default settings in the plugin by setting the following [[
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  29 Jun 2023 | 3.00 added showcompleted and hidecompleted javascript event when the twisty opened/closed |
 |  13 Jun 2022 | 2.00 removed unused assets from package; made twisty modes more meaningfull: was div/span - now is block/inline |
 |  09 Jun 2022 | 1.65 better default labels for show and hide links |
 |  28 Sep 2020 | 1.64 removed dependency on deprecated livequery module |
@@ -530,7 +531,7 @@ You can override some default settings in the plugin by setting the following [[
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2022"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2023"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
