@@ -204,7 +204,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # $Foswiki::cfg{SafeEnvPath} = undef;
 
 # **PATH LABEL="Tempfile Directory" CHECK="undefok" EXPERT**
-# This is used to override the default system temporary file location.
+# This is used to override the default temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It is normally set automatically in the code.
 # $Foswiki::cfg{TempfileDir} = '';
