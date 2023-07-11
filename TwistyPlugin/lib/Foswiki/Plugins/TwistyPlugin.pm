@@ -14,8 +14,8 @@ use CGI           ();
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
-our $RELEASE = '13 Jun 2022';
+our $VERSION = '3.00';
+our $RELEASE = '29 Jun 2023';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
