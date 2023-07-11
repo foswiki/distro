@@ -46,7 +46,6 @@ use warnings;
 use Assert;
 use Cwd qw( abs_path );
 use Error qw( :try );
-use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
@@ -1989,19 +1988,9 @@ sub new {
    # Foswiki's behavior.
     $defaultUser = 'admin' if ( $Foswiki::cfg{isBOOTSTRAPPING} );
 
-    unless ( $Foswiki::cfg{TempfileDir} ) {
-
-        # Give it a sane default.
-        if ( $^O eq 'MSWin32' ) {
-
-            # Windows default tmpdir is the C: root  use something sane.
-            # Configure does a better job,  it should be run.
-            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
-        }
-        else {
-            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
-        }
-    }
+    # Give it a sane default owned by the current user (see CVE-2011-4116)
+    $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir} . '/tmp'
+      unless $Foswiki::cfg{TempfileDir};
 
     # Cover all the possibilities
     $ENV{TMPDIR} = $Foswiki::cfg{TempfileDir};
