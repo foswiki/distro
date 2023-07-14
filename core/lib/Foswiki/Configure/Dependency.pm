@@ -18,6 +18,7 @@ use strict;
 use warnings;
 
 use version 0.77;
+use Safe;
 
 use Assert;
 
@@ -777,67 +778,78 @@ sub extractModuleVersion {
     my $mod_version = '0';
     my $mod_release = '0';
 
+    my $filePath;
     foreach my $dir (@INC) {
-        open( my $mf, '<', "$dir/$file" ) or next;
-        local $/ = "\n";
-        local $_;
-        my $pod;
-        while (<$mf>) {
-            chomp;
-            if (/^=cut/) {
-                $pod = 0;
-                next;
-            }
-            if (/^=/) {
-                $pod = 1;
-                next;
-            }
-            next if ($pod);
-            next if m/eval/; # Some modules issue $VERSION = eval $VERSION ... bypass that line
-            s/\s*#.*$//;
-            if ($FoswikiPM) {
-                last if ( $mod_version && $mod_release );
-                if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
-                    my $exp = $1;
-                    $exp =~ s/\$RELEASE/\$mod_release/g;
-                    eval("\$mod_version =~ $exp;");
-                    print STDERR
-"Dependency.pm 1-Failed to eval $1 from $_ in $file at line $.: $@\n"
-                      if ($@);
-                    last;
-                }
-
-                if (
-/\$VERSION\s*=\s*version->(?:new|parse|declare)\s*\(\s*['"]([vV]?\d+\.\d+(?:\.\d+)?(?:_\d+)?)['"]\s*\)/
-                  )
-                {
-                    $mod_version = $1;
-                }
-                if (
-/\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/
-                  )
-                {
-                    eval( "\$mod_" . lc($1) . " = $2;" );
-                    print STDERR
-"Dependency.pm 2-Failed to eval $2 from $_ in $file at line $.: $@\n"
-                      if ($@);
-                    next;
-                }
-                next;
-            }
-            next
-              unless (
-                /\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(?:qv\()?(.*?)(?:\))?;/
-              );
-            eval("\$mod_version = $1;");
-
-    # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
+        if ( -e "$dir/$file" ) {
+            $filePath = "$dir/$file";
             last;
         }
-        close $mf;
-        return ( 1, $mod_version, "$dir/$file", $mod_release );
+    }
+    return 0 unless defined $filePath;
+
+    my $safe = Safe->new;
+    open( my $mf, '<', $filePath ) or return 0;
+    local $/ = "\n";
+    local $_;
+    my $pod;
+    while (<$mf>) {
+        chomp;
+        if (/^=cut/) {
+            $pod = 0;
+            next;
+        }
+        if (/^=/) {
+            $pod = 1;
+            next;
+        }
+        next if ($pod);
+        next if m/eval/; # Some modules issue $VERSION = eval $VERSION ... bypass that line
+        s/\s*#.*$//;
+        if ($FoswikiPM) {
+            last if ( $mod_version && $mod_release );
+            if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
+                my $exp = $1;
+                $exp =~ s/\$RELEASE/\$mod_release/g;
+                $mod_version = $safe->reval($exp);
+                print STDERR
+"Dependency.pm 1-Failed to eval $1 from $_ in $file at line $.: $@\n"
+                  if ($@);
+                last;
+            }
+
+            if (
+/\$VERSION\s*=\s*version->(?:new|parse|declare)\s*\(\s*['"]([vV]?\d+\.\d+(?:\.\d+)?(?:_\d+)?)['"]\s*\)/
+              )
+            {
+                $mod_version = $1;
+            }
+            if (/\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/)
+            {
+                if ( $1 eq 'RELEASE' ) {
+                    $mod_release = $safe->reval($2);
+                }
+                else {
+                    $mod_version = $safe->reval($2);
+                }
+                print STDERR
+"Dependency.pm 2-Failed to eval $2 from $_ in $file at line $.: $@\n"
+                  if ($@);
+                next;
+            }
+            next;
+        }
+        if (/\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(?:qv\()?(.*?)(?:\))?;/) {
+            $mod_version = $safe->reval($1);
+            last;
+        }
+        if (/package $module (.*);/) {
+            $mod_version = $safe->reval($1);
+            last;
+        }
     }
 
+    close $mf;
+    return ( 1, $mod_version, $filePath, $mod_release ) if $mod_version;
     return ( 0, undef );
 }
 
