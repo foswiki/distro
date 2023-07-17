@@ -17,10 +17,9 @@ package Foswiki::Configure::Dependency;
 use strict;
 use warnings;
 
-use version 0.77;
-use Safe;
-
 use Assert;
+use Safe;
+use version;
 
 my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
 my $mnamess = join( '|', @MNAMES );
@@ -787,7 +786,6 @@ sub extractModuleVersion {
     }
     return 0 unless defined $filePath;
 
-    my $safe = Safe->new;
     open( my $mf, '<', $filePath ) or return 0;
     local $/ = "\n";
     local $_;
@@ -810,7 +808,7 @@ sub extractModuleVersion {
             if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
                 my $exp = $1;
                 $exp =~ s/\$RELEASE/\$mod_release/g;
-                $mod_version = $safe->reval($exp);
+                $mod_version = _eval_version($exp);
                 print STDERR
 "Dependency.pm 1-Failed to eval $1 from $_ in $file at line $.: $@\n"
                   if ($@);
@@ -826,10 +824,10 @@ sub extractModuleVersion {
             if (/\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/)
             {
                 if ( $1 eq 'RELEASE' ) {
-                    $mod_release = $safe->reval($2);
+                    $mod_release = _eval_version($2);
                 }
                 else {
-                    $mod_version = $safe->reval($2);
+                    $mod_release = _eval_version($2);
                 }
                 print STDERR
 "Dependency.pm 2-Failed to eval $2 from $_ in $file at line $.: $@\n"
@@ -839,11 +837,11 @@ sub extractModuleVersion {
             next;
         }
         if (/\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(?:qv\()?(.*?)(?:\))?;/) {
-            $mod_version = $safe->reval($1);
+            $mod_version = _eval_version($1);
             last;
         }
         if (/package $module (.*);/) {
-            $mod_version = $safe->reval($1);
+            $mod_version = _eval_version($1);
             last;
         }
     }
@@ -851,6 +849,15 @@ sub extractModuleVersion {
     close $mf;
     return ( 1, $mod_version, $filePath, $mod_release ) if $mod_version;
     return ( 0, undef );
+}
+
+sub _eval_version {
+    my ($expr) = @_;
+
+    my $s = Safe->new;
+
+    $s->reval( '$VERSION = ' . $expr );
+    return $s->reval('$VERSION');
 }
 
 =begin TML
