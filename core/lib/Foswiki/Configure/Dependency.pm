@@ -784,9 +784,10 @@ sub extractModuleVersion {
             last;
         }
     }
-    return 0 unless defined $filePath;
 
-    open( my $mf, '<', $filePath ) or return 0;
+    return ( 0, undef ) unless defined $filePath;
+
+    open( my $mf, '<', $filePath ) or return ( 0, undef );
     local $/ = "\n";
     local $_;
     my $pod;
@@ -827,12 +828,11 @@ sub extractModuleVersion {
                     $mod_release = _eval_version($2);
                 }
                 else {
-                    $mod_release = _eval_version($2);
+                    $mod_version = _eval_version($2);
                 }
                 print STDERR
 "Dependency.pm 2-Failed to eval $2 from $_ in $file at line $.: $@\n"
                   if ($@);
-                next;
             }
             next;
         }
