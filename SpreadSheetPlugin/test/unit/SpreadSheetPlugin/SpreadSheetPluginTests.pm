@@ -85,8 +85,14 @@ sub CALC {
       Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( $calcC, $args{topic},
         $args{web} );
 
+    # remove line information
+    $rsltC =~ s/\(eval \d+\)//;
+
     my $calcR = '%CALCULATE{"' . $str . '"}%';
     my $rsltR = Foswiki::Func::expandCommonVariables($calcR);
+
+    # remove line information
+    $rsltR =~ s/\(eval \d+\)//;
 
     if ($ne) {
         my $i = 1;
