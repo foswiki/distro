@@ -852,12 +852,7 @@ sub extractModuleVersion {
 }
 
 sub _eval_version {
-    my ($expr) = @_;
-
-    my $s = Safe->new;
-
-    $s->reval( '$VERSION = ' . $expr );
-    return $s->reval('$VERSION');
+    return eval(shift);
 }
 
 =begin TML
