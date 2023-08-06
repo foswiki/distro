@@ -13,8 +13,8 @@ use vars qw(
   $pubUrl $attachUrl
 );
 
-our $VERSION           = '2.28';
-our $RELEASE           = '2.28';
+our $VERSION           = '2.29';
+our $RELEASE           = '06 Aug 2023';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
@@ -326,7 +326,7 @@ __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

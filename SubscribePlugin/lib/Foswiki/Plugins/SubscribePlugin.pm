@@ -24,8 +24,8 @@ use JSON ();
 # SUBSCRIBE macro.
 use URI ();
 
-our $VERSION = '3.6';
-our $RELEASE = '08 Dec 2017';
+our $VERSION = '3.7';
+our $RELEASE = '06 Aug 2023';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -261,8 +261,9 @@ __END__
 
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2007-2017 Crawford Currie http://c-dot.co.uk
-and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
+Copyright (C) 2007-2023 Crawford Currie http://c-dot.co.uk and Foswiki Contributors.
+
+All Rights Reserved. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

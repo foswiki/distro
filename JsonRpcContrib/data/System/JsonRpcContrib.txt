@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1691320505" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -217,6 +217,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  06 Aug 2023: (3.01) | fixed some perl critics |
 |  16 Jun 2022: (3.00) | make uploads available in json-rpc requests |
 |  05 May 2022: (2.40) | fixed switching web-topic context before dispatching the method |
 |  31 Jan 2022: (2.30) | added =foswiki.jsonRpc()= api |
@@ -255,7 +256,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2022 Michael Daum and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2023 Michael Daum and Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%

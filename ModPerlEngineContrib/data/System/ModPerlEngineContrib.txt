@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 %FORMFIELD{"Description"}%
 
@@ -148,6 +148,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  06 Aug 2023 (1.08) | Foswikitask:Item15151: add warnings and strictness |
 |  08 Dec 2017 (1.10) | Foswikitask:Item14380: Optionally recover client IP from =X-Forwarded-For= header. |
 |  08 Dec 2017 (1.06) | Foswikitask:Item14544: SCRIPTURL breaks when X-FORWARDED-HOST has multiple values (partial fix). | 
 |  30 Apr 2017 (1.05) | Foswikitask:Item14381: Preserver URL Encoding of the Foswiki URI. |
@@ -170,7 +171,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.GilmarSantosJr"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009-2015 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009-2023 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%

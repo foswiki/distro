@@ -18,8 +18,8 @@ use warnings;
 
 use Foswiki::Func ();    # The plugins API
 
-our $VERSION = '1.60';
-our $RELEASE = '16 Nov 2020';
+our $VERSION = '1.61';
+our $RELEASE = '06 Aug 2023';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
@@ -239,7 +239,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
