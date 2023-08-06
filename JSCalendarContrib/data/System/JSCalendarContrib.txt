@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1691320505" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" class="foswikiRight" />
@@ -79,6 +79,7 @@ If the contrib is installed, you will see such a field here:
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|06 Aug 2023 (1.61) | Foswikitask:Item15151: add warnings and strictness |
 | 18 Nov 2020 (1.60) | Foswiktask:Item14994: don't generate inline @import-ed css for performance reasons |
 | 08 Dec 2017 (1.56) | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
 | 14 Jun 2015 (1.55) | Released with Foswiki 2.0, copyright updates, minor doc updates. |

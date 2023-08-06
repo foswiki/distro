@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Edit Table Plugin
 %FORMFIELD{"Description"}%
@@ -194,6 +194,7 @@ Test if the Plugin is correctly installed:
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  06 Aug 2023: | 4.47: Foswikitask:Item15151: add warnings and strictness |
 |  04 Apr 2017: | 4.46: Item14324: Unescaped left brace - Perl 5.25.10 |
 |  28 Nov 2016: | 4.45: Released with Foswiki 2.1.3<br/>\
                   Foswikitask:Item14236: Include compressed and gziped versions of css and js. |
@@ -263,7 +264,7 @@ Test if the Plugin is correctly installed:
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2012, Arthur Clemens, 2008-2015, Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2012, Arthur Clemens, 2008-2023, Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
@@ -271,15 +272,15 @@ Test if the Plugin is correctly installed:
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%TOPIC%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1655899072" size="7823" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="" date="1655899072" size="2017" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="" date="1655899072" size="3199" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" date="1655899072" size="145" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" date="1655899072" size="68" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="" date="1655899072" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1691320505" size="7823" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="" date="1691320505" size="2017" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="" date="1691320505" size="3199" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="" date="1691320505" size="145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="" date="1691320505" size="68" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="" date="1691320505" size="298" user="ProjectContributor" version="1"}%
