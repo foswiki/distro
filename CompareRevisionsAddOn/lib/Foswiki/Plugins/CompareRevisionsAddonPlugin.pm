@@ -19,7 +19,7 @@ use Foswiki;
 
 # Keep this in sync with CompareRevsionsAddOn
 our $VERSION = '1.114';
-our $RELEASE = '1.114';
+our $RELEASE = '06 Aug 2023';
 
 # Name of this Plugin, only used in this module
 our $pluginName = 'CompareRevisionsAddonPlugin';

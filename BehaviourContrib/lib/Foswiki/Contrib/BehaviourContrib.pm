@@ -4,8 +4,8 @@ package Foswiki::Contrib::BehaviourContrib;
 use strict;
 use warnings;
 
-our $VERSION = '$Rev$';
-our $RELEASE = '1.6';
+our $VERSION = '1.6';
+our $RELEASE = '06 Aug 2023';
 our $SHORTDESCRIPTION =
 "'Behaviour' Javascript event library to create javascript based interactions that degrade well when javascript is not available";
 
