@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1691317984" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 %FORMFIELD{"Description"}%
@@ -274,6 +274,7 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  2.95 (06 Aug 2023) | Foswikitask:Item15151: add warnings and strictness |
 |  2.94 (13 Oct 2020) | Foswikitask:Item14941: only load comment.js and comment.css on pages where it is required |
 |  2.93 (22 Jan 2018) | Foswikitask:Item14554: remove link to unused wikiring.com domain.<br/>\
                         Foswikitask:Item14605: Unescaped brace in Regular Expression,   Perl 5.27.8. |
@@ -323,7 +324,7 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2020 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2023 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
