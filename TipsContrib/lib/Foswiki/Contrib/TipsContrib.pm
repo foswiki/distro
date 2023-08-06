@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 our $VERSION          = '1.26';
-our $RELEASE          = '1.26';
+our $RELEASE          = '06 Aug 2023';
 our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
 
 1;

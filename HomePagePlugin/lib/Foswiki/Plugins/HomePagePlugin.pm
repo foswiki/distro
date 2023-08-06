@@ -14,7 +14,7 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION           = '1.23';
-our $RELEASE           = '1.23';
+our $RELEASE           = '06 Aug 2023';
 our $SHORTDESCRIPTION  = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 

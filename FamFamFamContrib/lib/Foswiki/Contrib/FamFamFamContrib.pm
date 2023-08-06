@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 our $VERSION = '1.9';
-our $RELEASE = '1.9';
+our $RELEASE = '06 Aug 2023';
 our $SHORTDESCRIPTION =
   'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 

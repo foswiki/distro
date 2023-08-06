@@ -6,7 +6,7 @@ use warnings;
 
 # Also change Version/Release in Contrib/MailerContrib.pm
 our $VERSION           = '2.84';
-our $RELEASE           = '2.84';
+our $RELEASE           = '06 Aug 2023';
 our $SHORTDESCRIPTION  = 'Supports e-mail notification of changes';
 our $NO_PREFS_IN_TOPIC = 1;
 
