@@ -14,8 +14,8 @@ use Foswiki::Plugins               ();
 use Foswiki::Plugins::JQueryPlugin ();
 
 # Please use major.minor
-our $VERSION = '2.94';
-our $RELEASE = '13 Oct 2020';
+our $VERSION = '2.95';
+our $RELEASE = '06 Aug 2023';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -267,7 +267,7 @@ sub _restSave {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
