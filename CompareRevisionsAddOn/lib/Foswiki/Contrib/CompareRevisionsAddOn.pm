@@ -3,12 +3,12 @@ use strict;
 use warnings;
 
 # Also update CompareRevisionsAddOnPlugin
-our $VERSION = '1.115';
+our $VERSION = '1.116';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.  Keep in sync with $VERSION
-our $RELEASE = '08 Apr 2017';
+our $RELEASE = '06 Aug 2023';
 
 our $SHORTDESCRIPTION =
 'Compares two revisions of a document. In contrast to normal _rdiff_, the comparison is done with the rendered HTML output.';
