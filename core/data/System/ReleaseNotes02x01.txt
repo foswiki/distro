@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1677500294" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1691316571" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -818,14 +818,20 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 ---+++ Security
 
-| [[%BUGS%/Item15135][Item15135]] | directories in working are created as world writable 777 permissions |
+| [[%BUGS%/Item15135][Item15135]] | directories in working directory are created as world writable 777 permissions |
 | [[%BUGS%/Item15141][Item15141]] | possible XSS attack in attachment comments |
 | [[%BUGS%/Item15158][Item15158]] | update to jquery-ui 1.13.2 |
-| [[%BUGS%/Item15163][Item15163]] | ... will be disclosed during release ... |
+| [[%BUGS%/Item15163][Item15163]] | Local file inclusion vulnerability in viewfile |
 | [[%BUGS%/Item15182][Item15182]] | restricted allowed protocols to http and https |
+| [[%BUGS%/Item15190][Item15190]] | potential XSS vulnerability in jQuery |
+| [[%BUGS%/Item15192][Item15192]] | SpreadSheetPlugin's EVAL feature exposes infromation about paths and files on the server |
+| [[%BUGS%/Item15198][Item15198]] | Default to a secure location for temporary files not vulnerable to symlink attacks |
+| [[%BUGS%/Item15200][Item15200]] | possible XSS vulnerability in topic title field |
 
 ---+++ Fixes
 
+| [[%BUGS%/Item14380][Item14380]] | Foswiki should have option to use X-Forwarded-For to determine Client IP in reverse proxy configuration. |
+| [[%BUGS%/Item14580][Item14580]] | DIFF_TEXT rarely used ... and buggy |
 | [[%BUGS%/Item15074][Item15074]] | remove hardcoded options from build.pl of some extensions |
 | [[%BUGS%/Item15075][Item15075]] | deep recursion on innocent code |
 | [[%BUGS%/Item15076][Item15076]] | RCS store does not properly encode topic information |
@@ -843,7 +849,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15142][Item15142]] | better default labels for twisty links |
 | [[%BUGS%/Item15145][Item15145]] | add support for uploading multiple files in one request |
 | [[%BUGS%/Item15146][Item15146]] | require packages during compile time, not during runtime  |
-| [[%BUGS%/Item15160][Item15160]] | permissions editor can only auto-complete users and groups found in a topic of the users web |
+| [[%BUGS%/Item15160][Item15160]] | Permissions editor can only auto-complete users and groups found in a topic of the users web |
 | [[%BUGS%/Item15162][Item15162]] | perl error when parsing email address of an empty header |
 | [[%BUGS%/Item15173][Item15173]] | add same-site policy to cookies |
 | [[%BUGS%/Item15174][Item15174]] | jquery.stars in +values mode |
@@ -852,6 +858,14 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15178][Item15178]] | wrong set of permissions selecting "registered users" access in natedit |
 | [[%BUGS%/Item15179][Item15179]] | always load a proper I18N class when internationalisation is enabled |
 | [[%BUGS%/Item15180][Item15180]] | broken SCRIPTURL macro for json-rpc links |
+| [[%BUGS%/Item15183][Item15183]] | Fix version number of EditRowPlugin  |
+| [[%BUGS%/Item15184][Item15184]] | don't translate < and > to their html entity counterparts |
+| [[%BUGS%/Item15185][Item15185]] | email tests fail on newer Email::MIME |
+| [[%BUGS%/Item15186][Item15186]] | random unit test failures in rcs store |
+| [[%BUGS%/Item15189][Item15189]] | Redirectto parameter breaks preview function |
+| [[%BUGS%/Item15191][Item15191]] | an uploaded html file is secured by appending txt multiple times |
+| [[%BUGS%/Item15201][Item15201]] | fix detection of edge browser |
+| [[%BUGS%/Item15203][Item15203]] | improve detection of module versions |
 
 ---+++ Enhancements
 
@@ -867,6 +881,9 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15155][Item15155]] | add spaceOutWikiWord() to foswiki javascript API |
 | [[%BUGS%/Item15157][Item15157]] | update to jquery.validate 1.19.5 |
 | [[%BUGS%/Item15181][Item15181]] | update to jquery-3.6.3, remove previous jquery-3.x packages |
+| [[%BUGS%/Item15187][Item15187]] | remove stray quote from TML citations |
+| [[%BUGS%/Item15194][Item15194]] | make edit toolbar more configurable |
+| [[%BUGS%/Item15199][Item15199]] | add showcompleted and hidecompleted javascript events when the twisty opened/closed |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
 
