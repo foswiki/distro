@@ -23,7 +23,6 @@ use Foswiki::Iterator::FilterIterator ();
 use Foswiki::Iterator::PagerIterator  ();
 use Foswiki::Render                   ();
 use Foswiki::WebFilter                ();
-use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
 
 use constant MONITOR => 0;
@@ -74,10 +73,6 @@ sub finish {
         $this->{searchParser}->finish();
         undef $this->{searchParser};
     }
-    if ( defined( $this->{MetaCache} ) ) {
-        $this->{MetaCache}->finish();
-        undef $this->{MetaCache};
-    }
 }
 
 =begin TML
@@ -85,16 +80,15 @@ sub finish {
 ---++ ObjectMethod metacache
 returns the metacache.
 
+*DEPRECATED:* please use Foswiki::metaCache()
+
 =cut
 
 sub metacache {
     my $this = shift;
 
-# these may well be function objects, but if (a setting changes, it needs to be picked up again.
-    if ( !defined( $this->{MetaCache} ) ) {
-        $this->{MetaCache} = new Foswiki::MetaCache( $this->{session} );
-    }
-    return $this->{MetaCache};
+    ASSERT(0) if DEBUG;
+    return $this->{session}->metaCache;
 }
 
 =begin TML
@@ -797,14 +791,16 @@ sub formatResults {
                 $cache->addDependencyForLink( $web, $topic );
             }
 
-            my $topicMeta = $this->metacache->getMeta( $web, $topic );
+            my $topicMeta =
+              $this->{session}->metaCache->getMeta( $web, $topic );
             if ( not defined($topicMeta) ) {
 
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#TODO: OMG! Search.pm relies on Meta::load (in the metaCache) returning a meta object even when the topic does not exist.
 #lets change that
                 $topicMeta = new Foswiki::Meta( $session, $web, $topic );
             }
-            $info = $this->metacache->get( $web, $topic, $topicMeta );
+            $info =
+              $this->{session}->metaCache->get( $web, $topic, $topicMeta );
             ASSERT( defined( $info->{tom} ) ) if DEBUG;
 
             $text = '';
@@ -987,7 +983,8 @@ sub formatResults {
 
                 # Handle e.g. createdate, createwikiuser etc
                 my $info =
-                  $this->metacache->get( $_[1]->web, $_[1]->topic, $_[1] );
+                  $this->{session}
+                  ->metaCache->get( $_[1]->web, $_[1]->topic, $_[1] );
                 my $r = $info->{tom}->getRev1Info( $_[0] );
                 return $r;
             };

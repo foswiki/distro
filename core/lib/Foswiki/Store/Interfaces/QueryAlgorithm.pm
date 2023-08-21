@@ -173,17 +173,16 @@ sub addACLFilter {
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
             my $topicMeta =
-              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web,
-                $topic );
+              $Foswiki::Plugins::SESSION->metaCache->addMeta( $web, $topic );
             if ( not defined($topicMeta) ) {
 
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#TODO: OMG! Search.pm relies on Meta::load (in the metaCache) returning a meta object even when the topic does not exist.
 #lets change that
                 $topicMeta =
                   new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
             }
             my $info =
-              $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
+              $Foswiki::Plugins::SESSION->metaCache->get( $web, $topic,
                 $topicMeta );
             ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
 

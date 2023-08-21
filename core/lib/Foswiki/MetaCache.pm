@@ -113,15 +113,16 @@ returns true if the topic is already in the cache.
 sub hasCached {
     my ( $this, $web, $topic ) = @_;
     ASSERT( defined($topic) ) if DEBUG;
-    return unless ( defined($topic) );
 
-    return ( $this->{session}->{user}
-          and
-          defined( $this->{cache}->{ $this->current_user() }{$web}{$topic} ) );
+    return unless defined $topic;
+    my $user = $this->current_user();
+
+    return defined $this->{cache}->{$user}{$web}{$topic};
 }
 
 sub removeMeta {
     my ( $this, $web, $topic ) = @_;
+
     my $user = $this->current_user();
 
     if ( defined($topic) ) {

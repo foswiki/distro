@@ -81,8 +81,8 @@ sub _webQuery {
         print STDERR "-- constant?\n" if MONITOR;
 
         # SMELL: use any old topic
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
-            'WebPreferences' );
+        my $cache =
+          $Foswiki::Plugins::SESSION->metaCache->get( $web, 'WebPreferences' );
         my $meta = $cache->{tom};
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
@@ -190,8 +190,7 @@ sub _webQuery {
 
                 # TODO: preload the meta cache if we're doing date
                 # based filtering - else the wrong filedate will be used
-                $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
-                    $topic );
+                $Foswiki::Plugins::SESSION->metaCache->get( $Iweb, $topic );
             }
 
             # TODO: frustratingly, there is no way to evaluate a
@@ -200,8 +199,7 @@ sub _webQuery {
         }
         else {
             my $meta =
-              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $Iweb,
-                $topic );
+              $Foswiki::Plugins::SESSION->metaCache->addMeta( $Iweb, $topic );
             print STDERR "-- evaluate $Iweb, $topic\n" if MONITOR;
             next unless ( defined($meta) );    #not a valid or loadable topic
 
