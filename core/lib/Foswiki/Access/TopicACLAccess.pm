@@ -81,10 +81,17 @@ sub haveAccess {
     print STDERR "Check $mode access $cUID to " . $meta->getPath() . "\n"
       if MONITOR;
 
+    my $result = $this->getCacheEntry( $meta, $mode, $cUID );
+    if ( defined $result ) {
+        print STDERR "found ACLs in cache for " . $meta->getPath . "\n"
+          if MONITOR;
+        return $result;
+    }
+
     # super admin is always allowed
     if ( $session->{users}->isAdmin($cUID) ) {
         print STDERR "$cUID - ADMIN\n" if MONITOR;
-        return 1;
+        return $this->setCacheEntry( $meta, $mode, $cUID, 1 );
     }
 
     $mode = uc($mode);
@@ -98,7 +105,7 @@ sub haveAccess {
             $this->{failure} =
               $session->i18n->maketext('access denied on topic');
             print STDERR 'a ' . $this->{failure}, "\n" if MONITOR;
-            return 0;
+            return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
         }
 
         $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
@@ -111,7 +118,7 @@ sub haveAccess {
                     $this->{failure} =
                       $session->i18n->maketext('access denied on topic');
                     print STDERR 'a ' . $this->{failure}, "\n" if MONITOR;
-                    return 0;
+                    return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
                 }
             }
             elsif ( $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} )
@@ -121,7 +128,7 @@ sub haveAccess {
                 # DEPRECATED SYNTAX.   Recommended replace with "ALLOWTOPIC=*"
                 print STDERR "Access allowed: deprecated DENYTOPIC is empty\n"
                   if MONITOR;
-                return 1;
+                return $this->setCacheEntry( $meta, $mode, $cUID, 1 );
             }
         }
 
@@ -129,12 +136,12 @@ sub haveAccess {
         if ( defined($allow) && scalar(@$allow) != 0 ) {
             if ( $session->{users}->isInUserList( $cUID, $allow ) ) {
                 print STDERR "in ALLOWTOPIC\n" if MONITOR;
-                return 1;
+                return $this->setCacheEntry( $meta, $mode, $cUID, 1 );
             }
             $this->{failure} =
               $session->i18n->maketext('access not allowed on topic');
             print STDERR 'b ' . $this->{failure}, "\n" if MONITOR;
-            return 0;
+            return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
         }
         $meta = $meta->getContainer();    # Web
     }
@@ -147,7 +154,7 @@ sub haveAccess {
         {
             $this->{failure} = $session->i18n->maketext('access denied on web');
             print STDERR 'c ' . $this->{failure}, "\n" if MONITOR;
-            return 0;
+            return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
         }
 
         # Check ALLOWWEB. If this is defined and not overridden by
@@ -159,7 +166,7 @@ sub haveAccess {
                 $this->{failure} =
                   $session->i18n->maketext('access not allowed on web');
                 print STDERR 'd ' . $this->{failure}, "\n" if MONITOR;
-                return 0;
+                return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
             }
         }
 
@@ -175,7 +182,7 @@ sub haveAccess {
             $this->{failure} =
               $session->i18n->maketext('access denied on root');
             print STDERR 'e ' . $this->{failure}, "\n" if MONITOR;
-            return 0;
+            return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
         }
 
         $allow = $this->_getACL( $meta, 'ALLOWROOT' . $mode );
@@ -185,7 +192,7 @@ sub haveAccess {
                 $this->{failure} =
                   $session->i18n->maketext('access not allowed on root');
                 print STDERR 'f ' . $this->{failure}, "\n" if MONITOR;
-                return 0;
+                return $this->setCacheEntry( $meta, $mode, $cUID, 0 );
             }
         }
     }
@@ -195,7 +202,8 @@ sub haveAccess {
         print STDERR 'ALLOW: ' . join( ',', @$allow ) . "\n" if defined $allow;
         print STDERR 'DENY: ' . join( ',', @$deny ) . "\n" if defined $deny;
     }
-    return 1;
+
+    return $this->setCacheEntry( $meta, $mode, $cUID, 1 );
 }
 
 # Get an ACL preference. Returns a reference to a list of cUIDs, or undef.

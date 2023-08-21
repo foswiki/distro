@@ -172,6 +172,7 @@ sub addACLFilter {
             my ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
+     # SMELL: no need to interact with the metaCache directly ... thats the goal
             my $topicMeta =
               $Foswiki::Plugins::SESSION->metaCache->addMeta( $web, $topic );
             if ( not defined($topicMeta) ) {
@@ -181,14 +182,7 @@ sub addACLFilter {
                 $topicMeta =
                   new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
             }
-            my $info =
-              $Foswiki::Plugins::SESSION->metaCache->get( $web, $topic,
-                $topicMeta );
-            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            return 0 unless ( $info->{allowView} );
-            return 1;
+            return $topicMeta->haveAccess("VIEW");
         },
         $options
     );

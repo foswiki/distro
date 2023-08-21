@@ -248,16 +248,11 @@ sub get {
 #Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
 #it'll probably be better to make the MetaCache know what
 #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
+
+        #SMELL: the MetaCache must not be user specific
         if ( not defined( $info->{ $this->{session}->{user} } ) ) {
             $info->{ $this->{session}->{user} } = ();
         }
-        if ( not defined( $info->{ $this->{session}->{user} }{allowView} ) ) {
-            $info->{ $this->{session}->{user} }{allowView} =
-              $info->{tom}->haveAccess('VIEW');
-        }
-
-        #use the cached permission
-        $info->{allowView} = $info->{ $this->{session}->{user} }{allowView};
     }
 
     return $info;
