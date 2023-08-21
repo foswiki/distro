@@ -105,7 +105,7 @@ sub addTopic {
     push( @{ $this->{list} }, $webtopic );
     $this->{count}++;
     if ( defined($meta) ) {
-        $this->{_session}->search->metacache->addMeta( $web, $topic, $meta );
+        $this->{_session}->metaCache->addMeta( $web, $topic, $meta );
     }
     undef $this->{sorted};
 }
@@ -296,17 +296,17 @@ sub sortTopics {
         return;
     }
 
-    my $metacache = $Foswiki::Plugins::SESSION->search->metacache;
+    my $metaCache = $Foswiki::Plugins::SESSION->metaCache;
 
     # populate the cache for each topic
     foreach my $webtopic ( @{$listRef} ) {
 
-        my $info = $metacache->get($webtopic);
+        my $info = $metaCache->get($webtopic);
 
         if ( $sortfield =~ m/^creat/ ) {
 
             # The act of getting the info will cache it
-            #$metacache->getRev1Info( $webtopic, $sortfield );
+            #$metaCache->getRev1Info( $webtopic, $sortfield );
             $info->{$sortfield} = $info->{tom}->getRev1Info($sortfield);
         }
         else {
@@ -337,7 +337,7 @@ sub sortTopics {
     }
     @{$listRef} = map { $_->[1] }
       sort { _compare( $b, $a, $revSort ) }
-      map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{$listRef};
+      map { [ $metaCache->get($_)->{$sortfield}, $_ ] } @{$listRef};
 }
 
 # RE for a full-spec floating-point number

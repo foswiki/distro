@@ -2457,6 +2457,23 @@ sub search {
 
 =begin TML
 
+---++ ObjectMethod metaCace()
+Get a reference to the Foswiki::MetaCache object. 
+
+=cut
+
+sub metaCache {
+    my ($this) = @_;
+
+    unless ( $this->{metaCache} ) {
+        require Foswiki::MetaCache;
+        $this->{metaCache} = Foswiki::MetaCache->new($this);
+    }
+    return $this->{metaCache};
+}
+
+=begin TML
+
 ---++ ObjectMethod net()
 Get a reference to the net object. Done lazily because not everyone
 needs the net.
@@ -2527,7 +2544,7 @@ sub finish {
     undef $this->{forms};
     foreach my $key (
         qw(plugins users prefs templates renderer zones net
-        store search attach access i18n cache logger)
+        store search attach access i18n cache logger metaCache)
       )
     {
         next
@@ -3888,11 +3905,10 @@ SMELL: is there a reason this is in Foswiki.pm, and not in Search?
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
 
-    my $metacache = $this->search->metacache;
-    if ( $metacache->hasCached( $web, $topic ) ) {
+    if ( $this->metaCache->hasCached( $web, $topic ) ) {
 
         #don't kill me - this should become a property on Meta
-        return $metacache->get( $web, $topic )->{modified};
+        return $this->metaCache->get( $web, $topic )->{modified};
     }
 
     return $this->{store}->getApproxRevTime( $web, $topic );
