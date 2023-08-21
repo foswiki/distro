@@ -130,11 +130,12 @@ our $reason;
 
 # Version for the embedding format (increment when embedding format changes)
 use constant EMBEDDING_FORMAT_VERSION => 1.1;
+use constant USE_META_CACHE           => 0;     # experimental
 
 # defaults for truncation of summary text
 our $SUMMARY_TMLTRUNC = 162;
 our $SUMMARY_MINTRUNC = 16;
-our $SUMMARY_ELLIPSIS = '<b>&hellip;</b>';    # Google style
+our $SUMMARY_ELLIPSIS = '<b>&hellip;</b>';      # Google style
 
 # the number of characters either side of a search term
 our $SUMMARY_DEFAULT_CONTEXT = 30;
@@ -451,14 +452,20 @@ sub load {
 
     my $session = $this->{_session};
 
-    #    if (    defined( $this->topic )
-    #        and ( not defined($rev) )
-    #        and $this->existsInStore() )
-    #    {
-    #        my $meta =
-    #          $session->metaCache->getMeta( $this->web, $this->topic );
-    #        return $m if defined $meta;
-    #    }
+    my $useMetaCache = 0;
+    if (USE_META_CACHE) {
+        if (    defined( $this->topic )
+            and ( not defined($rev) )
+            and $this->existsInStore() )
+        {
+            $useMetaCache = 1;
+
+            my $meta = $session->metaCache->getMeta( $this->web, $this->topic );
+
+            #print STDERR "found meta in cache".$this->getPath()."\n";
+            return $meta if defined $meta;
+        }
+    }
 
     ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
 
@@ -477,6 +484,9 @@ sub load {
           if DEBUG;
         ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
+
+    $session->metaCache->addMeta( $this->web, $this->topic, $this )
+      if $useMetaCache;
 
     return $this;
 }
@@ -2136,6 +2146,7 @@ sub saveAs {
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
         $this->{_loadedRev}      = $nextRev;
         $this->{_latestIsLoaded} = 1;
+        $this->{_session}->access->unsetCacheEntry($this);
 
         $this->{_session}->{store}->recordChange(
             cuid     => $cUID,

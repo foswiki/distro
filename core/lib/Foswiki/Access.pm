@@ -60,6 +60,7 @@ sub finish {
     my $this = shift;
     undef $this->{failure};
     undef $this->{session};
+    undef $this->{cache};
 }
 
 =begin TML
@@ -91,6 +92,79 @@ may result in the topic being read.
 
 sub haveAccess {
     die 'base class';
+}
+
+=begin TML
+
+---++ ObjectMethod getCacheEntry($meta, $mode, $cUID) -> $boolean
+
+returns the cached access result for a given meta object
+
+=cut
+
+sub getCacheEntry {
+    my ( $this, $meta, $mode, $cUID ) = @_;
+
+    ASSERT($meta) if DEBUG;
+    return unless $meta;
+
+    $cUID ||= $this->{session}->{user};
+    my $path = $meta->getPath();
+
+    my $key = $mode . '::' . $cUID;
+
+    return $this->{cache}{$path}{$key};
+}
+
+=begin TML
+
+---++ ObjectMethod setCacheEntry($meta, $mode, $cUID, $boolean) -> $boolean
+
+caches the result for a computed access right
+
+=cut
+
+sub setCacheEntry {
+    my ( $this, $meta, $mode, $cUID, $boolean ) = @_;
+
+    ASSERT($meta) if DEBUG;
+
+    return unless $meta;
+    $cUID ||= $this->{session}->{user};
+    my $path = $meta->getPath();
+
+    my $key = $mode . '::' . $cUID;
+    $this->{cache}{$path}{$key} = $boolean;
+
+    return $boolean;
+}
+
+=begin TML
+
+---++ ObjectMethod unsetCacheEntry($meta, $mode, $cUID) 
+
+deletes a cache result for a computed access right
+
+=cut
+
+
+sub unsetCacheEntry {
+    my ( $this, $meta, $mode, $cUID ) = @_;
+
+    ASSERT($meta) if DEBUG;
+
+    return unless $meta;
+
+    $cUID ||= $this->{session}->{user};
+    my $path = $meta->getPath();
+
+    if ( defined $mode ) {
+        my $key = $mode . '::' . $cUID;
+        delete $this->{cache}{$path}{$key};
+    }
+    else {
+        delete $this->{cache}{$path};
+    }
 }
 
 1;
