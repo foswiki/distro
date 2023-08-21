@@ -107,6 +107,7 @@ sub getCacheEntry {
 
     ASSERT($meta) if DEBUG;
     return unless $meta;
+    return if defined $meta->{_topic} && !defined $meta->getLoadedRev();
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
@@ -130,6 +131,9 @@ sub setCacheEntry {
     ASSERT($meta) if DEBUG;
 
     return unless $meta;
+    return $boolean
+      if defined $meta->{_topic} && !defined $meta->getLoadedRev();
+
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
 
@@ -147,13 +151,13 @@ deletes a cache result for a computed access right
 
 =cut
 
-
 sub unsetCacheEntry {
     my ( $this, $meta, $mode, $cUID ) = @_;
 
     ASSERT($meta) if DEBUG;
 
     return unless $meta;
+    return if defined $meta->{_topic} && !defined $meta->getLoadedRev();
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
