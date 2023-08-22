@@ -107,7 +107,7 @@ sub getCacheEntry {
 
     ASSERT($meta) if DEBUG;
     return unless $meta;
-    return if defined $meta->{_topic} && !defined $meta->getLoadedRev();
+    return if $meta->topic && !defined $meta->getLoadedRev();
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
@@ -132,7 +132,7 @@ sub setCacheEntry {
 
     return unless $meta;
     return $boolean
-      if defined $meta->{_topic} && !defined $meta->getLoadedRev();
+      if $meta->topic && !defined $meta->getLoadedRev();
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
@@ -157,7 +157,7 @@ sub unsetCacheEntry {
     ASSERT($meta) if DEBUG;
 
     return unless $meta;
-    return if defined $meta->{_topic} && !defined $meta->getLoadedRev();
+    return if $meta->topic && !defined $meta->getLoadedRev();
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();

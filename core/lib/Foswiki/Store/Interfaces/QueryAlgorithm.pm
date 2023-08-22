@@ -12,7 +12,6 @@ use Foswiki::Search::ResultSet                  ();
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::Meta            ();
-use Foswiki::MetaCache       ();
 use Foswiki::Query::Node     ();
 use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
@@ -162,7 +161,7 @@ sub addACLFilter {
     my $resultset = shift;
     my $options   = shift;
 
-    #add filtering for ACL test - probably should make it a seperate filter
+    # add filtering for ACL test - probably should make it a seperate filter
     $resultset = new Foswiki::Iterator::FilterIterator(
         $resultset,
         sub {
@@ -173,13 +172,9 @@ sub addACLFilter {
             my ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
-     # SMELL: no need to interact with the metaCache directly ... thats the goal
             my $topicMeta =
               $Foswiki::Plugins::SESSION->metaCache->addMeta( $web, $topic );
             if ( not defined($topicMeta) ) {
-
-#TODO: OMG! Search.pm relies on Meta::load (in the metaCache) returning a meta object even when the topic does not exist.
-#lets change that
                 $topicMeta =
                   new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
             }

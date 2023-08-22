@@ -26,8 +26,6 @@ use Foswiki::Users::BaseUserMapping ();
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
-use constant TRACE => 0;
-
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -47,12 +45,8 @@ sub new {
     #my $this = $class->SUPER::new([]);
     my $this = bless(
         {
-            session                 => $session,
-            cache                   => {},
-            new_count               => 0,
-            get_count               => 0,
-            undef_count             => 0,
-            meta_cache_session_user => $session->{user},
+            session => $session,
+            cache   => {},
         },
         $class
     );
@@ -76,24 +70,47 @@ Break circular references.
 
 sub finish {
     my $this = shift;
-    undef $this->{session};
 
     #must clear cache every request until the cache is hooked up to Store's save
-    foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
-        foreach my $web ( keys( %{ $this->{cache}->{$cuid} } ) ) {
-            foreach my $topic ( keys( %{ $this->{cache}->{$cuid}->{$web} } ) ) {
-                undef $this->{cache}->{$cuid}{$web}{$topic};
-                $this->{undef_count}++;
-            }
-            undef $this->{cache}->{$cuid}{$web};
+    foreach my $web ( keys( %{ $this->{cache} } ) ) {
+        foreach my $topic ( keys( %{ $this->{cache}{$web} } ) ) {
+            $this->{cache}{$web}{$topic}{tom}->finish();
+            undef $this->{cache}{$web}{$topic};
         }
-        undef $this->{cache}->{$cuid};
+        undef $this->{cache}{$web};
     }
-    undef $this->{cache};
 
-    if (TRACE) {
-        print STDERR
-"MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
+    undef $this->{session};
+    undef $this->{cache};
+}
+
+=begin TML
+
+---++ ObjectMethod isCached($webtopic) -> boolean
+
+returns true if the topic is already in the cache.
+
+=cut
+
+sub isCached {
+    my ( $this, $web, $topic ) = @_;
+    ASSERT( defined($topic) ) if DEBUG;
+    return unless defined $topic;
+
+    return exists $this->{cache}{$web}{$topic};
+}
+
+sub removeMeta {
+    my ( $this, $web, $topic ) = @_;
+
+    if ( defined($topic) ) {
+        delete $this->{cache}{$web}{$topic};
+    }
+    elsif ( defined $web ) {
+        foreach my $topic ( keys( %{ $this->{cache}{$web} } ) ) {
+            delete $this->{cache}{$web}{$topic};
+        }
+        delete $this->{cache}{$web};
     }
 
     return;
@@ -101,94 +118,35 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod hasCached($webtopic) -> boolean
+---++ ObjectMethod addMeta($web, $topic, $meta) -> $meta
 
-returns true if the topic is already int he cache.
+adds a Foswiki::Meta object to the cache. 
+
+returns the cached object or undef if the meta is not cacheable, i.e. it is not a loaded version, or 
+it failed to load at all
 
 =cut
 
-sub hasCached {
-    my ( $this, $web, $topic ) = @_;
-    ASSERT( defined($topic) ) if DEBUG;
-
-    return unless defined $topic;
-    my $user = $this->current_user();
-
-    return defined $this->{cache}->{$user}{$web}{$topic};
-}
-
-sub removeMeta {
-    my ( $this, $web, $topic ) = @_;
-
-    my $user = $this->current_user();
-
-    if ( defined($topic) ) {
-        my $cached_userwebtopic = $this->{cache}->{$user}{$web}{$topic};
-
-        if ($cached_userwebtopic) {
-            $cached_userwebtopic->finish() if blessed($cached_userwebtopic);
-            delete $this->{cache}->{$user}{$web}{$topic};
-        }
-    }
-    elsif ( defined $web ) {
-        foreach my $topic ( keys( %{ $this->{cache}->{$user}{$web} } ) ) {
-            $this->removeMeta( $web, $topic );
-        }
-        delete $this->{cache}->{$user}{$web};
-    }
-
-    return;
-}
-
-#returns undef if the meta is not the latestRev, or if it failed to load
-#else returns the $meta
 sub addMeta {
     my ( $this, $web, $topic, $meta ) = @_;
 
-    my $user = $this->current_user();
+    $meta //= Foswiki::Meta->load( $this->{session}, $web, $topic );
 
-    # If the cache is already populated, return it, don't add it again
-    if ( $this->hasCached( $web, $topic ) ) {
-        print STDERR "Cache hit for $web.$topic for $user\n" if (TRACE);
-        return $this->{cache}->{$user}{$web}{$topic}->{tom};
-    }
+    my $rev = $meta->getLoadedRev;
+    return unless $rev && $rev > 0;
 
-    if ( not defined($meta) ) {
-        $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-    }
-    if (    ( defined($meta) and $meta ne '' )
-        and defined( $meta->latestIsLoaded )
-        and defined( $meta->getLoadedRev )
-        and ( $meta->getLoadedRev > 0 ) )
-    {
-        ASSERT( $meta->latestIsLoaded ) if DEBUG;
-        ASSERT( defined( $meta->getLoadedRev ) and ( $meta->getLoadedRev > 0 ) )
-          if DEBUG;
-    }
-    else {
-        return;
-    }
+    $this->{cache}{$web} //= {};
+    $this->{cache}{$web}{$topic} //= {};
+    $this->{cache}{$web}{$topic}->{tom} = $meta;
 
-    unless ( $this->{cache}->{$user}{$web} ) {
-        $this->{cache}->{$user}{$web} = {};
-    }
-    unless ( $this->{cache}->{$user}{$web}{$topic} ) {
-        $this->{cache}->{$user}{$web}{$topic} = {};
-    }
-    unless ( defined( $this->{cache}->{$user}{$web}{$topic}->{tom} ) ) {
-        $this->{cache}->{$user}{$web}{$topic}->{tom} = $meta;
-        $this->{new_count}++;
-    }
     return $meta;
 }
 
 sub getMeta {
-    my ( $this, $web, $topic, $meta ) = @_;
-    my $user = $this->current_user();
+    my ( $this, $web, $topic ) = @_;
 
-    return unless ( defined( $this->{cache}->{$user}{$web} ) );
-    return unless ( defined( $this->{cache}->{$user}{$web}{$topic} ) );
-    return $this->{cache}->{$user}{$web}{$topic}->{tom};
+    return unless exists $this->{cache}{$web}{$topic};
+    return $this->{cache}{$web}{$topic}->{tom};
 }
 
 =begin TML
@@ -222,14 +180,10 @@ sub get {
     $meta = $m if ( defined($m) );
     ASSERT( defined($meta) ) if DEBUG;
 
-    $this->{get_count}++;
-
     my $info = { tom => $meta };
-    my $user = $this->current_user();
 
-    ASSERT( defined $user ) if DEBUG;
-    $info = $this->{cache}->{$user}{$web}{$topic}
-      if defined( $this->{cache}->{$user}{$web}{$topic} );
+    $info = $this->{cache}{$web}{$topic}
+      if defined( $this->{cache}{$web}{$topic} );
     if ( not defined( $info->{editby} ) ) {
 
         #TODO: extract this to the Meta Class, or remove entirely
@@ -245,62 +199,19 @@ sub get {
 #Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
 #it'll probably be better to make the MetaCache know what
 #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
-
-        #SMELL: the MetaCache must not be user specific
         if ( not defined( $info->{ $this->{session}->{user} } ) ) {
             $info->{ $this->{session}->{user} } = ();
         }
+        if ( not defined( $info->{ $this->{session}->{user} }{allowView} ) ) {
+            $info->{ $this->{session}->{user} }{allowView} =
+              $info->{tom}->haveAccess('VIEW');
+        }
+
+        #use the cached permission
+        $info->{allowView} = $info->{ $this->{session}->{user} }{allowView};
     }
 
     return $info;
-}
-
-sub current_user {
-    my $self = shift;
-
-    ASSERT( defined $self->{session} ) if DEBUG;
-    my $user = $self->{session}->{user};
-    if ( not defined $user ) {
-        $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
-    }
-
-    return $user;
-}
-
-##########################################
-# this used to try to use the never-released listener API to flush the cache on changes.
-# Sven is not entirely sure it really worked, but the replacement for the listeners makes more
-# sense - it would move the MetaCache into the Store itself, allowing us to cache loaded topics
-# before ACL's are evaluated. however, I suspect this will require adding the readonly hash support
-# to Meta, which requires the Data::Foswiki work (post 2.0)
-
-sub DISABLED_insert {
-    my ( $self, %args ) = @_;
-
-    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
-
-    return;
-}
-
-sub DISABLED_update {
-    my ( $self, %args ) = @_;
-
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
-      if ( defined( $args{oldmeta} ) );
-    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
-
-    return;
-}
-
-sub DISABLED_remove {
-    my ( $self, %args ) = @_;
-
-    ASSERT( $args{oldmeta} ) if DEBUG;
-
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
-      if ( defined( $args{oldmeta} ) );
-
-    return;
 }
 
 1;

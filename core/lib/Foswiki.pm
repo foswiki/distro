@@ -3905,12 +3905,6 @@ SMELL: is there a reason this is in Foswiki.pm, and not in Search?
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
 
-    if ( $this->metaCache->hasCached( $web, $topic ) ) {
-
-        #don't kill me - this should become a property on Meta
-        return $this->metaCache->get( $web, $topic )->{modified};
-    }
-
     return $this->{store}->getApproxRevTime( $web, $topic );
 }
 

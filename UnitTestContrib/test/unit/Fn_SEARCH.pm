@@ -2241,11 +2241,11 @@ HERE
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
 
     $this->assert( $this->{session}
-          ->metaCache->hasCached( $this->{test_web}, 'QueryTopicTwo' ) );
+          ->metaCache->isCached( $this->{test_web}, 'QueryTopicTwo' ) );
     $topicObject->finish();
 
     $this->assert( !$this->{session}
-          ->metaCache->hasCached( $this->{test_web}, 'QueryTopicTwo' ) );
+          ->metaCache->isCached( $this->{test_web}, 'QueryTopicTwo' ) );
 
     return;
 }
