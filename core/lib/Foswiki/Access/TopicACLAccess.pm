@@ -10,18 +10,17 @@ Implements the traditional, longstanding ACL in topic preference style.
 
 package Foswiki::Access::TopicACLAccess;
 
-use Foswiki::Access;
-@ISA = qw(Foswiki::Access);
-
-use constant MONITOR => 0;
-
 use strict;
 use warnings;
-use Assert;
 
+use Assert;
 use Foswiki        ();
 use Foswiki::Meta  ();
 use Foswiki::Users ();
+use Foswiki::Access;
+our @ISA = qw(Foswiki::Access);
+
+use constant MONITOR => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -52,6 +51,7 @@ may result in the topic being read.
 
 sub haveAccess {
     my ( $this, $mode, $cUID, $param1, $param2, $param3 ) = @_;
+
     $mode ||= 'VIEW';
     $cUID ||= $this->{session}->{user};
 
@@ -78,15 +78,15 @@ sub haveAccess {
     }
     ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
 
-    print STDERR "Check $mode access $cUID to " . $meta->getPath() . "\n"
-      if MONITOR;
-
     my $result = $this->getCacheEntry( $meta, $mode, $cUID );
     if ( defined $result ) {
         print STDERR "found ACLs in cache for " . $meta->getPath . "\n"
           if MONITOR;
         return $result;
     }
+
+    print STDERR "Check $mode access $cUID to " . $meta->getPath() . "\n"
+      if MONITOR;
 
     # super admin is always allowed
     if ( $session->{users}->isAdmin($cUID) ) {

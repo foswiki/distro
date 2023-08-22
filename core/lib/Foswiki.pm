@@ -2376,18 +2376,12 @@ sub finish {
     undef $this->{requestedWebName};    # Web name before renaming
     undef $this->{scriptUrlPath};
     undef $this->{user};
-    $this->{users}->finish() if $this->{users};
-    undef $this->{users};
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
     undef $this->{_addedToHEAD};
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
-    $this->{zones}->finish() if $this->{zones};
-    undef $this->{zones};
-    $this->{renderer}->finish() if $this->{renderer};
-    undef $this->{renderer};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {
@@ -3771,12 +3765,6 @@ SMELL: is there a reason this is in Foswiki.pm, and not in Search?
 
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
-
-    if ( $this->metaCache->hasCached( $web, $topic ) ) {
-
-        #don't kill me - this should become a property on Meta
-        return $this->metaCache->get( $web, $topic )->{modified};
-    }
 
     return $this->{store}->getApproxRevTime( $web, $topic );
 }
