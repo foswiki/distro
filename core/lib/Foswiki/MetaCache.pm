@@ -180,10 +180,8 @@ sub get {
     $meta = $m if ( defined($m) );
     ASSERT( defined($meta) ) if DEBUG;
 
-    my $info = { tom => $meta };
+    my $info = $this->{cache}{$web}{$topic} // { tom => $meta };
 
-    $info = $this->{cache}{$web}{$topic}
-      if defined( $this->{cache}{$web}{$topic} );
     if ( not defined( $info->{editby} ) ) {
 
         #TODO: extract this to the Meta Class, or remove entirely
@@ -194,21 +192,6 @@ sub get {
         $info->{editby}   = $ri->{author} || '';
         $info->{modified} = $ri->{date};
         $info->{revNum}   = $ri->{version};
-
-#TODO: this is _not_ actually sufficient.. as there are other things that appear to be evaluated in turn
-#Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
-#it'll probably be better to make the MetaCache know what
-#Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
-        if ( not defined( $info->{ $this->{session}->{user} } ) ) {
-            $info->{ $this->{session}->{user} } = ();
-        }
-        if ( not defined( $info->{ $this->{session}->{user} }{allowView} ) ) {
-            $info->{ $this->{session}->{user} }{allowView} =
-              $info->{tom}->haveAccess('VIEW');
-        }
-
-        #use the cached permission
-        $info->{allowView} = $info->{ $this->{session}->{user} }{allowView};
     }
 
     return $info;
