@@ -450,8 +450,6 @@ sub load {
         $this = $proto->new( $session, $web, $topic );
     }
 
-    my $session = $this->{_session};
-
     my $useMetaCache = 0;
     if (USE_META_CACHE) {
         if (    defined( $this->topic )
@@ -460,7 +458,8 @@ sub load {
         {
             $useMetaCache = 1;
 
-            my $meta = $session->metaCache->getMeta( $this->web, $this->topic );
+            my $meta =
+              $this->session->metaCache->getMeta( $this->web, $this->topic );
 
             #print STDERR "found meta in cache".$this->getPath()."\n";
             return $meta if defined $meta;
@@ -485,7 +484,7 @@ sub load {
         ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
 
-    $session->metaCache->addMeta( $this->web, $this->topic, $this )
+    $this->session->metaCache->addMeta( $this->web, $this->topic, $this )
       if $useMetaCache;
 
     return $this;
@@ -504,8 +503,10 @@ which may have surprising effects on other code that shares the object.
 sub unload {
     my $this = shift;
 
-    $this->{_session}->metaCache->removeMeta( $this->web, $this->topic )
-      if $this->{_session};
+    return
+      unless defined $this->{_session}; # trying to unload the same thing twice?
+
+    $this->session->metaCache->removeMeta( $this->web, $this->topic );
     $this->{_loadedRev}      = undef;
     $this->{_latestIsLoaded} = undef;
     $this->{_text}           = undef;
@@ -563,7 +564,10 @@ it was created.
 =cut
 
 sub session {
-    return $_[0]->{_session};
+    my $this = shift;
+
+    $this->{_session} ||= $Foswiki::Plugins::SESSION;
+    return $this->{_session};
 }
 
 # Assert helpers
@@ -650,10 +654,10 @@ sub isSessionTopic {
     return 0
       unless defined $this->{_web}
       && defined $this->{_topic}
-      && defined $this->{_session}->{webName}
-      && defined $this->{_session}->{topicName};
-    return $this->{_web} eq $this->{_session}->{webName}
-      && $this->{_topic} eq $this->{_session}->{topicName};
+      && defined $this->session->{webName}
+      && defined $this->session->{topicName};
+    return $this->{_web} eq $this->session->{webName}
+      && $this->{_topic} eq $this->session->{topicName};
 }
 
 =begin TML
@@ -673,13 +677,12 @@ sub getPreference {
     my ( $this, $key ) = @_;
 
     unless ( $this->{_web} || $this->{_topic} ) {
-        return $this->{_session}->{prefs}->getPreference($key);
+        return $this->session->{prefs}->getPreference($key);
     }
 
     # make sure the preferences are parsed and cached
     unless ( $this->{_preferences} ) {
-        $this->{_preferences} =
-          $this->{_session}->{prefs}->loadPreferences($this);
+        $this->{_preferences} = $this->session->{prefs}->loadPreferences($this);
     }
     return unless $this->{_preferences};
     return $this->{_preferences}->get($key);
@@ -697,10 +700,10 @@ sub getContainer {
     my $this = shift;
 
     if ( $this->{_topic} ) {
-        return Foswiki::Meta->new( $this->{_session}, $this->{_web} );
+        return Foswiki::Meta->new( $this->session, $this->{_web} );
     }
     if ( $this->{_web} ) {
-        return Foswiki::Meta->new( $this->{_session} );
+        return Foswiki::Meta->new( $this->session );
     }
     ASSERT( 0, 'no container for this object type' ) if DEBUG;
     return;
@@ -723,11 +726,11 @@ sub existsInStore {
         # only checking for a topic existence already establishes a dependency
         $this->addDependency();
 
-        return $this->{_session}->{store}
+        return $this->session->{store}
           ->topicExists( $this->{_web}, $this->{_topic} );
     }
     elsif ( defined $this->{_web} ) {
-        return $this->{_session}->{store}->webExists( $this->{_web} );
+        return $this->session->{store}->webExists( $this->{_web} );
     }
     else {
         return 1;    # the root always exists
@@ -770,7 +773,7 @@ See Foswiki::PageCache::addDependency().
 =cut
 
 sub addDependency {
-    my $cache = $_[0]->{_session}->{cache};
+    my $cache = $_[0]->session->{cache};
     return unless $cache;
     return $cache->addDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
@@ -785,7 +788,7 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 =cut
 
 sub fireDependency {
-    my $cache = $_[0]->{_session}->{cache};
+    my $cache = $_[0]->session->{cache};
     return unless $cache;
     return $cache->fireDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
@@ -803,7 +806,7 @@ sub isCacheable {
 
     return 0 unless $Foswiki::cfg{Cache}{Enabled};
 
-    my $cache = $this->{_session}->{cache};
+    my $cache = $this->session->{cache};
     return 0 unless $cache;
 
     return $cache->isCacheable( $this->{_web}, $this->{_topic}, $value );
@@ -836,8 +839,6 @@ sub populateNewWeb {
     my ( $this, $templateWeb, $opts ) = @_;
     _assertIsWeb($this) if DEBUG;
 
-    my $session = $this->{_session};
-
     my ( $parent, $new ) = $this->{_web} =~ m/^(.*)\/([^\.\/]+)$/;
 
     if ($parent) {
@@ -847,14 +848,14 @@ sub populateNewWeb {
                   . ' - Hierarchical webs are disabled' );
         }
 
-        unless ( $session->webExists($parent) ) {
+        unless ( $this->session->webExists($parent) ) {
             throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );
         }
     }
 
     # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
-        unless ( $session->webExists($templateWeb) ) {
+        unless ( $this->session->webExists($templateWeb) ) {
             throw Error::Simple(
                 'Template web ' . $templateWeb . ' does not exist' );
         }
@@ -863,7 +864,7 @@ sub populateNewWeb {
     # Make sure there is a preferences topic; this is how we know it's a web
     my $prefsTopicObject;
     if (
-        !$session->topicExists(
+        !$this->session->topicExists(
             $this->{_web}, $Foswiki::cfg{WebPrefsTopicName}
         )
       )
@@ -876,10 +877,11 @@ sub populateNewWeb {
     }
 
     if ($templateWeb) {
-        my $tWebObject = $this->new( $session, $templateWeb );
+        my $tWebObject = $this->new( $this->session, $templateWeb );
         require Foswiki::WebFilter;
         my $sys =
-          Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
+          Foswiki::WebFilter->new('template')
+          ->ok( $this->session, $templateWeb );
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
@@ -894,7 +896,7 @@ sub populateNewWeb {
                 $attfh{ $sfa->{name} } = {
                     fh      => $fh,
                     date    => $sfa->{date},
-                    user    => $sfa->{user} || $session->{user},
+                    user    => $sfa->{user} || $this->session->{user},
                     comment => $sfa->{comment}
                 };
             }
@@ -906,7 +908,7 @@ sub populateNewWeb {
 
             # copy fileattachments
             while ( my ( $fa, $sfa ) = each %attfh ) {
-                my $arev = $session->{store}->saveAttachment(
+                my $arev = $this->session->{store}->saveAttachment(
                     $to, $fa,
                     $sfa->{fh},
                     $sfa->{user},
@@ -1925,10 +1927,8 @@ sub haveAccess {
     $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
 
-    my $session = $this->{_session};
-
-    my $ok = $session->access->haveAccess( $mode, $cUID, $this );
-    $reason = $session->access->getReason();
+    my $ok = $this->session->access->haveAccess( $mode, $cUID, $this );
+    $reason = $this->session->access->getReason();
     return $ok;
 }
 
@@ -3459,8 +3459,7 @@ sub _summariseTextSimple {
 sub _makeSummaryTextSafe {
     my ( $this, $text ) = @_;
 
-    my $session  = $this->session();
-    my $renderer = $session->renderer();
+    my $renderer = $this->session->renderer();
 
     # We do not want the summary to contain any $variable that formatted
     # searches can interpret to anything (Item3489).
@@ -3597,8 +3596,7 @@ In non-tml, lines are truncated to 70 characters. Differences are shown using + 
 sub summariseChanges {
     my ( $this, $orev, $nrev, $tml, $nochecks ) = @_;
     my $summary  = '';
-    my $session  = $this->session();
-    my $renderer = $session->renderer();
+    my $renderer = $this->session->renderer();
 
     _assertIsTopic($this) if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
@@ -3634,12 +3632,12 @@ sub summariseChanges {
     #print "SSSSSS ntext\n($ntext)\nSSSSSS\n\n";
 
     my $oldTopicObject =
-      Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
+      Foswiki::Meta->load( $this->session, $this->web, $this->topic, $orev );
     unless ( $nochecks || $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
         $oldTopicObject =
-          Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
+          Foswiki::Meta->new( $this->session, $this->web, $this->topic, '' );
     }
 
     my $ostring = $oldTopicObject->stringify();
@@ -3676,7 +3674,7 @@ sub summariseChanges {
                 $block =~ s/^-(.*)$/CGI::del( {}, $1 )/se;
                 $block =~ s/^\+(.*)$/CGI::ins( {}, $1 )/se;
             }
-            elsif ( $session->inContext('rss') ) {
+            elsif ( $this->session->inContext('rss') ) {
                 $block =~ s/^-/REMOVED: /;
                 $block =~ s/^\+/INSERTED: /;
             }
