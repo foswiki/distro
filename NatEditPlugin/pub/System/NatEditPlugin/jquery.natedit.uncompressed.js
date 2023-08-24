@@ -1083,6 +1083,9 @@ $.NatEditor.prototype.save = function(action) {
       self.beforeSubmit(action).then(function() {
         if (topicName.match(/AUTOINC|XXXXXXXXXX/)) { 
           // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
+          $.blockUI({
+            message: '<h1>'+ $.i18n("Saving ...") + '</h1>'
+          });
           self.form.submit();
         } else {
           self.form.ajaxSubmit({
