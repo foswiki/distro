@@ -5700,8 +5700,8 @@ msgid "You are already registered."
 msgstr "Έχετε ήδη εγγραφεί"
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "You are also listed in the %1 topic"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "You are also listed in the [[%1]] topic"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5964,8 +5964,8 @@ msgstr ""
 "θέλετε:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Your personal Foswiki topic %1 has been created"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Your personal Foswiki topic [[%1]] has been created"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

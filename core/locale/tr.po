@@ -5353,8 +5353,8 @@ msgid "You are already registered."
 msgstr ""
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Ayrıca; kullanıcı adınız %1 başlığında listelenmiştir"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Ayrıca; kullanıcı adınız [[%1]] başlığında listelenmiştir"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5583,8 +5583,8 @@ msgid ""
 msgstr "Kişisel wiki başlığınız %2 adresindedir. Bu başlıkı:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Kişisel Wiki başlığınız %1 sistem tarafından oluşturuldu"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Kişisel Wiki başlığınız [[%1]] sistem tarafından oluşturuldu"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

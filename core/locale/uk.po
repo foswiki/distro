@@ -5505,8 +5505,8 @@ msgid "You are already registered."
 msgstr "Ви вже зареєстровані."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Вас також перераховано у темі %1"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Вас також перераховано у темі [[%1]]"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5770,8 +5770,8 @@ msgstr ""
 "розсуд:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Було створено Вашу особисту тему Foswiki %1"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Було створено Вашу особисту тему Foswiki [[%1]]"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

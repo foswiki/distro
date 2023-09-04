@@ -5416,7 +5416,7 @@ msgid "You are already registered."
 msgstr "이미 등록된 사용자 입니다."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
+msgid "You are also listed in the [[%1]] topic"
 msgstr ""
 
 #: core/templates/messages.tmpl:279
@@ -5426,7 +5426,7 @@ msgstr ""
 #: core/templates/messages.tmpl:349
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
-"in a form attached to the topic. If %1 actually _does_ save while you are "
+"in a form attached to the topic. If [[%1]] actually _does_ save while you are "
 "editing, your changes will be merged, and nothing will be lost. Form data "
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
@@ -5645,7 +5645,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
+msgid "Your personal Foswiki topic [[%1]] has been created"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:310

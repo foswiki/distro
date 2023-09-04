@@ -5536,8 +5536,8 @@ msgid "You are already registered."
 msgstr "您已注册"
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "您也被列在%1主题中"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "您也被列在[[%1]]主题中"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5780,7 +5780,7 @@ msgid ""
 msgstr "您在 %2 内的个人 %1 主题。可按您的习惯修改。 "
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
+msgid "Your personal Foswiki topic [[%1]] has been created"
 msgstr "已建立您的个人主题 %1"
 
 #: core/templates/registermessages.tmpl:310
