@@ -5607,8 +5607,8 @@ msgid "You are already registered."
 msgstr "Olet jo rekisteröitynyt"
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Olet myös listattu %1 aiheessa"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Olet myös listattu [[%1]] aiheessa"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5871,8 +5871,8 @@ msgstr ""
 "haluamallasi tavalla:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Henkilökohtainen Foswiki aiheesi %1 on luotu"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Henkilökohtainen Foswiki aiheesi [[%1]] on luotu"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

@@ -5517,8 +5517,8 @@ msgid "You are already registered."
 msgstr "Sei già registrato."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Sei anche elencato nella pagina %1"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Sei anche elencato nella pagina [[%1]]"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5793,8 +5793,8 @@ msgstr ""
 "La tua pagina personale %1 è collocata in %2. Puoi personalizzarla come vuoi:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "La tua pagina personale %1 è stata creata"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "La tua pagina personale [[%1]] è stata creata"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

@@ -5443,8 +5443,8 @@ msgid "You are already registered."
 msgstr "Je bent al geregistreerd."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Je staat ook vermeld op pagina %1"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Je staat ook vermeld op pagina [[%1]]"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5708,8 +5708,8 @@ msgstr ""
 "zelf wilt:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Je persoonlijke Foswiki pagina %1 is aangemaakt"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Je persoonlijke Foswiki pagina [[%1]] is aangemaakt"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

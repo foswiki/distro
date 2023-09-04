@@ -5446,8 +5446,8 @@ msgid "You are already registered."
 msgstr "Už jste registrován."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "Také jste uveden v článku %1"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "Také jste uveden v článku [[%1]]"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5711,8 +5711,8 @@ msgid ""
 msgstr "Váš osobní článek %1 je umístěn v %2. Můžete ho změnit, jak chcete:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Váše osobní stránka %1 byla vytvořena"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Váše osobní stránka [[%1]] byla vytvořena"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

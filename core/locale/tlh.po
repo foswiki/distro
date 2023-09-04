@@ -5481,8 +5481,8 @@ msgid "You are already registered."
 msgstr "bImuvta&&#39; rIntaH."
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "%1 tetlhDaq <nop>SoH je"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "[[%1]] tetlhDaq <nop>SoH je"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5746,8 +5746,8 @@ msgid ""
 msgstr "%2Daq %1 nuv talIj cherlu&&#39;. <nop>DachoHlaHchu&&#39;:"
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Foswiki nuv talIj %1 cherlu&&#39; rIntaH"
+msgid "Your personal Foswiki topic [[%1]] has been created"
+msgstr "Foswiki nuv talIj [[%1]] cherlu&&#39; rIntaH"
 
 #: core/templates/registermessages.tmpl:310
 msgid ""

@@ -5583,8 +5583,8 @@ msgid "You are already registered."
 msgstr "あなたはもう登録しました"
 
 #: core/templates/registermessages.tmpl:156
-msgid "You are also listed in the %1 topic"
-msgstr "あなたも%1トピックにリストされました"
+msgid "You are also listed in the [[%1]] topic"
+msgstr "あなたも[[%1]]トピックにリストされました"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5833,7 +5833,7 @@ msgid ""
 msgstr "あなた個人の %1は %2 にあります。これをカスタマイズすることができます "
 
 #: core/templates/registermessages.tmpl:154
-msgid "Your personal Foswiki topic %1 has been created"
+msgid "Your personal Foswiki topic [[%1]] has been created"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:310
