@@ -12,7 +12,7 @@ igp_*
 /JQueryPlugin_installer
 /JQueryPlugin_installer.pl
 /pub/System/JQueryPlugin/jquery-2.2.4.js
-/pub/System/JQueryPlugin/jquery-3.6.3.js
+/pub/System/JQueryPlugin/jquery-3.7.1.js
 /pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css
 pub/System/JQueryPlugin/plugins/fontawesome/git-fontawesome-animation/
 /pub/System/JQueryPlugin/noconflict.js
