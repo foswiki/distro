@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1693823888" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -189,7 +189,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
       * =one=: users can select one of the groups
       * =multiple=: users can select from multiple groups to join
       * =none=: user cannot be added to groups while registering
-   * Set REGISTRATIONGROUPTYPE = none
+   * #Set REGISTRATIONGROUPTYPE = none
 
    * If REGISTRATIONGROUPS is set to a comma separated list of groups, only those listed groups will be shown in the UserRegistration form.
    If it is unset, then group change permissions will be used to create the list of groups eligible for selection during registration. (When using "self-registration" by guest users, the !RegistrationAgent's permissions are used. If the registration is entered by another logged in user, that user's permissions are used).
