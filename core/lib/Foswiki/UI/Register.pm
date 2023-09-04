@@ -1181,7 +1181,12 @@ sub _complete {
             $data->{LoginName}, $data->{WikiName},
             $data->{Password},  $data->{Email}
         );
-        my $log = _createUserTopic( $session, $data );
+
+     # only create a new user topic if the user mapper hasn't done so on its own
+        _createUserTopic( $session, $data )
+          unless $session->topicExists( $Foswiki::cfg{UsersWebName},
+            $data->{WikiName} );
+
         $users->setEmails( $cUID, $data->{Email} );
 
         # convert to rego agent user copied from
