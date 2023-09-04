@@ -134,7 +134,10 @@ audio/x-pn-realaudio-plugin     rpm
 audio/x-realaudio               ra
 audio/x-wav                     wav
 chemical/x-pdb                  pdb xyz
+image/avif                      avif
 image/gif                       gif
+image/heic                      heic
+image/heif                      heif
 image/ief                       ief
 image/jpeg                      jpeg jpg jpe
 image/png                       png
@@ -180,6 +183,7 @@ video/ogg                       ogv
 video/quicktime                 qt mov
 video/webm                      webm
 video/x-flv                     flv
+video/x-matroska                mpv mkv
 video/x-ms-asf                  asf asx
 video/x-msvideo                 avi
 video/x-ms-wmv                  wmv
