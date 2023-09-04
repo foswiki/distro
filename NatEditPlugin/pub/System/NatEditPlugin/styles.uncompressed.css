@@ -30,11 +30,12 @@
   margin:5px 0 0;
 }
 
+.ui-button.ui-natedit-menu-button,
 .ui-natedit-menu-button,
 .ui-natedit-button,
 .ui-natedit-buttons {
-  margin-right:10px;
-  margin-bottom:10px;
+  margin-right:0.7em;
+  margin-bottom:0.7em;
   float:left;
 }
 
