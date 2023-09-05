@@ -210,7 +210,7 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.8');
+    use version 0.77; $VERSION = version->declare('v2.1.9');
     $RELEASE = '06 Aug 2023';
 
     # Default handlers for different %TAGS%
