@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1693915616" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"scrollto"
@@ -19,10 +19,10 @@ See also JQuerySerialScroll, JQueryLocalScroll
 ---++ Examples
 %JQREQUIRE{"scrollto"}%
 
-   * <a href="#" class="jqScrollToLink {'target':'-=100px', 'duration':1000}">scroll up 100px</a>
-   * <a href="#" class="jqScrollToLink {'target':'+=100px', 'duration':1000}">scroll down 100px</a>
-   * <a href="#" class="jqScrollToLink {'target':'0', 'duration':1000}">scroll to the top</a>
-   * <a href="#" class="jqScrollToLink {'target':'100%', 'duration':1000}">scroll to the bottom</a>
-   * <a href="#" class="jqScrollToLink {'target':'0'}">jump to the top</a>
-   * <a href="#" class="jqScrollToLink {'target':'100%'}">jump to the bottom</a>
+   * <a href="#" class="jqScrollToLink" data-target="-=100px" data-duration="1000">scroll up 100px</a>
+   * <a href="#" class="jqScrollToLink" data-target="+=100px" data-duration="1000">scroll down 100px</a>
+   * <a href="#" class="jqScrollToLink" data-target="0" data-duration="1000">scroll to the top</a>
+   * <a href="#" class="jqScrollToLink" data-target="100%" data-duration="1000">scroll to the bottom</a>
+   * <a href="#" class="jqScrollToLink" data-target="0">jump to the top</a>
+   * <a href="#" class="jqScrollToLink" data-target="100%">jump to the bottom</a>
    
