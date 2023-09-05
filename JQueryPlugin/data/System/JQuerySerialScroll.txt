@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1693915616" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"serialscroll"
@@ -19,16 +19,12 @@ It uses JQueryScrollTo to achieve the scrolling animation.
 <div id="screen1">
 <div id="slideshow">
 <ul>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=1" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=2" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=3" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=4" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=5" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=6" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=7" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=8" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=9" /></li>
-  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=10" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?leafs" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?trees" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?cars" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?people" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?city" /></li>
+  <li><img width="225" height="300" src="//source.unsplash.com/featured/250x300?neon" /></li>
 </ul>
 </div>
   <div id="buttons">
@@ -64,7 +60,7 @@ It uses JQueryScrollTo to achieve the scrolling animation.
 #slideshow{
   overflow:hidden;
   width:680px;
-  border:1px solid #eee;
+  border:1px solid var(--color-border, #eee);
 }
 
 #slideshow ul{
@@ -82,11 +78,10 @@ It uses JQueryScrollTo to achieve the scrolling animation.
   margin:0 16px;
   cursor:pointer;
 }
-.prev{
-  float:left;
-}
-.next{
-  float:right;
+.next,
+.prev {
+   display:inline-block;
+   margin:1em 1em 0 0;
 }
 </style>
 </literal>
