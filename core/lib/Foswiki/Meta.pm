@@ -2218,7 +2218,8 @@ sub saveAs {
         $this->fireDependency();
     };
 
-    $this->session->metaCache->addMeta( $this->web, $this->topic, $this )
+    # invalidate this meta in cache
+    $this->session->metaCache->removeMeta( $this->web, $this->topic )
       if USE_META_CACHE;
 
     return $this->{_loadedRev};
