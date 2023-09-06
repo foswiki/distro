@@ -114,6 +114,7 @@ use Errno 'EINTR';
 use Encode ();
 
 use Foswiki::Serialise ();
+use Foswiki::Plugins   ();
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -130,7 +131,7 @@ our $reason;
 
 # Version for the embedding format (increment when embedding format changes)
 use constant EMBEDDING_FORMAT_VERSION => 1.1;
-use constant USE_META_CACHE           => 0;     # experimental
+use constant USE_META_CACHE           => 1;     # experimental
 
 # defaults for truncation of summary text
 our $SUMMARY_TMLTRUNC = 162;
@@ -461,8 +462,11 @@ sub load {
             my $meta =
               $this->session->metaCache->getMeta( $this->web, $this->topic );
 
-            #print STDERR "found meta in cache".$this->getPath()."\n";
-            return $meta if defined $meta;
+            if ($meta) {
+
+                #print STDERR "found meta in cache ".$this->getPath()."\n";
+                return $meta;
+            }
         }
     }
 
@@ -506,7 +510,9 @@ sub unload {
     return
       unless defined $this->{_session}; # trying to unload the same thing twice?
 
-    $this->session->metaCache->removeMeta( $this->web, $this->topic );
+    $this->session->metaCache->removeMeta( $this->web, $this->topic )
+      if USE_META_CACHE;
+
     $this->{_loadedRev}      = undef;
     $this->{_latestIsLoaded} = undef;
     $this->{_text}           = undef;
@@ -1207,6 +1213,8 @@ sub text {
     if ( defined($val) ) {
         $this->{_text} = $val;
         $this->{_session}->{prefs}->invalidatePath($this);
+        $this->{_preferences}->finish() if defined $this->{_preferences};
+        $this->{_preferences} = undef;
     }
     else {
 
@@ -2209,6 +2217,10 @@ sub saveAs {
 
         $this->fireDependency();
     };
+
+    $this->session->metaCache->addMeta( $this->web, $this->topic, $this )
+      if USE_META_CACHE;
+
     return $this->{_loadedRev};
 }
 
