@@ -1596,7 +1596,8 @@ PONG
     $topicObject->text($text);
     $topicObject->save();
     $topicObject->finish();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my $result = $topicObject->expandMacros($text);
     $this->assert_str_equals( "   * Set LOOP = pong\n", $result );
 
