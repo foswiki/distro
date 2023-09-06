@@ -74,8 +74,9 @@ sub finish {
     #must clear cache every request until the cache is hooked up to Store's save
     foreach my $web ( keys( %{ $this->{cache} } ) ) {
         foreach my $topic ( keys( %{ $this->{cache}{$web} } ) ) {
-            $this->{cache}{$web}{$topic}{tom}->finish();
+            my $meta = $this->{cache}{$web}{$topic}{tom};
             undef $this->{cache}{$web}{$topic};
+            $meta->finish();
         }
         undef $this->{cache}{$web};
     }
@@ -99,6 +100,14 @@ sub isCached {
 
     return exists $this->{cache}{$web}{$topic};
 }
+
+=begin TML
+
+---++ ObjectMethod removeMeta($web, $topic)
+
+removes but does not finish the meta object from cache
+
+=cut
 
 sub removeMeta {
     my ( $this, $web, $topic ) = @_;

@@ -2457,7 +2457,7 @@ sub search {
 
 =begin TML
 
----++ ObjectMethod metaCace()
+---++ ObjectMethod metaCache()
 Get a reference to the Foswiki::MetaCache object. 
 
 =cut
