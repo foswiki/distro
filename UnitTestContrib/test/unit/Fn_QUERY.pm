@@ -167,6 +167,7 @@ sub test_CAS {
 %META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
@@ -194,6 +195,7 @@ sub test_perl {
 %META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
@@ -242,11 +244,13 @@ sub test_json {
 %META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     eval "require JSON";
+
     if ($@) {
 
         # Bad JSON
@@ -283,6 +287,7 @@ sub test_InvalidStyle {
 %META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
@@ -307,6 +312,7 @@ sub test_ref {
 %META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
 
     my $text = <<PONG;
 %QUERY{ "'$this->{test_web}.DeadHerring'/form.name"}%
@@ -371,6 +377,7 @@ sub test_opWHERE {
 %META:FILEATTACHMENT{name="asdf.pl.txt" attachment="asdf.pl.txt" attr="" comment="Wobble" date="1333656208" path="asdf.pl" size="984" user="BaseUserMapping_333" version="1"}%
 SMELL
     $topicObject->save();
+    $topicObject->unload();    # make sure above text is serialized again
 
     my ($topicObject2Att) =
       Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring2Att" );
@@ -381,6 +388,7 @@ SMELL
 %META:FILEATTACHMENT{name="asdf.pl2.txt" attachment="asdf.pl2.txt" attr="" comment="Wobble2" date="1333656208" path="asdf2.pl" size="984" user="BaseUserMapping_333" version="1"}%
 SMELL
     $topicObject2Att->save();
+    $topicObject2Att->unload();    # make sure above text is serialized again
 
     my ($topicObject0Att) =
       Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring0Att" );
@@ -389,6 +397,7 @@ SMELL
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 SMELL
     $topicObject0Att->save();
+    $topicObject0Att->unload();    # make sure above text is serialized again
 
     my $text = <<PONG;
 %QUERY{ "'$this->{test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%

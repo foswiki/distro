@@ -774,8 +774,7 @@ sub test_merge {
 
     $oldmeta->finish();
     my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
-    my $text   = $meta->text;
-    my $info   = $meta->getRevisionInfo();
+    my $info = $meta->getRevisionInfo();
     my $original = "$info->{version}_$info->{date}";
 
     #print STDERR "Starting at $original\n";
@@ -807,6 +806,10 @@ GUMP
     # Do the save
     $this->createNewFoswikiSession( $this->{test_user_login}, $query1 );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    # need to reload it as this is a new session
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my $text = $meta->text;
     $info = $meta->getRevisionInfo();
 
     #print STDERR "First edit saved as $info->{version}_$info->{date}\n";
