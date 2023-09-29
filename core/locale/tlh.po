@@ -6151,25 +6151,3 @@ msgstr "bej"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "qatlh naDev bI&&#39;olnIS"
-
-#~ msgid "%1 has been approved and registered with e-mail %2"
-#~ msgstr "%1 lajlu&&#39; &&#39;ej muvmeH QIn Quv %2 lo&&#39;lu&&#39;"
-
-#~ msgid "Return to [_0]"
-#~ msgstr "[_0]Daq chegh"
-
-#~ msgid "Notes:"
-#~ msgstr "qeSmey:"
-
-#~ msgid ""
-#~ "Your language will be changed to %1 from the next screen. You will be "
-#~ "redirected to there right now. If you aren't, [[%2][click to proceed]]."
-#~ msgstr ""
-#~ "narghDI&#39; <nop>HaSta veb, %1 Hol Dalo&#39;choH. pa&#39; "
-#~ "<nop>DajaHmoHlu&#39;. Qapbe&#39;chugh, vaj [[%2][naDev yI&#39;uy]]."
-
-#~ msgid "Move or Delete %1:"
-#~ msgstr "tep %1 vIHmoH pagh &&#39;oH polHa&&#39;:"
-
-#~ msgid "checkboxes of referenced topics"
-#~ msgstr "ghItlhmey lurarlu&&#39;bogh wIvmeH meyrI&&#39;Hommey&&#39;e&&#39;"
