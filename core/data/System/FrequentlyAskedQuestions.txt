@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1450308566" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
@@ -23,7 +23,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %ENDTWISTY%
 
 ---++ List of FAQs
-<!-- This search looks in the %SYSTEMWEB% and %USERSWEB% for FAQ topics, which
+<!-- This search looks in the %SYSTEMWEB% and %HOMEWEB% for FAQ topics, which
  are recognised because they have the form 'FAQForm' and are classified
  as type 'FrequentlyAskedQuestion' -->
 %SEARCH{
@@ -31,7 +31,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
     type="query"
     excludetopic="FAQTemplate"
     nonoise="on"
-    web="%SYSTEMWEB%,%USERSWEB%"
+    web="%SYSTEMWEB%,%HOMEWEB%"
     format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
     header="$n$n()FAQ topics found in [[$web.%HOMETOPIC%][$web]] web:$n$n"
 }%
@@ -50,7 +50,7 @@ You can create your own local FAQ topics specific to your site. If you create yo
   mode="div"
 }%
 <!-- This is the form that implements the FAQ creator -->
-<form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" id='newfaqform'>
+<form action="%SCRIPTURLPATH{"edit"}%/%HOMEWEB%/" id='newfaqform'>
 <input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="onlynewtopic" value="on" />

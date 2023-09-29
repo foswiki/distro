@@ -450,7 +450,7 @@ sub test_getScriptUrl {
     $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
 
     $result = Foswiki::Func::getScriptUrl( "", "WebHome", 'wibble' );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
+    $this->assert_matches( qr!/$ss/$this->{home_web}/WebHome!, $result );
 
     my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
@@ -460,7 +460,7 @@ sub test_getScriptUrl {
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
 
     $result = Foswiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
+    $this->assert_matches( qr!/$ss/$this->{home_web}/AndMash!, $result );
 
     $result = Foswiki::Func::getScriptUrl(
         $this->{users_web}, "WebHome", 'wibble',
@@ -1617,11 +1617,11 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                     $t );
+    $this->assert_str_equals( $Foswiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'Topic',                    $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', '' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'WebHome',                   $t );
+    $this->assert_str_equals( $Foswiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'WebHome',                  $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web/Topic' );
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
@@ -1702,8 +1702,8 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Sandbox',          $w );
     $this->assert_str_equals( 'ALLOWTOPICCHANGE', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'ALLOWTOPICCHANGE' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'ALLOWTOPICCHANGE',          $t );
+    $this->assert_str_equals( $Foswiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'ALLOWTOPICCHANGE',         $t );
 
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web.' );
     $this->assert_str_equals( 'Web',     $w );

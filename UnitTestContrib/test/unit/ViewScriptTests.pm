@@ -413,13 +413,13 @@ sub urltest {
 sub test_urlparsing {
     my $this = shift;
 
-    $this->urltest( '',  $this->{users_web}, 'WebHome' );
-    $this->urltest( '/', $this->{users_web}, 'WebHome' );
+    $this->urltest( '',  $this->{home_web}, 'WebHome' );
+    $this->urltest( '/', $this->{home_web}, 'WebHome' );
 
 #SMELL: This has always been the case - sven recals changing it once and that causing issues?
-    my $uweb =
-      ( $this->check_dependency('Foswiki,>=,1.2') ) ? $this->{users_web} : '';
-    $this->urltest( '/?topic=WebChanges', $uweb, 'WebChanges' );
+    my $dweb =
+      ( $this->check_dependency('Foswiki,>=,1.2') ) ? $this->{home_web} : '';
+    $this->urltest( '/?topic=WebChanges', $dweb, 'WebChanges' );
 
     $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
 
@@ -709,9 +709,9 @@ sub test_urlparsing {
     #invalid..
 
     # - Invalid web name - Tasks.Item8713
-    $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{UsersWebName},
+    $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{HomeWebName},
         'WebPreferences' );
-    $this->urltest( '/A\'":B/WebPreferences', $Foswiki::cfg{UsersWebName},
+    $this->urltest( '/A\'":B/WebPreferences', $Foswiki::cfg{HomeWebName},
         'WebPreferences' );
 
     #invalid topic name

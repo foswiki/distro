@@ -111,7 +111,7 @@ sub new {
 
     # get topic parameter and set the context
     my ( $web, $topic ) =
-      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{HomeWebName},
         $this->param('topic') || $Foswiki::cfg{HomeTopicName} );
 
     writeDebug("switching context to $web.$topic") if TRACE;

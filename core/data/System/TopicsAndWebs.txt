@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Topics
 
@@ -109,7 +109,7 @@ See [[FAQDeleteOrRenameATopic]] and [[ManagingTopics]]
 
 ---++ Anatomy of a web
 
-If a user navigates to a Foswiki site without specifying a web, the default [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] will be displayed.
+If a user navigates to a Foswiki site without specifying a web, the default [[%HOMEWEB%.%HOMETOPIC%][%HOMEWEB%]] will be displayed.
 
 Each web has:
    * name
@@ -145,5 +145,5 @@ See [[ManagingWebs]]
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.odp" attr="h" comment="" date="1655468868" size="17081" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="diagram.png" attr="h" comment="" date="1655468868" size="30746" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="diagram.odp" attr="h" comment="" date="1696002963" size="17081" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="diagram.png" attr="h" comment="" date="1696002963" size="30746" user="ProjectContributor" version="1"}%

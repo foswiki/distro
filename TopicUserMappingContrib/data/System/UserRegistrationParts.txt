@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1696003306" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 
@@ -86,7 +86,7 @@ Conditionally include the registration form when registration is enabled
 The actual registration form.
 <verbatim class="tml">
 %STARTSECTION{"liveform"}%
-<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%HOMEWEB%/%HOMETOPIC%" method="post">
    <div class="foswikiFormSteps">
       <div class="foswikiFormStep">
          <p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required."}%</em></p>
@@ -347,7 +347,7 @@ Test if user login name exists. Used for form validation.
 }%
 
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" date="1655468868" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1655468868" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1655468868" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" date="1696003306" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1696003306" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1696003306" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

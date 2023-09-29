@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"ui::autocomplete"
@@ -223,7 +223,7 @@ var countryList = [
     <table class='foswikiLayoutTable'>
       <tr>
         <th>Topic:</th>
-        <td><input class="foswikiInputField" size="60" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb=%USERSWEB%" /></td>
+        <td><input class="foswikiInputField" size="60" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb=%HOMEWEB%" /></td>
       </tr>
       <tr>
         <th>Country:</th>

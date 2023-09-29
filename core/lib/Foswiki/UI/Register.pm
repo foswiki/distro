@@ -453,7 +453,8 @@ sub bulkRegister {
         scalar( $query->param('LogTopic') ),
         \&Foswiki::Sandbox::validateTopicName
     ) || $topic . 'Result';
-    ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
+    ( $logWeb, $logTopic ) =
+      $session->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
     my $lmeta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );

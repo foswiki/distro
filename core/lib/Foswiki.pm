@@ -1,3 +1,4 @@
+# See bottom of file for license and copyright information
 
 package Foswiki;
 
@@ -37,7 +38,7 @@ with CGI accelerators such as mod_perl.
    * =user=             Unique user ID of logged-in user
    * =users=            Foswiki::Users singleton
    * =webName=          Name of web found in URL path, or =web= URL parameter,
-                        or {UsersWebName}
+                        or {HomeWebName}
 
 =cut
 
@@ -398,6 +399,7 @@ BEGIN {
     $macros{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
     $macros{SANDBOXWEB}        = sub { $Foswiki::cfg{SandboxWebName} };
     $macros{WIKIADMINLOGIN}    = sub { $Foswiki::cfg{AdminUserLogin} };
+    $macros{HOMEWEB}           = sub { $Foswiki::cfg{HomeWebName} };
     $macros{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
     $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
     $macros{WIKIPREFSTOPIC}    = sub { $Foswiki::cfg{SitePrefsTopicName} };
@@ -1287,7 +1289,7 @@ sub redirect {
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->getScriptUrl(
             1, 'oops',
-            $this->{webName}   || $Foswiki::cfg{UsersWebName},
+            $this->{webName}   || $Foswiki::cfg{HomeWebName},
             $this->{topicName} || $Foswiki::cfg{HomeTopicName},
             template => 'oopsredirectdenied',
             def      => 'redirect_denied',
@@ -1701,7 +1703,7 @@ See =Foswiki::Func= for a full specification of the expansion (not duplicated
 here)
 
 *WARNING* if there is no web specification (in the web or topic parameters)
-the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
+the web defaults to $Foswiki::cfg{HomeWebName}. If there is no topic
 specification, or the topic is '0', the topic defaults to the web home topic
 name.
 
@@ -1728,12 +1730,12 @@ sub normalizeWebTopicName {
             $topic = TAINT($topic);
         }
     }
-    $web   ||= $cfg{UsersWebName};
+    $web   ||= $cfg{HomeWebName};
     $topic ||= $cfg{HomeTopicName};
 
     # MAINWEB and TWIKIWEB expanded for compatibility reasons
     while (
-        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
+        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC|HOME)WEB)%/
               $this->_expandMacroOnTopicRendering( $1 ) || ''/e
       )
     {
@@ -1785,7 +1787,7 @@ or assign safe defaults.
    * $webtopic - A "web/topic" path.  It might have originated from the query path_info,
    or from the topic= URL parameter. (only when the topic param contained a web component)
    * $defaultweb - The default web to use if the web part of webtopic is missing or invalid.
-   This can be from the default UsersWebName,  or from the url parameter defaultweb.
+   This can be from the default HomeWebName,  or from the url parameter defaultweb.
    * $topicOverride - A topic name to use instead of any topic provided in the pathinfo.
 
 Note if $webtopic ends with a trailing slash, it provides a hint that the last component should be
@@ -1927,7 +1929,7 @@ sub _parsePath {
             \&Foswiki::Sandbox::validateWebName );
         unless ($web) {
             $this->{invalidWeb} = $defaultweb;
-            $web = $Foswiki::cfg{UsersWebName};
+            $web = $Foswiki::cfg{HomeWebName};
         }
     }
 
@@ -2192,7 +2194,7 @@ sub new {
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{HomeWebName};
 
     # rest doesn't use web/topic path, but pick up a default.
     my $webtopic = '';

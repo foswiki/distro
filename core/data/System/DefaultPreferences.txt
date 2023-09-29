@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1693823888" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -132,7 +132,7 @@ been removed from Foswiki 2.0.
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in <nop>%WEBPREFSTOPIC% for individual webs by defining these settings there.
       * Set WIKILOGOIMG = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
-      * Set WIKILOGOURL = %SCRIPTURLPATH{"view"}%/%USERSWEB%/%HOMETOPIC%
+      * Set WIKILOGOURL = %SCRIPTURLPATH{"view"}%/%HOMEWEB%/%HOMETOPIC%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
    * Home page of this site
@@ -459,7 +459,7 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
 The following macros are declared final to protect them as read only. These are system macros that should
 never be attempted set or altered in any preference topic or topic settings.
 
-   * Set FINALPREFERENCES = WEB, TOPIC, BASEWEB, BASETOPIC, ENCODE, ENV, IF, QUERYPARAMS, QUERYSTRING, URLENCODE, URLPARAM, SCRIPTURL, SCRIPTURLPATH, SCRIPTSUFFIX, ATTACHURL, ATTACHURLPATH, PUBURL, PUBURLPATH, USERSWEB, SYSTEMWEB, SANDBOXWEB, MAKETEXT, GMTIME
+   * Set FINALPREFERENCES = WEB, TOPIC, BASEWEB, BASETOPIC, ENCODE, ENV, IF, QUERYPARAMS, QUERYSTRING, URLENCODE, URLPARAM, SCRIPTURL, SCRIPTURLPATH, SCRIPTSUFFIX, ATTACHURL, ATTACHURLPATH, PUBURL, PUBURLPATH, HOMEWEB, USERSWEB, SYSTEMWEB, SANDBOXWEB, MAKETEXT, GMTIME
 
 
 

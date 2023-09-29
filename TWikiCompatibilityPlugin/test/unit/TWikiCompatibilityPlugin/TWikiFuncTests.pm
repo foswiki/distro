@@ -122,7 +122,7 @@ sub test_getScriptUrl {
     $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
 
     $result = TWiki::Func::getScriptUrl( "", "WebHome", 'wibble' );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
+    $this->assert_matches( qr!/$ss/$this->{home_web}/WebHome!, $result );
 
     my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
@@ -133,7 +133,7 @@ sub test_getScriptUrl {
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
 
     $result = TWiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
+    $this->assert_matches( qr!/$ss/$this->{home_web}/AndMash!, $result );
     $this->createNewFoswikiSession();
 
     return;
@@ -456,11 +456,11 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = TWiki::Func::normalizeWebTopicName( '', 'Topic' );
-    $this->assert_str_equals( $TWiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                   $t );
+    $this->assert_str_equals( $TWiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'Topic',                  $t );
     ( $w, $t ) = TWiki::Func::normalizeWebTopicName( '', '' );
-    $this->assert_str_equals( $TWiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'WebHome',                 $t );
+    $this->assert_str_equals( $TWiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'WebHome',                $t );
     ( $w, $t ) = TWiki::Func::normalizeWebTopicName( '', 'Web/Topic' );
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
@@ -470,6 +470,9 @@ sub test_normalizeWebTopicName {
     ( $w, $t ) = TWiki::Func::normalizeWebTopicName( 'Web1', 'Web2.Topic' );
     $this->assert_str_equals( 'Web2',  $w );
     $this->assert_str_equals( 'Topic', $t );
+    ( $w, $t ) = TWiki::Func::normalizeWebTopicName( '%HOMEWEB%', 'Topic' );
+    $this->assert_str_equals( $TWiki::cfg{HomeWebName}, $w );
+    $this->assert_str_equals( 'Topic',                  $t );
     ( $w, $t ) = TWiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Topic' );
     $this->assert_str_equals( $TWiki::cfg{UsersWebName}, $w );
     $this->assert_str_equals( 'Topic',                   $t );

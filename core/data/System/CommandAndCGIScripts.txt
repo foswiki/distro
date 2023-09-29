@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -423,7 +423,7 @@ The =rest= script supports the following parameters:
 | =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you can pass a username and password to the server (though see below for a preferred way to pass authentication information). |
 
-REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST function. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
+REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST function. If not defined, then the topic context in REST handlers will be [[%HOMEWEB%.%HOMETOPIC%]].
 
 The function is free to use any other query parameters for its own purposes.
 

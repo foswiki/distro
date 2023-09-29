@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420689155" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Statistics documentation
-The following section - namely the help text and the statistics table headings -  is included into each <nop>%STATISTICSTOPIC% topic. If you want to tailor the help text, copy the first section of this topic into [[%USERSWEB%.Default%STATISTICSTOPIC%]] so that your changes are not lost after upgrading Foswiki to a new release.
+The following section - namely the help text and the statistics table headings -  is included into each <nop>%STATISTICSTOPIC% topic. If you want to tailor the help text, copy the first section of this topic into [[%HOMEWEB%.Default%STATISTICSTOPIC%]] so that your changes are not lost after upgrading Foswiki to a new release.
 
 <!--
 *Caution:* The =STOPINCLUDE= macro must be on the same line as the table headings for the statistics tables to render correctly.

@@ -956,6 +956,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{UseLocale}',
     '{UserInterfaceInternationalisation}',
     '{UsersTopicName}',
+    '{HomeWebName}',
     '{UsersWebName}',
     '{Validation}{Method}',
     '{WebMasterEmail}',
@@ -1302,7 +1303,7 @@ $Foswiki::cfg{Stats}{StatisticsGroup} = '';
 # Name of statistics topic.  Note:  If you change the name of the
 # statistics topic you must also rename the WebStatistics topic in each web,
 # and the DefaultWebStatistics topic in the System web (and possibly in
-# the %USERSWEB%).
+# the %HOMEWEB%).
 $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
 #############################################################################
@@ -2320,13 +2321,17 @@ $Foswiki::cfg{SystemWebName} = 'System';
 # If you change this setting, you must make sure the web exists.
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
-# **STRING 20 LABEL="Users WebName" EXPERT**
-# Name of the web where user and group topics are stored. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content including all user and group templates.  Note that
+# **STRING 20 LABEL="Home WebName" EXPERT**
+# Name of the default web of the site. Note that
 # this web also houses the SitePreferences topic.
 # (don't change it unless you are *certain* that you know what
 # you are doing!)
+$Foswiki::cfg{HomeWebName} = 'Main';
+
+# **STRING 20 LABEL="Users WebName" EXPERT**
+# Name of the web where user and group topics are stored. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content including all user and group templates.  
 $Foswiki::cfg{UsersWebName} = 'Main';
 
 # **STRING 20 LABEL="DefaultPreferences TopicName" EXPERT**
@@ -2346,7 +2351,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 # a {LocalSitePreferences} topic rather than changing DefaultPreferences,
 # as it will make upgrading a lot easier.
 $Foswiki::cfg{LocalSitePreferences} =
-  '$Foswiki::cfg{UsersWebName}.SitePreferences';
+  '$Foswiki::cfg{HomeWebName}.SitePreferences';
 
 # **STRING 20 LABEL="WebPreferences TopicName" EXPERT**
 # Name of preferences topic in a web.

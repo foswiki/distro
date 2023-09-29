@@ -54,7 +54,6 @@ sub statistics {
     my $tmp = '';
 
     # web to redirect to after finishing
-    my $destWeb = $Foswiki::cfg{UsersWebName};
     my $logDate = $session->{request}->param('logdate') || '';
     $logDate =~ s/[^0-9]//g;    # remove all non numerals
 
@@ -172,8 +171,7 @@ sub statistics {
     my $firstTime = 1;
     foreach my $web (@weblist) {
         try {
-            $destWeb =
-              _processWeb( $session, $web, $logMonthYear, $data, $firstTime );
+            _processWeb( $session, $web, $logMonthYear, $data, $firstTime );
         }
         catch Foswiki::AccessControlException with {
             _printMsg( $session,
@@ -437,12 +435,12 @@ sub _processWeb {
             my $statsTemplate = $statsTopic . 'Template';
             if (
                 $session->topicExists(
-                    $Foswiki::cfg{UsersWebName},
+                    $Foswiki::cfg{HomeWebName},
                     $statsTemplate
                 )
               )
             {
-                $statsTemplateWeb = $Foswiki::cfg{UsersWebName};
+                $statsTemplateWeb = $Foswiki::cfg{HomeWebName};
             }
             elsif (
                 $session->topicExists(
@@ -468,7 +466,7 @@ sub _processWeb {
             }
             else {
                 _printMsg( $session,
-"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{UsersWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
+"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{HomeWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
                 );
                 return $web;
             }

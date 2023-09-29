@@ -629,8 +629,7 @@ sub test_topic_context {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ($text) = $this->capture( $UI_FN, $this->{session} );
 
-    $this->assert_matches( qr#$Foswiki::cfg{UsersWebName}#,
-        $text, "Users web context was lost" );
+    $this->assert_matches( qr#$Foswiki::cfg{HomeWebName}#, $text );
     return;
 }
 
