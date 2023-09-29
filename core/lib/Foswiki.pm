@@ -1,3 +1,4 @@
+# See bottom of file for license and copyright information
 
 package Foswiki;
 
@@ -37,7 +38,7 @@ with CGI accelerators such as mod_perl.
    * =user=             Unique user ID of logged-in user
    * =users=            Foswiki::Users singleton
    * =webName=          Name of web found in URL path, or =web= URL parameter,
-                        or {UsersWebName}
+                        or {HomeWebName}
 
 =cut
 
@@ -402,6 +403,7 @@ BEGIN {
     $macros{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
     $macros{SANDBOXWEB}        = sub { $Foswiki::cfg{SandboxWebName} };
     $macros{WIKIADMINLOGIN}    = sub { $Foswiki::cfg{AdminUserLogin} };
+    $macros{HOMEWEB}           = sub { $Foswiki::cfg{HomeWebName} };
     $macros{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
     $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
     $macros{WIKIPREFSTOPIC}    = sub { $Foswiki::cfg{SitePrefsTopicName} };
@@ -1292,7 +1294,7 @@ sub redirect {
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->getScriptUrl(
             1, 'oops',
-            $this->{webName}   || $Foswiki::cfg{UsersWebName},
+            $this->{webName}   || $Foswiki::cfg{HomeWebName},
             $this->{topicName} || $Foswiki::cfg{HomeTopicName},
             template => 'oopsredirectdenied',
             def      => 'redirect_denied',
@@ -1721,7 +1723,7 @@ See =Foswiki::Func= for a full specification of the expansion (not duplicated
 here)
 
 *WARNING* if there is no web specification (in the web or topic parameters)
-the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
+the web defaults to $Foswiki::cfg{HomeWebName}. If there is no topic
 specification, or the topic is '0', the topic defaults to the web home topic
 name.
 
@@ -1748,12 +1750,12 @@ sub normalizeWebTopicName {
             $topic = TAINT($topic);
         }
     }
-    $web   ||= $cfg{UsersWebName};
+    $web   ||= $cfg{HomeWebName};
     $topic ||= $cfg{HomeTopicName};
 
     # MAINWEB and TWIKIWEB expanded for compatibility reasons
     while (
-        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
+        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC|HOME)WEB)%/
               $this->_expandMacroOnTopicRendering( $1 ) || ''/e
       )
     {
@@ -2022,7 +2024,7 @@ sub new {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb =
       Foswiki::Sandbox::untaint( $query->param('defaultweb')
-          || $Foswiki::cfg{UsersWebName},
+          || $Foswiki::cfg{HomeWebName},
         \&Foswiki::Sandbox::validateWebName );
 
     # See Foswiki::Request for parsing of the path

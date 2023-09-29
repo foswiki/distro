@@ -431,6 +431,7 @@ sub _renameWeb {
     }
 
     if (   $oldWeb eq $Foswiki::cfg{SystemWebName}
+        || $oldWeb eq $Foswiki::cfg{HomeWebName}
         || $oldWeb eq $Foswiki::cfg{UsersWebName} )
     {
         throw Foswiki::OopsException(
@@ -727,7 +728,7 @@ sub _renameWeb {
         else {
             $new_url = $session->getScriptUrl(
                 0, 'view',
-                $Foswiki::cfg{UsersWebName},
+                $Foswiki::cfg{HomeWebName},
                 $Foswiki::cfg{HomeTopicName}
             );
         }

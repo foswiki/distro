@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
@@ -6,7 +6,7 @@ Include main navigation with:
 <verbatim class="tml">
 %INCLUDE{"PatternSkinHorizontalNavigationExample" section="main"}%
 </verbatim>
-This is done automatically in the templates by setting in the %USERSWEB%.SitePreferences:
+This is done automatically in the templates by setting in the %HOMEWEB%.SitePreferences:
    * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinHorizontalNavigationExample
 
 ---++ Include sections
@@ -16,9 +16,9 @@ This is done automatically in the templates by setting in the %USERSWEB%.SitePre
     "%SYSTEMWEB%.PatternSkinNavigation"
     section="topbarbutton"
     ID=""
-    DESTWEB="%USERSWEB%"
+    DESTWEB="%HOMEWEB%"
     DESTTOPIC="%HOMETOPIC%"
-    LABEL="%USERSWEB%"
+    LABEL="%HOMEWEB%"
 }%
 %INCLUDE{
     "%SYSTEMWEB%.PatternSkinNavigation"

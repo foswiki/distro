@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ USERSWEB -- name of users web
-   * The web containing individual user topics, %USERSWEB%.WikiGroups, and customised site-wide preferences.
+   * The web containing individual user topics and  %USERSWEB%.WikiGroups.
 ---++ Examples
    * =%<nop>USERSWEB%= expands to =%USERSWEB%=
 %STOPINCLUDE%
 ---++ Related
+ [[VarHOMEMWEB][HOMEWEB]]
  [[VarSYSTEMWEB][SYSTEMWEB]]

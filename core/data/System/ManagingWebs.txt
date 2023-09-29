@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655454502" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Managing Webs
@@ -22,7 +22,7 @@ Browser-based rename, move, copy, and delete for individual webs
 ---++ What are Webs?
 A Foswiki site is divided into "Webs", or groups or topics - each one represents one subject, one area of collaboration. Administrators can add, rename or delete webs.%BR%
 At file level, a Web is a directory located inside the =data= directory, with text files as topics. %BR%
-A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to store user pages and site-wide preferences, =%TRASHWEB%= for the topic recycle bin. %BR%
+A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to store user pages, =%HOMEWEB%= for site-wide preferences, =%TRASHWEB%= for the topic recycle bin. %BR%
 Other webs can be created as needed.
 
 %TWISTY{

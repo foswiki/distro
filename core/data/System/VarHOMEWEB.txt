@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ HOMEWEB -- name of default home web
+   * The web containing the default site content and customised site-wide preferences.
+---++ Examples
+   * =%<nop>HOMEWEB%= expands to =%HOMEWEB%=
+%STOPINCLUDE%
+---++ Related
+ [[VarUSERSWEB][USERSWEB]]
+ [[VarSYSTEMWEB][SYSTEMWEB]]

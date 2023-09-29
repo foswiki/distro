@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
-"istopic '%USERSWEB%.Default%STATISTICSTOPIC%'"
-then="$percentINCLUDE{$quot%USERSWEB%.Default%STATISTICSTOPIC%$quot}$percent"
+"istopic '%HOMEWEB%.Default%STATISTICSTOPIC%'"
+then="$percentINCLUDE{$quot%HOMEWEB%.Default%STATISTICSTOPIC%$quot}$percent"
 else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%STATISTICSTOPIC%$quot}$percent"
 }%
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |

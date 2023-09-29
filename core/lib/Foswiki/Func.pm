@@ -256,7 +256,7 @@ sub getViewUrl {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     $web ||= $Foswiki::Plugins::SESSION->{webName}
-      || $Foswiki::cfg{UsersWebName};
+      || $Foswiki::cfg{HomeWebName};
     return getScriptUrl( $web, $topic, 'view' );
 }
 
@@ -1643,7 +1643,7 @@ Test if topic exists
    * =$topic= - Topic name, required, e.g. ='TokyoOffice'=, or ="Main.TokyoOffice"=
 
 $web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
-Specifically, the %USERSWEB% is used if $web is not specified and $topic has no web specifier.
+Specifically, the %HOMEWEB% is used if $web is not specified and $topic has no web specifier.
 To get an expected behaviour it is recommened to specify the current web for $web; don't leave it empty.
 
 =cut
@@ -3005,8 +3005,9 @@ Return: the parsed Web/Topic pair
 
 Note that sub web names (Web.SubWeb) are only available if hierarchical webs are enabled in =configure=.
 
-The symbols %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in the input to represent the web names set in $cfg{UsersWebName} and $cfg{SystemWebName}. For example:
+The symbols %<nop>HOMEWEB%, %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in the input to represent the web names set in $cfg{UsersWebName} and $cfg{SystemWebName}. For example:
 | *Input*                               | *Return* |
+| <tt>( '%<nop>HOMEWEB%', 'Topic' )</tt>     | <tt>( 'Main', 'Topic' ) </tt>  |
 | <tt>( '%<nop>USERSWEB%', 'Topic' )</tt>     | <tt>( 'Main', 'Topic' ) </tt>  |
 | <tt>( '%<nop>SYSTEMWEB%', 'Topic' )</tt>    | <tt>( 'System', 'Topic' ) </tt>  |
 | <tt>( '', '%<nop>DOCWEB%.Topic' )</tt>    | <tt>( 'System', 'Topic' ) </tt>  |

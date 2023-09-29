@@ -46,6 +46,7 @@ sub new {
     $this->{test_web}   = 'Temporary' . $var . 'TestWeb' . $var;
     $this->{test_topic} = 'TestTopic' . $var;
     $this->{users_web}  = 'Temporary' . $var . 'UsersWeb';
+    $this->{home_web}   = 'Temporary' . $var . 'HomeWeb';
 
     return $this;
 }
@@ -84,6 +85,7 @@ sub loadExtraConfig {
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{MinPasswordLength}          = 0;
     $Foswiki::cfg{UsersWebName}               = $this->{users_web};
+    $Foswiki::cfg{HomeWebName}                = $this->{home_web};
 }
 
 sub set_up {
@@ -109,6 +111,9 @@ sub set_up {
     $webObject = $this->populateNewWeb( $this->{users_web} );
     $webObject->finish();
 
+    $webObject = $this->populateNewWeb( $this->{home_web} );
+    $webObject->finish();
+
     $this->{test_user_forename} = 'Scum';
     $this->{test_user_surname}  = 'Bag';
     $this->{test_user_wikiname} =
@@ -128,6 +133,7 @@ sub tear_down {
 
     $this->removeWebFixture( $this->{session}, $this->{test_web} );
     $this->removeWebFixture( $this->{session}, $Foswiki::cfg{UsersWebName} );
+    $this->removeWebFixture( $this->{session}, $Foswiki::cfg{HomeWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $this->SUPER::tear_down();
 

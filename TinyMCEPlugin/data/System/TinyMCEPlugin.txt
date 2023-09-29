@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 %FORMFIELD{"Description"}%
@@ -88,9 +88,9 @@ content_css: "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg.css,%PUBURLPATH%/%S
 %ENDTWISTY%
 
 Example:
-   * Create <nop>%USERSWEB%.TinyMCEPlugin, copying the text above
+   * Create <nop>%HOMEWEB%.TinyMCEPlugin, copying the text above
    * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in %LOCALSITEPREFS% or any <nop>%WEBPREFSTOPIC%:%BR%\
-   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = %USERSWEB%.TinyMCEPlugin</verbatim>
+   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = %HOMEWEB%.TinyMCEPlugin</verbatim>
 
 ---+++ Settings
 | *Variable* | *Default* | *Description* |

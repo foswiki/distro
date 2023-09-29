@@ -1706,29 +1706,30 @@ sub verify_removeFromGroup {
         )
     );
 
-    $this->assert( Foswiki::Func::topicExists( undef, 'ZeeGroup' ) );
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{users_web}, 'ZeeGroup' ) );
     my ( $date, $user, $rev, $comment );
     ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( undef, 'ZeeGroup' );
+      Foswiki::Func::getRevisionInfo( $this->{users_web}, 'ZeeGroup' );
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'guest' ) );
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( undef, 'ZeeGroup' );
+      Foswiki::Func::getRevisionInfo( $this->{users_web}, 'ZeeGroup' );
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( undef, 'ZeeGroup' );
+      Foswiki::Func::getRevisionInfo( $this->{users_web}, 'ZeeGroup' );
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
 
     $this->assert(
         Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( undef, 'ZeeGroup' );
+      Foswiki::Func::getRevisionInfo( $this->{users_web}, 'ZeeGroup' );
     $this->assert( $rev == 1 );
     $this->assert(
         Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );

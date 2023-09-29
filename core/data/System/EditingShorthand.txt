@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -324,7 +324,7 @@ Each row of the table is a line containing of one or more cells. Each cell start
    * %H% The link label excludes the name of the web, e.g. only the topic name is shown. As an exception, the name of the web is shown for the <nop>%HOMETOPIC% topic.
 %X% Dots ='.'= are used to separate webs and subwebs from topic names and therefore cannot be used in topic names.
 
-It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB% and %USERSWEB%.
+It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB%, %<nop>HOMEWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB%, %HOMEWEB% and %USERSWEB%.
 
 To prevent a word from linking, prefix it with the exclaimation mark (!) or &lt;nop&gt;
 </td><td>

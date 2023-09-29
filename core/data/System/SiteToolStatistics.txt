@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1419139420" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Site Statistics
 %TOC%
@@ -154,18 +154,18 @@ The =bin/statistics= script can also be executed as a CGI script, Use the form a
 
 ---+++ Tailoring the <nop>%STATISTICSTOPIC% layout
 The <nop>%STATISTICSTOPIC% topics are not shipped with Foswiki by default. The topics are created on demand by the statistics script when requested by configuration. The topics are created as follows:
-   1 The %USERSWEB% web is searched for [[%USERSWEB%.WebStatisticsTemplate]] - if this topic does not exist
+   1 The %HOMEWEB% web is searched for [[%HOMEWEB%.WebStatisticsTemplate]] - if this topic does not exist
       * The %SYSTEMWEB% web is searched for [[%SYSTEMWEB%.WebStatisticsTemplate]]. (This topic is shipped with Foswiki by default)
    1 If ={Stats}{AutoCreateTopic}= is enabled in the configuration, or the =autocreate= parameter is passed to the =statistics= script, then a new <nop>%STATISTICSTOPIC% is created using the !WebStatisticsTemplate topic found in the first step.
       * If =autocreate= is not requested, and the <nop>%STATISTICSTOPIC% topic does not exist, then statistics will not be computed for the web.
 
 The template topic contains an =%<nop>INCLUDE%= for help text and table headings, and a critical =marker line= that defines the columns to be recorded by the statistics script. (This allows the help text or headings to be modified without needing to edit every <nop>%STATISTICSTOPIC% topic.)
-   * The <nop>%STATISTICSTOPIC% topic looks for [[%USERSWEB%.Default%STATISTICSTOPIC%]] - if this topic does not exist.
+   * The <nop>%STATISTICSTOPIC% topic looks for [[%HOMEWEB%.Default%STATISTICSTOPIC%]] - if this topic does not exist.
       * The [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] is included. (This topic is shipped with Foswiki by default).
 
-To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired. This prevents your changes from being lost when Foswiki is updated.
+To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%HOMEWEB%.Default%STATISTICSTOPIC%]] and tailor as desired. This prevents your changes from being lost when Foswiki is updated.
 
-To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%USERSWEB%.WebStatisticsTemplate]] and tailor as desired. Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
+To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%HOMEWEB%.WebStatisticsTemplate]] and tailor as desired. Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
 Alternatively you can edit the <nop>%STATISTICSTOPIC% in each web.
 
 Statistics are written into the <nop>%STATISTICSTOPIC% in the following order.
@@ -184,7 +184,7 @@ The =marker line= defines the order of the columns collected by the =statistics=
 <nop>%STATISTICSTOPIC% topics can have access controls like other topics.
 
 If you want to have these access settings copied to new <nop>%STATISTICSTOPIC% topics, follow these steps:
-   1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to %USERSWEB% web
+   1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to the %HOMEWEB% web
    1 Edit the topic settings (via the "More" link) and write (if you want to restrict topics views to logged in users):
    <pre>
       * Set%NOP% DENYTOPICVIEW = WikiGuest

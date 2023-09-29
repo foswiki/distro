@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 %FORMFIELD{"Description"}%
 
@@ -96,7 +96,7 @@ Go to =Store Settings=:
 attachments.
 
 Note that this should be kept in sync with the Foswiki =ATTACHFILESIZELIMIT=,
-set in %USERSWEB%.SitePreferences, default taken from
+set in %HOMEWEB%.SitePreferences, default taken from
 %SYSTEMWEB%.SitePreferences.
 <verbatim>
 <IfModule mod_perl.c>

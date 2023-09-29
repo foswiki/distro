@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SYSTEMWEB -- name of documentation web
 The web containing all documentation and default [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
@@ -6,4 +6,5 @@ The web containing all documentation and default [[%SYSTEMWEB%.PreferenceSetting
    * =%<nop>SYSTEMWEB%= expands to =%SYSTEMWEB%=
 %STOPINCLUDE%
 ---++ Related
- [[VarUSERSWEB][USERSWEB]]
+[[VarHOMEWEB][HOMEWEB]]
+[[VarUSERSWEB][USERSWEB]]

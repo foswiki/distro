@@ -1,11 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003196" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsContrib"}%
 ---+ Tips Of The Day
 
-These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %USERSWEB% web (custom tips).
+These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %HOMEWEB% web (custom tips).
 
 ---++ Custom (local) tips
-%SEARCH{ "^CustomTipTopic[0-9A-Z]" web="%USERSWEB%" topic="CustomTipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(ctotal, +1)}$percnt"}%
+%SEARCH{ "^CustomTipTopic[0-9A-Z]" web="%HOMEWEB%" topic="CustomTipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(ctotal, +1)}$percnt"}%
 -Total: %CALC{$GET(ctotal)}% Custom tips
 
 ---++ System tips

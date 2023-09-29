@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -6,7 +6,7 @@ Include main navigation with:
 <verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.PatternSkinThemeFatWillyNavigation" section="main"}%
 </verbatim>
-This is done automatically in the templates by setting in the %USERSWEB%.SitePreferences:
+This is done automatically in the templates by setting in the %HOMEWEB%.SitePreferences:
    * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinThemeFatWillyNavigation
 
 Include meta navigation with:
@@ -73,6 +73,6 @@ Include meta navigation with:
             "context registration_supported AND context registration_enabled"
             then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
         }%</li>'
-}%<li>[[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]</li></ul></div>%ENDSECTION{"meta"}%
+}%<li>[[%HOMEWEB%.%WIKIUSERSTOPIC%][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

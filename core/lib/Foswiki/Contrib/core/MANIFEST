@@ -279,6 +279,7 @@ data/System/VarTWIKIWEB.txt 0644
 data/System/VarURLPARAM.txt 0644
 data/System/VarUSERINFO.txt 0644
 data/System/VarUSERNAME.txt 0644
+data/System/VarHOMEWEB.txt 0644
 data/System/VarUSERSWEB.txt 0644
 data/System/VarVAR.txt 0644
 data/System/VarWEB.txt 0644

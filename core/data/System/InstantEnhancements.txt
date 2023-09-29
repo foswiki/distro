@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -19,7 +19,7 @@ To set the logo site-wide, first attach your logo image to [[%LOCALSITEPREFS%]] 
 </pre>
 Assuming you have called your logo =mycologo.png=, change this line to:
 <pre>
-   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>USERSWEB%/SitePreferences/mycologo.png
+   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>HOMEWEB%/SitePreferences/mycologo.png
 </pre>
 (If the WIKILOGOIMG line is missing from the file, just add it)
 
@@ -62,7 +62,7 @@ For instance, if we want to write =%<nop>DOWN%= to get the %ICON{"arrowbdown"}% 
 </verbatim>
 If you have your own custom image that you want to use, attach it to [[%LOCALSITEPREFS%]] and write:
 <verbatim>
-   * Set DOWN = <img src="%PUBURLPATH{"my_image.gif" topic="%USERSWEB%.SitePreferences"}%" border="0" alt="DOWN" width="16" height="16" />
+   * Set DOWN = <img src="%PUBURLPATH{"my_image.gif" topic="%HOMEWEB%.SitePreferences"}%" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
 
 %I% There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
