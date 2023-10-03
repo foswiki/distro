@@ -707,7 +707,11 @@ sub test_urlparsing {
             $this->{test_web} . '/ThisTopic/WebHome', 'WebHome' );
     }
 
-    #invalid..
+    return;
+}
+
+sub test_urlparsing_invalid {
+    my $this = shift;
 
     # - Invalid web name - Tasks.Item8713
     $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{HomeWebName},
@@ -716,10 +720,9 @@ sub test_urlparsing {
         'WebPreferences' );
 
     #invalid topic name
-    $this->urltest( '/System/WebPre@ferences', $Foswiki::cfg{UsersWebName},
+    $this->urltest( '/System/WebPre@ferences', $Foswiki::cfg{SystemWebName},
         'WebHome' );
 
-    return;
 }
 
 1;

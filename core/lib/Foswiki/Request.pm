@@ -1112,7 +1112,7 @@ sub parse {
             else {
                 $resp->{web} = undef, $resp->{invalidWeb} = $_;
             }
-            return $resp;
+            next;
         }
 
         # Not evil, now need to figure out if it's a topic or web.
