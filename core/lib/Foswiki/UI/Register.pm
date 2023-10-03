@@ -1968,7 +1968,7 @@ sub _validateTemplateTopic {
     my $session = shift;
 
     my ( $templateWeb, $templateTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UserWebName},
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $_[0] || 'NewUserTemplate' );
 
     $templateTopic = Foswiki::Sandbox::untaint(
