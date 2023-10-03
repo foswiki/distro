@@ -129,8 +129,6 @@ Overrides LoginManager. Content of a login link.
 sub loginUrl {
     my $this    = shift;
     my $session = $this->{session};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
     return $session->getScriptUrl( 0, 'login', undef, undef,
         foswiki_origin => _packRequest($session) );
 }
@@ -163,6 +161,10 @@ sub login {
 
     my $origin = $query->param('foswiki_origin');
     my ( $origurl, $origmethod, $origaction ) = _unpackRequest($origin);
+
+    $origurl =~ s/[\?&;]logout=(1|on|yes)//
+      if $origurl;    # don't propagate logout
+
     my $loginName = $query->param('username');
     my $loginPass = $query->param('password');
     my $remember  = $query->param('remember');
