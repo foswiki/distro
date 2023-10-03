@@ -55,7 +55,9 @@ sub init_edit {
     # "text" means edit text only
     my $editaction = $query->param('action') || '';
     $editaction =~ m/^(form|text)$/i;
-    $editaction = lc( $1 || '' );
+    if ( $editaction =~ /^(form|text)$/i ) {
+        $editaction = lc( $1 || '' );
+    }
 
     my $adminCmd   = $query->param('cmd')        || '';
     my $redirectTo = $query->param('redirectto') || '';
@@ -234,7 +236,7 @@ sub init_edit {
 
     my $templateWeb = $web;
     if ($topicExists) {
-        $tmpl =~ s/%NEWTOPIC%//;
+        $tmpl =~ s/%NEWTOPIC%//g;
     }
     else {
         if ($templateTopic) {
@@ -286,7 +288,7 @@ sub init_edit {
             );
         }
 
-        $tmpl =~ s/%NEWTOPIC%/1/;
+        $tmpl =~ s/%NEWTOPIC%/1/g;
 
         my $ttom =
           Foswiki::Meta->load( $session, $templateWeb, $templateTopic );
@@ -329,8 +331,8 @@ sub init_edit {
         Foswiki::Serialise::serialise( $topicObject, 'Embedded' ),
         'Embedded', $topicObject );
 
-    $tmpl =~ s/%TEMPLATETOPIC%/$templateTopic/;
-    $tmpl =~ s/%REDIRECTTO%/$redirectTo/;
+    $tmpl =~ s/%TEMPLATETOPIC%/$templateTopic/g;
+    $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     # override with parameter if set
     $topicObject->text($ptext) if defined $ptext;
@@ -361,7 +363,7 @@ sub init_edit {
     else {
         $parentTopic = $topicObject->getParent();
     }
-    $tmpl =~ s/%TOPICPARENT%/$parentTopic/;
+    $tmpl =~ s/%TOPICPARENT%/$parentTopic/g;
 
     if ($formTemplate) {
         $topicObject->remove('FORM');
