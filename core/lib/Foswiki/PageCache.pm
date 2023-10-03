@@ -153,7 +153,7 @@ sub genVariationKey {
       # SMELL: add a setting to make exclusion of session variables configurable
         next
           if $key =~
-m/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash|release_lock)$/;
+m/^(_.*|VALIDATION|REMEMBER|S?FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash|release_lock)$/;
 
         #writeDebug("adding session key=$key");
 
