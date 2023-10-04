@@ -1092,6 +1092,7 @@ sub parse {
 
     my $temptopic;
     my @webs;
+    my $resp = {};
 
     foreach (@parts) {
         print STDERR "Checking $_\n" if TRACE;
@@ -1105,12 +1106,13 @@ sub parse {
         # If we have evil, just report the invalid web or topic.
         unless ($p) {
 
-            my $resp = {};
             if ( $lastpart && !$trailingSlash ) {
-                $resp->{topic} = undef, $resp->{invalidTopic} = $_;
+                $resp->{topic}        = undef;
+                $resp->{invalidTopic} = $_;
             }
             else {
-                $resp->{web} = undef, $resp->{invalidWeb} = $_;
+                $resp->{web}        = undef;
+                $resp->{invalidWeb} = $_;
             }
             next;
         }
@@ -1173,7 +1175,7 @@ sub parse {
             $p = Foswiki::Sandbox::untaint( $_,
                 \&Foswiki::Sandbox::validateWebName );
             unless ($p) {
-                my $resp = {
+                $resp = {
                     web        => undef,
                     topic      => undef,
                     invalidWeb => $_
@@ -1185,11 +1187,11 @@ sub parse {
             }
         }
     }
-    my $resp = { web => join( '/', @webs ), topic => $temptopic };
+    $resp->{web} = join( '/', @webs ) if @webs;
+    $resp->{topic} = $temptopic;
 
     #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
     return $resp;
-
 }
 
 1;

@@ -139,7 +139,7 @@ sub test_Request_parse {
     my @paths = my @comparisons = (
 
         #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
-        [ '/', undef, '', undef, undef, undef ],
+        [ '/', undef, undef, undef, undef, undef ],
         [ '/', { topic => 'Main.WebHome' }, 'Main', 'WebHome', undef, undef ],
 
         # topic= overrides any pathinfo
@@ -152,7 +152,7 @@ sub test_Request_parse {
 # defaultweb is not processed by the request object, so web is unset by the Request.
         [
             '/', { defaultweb => 'Sandbox', topic => 'WebHome' },
-            '', 'WebHome', undef, undef
+            undef, 'WebHome', undef, undef
         ],
 
         [ '/Main/WebHome',   undef, 'Main',    'WebHome', undef,  undef ],
@@ -168,8 +168,8 @@ sub test_Request_parse {
             '/Web.Subweb.Webhome/', undef, 'Web/Subweb/Webhome', undef,
             undef,                  undef
         ],
-        [ '/3#/blah',          undef, undef, undef, '3#',  undef ],
-        [ '/Web.a<script>lah', undef, undef, undef, undef, 'a<script>lah' ],
+        [ '/3#/blah',          undef, undef, 'Blah', '3#',  undef ],
+        [ '/Web.a<script>lah', undef, 'Web', undef,  undef, 'a<script>lah' ],
 
         # This next one  works because of auto fix-up of lower case topic name
         [ '/Blah/asdf', undef, 'Blah', 'Asdf', undef, undef ],
@@ -187,10 +187,11 @@ sub test_Request_parse {
         $req->pathInfo( $set->[0] );
         $this->createNewFoswikiSession( 'AdminUser', $req );
 
-        #print STDERR $req->pathInfo() . " web "
-        #  . ( ( defined $req->web() ) ? $req->web() : 'undef' )
-        #  . " topic "
-        #  . ( ( defined $req->topic() ) ? $req->topic() : 'undef' ) . "\n";
+        #print STDERR "#$tn: "
+        #  . $req->pathInfo()
+        #  . " web=" . ($req->web() // 'undef')
+        #  . " topic=" . ($req->topic() // 'undef')
+        #  . "\n";
 
         $this->assert_str_equals( $set->[0], $req->pathInfo,
             "Test $tn: Wrong pathInfo value" );
