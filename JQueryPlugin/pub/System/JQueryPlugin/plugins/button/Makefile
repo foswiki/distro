@@ -1,6 +1,8 @@
 TARGET=\
   jquery.button.css \
-  jquery.button.init.js \
-  $(JQUERYPLUGIN_LIB)/BUTTON.pm
+  jquery.button.js 
 
 -include ../../Makefile.include
+
+clean:
+	rm -f $(TARGET) *gz

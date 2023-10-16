@@ -27,11 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'InnerFade',
-            version    => '20080214',
-            author     => 'Torsten Baldes',
-            homepage   => 'http://medienfreunde.com/lab/innerfade',
-            javascript => [ 'jquery.innerfade.js', 'jquery.innerfade.init.js' ],
+            name         => 'InnerFade',
+            version      => '20080214',
+            author       => 'Torsten Baldes',
+            homepage     => 'http://medienfreunde.com/lab/innerfade',
+            javascript   => ['pkg.js'],
             dependencies => ['metadata'],
         ),
         $class
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

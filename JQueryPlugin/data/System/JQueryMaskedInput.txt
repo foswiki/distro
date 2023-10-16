@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1697450499" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"maskedinput"
@@ -40,7 +40,7 @@ $("#product").mask("99/99/9999",{
 });
 </verbatim>
 
-Adda "completed" callback:
+Add a "completed" callback:
 <verbatim class="js">
 $("#product").mask("99/99/9999",{
   completed: function() {

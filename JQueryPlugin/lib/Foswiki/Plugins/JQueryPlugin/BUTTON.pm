@@ -32,7 +32,7 @@ sub new {
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
             css          => ['jquery.button.css'],
-            javascript   => ['jquery.button.init.js'],
+            javascript   => ['jquery.button.js'],
             dependencies => [ 'metadata', 'JQUERYPLUGIN::FORM' ],
         ),
         $class
@@ -162,7 +162,7 @@ sub handleButton {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2021 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

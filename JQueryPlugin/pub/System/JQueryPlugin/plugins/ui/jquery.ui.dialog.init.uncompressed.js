@@ -8,6 +8,7 @@ jQuery(function($) {
     draggable:false,
     resizable:false,
     closeOnEscape:false,
+    destroyOnClose:false,
     show:'fade',
     debug: false
   };
@@ -66,7 +67,7 @@ jQuery(function($) {
     }
 
     if(opts.autoCenter) {
-      $(window).bind("resize", function() {
+      $(window).on("resize", function() {
         $this.dialog("option", "position", "center");
       });
       opts.draggable = false;
@@ -79,7 +80,7 @@ jQuery(function($) {
     $this.removeClass("jqUIDialog").dialog(opts);
 
     if (opts.alsoResize) {
-      $this.dialog("widget").bind("resize", function(ev, ui) {
+      $this.dialog("widget").on("resize", function(ev, ui) {
         var deltaHeight = ui.size.height - ui.originalSize.height || 0,
             deltaWidth = ui.size.width - ui.originalSize.width || 0;
         $this.find(opts.alsoResize).each(function() {
@@ -98,6 +99,12 @@ jQuery(function($) {
           elem.height(elemHeight+deltaHeight);
           elem.width(elemWidth+deltaWidth);
         });
+      });
+    }
+    if (opts.destroyOnClose) {
+      $this.on("dialogclose", function(ev, ui) {
+        $this.dialog("destroy");
+        $this.remove();
       });
     }
   });

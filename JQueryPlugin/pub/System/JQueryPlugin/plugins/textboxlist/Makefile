@@ -1,7 +1,8 @@
 TARGET=\
   jquery.textboxlist.js \
-  jquery.textboxlist.init.js \
-  jquery.textboxlist.css \
-  $(JQUERYPLUGIN_LIB)/TEXTBOXLIST.pm
+  jquery.textboxlist.css
 
 -include ../../Makefile.include
+
+clean:
+	rm -f $(TARGET) *gz

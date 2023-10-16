@@ -31,7 +31,7 @@ sub new {
             version      => '2.1.2',
             author       => 'Ariel Flesler',
             homepage     => 'https://github.com/flesler/jquery.scrollTo',
-            javascript   => [ 'jquery.scrollTo.js', 'jquery.scrollTo.init.js' ],
+            javascript   => ['pkg.js'],
             dependencies => ['easing'],
         ),
         $class
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

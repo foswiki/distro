@@ -32,7 +32,7 @@ sub new {
             author       => 'Diego A. (Fyneworks.com)',
             homepage     => 'http://www.fyneworks.com/jquery/star-rating/',
             css          => ['jquery.rating.css'],
-            javascript   => [ 'jquery.rating.js', 'jquery.rating.init.js' ],
+            javascript   => ['pkg.js'],
             dependencies => ['metadata'],
         ),
         $class
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
