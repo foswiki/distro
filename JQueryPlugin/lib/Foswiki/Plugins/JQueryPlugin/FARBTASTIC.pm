@@ -32,10 +32,9 @@ sub new {
             author  => 'Steven Wittens',
             homepage =>
               'https://acko.net/blog/farbtastic-jquery-color-picker-plug-in/',
-            css => ['jquery.farbtastic.css'],
-            javascript =>
-              [ 'jquery.farbtastic.js', 'jquery.farbtastic.init.js' ],
-            dependencies => [ 'ui', 'metadata' ],
+            css          => ['jquery.farbtastic.css'],
+            javascript   => ['pkg.js'],
+            dependencies => ['ui'],
         ),
         $class
     );
@@ -48,7 +47,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

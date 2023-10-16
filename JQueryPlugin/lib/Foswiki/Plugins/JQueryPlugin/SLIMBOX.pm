@@ -32,7 +32,7 @@ sub new {
             author       => 'Christophe Beyls',
             homepage     => 'https://github.com/cbeyls/slimbox',
             css          => ['slimbox2.css'],
-            javascript   => [ 'slimbox2.js', 'slimbox2.init.js' ],
+            javascript   => ['pkg.js'],
             dependencies => ['metadata'],
         ),
         $class
@@ -69,7 +69,7 @@ sub init {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

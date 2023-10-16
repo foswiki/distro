@@ -1,9 +1,10 @@
-TARGET=\
-  jquery.scrollTo.js \
-  jquery.scrollTo.init.js \
-  $(JQUERYPLUGIN_LIB)/SCROLLTO.pm
+TARGET=pkg.js
+PKG_SOURCE= jquery.scrollTo.uncompressed.js jquery.scrollTo.init.uncompressed.js
 
 -include ../../Makefile.include
+
+clean:
+	rm -f $(TARGET) *.gz
 
 git: 
 	git clone https://github.com/flesler/jquery.scrollTo.git $@
@@ -12,3 +13,7 @@ ifneq (,$(wildcard git))
 jquery.scrollTo.uncompressed.js: git/jquery.scrollTo.js
 	cat $^ > $@
 endif
+
+pkg.uncompressed.js: $(PKG_SOURCE)
+	@echo generating $@
+	@$(CAT) $^ > $@

@@ -148,7 +148,7 @@
 
     $(".jqFarbtasticFG:not(.jqInitedFarbtasticFG)").livequery(function() {
       var $this = $(this),
-          opts = $.extend({}, defaults, $this.metadata(), $this.data()),
+          opts = $.extend({}, defaults, $this.data()),
           bgColor = $this.css('background-color'),
           fgColor = getFgColor(bgColor, opts.dark, opts.light);
 

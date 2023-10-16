@@ -12,7 +12,7 @@ jQuery(function($) {
   $(".jqUIDatepicker").livequery(function() {
     var $this = $(this), 
         lang = $this.data("lang") || '',
-        opts = $.extend({}, $.datepicker.regional[lang], datepickerDefaults, $this.data(), $this.metadata()),
+        opts = $.extend({}, $.datepicker.regional[lang], datepickerDefaults, $this.data()),
         maxZIndex = 100, val = $this.val(),
         trigger;
 
