@@ -92,6 +92,13 @@ sub set_up_for_verify {
     return;
 }
 
+sub tear_down {
+    my $this = shift;
+
+    $this->{test_topic} =~ s/NoHistory$//;
+    $this->SUPER::tear_down();
+}
+
 # private; create a topic with no ,v
 sub _createNoHistoryTopic {
     my ( $this, $withTOPICINFO ) = @_;
