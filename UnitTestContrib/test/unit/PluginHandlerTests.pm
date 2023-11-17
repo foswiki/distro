@@ -411,6 +411,23 @@ HERE
     $this->createNewFoswikiSession();    # for tear_down
 }
 
+sub test_lateInitPlugin {
+    my $this = shift;
+    $this->makePlugin( 'lateInitPlugin', <<'HERE');
+sub lateInitPlugin {
+    # $tester not set up yet
+    die "LIP $called->{lateInitPlugin} again" if $called->{lateInitPlugin};
+    die "IP $called->{initPlugin} not called yet" unless $called->{initPlugin};
+    $called->{lateInitPlugin} = 1;
+    return undef;
+}
+HERE
+    $this->checkCalls( 1, 'lateInitPlugin' );
+    $this->checkCalls( 1, 'initPlugin' );
+
+    return;
+}
+
 # Test that the rendering handlers are called in the correct sequence.
 # The sequence is:
 # 1 startRenderingHandler
