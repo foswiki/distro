@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1700242294" format="1.1" version="1"}%
 ---+!! RCSStoreContrib
 %FORMFIELD{"Description"}%
 
@@ -60,6 +60,7 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  1.23 (17 Nov 2023): | Foswikitask:Item15228: better error reporting in RCS store |
 |  1.22 (31 Mar 2022): | Foswikitask:Item15076: RCS store does not properly encode topic information |
 |  1.21 (30 Sep 2021): | Foswikitask:Item15045: getRevisionInfo of an attachment always returned the revision info of the first attachment of a topic |
 |  1.20 (24 Jan 2021): | Foswikitask:Item15010: accept rcs versions &gt; 5.10 |
@@ -78,7 +79,7 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2015-2022 Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2015-2023 Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
