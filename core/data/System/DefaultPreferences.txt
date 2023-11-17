@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1700241449" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -122,7 +122,7 @@ been removed from Foswiki 2.0.
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
       <div class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets). See %SYSTEMWEB%.FileAttachment for details.</div>
       <verbatim class="tml">
-      * Set ATTACHEDIMAGEFORMAT = \n%IF{"'$comment'=''" else="   * $comment: <br />\n"}%     <img src="$percntATTACHURLPATH$percnt/$fileurl" alt="$filename" $size />
+      * Set ATTACHEDIMAGEFORMAT = \n<img src="$percntATTACHURLPATH$percnt/$fileurl" alt="$filename" $size />
 </verbatim>
 
 ---++ Platform Settings
