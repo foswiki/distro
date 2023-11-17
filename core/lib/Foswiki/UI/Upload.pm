@@ -124,6 +124,7 @@ sub _upload {
     my $fileComment = $query->param('filecomment') || '';
     my $createLink  = $query->param('createlink')  || '';
     my $doPropsOnly = $query->param('changeproperties');
+    my $fileName    = $query->param('filename')    || '';
 
     $fileComment =~ s/\s+/ /g;
     $fileComment =~ s/^\s*//;
@@ -131,10 +132,11 @@ sub _upload {
 
     my @fileNames = ();
     foreach my $filePath ( $query->multi_param("filepath") ) {
-        next unless $filePath;
 
-        $filePath =~ m|([^/\\]*$)|;
-        my $fileName = $1;
+        if ($filePath) {
+            $filePath =~ m|([^/\\]*$)|;
+            $fileName = $1;
+        }
         $fileName =~ s/\s*$//;
         $filePath =~ s/\s*$//;
 
