@@ -28,13 +28,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'JsonRpc',
-            version      => '1.0',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JsonRpcContrib',
-            javascript   => ['jquery.jsonrpc.js'],
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
-            dependencies => ['JQUERYPLUGIN::JSON2'],
+            name       => 'JsonRpc',
+            version    => '1.0',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JsonRpcContrib',
+            javascript => ['jquery.jsonrpc.js'],
+            puburl     => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
         ),
         $class
     );
