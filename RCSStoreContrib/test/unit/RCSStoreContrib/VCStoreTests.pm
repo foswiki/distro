@@ -1,4 +1,4 @@
-# Copyright (C) 2011 Foswiki Contributors. All rights reserved.
+# Copyright (C) 2011-2023 Foswiki Contributors. All rights reserved.
 #
 # Tests specific to VC stores, where the history is decoupled from
 # the latest rev of the topic. At present that means RCS stores.
