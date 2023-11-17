@@ -144,7 +144,7 @@ sub addToZone {
 
     # add class to script and link data
     $data =~ s/<script\s+((?![^>]*class=))/<script class='\$zone \$id' $1/g;
-    $data =~ s/<link\s+((?![^>]class=))/<link class='\$zone \$id' $1/g;
+    $data =~ s/<link\s+((?![^>]*class=))/<link class='\$zone \$id' $1/g;
     $data =~ s/<style\s+((?![^>]*class=))/<style class='\$zone \$id' $1/g;
 
     # override previous properties
@@ -173,7 +173,6 @@ sub _renderZoneById {
     my $topicObject = $renderZone->{topicObject};
     my $zone        = $params->{_DEFAULT} || $params->{zone};
 
-#return "\n<!--ZONE $id-->\n" . _renderZone( $this, $zone, $params, $topicObject ) . "\n<!--ENDZONE $id-->\n" ;
     return _renderZone( $this, $zone, $params, $topicObject );
 }
 
@@ -266,6 +265,10 @@ sub _renderZone {
 
         next unless $text;
         my $id = $item->{id} || '';
+        if ( $Foswiki::cfg{ObfuscateZoneIDs} ) {
+            $id =~ tr/N-ZA-Mn-za-m/A-Za-z/;    # obfuscate ids
+        }
+
         my $line = $params->{format};
         if ( scalar(@missingids) ) {
             $line =~ s/\$missing\b/$missingformat/g;
