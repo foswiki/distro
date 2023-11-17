@@ -25,11 +25,12 @@ BEGIN {
     }
 }
 
-our $VERSION           = '10.70';
-our $RELEASE           = '16 Sep 2023';
+our $VERSION           = '11.00';
+our $RELEASE           = '17 Nov 2023';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $iconService;
+our $combineService;
 
 =begin TML
 
@@ -66,13 +67,14 @@ sub initPlugin {
     # jquery.popupwindow
     Foswiki::Func::registerTagHandler( 'POPUPWINDOW', \&handlePopUpWindow );
 
-    # init plugin handler and preload default plugins
-    Foswiki::Plugins::JQueryPlugin::Plugins::init();
-
     # backwards compatibility
     if ( $Foswiki::Plugins::VERSION < 2.1 ) {
         Foswiki::Func::setPreferencesValue( "CLEAR",
             "<span class='foswikiClear'></span>" );
+    }
+
+    if ( $Foswiki::Plugins::VERSION < 2.5 ) {
+        Foswiki::Plugins::JQueryPlugin::Plugins::init();
     }
 
     # jquery.tmpl
@@ -85,7 +87,25 @@ sub initPlugin {
           'Load and expand a template in current web/topic context.'
     );
 
+    # user tool to combine js files, only available on the command line
+    if ( Foswiki::Func::getContext()->{command_line} ) {
+        Foswiki::Func::registerRESTHandler(
+            'combine',
+            sub {
+                return getCombineService()->handleRestCombine(@_);
+            },
+            authenticate => 1,
+            validate     => 0,
+            http_allow   => 'GET,POST',
+        );
+    }
+
     return 1;
+}
+
+# init plugin handler and preload default plugins
+sub lateInitPlugin {
+    Foswiki::Plugins::JQueryPlugin::Plugins::init();
 }
 
 =begin TML
@@ -117,6 +137,12 @@ sub finishPlugin {
         if ( defined $iconService ) {
             $iconService->unload();
         }
+    }
+
+    # finish combine service
+    if ( defined $combineService ) {
+        $combineService->finish();
+        undef $combineService;
     }
 }
 
@@ -214,6 +240,23 @@ sub handleRestTmpl {
 
 =begin TML
 
+---++ getCombineService() -> $combineService
+
+returns a singleton instance of a Foswiki::Plugins::JQueryPlugin::CombineService
+
+=cut
+
+sub getCombineService {
+    unless ($combineService) {
+        require Foswiki::Plugins::JQueryPlugin::CombineService;
+        $combineService = Foswiki::Plugins::JQueryPlugin::CombineService->new();
+    }
+
+    return $combineService;
+}
+
+=begin TML
+
 ---++ handlePopUpWindow($session, $params, $topic, $web) -> $result
 
 Handles the =%<nop>POPUPWINDOW% tag. 
@@ -225,22 +268,6 @@ sub handlePopUpWindow {
 
     my $plugin = createPlugin( 'PopUpWindow', $session );
     return $plugin->handlePopUpWindow(@_) if $plugin;
-    return '';
-}
-
-=begin TML
-
----++ handleToggle($session, $params, $topic, $web) -> $result
-
-Handles the =%<nop>TOGGLE% tag. 
-
-=cut
-
-sub handleToggle {
-    my $session = shift;
-
-    my $plugin = createPlugin( 'Toggle', $session );
-    return $plugin->handleToggle(@_) if $plugin;
     return '';
 }
 
@@ -381,6 +408,14 @@ sub handleJQueryIcon {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
     return getIconService()->renderIcon($params);
 }
+
+=begin TML
+
+---++ getIconService() -> $combineService
+
+returns a singleton instance of a Foswiki::Plugins::JQueryPlugin::IconService
+
+=cut
 
 sub getIconService {
     unless ($iconService) {

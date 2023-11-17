@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1528804960" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1700242676" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -91,6 +91,7 @@ Parameters can be set using HTML5 data (=data-&lt;name>=)
 | draggable | boolean flag to make the dialog draggable | false |
 | resizable | boolean flag to make the dialog resizable | false |
 | close-on-escape | boolean flag to let the user close the dialog using the ESC key | false |
+| destroy-on-close | boolean flag to destroy the dialog when it is closed | false |
 | show | animation to be used to display the dialog | fade |
 | hide | animation to be used to hide the dialog |  |
 | modal | If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. | false |

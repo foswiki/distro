@@ -1,7 +1,7 @@
 /*
  * i18n - the simplest possible solution 
  *
- * Copyright (c) 2016-2021 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2016-2023 Michael Daum http://michaeldaumconsulting.com
  *
  * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
@@ -75,17 +75,28 @@
     var self = this;
 
     //console.log("adding resource data=",data);
-
     language = language || self.currentLanguage;
-    namespace = namespace || '*';
 
-    if (typeof(self.messageStore[language]) === 'undefined') {
-      self.messageStore[language] = {
-        "*": {}
-      };
+    function _addStrings(data, ns) {
+      ns = namespace || '*';
+
+      if (typeof(self.messageStore[language]) === 'undefined') {
+        self.messageStore[language] = {
+          "*": {}
+        };
+      }
+
+      self.messageStore[language][ns] = $.extend(true, self.messageStore[language][ns], data);
     }
 
-    self.messageStore[language][namespace] = $.extend(true, self.messageStore[language][namespace], data);
+
+    if (data instanceof Array) {
+      data.forEach(function(item)  {
+        _addStrings(item.data, item.namespace);
+      });
+    } else {
+      _addStrings(data);
+    }
 
     //console.log("messageStore=",self.messageStore);
   };

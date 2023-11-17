@@ -1,5 +1,14 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::IconService;
+
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::IconService
+
+Singleton class that handles all sorts of icons, image as well as font icons
+
+=cut
+
 use strict;
 use warnings;
 
@@ -10,9 +19,9 @@ use Error qw(:try);
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::IconService
+---++ ClassMethod new()
 
-Singleton class that handles all sorts of icons, image as well as font icons
+constructs a singleton instance for this package
 
 =cut
 

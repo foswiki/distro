@@ -8,15 +8,10 @@ use Foswiki::Plugins::JQueryPlugin ();
 use Foswiki::Form::FieldDefinition;
 our @ISA = qw( Foswiki::Form::FieldDefinition );
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
-    return $this;
-}
-
 sub renderForEdit {
     my ( $this, $param1, $param2, $param3 ) = @_;
+
+    Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
 
     my $value;
     my $web;
@@ -62,7 +57,7 @@ sub renderForDisplay {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
