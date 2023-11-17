@@ -300,4 +300,15 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
 # Warning: this plugin is deprecated. Please use the tooltip plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
 
+#---+ Tuning
+#---++ HTML Page Layout
+# **BOOLEAN LABEL="Enable Combined Modules" **
+$Foswiki::cfg{JQueryPlugin}{Combine}{Enabled} = 0;
+
+# **STRING 130 LABEL="List of combined Modules" CHECK="undefok emptyok" DISPLAY_IF="{JQueryPlugin}{Combine}{Enabled}"**
+# Concatenate assets of jQuery modules into one file.
+# Note that some base modules will alway be combined, i.e. all {JQueryPlugin}{DefaultPlugins},
+# jquery, migrate, observer, foswiki, i18n and noconflict if {JQueryPlugin}{NoConflict} is enabled
+$Foswiki::cfg{JQueryPlugin}{Combine}{Modules} = '';
+
 1;

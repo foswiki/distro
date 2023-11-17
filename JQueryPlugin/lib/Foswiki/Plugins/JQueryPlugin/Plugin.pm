@@ -102,6 +102,19 @@ sub init {
     return 0 if $this->{isInit};
     $this->{isInit} = 1;
 
+    my $contextID = $this->{name} . 'Enabled';
+    $contextID =~ s/\W//g;
+    Foswiki::Func::getContext()->{$contextID} = 1;
+
+    # shortcut init if assets have been loaded already
+    return 1 if $this->{isLoaded};
+    $this->{isLoaded} = 1;
+
+    # load any i18n messages
+    if ( $this->{i18n} ) {
+        $this->renderI18N( $this->{i18n} );
+    }
+
     my $header = '';
     my $footer = '';
 
@@ -113,11 +126,6 @@ sub init {
     # load all javascript
     foreach my $js ( @{ $this->{javascript} } ) {
         $footer .= $this->renderJS($js);
-    }
-
-    # load any i18n messages
-    if ( $this->{i18n} ) {
-        $this->renderI18N( $this->{i18n} );
     }
 
     # gather dependencies
@@ -144,8 +152,8 @@ sub init {
             else {
                 my $trace = '';
 
-                # require Devel::StackTrace;
-                # $trace = Devel::StackTrace->new()->as_string()."\n";
+                #require Devel::StackTrace;
+                #$trace = Devel::StackTrace->new()->as_string()."\n";
 
                 print STDERR "ERROR: can't load plugin for $dep\n" . $trace;
             }
@@ -158,11 +166,6 @@ sub init {
     Foswiki::Func::addToZone( 'script',
         $this->{idPrefix} . '::' . uc( $this->{name} ),
         $footer, join( ', ', @dependencies ) );
-
-    my $contextID = $this->{name} . 'Enabled';
-    $contextID =~ s/\W//g;
-    Foswiki::Func::getContext()->{$contextID} = 1;
-
     return 1;
 }
 
@@ -193,22 +196,19 @@ sub renderI18N {
     my ( $this, $path ) = @_;
 
     # open matching localization file if it exists
-    my $session = $Foswiki::Plugins::SESSION;
-    my @langs   = $session->i18n->available_languages();
-    push @langs, "en";
+    my $i18n = $Foswiki::Plugins::SESSION->i18n();
 
-    foreach my $langTag (@langs) {
-        my $messagePath = $path . '/' . $langTag . '.js';
-        my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
-        if ( -f $messageFile ) {
-            my $text =
-"<script type='application/l10n' data-i18n-language='$langTag' data-i18n-namespace='"
-              . uc( $this->{name} )
-              . "' data-i18n-src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
-            Foswiki::Func::addToZone( 'script',
-                uc( $this->{name} ) . "::" . uc($langTag) . "::I8N",
-                $text, 'JQUERYPLUGIN::I18N' );
-        }
+    my $lang        = $i18n->language();
+    my $messagePath = $path . '/' . $lang . '.js';
+    my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
+    if ( -f $messageFile ) {
+        my $text =
+"<script type='application/l10n' data-i18n-language='$lang' data-i18n-namespace='"
+          . uc( $this->{name} )
+          . "' data-i18n-src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
+        Foswiki::Func::addToZone( 'script',
+            uc( $this->{name} ) . "::" . uc($lang) . "::I8N",
+            $text, 'JQUERYPLUGIN::I18N' );
     }
 }
 

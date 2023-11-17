@@ -4,7 +4,7 @@ PKG_SOURCE= jquery.scrollTo.uncompressed.js jquery.scrollTo.init.uncompressed.js
 -include ../../Makefile.include
 
 clean:
-	rm -f $(TARGET) *.gz
+	rm -f $(TARGET) *gz pkg.uncompressed.js
 
 git: 
 	git clone https://github.com/flesler/jquery.scrollTo.git $@

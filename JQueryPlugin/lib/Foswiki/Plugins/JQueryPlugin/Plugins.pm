@@ -1,9 +1,19 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::Plugins;
 
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin
+
+Container for jQuery and plugins
+
+=cut
+
 use strict;
 use warnings;
 use Foswiki::Func();
+use Foswiki::Plugins();
+use Foswiki::Plugins::JQueryPlugin ();
 
 my %plugins;
 my %themes;
@@ -14,15 +24,7 @@ use constant JQUERY_DEFAULT => 'jquery-2.2.4';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin
-
-Container for jQuery and plugins
-
-=cut
-
-=begin TML
-
----++ init()
+---++ PackageMethod init()
 
 initialize plugin container
 
@@ -39,6 +41,40 @@ sub init {
         registerPlugin($pluginName)
           if $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Enabled};
     }
+
+    if ( $Foswiki::Plugins::VERSION >= 2.5 && $Foswiki::cfg{JQueryPlugin}{Combine}{Enabled} ) {
+        Foswiki::Plugins::JQueryPlugin::getCombineService()->run();
+    }
+    else {
+        legacyInit();
+    }
+
+    # initial plugins
+    createPlugin('foswiki');    # these are needed anyway
+
+    my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
+    if ($defaultPlugins) {
+        foreach my $pluginName ( split( /\s*,\s*/, $defaultPlugins ) ) {
+            createPlugin($pluginName);
+        }
+    }
+
+  # enable migrate for jQuery > 1.9.x as long as we still have 3rd party plugins
+  # making use of deprecated and removed features
+    unless ( $defaultPlugins && $defaultPlugins =~ /\bmigrate\b/i ) {
+        my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
+          || JQUERY_DEFAULT;
+
+        if ( $jQuery =~ /^jquery-(\d+)\.(\d+)\.(\d+)/ ) {
+            my $jqVersion = $1 * 10000 + $2 * 100 + $3;
+            if ( $jqVersion > 10900 ) {
+                createPlugin("Migrate");
+            }
+        }
+    }
+}
+
+sub legacyInit {
 
     # get all themes
     foreach my $themeName ( sort keys %{ $Foswiki::cfg{JQueryPlugin}{Themes} } )
@@ -82,27 +118,6 @@ HERE
     }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
-
-    # initial plugins
-    createPlugin('foswiki');    # these are needed anyway
-
-    my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
-    if ($defaultPlugins) {
-        foreach my $pluginName ( split( /\s*,\s*/, $defaultPlugins ) ) {
-            createPlugin($pluginName);
-        }
-    }
-
-  # enable migrate for jQuery > 1.9.x as long as we still have 3rd party plugins
-  # making use of deprecated and removed features
-    unless ( $defaultPlugins && $defaultPlugins =~ /\bmigrate\b/i ) {
-        if ( $jQuery =~ /^jquery-(\d+)\.(\d+)\.(\d+)/ ) {
-            my $jqVersion = $1 * 10000 + $2 * 100 + $3;
-            if ( $jqVersion > 10900 ) {
-                createPlugin("Migrate");
-            }
-        }
-    }
 }
 
 =begin TML
@@ -115,6 +130,7 @@ Helper method to establish plugin dependencies. See =load()=.
 
 sub createPlugin {
     my $plugin = load(@_);
+
     $plugin->init() if $plugin;
     return $plugin;
 }
@@ -251,8 +267,7 @@ sub load {
         eval { require $path };
 
         if ($@) {
-            Foswiki::Func::writeDebug(
-                "ERROR: can't load jQuery plugin $pluginName: $@");
+            print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
             $pluginDesc->{instance} = 0;
         }
         else {
@@ -336,7 +351,7 @@ sub getRandom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1697450499" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1700242676" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  13 Nov 2023: | (10.99) - Item15229: new feature to combine js, css and i18n assets of modules |
 |  16 Oct 2023: | (10.70) - Item15224: minimize number of loaded js files |
 |  04 Sep 2023: | (10.60) - Item15214: updated to jquery-3.7.1 |
 |  26 Apr 2023: | (10.51) - Item15190: fixed potential XSS vulnerability in jQuery-2 |

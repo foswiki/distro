@@ -36,7 +36,8 @@ DEV_DEPENDENCIES=\
   eslint \
   sass \
   terser \
-  node-sass
+  node-sass \
+  browserify 
 
 .SUFFIXES: .js .css .jslint .install 
 .PHONY: subdirs $(SUBDIRS) deps vars
