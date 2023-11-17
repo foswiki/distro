@@ -47,7 +47,8 @@ BEGIN {
     };
     $Foswiki::cfg{SwitchBoard}{configure} = {
         package  => 'Foswiki::UI::Configure',
-        function => 'configure'
+        function => 'configure',
+        context  => { configure => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{edit} = {
         package  => 'Foswiki::UI::Edit',
