@@ -42,7 +42,6 @@ BEGIN {
 sub new {
     my ( $class, $session ) = @_;
 
-    #my $this = $class->SUPER::new([]);
     my $this = bless(
         {
             session => $session,
