@@ -1898,6 +1898,11 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 # of Foswiki.
 $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 
+# **BOOLEAN LABEL="Obfuscate Zone IDs" EXPERT**
+# Encrypt ids of assets added to the page, such as css and js instead
+# of using plain text.
+$Foswiki::cfg{ObfuscateZoneIDs} = $FALSE;
+
 #############################################################################
 #---+ Mail
 # Settings controlling if and how Foswiki sends email. Mail is used by Foswiki

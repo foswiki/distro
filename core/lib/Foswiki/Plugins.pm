@@ -38,7 +38,8 @@ if you have a recent enough version.
 
 use version 0.77; our $VERSION = version->parse("2.5");
 
-# 2.5 - Foswiki::Request subtypes of Rest, JSON, Attachment, ...
+# 2.6 - Foswiki::Request subtypes of Rest, JSON, Attachment, ...
+# 2.5 - Added lateInitPlugin
 # 2.4 - Template names suport unicode characters
 # 2.3 - Added registrationValidationHandler
 
@@ -311,6 +312,16 @@ sub enable {
         if ( $plugin->{errors} && @{ $plugin->{errors} } ) {
             $this->{session}
               ->logger->log( 'warning', join( "\n", @{ $plugin->{errors} } ) );
+        }
+    }
+
+    # lateInitPlugin
+    foreach my $plugin ( @{ $this->{plugins} } ) {
+        my $sub = $plugin->{module} . "::lateInitPlugin";
+        if ( defined &$sub ) {
+            no strict 'refs';
+            &$sub();
+            use strict 'refs';
         }
     }
 }

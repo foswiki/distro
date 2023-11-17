@@ -43,6 +43,7 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'initPlugin',                       # 1.000
     'initializeUserHandler',            # 1.010
     'insidePREHandler',                 # 1.000 DEPRECATED
+    'lateInitPlugin',                   # 2.5
     'modifyHeaderHandler',              # 1.026
     'mergeHandler',                     # 1.026
     'outsidePREHandler',                # 1.000 DEPRECATED
