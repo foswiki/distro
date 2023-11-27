@@ -1,6 +1,6 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 3.10
+ * Version: 3.11
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
@@ -194,6 +194,7 @@
   function _getScriptUrl(absolute, script, web, topic, params) {
     var suffix = foswiki.getPreference("SCRIPTSUFFIX") || "",
         scriptUrlPaths = foswiki.getPreference("SCRIPTURLPATHS"),
+        scriptUrlSeparator = foswiki.getPreference("SCRIPTURLSEPARATOR"),
         url = "", arr = [];
 
     script = script || '';
@@ -214,10 +215,16 @@
     }
 
     if (typeof(web) !== 'undefined') {
+      if (script === 'view' && scriptUrlSeparator) {
+	web = foswiki.spaceOutWikiWord(web, scriptUrlSeparator);
+      }
       url += "/"+web;
     }
 
     if (typeof(topic) !== 'undefined') {
+      if (script === 'view' && scriptUrlSeparator && !/^(WebHome)$/.test(topic)) {
+	topic = foswiki.spaceOutWikiWord(topic, scriptUrlSeparator);
+      }
       url += "/"+topic;
     }
 
