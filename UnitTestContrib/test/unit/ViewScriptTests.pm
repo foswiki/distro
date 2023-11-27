@@ -719,7 +719,7 @@ sub test_urlparsing_invalid {
         'WebPreferences' );
 
     #invalid topic name
-    $this->urltest( '/System/WebPre@ferences', $Foswiki::cfg{UsersWebName},
+    $this->urltest( '/System/WebPre@ferences', $Foswiki::cfg{SystemWebName},
         'WebHome' );
 
 }
