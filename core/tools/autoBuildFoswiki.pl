@@ -1,10 +1,11 @@
 #! /usr/bin/env perl
 #
-# Build a Foswiki Release from branches in the Foswiki git repository - see http://foswiki.org/Development/BuildingARelease
-# checkout Foswiki Branch
-# run the unit tests
-# run other tests
-# build a release tarball & upload...
+# Build a Foswiki Release from branches in the Foswiki git repository - see https://foswiki.org/Development/BuildingARelease
+#    * checkout Foswiki Branch
+#    * run the unit tests
+#    * run other tests
+#    * build a release tarball & upload...
+#
 # Sven Dowideit Copyright (C) 2006-2011 All rights reserved.
 # Florian Schlichting Copyright (C) 2013-2015
 # gpl3 or later licensed.
@@ -12,144 +13,284 @@
 # If you are running an automated nightly build system, call with ./autoBuildFoswiki.pl --autobuild
 # to have output files copied to a webserver and a notification email sent
 # everyone else, can just run perl autoBuildFoswiki.pl
-#
-#
 
 use strict;
 use warnings;
 
 use Getopt::Long;
 
-# local config, should be moved to an external file in $ENV{HOME}?
-my $mail_from =
-  'fschlich@zedat.fu-berlin.de';    # also recipient in case of "nothing to say"
-my $mail_to = 'foswiki-svn@lists.sourceforge.net';
-my $stable_branch = 'Release01x01';    # what branch to check out with --stable
-my $webspace_scp =
-  '~/public_html/foswiki/';            # path to webspace as understood by scp
-my $webspace_url = 'http://fschlich.userpage.fu-berlin.de/foswiki/'
-  ;                                    # path to webspace for browsers
-my $localcfgdir =
-  '/home/f/fschlich/FOSWIKI/';  # path to additional local config (LocalLib.cfg)
+#use Data::Dump qw(dump);
+
+# defaults
+my $DefaultConfig = {
+    mailFrom => "",
+    mailTo   => "",
+
+    stableBranch  => 'Release02x01',    # what branch to check out with --stable
+    foswikiBranch => 'master',
+
+    scpDestination => "",               # upload of release build
+    url            => "",               # web location of the build
+
+    checkoutDir       => undef, # directory that holds the git checkout
+    localLibFile      => "",    # path to additional local config (LocalLib.cfg)
+    logFile           => undef, # default logfile
+    unitTestLogFile   => undef, # unit test output
+    memoryTestLogFile => undef, # memory test output
+    perlCriticsLogFile => undef,    # perlcritic output
+
+    # some booleans
+    doPrepairCheckout => 1,
+    doCleanup         => 1,
+    doUnitTests       => 1,
+    doMemoryTests     => 0,
+    doPerlCritics     => 0,
+    doUpload          => 1,
+    doEmail           => 1,
+};
 
 # options
-my $SvensAutomatedBuilds = 0;
-my $foswikiBranch        = 'trunk';
-my $update               = 0;
-my $verbose              = 0;
+my $configFile = $ENV{HOME} . "/.autoBuildFoswiki.cfg";
+my $verbose    = 0;
 
 GetOptions(
-    autobuild => \$SvensAutomatedBuilds,
-    stable    => sub { $foswikiBranch = $stable_branch },
-    update    => \$update,
-    verbose   => \$verbose,
-) or die "unknown option, use --autobuild, --stable, --verbose";
+    "stable" =>
+      sub { $DefaultConfig->{foswikiBranch} = $DefaultConfig->{stableBranch} },
+    "verbose"  => \$verbose,
+    "config:s" => \$configFile,
+) or die "unknown option, use --stable, --verbose, --config <file>";
 
-if ($update) {
-`curl https://raw.githubusercontent.com/foswiki/distro/master/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
-    exit;
-}
+sub loadConfig {
 
-if ($verbose) {
-    print STDERR "doing an automated Sven build\n" if $SvensAutomatedBuilds;
-    print STDERR "building branch $foswikiBranch\n";
-}
+    use vars qw($VAR1);
 
-# GIT checkout / update
-unless ( -e $foswikiBranch ) {
-    print STDERR "doing a fresh checkout\n" if $verbose;
-`git clone https://github.com/foswiki/distro $foswikiBranch > Foswiki-git.$foswikiBranch.log`;
-    die "GIT clone failed" if $?;
-    chdir($foswikiBranch);
-    if ( $foswikiBranch ne 'trunk' ) {
-
-        # check out a branch
-        `git checkout $foswikiBranch`;
+    if ($configFile) {
+        require $configFile;
     }
+
+    # local config
+    my $cfg = { %$DefaultConfig, %$VAR1 };
+
+    # sanitize config settings
+    $cfg->{checkoutDir}        //= "/tmp/" . $cfg->{foswikiBranch};
+    $cfg->{logFile}            //= "/tmp/autoBuildFoswiki.log";
+    $cfg->{unitTestLogFile}    //= "/tmp/autoBuildFoswiki-unit-tests.log";
+    $cfg->{memoryTestLogFile}  //= "/tmp/autoBuildFoswiki-memory-tests.log";
+    $cfg->{perlCriticsLogFile} //= "/tmp/autoBuildFoswiki-perlcritics.log";
+
+    return $cfg;
 }
-else {
-    print STDERR "using existing checkout, removing extra files" if $verbose;
-    chdir($foswikiBranch);
-    `git clean -fdx > ../Foswiki-git.$foswikiBranch.log`;
-`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../Foswiki-git.$foswikiBranch.log`;
-`git status -s | grep '??' | cut -f2 -d' ' | xargs rm -rfv >> ../Foswiki-git.$foswikiBranch.log`;
-    `git pull`;
+
+sub readFile {
+    my ($name) = @_;
+
+    my $data = '';
+    my $IN_FILE;
+    open( $IN_FILE, '<', $name ) || return '';
+
+    local $/ = undef;    # set to read to EOF
+    $data = <$IN_FILE>;
+    close($IN_FILE);
+    $data = '' unless $data;    # no undefined
+    return $data;
 }
-chdir('core');
 
-my $foswikihome = `pwd`;
-chomp($foswikihome);
+sub writeDebug {
+    return unless $verbose;
+    print STDERR "### " . $_[0] . "\n";
+}
 
-# fix -T ignoring PERL5LIBS env, thus not finding my locally-installed libs :-(
-`[ -s $localcfgdir/LocalLib.cfg ] && cp $localcfgdir/LocalLib.cfg bin/`;
+sub sendEmail {
+    my ( $cfg, $to, $subject, $body ) = @_;
 
-`./pseudo-install.pl developer`;
-`./pseudo-install.pl -A`;
+    $to //= $cfg->{mailTo};
+    return unless $to && $cfg->{mailFrom};
 
-print "run unit tests\n" if $verbose;
-chdir('test/unit');
+    writeDebug("sending email from $cfg->{mailFrom} to $to");
 
-# /usr/bin/time -v : -v print all stats, hopefully incl. max. res. memory usage
-#                    /usr/bin/time to avoid bash (1) internal 'time' command
-my $unitTests =
-"export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; /usr/bin/time -v perl ../bin/TestRunner.pl -tap -clean FoswikiSuite.pm > $foswikihome/Foswiki-UnitTests.log 2>&1";
-my $return    = `$unitTests`;
-my $errorcode = $? >> 8;
-unless ( $errorcode == 0 ) {
-    open( UNIT, '<', "$foswikihome/Foswiki-UnitTests.log" );
-    local $/ = undef;
-    my $unittestErrors = <UNIT>;
-    close(UNIT);
+    # send mail
+    my $MAIL;
 
-    #only output the summary
-    unless ( $unittestErrors =~ s/^(.*)Unit test run Summary://s ) {
+    open( $MAIL,
+        "|/usr/sbin/sendmail -t -oi -oem"
+          || print STDERR "Error sending mail\n" );
+
+    print $MAIL "From: $cfg->{mailFrom}\n";
+    print $MAIL "To: $to\n";
+    print $MAIL "Subject: $subject\n";
+    print $MAIL "\n";
+    print $MAIL "$body\n";
+    close $MAIL;
+}
+
+sub prepairCheckout {
+    my $cfg = shift;
+
+    unless ( $cfg->{doPrepairCheckout} ) {
+        writeDebug("NOT preparing the checkout area");
+        return;
+    }
+
+    # GIT checkout / update
+
+    if ( -d $cfg->{checkoutDir} ) {
+        writeDebug("using existing checkout '$cfg->{checkoutDir}'");
+        chdir( $cfg->{checkoutDir} )
+          or die "failed to chdir to $cfg->{checkoutDir}";
+
+        if ( $cfg->{doCleanup} ) {
+            writeDeug("removing extra files");
+
+            system(<<HERE) == 0 or die "cleanup failed";
+git clean -fdx > $cfg->{logFile}
+git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> $cfg->{logFile}
+git status -s | grep '??' | cut -f2 -d' ' | xargs rm -rfv >> $cfg->{logFile}
+git pull >> $cfg->{logFile}
+HERE
+
+        }
+    }
+    else {
+        writeDebug("doing a fresh checkout");
+
+        system(<<HERE) == 0 or die "GIT clone failed";
+git clone https://github.com/foswiki/distro $cfg->{checkoutDir} > $cfg->{logFile}
+HERE
+
+        chdir( $cfg->{checkoutDir} )
+          or die "failed to chdir to $cfg->{checkoutDir}";
+
+    }
+
+    system("git checkout $cfg->{foswikiBranch} >> $cfg->{logFile}");
+
+    if ( $cfg->{localLibFile} && -s $cfg->{localLibFile} ) {
+        writeDebug("installing localLibFile $cfg->{localLibFile}");
+        system(<<HERE);
+cp -v $cfg->{localLibFile} $cfg->{checkoutDir}/core/bin/ >> $cfg->{logFile}
+HERE
+
+    }
+
+    chdir('core') or die "failed to chdir to core";
+    system(<<HERE);
+./pseudo-install.pl developer >> $cfg->{logFile}
+./pseudo-install.pl -A >> $cfg->{logFile}
+HERE
+
+}
+
+sub runUnitTests {
+    my $cfg = shift;
+
+    unless ( $cfg->{doUnitTests} ) {
+        writeDebug("NOT running unit tests");
+        return;
+    }
+
+    writeDebug("running unit tests");
+
+    chdir("$cfg->{checkoutDir}/core/test/unit");
+
+    my $errorCode = system(<<HERE);
+export FOSWIKI_LIBS=$cfg->{checkoutDir}/core/lib; 
+export FOSWIKI_HOME=$cfg->{checkoutDir}/core; 
+/usr/bin/time -v perl $cfg->{checkoutDir}/core/test/bin/TestRunner.pl -tap -clean FoswikiSuite.pm > $cfg->{unitTestLogFile} 2>&1
+HERE
+
+    $errorCode = $errorCode >> 8;
+    writeDebug("errorCode=$errorCode");
+
+    my $unitTestsErrors = readFile( $cfg->{unitTestLogFile} );
+    writeDebug("unitTestsErrors=$unitTestsErrors");
+
+    # only output the summary
+    unless ( $unitTestsErrors =~ s/^(.*)Unit test run Summary://s ) {
         my $lastTest = '';
-        if ( $unittestErrors =~ /.*^(Running .*?\z)/sm ) {
+
+        if ( $unitTestsErrors =~ /.*^(Running .*?\z)/sm ) {
             $lastTest = "Last test:\n$1\n";
         }
-        $unittestErrors =
+
+        $unitTestsErrors =
             "Unit tests ended abnormally. "
           . $lastTest
           . "Please check the unit test log.\n";
     }
 
-    chdir($foswikihome);
-    if ($SvensAutomatedBuilds) {
-        `scp Foswiki* $webspace_scp$foswikiBranch/`;
-        sendEmail(
-            $mail_to,
-            "[AUTOTEST] Foswiki $foswikiBranch has Unit test FAILURES",
-            " see $webspace_url$foswikiBranch/ for output files.\n"
-              . $unittestErrors
-        );
+    if ($errorCode) {
+        if ( $cfg->{doEmail} ) {
+            sendEmail(
+                $cfg,
+                undef,
+"[AUTOTEST] Foswiki $cfg->{foswikiBranch} has Unit test FAILURES",
+                " see $cfg->{url}$cfg->{foswikiBranch}/ for output files.\n"
+                  . $unitTestsErrors
+            );
+        }
     }
-    die "\n\n$errorcode: unit test failures - need to fix them first\n";
 }
 
-######################################################
-# go on if there are no unit test failures
+sub runMemoryTests {
+    my $cfg = shift;
 
-chdir($foswikihome);
+    unless ( $cfg->{doMemoryTests} ) {
+        writeDebug("NOT running memory tests");
+        return;
+    }
+    writeDebug("runing memory tests");
 
-#TODO: add a performance BM & compare to something golden.
-chdir('tools');
-`perl MemoryCycleTests.pl > $foswikihome/Foswiki-MemoryCycleTests.log 2>&1`;
-chdir($foswikihome);
-`/usr/bin/perlcritic --severity 5 --statistics --top 20 --exclude=Variables::ProtectPrivateVars lib/  > $foswikihome/Foswiki-PerlCritic.log 2>&1`;
-`/usr/bin/perlcritic --severity 5 --statistics --top 20 --exclude=Variables::ProtectPrivateVars bin/ >> $foswikihome/Foswiki-PerlCritic.log 2>&1`;
+    system("perl MemoryCycleTests.pl > $cfg->{memoryTestLogFile} 2>&1");
 
-#`cd tools; perl check_manifest.pl`;
-#`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="ProjectContributor".*version="\$Rev'`;
+    #TODO: add a performance BM & compare to something golden.
+}
 
-#TODO: #  fix up release notes with new changelogs - see
-#
-#    * http://foswiki.org/Tasks/ReleaseNotesTml?type=patch
-#        * Note that the release note is edited by editing the topic data/Foswiki/FoswikiReleaseNotes04x00. The build script creates a file in the root of the zip called FoswikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
-#            * Note - from 4.1 we need to call this data/Foswiki/FoswikiReleaseNotes04x01
-#
-#
+sub runPerlCritics {
+    my $cfg = shift;
 
-print "\n\n ready to build release\n" if $verbose;
+    unless ( $cfg->{doPerlCritics} ) {
+        writeDebug("NOT running memory tests");
+        return;
+    }
+
+    writeDebug("runing perlcritics");
+
+    system(<<HERE);
+perlcritic --severity 5 --statistics --top 20 --exclude=Variables::ProtectPrivateVars $cfg->{checkoutDir}/core/lib/ $cfg->{checkoutDir}/core/bin/ > $cfg->{perlCriticsLogFile} 2>&1
+HERE
+
+    #writeDebug(readFile($cfg->{perlCriticsLogFile})) if $verbose;
+}
+
+sub checkManifest {
+    my $cfg = shift;
+
+    writeDebug("checking manifest");
+    system(
+"cd $cfg->{checkoutDir}/core/tools; perl check_manifest.pl >> $cfg->{logFile}"
+    );
+}
+
+sub checkTopicInfo {
+    my $cfg = shift;
+
+    writeDebug("checking topicinfo");
+    my $ret = system(<<HERE);
+grep '%META:TOPICINFO{' $cfg->{checkoutDir}/core/data/*/*.txt | grep -v TestCases |grep -v Trash | grep -v 'author="ProjectContributor".*version="1"' >> $cfg->{logFile}
+HERE
+
+    $ret = $ret >> 8;
+
+    #writeDebug("ret=$ret");
+
+    die "invalid topicinfo found" unless $ret;
+
+}
+
+sub buildRelease {
+    my $cfg = shift;
+
+    writeDebug("building release $cfg->{foswikiBranch}");
 
 #TODO: clean the setup again
 #   1.  Install developer plugins (hard copy)
@@ -159,17 +300,35 @@ print "\n\n ready to build release\n" if $verbose;
 #   3. cd tools
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn
-`git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> ../../Foswiki-git.$foswikiBranch.log`;
-chdir('lib');
-`export FOSWIKI_LIBS=$foswikihome/lib:$foswikihome/lib/CPAN/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
-chdir($foswikihome);
-if ($SvensAutomatedBuilds) {
+   #  system(<<HERE);
+   #cd $cfg->{checkoutDir}
+   #git status -s | grep '^ M ' | cut -d' ' -f3 | xargs git checkout >> $logFile
+   #HERE
 
-    `cp ../../Foswiki-git.$foswikiBranch.log Foswiki-git.log`;
+    my $ret = system(<<HERE);
+export FOSWIKI_LIBS=$cfg->{checkoutDir}/core/lib:$cfg->{checkoutDir}/lib/CPAN/lib; 
+export FOSWIKI_HOME=$cfg->{checkoutDir}/core; 
+cd $cfg->{checkoutDir}/core/lib
+perl ../tools/build.pl release -auto -nocheck >> $cfg->{logFile} 2>&1
+HERE
+
+    $ret = $ret >> 8;
+
+    #writeDebug("ret=$ret");
+
+    die "build failed. see $cfg->{logFile}" if $ret;
+}
+
+sub uploadBuild {
+    my $cfg = shift;
+
+    return unless $cfg->{doUpload};
+
+    writeDebug("uploading build");
 
     #create -latest links
-    opendir( my $dh, $foswikihome );
+    opendir( my $dh, "$cfg->{checkoutDir}/core" );
     foreach my $file ( grep /Foswiki-.*auto/, readdir $dh ) {
         my $link = $file;
         $link =~ s/-auto\w+/-latest/;
@@ -177,41 +336,56 @@ if ($SvensAutomatedBuilds) {
     }
 
     #push the files to the server
-    `scp ../*/*.zip $webspace_scp$foswikiBranch/`;
-    `scp ../*/*.tgz $webspace_scp$foswikiBranch/`;
-    `scp ../*/*.md5 $webspace_scp$foswikiBranch/`;
-    `scp Foswiki*   $webspace_scp$foswikiBranch/`;
+    system(<<HERE);
+scp ../*/*.zip $cfg->{scpDestination}$cfg->{foswikiBranch}/
+scp ../*/*.tgz $cfg->{scpDestination}$cfg->{foswikiBranch}/
+scp ../*/*.md5 $cfg->{scpDestination}$cfg->{foswikiBranch}/
+scp Foswiki* $cfg->{scpDestination}$cfg->{foswikiBranch}/
+HERE
+
+}
+
+sub sendBuildReport {
+    my $cfg = shift;
+
+    return unless $cfg->{doEmail};
 
     my $buildOutput      = `ls -alh *auto*`;
-    my $emailDestination = $mail_from;
+    my $emailDestination = $cfg->{mailFrom};
     if ( $buildOutput eq '' ) {
 
         #Raise the alarm, no files actually built
         $buildOutput .=
 "\nERROR: Unit test did not fail, but no output files found, please consult build log.\n";
-        $emailDestination = $mail_to;
+        $emailDestination = $cfg->{mailTo};
     }
     $buildOutput .= "\n";
-    $buildOutput .=
-      `grep 'All tests passed' $foswikihome/Foswiki-UnitTests.log`;
+    $buildOutput .= `grep 'All tests passed' $cfg->{unitTestLogFile}`;
     sendEmail(
+        $cfg,
         $emailDestination,
-        "[AUTOBUILD] Foswiki $foswikiBranch built OK",
-        " see $webspace_url$foswikiBranch/ for output files.\n" . $buildOutput
+        "[AUTOBUILD] Foswiki $cfg->{foswikiBranch} built OK",
+        " see $cfg->{url}$cfg->{foswikiBranch}/ for output files.\n"
+          . $buildOutput
     );
 }
 
-sub sendEmail {
-    my ( $to, $subject, $body ) = @_;
+# load settings
+my $Config = loadConfig();
 
-    # send mail
-    open( MAIL,
-        "|/usr/sbin/sendmail -t -oi -oem"
-          || print STDERR "Error sending mail\n" );
-    print MAIL "From: $mail_from\n";
-    print MAIL "To: $to\n";
-    print MAIL "Subject: $subject\n";
-    print MAIL "\n";
-    print MAIL "$body\n";
-    close MAIL;
-}
+# report config settings
+writeDebug("configFile=$configFile");
+
+#writeDebug("config=".dump($Config));
+
+prepairCheckout($Config);
+runUnitTests($Config);
+runMemoryTests($Config);
+runPerlCritics($Config);
+checkManifest($Config);
+checkTopicInfo($Config);
+buildRelease($Config);
+uploadBuild($Config);
+sendBuildReport($Config);
+
+1;
