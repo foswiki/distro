@@ -1,4 +1,4 @@
-#! /usr/bin/env perl
+#!/usr/bin/env perl
 #
 # Build a Foswiki Release from branches in the Foswiki git repository - see https://foswiki.org/Development/BuildingARelease
 #    * checkout Foswiki Branch
@@ -8,6 +8,7 @@
 #
 # Sven Dowideit Copyright (C) 2006-2011 All rights reserved.
 # Florian Schlichting Copyright (C) 2013-2015
+# Michael Daum Copyright (C) 2023
 # gpl3 or later licensed.
 #
 # If you are running an automated nightly build system, call with ./autoBuildFoswiki.pl --autobuild
@@ -18,8 +19,6 @@ use strict;
 use warnings;
 
 use Getopt::Long;
-
-#use Data::Dump qw(dump);
 
 # defaults
 my $DefaultConfig = {
@@ -41,7 +40,7 @@ my $DefaultConfig = {
 
     # some booleans
     doPrepairCheckout => 1,
-    doCleanup         => 1,
+    doCleanup         => 0,
     doUnitTests       => 1,
     doMemoryTests     => 0,
     doPerlCritics     => 0,
@@ -64,8 +63,15 @@ sub loadConfig {
 
     use vars qw($VAR1);
 
+    $VAR1 = {};
+
+    writeDebug("loading configFile=$configFile");
     if ($configFile) {
-        require $configFile;
+        do $configFile;
+        if ($@) {
+            print STDERR "ERROR: " . $@ . "\n";
+            exit;
+        }
     }
 
     # local config
@@ -249,7 +255,7 @@ sub runPerlCritics {
     my $cfg = shift;
 
     unless ( $cfg->{doPerlCritics} ) {
-        writeDebug("NOT running memory tests");
+        writeDebug("NOT running perl critics");
         return;
     }
 
@@ -275,16 +281,16 @@ sub checkTopicInfo {
     my $cfg = shift;
 
     writeDebug("checking topicinfo");
-    my $ret = system(<<HERE);
-grep '%META:TOPICINFO{' $cfg->{checkoutDir}/core/data/*/*.txt | grep -v TestCases |grep -v Trash | grep -v 'author="ProjectContributor".*version="1"' >> $cfg->{logFile}
-HERE
+    my $command =
+"grep '%META:TOPICINFO{' $cfg->{checkoutDir}/core/data/*/*.txt | grep -v TestCases |grep -v Trash | grep -v 'author=\"ProjectContributor\".*version=\"1\"' | awk -F: '{print \$1}' | tee $cfg->{logFile}";
 
-    $ret = $ret >> 8;
+    writeDebug("command=$command");
+    my $output = `$command`;
 
-    #writeDebug("ret=$ret");
-
-    die "invalid topicinfo found" unless $ret;
-
+    if ($output) {
+        print STDERR "ERROR: invalid topicinfo found:\n\n$output\n";
+        exit 1;
+    }
 }
 
 sub buildRelease {
@@ -324,6 +330,7 @@ sub uploadBuild {
     my $cfg = shift;
 
     return unless $cfg->{doUpload};
+    return unless $cfg->{scpDestination};
 
     writeDebug("uploading build");
 
@@ -360,7 +367,8 @@ sub sendBuildReport {
         $emailDestination = $cfg->{mailTo};
     }
     $buildOutput .= "\n";
-    $buildOutput .= `grep 'All tests passed' $cfg->{unitTestLogFile}`;
+    $buildOutput .= `grep 'All tests passed' $cfg->{unitTestLogFile}`
+      if $cfg->{doUnitTests} && -f $cfg->{unitTestLogFile};
     sendEmail(
         $cfg,
         $emailDestination,
@@ -372,11 +380,6 @@ sub sendBuildReport {
 
 # load settings
 my $Config = loadConfig();
-
-# report config settings
-writeDebug("configFile=$configFile");
-
-#writeDebug("config=".dump($Config));
 
 prepairCheckout($Config);
 runUnitTests($Config);
