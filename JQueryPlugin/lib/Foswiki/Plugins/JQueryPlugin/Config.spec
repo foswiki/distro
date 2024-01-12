@@ -40,7 +40,7 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
 # **STRING LABEL="Default Plugins"**
 # List of plugins loaded by default on any page. Note that you need at least the "migrate" plugin being loaded by default in case you are using 
-# a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
+# a newer jQuery library. 
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
 # **SELECT jquery-2.2.4, jquery-3.7.1**
@@ -52,22 +52,22 @@ $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
 # ---+++ JQuery UI Themes
 # **BOOLEAN LABEL="Base"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Flickr"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Flickr}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Themes}{Flickr}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Foswiki"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Lightness"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Lightness}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Themes}{Lightness}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Redmond"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Smoothness"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 0;
 
 # ---+++ JQuery Plugins
 # **BOOLEAN LABEL="Animate"**

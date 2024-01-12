@@ -7,24 +7,21 @@ use strict;
 use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
-sub check {
-    my $this = shift;
-    my $warnings;
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} ) {
-        $warnings .= $this->WARN(<<'HERE');
+        $reporter->WARN(<<'HERE');
 This plugin is deprecated. All major browsers now support the placeholder attribute. See http://caniuse.com/#feat=input-placeholder
 HERE
     }
-
-    return $warnings;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

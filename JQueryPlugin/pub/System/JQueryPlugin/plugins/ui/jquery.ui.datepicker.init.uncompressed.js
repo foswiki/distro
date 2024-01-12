@@ -6,7 +6,8 @@ jQuery(function($) {
     dateFormat:'yy/mm/dd',
     firstDay: 1,
     showOn: 'button',
-    buttonText: ""
+    buttonText: "",
+    doWeekends: true,
   };
 
   $(".jqUIDatepicker").livequery(function() {
@@ -27,6 +28,10 @@ jQuery(function($) {
       "position": "relative",
       "z-index": maxZIndex + 1
     });
+
+    if (!opts.doWeekends) {
+      opts.beforeShowDay = $.datepicker.noWeekends
+    }
 
     trigger = $this.datepicker(opts).next();
     if (trigger.is(".ui-datepicker-trigger")) {
