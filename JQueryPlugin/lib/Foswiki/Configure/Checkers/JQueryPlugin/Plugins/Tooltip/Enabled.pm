@@ -7,25 +7,22 @@ use strict;
 use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
-sub check {
-    my $this = shift;
-    my $warnings;
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} ) {
-        $warnings .= $this->WARN(<<'HERE');
+        $reporter->WARN(<<'HERE');
 Tooltip has been deprecated.  Please use the tooltip plugin part of the jQuery-ui package. 
 The new plugin is not backwards compatible. See the JQueryPlugin documentation for further details.
 HERE
     }
-
-    return $warnings;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

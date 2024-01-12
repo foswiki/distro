@@ -146,7 +146,7 @@ $(BUILD_DIR)/%.js: $(BUILD_DIR)/%_src.js
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
-	@$(MAKE) --no-print-directory -C $@
+	@$(MAKE) -s --no-print-directory -C $@
 
 %.pm:
 	@if test -f $@; then \

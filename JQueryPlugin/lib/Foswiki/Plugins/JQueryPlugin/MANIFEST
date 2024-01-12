@@ -86,6 +86,11 @@ lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/SimpleModal/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Supersubs/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tmpl/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Base/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Flickr/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Lightness/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Redmond/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Smoothness/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
@@ -304,6 +309,7 @@ pub/System/JQueryPlugin/plugins/farbtastic/Makefile 0644
 pub/System/JQueryPlugin/plugins/farbtastic/marker.png 0644
 pub/System/JQueryPlugin/plugins/farbtastic/mask.png 0644
 pub/System/JQueryPlugin/plugins/farbtastic/pkg.js 0644
+pub/System/JQueryPlugin/plugins/farbtastic/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/farbtastic/pkg.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/farbtastic/wheel.png 0644
 pub/System/JQueryPlugin/plugins/fluidfont/jquery.fluidfont.js 0644
