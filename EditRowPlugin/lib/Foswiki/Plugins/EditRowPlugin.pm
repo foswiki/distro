@@ -6,11 +6,12 @@ use warnings;
 use Foswiki::Request                      ();
 use Foswiki::Render                       ();
 use Foswiki::Plugins::EditRowPlugin::View ();
+use Foswiki::Plugins::JQueryPlugin        ();
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
     unless ( Foswiki::Request->can('multi_param') ) {
-        no warnings 'redefine';
+        no warnings 'redefine';    ## no critic
         *Foswiki::Request::multi_param = \&Foswiki::Request::param;
         use warnings 'redefine';
     }
@@ -34,8 +35,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '3.401';
-our $RELEASE           = '06 Aug 2023';
+our $VERSION           = '3.402';
+our $RELEASE           = '12 Jan 2024';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -60,6 +61,9 @@ sub initPlugin {
         description => 'Save a table row.'
     );
     @refs = ();
+
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'EditRow',
+        'Foswiki::Plugins::EditRowPlugin::JQuery' );
 
     return 1;
 }
@@ -124,7 +128,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2008-2023 Foswiki Contributors
+Copyright (c) 2008-2024 Foswiki Contributors
 Copyright (c) 2007 WindRiver Inc.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.

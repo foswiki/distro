@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1705074188" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 %FORMFIELD{"Description"}%
 
@@ -271,6 +271,7 @@ Provides the vertical row editing interface like
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  3.402 (12 Jan 2024) | Foswikitask:Item15236: properly register jQuery module |
 |  3.401 (06 Aug 2023) | Foswikitask:Item15151: add warnings and strictness |
 |  3.400 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
 |  3.330 (29 Sep 2020) | Foswikitask:Item14929: fixed single zero char not rendered in table cell | 
@@ -351,7 +352,7 @@ Provides the vertical row editing interface like
 %META:FIELD{name="Description" title="Description" value=""}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2023 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2024 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
