@@ -247,57 +247,45 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # the Foswiki distribution.
 
 # **BOOLEAN LABEL="Autocomplete" EXPERT**
-# Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Bgiframe" EXPERT**
-# Warning: this plugin is deprecated. 
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Corner" EXPERT**
-# Warning: this plugin is deprecated. 
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Gradient" EXPERT**
-# Warning: this plugin is deprecated. Please use CSS. See http://colorzilla.com/gradient-editor/.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 0;
 
 # **BOOLEAN LABEL="LiveQuery" EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{LiveQuery}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Media" EXPERT**
-# Warning: This plugin is deprecated. Use MediaElementPlugin instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Nifty" EXPERT**
-# Warning: This plugin is deprecated. Use Corner instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Placeholder" EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Rating" EXPERT**
-# Warning: This plugin is deprecated. Use Stars instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Shake" EXPERT**
-# Warning: This plugin is deprecated. The shake effect is now part of the latest jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
 
 # **BOOLEAN LABEL="SimpleModal" EXPERT**
-# Warning: This plugin is deprecated. Please use ui::dialog, the jquery-ui dialog widget.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Supersubs" EXPERT**
-# Warning: This plugin is deprecated. The latest superfish module supersedes it.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Tmpl" EXPERT**
-# Warning: This plugin is deprecated. Please use jsrender.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Tooltip" EXPERT**
-# Warning: this plugin is deprecated. Please use the tooltip plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
 
 #---+ Tuning
