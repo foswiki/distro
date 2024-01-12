@@ -1,6 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1705059808" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQTHEME -- switch jQuery UI theme
+
+%RED% *WARNING*: JQuery-UI themes are deprecated since Foswiki-2.1.9. Please don't use this macro anymore. %ENDCOLOR%
+
 Foswiki's default UI theme is configured in  =$Foswiki::cfg{JQueryPlugin}{JQueryTheme}= and defaults to =foswiki=.
 Use [[%SCRIPTURLPATH{"configure"}%][configure]] to change this site wide. Use JQTHEME if you decide to use a different
  theme on the current page. 
