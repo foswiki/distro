@@ -1478,7 +1478,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # Foswiki uses NFC normalization for all network operations, but assumes
 # that the file system is also NFC normalized.  Some systems such as OS X
 # enforce NFD normalization for filenames.  If Foswiki is installed on one
-# of these sysetms, or accesses such a system via a remote file system
+# of these systems, or accesses such a system via a remote file system
 # like NFS, then all directory / filename read operations must be NFC
 # normalized. Need for NFC normalization is detected and set during bootstrap
 # but may need to be overridden if individual webs are symlinked to a NFD
