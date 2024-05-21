@@ -234,8 +234,9 @@ sub _getACL {
 
     # Dump the users web specifier if userweb
     my @list = grep { /\S/ } map {
-        s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
-        $_
+        my $tmp = $_;
+        $tmp =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+        $tmp
     } split( /[,\s]+/, $text );
 
     #print STDERR "getACL($mode): ".join(', ', @list)."\n";

@@ -276,7 +276,7 @@ sub rest {
     my $error = 0;
 
     try {
-        no strict 'refs';
+        no strict 'refs';    ## no critic
         $result = &$function( $session, $subject, $verb, $session->{response} );
         use strict 'refs';
     }

@@ -576,11 +576,15 @@ sub _getTopList {
     if (@list) {
 
         # Strip initial spaces
-        @list = map { s/^\s*//; $_ } @list;
+        @list = map { my $tmp = $_; $tmp =~ s/^\s*//; $tmp } @list;
 
         @list =    # Prepend spaces depending on no. of digits
-          map { s/^([0-9][0-9][^0-9])/\&nbsp\;$1/;    $_ }
-          map { s/^([0-9][^0-9])/\&nbsp\;\&nbsp\;$1/; $_ }
+          map { my $tmp = $_; $tmp =~ s/^([0-9][0-9][^0-9])/\&nbsp\;$1/; $tmp }
+          map {
+            my $tmp = $_;
+            $tmp =~ s/^([0-9][^0-9])/\&nbsp\;\&nbsp\;$1/;
+            $tmp
+          }
 
           # Sort numerically, descending order
           sort { ( split / /, $b )[0] <=> ( split / /, $a )[0] } @list;

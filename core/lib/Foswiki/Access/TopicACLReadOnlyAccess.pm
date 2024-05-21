@@ -10,12 +10,13 @@ DENY any access except VIEW access - Admin permitted anythingeverything
 
 package Foswiki::Access::TopicACLReadOnlyAccess;
 
+use strict;
+use warnings;
+
 use Foswiki::Access::TopicACLAccess;
 @ISA = qw(Foswiki::Access::TopicACLAccess);
 use constant MONITOR => 0;
 
-use strict;
-use warnings;
 use Assert;
 
 BEGIN {
