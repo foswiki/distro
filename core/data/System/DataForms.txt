@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1716288892" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -260,7 +260,7 @@ Types with names like this can both take multiple values.
 ---+++ Attributes
 Extra attributes that control some aspects of how the field is handled.
 
-%TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
+%TABLE{columnwidths="20%,80%" sort="off"}%
 | =H= | Indicates that this field should not be shown in view mode. However, the field is available for editing and storing information. |
 | =M= | Indicates that this field is mandatory. The topic cannot be saved unless a value is provided for this field. |
 
