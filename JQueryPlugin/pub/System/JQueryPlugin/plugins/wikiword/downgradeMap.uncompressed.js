@@ -1090,4 +1090,7 @@ jQuery.wikiword.downgradeMap = {
   // Symbols
   '©':'(c)',
   '®':'(r)'
+
+  // soft hyphen
+  "\xAD": ''
 };
