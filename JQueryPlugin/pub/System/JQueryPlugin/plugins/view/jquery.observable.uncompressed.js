@@ -1,9 +1,9 @@
-/*! JsObservable v1.0.7: http://jsviews.com/#jsobservable */
+/*! JsObservable v1.0.14: http://jsviews.com/#jsobservable */
 /*
  * Subcomponent of JsViews
  * Data change events for data-linking
  *
- * Copyright 2020, Boris Moore
+ * Copyright 2024, Boris Moore
  * Released under the MIT License.
  */
 
@@ -44,7 +44,7 @@ if (!$ || !$.fn) {
 	throw "jquery.observable.js requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v1.0.7",
+var versionNumber = "v1.0.14",
 	_ocp = "_ocp", // Observable contextual parameter
 	$observe, $observable,
 
@@ -72,9 +72,10 @@ var versionNumber = "v1.0.7",
 	$sub = $views.sub,
 	$subSettings = $sub.settings,
 	$subSettingsAdvanced = $subSettings.advanced,
-        $isFunction = function(ob) { return typeof ob === "function"; };
-        $isArray = Array.isArray || function(obj) { return ({}.toString).call(obj) === "[object Array]"; };
+	$isFunction = $.isFunction,
 	$expando = $.expando,
+	$isArray = $.isArray,
+	STRING = "string",
 	OBJECT = "object";
 
 if ($views.jsviews !== versionNumber) {
@@ -149,7 +150,7 @@ if (!$.observe) {
 						: root; // rt = root = current data context of computed prop
 				out = out.concat(dependsPaths(path.call(root, rt, callback), rt, callback));
 				continue;
-			} else if ("" + path !== path) {
+			} else if (typeof path !== STRING) {
 				root = nextObj = path = (path === undefined ? null : path);
 				if (nextObj !== object) {
 					out.push(object = nextObj);
@@ -521,7 +522,7 @@ if (!$.observe) {
 						}
 
 						while ((prop = prts.shift()) !== undefined) {
-							if (obj && typeof obj === OBJECT && "" + prop === prop) {
+							if (obj && typeof obj === OBJECT && typeof prop === STRING) {
 								if (prop === "") {
 									continue;
 								}
@@ -670,7 +671,7 @@ if (!$.observe) {
 							allowArray += path._ar; // Switch on allowArray for depends paths, and off, afterwards.
 							continue;
 						}
-						if ("" + path === path) {
+						if (typeof path === STRING) {
 							parts = path.split("^");
 							if (parts[1]) {
 								// We bind the leaf, plus additional nodes based on depth.
@@ -693,7 +694,7 @@ if (!$.observe) {
 											continue;
 										}
 									}
-									if (pth + "" === pth) {
+									if (typeof pth === STRING) {
 										observePath(ob, pth.split("."));
 									} else {
 										observeObjectPaths(items.shift(), items, callback, contextCb);
@@ -732,7 +733,7 @@ if (!$.observe) {
 					l = paths.length;
 				while (l--) { // Step backwards through paths and objects
 					pth = paths[l];
-					if (pth + "" === pth || pth && (pth._ar || pth._cpfn)) {
+					if (typeof pth === STRING || pth && (pth._ar || pth._cpfn)) {
 						pths.unshift(pth); // This is a path so add to arr
 					} else { // This is an object
 						observeObjectPaths(pth, pths, callback, contextCb);
@@ -751,7 +752,7 @@ if (!$.observe) {
 				lastArg = paths.pop() || false,
 				m = paths.length;
 
-			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
+			if (typeof lastArg === STRING) { // If last arg is a string then this observe call is part of an observeAll call,
 				allPath = lastArg;            // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
 				filter = paths.pop();
@@ -761,7 +762,7 @@ if (!$.observe) {
 			if (lastArg === !!lastArg) {
 				unobserve = lastArg;
 				lastArg = paths[m-1];
-				lastArg = m && lastArg + "" !== lastArg && (!lastArg || $isFunction(lastArg)) ? (m--, paths.pop()) : undefined;
+				lastArg = m && typeof lastArg !== STRING && (!lastArg || $isFunction(lastArg)) ? (m--, paths.pop()) : undefined;
 				if (unobserve && !m && $isFunction(paths[0])) {
 					lastArg = paths.shift();
 				}
@@ -821,7 +822,7 @@ if (!$.observe) {
 			paths = slice.call(arguments),
 			pth = paths[0];
 
-		if (pth + "" === pth) {
+		if (typeof pth === STRING) {
 			initialNs = pth; // The first arg is a namespace, since it is a string
 			paths.shift();
 		}
@@ -839,7 +840,7 @@ if (!$.observe) {
 	};
 
 	$observable = function(ns, data, delay) {
-		if (ns + "" !== ns) {
+		if (typeof ns !== STRING) {
 			delay = data;
 			data = ns;
 			ns = "";
@@ -897,10 +898,10 @@ if (!$.observe) {
 			return this._data;
 		},
 
-		setProperty: function(path, value, nonStrict) {
+		setProperty: function(path, value, nonStrict, isCpfn) {
 			path = path || "";
 			var key, pair, parts, tempBatch,
-				multi = path + "" !== path, // Hash of paths
+				multi = typeof path !== STRING, // Hash of paths
 				self = this,
 				object = self._data,
 				batch = self._batch;
@@ -937,7 +938,7 @@ if (!$.observe) {
 						object = object[parts.shift()];
 					}
 					if (object) {
-						self._setProperty(object, parts[0], value, nonStrict);
+						self._setProperty(object, parts[0], value, nonStrict, isCpfn);
 					}
 				}
 			}
@@ -949,12 +950,13 @@ if (!$.observe) {
 			return this;
 		},
 
-		_setProperty: function(leaf, path, value, nonStrict) {
+		_setProperty: function(leaf, path, value, nonStrict, isCpfn) {
 			var setter, getter, removeProp, eventArgs, view,
 				property = path ? leaf[path] : leaf;
-
-			if (property !== value || nonStrict && property != value) {
-				if ($isFunction(property) && property.set) {
+			if ($isFunction(property) && !$isFunction(value)) {
+				if (isCpfn && !property.set) {
+					return; // getter function with no setter defined. So will not trigger update
+				}	else if (property.set) {
 					// Case of property setter/getter - with convention that property is getter and property.set is setter
 					view = leaf._vw // Case of JsViews 2-way data-linking to an observable context parameter, with a setter.
 						// The view will be the this pointer for getter and setter. Note: this is the one scenario where path is "".
@@ -964,7 +966,8 @@ if (!$.observe) {
 					property = getter.call(view); // get - only treated as getter if also a setter. Otherwise it is simply a property of type function.
 					// See unit tests 'Can observe properties of type function'.
 				}
-
+			}
+			if (property !== value || nonStrict && property != value) {
 				// Optional non-strict equality, since serializeArray, and form-based editors can map numbers to strings, etc.
 				// Date objects don't support != comparison. Treat as special case.
 				if (!(property instanceof Date && value instanceof Date) || property > value || property < value) {
