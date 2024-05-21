@@ -621,6 +621,7 @@ pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-bottom.png 0644
 pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble.png 0644
 pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse-bottom.png 0644
 pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse.png 0644
+pub/System/JQueryPlugin/plugins/treeview/foswiki.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/treeview/images/file.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/folder-closed.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/folder.gif 0644
@@ -639,16 +640,16 @@ pub/System/JQueryPlugin/plugins/treeview/images/treeview-red-line.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.async.js 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.async.js.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.async.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.css 0644
-pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.css.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.init.js 0644
-pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.init.js.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.js 0644
-pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.js.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/treeview/Makefile 0644
+pub/System/JQueryPlugin/plugins/treeview/treeview.css 0644
+pub/System/JQueryPlugin/plugins/treeview/treeview.css.gz 0644
+pub/System/JQueryPlugin/plugins/treeview/treeview.js 0644
+pub/System/JQueryPlugin/plugins/treeview/treeview.js.gz 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-af.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar-DZ.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar.js 0644
@@ -1245,6 +1246,7 @@ pub/System/JQueryPlugin/plugins/validate/localization/messages_fr.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_ge.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_gl.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_he.js 0644
+pub/System/JQueryPlugin/plugins/validate/localization/messages_hi.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_hr.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_hu.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_hy_AM.js 0644

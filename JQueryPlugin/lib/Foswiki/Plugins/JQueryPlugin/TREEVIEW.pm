@@ -26,16 +26,13 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'Treeview',
-            version => '1.4',
+            version => '1.4.2',
             author  => 'Joern Zaefferer',
             homepage =>
               'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
-            css        => ['jquery.treeview.css'],
-            javascript => [
-                'jquery.treeview.js', 'jquery.treeview.async.js',
-                'jquery.treeview.init.js'
-            ],
-            dependencies => ['metadata'],
+            css          => ['treeview.css'],
+            javascript   => ['treeview.js'],
+            dependencies => ['foswiki']
         ),
         $class
     );
@@ -47,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
