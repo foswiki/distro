@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1521204407" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1716289088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -226,7 +226,7 @@ Action added to action table directly above comment box
 <verbatim>
 %TMPL:DEF{PROMPT:action}%
 
-%TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
+%TABLE{tableborder="0" cellborder="0"}%
 |        <label for="action_who">Action for</label>| <input class="foswikiInputField" name="action_who" id="action_who" type="text" size="50" value="%URLPARAM{"who"}%" /> |
 | <label for="action_due">Due date</label>| <input class="foswikiInputField" name="action_due" id="action_due" type="text" size="30" value="%URLPARAM{"due"}%" /> |
 |    <label for="action_comment">Comment</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="action_comment" id="action_comment" class="foswikiInputField commentPluginPromptBox" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
@@ -247,7 +247,7 @@ Action added to action table directly above comment box
 Tablerows adding on end
 <verbatim>
 %TMPL:DEF{PROMPT:table}%
-%TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
+%TABLE{tableborder="0" cellborder="0"}%
 |        <label for="comment_date">Date</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_date" id="comment_date" /> |
 |        <label for="comment_city">City</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_city" id="comment_city" value="" /> |
 || <input %DISABLED% type="button" class="foswikiButton %TMPL:P{ajax}%" value="%button|Add entry%" /> |
@@ -267,7 +267,7 @@ Tablerows adding on end
 Talk using TOC adding on end
 <verbatim>
 %TMPL:DEF{PROMPT:toctalk}%
-%TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
+%TABLE{tableborder="0" cellborder="0"}%
 |        <label for="comment_summary">Summary</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_summary" id="comment_summary" /> |
 |        <label for="toctalk_comment_text">Message</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="toctalk_comment_text" id="toctalk_comment_text" class="foswikiInputField commentPluginPromptBox" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
 || <input %DISABLED% type="button" value="%button|Add%" class="foswikiButton %TMPL:P{ajax}%" /> |
@@ -290,7 +290,7 @@ Talk using TOC adding on end
 Create a list of annotated bookmarks
 <verbatim>
 %TMPL:DEF{PROMPT:bookmark}%
-%TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
+%TABLE{tableborder="0" cellborder="0"}%
 |        <label for="comment_url">Url</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_url" id="comment_url" value="http://" /> |
 | <label for="comment_link">Link label</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_link" id="comment_link" /> |
 |    <label for="bookmark_comment_text">Comment</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="bookmark_comment_text" id="bookmark_comment_text" value="%MESSAGE%" /> |
