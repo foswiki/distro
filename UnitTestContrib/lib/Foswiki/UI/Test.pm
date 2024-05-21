@@ -11,7 +11,7 @@ sub freeze {
 
 sub thaw {
     my $VAR1;
-    eval $_[0] or die $@;
+    eval $_[0] or die $@;    ## no critic
     return $VAR1;
 }
 
