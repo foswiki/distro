@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1700242676" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1716292151" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,14 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  21 May 2024: | (11.00) - Item15328: remove soft hyphens when wikifying a string; \
+                            Item15327: remove fixed-width attribute from button icons; \
+                            Item15326: upgrade to latest available imagesLoaded module; \
+                            Item15325: upgrade jQuery treeview to version 1.4.2 and add a custom foswiki theme; \
+                            Item15324: upgrade to latest version of jQuery UI; \
+                            Item15217: deprecate jquery themes; \
+                            Item15329: upgrade jsview and jsrender modules to latest upstream version; \
+                            Item15330: update validate to latest upstream version |
 |  13 Nov 2023: | (10.99) - Item15229: new feature to combine js, css and i18n assets of modules |
 |  16 Oct 2023: | (10.70) - Item15224: minimize number of loaded js files |
 |  04 Sep 2023: | (10.60) - Item15214: updated to jquery-3.7.1 |
