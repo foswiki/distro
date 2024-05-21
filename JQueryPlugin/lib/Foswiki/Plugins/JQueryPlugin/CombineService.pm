@@ -37,7 +37,8 @@ sub new {
     my @combinedModules =
       split( /\s*,\s*/, $Foswiki::cfg{JQueryPlugin}{Combine}{Modules} // '' );
 
-    push @combinedModules, $Foswiki::cfg{JQueryPlugin}{DefaultPlugins}
+    push @combinedModules,
+      split( /\s*,\s*/, $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} )
       if $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
 
     push @combinedModules, "noconflict"
@@ -301,11 +302,7 @@ sub getFiles {
         }
 
         my $plugin = Foswiki::Plugins::JQueryPlugin::Plugins::load($module);
-        unless ($plugin) {
-            print STDERR
-              "WARNING: failed to read module $module ... skipping\n";
-            next;
-        }
+        next unless $plugin;
         $plugin->{isLoaded} = 1;
 
         if ( $plugin->{dependencies} && @{ $plugin->{dependencies} } ) {
