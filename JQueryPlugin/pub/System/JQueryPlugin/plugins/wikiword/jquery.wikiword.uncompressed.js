@@ -1,7 +1,7 @@
 /*
- * jQuery WikiWord plugin 3.41
+ * jQuery WikiWord plugin 3.42
  *
- * Copyright (c) 2008-2021 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2024 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -37,7 +37,7 @@ $.wikiword = {
     // iterate and reformat each matched element
     return this.each(function() {
       var $this = $(this),
-          thisOpts = $.extend({}, opts, $this.data(), $this.metadata()),
+          thisOpts = $.extend({}, opts, $this.data()),
           $source;
 
       // either a string or a jQuery object
@@ -106,7 +106,7 @@ $.wikiword = {
    * convert a source string to a valid WikiWord
    */
   wikify: function (source, opts) {
-    var result = '', c, i;
+    var result = '', c, d, i;
 
     opts = $.extend({}, $.wikiword.defaults, opts);
 
@@ -122,7 +122,8 @@ $.wikiword = {
     if (opts.transliterate) {
       for (i = 0; i < source.length; i++) {
         c = source[i];
-        result += $.wikiword.downgradeMap[c] || c;
+        d = $.wikiword.downgradeMap[c];
+        result += typeof(d) === 'undefined' ? c : d;
       }
     } else {
       result = source;
