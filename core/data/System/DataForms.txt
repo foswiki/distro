@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1716287142" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -102,7 +102,6 @@ Data form tables often have an optional header row as a useful reminder of the c
 ---++++ Form field rows
 One form field is defined by each row in the table.
 
-%TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
 | Name | The name of the form field; must be unique for that form. |
 | Type | The data type: text, date, single or multi-value, labels (read-only). The type also defines how form field data can be entered in the edit screen, such as text field or radio buttons. |
 | Size | The input size of the form field inputs on the edit screen. |
@@ -309,7 +308,6 @@ Description of the field. Sometimes used in help information.
 ---++++ Attributes
 Whether the field is mandatory or hidden when viewed.
 
-%TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
 | =H= | Indicates that this field should not be shown in view mode. However, the field is available for editing and storing information. |
 | =M= | Indicates that this field is mandatory. The topic cannot be saved unless a value is provided for this field. If the field is found empty during topic save, the user is presented with an error message. Mandatory fields are indicated by an asterisk next to the field name. |
 

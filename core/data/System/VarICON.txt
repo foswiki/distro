@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1716287142" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ICON -- small documentation graphic or icon of common attachment types
 Generates a small graphic image from the set attached to %ICONTOPIC%. 
@@ -19,7 +19,6 @@ If you specify an icon which cannot be found, the one specified in the =default=
    * =%<nop>ICON{"/dont/you/dare/smile.pdf"}%= returns %ICON{"/dont/you/dare/smile.pdf"}%
    * =%<nop>ICON{"data.unknown" alt="Unknown file type"}%= displays as %ICON{"data.unknown" alt="Unknown file type"}%
    * =%<nop>ICON{"data.unknown"}%= displays as %ICON{"data.unknown"}%
-   * =%<nop>ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%
 
    * Graphics: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
    * File types: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
@@ -31,5 +30,5 @@ You can also use formatting tokens such as =$quot= and =$dollar= in =quote=.
 
 %STOPINCLUDE%
 ---++ Related
- [[VarICONURL][ICONURL]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%
+ [[VarICONURL][ICONURL]], [[VarICONURLPATH][ICONURLPATH]], %ICONTOPIC%, [[VarJQICON]]
 

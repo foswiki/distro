@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1716287142" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+!! IF statements
 
@@ -108,7 +108,6 @@ or
 ---++++ URL parameter test
 Be careful when you test for an empty value: if the URL parameter is not defined (not passed in the URL), the outcome might not be what you expected. Use the parameter test to check your assumptions.
 
-%TABLE{databg="#ffffff" headeralign="left" headerrows="2"}%
 | *Test* \
 | *IF query* \
 | *no param* \
@@ -164,7 +163,6 @@ Example:
 %INCLUDE{"%TOPIC%" section="includetest" name="Barry"}%
 <verbatim class='foswikiHidden'>
 %STARTSECTION{"includetest"}%
-%TABLE{databg="#ffffff" headeralign="left"}%
 | *Test* \
 | *IF query param 'name'* \
 | *Result param 'name'* \
