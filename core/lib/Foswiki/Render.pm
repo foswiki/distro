@@ -451,7 +451,7 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
 
                 # Indent pseudo-list
                 $line .= '&nbsp;'
-                  if ( length($line) eq 28 )
+                  if ( length($line) == 28 )
                   ;    # empty divs are not rendered, so make it non-empty.
                 _addListItem( $this, \@result, '', 'div', 'foswikiIndent', $1 );
                 $isList = 1;
@@ -1098,7 +1098,7 @@ sub getAnchorNames {
     my $id = $topicObject->getPath();
     my $a  = $this->{_anchorNames}{$id};
     unless ($a) {
-        $a = new Foswiki::Render::Anchors();
+        $a = Foswiki::Render::Anchors->new();
         $this->{_anchorNames}{$id} = $a;
     }
     return $a;
@@ -1723,12 +1723,6 @@ sub _adjustH {
 
     return $text unless scalar(@blocks) > 1;
 
-    sub _cap {
-        return 1 if ( $_[0] < 1 );
-        return 6 if ( $_[0] > 6 );
-        return $_[0];
-    }
-
     my $off = 0;
     my $out = '';
     while ( scalar(@blocks) ) {
@@ -1743,6 +1737,12 @@ sub _adjustH {
         }
     }
     return $out;
+}
+
+sub _cap {
+    return 1 if ( $_[0] < 1 );
+    return 6 if ( $_[0] > 6 );
+    return $_[0];
 }
 
 # _takeOutProtected( \$text, $re, $id, \%map ) -> $text

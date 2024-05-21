@@ -284,10 +284,12 @@ Initialisation that is done after the user is known.
 =cut
 
 sub enable {
-    my $this     = shift;
-    my $prefs    = $this->{session}->{prefs};
-    my $dissed   = $prefs->getPreference('DISABLEDPLUGINS') || '';
-    my %disabled = map { s/^\s+//; s/\s+$//; $_ => 1 } split( /,/, $dissed );
+    my $this   = shift;
+    my $prefs  = $this->{session}->{prefs};
+    my $dissed = $prefs->getPreference('DISABLEDPLUGINS') || '';
+    my %disabled =
+      map { my $tmp = $_; $tmp =~ s/^\s+//; $tmp =~ s/\s+$//; $tmp => 1 }
+      split( /,/, $dissed );
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
@@ -319,7 +321,7 @@ sub enable {
     foreach my $plugin ( @{ $this->{plugins} } ) {
         my $sub = $plugin->{module} . "::lateInitPlugin";
         if ( defined &$sub ) {
-            no strict 'refs';
+            no strict 'refs';    ## no critic
             &$sub();
             use strict 'refs';
         }
@@ -387,7 +389,7 @@ sub dispatch {
         ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
         # apply handler on the remaining list of args
-        no strict 'refs';
+        no strict 'refs';    ## no critic
         my $status = $plugin->invoke( $handlerName, @_ );
         use strict 'refs';
         if ( $status && $onlyOnceHandlers{$handlerName} ) {

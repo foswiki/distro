@@ -49,7 +49,7 @@ sub manage {
 
         if ( defined &$method ) {
             $session->logger->log( { level => 'info', action => $action } );
-            no strict 'refs';
+            no strict 'refs';    ## no critic
             &$method($session);
         }
         else {

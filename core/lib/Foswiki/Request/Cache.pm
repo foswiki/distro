@@ -71,7 +71,7 @@ sub save {
     # passthrough file is only written to once, so if it already exists,
     # suspect a security hack (O_EXCL)
     my $F;
-    sysopen( $F, $this->_cacheFile($uid), O_RDWR | O_EXCL | O_CREAT, 0600 )
+    sysopen( $F, $this->_cacheFile($uid), O_RDWR | O_EXCL | O_CREAT, oct(600) )
       || die 'Unable to open '
       . $this->_cacheFile($uid)
       . ' for write; check the setting of {WorkingDir} in configure,'
@@ -255,7 +255,7 @@ sub _loadUpload {
     my $data = <$F>;
     $data = Foswiki::Sandbox::untaintUnchecked($data);
     my $info = undef;
-    eval $data;
+    eval $data;    ## no critic
     $F->close();
     unlink($ifn);
 

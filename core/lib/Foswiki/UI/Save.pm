@@ -639,7 +639,7 @@ WARN
     }
 
     if ($attachments) {
-        foreach $a ( @{$attachments} ) {
+        foreach my $a ( @{$attachments} ) {
             try {
                 $a->{tom}->copyAttachment( $a->{name}, $topicObject );
             }

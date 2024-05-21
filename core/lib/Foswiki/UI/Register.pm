@@ -72,7 +72,7 @@ sub register_cgi {
         $session->enterContext('absolute_urls');
 
         try {
-            no strict 'refs';
+            no strict 'refs';    ## no critic
             &$handler($session);
             use strict 'refs';
         }
@@ -1953,12 +1953,13 @@ sub _validateRegistration {
     }
     catch Error with {
         my $e = shift;
+        $e =~ s/ at .*//ms;
         throw Foswiki::OopsException(
             'register',
             web    => $data->{webName},
             topic  => $session->{topicName},
             def    => 'registration_invalid',
-            params => [ $e->stringify ]
+            params => [$e]
         );
 
     };
@@ -2073,10 +2074,10 @@ sub _clearPendingRegistrationsForUser {
 
     # Remove the integer code to leave just the wikiname
     $file =~ s/\.\d+$//;
-    foreach my $f (<$file.*>) {
+    foreach my $f ( glob("$file.*") ) {
 
         # Read from disc, implictly validated
-        unlink( Foswiki::Sandbox::untaintUnchecked($f) );
+        unlink Foswiki::Sandbox::untaintUnchecked($f);
     }
 }
 
