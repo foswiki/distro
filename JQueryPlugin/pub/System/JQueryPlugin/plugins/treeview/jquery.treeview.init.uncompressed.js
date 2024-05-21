@@ -1,9 +1,22 @@
 "use strict";
+
 jQuery(function($){
-  $(".jqTreeview:not(.jqInitedTreeview)").livequery(function() {
+  $(".jqTreeview:not(.inited)").livequery(function() {
     var $this = $(this),
+        $ul = $this.find("ul:first"),
         thisClass = $this.attr('class'),
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
+
+    if (typeof(opts.open) !== 'undefined') {
+      var maxDepth = parseInt(opts.open);
+      $this.find("li").addClass("closed");
+      if (maxDepth) {
+        $this.find("li").filter(function(i, elem) {
+          var depth = $(elem).parentsUntil($ul).length;
+          return depth <= maxDepth;
+        }).addClass("open").removeClass("closed");
+      }
+    }
 
     if (thisClass.match(/\bopen\b/)) {
       opts.collapsed = false;
@@ -27,8 +40,15 @@ jQuery(function($){
       }
     }
 
-    $this.addClass("jqInitedTreeview");
-    $this.find("ul:first").treeview(opts);
+    $this.addClass("inited");
+    $ul.treeview(opts);
+
+    // SMELL: fix classes
+    $this.find(".open.expandable").removeClass("expandable").addClass("collapsable");
+    $this.find(".open.lastExpandable").removeClass("lastExpandable").addClass("lastCollapsable");
+    $this.find(".open-hitarea.expandable-hitarea").removeClass("expandable-hitarea").addClass("collapsable-hitarea");
+    $this.find(".open-hitarea.lastExpandable-hitarea").removeClass("lastExpandable-hitarea").addClass("lastCollapsable-hitarea");
+
     $this.css('display', 'block');
   });
 });

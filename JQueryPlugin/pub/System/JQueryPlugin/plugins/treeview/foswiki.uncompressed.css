@@ -1,0 +1,53 @@
+/* foswiki customizations */
+.jqTreeview {
+  display:none; /* activated using js */
+}
+.jqTreeview.red li { background-image: url(images/treeview-red-line.gif) !important; }
+.jqTreeview.red .hitarea, 
+.jqTreeview.red li.lastCollapsable, 
+.jqTreeview.red li.lastExpandable { background-image: url(images/treeview-red.gif) !important; } 
+
+.jqTreeview.black li { background-image: url(images/treeview-black-line.gif) !important; }
+.jqTreeview.black .hitarea, 
+.jqTreeview.black li.lastCollapsable, 
+.jqTreeview.black li.lastExpandable { background-image: url(images/treeview-black.gif) !important; }  
+
+.jqTreeview.gray li { background-image: url(images/treeview-gray-line.gif) !important; }
+.jqTreeview.gray .hitarea, 
+.jqTreeview.gray li.lastCollapsable, 
+.jqTreeview.gray li.lastExpandable { background-image: url(images/treeview-gray.gif) !important; } 
+
+.jqTreeview.famfamfam li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
+.jqTreeview.famfamfam .hitarea, 
+.jqTreeview.famfamfam li.lastCollapsable, 
+.jqTreeview.famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif) !important; } 
+
+.jqTreeview.orangearrows li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
+.jqTreeview.orangearrows .hitarea, 
+.jqTreeview.orangearrows li.lastCollapsable, 
+.jqTreeview.orangearrows li.lastExpandable { background-image: url(images/treeview-orangearrows.gif) !important; } 
+
+.jqTreeview.grayarrows li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
+.jqTreeview.grayarrows .hitarea, 
+.jqTreeview.grayarrows li.lastCollapsable, 
+.jqTreeview.grayarrows li.lastExpandable { background-image: url(images/treeview-orangearrows.gif) !important; } 
+
+.jqAjaxLoader,
+.treeview .placeholder {
+  background: url(../../images/spinner.gif) 0 0 no-repeat;
+  height: 16px;
+  width: 16px;
+  display: block;
+}
+.treeview .open .placeholder {
+  display:none;
+}
+.treeview .open .closed .placeholder {
+  display:block;
+}
+@media print {
+  .jqTreeview {
+    display:block;
+  }
+}
+
