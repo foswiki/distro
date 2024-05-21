@@ -27,7 +27,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Button',
-            version      => '2.2',
+            version      => '2.21',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
@@ -80,7 +80,7 @@ sub handleButton {
         if ( defined $icon ) {
             if ( defined $icon->{fontName} ) {
                 $theIcon =
-"<i class='jqButtonIcon $icon->{prefix} $icon->{prefix}-fw $theIconName'></i>";
+                  "<i class='jqButtonIcon $icon->{prefix} $theIconName'></i>";
                 Foswiki::Plugins::JQueryPlugin->getIconService->loadIconFont(
                     $icon->{fontName} );
             }
@@ -162,7 +162,7 @@ sub handleButton {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
