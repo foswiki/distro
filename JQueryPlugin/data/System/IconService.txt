@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1547043276" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1716289503" format="1.1" version="1"}%
 %META:TOPICPARENT{name="VarJQICON"}%
 ---+!! %TOPIC%
 
@@ -46,7 +46,7 @@ $Foswiki::cfg{JQueryPlugin}{IconFonts} = {
 };
 </verbatim>
 
-Note that Foswiki does only ship Fontawesome icons by default. Material icons are part of the [[Foswiki:Extensions/WebFontsContrib][WebFontsContrib]] extension that you might want to install in addition.
+Note that Foswiki does only ship Fontawesome icons by default. Material icons are part of the [[https://foswiki.org/Extensions/WebFontsContrib][WebFontsContrib]] extension that you might want to install in addition.
 Its definition section in the ={JQueryPlugin}{IconFonts}= setting is ignored in case of the definition file not being present.
 
 Each entry is of the following format:
