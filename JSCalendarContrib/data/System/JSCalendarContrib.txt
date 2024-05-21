@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1691320505" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1716289503" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! %TOPIC%
 <img src="%ATTACHURL%/screenshot.gif" class="foswikiRight" />
@@ -17,7 +17,7 @@ This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCale
 
 The calendar is able to display a time-picker, in addition to the default date-picker, depending on the optional date format passed.
 
-%TABLE{columnwidths="50%,50%" databg="#fff" tablerules="all" valign="middle"}%
+%TABLE{columnwidths="50%,50%" tablerules="all" valign="middle"}%
 | *Pick days and time* | *Pick days only* |
 | When the passed format descriptions includes hours, minutes or am or pm specifiers. %BR% \
 For instance: =%H, %I, %k, %l, %M, %p, %P= | All other cases |
