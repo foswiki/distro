@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'ImagesLoaded',
-            version    => '4.1.4',
+            version    => '5.0.0',
             author     => 'David <nop>DeSandro',
             homepage   => 'http://imagesloaded.desandro.com/',
             javascript => ['imagesloaded.js'],
