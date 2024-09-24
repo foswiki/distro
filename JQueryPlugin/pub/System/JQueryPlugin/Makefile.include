@@ -26,7 +26,7 @@ DEBUG=false
 NPM_INSTALL=npm install -g
 JSMIN=$(shell which terser 2>/dev/null || which uglifyjs) -m -c --
 CSSMIN=$(shell which csso 2>/dev/null || echo cat) 
-CSSMIN_ARGS="--no-restructure"
+CSSMIN_ARGS=--no-restructure
 ESLINT=eslint -f compact --env es6
 SASS=node-sass --output-style expanded
 
