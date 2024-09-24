@@ -27,22 +27,6 @@ sub new {
     return $self;
 }
 
-sub skip {
-    my ( $this, $test ) = @_;
-
-    return $this->SUPER::skip_test_if(
-        $test,
-        {
-            condition => { with_dep => 'Foswiki,<,1.2' },
-            tests     => {
-                'Fn_QUERY::test_FormTypes' => 'FormTYpes  is Foswiki 1.2+ only',
-                'Fn_QUERY::test_InvalidStyle' =>
-                  'InvalidStyle  is Foswiki 1.2+ only',
-            }
-        }
-    );
-}
-
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{session}->enterContext('test');
@@ -502,23 +486,6 @@ THIS
     $topicObject->finish();
     $topicObject0Att->finish();
     $topicObject2Att->finish();
-}
-
-sub test_FormTypes {
-    my $this = shift;
-    my $text;
-    my $result;
-
-    # if this test fails, check $Foswiki::cfg{FormTypes} is defined,
-    # and 'FormTypes' is included in AccessibleCFG.
-    $text = <<PONG;
-%QUERY{"{FormTypes}[].types"}%
-PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
-    $this->assert_equals( <<THIS, $result );
-
-THIS
-
 }
 
 1;

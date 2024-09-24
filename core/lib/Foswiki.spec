@@ -916,7 +916,6 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{DisplayTimeValues}',
     '{EnableEmail}',
     '{EnableHierarchicalWebs}',
-    '{FormTypes}',
     '{HomeTopicName}',
     '{LeaseLength}',
     '{LeaseLengthLessForceful}',
@@ -1534,109 +1533,6 @@ $Foswiki::cfg{Store}{filePermission} = 0644;
 # and your DataForm definitions do contain unicode characters then 
 # you might strongly consider enabling this flag in order to prevent data loss.
 $Foswiki::cfg{LegacyFormfieldNames} = $FALSE;
-
-# **PERL LABEL="Form Types"**
-# This setting is automatically updated by configure to list all the installed
-# FormField types. If you install an extension that adds new Form Field types,
-# you need to run configure for them to be registered.
-$Foswiki::cfg{FormTypes} = [
-  {
-    'class' => 'Foswiki::Form::Radio',
-    'multivalued' => 0,
-    'size' => 4,
-    'type' => 'radio'
-  },
-  {
-    'class' => 'Foswiki::Form::Text',
-    'multivalued' => 0,
-    'size' => 10,
-    'type' => 'text'
-  },
-  {
-    'class' => 'Foswiki::Form::Checkbox',
-    'multivalued' => 1,
-    'size' => 4,
-    'type' => 'checkbox'
-  },
-  {
-    'class' => 'Foswiki::Form::Checkbox',
-    'multivalued' => 1,
-    'size' => 4,
-    'type' => 'checkbox+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Color',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'color'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => '',
-    'size' => 1,
-    'type' => 'select'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => 1,
-    'size' => 1,
-    'type' => 'select+multi'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => '',
-    'size' => 1,
-    'type' => 'select+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => 1,
-    'size' => 1,
-    'type' => 'select+multi+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Date',
-    'multivalued' => 0,
-    'size' => 20,
-    'type' => 'date'
-  },
-  {
-    'class' => 'Foswiki::Form::Label',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'label'
-  },
-  {
-    'class' => 'Foswiki::Form::ListFieldDefinition',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'listfielddefinition'
-  },
-  {
-    'class' => 'Foswiki::Form::Rating',
-    'multivalued' => 0,
-    'size' => 4,
-    'type' => 'rating'
-  },
-  {
-    'class' => 'Foswiki::Form::FieldDefinition',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'fielddefinition'
-  },
-  {
-    'class' => 'Foswiki::Form::Textarea',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'textarea'
-  },
-  {
-    'class' => 'Foswiki::Form::Textboxlist',
-    'multivalued' => 1,
-    'size' => '',
-    'type' => 'textboxlist'
-  }
-];
 
 #############################################################################
 #---+ Tuning
