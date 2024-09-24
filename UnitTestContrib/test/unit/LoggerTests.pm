@@ -251,6 +251,7 @@ sub fixture_groups {
         if ( opendir( my $D, "$dir/Foswiki/Logger/PlainFile" ) ) {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ m/^(\w+)\.pm$/;
+                next if $alg eq "EventIterator.pm";    #SMELL
                 $algs{$1} = 1;
             }
             closedir($D);
