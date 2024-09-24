@@ -1164,7 +1164,6 @@ sub setup {
             $verified = $Foswiki::cfg{Email}{SSLVerifyServer} || -1;
 
             push @sslopts,
-              SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
               SSL_verifycn_name => $host,
               _setupSSLoptions($this);
         }
