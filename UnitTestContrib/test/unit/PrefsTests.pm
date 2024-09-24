@@ -28,7 +28,6 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-
     $original = $Foswiki::cfg{SystemWebName};
 
     $Foswiki::cfg{SystemWebName}        = $testSysWeb;
