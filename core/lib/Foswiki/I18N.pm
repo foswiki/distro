@@ -135,7 +135,7 @@ BEGIN {
         );
     }
 
-    opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || next;
+    opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || return;
     my @subDirs =
       grep { !/^\./ && -d "$Foswiki::cfg{LocalesDir}/$_" } readdir $dh;
     closedir $dh;
