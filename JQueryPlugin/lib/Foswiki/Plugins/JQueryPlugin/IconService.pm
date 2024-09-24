@@ -195,11 +195,11 @@ sub renderIcon {
     my $iconAlt   = $params->{alt}   || $iconName;
     my $iconTitle = $params->{title} || '';
     my $iconFormat  = $params->{format};
-    my $iconStyle   = $params->{style};
+    my $iconStyle   = $params->{style} || '';
     my $iconAnimate = $params->{animate};
     my $iconWidth   = $params->{width} || 16;
     my $iconHeight  = $params->{height} || '';
-    my $iconPath;
+    my $iconUrl;
 
     my $iconClass = $params->{class};
     my @iconClass = split( /\s+/, $iconName );
@@ -212,7 +212,7 @@ sub renderIcon {
 
     if ( defined $icon->{fontName} ) {
         $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
-        $iconPath   = '';
+        $iconUrl    = '';
         push @iconClass, "foswikiIcon", "jqIcon", $icon->{prefix}, $icon->{id};
 
         $this->loadIconFont( $icon->{fontName} );
@@ -223,7 +223,7 @@ sub renderIcon {
 '<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle width=\'$iconWidth\' '
           . $iconHeightFormat . ' />'
           unless $iconFormat;
-        $iconPath = $icon->{url};
+        $iconUrl = $icon->{url};
         push @iconClass, "foswikiIcon", "jqIcon";
     }
 
@@ -235,7 +235,7 @@ sub renderIcon {
 
     my $img = $iconFormat;
     $img =~ s/\$iconName/$iconName/g;
-    $img =~ s/\$iconPath/$iconPath/g;
+    $img =~ s/\$iconPath/$iconUrl/g;
     $img =~ s/\$iconClass/$iconClass/g;
     $img =~ s/\$iconStyle/style='$iconStyle'/g if $iconStyle;
     $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
@@ -394,12 +394,12 @@ sub _readIconPath {
           Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{SystemWebName},
             $item );
 
-        my $iconDir  = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
-        my $iconPath = $pubUrlPath . '/' . $web . '/' . $topic;
+        my $iconDir = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
+        my $iconUrl = $pubUrlPath . '/' . $web . '/' . $topic;
 
         if ( -d "$iconDir/icons" ) {
-            $iconDir  .= "/icons";
-            $iconPath .= "/icons";
+            $iconDir .= "/icons";
+            $iconUrl .= "/icons";
         }
 
         opendir( my $dh, $iconDir ) || next;
@@ -428,7 +428,8 @@ sub _readIconPath {
             my $desc = {
                 id         => $id,
                 text       => $id,
-                url        => $iconPath . '/' . $icon,
+                path       => $iconDir . '/' . $icon,
+                url        => $iconUrl . '/' . $icon,
                 categories => [ $category, "imageicon" ],
             };
 
