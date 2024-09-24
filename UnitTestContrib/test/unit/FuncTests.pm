@@ -589,6 +589,7 @@ and a trailing newline
 
 %META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
 NONNY
+
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
     my $text1 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
 
@@ -596,6 +597,7 @@ NONNY
     Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text,
         { comment => 'atp save', forcenewrevision => 1 } );
     $meta->finish();
+
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
     my $matchText =
 '%META:TOPICINFO\{author="BaseUserMapping_666" comment="atp save" date=".*?" format="1.1" version="2"\}%'

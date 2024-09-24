@@ -315,7 +315,7 @@ sub test_commonTagsHandlers {
     $this->makePlugin( 'commonTagsHandlers', <<'HERE');
 sub beforeCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_str_equals('Zero<verbatim>blah</verbatim>', $_[0], "ONE $_[0]");
+    $tester->assert_str_equals('%T% Zero<verbatim>blah</verbatim>', $_[0], "ONE $_[0]");
     $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
     $tester->assert_str_equals('Werb', $_[2], "THREE $_[2]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
@@ -336,7 +336,7 @@ sub commonTagsHandler {
 }
 sub afterCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_str_equals('Two<verbatim>blah</verbatim>', $_[0]);
+    $tester->assert_str_equals('%T% Two<verbatim>blah</verbatim>', $_[0]);
     $tester->assert_str_equals('Tropic', $_[1]);
     $tester->assert_str_equals('Werb', $_[2]);
     $tester->assert($_[3]->isa('Foswiki::Meta'));
@@ -350,7 +350,7 @@ HERE
     # Doesn't verify that they are called at the right time
     my ($meta) = Foswiki::Func::readTopic( "Werb", "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
-    Foswiki::Func::expandCommonVariables( "Zero<verbatim>blah</verbatim>",
+    Foswiki::Func::expandCommonVariables( "%T% Zero<verbatim>blah</verbatim>",
         "Tropic", "Werb", $meta );
     $meta->finish();
     $this->checkCalls( 1, 'beforeCommonTagsHandler' );

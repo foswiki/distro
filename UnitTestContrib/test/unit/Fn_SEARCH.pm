@@ -30,9 +30,7 @@ use Foswiki::Search::InfoCache();
 use English qw( -no_match_vars );
 use Error qw( :try );
 use HTML::Entities;
-
-use File::Spec qw(case_tolerant)
-  ; #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
+use File::Spec;
 
 sub new {
     my ( $class, @args ) = @_;
