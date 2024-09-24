@@ -725,7 +725,9 @@ sub renderForDisplay {
             $row =~ s/%A_TITLE%/\$title/g;
             $row =~ s/%A_VALUE%/\$value(display)/g;    # Legacy
 
-            $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
+            $text .=
+              $fieldDef->renderForDisplay( $row, $fm->{value}, undef,
+                $topicObject );
         }
     }
     return '' if $hasAllFieldsHidden;

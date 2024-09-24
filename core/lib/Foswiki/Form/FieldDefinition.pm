@@ -365,7 +365,7 @@ sub createMetaKeyValues {
 
 =begin TML
 
----++ ObjectMethod renderForDisplay($format, $value, $attrs) -> $html
+---++ ObjectMethod renderForDisplay($format, $value, $attrs, $meta) -> $html
 
 Render the field for display, under the control of $attrs.
 
@@ -397,7 +397,7 @@ Foswiki::Render::protectFormFieldValue.
 =cut
 
 sub renderForDisplay {
-    my ( $this, $format, $value, $attrs ) = @_;
+    my ( $this, $format, $value, $attrs, $meta ) = @_;
 
     if ( !$attrs->{showhidden} ) {
         my $fa = $this->{attributes} || '';
