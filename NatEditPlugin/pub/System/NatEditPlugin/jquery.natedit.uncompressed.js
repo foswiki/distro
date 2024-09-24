@@ -273,6 +273,15 @@ $.NatEditor = function(txtarea, opts) {
     self.autoResize();
   }
 
+  // clear input on reset event
+  self.form.on("reset", function() {
+    if (typeof(tinyMCE)!=='undefined') {
+      tinyMCE.activeEditor.setContent('');
+    }
+    self.txtarea.value = ""
+    return false;
+  });
+
   /* listen to keystrokes */
   $txtarea.on("keydown", function(ev) {
     if (ev.keyCode == 13) {

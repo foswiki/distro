@@ -65,7 +65,10 @@ sub handle {
         }
     }
     catch Foswiki::OopsException with {
-        $error  = shift;
+        $error = shift;
+        if ( $error->{def} eq 'merge_notice' ) {
+            $error = "Topic has been merged";
+        }
         $status = 419;
     };
 
@@ -87,6 +90,7 @@ sub handle {
           if $cgis;
     }
 
+    return $error unless ref($error);
     return ( defined $error ) ? stringifyError($error) : '';
 }
 
