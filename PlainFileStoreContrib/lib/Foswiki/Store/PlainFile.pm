@@ -177,22 +177,26 @@ sub readTopic {
     # Patch up the revision info with defaults. If the latest
     # file is more recent than the youngest history file, then
     # use these defaults too.
-    my %ri;
-    unless ( $isLatest && _latestIsNewer( \@revs, $meta ) ) {
 
-        # The history metafile
-        my $mf = _metaFile( $meta, undef, $version );
-        ( $ri{author}, $ri{comment} ) = _readMetaFile($mf);
-        $ri{date} = ( stat _historyFile( $meta, undef, $version ) )[9];
-    }
-    $ri{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
-      $ri{version} ||= $version;
-    $ri{date} ||= ( _stat( _latestFile($meta) ) )[9];
-    if ( $meta->get('TOPICINFO') ) {
-        $ri{comment} ||= $meta->get('TOPICINFO')->{comment};
-    }
+ # Do ONLY change revision information of top revisions, NOT of older revisions.
+ # Moving topics on disk will break old revision information otherwise.
 
-    $meta->setRevisionInfo(%ri);
+    if ($isLatest) {
+        my %ri;
+
+        if ( _latestIsNewer( \@revs, $meta ) ) {
+            $ri{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
+              $ri{version} ||= $version;
+            $ri{date} ||= ( _stat( _latestFile($meta) ) )[9];
+
+            if ( $meta->get('TOPICINFO') ) {
+                $ri{comment} ||= $meta->get('TOPICINFO')->{comment};
+            }
+
+            $meta->setRevisionInfo(%ri);
+        }
+
+    }
 
     # If there is a history, but the latest version of the topic
     # is out-of-date, then the author must be unknown to reflect
