@@ -2637,6 +2637,10 @@ not cause this function to be called recursively.
 
 sub expandCommonVariables {
     my ( $text, $topic, $web, $meta ) = @_;
+
+    # shortcut
+    return $text unless $text && $text =~ /%/;
+
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     if (DEBUG) {
