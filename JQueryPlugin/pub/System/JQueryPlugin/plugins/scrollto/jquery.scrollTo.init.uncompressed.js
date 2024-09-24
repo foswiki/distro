@@ -2,7 +2,7 @@
 jQuery(function($) {
   $(document).on("click", ".jqScrollToLink", function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
 
     $.scrollTo(opts.target, opts);
     return false;
