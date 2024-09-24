@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727168416" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%
