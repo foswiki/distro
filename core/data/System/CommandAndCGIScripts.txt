@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727164675" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -388,6 +388,7 @@ Used for renaming webs, topics and attachments.
 
 | *Parameter* | *Description* | *Default* |
 | =action= | =renameweb= or =renameother= | =renameother= |
+| =currentwebonly= | if non-0, searches current web only for links to this web | _search all webs_ |
 | =confirm= | if non-0, requires a second level of confirmation | |
 | =referring_topics= | (internal use only) list of topics that refer to the web or topic being renamed | |
 | =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _the renamed topic_ |

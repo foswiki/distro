@@ -375,7 +375,8 @@ sub _renameWeb {
     # web - stop here
     Foswiki::UI::checkAccess( $session, 'RENAME', $oldWebObject );
 
-    my $newParentWeb = $query->param('newparentweb') || '';
+    my $currentWebOnly = $query->param('currentwebonly') || '';
+    my $newParentWeb   = $query->param('newparentweb')   || '';
 
     # Validate
     if ( $newParentWeb ne "" ) {
@@ -504,7 +505,9 @@ sub _renameWeb {
         # get a topic list for all the topics referring to this web,
         # and build up a hash containing permissions and lock info.
         my $refs0 = _getReferringTopics( $session, $oldWebObject, 0 );
-        my $refs1 = _getReferringTopics( $session, $oldWebObject, 1 );
+        my $refs1 = {};
+        $refs1 = _getReferringTopics( $session, $oldWebObject, 1 )
+          unless $currentWebOnly;
         %refs = ( %$refs0, %$refs1 );
 
         $info->{referring}{refs0} = $refs0;
