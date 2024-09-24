@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1519617704" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727167921" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebSearch"}%
 %INCLUDE{"%SYSTEMWEB%.%TOPIC%"}%
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%

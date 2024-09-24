@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252413407" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727167921" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ The <nop>WikiGuest User
 
@@ -7,4 +7,5 @@ A guest of this web, not unlike yourself. You can leave your trace behind you, j
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%
