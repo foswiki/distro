@@ -223,9 +223,6 @@ sub _cacheFile {
 sub _saveUpload {
     my ( $this, $root, $key, $upload ) = @_;
 
-    require File::Copy;
-    require Data::Dumper;
-
     my $ifn = "${root}_info_$key";
     my $dfn = "${root}_data_$key";
     my $F   = new IO::File( $ifn, '>' );

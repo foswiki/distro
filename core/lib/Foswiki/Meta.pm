@@ -460,7 +460,7 @@ sub load {
             $useMetaCache = 1;
 
             my $meta =
-              $this->session->metaCache->getMeta( $this->web, $this->topic );
+              $this->{_session}->metaCache->getMeta( $this->web, $this->topic );
 
             if ($meta) {
 
@@ -488,7 +488,7 @@ sub load {
         ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
 
-    $this->session->metaCache->addMeta( $this->web, $this->topic, $this )
+    $this->{_session}->metaCache->addMeta( $this->web, $this->topic, $this )
       if $useMetaCache;
 
     return $this;
@@ -510,7 +510,7 @@ sub unload {
     return
       unless defined $this->{_session}; # trying to unload the same thing twice?
 
-    $this->session->metaCache->removeMeta( $this->web, $this->topic )
+    $this->{_session}->metaCache->removeMeta( $this->web, $this->topic )
       if USE_META_CACHE;
 
     $this->{_loadedRev}      = undef;
@@ -672,10 +672,10 @@ sub isSessionTopic {
     return 0
       unless defined $this->{_web}
       && defined $this->{_topic}
-      && defined $this->session->{webName}
-      && defined $this->session->{topicName};
-    return $this->{_web} eq $this->session->{webName}
-      && $this->{_topic} eq $this->session->{topicName};
+      && defined $this->{_session}->{webName}
+      && defined $this->{_session}->{topicName};
+    return $this->{_web} eq $this->{_session}->{webName}
+      && $this->{_topic} eq $this->{_session}->{topicName};
 }
 
 =begin TML
@@ -695,12 +695,13 @@ sub getPreference {
     my ( $this, $key ) = @_;
 
     unless ( $this->{_web} || $this->{_topic} ) {
-        return $this->session->{prefs}->getPreference($key);
+        return $this->{_session}->{prefs}->getPreference($key);
     }
 
     # make sure the preferences are parsed and cached
     unless ( $this->{_preferences} ) {
-        $this->{_preferences} = $this->session->{prefs}->loadPreferences($this);
+        $this->{_preferences} =
+          $this->{_session}->{prefs}->loadPreferences($this);
     }
     return unless $this->{_preferences};
     return $this->{_preferences}->get($key);
@@ -718,10 +719,10 @@ sub getContainer {
     my $this = shift;
 
     if ( $this->{_topic} ) {
-        return Foswiki::Meta->new( $this->session, $this->{_web} );
+        return Foswiki::Meta->new( $this->{_session}, $this->{_web} );
     }
     if ( $this->{_web} ) {
-        return Foswiki::Meta->new( $this->session );
+        return Foswiki::Meta->new( $this->{_session} );
     }
     ASSERT( 0, 'no container for this object type' ) if DEBUG;
     return;
@@ -744,11 +745,11 @@ sub existsInStore {
         # only checking for a topic existence already establishes a dependency
         $this->addDependency();
 
-        return $this->session->{store}
+        return $this->{_session}->{store}
           ->topicExists( $this->{_web}, $this->{_topic} );
     }
     elsif ( defined $this->{_web} ) {
-        return $this->session->{store}->webExists( $this->{_web} );
+        return $this->{_session}->{store}->webExists( $this->{_web} );
     }
     else {
         return 1;    # the root always exists
@@ -791,7 +792,7 @@ See Foswiki::PageCache::addDependency().
 =cut
 
 sub addDependency {
-    my $cache = $_[0]->session->{cache};
+    my $cache = $_[0]->{_session}->{cache};
     return unless $cache;
     return $cache->addDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
@@ -806,7 +807,7 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 =cut
 
 sub fireDependency {
-    my $cache = $_[0]->session->{cache};
+    my $cache = $_[0]->{_session}->{cache};
     return unless $cache;
     return $cache->fireDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
@@ -824,7 +825,7 @@ sub isCacheable {
 
     return 0 unless $Foswiki::cfg{Cache}{Enabled};
 
-    my $cache = $this->session->{cache};
+    my $cache = $this->{_session}->{cache};
     return 0 unless $cache;
 
     return $cache->isCacheable( $this->{_web}, $this->{_topic}, $value );
@@ -866,14 +867,14 @@ sub populateNewWeb {
                   . ' - Hierarchical webs are disabled' );
         }
 
-        unless ( $this->session->webExists($parent) ) {
+        unless ( $this->{_session}->webExists($parent) ) {
             throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );
         }
     }
 
     # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
-        unless ( $this->session->webExists($templateWeb) ) {
+        unless ( $this->{_session}->webExists($templateWeb) ) {
             throw Error::Simple(
                 'Template web ' . $templateWeb . ' does not exist' );
         }
@@ -881,11 +882,8 @@ sub populateNewWeb {
 
     # Make sure there is a preferences topic; this is how we know it's a web
     my $prefsTopicObject;
-    if (
-        !$this->session->topicExists(
-            $this->{_web}, $Foswiki::cfg{WebPrefsTopicName}
-        )
-      )
+    if ( !$this->{_session}
+        ->topicExists( $this->{_web}, $Foswiki::cfg{WebPrefsTopicName} ) )
     {
         my $prefsText = 'Preferences';
         $prefsTopicObject =
@@ -895,11 +893,11 @@ sub populateNewWeb {
     }
 
     if ($templateWeb) {
-        my $tWebObject = $this->new( $this->session, $templateWeb );
+        my $tWebObject = $this->new( $this->{_session}, $templateWeb );
         require Foswiki::WebFilter;
         my $sys =
           Foswiki::WebFilter->new('template')
-          ->ok( $this->session, $templateWeb );
+          ->ok( $this->{_session}, $templateWeb );
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
@@ -914,7 +912,7 @@ sub populateNewWeb {
                 $attfh{ $sfa->{name} } = {
                     fh      => $fh,
                     date    => $sfa->{date},
-                    user    => $sfa->{user} || $this->session->{user},
+                    user    => $sfa->{user} || $this->{_session}->{user},
                     comment => $sfa->{comment}
                 };
             }
@@ -926,7 +924,7 @@ sub populateNewWeb {
 
             # copy fileattachments
             while ( my ( $fa, $sfa ) = each %attfh ) {
-                my $arev = $this->session->{store}->saveAttachment(
+                my $arev = $this->{_session}->{store}->saveAttachment(
                     $to, $fa,
                     $sfa->{fh},
                     $sfa->{user},
@@ -1212,9 +1210,7 @@ sub text {
     _assertIsTopic($this) if DEBUG;
     if ( defined($val) ) {
         $this->{_text} = $val;
-        $this->{_session}->{prefs}->invalidatePath($this);
-        $this->{_preferences}->finish() if defined $this->{_preferences};
-        $this->{_preferences} = undef;
+        $this->invalidatePrefs();
     }
     else {
 
@@ -1223,6 +1219,22 @@ sub text {
         $this->loadVersion() unless defined( $this->{_text} );
     }
     return $this->{_text};
+}
+
+=begin TML
+
+---++ ObjectMethod invalidatePrefs() 
+
+invalidate the preferences for this object. 
+
+=cut
+
+sub invalidatePrefs {
+    my $this = shift;
+
+    $this->{_session}->{prefs}->invalidatePath($this);
+    $this->{_preferences}->finish() if defined $this->{_preferences};
+    $this->{_preferences} = undef;
 }
 
 =begin TML
@@ -1546,7 +1558,8 @@ sub setRevisionInfo {
     my $ti = $this->get('TOPICINFO') || {};
 
     foreach my $k ( keys %data ) {
-        $ti->{$k} = $data{$k};
+        my $v = $data{$k};
+        $ti->{$k} = $v if defined $v;
     }
 
     # compatibility; older versions of the code use
@@ -1908,7 +1921,8 @@ sub renderFormFieldForDisplay {
             if ($field) {
                 $attrs->{usetitle} = $mf->{title};
                 $result =
-                  $field->renderForDisplay( $format, $mf->{value}, $attrs );
+                  $field->renderForDisplay( $format, $mf->{value}, $attrs,
+                    $this );
             }
         }
         catch Foswiki::OopsException with {
@@ -1947,8 +1961,8 @@ sub haveAccess {
     $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
 
-    my $ok = $this->session->access->haveAccess( $mode, $cUID, $this );
-    $reason = $this->session->access->getReason();
+    my $ok = $this->{_session}->access->haveAccess( $mode, $cUID, $this );
+    $reason = $this->{_session}->access->getReason();
     return $ok;
 }
 
@@ -2179,6 +2193,10 @@ sub saveAs {
                         minor    => 1,
                         comment  => 'reprev',
                     );
+
+                    # invalidate prefs for this object
+                    $this->invalidatePrefs();
+
                     return $currentRev;
                 }
             }
@@ -2188,6 +2206,7 @@ sub saveAs {
             date => $opts{forcedate} || time(),
             author  => $cUID,
             version => $nextRev,
+            comment => $opts{comment},
         );
 
         my $checkSave =
@@ -2219,8 +2238,11 @@ sub saveAs {
     };
 
     # invalidate this meta in cache
-    $this->session->metaCache->removeMeta( $this->web, $this->topic )
+    $this->{_session}->metaCache->removeMeta( $this->web, $this->topic )
       if USE_META_CACHE;
+
+    # invalidate prefs for this object
+    $this->invalidatePrefs();
 
     return $this->{_loadedRev};
 }
@@ -2361,7 +2383,7 @@ sub move {
             $this->saveAs(
                 dontlog => 1,    # no statistics
             );
-            $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
+            $from->session->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
             $this->{_session}->{store}->recordChange(
@@ -3393,7 +3415,7 @@ sub copyAttachment {
     $to->_atomicLock($cUID);
 
     try {
-        $from->{_session}->{store}
+        $from->session->{store}
           ->copyAttachment( $from, $name, $to, $newName, $cUID );
 
         # Add file attachment to new topic by copying the old one
@@ -3530,7 +3552,7 @@ sub summariseText {
     $text = ''            unless defined $text;
 
     my $plainText =
-      $this->session->renderer->TML2PlainText( $text, $this, $flags );
+      $this->{_session}->renderer->TML2PlainText( $text, $this, $flags );
     $plainText =~ s/\n+/ /g;
 
     # limit to n chars
@@ -3573,7 +3595,7 @@ sub _summariseTextSimple {
 sub _makeSummaryTextSafe {
     my ( $this, $text ) = @_;
 
-    my $renderer = $this->session->renderer();
+    my $renderer = $this->{_session}->renderer();
 
     # We do not want the summary to contain any $variable that formatted
     # searches can interpret to anything (Item3489).
@@ -3586,7 +3608,7 @@ sub _makeSummaryTextSafe {
     $text =~ s/\:/<nop>\:/g;
     $text =~ s/\s+/ /g;
 
-    return $this->session->renderer->protectPlainText($text);
+    return $this->{_session}->renderer->protectPlainText($text);
 }
 
 =begin TML
@@ -3711,7 +3733,7 @@ In non-tml, lines are truncated to 70 characters. Differences are shown using + 
 sub summariseChanges {
     my ( $this, $orev, $nrev, $tml, $nochecks ) = @_;
     my $summary  = '';
-    my $renderer = $this->session->renderer();
+    my $renderer = $this->{_session}->renderer();
 
     _assertIsTopic($this) if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
@@ -3751,12 +3773,12 @@ sub summariseChanges {
     #print "SSSSSS ntext\n($ntext)\nSSSSSS\n\n";
 
     my $oldTopicObject =
-      Foswiki::Meta->load( $this->session, $this->web, $this->topic, $orev );
+      Foswiki::Meta->load( $this->{_session}, $this->web, $this->topic, $orev );
     unless ( $nochecks || $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
         $oldTopicObject =
-          Foswiki::Meta->new( $this->session, $this->web, $this->topic, '' );
+          Foswiki::Meta->new( $this->{_session}, $this->web, $this->topic, '' );
     }
 
     my $ostring = $oldTopicObject->stringify();
@@ -3793,7 +3815,7 @@ sub summariseChanges {
                 $block =~ s/^-(.*)$/CGI::del( {}, $1 )/se;
                 $block =~ s/^\+(.*)$/CGI::ins( {}, $1 )/se;
             }
-            elsif ( $this->session->inContext('rss') ) {
+            elsif ( $this->{_session}->inContext('rss') ) {
                 $block =~ s/^-/REMOVED: /;
                 $block =~ s/^\+/INSERTED: /;
             }

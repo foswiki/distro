@@ -264,11 +264,10 @@ sub invalidatePath {
         $path = $_[0];
     }
 
-    if ( $this->{paths}->{$path} ) {
+    my $impl = $Foswiki::cfg{Store}{PrefsBackend};
+    $impl->invalidate($path);
 
-        #print STDERR "INVALIDATED: $this->{paths}->{$path}\n";
-        delete $this->{paths}->{$path};
-    }
+    delete $this->{paths}{$path};
 
 }
 

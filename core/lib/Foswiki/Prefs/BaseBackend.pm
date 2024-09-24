@@ -111,6 +111,18 @@ sub insert {
 
 =begin TML
 
+---++ ObjectMethod invalidate($topicObject) 
+
+Invalidates the preference backend. This method can be called as an
+ObjectMethod or a ClassMethod. 
+
+=cut
+
+sub invalidate {
+}
+
+=begin TML
+
 ---++ ObjectMethod cleanupInsertValue($value_ref)
 
 Utility method that cleans $$vaue_ref for later use in insert().
