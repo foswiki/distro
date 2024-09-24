@@ -7,7 +7,7 @@ use warnings;
 use Assert;
 
 use Foswiki::Logger                           ();
-use Foswiki::Iterator::EventIterator          ();
+use Foswiki::Logger::PlainFile::EventIterator ();
 use Foswiki::Iterator::AggregateEventIterator ();
 use Foswiki::Iterator::MergeEventIterator     ();
 use Foswiki::Configure::Load;
@@ -324,33 +324,6 @@ sub _rotate {
         unlink $log . 'LOCK';
     }
 
-}
-
-package Foswiki::Logger::PlainFile::EventIterator;
-use strict;
-use warnings;
-use Assert;
-
-use Fcntl qw(:flock);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-# Internal class for Logfile iterators.
-# So we don't break encapsulation of file handles.  Open / Close in same file.
-our @ISA = qw/Foswiki::Iterator::EventIterator/;
-
-# # Object destruction
-# # Release locks and file
-sub DESTROY {
-    my $this = shift;
-    flock( $this->{handle}, LOCK_UN )
-      if ( defined $this->{logLocked} );
-    close( delete $this->{handle} ) if ( defined $this->{handle} );
 }
 
 1;

@@ -540,6 +540,7 @@ lib/Foswiki/ListIterator.pm 0444
 lib/Foswiki/Logger.pm 0444
 lib/Foswiki/Logger/Compatibility.pm 0444
 lib/Foswiki/Logger/PlainFile.pm 0444
+lib/Foswiki/Logger/PlainFile/EventIterator.pm 0444
 lib/Foswiki/Logger/PlainFile/Obfuscating.pm 0444
 lib/Foswiki/LoginManager.pm 0444
 lib/Foswiki/LoginManager/ApacheLogin.pm 0444
@@ -623,6 +624,7 @@ lib/Foswiki/Prefs/Parser.pm 0444
 lib/Foswiki/Prefs/Request.pm 0444
 lib/Foswiki/Prefs/Stack.pm 0444
 lib/Foswiki/Prefs/TopicRAM.pm 0444
+lib/Foswiki/Prefs/CacheRAM.pm 0444
 lib/Foswiki/Prefs/Web.pm 0444
 lib/Foswiki/Query/ConditionalOP.pm 0444
 lib/Foswiki/Query/HoistREs.pm 0444
