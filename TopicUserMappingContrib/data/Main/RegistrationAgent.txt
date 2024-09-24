@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1279945212" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727168305" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ The <nop>RegistrationAgent User
 
@@ -6,4 +6,5 @@ This is a user used by Foswiki when it registers new users. This user has specia
 
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%

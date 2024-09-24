@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727168305" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
 
 %META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%
