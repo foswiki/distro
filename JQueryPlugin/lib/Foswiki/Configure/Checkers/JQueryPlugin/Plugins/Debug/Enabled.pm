@@ -1,49 +1,27 @@
 # See bottom of file for license and copyright information
-package Foswiki::Plugins::JQueryPlugin::DEBUG;
-use strict;
+package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::Debug::Enabled;
+
 use warnings;
+use strict;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Foswiki::Configure::Checker ();
+our @ISA = qw( Foswiki::Configure::Checker );
 
-=begin TML
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
 
----+ package Foswiki::Plugins::JQueryPlugin::DEBUG
-
-This is the perl stub for the jquery.debug plugin.
-
-=cut
-
-=begin TML
-
----++ ClassMethod new( $class, ... )
-
-Constructor
-
-=cut
-
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Debug',
-            version    => '20240828',
-            homepage   => 'https://foswiki.org/Extensions/JQueryPlugin',
-            javascript => ['jquery.debug.js'],
-        ),
-        $class
-    );
-
-    return $this;
+    if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Debug}{Enabled} ) {
+        $reporter->WARN(<<'HERE');
+Debug has been deprecated.  Please the browser's native debug features part of the developer console.
+HERE
+    }
 }
 
 1;
-
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -58,3 +36,4 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
+

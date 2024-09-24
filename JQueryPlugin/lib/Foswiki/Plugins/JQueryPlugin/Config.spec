@@ -91,9 +91,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Cookie}{Enabled} = 1;
 # **BOOLEAN LABEL="Cycle"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Cycle}{Enabled} = 1;
 
-# **BOOLEAN LABEL="Debug"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Debug}{Enabled} = 1;
-
 # **BOOLEAN LABEL="Easing"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Easing}{Enabled} = 1;
 
@@ -248,6 +245,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Autocomplete" EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
+
+# **BOOLEAN LABEL="Debug" EXPERT**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Debug}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Bgiframe" EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 0;
