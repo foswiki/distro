@@ -1,6 +1,7 @@
 # ---+ Extensions
 # ---++ PubLinkFixupPlugin
-# **BOOLEAN EXPERT**
+
+# **BOOLEAN EXPERT LABEL="Debug"**
 # Write the details of any rewritten links to the 
 # debug log.
 $Foswiki::cfg{Plugins}{PubLinkFixupPlugin}{Debug} = 0;

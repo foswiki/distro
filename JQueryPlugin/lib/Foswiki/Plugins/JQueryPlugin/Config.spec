@@ -43,11 +43,11 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. 
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-2.2.4, jquery-3.7.1**
+# **SELECT jquery-2.2.4, jquery-3.7.1 LABEL="jQuery Version"**
 # Note that jquery-3 is not tested on Foswiki. You will most probably encounter problems with other modules.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 
-# **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
+# **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness LABLE="jQuery Theme"**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
 # ---+++ JQuery UI Themes
