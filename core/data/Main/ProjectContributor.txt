@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252413407" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727167921" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Project Contributor
 
@@ -7,5 +7,5 @@ Not an actual user of this site, but a person devoting some of his/her time to c
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
-
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%

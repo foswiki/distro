@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1439232550" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1727167921" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ Wiki Administrator User
 
@@ -35,4 +35,5 @@ Template Login. Logging in with the =AdminUser= !WikiName through the normal aut
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%
