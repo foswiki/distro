@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1727168870" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"blockui"
@@ -25,8 +25,8 @@ blocking user interaction.
 
 <div id="loginForm" style="display:none; text-align:left;">
 <h2 >Hey there ... </h2>
-<input type="text" name="username" class="foswikiInputField" size="20" placeholder="username" />
-<input type="password" name="password" class="foswikiInputField" size="20" placeholder="password" />
+<input type="text" name="username" class="foswikiInputField" size="20" placeholder="username" autocomplete="new-password" />
+<input type="password" name="password" class="foswikiInputField" size="20" placeholder="password" autocomplete="new-password" />
 
 %BUTTON{"Sign in" icon="tick" id="signin" class="center"}%
 %CLEAR%
@@ -64,9 +64,4 @@ jQuery(function($) {
   });
 });
 </script>
-
-<style>
-.blockUI { background:#fff; font-size:110%; }
-.blockUI h2 { color:#9C3063; margin-top:0; }
-</style>
 </literal>
