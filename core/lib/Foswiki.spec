@@ -1473,10 +1473,9 @@ $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteFo
 
 # **SELECTCLASS Foswiki::Prefs::*RAM* LABEL="Preferences Backend" EXPERT**
 # The algorithm used to store preferences. The default algorithm reads
-# topics each time to access preferences. A caching algorithm that uses
-# BerkeleyDB is also available from the PrefsCachePlugin. This algorithm
-# is faster, but requires BerkeleyDB to be installed.
-$Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
+# topics each time to access preferences and caches in memory. There is a 
+# non-caching version available as well in case memory space is critical.
+$Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::CacheRAM';
 
 # **COMMAND LABEL="Egrep Command" EXPERT DISPLAY_IF="{Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'"  CHECK="iff:'{Store}{SearchAlgorithm} =~ /:Forking$/'"**
 # Full path to GNU-compatible egrep program. This is used for searching when
