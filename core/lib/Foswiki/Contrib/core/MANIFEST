@@ -398,7 +398,6 @@ lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
 lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
 lib/Foswiki/Configure/Checkers/ForceDefaultUrlHost.pm 0444
-lib/Foswiki/Configure/Checkers/FormTypes.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/CharacterEncoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/DetectModification.pm 0444
