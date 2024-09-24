@@ -3805,7 +3805,7 @@ msgstr ""
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
-msgstr "Änderungen ansehen in:"
+msgstr "Überprüfen der aktuellen Änderungen in:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
