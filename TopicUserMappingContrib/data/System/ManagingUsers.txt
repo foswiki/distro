@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1727168305" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -225,7 +225,6 @@ Regards
 %WIKIWEBMASTERNAME%
 Your Wiki Admin
 
-
 %MAKETEXT{"Note:"}%
    2 %MAKETEXT{"You can change your password at via [_1]" args="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ChangePassword"}%
    3 %MAKETEXT{"If you haven't set a password yet or you want to reset it, go to: [_1]" args="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ResetPassword"}%
@@ -238,6 +237,5 @@ Your Wiki Admin
 ---
 *Related Topics:* AdminDocumentationCategory
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
-%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="details"}%
-%META:PREFERENCE{name="PERMSET_CHANGE_DETAILS" title="PERMSET_CHANGE_DETAILS" type="Local" value="AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminUser"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="nobody"}%
