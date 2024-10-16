@@ -793,9 +793,6 @@ sub moveTopic {
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
-    my $oldWeb   = $this->{web};
-    my $oldTopic = $this->{topic};
-
     # Move data file
     my $new = $store->getHandler( $newWeb, $newTopic );
     $this->_moveFile( $this->{file}, $new->{file} );
@@ -826,9 +823,6 @@ sub copyTopic {
     my ( $this, $store, $newWeb, $newTopic ) = @_;
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
-
-    my $oldWeb   = $this->{web};
-    my $oldTopic = $this->{topic};
 
     my $new = $store->getHandler( $newWeb, $newTopic );
 
@@ -894,8 +888,6 @@ sub copyAttachment {
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
-    my $oldWeb   = $this->{web};
-    my $oldTopic = $this->{topic};
     $attachment ||= $this->{attachment};
 
     my $new = $store->getHandler( $newWeb, $newTopic, $attachment );
