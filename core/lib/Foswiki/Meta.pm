@@ -1630,7 +1630,7 @@ sub getRevisionInfo {
     # forces this function to re-get it from the store.
     my $topicinfo = $this->get('TOPICINFO');
 
-    if ( $topicinfo && defined $topicinfo->{version} ) {
+    if ( $topicinfo && $topicinfo->{version} ) {
         $info = {
             date    => $topicinfo->{date},
             author  => $topicinfo->{author},
@@ -3424,10 +3424,6 @@ sub copyAttachment {
 
         $to->loadVersion() unless $to->latestIsLoaded();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
-
-        if ( $from->getPath() eq $to->getPath() ) {
-            $to->remove( 'FILEATTACHMENT', $name );
-        }
 
         $to->saveAs(
             author  => $cUID,
