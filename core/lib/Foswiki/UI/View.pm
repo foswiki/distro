@@ -105,7 +105,10 @@ sub view {
 
     if ( defined $requestedRev ) {
         $requestedRev = Foswiki::Store::cleanUpRevID($requestedRev);
-        unless ($requestedRev) {
+        if ($requestedRev) {
+            $logEntry .= 'r' . $requestedRev;
+        }
+        else {
 
             # Invalid request, remove it from the query.
             $requestedRev = undef;
@@ -113,14 +116,9 @@ sub view {
         }
     }
 
-    my $showLatest = !$requestedRev;
-    my $showRev;
-
     my $topicObject;    # the stub of the topic we are to display
     my $text;           # the text to display, *not* necessarily
                         # the same as $topicObject->text
-    my $revIt;          # Iterator over the range of available revs
-    my $maxRev;
 
     if ( $session->topicExists( $web, $topic ) ) {
 
@@ -163,41 +161,13 @@ sub view {
             }
         }
 
-        $revIt = $topicObject->getRevisionHistory();
-
-        # The topic exists; it must have at least one rev
-        ASSERT( $revIt->hasNext() ) if DEBUG;
-        $maxRev = $revIt->next();
-
         if ( defined $requestedRev ) {
-
-            # Is the requested rev id known?
-            $revIt->reset();
-            while ( $revIt->hasNext() ) {
-                if ( $requestedRev eq $revIt->next() ) {
-                    $showRev = $requestedRev;
-                    last;
-                }
+            $topicObject =
+              Foswiki::Meta->load( $session, $web, $topic, $requestedRev );
+            if ( !$topicObject->haveAccess('VIEW') ) {
+                throw Foswiki::AccessControlException( 'VIEW',
+                    $session->{user}, $web, $topic, $Foswiki::Meta::reason );
             }
-
-            # if rev was not found; show max rev
-            $showRev = $maxRev unless ( defined $showRev );
-
-            if ( $showRev ne $maxRev ) {
-
-                # Load the old revision instead
-                $topicObject =
-                  Foswiki::Meta->load( $session, $web, $topic, $showRev );
-                if ( !$topicObject->haveAccess('VIEW') ) {
-                    throw Foswiki::AccessControlException( 'VIEW',
-                        $session->{user}, $web, $topic,
-                        $Foswiki::Meta::reason );
-                }
-                $logEntry .= 'r' . $requestedRev;
-            }
-        }
-        else {
-            $showRev = $maxRev;
         }
 
         if ( my $section = $query->param('section') ) {
@@ -233,12 +203,9 @@ sub view {
         $indexableView = 0;
         $session->enterContext('new_topic');
         $response->status(404);
-        $showRev      = 1;
-        $maxRev       = 0;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
-        $revIt = new Foswiki::ListIterator( [1] );
     }
 
     if ($raw) {
@@ -266,18 +233,6 @@ sub view {
         return $session->writeCompletePage( '', 'view', 'text/plain' );
     }
 
-    # Note; must enter all contexts before the template is read, as
-    # TMPL:P is expanded on the fly in the template reader. :-(
-    my ( $revTitle, $revArg ) = ( '', '' );
-    $revIt->reset();
-    if ( $showRev && $showRev != $revIt->next() ) {
-        $session->enterContext('inactive');
-
-        # disable edit of previous revisions
-        $revTitle = '(r' . $showRev . ')';
-        $revArg   = '&rev=' . $showRev;
-    }
-
     my $template =
          $viewTemplate
       || $query->param('template')
@@ -294,9 +249,6 @@ sub view {
     # If the VIEW_TEMPLATE (or other) doesn't exist, default to view.
     $tmpl = $session->templates->readTemplate('view') unless defined($tmpl);
 
-    $tmpl =~ s/%REVTITLE%/$revTitle/g;
-    $tmpl =~ s/%REVARG%/$revArg/g;
-
     if (   $indexableView
         && $Foswiki::cfg{AntiSpam}{RobotsAreWelcome}
         && !$query->param() )
@@ -307,12 +259,15 @@ sub view {
         $tmpl =~ s/<meta name="robots"[^>]*>//gi;
     }
 
-    # Show revisions around the one being displayed.
-    if ( index( $tmpl, '%REVISIONS%' ) >= 0 ) {
-        $tmpl =~ s/%REVISIONS%/
-      revisionsAround(
-          $session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
-    }
+    # SMELL: PatternSkin-only local macros
+    my $params = {
+        session     => $session,
+        topicObject => $topicObject,
+        rev         => $requestedRev
+    };
+    $tmpl =~ s/%REVTITLE%/renderREVTITLE($params)/e;
+    $tmpl =~ s/%REVARG%/renderREVARG($params)/e;
+    $tmpl =~ s/%REVISIONS%/revisionsAround($params)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -401,10 +356,6 @@ sub view {
             $contentType = 'text/html';
         }
     }
-    $session->{prefs}->setSessionPreferences(
-        MAXREV  => $maxRev,
-        CURRREV => $showRev
-    );
 
     # Set page generation mode to RSS if using an RSS skin
     if ( $session->getSkin() =~ m/\brss/ ) {
@@ -480,7 +431,7 @@ sub _prepare {
 
 =begin TML
 
----++ StaticMethod revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
+---++ StaticMethod revisionsAround($session, $topicObject, $rev) -> $output
 
 Calculate the revisions spanning the current one for display in the bottom
 bar.
@@ -488,14 +439,15 @@ bar.
 =cut
 
 sub revisionsAround {
-    my ( $session, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
+    my $params = shift;
 
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
 
     # Soak up the revision iterator
-    my $revIt          = $topicObject->getRevisionHistory();
+    my $revIt          = _getRevisionHistory($params);
     my @revs           = $revIt->all();
     my $maxRevDisjoint = 0;
+    my $maxRev         = $revs[0];
 
     if ( $Foswiki::cfg{NumberOfRevisions} ) {
 
@@ -503,8 +455,8 @@ sub revisionsAround {
         my $showIndex = $#revs;
         my $left      = 0;
         my $right     = $Foswiki::cfg{NumberOfRevisions};
-        if ( $requestedRev && $showIndex >= 0 ) {
-            while ( $showIndex && $revs[$showIndex] != $showRev ) {
+        if ( $params->{rev} && $showIndex >= 0 ) {
+            while ( $showIndex && $revs[$showIndex] != $params->{rev} ) {
                 $showIndex--;
             }
             $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
@@ -528,16 +480,18 @@ sub revisionsAround {
 
     my $output = '';
     my $r      = 0;
+    $params->{rev} //= $maxRev;
     while ( $r < scalar(@revs) ) {
-        if ( $revs[$r] == $showRev ) {
-            $output .= 'r' . $showRev;
+        if ( $revs[$r] == $params->{rev} ) {
+            $output .= 'r' . $params->{rev};
         }
         else {
             $output .= CGI::a(
                 {
-                    href => $session->getScriptUrl(
-                        0,                 'view',
-                        $topicObject->web, $topicObject->topic,
+                    href => $params->{session}->getScriptUrl(
+                        0, 'view',
+                        $params->{topicObject}->web,
+                        $params->{topicObject}->topic,
                         rev => $revs[$r]
                     ),
                     rel => 'nofollow'
@@ -552,8 +506,9 @@ sub revisionsAround {
             $output .= '&nbsp;'
               . CGI::a(
                 {
-                    href => $session->getScriptUrl(
-                        0, 'rdiff', $topicObject->web, $topicObject->topic,
+                    href => $params->{session}->getScriptUrl(
+                        0, 'rdiff', $params->{topicObject}->web,
+                        $params->{topicObject}->topic,
                         rev1 => $revs[ $r + 1 ],
                         rev2 => $revs[$r]
                     ),
@@ -567,11 +522,55 @@ sub revisionsAround {
     return $output;
 }
 
+sub renderREVTITLE {
+    my $params = shift;
+
+    my $result = '';
+
+    my $it     = _getRevisionHistory($params);
+    my $maxRev = $it->next();
+
+    if ( $params->{rev} && $params->{rev} != $maxRev ) {
+        $params->{session}->enterContext('inactive');
+        $result = '(r' . $params->{rev} . ')';
+    }
+
+    return $result;
+}
+
+sub renderREVARG {
+    my $params = shift;
+
+    my $result = '';
+
+    my $it     = _getRevisionHistory($params);
+    my $maxRev = $it->next();
+
+    if ( $params->{rev} && $params->{rev} != $maxRev ) {
+        $params->{session}->enterContext('inactive');
+        $result = '&rev=' . $result;
+    }
+
+    return $result;
+}
+
+sub _getRevisionHistory {
+    my $params = shift;
+
+    $params->{_revHistory} //= $params->{topicObject}->getRevisionHistory;
+
+    my $it = $params->{_revHistory};
+    $it->reset;
+
+    return $it;
+}
+
 1;
+
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
