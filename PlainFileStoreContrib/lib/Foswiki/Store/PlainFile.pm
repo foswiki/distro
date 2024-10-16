@@ -806,7 +806,7 @@ sub eachWeb {
 # Implement Foswiki::Store
 sub remove {
     my ( $this, $cUID, $meta, $attachment ) = @_;
-    my $f;
+
     if ( $meta->topic ) {
 
         # Topic or attachment

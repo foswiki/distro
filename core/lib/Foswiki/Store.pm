@@ -334,7 +334,7 @@ sub readTopic {
 
 =begin TML
 
----++ ObjectMethod moveAttachment( $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment  )
+---++ ObjectMethod moveAttachment( $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment, $cUID  )
    * =$oldTopicObject, $oldAttachment= - spec of attachment to move
    * $newTopicObject, $newAttachment= - where to move to
 Move an attachment from one topic to another.
@@ -346,13 +346,13 @@ may not be perl false.
 =cut
 
 sub moveAttachment {
-    my( $this, $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment ) = @_;
+    my( $this, $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment, $cUID ) = @_;
     die "Abstract base class";
 }
 
 =begin TML
 
----++ ObjectMethod copyAttachment( $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment  )
+---++ ObjectMethod copyAttachment( $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment, $cUID  )
    * =$oldTopicObject, $oldAttachment= - spec of attachment to copy
    * $newTopicObject, $newAttachment= - where to move to
 Copy an attachment from one topic to another.
@@ -364,7 +364,7 @@ may not be perl false.
 =cut
 
 sub copyAttachment {
-    my( $this, $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment ) = @_;
+    my( $this, $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment, $cUID ) = @_;
     die "Abstract base class";
 }
 
@@ -407,7 +407,7 @@ Implementation must invoke 'update' on event listeners.
 =cut
 
 sub moveWeb {
-    my( $this, $oldWebObject, $newWebObject ) = @_;
+    my( $this, $oldWebObject, $newWebObject, $cUID ) = @_;
     die "Abstract base class";
 }
 
@@ -444,7 +444,7 @@ Errors will be signalled by an Error::Simple exception.
 =cut
 
 sub testAttachment {
-    my ($this, $attachment, $test) = @_;
+    my ($this, $topicObject, $attachment, $test) = @_;
     die "Abstract base class";
 }
 
@@ -612,7 +612,7 @@ Implementation must invoke 'update' on event listeners.
 =cut
 
 sub saveTopic {
-    my( $this, $topicObject, $options ) = @_;
+    my( $this, $topicObject, $cUID, $options ) = @_;
     die "Abstract base class";
 }
 
@@ -703,7 +703,7 @@ sub atomicLock {
 
 =begin TML
 
----++ ObjectMethod atomicUnlock( $topicObject )
+---++ ObjectMethod atomicUnlock( $topicObject, $cUID )
 
    * =$topicObject= - Foswiki::Meta topic object
 Release the topic lock on the given topic. A topic lock will cause other
@@ -718,7 +718,7 @@ _note_ the locks used when a topic is edited; those are Leases
 =cut
 
 sub atomicUnlock {
-    my ( $this, $topicObject ) = @_;
+    my ( $this, $topicObject, $cUID ) = @_;
     die "Abstract base class";
 }
 
