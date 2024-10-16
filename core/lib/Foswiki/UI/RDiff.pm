@@ -675,10 +675,9 @@ sub diff {
     );
 
     # Generate the revisions navigator
-    require Foswiki::UI::View;
     my $revisions =
-      Foswiki::UI::View::revisionsAround( $session, $topicObject,
-        $history[$neweri], $history[$neweri], $history[0] );
+      revisionsAround( $session, $topicObject, $history[$neweri],
+        $history[$neweri], $history[0] );
 
     my $tailResult = '';
 
@@ -723,11 +722,100 @@ sub diff {
     return;
 }
 
+=begin TML
+
+---++ StaticMethod revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
+
+Calculate the revisions spanning the current one for display in the bottom
+bar.
+
+=cut
+
+sub revisionsAround {
+    my ( $session, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
+
+    my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
+
+    # Soak up the revision iterator
+    my $revIt          = $topicObject->getRevisionHistory();
+    my @revs           = $revIt->all();
+    my $maxRevDisjoint = 0;
+
+    if ( $Foswiki::cfg{NumberOfRevisions} ) {
+
+        # Locate the preferred rev in the array
+        my $showIndex = $#revs;
+        my $left      = 0;
+        my $right     = $Foswiki::cfg{NumberOfRevisions};
+        if ( $requestedRev && $showIndex >= 0 ) {
+            while ( $showIndex && $revs[$showIndex] != $showRev ) {
+                $showIndex--;
+            }
+            $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
+            $right = scalar(@revs) if $right > scalar(@revs);
+            $left  = $right - $Foswiki::cfg{NumberOfRevisions};
+            if ( $left < 0 ) {
+                $left  = 0;
+                $right = $Foswiki::cfg{NumberOfRevisions};
+            }
+        }
+        splice( @revs, $right ) if ( $right < scalar(@revs) );
+        splice( @revs, 0, $left );
+        if ( $left > 0 ) {
+
+            # Put the max rev back in at the front, and flag
+            # special treatment
+            $maxRevDisjoint = 1;
+            unshift( @revs, $maxRev );
+        }
+    }
+
+    my $output = '';
+    my $r      = 0;
+    while ( $r < scalar(@revs) ) {
+        if ( $revs[$r] == $showRev ) {
+            $output .= 'r' . $showRev;
+        }
+        else {
+            $output .= CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0,                 'view',
+                        $topicObject->web, $topicObject->topic,
+                        rev => $revs[$r]
+                    ),
+                    rel => 'nofollow'
+                },
+                'r' . $revs[$r]
+            );
+        }
+        if ( $r == 0 && $maxRevDisjoint ) {
+            $output .= ' | ';
+        }
+        elsif ( $r < $#revs ) {
+            $output .= '&nbsp;'
+              . CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0, 'rdiff', $topicObject->web, $topicObject->topic,
+                        rev1 => $revs[ $r + 1 ],
+                        rev2 => $revs[$r]
+                    ),
+                    rel => 'nofollow'
+                },
+                '&lt;'
+              ) . '&nbsp;';
+        }
+        $r++;
+    }
+    return $output;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
