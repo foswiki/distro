@@ -11,10 +11,12 @@ igp_*
 /data/**/*.lease
 /data/**/*.changes
 /data/.htpasswd
+/data/Main/WikiUsers.txt
 /working/htpasswd.lock
 /working/languages.cache
 /working/logs/*
 /working/work_areas/*
+/Foswiki*.asc
 /Foswiki*.md5
 /Foswiki*.sha1
 /Foswiki*.tgz
@@ -40,3 +42,4 @@ igp_*
 /pub/System/JavascriptFiles/strikeone.js
 /pub/System/SkinTemplates/base.css
 /pub/System/SkinTemplates/default.css
+/test/unit/testlogs/
