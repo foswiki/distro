@@ -19,6 +19,7 @@
 "use strict";
 
 $.ui = $.ui || {};
+$.uiBackCompat = true;
 
 var version = $.ui.version = "1.14.0";
 

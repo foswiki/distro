@@ -29,12 +29,12 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI::Button',
-            version      => '1.13.2',
+            version      => '1.14.0',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/button/',
             javascript   => ['jquery.ui.button.init.js'],
-            dependencies => [ 'ui', ],
+            dependencies => ['ui'],
         ),
         $class
     );
