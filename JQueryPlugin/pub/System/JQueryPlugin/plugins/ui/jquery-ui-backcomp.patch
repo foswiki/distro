@@ -1,0 +1,12 @@
+diff --git a/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js b/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
+index 74013c310..8e88612db 100644
+--- a/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
++++ b/JQueryPlugin/pub/System/JQueryPlugin/plugins/ui/jquery-ui.uncompressed.js
+@@ -19,6 +19,7 @@
+ "use strict";
+ 
+ $.ui = $.ui || {};
++$.uiBackCompat = true;
+ 
+ var version = $.ui.version = "1.14.0";
+ 

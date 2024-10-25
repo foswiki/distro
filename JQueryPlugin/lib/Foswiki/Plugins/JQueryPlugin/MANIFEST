@@ -73,9 +73,9 @@ data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Debug/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Bgiframe/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Corner/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Debug/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Gradient/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/LiveQuery/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Media/Enabled.pm 0644
@@ -731,6 +731,7 @@ pub/System/JQueryPlugin/plugins/ui/jquery.ui.accordion.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.autocomplete.init.js 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.autocomplete.init.js.gz 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.autocomplete.init.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/ui/jquery-ui-backcomp.patch 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.button.init.js 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.button.init.js.gz 0644
 pub/System/JQueryPlugin/plugins/ui/jquery.ui.button.init.uncompressed.js 0644
