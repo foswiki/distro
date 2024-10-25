@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1716292151" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1729858779" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  25 Oct 2024: | (11.10) - Item15062: updated to jquery-ui 1.14.0 |
 |  21 May 2024: | (11.00) - Item15328: remove soft hyphens when wikifying a string; \
                             Item15327: remove fixed-width attribute from button icons; \
                             Item15326: upgrade to latest available imagesLoaded module; \
@@ -450,7 +451,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2023 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2024 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
