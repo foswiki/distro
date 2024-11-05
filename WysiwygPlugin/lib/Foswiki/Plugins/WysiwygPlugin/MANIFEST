@@ -1,16 +1,48 @@
 !noci
-lib/Foswiki/Plugins/WysiwygPlugin/Constants.pm 0444 Perl module
+data/System/WysiwygPluginSettings.txt 0644
+data/System/WysiwygPluginTopicLister.txt 0644
+data/System/WysiwygPlugin.txt 0644
+lib/Foswiki/Plugins/WysiwygPlugin/Constants.pm 0644
 lib/Foswiki/Plugins/WysiwygPlugin/DEPENDENCIES 0644
-lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/WC.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Base.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Leaf.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin.pm 0444 Perl module
-lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm 0444 Perl module
-data/System/WysiwygPlugin.txt 0644 Documentation and settings
-data/System/WysiwygPluginSettings.txt 0644 Documentation and settings
-data/System/WysiwygPluginTopicLister.txt 0644 Special AJAX topic
-tools/html2tml.pl 0555 Stand-alone convertor script
-tools/tml2html.pl 0555 Stand-alone convertor script
+lib/Foswiki/Plugins/WysiwygPlugin/MANIFEST 0644
+lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Base.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Leaf.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/WC.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/MANIFEST 0644
+lib/Foswiki/Plugins/WysiwygPlugin.pm 0644
+lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm 0644
+test/unit/WysiwygPlugin/BrowserEditorInterface.pm 0644
+test/unit/WysiwygPlugin/BrowserTranslatorTests.pm 0644
+test/unit/WysiwygPlugin/ExtendedTranslatorTests.pm 0644
+test/unit/WysiwygPlugin/result_tml/definitionList.txt 0644
+test/unit/WysiwygPlugin/result_tml/listItem.txt 0644
+test/unit/WysiwygPlugin/result_tml/orderList.txt 0644
+test/unit/WysiwygPlugin/result_tml/paragraph.txt 0644
+test/unit/WysiwygPlugin/result_tml/stylesBoldFixedFont.txt 0644
+test/unit/WysiwygPlugin/result_tml/stylesBoldItalic.txt 0644
+test/unit/WysiwygPlugin/result_tml/stylesBold.txt 0644
+test/unit/WysiwygPlugin/result_tml/stylesFixedFont.txt 0644
+test/unit/WysiwygPlugin/result_tml/stylesItalic.txt 0644
+test/unit/WysiwygPlugin/result_tml/table.txt 0644
+test/unit/WysiwygPlugin/result_tml/titles.txt 0644
+test/unit/WysiwygPlugin/result_tml/verbatim.txt 0644
+test/unit/WysiwygPlugin/test_html/definitionList.html 0644
+test/unit/WysiwygPlugin/test_html/listItem.html 0644
+test/unit/WysiwygPlugin/test_html/orderList.html 0644
+test/unit/WysiwygPlugin/test_html/paragraph.html 0644
+test/unit/WysiwygPlugin/test_html/stylesBoldFixedFont.html 0644
+test/unit/WysiwygPlugin/test_html/stylesBold.html 0644
+test/unit/WysiwygPlugin/test_html/stylesBoldItalic.html 0644
+test/unit/WysiwygPlugin/test_html/stylesFixedFont.html 0644
+test/unit/WysiwygPlugin/test_html/stylesItalic.html 0644
+test/unit/WysiwygPlugin/test_html/table.html 0644
+test/unit/WysiwygPlugin/test_html/titles.html 0644
+test/unit/WysiwygPlugin/test_html/verbatim.html 0644
+test/unit/WysiwygPlugin/TranslatorBase.pm 0644
+test/unit/WysiwygPlugin/TranslatorTests.pm 0644
+test/unit/WysiwygPlugin/WysiwygPluginSuite.pm 0644
+tools/html2tml.pl 0755
+tools/tml2html.pl 0755

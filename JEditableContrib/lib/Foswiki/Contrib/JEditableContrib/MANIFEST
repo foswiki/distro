@@ -2,6 +2,7 @@ data/System/JEditableContrib.txt 0644 Documentation
 lib/Foswiki/Contrib/JEditableContrib.pm 0644 Perl module
 lib/Foswiki/Contrib/JEditableContrib/JEDITABLE.pm 0644 Perl module
 lib/Foswiki/Contrib/JEditableContrib/Config.spec 0644 Configuration info
+lib/Foswiki/Contrib/JEditableContrib/MANIFEST 0644
 pub/System/JEditableContrib/Makefile 0644
 pub/System/JEditableContrib/jquery.jeditable.uncompressed.js 0644
 pub/System/JEditableContrib/jquery.jeditable.js 0644

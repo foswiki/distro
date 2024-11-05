@@ -6,6 +6,7 @@ lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0644
 lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
 lib/Foswiki/Plugins/TinyMCEPlugin/Config.spec 0644
 lib/Foswiki/Plugins/TinyMCEPlugin/TinyMCE.pm 0644
+lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST 0644
 pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/foswiki.js.gz 0644
 pub/System/TinyMCEPlugin/foswiki.uncompressed.js 0644

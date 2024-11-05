@@ -3,6 +3,7 @@ bin/configure 0755
 data/System/ConfigurePlugin.txt 0644
 lib/Foswiki/Plugins/ConfigurePlugin.pm 0644
 lib/Foswiki/Plugins/ConfigurePlugin/JQuery.pm 0644
+lib/Foswiki/Plugins/ConfigurePlugin/MANIFEST 0644
 pub/System/ConfigurePlugin/Makefile 0644
 pub/System/ConfigurePlugin/bg.png 0644
 pub/System/ConfigurePlugin/checkWhirly.gif 0644

@@ -1,3 +1,4 @@
-data/System/TestFixturePlugin.txt NEW
-lib/Foswiki/Plugins/TestFixturePlugin.pm NEW
-lib/Foswiki/Plugins/TestFixturePlugin/HTMLDiffer.pm NEW
+data/System/TestFixturePlugin.txt 0644
+lib/Foswiki/Plugins/TestFixturePlugin.pm 0644
+lib/Foswiki/Plugins/TestFixturePlugin/HTMLDiffer.pm 0644
+lib/Foswiki/Plugins/TestFixturePlugin/MANIFEST 0644

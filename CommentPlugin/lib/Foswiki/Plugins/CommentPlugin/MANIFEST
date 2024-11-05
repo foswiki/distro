@@ -7,6 +7,7 @@ data/Sandbox/CommentPluginExampleComments.txt 0644 Examples of target comment
 data/Sandbox/CommentPluginTemplateExample.txt 0644 Example of comment template topic
 templates/comments.tmpl 0444 Master comment templates 
 lib/Foswiki/Plugins/CommentPlugin.pm 0444 Plugin Perl module 
+lib/Foswiki/Plugins/CommentPlugin/MANIFEST 0444
 lib/Foswiki/Plugins/CommentPlugin/Comment.pm 0444 Plugin Perl module 
 lib/Foswiki/Plugins/CommentPlugin/Config.spec 0444 Configuration module
 lib/Foswiki/Plugins/CommentPlugin/JQuery.pm 0644

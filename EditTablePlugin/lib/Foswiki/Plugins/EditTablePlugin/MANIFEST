@@ -2,6 +2,7 @@
 data/System/EditTablePlugin.txt 0644
 data/System/VarEDITTABLE.txt 0644
 lib/Foswiki/Plugins/EditTablePlugin.pm 0444
+lib/Foswiki/Plugins/EditTablePlugin/MANIFEST 0444
 lib/Foswiki/Plugins/EditTablePlugin/Core.pm 0444
 lib/Foswiki/Plugins/EditTablePlugin/Data.pm 0444
 lib/Foswiki/Plugins/EditTablePlugin/EditTableData.pm 0444

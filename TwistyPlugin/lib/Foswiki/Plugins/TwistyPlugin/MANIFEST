@@ -8,6 +8,7 @@ data/System/VarTWISTYSHOW.txt 0644
 data/System/VarTWISTYTOGGLE.txt 0644
 data/System/VarTWISTY.txt 0644
 lib/Foswiki/Plugins/TwistyPlugin/DEPENDENCIES 0644
+lib/Foswiki/Plugins/TwistyPlugin/MANIFEST 0644
 lib/Foswiki/Plugins/TwistyPlugin.pm 0644
 lib/Foswiki/Plugins/TwistyPlugin/TWISTY.pm 0644
 pub/System/TwistyPlugin/jquery.twisty.js 0644

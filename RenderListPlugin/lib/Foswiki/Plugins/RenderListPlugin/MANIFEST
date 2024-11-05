@@ -2,6 +2,7 @@
 data/System/RenderListPlugin.txt 0644
 data/System/VarRENDERLIST.txt 0644
 lib/Foswiki/Plugins/RenderListPlugin.pm 0444
+lib/Foswiki/Plugins/RenderListPlugin/MANIFEST 0444
 pub/System/RenderListPlugin/doc.gif 0644
 pub/System/RenderListPlugin/dot_ud.gif 0644
 pub/System/RenderListPlugin/dot_udr.gif 0644
