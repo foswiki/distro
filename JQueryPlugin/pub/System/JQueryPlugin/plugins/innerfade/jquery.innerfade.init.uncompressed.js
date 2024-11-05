@@ -9,7 +9,7 @@ jQuery(function($) {
   $('.jqInnerfade:not(.jqInitedInnerfade)').livequery(function() {
     var $this = $(this);
     $this.addClass("jqInitedInnerfade");
-    var opts = $.extend({}, defaults, $this.data(), $this.metadata());
+    var opts = $.extend({}, defaults, $this.data());
     $this.innerfade(opts);
   });
 });

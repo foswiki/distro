@@ -1,15 +1,11 @@
 SUBDIRS=\
   animate \
-  autocomplete \
   browser \
-  bgiframe \
   blockui \
   button \
   chili \
   cookie \
-  corner \
   cycle \
-  debug \
   easing \
   empty \
   farbtastic \
@@ -18,40 +14,31 @@ SUBDIRS=\
   fontawesome \
   form \
   foswiki \
-  gradient \
   hoverintent \
   i18n \
   imagesloaded \
   innerfade \
-  livequery \
   loader \
   localscroll \
   observer \
   maskedinput \
   masonry \
-  media \
   metadata \
   migrate \
   mousewheel \
-  placeholder \
   pnotify \
   popupwindow \
   queryobject \
-  rating \
   render \
   scrollto \
   serialscroll \
   shrinkurls \
-  simplemodal \
   slimbox \
   sprintf \
   stars \
   superfish \
-  supersubs \
   tabpane \
   textboxlist \
-  tmpl \
-  tooltip \
   treeview \
   ui \
   validate \

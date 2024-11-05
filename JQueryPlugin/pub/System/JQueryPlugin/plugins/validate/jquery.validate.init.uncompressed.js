@@ -17,7 +17,7 @@ jQuery(function($) {
 
   $(".jqValidate:not(.jqInitedValidate)").livequery(function() {
     var $this = $(this), 
-        options = $.extend({}, $this.data(), $this.metadata());
+        options = $.extend({}, $this.data());
 
     $this.addClass("jqInitedValidate").validate(options);
   });

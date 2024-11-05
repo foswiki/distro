@@ -143,9 +143,11 @@ sub renderForEdit {
     Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
 
     my $result =
-"<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars' "
+        "<div class='jqStars' "
       . $this->getHtmlData() . " "
-      . $this->getDataValues() . ">";
+      . $this->getDataValues() . ">"
+      . "<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStarsInput' >"
+      . "</div>";
 
     return ( '', $result );
 }
@@ -169,9 +171,11 @@ sub getDisplayValue {
     $value = '' unless defined $value;
 
     my $format =
-"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars' "
+        "<div class='jqStars' "
       . $this->getHtmlData() . " "
-      . $this->getDataValues() . ">";
+      . $this->getDataValues() . ">"
+      . "<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStarsInput' >"
+      . "</div>";
 
     return $format;
 }
@@ -180,7 +184,7 @@ sub getDisplayValue {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014-2022 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

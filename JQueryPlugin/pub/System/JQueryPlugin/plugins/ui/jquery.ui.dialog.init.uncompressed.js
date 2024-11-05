@@ -16,7 +16,7 @@ jQuery(function($) {
   // dialog
   $(".jqUIDialog").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, dialogDefaults, $this.data(), $this.metadata()),
+        opts = $.extend({}, dialogDefaults, $this.data()),
         buttons = [];
 
     $this.find(".jqUIDialogButton").each(function() {
@@ -53,7 +53,7 @@ jQuery(function($) {
           $this.find("form:first").trigger("submit");
         };
       }
-      $.extend(button, $button.data(), $button.metadata());
+      $.extend(button, $button.data());
 
       if (typeof(button.click) === 'undefined') {
         button.click = function() {};
@@ -113,7 +113,7 @@ jQuery(function($) {
   $(document).on("click", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
 
     if (href.match(/^(https?:)|\//)) {
       // this is a link to remote data

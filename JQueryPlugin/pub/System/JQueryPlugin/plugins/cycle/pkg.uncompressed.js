@@ -1545,7 +1545,7 @@ $.fn.cycle.transitions.wipe = function($cont, $slides, opts) {
 jQuery(function($) {
   $(".jqCycle:not(.jqInitedCycle)").livequery(function() {
     var $this = $(this);
-    var opts = $.extend({}, $this.data(), $this.metadata());
+    var opts = $.extend({}, $this.data());
     $this.addClass(".jqInitedCycle").cycle(opts);
   });
 });

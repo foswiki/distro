@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1730806362" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"ui::autocomplete"
@@ -67,18 +67,18 @@ Add the =.jqUIAutocomplete= css class to enable autocompletion.
 Specify the url to fetch terms in the =autocomplete= html attribute.
 Add %SYSTEMWEB%.JQueryMetadata to specify further parameters.
 When specifying a local data source for autocompletion terms use the =source=
-option within a metadata json object as specified in the examples below.
+html5 data as specified in the examples below.
 
 When specifying a remote source in the =autocomplete= html attribute, the
 additional css class =.jqUIAutocomplete= isn't required.
 
 See http://docs.jquery.com/UI/Autocomplete#options for further useful options
-that can be specified as metadata.
+that can be specified as html5 data.
 
 <verbatim class="tml">
 %JQREQUIRE{"ui::autocomplete"}%
 
-<input type='text' class='jqUIAutocomplete {source:["term1", "term2", "..."], delay:500, minLength:3}' />
+<input type='text' class='jqUIAutocomplete' data-source='["term1", "term2", "..."]' data-delay='500' data-min-length='3' />
 
 <input type='text' autocomplete='http://...url to term backend...' />
 </verbatim>
@@ -174,7 +174,7 @@ jQuery(function($) {
 
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
-  *Country:* <input class="foswikiInputField jqUIAutocomplete {source:countryList}" size="60" />
+  *Country:* <input class="foswikiInputField jqUIAutocomplete" data-source="countryList" size="60" />
   </div>
 </div>
 

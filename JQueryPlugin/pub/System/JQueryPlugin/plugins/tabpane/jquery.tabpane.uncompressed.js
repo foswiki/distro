@@ -304,7 +304,7 @@ var bottomBarHeight = -1;
 
     $newContainer = $newTab.find('.jqTabContents:first');
     if ((self.opts.animate || self.opts.autoMaxExpand) && oldHeight > 0 && !$newContainer.is(".jqTabDisableMaxExpand")) {
-      //$.log("TABPANE: setting height to "+oldHeight);
+      //console.log("TABPANE: setting height to "+oldHeight);
       $newContainer.height(oldHeight);
     }
 
@@ -407,7 +407,7 @@ var bottomBarHeight = -1;
         windowHeight = $(window).height() || window.innerHeight,
         newHeight;
 
-    //$.log("TABPANE: called fixHeight()");
+    //console.log("TABPANE: called fixHeight()");
 
     if (!elem.length || elem.is(".jqTabDisableMaxExpand")) {
       return;
@@ -420,7 +420,7 @@ var bottomBarHeight = -1;
     newHeight = windowHeight - elem.offset().top - bottomBarHeight - 2;
 
     if (self.opts && self.opts.minHeight && newHeight < self.opts.minHeight) {
-      //$.log("tabpane: minHeight reached");
+      //console.log("tabpane: minHeight reached");
       newHeight = self.opts.minHeight;
     }
 

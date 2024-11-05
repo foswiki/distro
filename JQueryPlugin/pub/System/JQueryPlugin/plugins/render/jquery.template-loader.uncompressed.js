@@ -59,7 +59,7 @@
 
           // not loaded yet
 
-          $.log("loading template from ",opts.url);
+          //console.log("loading template from ",opts.url);
           $.ajax({
             url: opts.url
             // TODO: allow to set ajax options

@@ -6,7 +6,7 @@
   var defaults = {
     fade: 250,
     position: 'bottom',
-    callback: function (color) { $.log("new color="+color); }
+    callback: function (color) { }
   };
 
   // helper snarfed from farbtastic
@@ -84,7 +84,7 @@
     }
     $(".jqFarbtastic:not(.jqInitedFarbtastic)").livequery(function() {
       var $this = $(this),
-          opts = $.extend({}, defaults, $this.data(), $this.metadata()),
+          opts = $.extend({}, defaults, $this.data()),
           fb;
 
       $this.addClass("jqInitedFarbtastic");

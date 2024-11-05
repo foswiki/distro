@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1729858779" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1730806362" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  29 Oct 2024: | removed deprectated modules =rating=, =placeholder=, =supersubs=, =media=, =shake=, =corner=, =simplemodal=, =livequery=, =debug=, =gradient=, =tooltip=, =tmpl=, =bgiframe=, =autocomplete= |
 |  25 Oct 2024: | (11.10) - Item15062: updated to jquery-ui 1.14.0 |
 |  21 May 2024: | (11.00) - Item15328: remove soft hyphens when wikifying a string; \
                             Item15327: remove fixed-width attribute from button icons; \

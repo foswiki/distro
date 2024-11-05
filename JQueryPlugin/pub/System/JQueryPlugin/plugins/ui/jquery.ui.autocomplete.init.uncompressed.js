@@ -11,56 +11,54 @@ jQuery(function($) {
     var $this = $(this), 
         cache = {}, lastXhr,
         src = $this.attr('autocomplete'),
-        opts = $.extend({ source: src }, defaults, $this.data(), $this.metadata());
+        opts = $.extend({ source: src }, defaults, $this.data(), $this.metadata()); //SMELL: still depend on MetaData 
 
-    if (opts.cache && typeof(opts.source) === 'string') {
-      // wrap source url into a cache 
-      opts._source = opts.source;
+    if (typeof(opts.source) === 'string') {
+      if (opts.cache && (opts.source.startsWith("/") || opts.source.startsWith("http"))) {
+        // wrap source url into a cache 
+        opts._source = opts.source;
 
-      opts.source = function(request, response) {
-        var term = request.term, cacheKey = term;
+        opts.source = function(request, response) {
+          var term = request.term, cacheKey = term;
 
-        // add extra parameters similar to the old jquery.autocomplete
-        if (typeof(opts.extraParams) != 'undefined') {
-          $.each(opts.extraParams, function(key, param) {
-            var val = typeof param == "function" ? param($this) : param;
-            request[key] = val;
-            cacheKey += ';' + key + '=' + val;
-          });
-        }
-
-        // check cache
-        if (cacheKey in cache) {
-          $.log("AUTOCOMPLETE: found "+term+" in cache");
-          response(cache[cacheKey]);
-          return;
-        }
-
-        // get result from backend
-        $.log("AUTOCOMPLETE: requesting '"+term+"' from "+opts._source);
-        lastXhr = $.ajax({
-          url: opts._source, 
-          dataType: 'json',
-          data: request, 
-          success: function(data, status, xhr) {
-            cache[cacheKey] = data;
-            $.log("AUTOCOMPLETE: caching "+term);
-
-            // throw away response if there already was a newer one
-            if (xhr === lastXhr) {
-              $.log("AUTOCOMPLETE: got data for '"+term+"' from backend");
-              response(data);
-            } else {
-              $.log("AUTOCOMPLETE: throwing away results for '"+term+"'");
-            }
-          },
-          error: function(xhr, status, error) {
-            alert("Error: "+status);
-            response();
+          // add extra parameters similar to the old jquery.autocomplete
+          if (typeof(opts.extraParams) != 'undefined') {
+            $.each(opts.extraParams, function(key, param) {
+              var val = typeof param == "function" ? param($this) : param;
+              request[key] = val;
+              cacheKey += ';' + key + '=' + val;
+            });
           }
-        });
-      };
-    } 
+
+          // check cache
+          if (cacheKey in cache) {
+            response(cache[cacheKey]);
+            return;
+          }
+
+          // get result from backend
+          lastXhr = $.ajax({
+            url: opts._source, 
+            dataType: 'json',
+            data: request, 
+            success: function(data, status, xhr) {
+              cache[cacheKey] = data;
+
+              // throw away response if there already was a newer one
+              if (xhr === lastXhr) {
+                response(data);
+              }
+            },
+            error: function(xhr, status, error) {
+              alert("Error: "+status);
+              response();
+            }
+          });
+        };
+      } else if (typeof(window[opts.source]) !== 'undefined') {
+        opts.source = window[opts.source];
+      }
+    }
 
     $this.removeClass("jqUIAutocomplete").autocomplete(opts);
   });

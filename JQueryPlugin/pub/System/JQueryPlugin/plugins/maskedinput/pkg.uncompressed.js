@@ -98,7 +98,7 @@
                     tryFireCompleted();
                 }
                 function blurEvent() {
-                    checkVal(), input.val() != focusText && input.trigger("change");
+                    checkVal(), input.val() != focusText && input.change();
                 }
                 function keydownEvent(e) {
                     if (!input.prop("readonly")) {
@@ -179,4 +179,13 @@
             });
         }
     });
+});"use strict";
+jQuery(function($) {
+  $(".jqMaskedInput:not(.jqInitedMaskedInput)").livequery(function() {
+    var $this = $(this), 
+        mask = $this.attr("mask"),
+        opts = $.extend({mask: mask}, $this.data());
+
+    $this.addClass("jqInitedMaskedInput").mask(opts.mask, opts);
+  });
 });

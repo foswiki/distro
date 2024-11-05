@@ -4,7 +4,7 @@ jQuery(function($) {
 
   $(".jqUIResizable").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
 
     if (opts.debug && console) {
       console.log("opts=",opts);
