@@ -107,12 +107,16 @@ sub getCacheEntry {
 
     ASSERT($meta) if DEBUG;
     return unless $meta;
-    return if $meta->topic && !defined $meta->getLoadedRev();
+
+    my $rev;
+    if ( $meta->topic ) {
+        $rev = $meta->getLoadedRev();
+        return unless defined $rev;
+    }
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
-
-    my $key = $mode . '::' . $cUID;
+    my $key = $mode . '::' . $cUID . '::' . ( $rev // '' );
 
     return $this->{cache}{$path}{$key};
 }
@@ -129,15 +133,18 @@ sub setCacheEntry {
     my ( $this, $meta, $mode, $cUID, $boolean ) = @_;
 
     ASSERT($meta) if DEBUG;
-
     return unless $meta;
-    return $boolean
-      if $meta->topic && !defined $meta->getLoadedRev();
+
+    my $rev;
+    if ( $meta->topic ) {
+        $rev = $meta->getLoadedRev();
+        return $boolean unless $rev;
+    }
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
+    my $key = $mode . '::' . $cUID . '::' . ( $rev // '' );
 
-    my $key = $mode . '::' . $cUID;
     $this->{cache}{$path}{$key} = $boolean;
 
     return $boolean;
@@ -155,15 +162,19 @@ sub unsetCacheEntry {
     my ( $this, $meta, $mode, $cUID ) = @_;
 
     ASSERT($meta) if DEBUG;
-
     return unless $meta;
-    return if $meta->topic && !defined $meta->getLoadedRev();
+
+    my $rev;
+    if ( $meta->topic ) {
+        $rev = $meta->getLoadedRev();
+        return unless defined $rev;
+    }
 
     $cUID ||= $this->{session}->{user};
     my $path = $meta->getPath();
 
     if ( defined $mode ) {
-        my $key = $mode . '::' . $cUID;
+        my $key = $mode . '::' . $cUID . '::' . ( $rev // '' );
         delete $this->{cache}{$path}{$key};
     }
     else {

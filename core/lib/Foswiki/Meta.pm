@@ -1961,8 +1961,9 @@ sub haveAccess {
     $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
 
-    my $ok = $this->{_session}->access->haveAccess( $mode, $cUID, $this );
-    $reason = $this->{_session}->access->getReason();
+    my $access = $this->{_session}->access;
+    my $ok = $access->haveAccess( $mode, $cUID, $this );
+    $reason = $access->getReason();
     return $ok;
 }
 
