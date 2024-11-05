@@ -24,7 +24,7 @@ jQuery(function($) {
       }
     }
 
-    opts = $.extend({}, sliderDefaults, opts, $this.data(), $this.metadata());
+    opts = $.extend({}, sliderDefaults, opts, $this.data());
     $this.empty().removeClass("jqUISlider").slider(opts);    
   });
 });

@@ -37,10 +37,10 @@
 
 
   /**
-   * dummy to be overridden by jquery.debug
+   * backwards compatibility
    */
-  $.log = function(message) {};
-  $.fn.debug = function() {};
+  $.log = function(message) { console.warn("deprecated call to $.log()"); };
+  $.fn.debug = function() { console.warn("deprecated call to $.fn.debug()"); };
 
   /**
    * generates an unique ID.

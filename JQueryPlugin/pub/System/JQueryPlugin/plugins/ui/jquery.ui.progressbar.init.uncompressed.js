@@ -9,7 +9,7 @@ jQuery(function($) {
   $(".jqUIProgressBar:not(.jqUIProgressBarInited)").livequery(function() {
     var $this = $(this), 
         value = parseInt($this.text(), 10),
-        opts = $.extend({}, defaults, $this.data(), $this.metadata());
+        opts = $.extend({}, defaults, $this.data());
 
     $this.empty();
     if (!isNaN(value)) {

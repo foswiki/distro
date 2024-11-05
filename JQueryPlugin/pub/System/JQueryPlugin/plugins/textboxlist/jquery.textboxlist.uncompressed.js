@@ -1,7 +1,7 @@
 /*
- * jQuery textbox list plugin 2.23
+ * jQuery textbox list plugin 2.30
  *
- * Copyright (c) 2009-2020 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2024 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -40,7 +40,7 @@
 
     // build element specific options. 
     // note you may want to install the Metadata plugin
-    self.opts = $.extend({}, self.input.data(), self.input.metadata(), opts);
+    self.opts = $.extend({}, self.input.data(), opts);
 
     if(!self.opts.inputName) {
       self.opts.inputName = self.input.attr('name');
@@ -102,14 +102,14 @@
       $.extend(self.opts, {
         source: self.opts.autocomplete,
         select: function(event, ui) {
-          $.log("TEXTBOXLIST: selected value="+ui.item.value+" label="+ui.item.label);
+          //console.log("TEXTBOXLIST: selected value="+ui.item.value+" label="+ui.item.label);
           self.select([ui.item.value+"="+ui.item.label]);
           return false;
         }
       });
       self.input.attr('autocomplete', 'off').autocomplete(self.opts);
     } else {
-      $.log("TEXTBOXLIST: no autocomplete");
+      //console.log("TEXTBOXLIST: no autocomplete");
     }
 
     // keypress event
@@ -118,7 +118,7 @@
       if(event.keyCode === 13) {
         var val = self.input.val();
         if (val) {
-          $.log("TEXTBOXLIST: closing suggestion list");
+          //console.log("TEXTBOXLIST: closing suggestion list");
           if (self.opts.autocomplete) {
             self.input.autocomplete("close");
           }
@@ -131,7 +131,7 @@
 
     // add event
     self.input.bind("AddValue", function(e, val) {
-      $.log("TEXTBOXLIST: got add event, val="+val);
+      //console.log("TEXTBOXLIST: got add event, val="+val);
       if (val) {
         self.select(val);
       }
@@ -168,7 +168,7 @@
  
   // clear selection *****************************************************
   $.TextboxLister.prototype.clear = function() {
-    $.log("TEXTBOXLIST: called clear");
+    //console.log("TEXTBOXLIST: called clear");
     var self = this;
     self.container.find("."+self.opts.listValueClass).remove();
     self.currentValues = [];
@@ -176,28 +176,28 @@
 
     // onClear callback
     if (typeof(self.opts.onClear) == 'function') {
-      $.log("TEXTBOXLIST: calling onClear handler");
+      //console.log("TEXTBOXLIST: calling onClear handler");
       self.opts.onClear(self);
     }
   };
 
   // reset selection *****************************************************
   $.TextboxLister.prototype.reset = function() {
-    $.log("TEXTBOXLIST: called reset");
+    //console.log("TEXTBOXLIST: called reset");
     var self = this;
     self.clear();
     self.select(self.initialValues);
 
     // onReset callback
     if (typeof(self.opts.onReset) == 'function') {
-      $.log("TEXTBOXLIST: calling onReseet handler");
+      //console.log("TEXTBOXLIST: calling onReseet handler");
       self.opts.onReset(self);
     }
   };
 
   // add values to the selection ******************************************
   $.TextboxLister.prototype.select = function(values, suppressCallback) {
-    $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
+    //console.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
     var self = this, i, j, val, title, found, currentVal, input, close, className;
 
     if (typeof(values) === 'string') {
@@ -253,7 +253,7 @@
       self.currentValues = self.currentValues.sort();
     }
 
-    $.log("TEXTBOXLIST: self.currentValues="+self.currentValues+" length="+self.currentValues.length);
+    //console.log("TEXTBOXLIST: self.currentValues="+self.currentValues+" length="+self.currentValues.length);
 
     self.container.find("."+self.opts.listValueClass).remove();
 
@@ -263,7 +263,7 @@
         continue;
       }
       title = self.titleOfValue["_"+val] || val;
-      $.log("TEXTBOXLIST: val="+val+" title="+title);
+      //console.log("TEXTBOXLIST: val="+val+" title="+title);
       className = "tag_"+title.replace(/["' ]/, "_");
       input = $("<input type='hidden' name='"+self.opts.inputName+"' title='"+title+"' />").val(val);
       if (self.input.is(".foswikiMandatory")) {
@@ -289,7 +289,7 @@
 
     // onSelect callback
     if (!suppressCallback && typeof(self.opts.onSelect) == 'function') {
-      $.log("TEXTBOXLIST: calling onSelect handler");
+      //console.log("TEXTBOXLIST: calling onSelect handler");
       self.opts.onSelect(self);
     }
     self.input.trigger("SelectedValue", values);
@@ -297,7 +297,7 @@
 
   // remove values from the selection *************************************
   $.TextboxLister.prototype.deselect = function(values) {
-    $.log("TEXTBOXLIST: called deselect("+values+")");
+    //console.log("TEXTBOXLIST: called deselect("+values+")");
 
     var self = this, newValues = [], i, j, currentVal, found, val;
 
@@ -329,7 +329,7 @@
 
     // onDeselect callback
     if (typeof(self.opts.onDeselect) == 'function') {
-      $.log("TEXTBOXLIST: calling onDeselect handler");
+      //console.log("TEXTBOXLIST: calling onDeselect handler");
       self.opts.onDeselect(self);
     }
 
@@ -355,7 +355,7 @@
 
   $("input.jqTextboxList:not(.jqInitedTextboxList)").livequery(function() {
     var $this = $(this),
-        opts = $.extend({ autocomplete:$this.attr("autocomplete") }, $this.data(), $this.metadata());
+        opts = $.extend({ autocomplete:$this.attr("autocomplete") }, $this.data());
 
     $this.addClass("jqInitedTextboxList").textboxlist(opts);
   });

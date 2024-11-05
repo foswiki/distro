@@ -27,12 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'FluidFont',
-            version      => '1.0',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['jquery.fluidfont.js'],
-            dependencies => ['metadata'],
+            name       => 'FluidFont',
+            version    => '1.10',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['jquery.fluidfont.js'],
         ),
         $class
     );
@@ -45,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

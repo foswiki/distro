@@ -9,14 +9,14 @@ jQuery(function($) {
   // button
   $(".jqUIButton").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, defaults, $this.data(), $this.metadata());
+        opts = $.extend({}, defaults, $this.data());
     $this.removeClass("jqUIButton").button(opts);    
   });
   
   // button set
   $(".jqUIButtonset").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, defaults, $this.data(), $this.metadata());
+        opts = $.extend({}, defaults, $this.data());
 
     $this.removeClass("jqUIButtonset").buttonset(opts);    
   });

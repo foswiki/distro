@@ -238,56 +238,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{View}{Enabled} = 1;
 # **BOOLEAN LABEL="WikiWord"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 
-# ---+++ Deprecated JQuery Plugins
-# Any plugins listed here should be disabled.  They will be removed in a future release of Foswiki.
-# If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
-# the Foswiki distribution.
-
-# **BOOLEAN LABEL="Autocomplete" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Debug" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Debug}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Bgiframe" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Corner" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Gradient" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 0;
-
-# **BOOLEAN LABEL="LiveQuery" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{LiveQuery}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Media" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Nifty" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Placeholder" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Rating" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Shake" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
-
-# **BOOLEAN LABEL="SimpleModal" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Supersubs" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Tmpl" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 0;
-
-# **BOOLEAN LABEL="Tooltip" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
-
 #---+ Tuning
 #---++ HTML Page Layout
 # **BOOLEAN LABEL="Enable Combined Modules" **

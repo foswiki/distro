@@ -33,7 +33,7 @@ sub new {
             tags         => 'BUTTON',
             css          => ['jquery.button.css'],
             javascript   => ['jquery.button.js'],
-            dependencies => [ 'metadata', 'JQUERYPLUGIN::FORM' ],
+            dependencies => ['JQUERYPLUGIN::FORM'],
         ),
         $class
     );

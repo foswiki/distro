@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1574078050" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1730806362" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"cycle"
@@ -42,7 +42,7 @@ The following command strings are supported:
 </verbatim>
 
 ---++ Options
-The following default options are provided by the plugin. They can be overridden by passing an options object to the cycle method, by using metadata on the container element, or by redefining these values in your own code. Lots of cool effects can be achieved by taking advantage of these options, but none of them are required. So override the ones you like and ignore the ones you don't care about.
+The following default options are provided by the plugin. They can be overridden by passing an options object to the cycle method, by using html5 data on the container element, or by redefining these values in your own code. Lots of cool effects can be achieved by taking advantage of these options, but none of them are required. So override the ones you like and ignore the ones you don't care about.
 
 <verbatim class="js">
 // override these globally if you like (they are all optional) 
@@ -144,7 +144,7 @@ Use these in the =fx= option.
 ---++ Examples
 %JQREQUIRE{"cycle"}%
 
-<div class="pics jqCycle {fx:'scrollLeft', timeout:5000}">
+<div class="pics jqCycle" data-fx="scrollLeft" data-timeout="5000">
 <div>
   <img src="%ATTACHURLPATH%/beach1.jpg" />
 
@@ -182,6 +182,6 @@ Use these in the =fx= option.
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="beach1.jpg" attr="h" comment="" date="1574078050" size="20327" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach2.jpg" attr="h" comment="" date="1574078050" size="21480" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="beach3.jpg" attr="h" comment="" date="1574078050" size="22629" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach1.jpg" attr="h" comment="" date="1730806362" size="20327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach2.jpg" attr="h" comment="" date="1730806362" size="21480" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach3.jpg" attr="h" comment="" date="1730806362" size="22629" user="ProjectContributor" version="1"}%

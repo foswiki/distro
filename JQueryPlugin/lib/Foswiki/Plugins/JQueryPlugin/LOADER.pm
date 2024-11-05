@@ -12,12 +12,12 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Loader',
-            version      => '4.70',
+            version      => '4.80',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'LOADER',
             javascript   => ['jquery.loader.js'],
-            dependencies => [ 'metadata', 'animate' ],
+            dependencies => ['animate'],
         ),
         $class
     );
@@ -30,7 +30,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2011-2023 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2011-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

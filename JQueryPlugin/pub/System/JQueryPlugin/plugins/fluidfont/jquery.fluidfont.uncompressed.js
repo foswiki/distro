@@ -1,7 +1,7 @@
 /*
- * jQuery fluid font plugin 1.01
+ * jQuery fluid font plugin 1.10
  *
- * Copyright (c) 2009-2020 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2024 Foswiki Contributors http://foswiki.org
  *
  * inspired by TextZooming by James Newbery http://www.tinnedfruit.com/sandbox/textzoom.html
  *
@@ -23,7 +23,7 @@
      * constructor
      */
     build: function(options) {
-      //$.log("called fluidfont.build()");
+      //console.log("called fluidfont.build()");
      
       var $this = $(this), 
         opts = $.extend({}, $.fluidfont.defaults, options),
@@ -51,7 +51,7 @@
       lineHeight = $this.css('line-height');
       lineRatio = getRatio(lineHeight);
       lineRatio = lineRatio / fontRatio;
-      //$.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
+      //console.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
 
       function resize() {
         var width = $this.width(), 
@@ -68,7 +68,7 @@
 
         lineHeight = fontSize * lineRatio;
 
-        //$.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);
+        //console.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);
         $this.css({'font-size': fontSize+"px", 'line-height': lineHeight+"px"});
       
         window.setTimeout(function() {
@@ -98,7 +98,7 @@
   /* initialisation */
   $(function() {
     $(".jqFluidFont").not(".jqInitedFluidFont").each(function() {
-      var $this = $(this), opts = $.extend({}, $this.data(), $this.metadata());
+      var $this = $(this), opts = $.extend({}, $this.data());
       $this.addClass("jqInitedFluidFont");
       $this.fluidfont(opts);
     });

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512570593" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1730806362" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -33,13 +33,11 @@ jQuery(function($) {
 </script>
 </verbatim>
 
-Using css:
+Using css and HTML5 data:
 
 <verbatim class="html">
-<input type="text" name="tags" class="jqTextboxList {options}" />
+<input type="text" name="tags" class="jqTextboxList" data-container-class="..." data-sorting="..." ... />
 </verbatim>
-
-In both cases =options= is a json object to customized the textboxlist to your needs.
 
 ---++ Options
 
@@ -102,13 +100,13 @@ jQuery(function($) {
 
 ---+++ Tagging with autocomplete suggestions
 
-Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully. 
+Note, that you will need [[https://foswiki.org/Extensions/FilterPlugin][FilterPlugin]] to run the example successfully. 
 
 <form>
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <h3>Tags:</h3>
-    <input class="foswikiInputField jqTextboxList {autocomplete:'%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text'}" id="example" size='42'  />
+    <input class="foswikiInputField jqTextboxList" data-autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text" id="example" size='42'  />
     <div class="foswikiFormDescription">
       Tags are suggested as you type.
     </div>

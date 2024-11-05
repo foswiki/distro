@@ -50,7 +50,7 @@
             (settings.whitespace || !text.match(/\s/))) {
           var firstPart = "";
           var lastPart = "";
-          //$.log("length="+txtlength+", text="+text);
+          //console.log("length="+txtlength+", text="+text);
           switch (settings.trunc) {
             case 'head':
               lastPart = text.substring(txtlength-settings.size+1,txtlength);

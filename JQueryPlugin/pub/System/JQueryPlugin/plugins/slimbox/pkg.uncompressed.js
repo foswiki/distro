@@ -271,12 +271,12 @@ jQuery(function($) {
   $(".jqSlimbox:not(.jqInitedSlimbox)").livequery(function() {
     var $this = $(this);
     $this.addClass("jqInitedSlimbox");
-    var opts = $.extend({}, defaults, $this.data(), $this.metadata());
+    var opts = $.extend({}, defaults, $this.data());
     var groupRel = "lightbox-"+Math.floor(Math.random() * 100);
     $this.find(opts.itemSelector).attr('rel', groupRel).slimbox(opts,
       function(el) {
         var $el = $(el);
-        var imgOpts = $.extend({}, $el.data(), $el.metadata());
+        var imgOpts = $.extend({}, $el.data());
         var href = imgOpts.origUrl || el.href;
         var imgTitle = imgOpts.title || $el.attr(opts.titleAttr) || '';
         imgTitle = imgTitle.replace(/\..*?$/, '').replace(/[\-_]/g, ' ');

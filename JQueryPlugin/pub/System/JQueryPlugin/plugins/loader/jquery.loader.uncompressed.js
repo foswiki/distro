@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 4.70
+ * jQuery Loader plugin 4.80
  *
  * Copyright (c) 2011-2023 Foswiki Contributors http://foswiki.org
  *
@@ -221,7 +221,7 @@
   // register css class 
   $(".jqLoader").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data());
 
     $this.jqLoader(opts);
   });
