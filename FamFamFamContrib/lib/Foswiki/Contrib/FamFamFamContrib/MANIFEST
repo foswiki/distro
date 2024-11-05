@@ -2,18 +2,19 @@
 templates/view.famfamfam.tmpl 0444
 templates/subscribe.famfamfam.tmpl 0444
 
-data/System/DocumentGraphics.txt 0644 Documentation
-data/System/FamFamFamContrib.txt 0644 Documentation
-data/System/FamFamFamFlagIcons.txt 0644 Documentation
-data/System/FamFamFamFoswikiExtras.txt 0644 Documentation
-data/System/FamFamFamMiniIcons.txt 0644 Documentation
-data/System/FamFamFamMintIcons.txt 0644 Documentation
-data/System/FamFamFamSilkCompanion1Icons.txt 0644 Documentation
-data/System/FamFamFamSilkCompanion2Icons.txt 0644 Documentation
-data/System/FamFamFamSilkIcons.txt 0644 Documentation
-data/System/FamFamFamSilkGeoSilkIcons.txt 0644 geosilk icons
+data/System/DocumentGraphics.txt 0644
+data/System/FamFamFamContrib.txt 0644
+data/System/FamFamFamFlagIcons.txt 0644
+data/System/FamFamFamFoswikiExtras.txt 0644
+data/System/FamFamFamMiniIcons.txt 0644
+data/System/FamFamFamMintIcons.txt 0644
+data/System/FamFamFamSilkCompanion1Icons.txt 0644
+data/System/FamFamFamSilkCompanion2Icons.txt 0644
+data/System/FamFamFamSilkIcons.txt 0644
+data/System/FamFamFamSilkGeoSilkIcons.txt 0644
 
-lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
+lib/Foswiki/Contrib/FamFamFamContrib.pm 0644
+lib/Foswiki/Contrib/FamFamFamContrib/MANIFEST 0644
 
 pub/System/DocumentGraphics/add.gif 0644
 pub/System/DocumentGraphics/addon.gif 0644

@@ -7,6 +7,7 @@ lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
 lib/Foswiki/Plugins/TinyMCEPlugin/Config.spec 0644
 lib/Foswiki/Plugins/TinyMCEPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/TinyMCEPlugin/TinyMCE.pm 0644
+lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js.gz 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.uncompressed.js 0644

@@ -3,6 +3,7 @@ create_new_extension.pl 0644
 data/System/BuildContrib.txt 0644
 lib/Foswiki/Contrib/BuildContrib/BaseBuild.pm 0644
 lib/Foswiki/Contrib/BuildContrib/DEPENDENCIES 0644
+lib/Foswiki/Contrib/BuildContrib/MANIFEST 0644
 lib/Foswiki/Contrib/BuildContrib.pm 0644
 lib/Foswiki/Contrib/BuildContrib/Targets/archive.pm 0644
 lib/Foswiki/Contrib/BuildContrib/Targets/compress.pm 0644

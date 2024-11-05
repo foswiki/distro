@@ -1,5 +1,6 @@
 data/System/SmiliesPlugin.txt 0644
 lib/Foswiki/Plugins/SmiliesPlugin.pm 0444
+lib/Foswiki/Plugins/SmiliesPlugin/MANIFEST 0444
 pub/System/SmiliesPlugin/emoticon-0184-tmi.gif 0644
 pub/System/SmiliesPlugin/emoticon-0136-giggle.gif 0644
 pub/System/SmiliesPlugin/emoticon-0153-brokenheart.gif 0644

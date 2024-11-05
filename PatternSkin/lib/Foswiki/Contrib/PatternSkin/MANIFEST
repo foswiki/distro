@@ -38,6 +38,7 @@ data/System/WebLeftBarWebsList.txt 0644
 data/System/WebTopBarExample.txt 0644
 data/Trash/WebLeftBarExample.txt 0644
 lib/Foswiki/Contrib/PatternSkin.pm 0444
+lib/Foswiki/Contrib/PatternSkin/MANIFEST 0444
 pub/System/JavascriptFiles/foswikiArray.js 0644
 pub/System/JavascriptFiles/foswikiArray.js.gz 0644
 pub/System/JavascriptFiles/foswikiArray_src.js 0644

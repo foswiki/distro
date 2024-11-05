@@ -5,6 +5,7 @@ lib/FCGI/ProcManager/Constrained.pm 0664
 lib/Foswiki/Contrib/FastCGIEngineContrib.pm 0664
 lib/Foswiki/Contrib/FastCGIEngineContrib/Config.spec 0664
 lib/Foswiki/Contrib/FastCGIEngineContrib/DEPENDENCIES 0664
+lib/Foswiki/Contrib/FastCGIEngineContrib/MANIFEST 0664
 lib/Foswiki/Engine/FastCGI.pm 0664
 lib/Foswiki/Engine/FastCGI/ProcManager.pm 0664
 tools/foswiki.defaults 0664

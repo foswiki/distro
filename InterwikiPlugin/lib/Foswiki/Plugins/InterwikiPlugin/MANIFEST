@@ -1,4 +1,5 @@
 !noci
 lib/Foswiki/Plugins/InterwikiPlugin.pm 0444
+lib/Foswiki/Plugins/InterwikiPlugin/MANIFEST 0644
 data/System/InterwikiPlugin.txt 0644
 data/System/InterWikis.txt 0644
