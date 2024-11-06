@@ -31,28 +31,28 @@ sub renderForEdit {
         $value = $param3;
     }
 
-    my @values   = @{ $this->SUPER::getOptions() };
-    my $metadata = '';
+    my @values       = @{ $this->SUPER::getOptions() };
+    my $autoComplete = '';
     if (@values) {
         if ( scalar(@values) == 1 && $values[0] =~ m/^https?:/ ) {
-            $metadata = "{autocomplete: '$values[0]'}";
+            $autoComplete = "$values[0]";
         }
         else {
-            $metadata = "{autocomplete: ['"
-              . join( "', '",
+            $autoComplete = '["'
+              . join( '", "',
                 map { my $tmp = $_; $tmp =~ s/(["'])/\\$1/g; $tmp } @values )
-              . "']}";
+              . '"]';
         }
     }
 
     my $field = CGI::textfield(
-        -class =>
-          $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
-        -name     => $this->{name},
-        -size     => $this->{size},
-        -override => 1,
-        -value    => $value,
-        -id       => $this->{name},
+        -class => $this->cssClasses("foswikiInputField jqTextboxList"),
+        -data_autocomplete => $autoComplete,
+        -name              => $this->{name},
+        -size              => $this->{size},
+        -override          => 1,
+        -value             => $value,
+        -id                => $this->{name},
     );
 
     return ( '', $field );
@@ -85,7 +85,7 @@ sub getOptions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2023 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
