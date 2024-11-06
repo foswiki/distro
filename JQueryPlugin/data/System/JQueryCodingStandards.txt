@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1730892243" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -7,7 +7,7 @@
 %STARTINCLUDE%
 Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standards]]
 
-See also Foswiki:Development/UsingJQueryWithFoswiki for more information, tips and tricks.
+See also [[https://foswiki.org/Development/UsingJQueryWithFoswiki][UsingJQueryWithFoswiki]] for more information, tips and tricks.
 
 ---++ Wrap =$=
 
@@ -80,17 +80,15 @@ var pubUrlPath = foswiki.getPreference('PUBURLPATH');
 In addition, the JQuery =foswiki= plugin adds the macros specified by the
 global =EXPORTEDPREFERENCES= preference (currently %EXPORTEDPREFERENCES%).
 
----++ Avoid Internet Explorer errors
+For local parameters however, use HTML 5 data attributes
+to pass parameters from Foswiki to a jQuery plugin. For example:
 
-   * Use an object if you need an associative array, not an array. [[http://ajaxian.com/archives/javascript-associative-arrays-considered-harmful][ [source&#93; ]]
-   * Declare all local variables with =var= before they are used.
-   * Remove trailing commas from array and object definitions, i.e.:
-     <verbatim class="js">var object = { foo: 'bar' }</verbatim> not 
-     <verbatim class="js">var object = { foo: 'bar', }</verbatim>
+<verbatim>
+<div class="jqPluginName" data-param1="value1" data-param2="value2">
+</div>
+</verbatim>
 
----++ Metadata
-
-Use JQueryMetadata to integrate jQuery plugins into Foswiki.
+The plugin code will then use =$(".jqPluginName").data()= to extract the parameters as a JSON object.
 
 ---++ <nop>LiveQuery
 
@@ -104,6 +102,7 @@ Instead of:
 
 <verbatim class="js">
 $(".jqPluginName").each(function() {
+  var opts = $(this).data();
   // initializer
 });
 </verbatim>
@@ -112,13 +111,12 @@ use
 
 <verbatim class="js">
 $(".jqPluginName").livequery(function() {
+  var opts = $(this).data();
   // initializer
 });
 </verbatim>
 
-Bear in mind that a page containing your script might end up being loaded _by another page_ using a dynamic AJAX request. So ideally, you would use =livequery= on *all* elements all of the time. However be warned that =livequery= can be very slow on very large pages, especially on internet explorer.
-
-See JQueryMetadata for a more thorough example of using metadata and livequery
+Bear in mind that a page containing your script might end up being loaded _by another page_ using a dynamic AJAX request. So ideally, you would use =livequery= on *all* elements all of the time. 
 %STOPINCLUDE%
 
 %META:PREFERENCE{name="TOPICTITLE" title="TOPICTITLE" type="Local" value="JQuery Coding Standards"}%
