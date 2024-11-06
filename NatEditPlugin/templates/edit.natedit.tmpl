@@ -65,7 +65,7 @@
 %TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 
 %TMPL:DEF{"editcaptcha"}%%TMPL:P{context="CaptchaEnableSave" then="editcaptcha::impl"}%%TMPL:END%
-%TMPL:DEF{"editcaptcha::impl"}%<div class="jqUIDialog foswikiFormSteps {modal:true, resizable:false, width:'auto', draggable:true, appendTo:'#EditForm'}" id="editcaptcha" title="%MAKETEXT{"Please validate"}%" >
+%TMPL:DEF{"editcaptcha::impl"}%<div class="jqUIDialog foswikiFormSteps" data-modal="true" data-resizable="false"  data-width="auto" data-draggable="true" data-append-to="#EditForm" id="editcaptcha" title="%MAKETEXT{"Please validate"}%" >
 %CAPTCHAFORM{validateonsubmit="off"}%
 <a class="jqUIDialogButton jqUIDialogSubmit" data-icon="ui-icon-disk">%MAKETEXT{"Save"}%</a> 
 <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a> 
