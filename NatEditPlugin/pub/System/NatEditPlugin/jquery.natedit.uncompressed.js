@@ -169,18 +169,15 @@ UndoManager.prototype.saveState = function(mode) {
         || (mode != "none" && mode == self.mode)
         || (mode === "whitespace" && self.mode === "typing")) {
       // reuse the current state if it is just a move operation
-      $.log("NATEDIT: reuse current state in mode=",mode);
       self.mode = mode;
       currentState.init();
       return;
     }
   }
 
-  $.log("NATEDIT: mode=",mode);
   self.mode = mode;
 
   self.undoPtr++;
-  $.log("NATEDIT: save state at undoPtr=",self.undoPtr);
 
   currentState = new TextareaState(self.editor);
   self.undoBuf[self.undoPtr] = currentState;
@@ -192,15 +189,11 @@ UndoManager.prototype.saveState = function(mode) {
 UndoManager.prototype.undo = function() {
   var self = this;
 
-  $.log("NATEDIT: called undo");
-
   if (!self.canUndo()) {
-    $.log("... can't undo");
     return;
   }
 
   self.undoPtr--;
-  $.log("NATEDIT: ... undoing undoPtr=",self.undoPtr);
   self.undoBuf[self.undoPtr].restore();
 
   self.mode = "none";
@@ -211,12 +204,10 @@ UndoManager.prototype.redo = function() {
   var self = this;
 
   if (!self.canRedo()) {
-    $.log("NATEDIT: ... can't redo");
     return;
   }
 
   self.undoPtr++;
-  $.log("NATEDIT: ... redoing undoPtr=",self.undoPtr);
   self.undoBuf[self.undoPtr].restore();
 
   self.mode = "none";
@@ -245,7 +236,7 @@ $.NatEditor = function(txtarea, opts) {
     self.oldIE = true; /* all IEs up to IE9; IE10 has got selectionStart/selectionEnd */
   }
 
-  $.log("NATEDIT: opts=",self.opts);
+  //self.log("opts=",self.opts);
   // disable autoMaxExpand and resizable if we are auto-resizing
   if (self.opts.autoResize) {
     self.opts.autoMaxExpand = false;
@@ -295,6 +286,21 @@ $.NatEditor = function(txtarea, opts) {
       self.handleTab(ev);
     }
   });  
+};
+
+/*************************************************************************
+ * debug logging 
+ */
+$.NatEditor.prototype.log = function() {
+  var self = this, args, id = self.id;
+
+  id = id.substring(id.length - 4, id.length);
+
+  if (console && self.opts.debug) {
+    args = $.makeArray(arguments);
+    args.unshift("NATEDIT ("+id+"): ");
+    console && console.log.apply(console, args); // eslint-disable-line no-console
+  }
 };
 
 /*************************************************************************
@@ -477,10 +483,10 @@ $.NatEditor.prototype.initGui = function() {
   if (self.opts.resizable) {
     // test for native resize
     if (typeof(self.txtarea.style.resize) === 'undefined') {
-      //$.log("NATEDIT: falling back to jquery-ui resizable");
+      //self.log("falling back to jquery-ui resizable");
       $txtarea.resizable();
     } else {
-      //$.log("NATEDIT: using native resize css");
+      //self.log("using native resize css");
       $txtarea.css("resize", "both");
     }
   }
@@ -490,7 +496,7 @@ $.NatEditor.prototype.initGui = function() {
     var currentValues = txtboxlst.currentValues,
       type = $(txtboxlst.input).data("permType");
 
-    $.log("NATEDIT: currentValues="+currentValues.join(", "));
+    //self.log("currentValues="+currentValues.join(", "));
     self.setPermission(type, {
       allow: currentValues.join(", ")
     });
@@ -646,7 +652,7 @@ $.NatEditor.prototype.initToolbar = function() {
     });
 
     if (self.opts.autoHideToolbar) {
-      //$.log("NATEDIT: toggling toolbar on hover event");
+      //self.log("toggling toolbar on hover event");
       self.toolbar.hide();
 
       $txtarea.focus(
@@ -729,7 +735,7 @@ $.NatEditor.prototype.setPermission = function(type, rules) {
   for (key in rules) {
     if (rules.hasOwnProperty(key)) {
       val = rules[key];
-      $.log("NATEDIT: setting ."+key+"_"+type+"="+val); 
+      //self.log("setting ."+key+"_"+type+"="+val); 
       self.form.find("." + key + "_" + type).val(val);
     }
   }
@@ -752,7 +758,7 @@ $.NatEditor.prototype.showPermDetails = function(type) {
   });
 
   names = names.join(', ');
-  $.log("NATEDIT: showPermDetails - names="+names);
+  //self.log("showPermDetails - names="+names);
 
   self.setPermission(type, {
     allow: names
@@ -971,10 +977,7 @@ $.NatEditor.prototype.initForm = function() {
   });
 
   /* add clientside form validation */
-  formRules = $.extend({}, self.form.metadata({
-    type: 'attr',
-    name: 'validate'
-  }));
+  formRules = $.extend({}, self.form.data("validate"));
 
   self.form.validate({
     ignore: "div, .foswikiIgnoreValidation",
@@ -1217,7 +1220,7 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
   // get inline opts
   itemData = ui.data();
 
-  //$.log("handleToolbarAction data=",itemData)
+  //self.log("handleToolbarAction data=",itemData)
 
   // insert markup mode
   if (typeof(itemData.markup) !== 'undefined') {
@@ -1274,12 +1277,12 @@ $.NatEditor.prototype.handleToolbarAction = function(ev, ui) {
 
   // method mode 
   if (typeof(itemData.handler) !== 'undefined' && typeof(self[itemData.handler]) === 'function') {
-    //$.log("found handler in toolbar action",itemData.handler);
+    //self.log("found handler in toolbar action",itemData.handler);
     self[itemData.handler].call(self, ev, ui);
     return;
   }
 
-  //$.log("NATEDIT: no action for ",ui);
+  //self.log("no action for ",ui);
 };
 
 /*************************************************************************
@@ -1341,7 +1344,7 @@ $.NatEditor.prototype.remove = function() {
 $.NatEditor.prototype.getSelectionRange = function() {
   var self = this, text, c, range, rangeCopy, pos, selection;
 
-  //$.log("NATEDIT: called getSelectionRange()");
+  //self.log("called getSelectionRange()");
   //$(self.txtarea).focus();
 
   if (self.oldIE) {
@@ -1407,7 +1410,7 @@ $.NatEditor.prototype.getSelectionLines = function() {
     end++;
   }
 
-  //$.log("start=",start,"end=",end);
+  //self.log("start=",start,"end=",end);
 
   self.setSelectionRange(start, end);
 
@@ -1420,7 +1423,7 @@ $.NatEditor.prototype.getSelectionLines = function() {
 $.NatEditor.prototype.setSelectionRange = function(start, end) {
   var self = this, lineFeeds, range;
 
-  //$.log("setSelectionRange("+self.txtarea+", "+start+", "+end+")");
+  //self.log("setSelectionRange("+self.txtarea+", "+start+", "+end+")");
 
   //$(self.txtarea).focus();
   if (typeof(self.txtarea.createTextRange) !== 'undefined' && !$.browser.opera) {
@@ -1443,7 +1446,7 @@ $.NatEditor.prototype.setSelectionRange = function(start, end) {
 $.NatEditor.prototype.setCaretPosition = function(caretPos) {
   var self = this;
 
-  $.log("NATEDIT: setCaretPosition("+caretPos+")");
+  self.log("setCaretPosition("+caretPos+")");
   self.setSelectionRange(caretPos, caretPos);
 };
 
@@ -1477,7 +1480,7 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
       listRegExp = new RegExp(/^(( {3})*)( {3})(\* |\d+ |\d+\. )/),
       nrSpaces = 0;
 
-  //$.log("called insertLineTag(..., ",markup,")");
+  //self.log("called insertLineTag(..., ",markup,")");
 
   theSelection = self.getSelectionLines();
   startPos = self.txtarea.selectionStart;
@@ -1532,7 +1535,7 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
     endPos = nrSpaces + startPos + modifiedSelection.length + 1;
   }
 
-  //$.log("finally, startPos="+startPos+" endPos="+endPos);
+  //self.log("finally, startPos="+startPos+" endPos="+endPos);
 
   self.setSelectionRange(startPos, endPos);
   self.txtarea.scrollTop = scrollTop;
@@ -1552,7 +1555,7 @@ $.NatEditor.prototype.insertTag = function(markup) {
       text, scrollTop, theSelection,
       subst;
 
-  //$.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
+  //self.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
     
   self.getSelectionRange();
   startPos = self.txtarea.selectionStart;
@@ -1561,7 +1564,7 @@ $.NatEditor.prototype.insertTag = function(markup) {
   scrollTop = self.txtarea.scrollTop;
   theSelection = text.substring(startPos, endPos) || sampleText;
 
-  //$.log("startPos="+startPos+" endPos="+endPos);
+  //self.log("startPos="+startPos+" endPos="+endPos);
 
   subst = tagOpen + theSelection.replace(/(\s*)$/, tagClose + "$1");
 
@@ -1856,10 +1859,10 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
-    //$.log("fixHeight height=",newHeight,"container.height=",self.container.height());
+    //self.log("fixHeight height=",newHeight,"container.height=",self.container.height());
     elem.height(newHeight);
   } else {
-    //$.log("not fixHeight elem not yet visible");
+    //self.log("not fixHeight elem not yet visible");
   }
 };
 
@@ -1871,12 +1874,12 @@ $.NatEditor.prototype.autoResize = function() {
       $txtarea = $(self.txtarea),
       now, text, height;
 
-  //$.log("NATEDIT: called autoResize()");
+  //self.log("called autoResize()");
   now = new Date();
   
   // don't do it too often
   if (self._time && now.getTime() - self._time.getTime() < 100) {
-    //$.log("NATEDIT: suppressing events within 100ms");
+    //self.log("suppressing events within 100ms");
     return;
   }
   self._time = now;
@@ -1885,14 +1888,14 @@ $.NatEditor.prototype.autoResize = function() {
     text = $txtarea.val()+"\n";
 
     if (text == self._lastText) {
-      //$.log("NATEDIT: suppressing events");
+      //self.log("suppressing events");
       return;
     }
 
     self._lastText = text;
     text = self.htmlEntities(text);
 
-    //$.log("NATEDIT: helper text="+text);
+    //self.log("helper text="+text);
     self.helper.width($txtarea.width()).val(text);
 
     //height = self.helper.height() + 12;
@@ -1910,7 +1913,7 @@ $.NatEditor.prototype.autoResize = function() {
       $txtarea.css('overflow-y', 'hidden');
     }
 
-    //$.log("NATEDIT: setting height=",height);
+    //self.log("setting height=",height);
 
     $txtarea.height(height);
   });
@@ -2066,7 +2069,7 @@ $.NatEditor.prototype.handleSearchReplace = function(elem) {
       ignoreCase = $dialog.find("input[name='ignorecase']:checked").length?true:false,
       count;
 
-  $.log("NATEDIT: handleSearchReplace, search='"+search+" 'replace='"+replace+"' ignoreCase=",ignoreCase);
+  self.log("handleSearchReplace, search='"+search+" 'replace='"+replace+"' ignoreCase=",ignoreCase);
 
   if (search.length) {
     count = self.searchReplace(search, replace, ignoreCase);
@@ -2105,11 +2108,11 @@ $.NatEditor.prototype.searchReplace = function(search, replace, ignoreCase) {
     pos = copy.indexOf(search, pos + replace.length);
   }
 
-  //$.log("NATEDIT: result=",text);
-  $.log("NATEDIT: count=", count);
+  //self.log("result=",text);
+  self.log("count=", count);
   if (count) {
     self.txtarea.value = text;
-    //$.log("caretPos=",caretPos,"scrollTop=",scrollTop);
+    //self.log("caretPos=",caretPos,"scrollTop=",scrollTop);
     self.setCaretPosition(caretPos);
     self.txtarea.scrollTop = scrollTop;
 
@@ -2151,7 +2154,7 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
     opts = {},
     $currentTab = $dialog.find(".jqTab.current");
  
-  //$.log("called openInsertTable()", $dialog);
+  //self.log("called openInsertTable()", $dialog);
 
   if ($currentTab.is(".topic")) {
     opts = {
@@ -2168,7 +2171,7 @@ $.NatEditor.prototype.handleInsertLink = function(elem) {
     return;
   }
 
-  //$.log("opts=",opts);
+  //self.log("opts=",opts);
   return self.insertLink(opts);
 };
 
@@ -2319,7 +2322,7 @@ $.NatEditor.prototype.sortSelection = function(dir) {
     selection, lines, ignored, isNumeric = true, value,
     line, prefix, i;
 
-  //$.log("NATEDIT: sortSelection ", dir);
+  //self.log("sortSelection ", dir);
 
   selection = self.getSelectionLines().split(/\r?\n/);
 
@@ -2358,8 +2361,8 @@ $.NatEditor.prototype.sortSelection = function(dir) {
     }
   }
 
-  $.log("NATEDIT: isNumeric=",isNumeric);
-  $.log("NATEDIT: sorting lines",lines);
+  self.log("isNumeric=",isNumeric);
+  self.log("sorting lines",lines);
 
   lines = lines.sort(function(a, b) {
     var valA = a.value, valB = b.value;
@@ -2385,7 +2388,7 @@ $.NatEditor.prototype.sortSelection = function(dir) {
   });
   selection = selection.join("\n");
 
-  $.log("NATEDIT: result=\n'"+selection+"'");
+  self.log("result=\n'"+selection+"'");
 
   self.remove();
   self.insertTag(['', selection, '']);
@@ -2514,7 +2517,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
   var self = this,
       $dialog = $(elem);
 
-  $.log("NATEDIT: initAttachmentsDialog on elem=",elem);
+  self.log("initAttachmentsDialog on elem=",elem);
 
   self.initLinkDialog(elem, data);
 
@@ -2540,7 +2543,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       var file = self.uploader.files[0];
 
       if (self.uploader.state == plupload.STARTED) {
-        $.log("started upload");
+        self.log("started upload");
         $input.attr("disabled", "disabled").val($.i18n("uploading ..."));
         $browseButton.hide();
         $cancelButton.show();
@@ -2548,7 +2551,7 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
       } 
 
       if (self.uploader.state == plupload.STOPPED) {
-        $.log("upload stopped");
+        self.log("upload stopped");
         if (gotError || typeof(file) === 'undefined' || file.percent != 100) {
           $input.val($.i18n("abording transfer ..."));
           window.setTimeout(function() {
@@ -2582,14 +2585,17 @@ $.NatEditor.prototype.initAttachmentsDialog = function(elem, data) {
 /*****************************************************************************
   * cancel the attachments dialog; abords any upload in progress
   */
-$.NatEditor.prototype.cancelAttachmentsDialog = function() {
-  var self = this;
+$.NatEditor.prototype.cancelAttachmentsDialog = function(elem, data) {
+  var self = this,
+      $dialog = $(elem);
+
+  self.log("cancelAttachmentsDialog on elem=",elem);
 
   if (typeof(self.uploader) !== 'undefined') {
-    $.log("stopping uploader");
+    self.log("stopping uploader");
     self.uploader.trigger("Stop");
   } else {
-    $.log("no uploader found");
+    self.log("no uploader found");
   }
 };
 
@@ -2609,59 +2615,59 @@ $.NatEditor.prototype.parseLinkSelection = function() {
   // initialize from selection
   if (selection.match(/\s*\[\[(.*?)\]\]\s*/)) {
     selection = RegExp.$1;
-    //$.log("brackets link, selection=",selection);
+    //self.log("brackets link, selection=",selection);
     if (selection.match("^("+urlRegExp+")(?:\\]\\[(.*))?$")) {
-      //$.log("external link");
+      //self.log("external link");
       url = RegExp.$1;
       selection = RegExp.$2 || '';
       type = 'external';
     } else if (selection.match(/^(?:%ATTACHURL(?:PATH)?%\/)(.*?)(?:\]\[(.*))?$/)) {
-      //$.log("this attachment link");     
+      //self.log("this attachment link");     
       file = RegExp.$1;
       selection = RegExp.$2;
       type = "attachment";
     } else if (selection.match(/^(?:%PUBURL(?:PATH)?%\/)(.*)\/(.*?)\/(.*?)(?:\]\[(.*))?$/)) {
-      //$.log("other topic attachment link");     
+      //self.log("other topic attachment link");     
       web = RegExp.$1;
       topic = RegExp.$2;
       file = RegExp.$3;
       selection = RegExp.$4;
       type = "attachment";
     } else if (selection.match(/^(?:(.*)\.)?(.*?)(?:\]\[(.*))?$/)) {
-      //$.log("topic link");
+      //self.log("topic link");
       web = RegExp.$1 || web;
       topic = RegExp.$2;
       selection = RegExp.$3 || '';
     } else {
-      //$.log("some link");
+      //self.log("some link");
       topic = selection;
       selection = '';
     }
   } else if (selection.match("^ *"+urlRegExp)) {
-    //$.log("no brackets external link");
+    //self.log("no brackets external link");
     url = selection;
     selection = "";
     type = "external";
   } else if (selection.match(/^\s*%IMAGE\{"(.*?)"(?:.*?topic="(?:([^\s.]+)\.)?(.*?)")?.*?\}%\s*$/)) {
     // SMELL: nukes custom params
-    //$.log("image link");
+    //self.log("image link");
     web = RegExp.$2 || web;
     topic = RegExp.$3 || topic;
     file = RegExp.$1;
     selection = "";
     type = "attachment";
   } else {
-    if (selection.match(/^\s*([A-Z][^\s.]*)\.(A-Z.*?)\s*$/)) {
-      //$.log("topic link");
+    if (selection.match(/^\s*([A-Z][^\s\.]*)\.(A-Z.*?)\s*$/)) {
+      //self.log("topic link");
       web = RegExp.$1 || web;
       topic = RegExp.$2;
       selection = '';
       type = "topic";
     } else {
-      //$.log("some selection, not a link");
+      //self.log("some selection, not a link");
     }
   }
-  //$.log("after: selection=",selection, ", url=",url, ", web=",web,", topic=",topic,", file=",file,", initialTab=", initialTab);
+  //self.log("after: selection=",selection, ", url=",url, ", web=",web,", topic=",topic,", file=",file,", initialTab=", initialTab);
   //
   return {
     selection: selection,
@@ -2726,7 +2732,7 @@ $.NatEditor.defaults = {
  * register to jquery 
  */
 $.fn.natedit = function(opts) {
-  //$.log("NATEDIT: called natedit()");
+  //self.log("called natedit()");
 
   // build main options before element iteration
   var thisOpts = $.extend({}, $.NatEditor.defaults, opts);
