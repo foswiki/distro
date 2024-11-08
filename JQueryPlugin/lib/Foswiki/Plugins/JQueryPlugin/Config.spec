@@ -50,7 +50,7 @@ $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness LABEL="jQuery Theme"**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
-# ---+++ JQuery UI Themes
+# ---+++ Themes
 # **BOOLEAN LABEL="Base"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 0;
 
@@ -69,7 +69,7 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 0;
 # **BOOLEAN LABEL="Smoothness"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 0;
 
-# ---+++ JQuery Plugins
+# ---+++ Modules
 # **BOOLEAN LABEL="Animate"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Animate}{Enabled} = 1;
 
@@ -138,9 +138,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{MaskedInput}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Masonry"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Masonry}{Enabled} = 1;
-
-# **BOOLEAN LABEL="Metadata"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Migrate"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Migrate}{Enabled} = 1;
@@ -237,6 +234,15 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{View}{Enabled} = 1;
 
 # **BOOLEAN LABEL="WikiWord"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
+
+# ---+++ Deprecated Modules
+# Any module listed here should be disabled.  They will be removed in a future release of Foswiki.
+# If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
+# the Foswiki distribution.
+
+# **BOOLEAN LABEL="Metadata"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 0;
+
 
 #---+ Tuning
 #---++ HTML Page Layout

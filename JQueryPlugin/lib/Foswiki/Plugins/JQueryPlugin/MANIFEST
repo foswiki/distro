@@ -58,6 +58,7 @@ data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Metadata/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Base/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Flickr/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Themes/Lightness/Enabled.pm 0644
@@ -76,7 +77,6 @@ lib/Foswiki/Plugins/JQueryPlugin/Config.spec 0644
 lib/Foswiki/Plugins/JQueryPlugin/COOKIE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/CYCLE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/DEPENDENCIES 0644
-lib/Foswiki/Plugins/JQueryPlugin/MANIFEST 0644
 lib/Foswiki/Plugins/JQueryPlugin/EASING.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/EMPTY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/FARBTASTIC.pm 0644
@@ -92,6 +92,7 @@ lib/Foswiki/Plugins/JQueryPlugin/IMAGESLOADED.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LOADER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LOCALSCROLL.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/MANIFEST 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASKEDINPUT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASONRY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/METADATA.pm 0644

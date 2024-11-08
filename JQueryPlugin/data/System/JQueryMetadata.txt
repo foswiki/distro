@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1731055688" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"metadata"
@@ -18,7 +18,7 @@ and child elements.
 
 A lot of jQuery plugins are initialized and configured using _metadata_ embeded into the markup thus eliminating 
 the need to explicitly write !JavaScript. A behavior is assigned to an html element by giving it the pertinent class name
-that the plugin listens to. Parameters to the plugin itself are embeded as a JSON object inside the class attribute. JQueryMetadata can also be encoded differently. Having it inside the class attribute as well is most common. One exception is JQueryCorner for example, that uses an explicit =data-corner= attribute, which of course isn't standard conform markup. However browsers happily ignore attributes that they don't understand. So that's not a problem in real live.
+that the plugin listens to. Parameters to the plugin itself are embeded as a JSON object inside the class attribute. JQueryMetadata can also be encoded differently. Having it inside the class attribute as well is most common. 
 
 ---++ Examples
 
@@ -57,7 +57,7 @@ jQuery(function($) {
 
      // prevent the markup to be init'ed multiple times
      $this.addClass("jqInitedMyNewPlugin");
-   
+
      // get plugin options by merging defaults and current json objs
      var opts = $.extend({}, defaults, $this.metadata());
 
