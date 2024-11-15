@@ -34,7 +34,7 @@ sub new {
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/autocomplete/',
             javascript   => ['jquery.ui.autocomplete.init.js'],
-            dependencies => [ 'metadata', 'ui' ],
+            dependencies => ['ui'],
         ),
         $class
     );

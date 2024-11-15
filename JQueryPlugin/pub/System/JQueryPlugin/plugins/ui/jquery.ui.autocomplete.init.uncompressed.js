@@ -11,7 +11,7 @@ jQuery(function($) {
     var $this = $(this), 
         cache = {}, lastXhr,
         src = $this.attr('autocomplete'),
-        opts = $.extend({ source: src }, defaults, $this.data(), $this.metadata()); //SMELL: still depend on MetaData 
+        opts = $.extend({ source: src }, defaults, $this.data()); 
 
     if (typeof(opts.source) === 'string') {
       if (opts.cache && (opts.source.startsWith("/") || opts.source.startsWith("http"))) {
