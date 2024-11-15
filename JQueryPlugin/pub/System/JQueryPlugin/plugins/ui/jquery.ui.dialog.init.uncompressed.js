@@ -125,6 +125,7 @@ jQuery(function($) {
           $content.hide();
           $("body").append($content);
           $content.data("autoOpen", true).on("dialogopen", function() {
+            $this.dialog("option", "position", "center");
             $this.trigger("opened");
           });
         },

@@ -66,8 +66,6 @@ sub init {
         # defaults since foswiki >= 1.1.0
         $prefs =
 'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
-        $prefs .= ', TWISTYANIMATIONSPEED'
-          if $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled};
     }
 
     # init NAMEFILTER
@@ -121,7 +119,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2022 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2024 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
