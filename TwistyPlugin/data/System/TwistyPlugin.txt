@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1689074228" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1731660135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -65,8 +65,6 @@ Will generate:
 %TWISTY{mode="inline"}%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
-
-Note that if animations are on (using =TWISTYPLUGIN_TWISTYANIMATIONSPEED=), you won't see animations with inline mode.
 
 ---+++ Twisty with icons
 <verbatim class="tml">
@@ -462,7 +460,6 @@ You can override some default settings in the plugin by setting the following [[
 | =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Less ...= | %MAKETEXT{"Less ..."}% |
 | =TWISTYPLUGIN_TWISTYMODE= | Either =block= or =inline= | =block= |
 | =TWISTYPLUGIN_TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
-| =TWISTYPLUGIN_TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
