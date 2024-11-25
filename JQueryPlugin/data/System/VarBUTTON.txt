@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1601306678" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1732554276" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ BUTTON -- renders a nice button 
 ---++ Parameters
@@ -11,6 +11,7 @@
      | =data_...= | add html5 data attributes | |
      | =align= | left, right, center |
      | =href= | url of the click target | # | 
+     | =for= | will render a label pointing to an input element rather than a link |
      | =icon= | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
      | =id= | html id for this button | | 
      | =onclick= | javascript event triggered when clicking the button | | 
@@ -25,27 +26,36 @@
                 <li> =save= - same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
               </ul> | =button= | 
 ---++ Examples
-<verbatim class="tml">%BUTTON{
-    "%MAKETEXT{"Submit"}%"
-    icon="tick"
-    onclick="confirm('Are your sure?')"
-  }%
-  %BUTTON{
-    "%MAKETEXT{"Cancel"}%"
-    icon="cross"
-    target="%WEB%.%TOPIC%"
-  }% %CLEAR%</verbatim>
-   * Expands as: <div>%BUTTON{
-    "%MAKETEXT{"Submit"}%"
-    icon="tick"
-    onclick="confirm('Are your sure?')"
-  }%
-  %BUTTON{
-    "%MAKETEXT{"Cancel"}%"
-    icon="cross"
-    target="%WEB%.%TOPIC%"
-  }% %CLEAR%</div>
-Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
+
+*You type*:
+
+<verbatim class="tml">
+%BUTTON{
+   "%MAKETEXT{"Submit"}%"
+   icon="fa-check"
+   onclick="confirm('Are your sure?')"
+}%
+%BUTTON{
+   "%MAKETEXT{"Cancel"}%"
+   icon="fa-times"
+   target="%WEB%.%TOPIC%"
+}% 
+</verbatim>
+
+*You get*:
+
+%BUTTON{
+   "%MAKETEXT{"Submit"}%"
+   icon="fa-check"
+   onclick="confirm('Are your sure?')"
+}%
+%BUTTON{
+   "%MAKETEXT{"Cancel"}%"
+   icon="fa-times"
+   target="%WEB%.%TOPIC%"
+}% 
+
 %STOPINCLUDE%
+
 ---++ Related
  JQueryButton
