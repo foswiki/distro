@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1732554276" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"button"
@@ -35,3 +35,6 @@ theme roller. This is independent.
 %BUTTON{"Apple" icon="fa-apple"}%
 %BUTTON{"Windows" icon="fa-windows"}%
 </div>
+
+%BUTTON{"%TRANSLATE{"Upload a Document"}%" icon="fa-cloud-upload" for="file"}%
+<input type="file" name="file" id="file" class="foswikiHidden" />

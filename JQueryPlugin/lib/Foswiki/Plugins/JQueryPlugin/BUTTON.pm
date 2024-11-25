@@ -27,7 +27,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Button',
-            version      => '2.21',
+            version      => '3.00',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
@@ -68,6 +68,7 @@ sub handleButton {
     my $theTarget    = $params->{target};
     my $theType      = $params->{type} || 'button';
     my $theAlign     = $params->{align};
+    my $theFor       = $params->{for};
 
     $theId = "id='$theId'" if $theId;
     $theClass =~ s/\b(simple|center)\b/'jqButton'.ucfirst($1)/ge;
@@ -138,7 +139,15 @@ sub handleButton {
 
     my $class = join( ' ', @class );
 
-    my $result = "<a $theId class='$class' href='$theHref'";
+    my $result;
+
+    if ($theFor) {
+        $result = "<label $theId class='$class' for='$theFor'";
+    }
+    else {
+        $result = "<a $theId class='$class' href='$theHref'";
+    }
+
     $result .= " accesskey='$theAccessKey' " if $theAccessKey;
     $result .= " title='$theTitle' "         if $theTitle;
     $result .= " style='$theStyle' "         if $theStyle;
@@ -151,7 +160,7 @@ sub handleButton {
         }
     }
 
-    $result .= ">$theIcon$theText</a>";
+    $result .= ">$theIcon$theText" . ( $theFor ? "</label>" : "</a>" );
     $result .= "<input type='submit' style='display:none' />"
       if $theType eq 'submit';
 

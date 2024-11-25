@@ -10,19 +10,10 @@
   white-space:nowrap;
   zoom: 1;
 
-  -moz-border-radius: 3px; 
-  -webkit-border-radius: 3px; 
   border-radius: 3px; 
 
-  border: 1px solid #bcbcbc;
-  /* http://colorzilla.com/gradient-editor/#ffffff+0,dfdfdf+100;Custom */
+  border: 1px solid var(--button-border, #bcbcbc);
   background: #dfdfdf; 
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZmRmZGYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
-  background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); 
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf)); 
-  background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
-  background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
   background: linear-gradient(#ffffff 0%,#dfdfdf 100%); 
 }
 a.jqButton:visited,
@@ -37,22 +28,10 @@ a.jqButton:hover {
   text-decoration:none;
   cursor:pointer;
   background: #ffffff;
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGVkZWQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
-  background: -moz-linear-gradient(top, #ffffff 0%, #ededed 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed));
-  background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
-  background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
   background: linear-gradient(#ffffff 0%,#ededed 100%);
 }
 .jqButton:active {
   background: #ededed;
-  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VkZWRlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
-  background: -moz-linear-gradient(top, #ededed 0%, #ffffff 50%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(50%,#ffffff));
-  background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
-  background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
   background: linear-gradient(#ededed 0%,#ffffff 50%);
 }
 
@@ -90,8 +69,6 @@ a.jqButton:hover {
   color:inherit;
   text-shadow:none;
   padding:0px;
-  -moz-border-radius: 0px; 
-  -webkit-border-radius: 0px; 
   border-radius: 0px; 
   border:0;
 }
@@ -119,42 +96,23 @@ a.jqButtonCenter {
 }
 
 /* button set */
-.jqButtonSet:after { /* clearfix */
-  clear: both;
-  content: ' ';
-  display: block;
-  font-size: 0;
-  line-height: 0;
-  visibility: hidden;
-  width: 0;
-  height: 0;
+.jqButtonSet {
+  display:flex;
 }
 .jqButtonSet .jqButton {
-  float:left;
   margin:0;
 }
 .jqButtonSet .jqButton {
-  border-radius-left:0;
-  -moz-border-radius: 0px; 
-  -webkit-border-radius: 0px; 
   border-radius: 0px; 
   border-left: 0;
 }
 .jqButtonSet .jqButton:first-of-type {
-  border-left: 1px solid #bcbcbc;
-  -moz-border-radius-topleft: 3px; 
-  -webkit-border-top-left-radius: 3px; 
+  border-left: 1px solid var(--button-border, #bcbcbc);
   border-top-left-radius: 3px; 
-  -moz-border-radius-bottomleft: 3px; 
-  -webkit-border-bottom-left-radius: 3px; 
   border-bottom-left-radius: 3px; 
 }
 .jqButtonSet .jqButton:last-of-type {
-  border-right: 1px solid #bcbcbc;
-  -moz-border-radius-topright: 3px; 
-  -webkit-border-top-right-radius: 3px; 
+  border-right: 1px solid var(--button-border, #bcbcbc);
   border-top-right-radius: 3px; 
-  -moz-border-radius-bottomright: 3px; 
-  -webkit-border-bottom-right-radius: 3px; 
   border-bottom-right-radius: 3px; 
 }
