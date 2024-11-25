@@ -36,7 +36,6 @@ DEV_DEPENDENCIES=\
   eslint \
   sass \
   terser \
-  node-sass \
   browserify 
 
 .SUFFIXES: .js .css .jslint .install 

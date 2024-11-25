@@ -1,14 +1,14 @@
-Source: foswiki-jqueryplugin
+Source: foswiki-jquery-plugin
 Section: web
-Priority: extra
+Priority: optional
 Maintainer: Michael Daum <debian@michaeldaumconsulting.com>
 Build-Depends: debhelper (>= 8)
 Standards-Version: 3.9.1
 Homepage: http://foswiki.org/Extensions/JQueryPlugin
 
-Package: foswiki-jqueryplugin
+Package: foswiki-jquery-plugin
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
+Depends: ${misc:Depends}, nodejs, foswiki-core
 Description: jQuery JavaScript library for Foswiki
  jQuery is a fast, concise, JavaScript Library that simplifies how you traverse
  HTML documents, handle events, perform animations, and add Ajax interactions to
