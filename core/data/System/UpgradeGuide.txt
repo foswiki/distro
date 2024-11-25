@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1732555178" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -46,11 +46,6 @@ For patch releases you will find a brief upgrade procedure on the download page 
    * =data/Main/RegistrationAgent.txt=
    * =data/Main/SitePreferences.txt=
    * =data/Main/UnknownUser.txt=
-   * =data/Main/UserHomepageHeader.txt=
-   * =data/Main/UserListByDateJoined.txt=
-   * =data/Main/UserListByLocation.txt=
-   * =data/Main/UserListHeader.txt=
-   * =data/Main/UserList.txt=
    * =data/Main/WebAtom.txt=
    * =data/Main/WebChanges.txt=
    * =data/Main/WebCreateNewTopic.txt=
