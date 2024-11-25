@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1732554637" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTSECTION{"header"}%
 ---+ List of <nop>%WIKITOOLNAME% users
@@ -6,8 +6,6 @@
 Below is a list of users with accounts. If you want to edit topics or see protected areas of the site then you can get added to the list by registering: fill out the form in %SYSTEMWEB%.UserRegistration. 
 
 If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent to you.
-
-%INCLUDE{"UserListHeader" warn="off"}%
 
 ----
 #ListStart

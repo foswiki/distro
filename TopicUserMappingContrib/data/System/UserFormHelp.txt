@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1418937051" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1732554637" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserForm"}%
 ---+!! User Form Help
 %STARTSECTION{"note"}%%IF{"$ BASEWEB='%SYSTEMWEB%'"
@@ -50,5 +50,5 @@ To create your custom new user template, do this:
 }%
 
 ---
-*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.PatternSkinUserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
+*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
 %ENDSECTION{"customform"}%
