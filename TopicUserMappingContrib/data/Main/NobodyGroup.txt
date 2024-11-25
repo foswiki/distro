@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1727168305" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1732554637" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
