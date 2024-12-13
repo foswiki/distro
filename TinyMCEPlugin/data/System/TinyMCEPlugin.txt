@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696003379" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 %FORMFIELD{"Description"}%
@@ -291,7 +291,7 @@ Many thanks to the following sponsors for supporting this work:
 |  14538 | First release |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%

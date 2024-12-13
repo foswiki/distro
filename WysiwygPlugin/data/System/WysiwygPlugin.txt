@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 %FORMFIELD{"Description"}%
@@ -273,7 +273,7 @@ Many thanks to the following sponsors for supporting this work:
 | See Subversion logs for earlier versions ||
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]], Foswiki Contributors"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie, Foswiki Contributors"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; ILOG 2005 http://www.ilog.fr, &copy; 2008-2022 Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%

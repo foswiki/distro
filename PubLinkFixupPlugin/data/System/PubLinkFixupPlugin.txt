@@ -1,12 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442191889" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734079732" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 ---+!! Pub Link Fixup Plugin
 
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -32,18 +28,18 @@ This plugin has one expert setting.
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
 
----++ Info
+---++ Change History
 
-|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  1.00 (14 Sep 2015): | Initial version |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="GeorgeClark"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Author" title="Author" value="George Clark"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2015, George Clark, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Copyright" value="%$CREATEDYEAR%, GeorgeClark, All Rights Reserved"}%
-%META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Repository" value="https://github.com/foswiki/%$ROOTMODULE%"}%
-%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
