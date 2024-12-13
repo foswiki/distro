@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! %TOPIC%
 
@@ -68,7 +68,7 @@ Some notes about the comparison process:
 
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main/CrawfordCurrie"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2004 Crawford Currie, http://c-dot.co.uk"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%

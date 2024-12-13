@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Subscribe Plugin
 %FORMFIELD{"Description"}%
@@ -77,7 +77,7 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie"}%
 %META:FIELD{name="Compatibility" title="Compatibility" value="2.0"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk; &copy; 2008-2023 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
@@ -87,4 +87,4 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1691320505" size="21246" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1734083408" size="21246" user="ProjectContributor" version="1"}%

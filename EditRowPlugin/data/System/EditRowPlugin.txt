@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1705074188" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
 ---+!! !EditRowPlugin
 %FORMFIELD{"Description"}%
 
@@ -351,7 +351,7 @@ Provides the vertical row editing interface like
 
 %META:FIELD{name="Description" title="Description" value=""}%
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
+%META:FIELD{name="Author" title="Author" value="Crawford Currie"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2024 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
