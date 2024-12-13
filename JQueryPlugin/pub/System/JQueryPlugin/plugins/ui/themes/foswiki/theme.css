@@ -776,8 +776,9 @@ a.ui-state-highlight.ui-state-hover,
 }
 .ui-menu .ui-icon {
   top: 50%;
-  margin-top:-8px;
+  margin-top:-0.75em;
   left: 7px;
+  font-size:90%;
 }
 .ui-menu .ui-menu-icon {
   left:auto;
