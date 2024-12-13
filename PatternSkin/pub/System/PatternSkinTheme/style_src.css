@@ -451,16 +451,7 @@ h6:first-child {
 }
 
 /* Links */
-:link:focus,
-:visited:focus,
-:link,
-:visited,
-:link:active,
-:visited:active {
-	text-decoration:none;
-}
-:link:hover,
-:visited:hover {
+a:hover {
 	text-decoration:underline;
 }
 img {
