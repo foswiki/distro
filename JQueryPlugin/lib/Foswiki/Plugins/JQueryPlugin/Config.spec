@@ -47,26 +47,26 @@ $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 # Note that jquery-3 is not tested on Foswiki. You will most probably encounter problems with other modules.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 
-# **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness LABEL="jQuery Theme"**
+# **STRING EXPERT LABEL="jQuery Theme"**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
 # ---+++ Themes
-# **BOOLEAN LABEL="Base"**
+# **BOOLEAN EXPERT LABEL="Base"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 0;
 
-# **BOOLEAN LABEL="Flickr"**
+# **BOOLEAN EXPERT LABEL="Flickr"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Flickr}{Enabled} = 0;
 
-# **BOOLEAN LABEL="Foswiki"**
+# **BOOLEAN EXPERT LABEL="Foswiki"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
 
-# **BOOLEAN LABEL="Lightness"**
+# **BOOLEAN EXPERT LABEL="Lightness"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Lightness}{Enabled} = 0;
 
-# **BOOLEAN LABEL="Redmond"**
+# **BOOLEAN EXPERT LABEL="Redmond"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 0;
 
-# **BOOLEAN LABEL="Smoothness"**
+# **BOOLEAN EXPERT LABEL="Smoothness"**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 0;
 
 # ---+++ Modules

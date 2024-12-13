@@ -49,10 +49,13 @@
   line-height:17px;
 }
 
+.ui-natedit-menu-button {
+  z-index:6;
+}
 .ui-natedit .ui-natedit-menu {
   display:none;
   position:absolute;
-  z-index:91;
+  z-index:5;
 }
 
 .ui-natedit .ui-menu { 
@@ -77,7 +80,7 @@
 .ui-natedit-preformatted { font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace; }
 .ui-natedit-quote { font-style:italic; }
 
-.ui-natedit .ui-natedit-menu:before {
+.ui-natedit .ui-natedit-menu::before {
   content: "";
   position: absolute;
   top: -20px;
@@ -89,7 +92,7 @@
   width: 0;
   z-index: 0;
 }
-.ui-natedit .ui-natedit-menu:after {
+.ui-natedit .ui-natedit-menu::after {
   content: "";
   position: absolute;
   top: -19px;
@@ -166,7 +169,7 @@
   left:0;
   padding:0.5em 1em 1.5em;
   background:#fff;
-  z-index:99;
+  z-index:4;
 }
 .natEditBottomBar ul {
   margin:0px;
