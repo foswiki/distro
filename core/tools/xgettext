@@ -1,8 +1,9 @@
-#! /usr/bin/env perl
+#!/usr/bin/env perl
 #
 # Script to extract strings from Foswiki sources and templates
 
 use strict;
+use warnings;
 
 # force the use from the root
 -d 'core' or die("You may only run this utility from the root directory of Foswiki SVN checkout!");
