@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1691316571" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734456617" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -57,6 +57,10 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.4 was built on 31 May 2017. It is a release that contains 31 fixes.
    * Foswiki 2.1.5 was built on 22 Jan 2018. It is a release that contains 43 fixes and 5 enhancements.
    * Foswiki 2.1.6 was built on 27 Feb 2018. It is a release that contains 11 fixes, including some critical security related fixes.
+   * Foswiki 2.1.7 was build on 29 Mar 2022. It contains 119 fixes, including 7 critical security fixes.
+   * Foswiki 2.1.8 was build on 06 Aug 2023. It contains 61 fixes, including 9 critical security related fixes
+   * Foswiki 2.1.9 was build on 17 Dec 2024. It includes 57 fixes.
+
 
 ---++ Pre-installed Extensions
 
@@ -80,6 +84,11 @@ A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will a
 However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+---++ Important changes in Foswiki 2.1.8
+
+   * [[https://foswiki.org/Support/SecurityAlert-CVE-2023-24698][CVE-2023-24698]]: Local file inclusion vulnerability in viewfile
+   * [[https://foswiki.org/Support/SecurityAlert-CVE-2023-33756][CVE-2023-33756]]: SpreadSheetPlugin's EVAL feature exposes infromation about paths and files on the server
 
 ---++ Important changes in Foswiki 2.1.7
 
@@ -886,6 +895,67 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item15199][Item15199]] | add showcompleted and hidecompleted javascript events when the twisty opened/closed |
 | [[%BUGS%/Item9012][Item9012]] | make TwistyPlugin's =mode= attributes more meaningful |
 
+
+---++ Foswiki Release 2.1.9 Details
+
+| *#* | *Task* | *Priority* | *Component* | *Summary* |
+| 1 | [[%BUGS%/Item15225][Item15225]] | Urgent | Engine | update attachment -> changeproperties -> do nothing |
+| 2 | [[%BUGS%/Item15331][Item15331]] | Urgent | Engine | TLS version problem when sending email |
+| 3 | [[%BUGS%/Item15333][Item15333]] | Urgent | Foswiki::UI::Rename | optionally skip fixing backlinks when renaming/deleting webs |
+| 4 | [[%BUGS%/Item15334][Item15334]] | Urgent | Engine | renderForDisplay is called without knowing the topic it renders the formfield for |
+| 5 | [[%BUGS%/Item15336][Item15336]] | Urgent | PlainFileStoreContrib | only change revision information of top revisions, not of older revisions. |
+| 6 | [[%BUGS%/Item15350][Item15350]] | Urgent | Engine | copying attachments is broken |
+| 7 | [[%BUGS%/Item12511][Item12511]] | Normal | JQueryPlugin | deprecate jquery.metadata |
+| 8 | [[%BUGS%/Item15206][Item15206]] | Normal | Engine | Re-implement Foswiki::MetaCache and ACL cache |
+| 9 | [[%BUGS%/Item15209][Item15209]] | Normal | NatEditPlugin | block editor interface when clicking on save and continue of an autoinc topic |
+| 10 | [[%BUGS%/Item15210][Item15210]] | Normal | Engine | only create a new user profile page if it doesn't exist already |
+| 11 | [[%BUGS%/Item15211][Item15211]] | Normal | Engine | make sure templates link even when autolinking is switched off |
+| 12 | [[%BUGS%/Item15212][Item15212]] | Normal | Engine | unable to configure registration groups |
+| 13 | [[%BUGS%/Item15213][Item15213]] | Normal | Engine | add support for avif, heic and heif image formats |
+| 14 | [[%BUGS%/Item15217][Item15217]] | Normal | JQueryPlugin | deprecate jquery themes |
+| 15 | [[%BUGS%/Item15219][Item15219]] | Normal | NatEditPlugin | prevent autolinking in title |
+| 16 | [[%BUGS%/Item15220][Item15220]] | Normal | Engine | minor performance improvement for web filter |
+| 17 | [[%BUGS%/Item15221][Item15221]] | Normal | Engine | clear logout url param from login url |
+| 18 | [[%BUGS%/Item15222][Item15222]] | Normal | Engine | ignore SFOSWIKISTRIKEONE in page cache variation key |
+| 19 | [[%BUGS%/Item15223][Item15223]] | Normal | Engine | replace all pseudo macros in edit action, not only the first one found |
+| 20 | [[%BUGS%/Item15226][Item15226]] | Normal | Engine | inserting an image link to a topic creates over-complicated code |
+| 21 | [[%BUGS%/Item15228][Item15228]] | Normal | RCSStoreContrib | better error reporting in RCS store |
+| 22 | [[%BUGS%/Item15236][Item15236]] | Normal | EditRowPlugin | css and js for EditRowPlugin not loaded properly |
+| 23 | [[%BUGS%/Item15323][Item15323]] | Normal | Engine | multiple errors found by perlcrit |
+| 24 | [[%BUGS%/Item15337][Item15337]] | Normal | Engine | fix unit tests for plain file logger |
+| 25 | [[%BUGS%/Item15340][Item15340]] | Normal | Engine | only call expandCommonVariables when there are some |
+| 26 | [[%BUGS%/Item15341][Item15341]] | Normal | Engine | perl error in I18N calling next outside of a loop |
+| 27 | [[%BUGS%/Item15344][Item15344]] | Normal | JQueryPlugin | remove support for IE11 in debug component |
+| 28 | [[%BUGS%/Item15347][Item15347]] | Normal | Engine | remove unused FormTypes configuration setting from core |
+| 29 | [[%BUGS%/Item15351][Item15351]] | Normal | Engine | significant performance problem in Foswiki::UI::View |
+| 30 | [[%BUGS%/Item15296][Item15296]] | Low | Engine | typo in lib/Foswiki.spec, line 1415: "on these sysetms" |
+| 31 | [[%BUGS%/Item15342][Item15342]] | Low | Engine | use compatible ACLs in shipped topics |
+| 32 | [[%BUGS%/Item15343][Item15343]] | Low | JQueryPlugin | remove inline css from documentation |
+| 33 | [[%BUGS%/Item15349][Item15349]] | Low | Engine | remove Tip of the Day from System WebHome |
+| 34 | [[%BUGS%/Item13722][Item13722]] | Enhancement | JQueryPlugin | remove deprecated and obsolete modules from JQueryPlugin |
+| 35 | [[%BUGS%/Item15062][Item15062]] | Enhancement | JQueryPlugin | upgrade jquery-ui to latest version |
+| 36 | [[%BUGS%/Item15214][Item15214]] | Enhancement | JQueryPlugin | upgrade to jquery-3.7.1 |
+| 37 | [[%BUGS%/Item15215][Item15215]] | Enhancement | NatEditPlugin | menu buttons too close to each other in natedit |
+| 38 | [[%BUGS%/Item15216][Item15216]] | Enhancement | Engine | remove warning from auth script checkers about non-template login managers |
+| 39 | [[%BUGS%/Item15218][Item15218]] | Enhancement | Engine | implement homeweb feature |
+| 40 | [[%BUGS%/Item15224][Item15224]] | Enhancement | JQueryPlugin | minimize number of loaded js files |
+| 41 | [[%BUGS%/Item15227][Item15227]] | Enhancement | Engine | implement lateInitPlugin() handler for plugins |
+| 42 | [[%BUGS%/Item15229][Item15229]] | Enhancement | JQueryPlugin | combine assets of jquery modules |
+| 43 | [[%BUGS%/Item15230][Item15230]] | Enhancement | Engine | add context to configure |
+| 44 | [[%BUGS%/Item15232][Item15232]] | Enhancement | Engine | add Makefile for old JavaScriptFiles |
+| 45 | [[%BUGS%/Item15325][Item15325]] | Enhancement | JQueryPlugin | upgrade jQuery treeview to version 1.4.2 and add a custom foswiki theme  |
+| 46 | [[%BUGS%/Item15326][Item15326]] | Enhancement | JQueryPlugin | upgrade to latest available imagesLoaded module |
+| 47 | [[%BUGS%/Item15327][Item15327]] | Enhancement | JQueryPlugin | remove fixed-width attribute from button icons |
+| 48 | [[%BUGS%/Item15328][Item15328]] | Enhancement | JQueryPlugin | remove soft hyphens when wikifying a string |
+| 49 | [[%BUGS%/Item15329][Item15329]] | Enhancement | JQueryPlugin | upgrade jsview and jsrender modules to latest upstream version |
+| 50 | [[%BUGS%/Item15330][Item15330]] | Enhancement | JQueryPlugin | update form validation to latest upstream version |
+| 51 | [[%BUGS%/Item15338][Item15338]] | Enhancement | Engine | implement a fast preferences backend |
+| 52 | [[%BUGS%/Item15345][Item15345]] | Enhancement | NatEditPlugin | listen to reset event clearing all form elements |
+| 53 | [[%BUGS%/Item15346][Item15346]] | Enhancement | Engine | add labels to all core extensions' config settings |
+| 54 | [[%BUGS%/Item15355][Item15355]] | Enhancement | JQueryPlugin | add for parameter to BUTTON macro |
+| 55 | [[%BUGS%/Item15356][Item15356]] | Enhancement | TopicUserMappingContrib | remove unused topics from main web |
+| 56 | [[%BUGS%/Item15357][Item15357]] | Enhancement | PatternSkin | add makefiles for PatternSkin assets |
+| 57 | [[%BUGS%/Item15358][Item15358]] | Enhancement | JQueryPlugin, NatEditPlugin | fix css for ui-buttons and ui-menus |
 
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
