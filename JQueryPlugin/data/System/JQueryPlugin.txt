@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1732554276" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1734458316" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -128,221 +128,221 @@ required for Foswiki 1.1 or later.
 |  21 Nov 2024: | added =for= parameter to =%BUTTON= macro |
 |  15 Nov 2024: | deprecated module =metadata= |
 |  29 Oct 2024: | removed deprectated modules =rating=, =placeholder=, =supersubs=, =media=, =shake=, =corner=, =simplemodal=, =livequery=, =debug=, =gradient=, =tooltip=, =tmpl=, =bgiframe=, =autocomplete= |
-|  25 Oct 2024: | (11.10) - Item15062: updated to jquery-ui 1.14.0 |
-|  21 May 2024: | (11.00) - Item15328: remove soft hyphens when wikifying a string; \
-                            Item15327: remove fixed-width attribute from button icons; \
-                            Item15326: upgrade to latest available imagesLoaded module; \
-                            Item15325: upgrade jQuery treeview to version 1.4.2 and add a custom foswiki theme; \
-                            Item15324: upgrade to latest version of jQuery UI; \
-                            Item15217: deprecate jquery themes; \
-                            Item15329: upgrade jsview and jsrender modules to latest upstream version; \
-                            Item15330: update validate to latest upstream version |
-|  13 Nov 2023: | (10.99) - Item15229: new feature to combine js, css and i18n assets of modules |
-|  16 Oct 2023: | (10.70) - Item15224: minimize number of loaded js files |
-|  04 Sep 2023: | (10.60) - Item15214: updated to jquery-3.7.1 |
-|  26 Apr 2023: | (10.51) - Item15190: fixed potential XSS vulnerability in jQuery-2 |
-|  19 Jan 2023: | (10.50) - Item15181: update to jquery-3.6.3, remove previous jquery-3.x packages |
-|  15 Jul 2022: | (10.41) - Item15157: updated to jquery.validate 1.19.5 \
-                          - Item15158: updated to jquery-ui 1.13.2 |
-|  07 Jul 2022: | (10.40) - Item15155: added foswiki.spaceOutWikiWord() to javascript API |
-|  25 Apr 2022: | (10.23) - Item15081: handle hash changes for own tabpane only |
-|  05 Apr 2022: | (10.22) - Item15077: fixed tabpane api to show/hide tabs |
-|  22 Feb 2022: | (10.21) - Item15061: rating field is not mergeable; \
-                          - Item15067: patch z-index issue in jquery-ui dialogs; \
-                          - Item15068: don't bubble up jquery.loader events |
-|  21 Jan 2022: | (10.20) - Item15061: upgraded to jquery-ui-1.13.1 |
-|  05 Jan 2022: | (10.10) - Item15058: script tags of javascrit i18n should not use src attribute; \
-                          - Item15060: added validation rule for the foswikiMandatory css class |
-|  09 Jul 2021: | (10.02) - Item15033: updated jquery.validate |
-|  02 Jun 2021: | (10.01) - Item15027: fixed events emitted by jquery.loader; \
-                                       added jquery-3.6.0; \
-                                       prevent csso from restructuring css too much |
-|  28 Sep 2020: | (10.00) - Item14918: removed support for old Internet Exporers (IE<11) |
-|  18 Nov 2019: | (9.20) - Item14874: deprecate uglify-js and yuicompressor in favor of terser %BR%\
-                         - Item14875: remove =type/javascript= and =type/css= as per html5; \
-                                      fixes to jquery ajax helpers when no results were found; \
-                                      fixes for perl critiques; \
-                                      added html5 data support for %BUTTON; \
-                                      remove explicit and useless dependency on livequery; \
-                                      added BUILD_DIR, LIB_DIR and SRC_DIR support in Makefile system; \
-                                      removed babel tools from Makefile system; \
-                                      fixed wikiword regex; \
-                                      improved loader plugin to make it more usable; \
-                                      upgraded third party plugins images-loaded and masonry |
-|  02 May 2019: | (9.10) - Item14837: updated animate.css %BR% \
-			   Item14838: added remember parameter to tabpane %BR% \
-			   Item14839: fix default value in textboxlist formfields %BR% \
-			   Item14840: fix tooltip position in draggable elements |
-|  10 Jan 2019: | (9.00) - Item14767: implement a proper icon service |
-|  01 Oct 2018: | (8.11) - Item14762: fixed jquery.loader not clearing timeouts properly |
-|  20 Jun 2018: | (8.10) - Item14564: added jquery-3 and the matching migrate module %BR% \
-                           Item14567: added keyboard navigation to jquery.stars %BR% \
-                           Item14568: added chili recipes for autolisp and ini %BR% \
-                           Item14569: deprecated jquery.placeholder %BR% \
-                           Item14571: added manual sorting mode to textboxlist %BR% \
-                           Item14572: upgraded jquery.livequery %BR% \
-                           Item14454: added jsview in addition to jsrender %BR% \
-                           Item14721: fixed loading of language files for jquery.i18n %BR% \
-                           Item14722: added jquery.browser as a separate module %BR% \
-                           Item14723: upgraded jquery.sprintf %BR% \
-                           Item14724: enhance Makefile system to support sass and babel %BR% \
-                           Item14727: improve locale support of datepicker %BR% \
-                           Item14728: send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened %BR% \
-                           Item14660: fixed missing tab id causing a javascript error \
-                           Item14735: use animate.css for jquery.loader effects instead of jQuery's own ones |
-|  23 Feb 2018: | (7.26) - Item14636: fixed javascript api for jquery.wikiword |
-|  11 Dec 2017: | (7.25) - Item14565: bundle jquery.validate js files into one %BR% \
-                           Item14566: don't cache a null result in foswiki.getPreference() %BR% \
-                           Item14570: added "use strict" to farbtastic's init and fix js errors %BR% \
-                           Item14573: fixed auto-height calculation of tabpane<br/>\
-                           Item14584: jquery.wikiword changed interpretation of source parameter in a incompatible way. |
-|   8 Dec 2017: | (7.24) - Released with Foswiki 2.1.5%BR% \
-                           Item14518: JQueryPlugin should warn configure if an older version of jquery is selected.%BR% \
-                           Item14555: make build work with latest uglifyjs 3.%BR% \
-                           Item14559: regression via Item13898 - broken topic selectors.%BR% \
-                           Item14560: wikiword changes don't trigger a change event on the target element. |
-|   4 May 2017: | (7.23) - Item14372: JQueryPlugin ui-draggable got dropped from  Config.spec. |
-|   8 Feb 2017: | (7.22) - Item14312: don't destroy dialogs on close. |
-|  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
-|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. %BR% \
-                         - Item14172: jquery.stars width incorrect in modal dialogs. %BR% \
-                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). %BR% \
-                         - Item14226: Performance improvements to $.i18n(). %BR% \
-                         - Item14227: Potential use of uninitialized value in a rating formfield. %BR% \
-                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. %BR% \
-                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. %BR% \
-                         - Item14230: jquery.maskedinput initializer does not match documentation. %BR% \
-                         - Item14250: wait for images by default in jquery.masonry. %BR% \
-                         - Item14251: Remove non-functional caching of dialogs loaded via ajax. |
-|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; %BR% \
-                         - Item14120: remove outdate compression tools; %BR% \
-                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; %BR% \
-                         - Item14122: upgrade to fontawesome 4.6.3; %BR% \
-                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; %BR% \
-                         - Item14124: make skin of a jquery.loader backend configurable; %BR% \
-                         - Item14171: fix encoding of error message in jquery.render |
-|  10 Apr 2016: | (7.04) - Item14042: it's jquery-1.12.3 not jquey-1.12.3 |
-|  06 Apr 2016: | (7.03) - Item14042: added jQuery-1.12.3 / jQuery-2.2.3 |
-|  04 Apr 2016: | (7.02) - Item14024: fix issue with JSON::XS 3.02 in some environments |
-|  18 Mar 2016: | (7.01) - added jQery-1.12.2 / jQuery-2.2.2; \
-                           fixed textboxlist loosing tags with leading or trailing spaces; \
-                           updated imagesLoaded |
-|  23 Feb 2016: | (7.00) - modernized button module again; \
-                           removed outdated jQuery versions; \
-                           deprecated bgiframe and media modules; \
-                           updated jquery.form, localScroll, scrollTo, sericalScroll, masonry, jquery.migrate, queryObject, jsrender, sprintf, fontawesome, jquery.stars, superfish, jquery.tabpane to latest versions; \
-                           externalized imagesLoaded from masonry; \
-                           do a deep merge gathering foswikiPreferences from the header; \
-                           added new jquery.i18n module for client-side translations |
-|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working %BR% \
-                           Item12560: Split !NameFilter into !AttachmentNameFilter %BR% \
-                           Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
-|  06 Nov 2015: | (6.31) - Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
-|  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
-|  04 Sep 2015: | (6.20) - improvements to jquery.wikiword, jquery.loader; adding html5-data capabilities to plugin initialization; added jquery-1.11.3 and jquery-2.1.4 |
-|  16 Jun 2015: | (6.13) - Item13460: JQICON fails to render !FontAwesome icons. |
-|  30 Apr 2015: | (6.11) - Item13389: datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field; error in jquery.foswiki api getPubUrlPath |
-|  23 Feb 2015: | (6.10) - Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
-|  12 Jan 2015: | (6.01) - Item13205: added jquery-1.11.2 and jquery-2.1.3 |
-|  29 Nov 2014: | (6.01) - Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
-|  25 Sep 2014: | (6.00) - Item13030: deprecate jquery.tmpl; added jsrender and a template loader |
-|  06 Jun 2014: | (5.11) - Item12933: make filtered characters configurable in JQueryWikiWord |
-|  21 Feb 2014: | (5.10) - Item12734: added jQuery-1.11, jQuery-2.10, jquery-ui-1.10.4; \
-                           reverted patch to jquery.ui.tooltip; \
-                           reapplied patch to jquery.ui.draggable preventing hopping modal dialogs and such; \
-                           fix hopping position of hepler element in jquery.ui.sortable; \
-                           now defaulting to the latest jQuery version |
-|  11 Dec 2013: | (5.00) - new modules fontawesome, ui::spinner; \
-                           upgraded slimbox and media module; \
-                           improvements to =foswiki= theme for jquery-ui; \
-                           modernize button module; \
-                           fixed dependencies of wikiword module; \
-                           new =tmpl= REST handler to load jquery templates asynchronously |
-|  08 Nov 2013: | (4.91) - Release with Foswiki 1.1.9 \
+|  25 Oct 2024: | updated to jquery-ui 1.14.0 |
+|  21 May 2024: | remove soft hyphens when wikifying a string %BR% \
+                  remove fixed-width attribute from button icons %BR% \
+                  upgrade to latest available imagesLoaded module %BR% \
+                  upgrade jQuery treeview to version 1.4.2 and add a custom foswiki theme%BR%  \
+                  upgrade to latest version of jQuery UI %BR% \
+                  deprecate jquery themes%BR%  \
+                  upgrade jsview and jsrender modules to latest upstream version %BR% \
+                  update validate to latest upstream version |
+|  13 Nov 2023: | new feature to combine js, css and i18n assets of modules |
+|  16 Oct 2023: | minimize number of loaded js files |
+|  04 Sep 2023: | updated to jquery-3.7.1 |
+|  26 Apr 2023: | fixed potential XSS vulnerability in jQuery-2 |
+|  19 Jan 2023: | update to jquery-3.6.3, remove previous jquery-3.x packages |
+|  15 Jul 2022: | updated to jquery.validate 1.19.5 \
+                  updated to jquery-ui 1.13.2 |
+|  07 Jul 2022: | added foswiki.spaceOutWikiWord() to javascript API |
+|  25 Apr 2022: | handle hash changes for own tabpane only |
+|  05 Apr 2022: | fixed tabpane api to show/hide tabs |
+|  22 Feb 2022: | rating field is not mergeable %BR% \
+                  patch z-index issue in jquery-ui dialogs %BR% \
+                  don't bubble up jquery.loader events |
+|  21 Jan 2022: | upgraded to jquery-ui-1.13.1 |
+|  05 Jan 2022: | script tags of javascrit i18n should not use src attribute %BR% \
+                  added validation rule for the foswikiMandatory css class |
+|  09 Jul 2021: | updated jquery.validate |
+|  02 Jun 2021: | fixed events emitted by jquery.loader %BR% \
+                  added jquery-3.6.0 %BR% \
+                  prevent csso from restructuring css too much |
+|  28 Sep 2020: | removed support for old Internet Exporers (IE<11) |
+|  18 Nov 2019: | deprecate uglify-js and yuicompressor in favor of terser %BR%\
+                  remove =type/javascript= and =type/css= as per html5 %BR% \
+                  fixes to jquery ajax helpers when no results were found %BR% \
+                  fixes for perl critiques %BR% \
+                  added html5 data support for %BUTTON %BR% \
+                  remove explicit and useless dependency on livequery %BR% \
+                  added BUILD_DIR, LIB_DIR and SRC_DIR support in Makefile system %BR% \
+                  removed babel tools from Makefile system %BR% \
+                  fixed wikiword regex %BR% \
+                  improved loader plugin to make it more usable %BR% \
+                  upgraded third party plugins images-loaded and masonry |
+|  02 May 2019: | updated animate.css %BR% \
+                  added remember parameter to tabpane %BR% \
+                  fix default value in textboxlist formfields %BR% \
+                  fix tooltip position in draggable elements |
+|  10 Jan 2019: | implement a proper icon service |
+|  01 Oct 2018: | fixed jquery.loader not clearing timeouts properly |
+|  20 Jun 2018: | added jquery-3 and the matching migrate module %BR% \
+                  added keyboard navigation to jquery.stars %BR% \
+                  added chili recipes for autolisp and ini %BR% \
+                  deprecated jquery.placeholder %BR% \
+                  added manual sorting mode to textboxlist %BR% \
+                  upgraded jquery.livequery %BR% \
+                  added jsview in addition to jsrender %BR% \
+                  fixed loading of language files for jquery.i18n %BR% \
+                  added jquery.browser as a separate module %BR% \
+                  upgraded jquery.sprintf %BR% \
+                  enhance Makefile system to support sass and babel %BR% \
+                  improve locale support of datepicker %BR% \
+                  send an "opened" event to the =jqUIDialogLink= once the ui-dialog opened %BR% \
+                  fixed missing tab id causing a javascript error \
+                  use animate.css for jquery.loader effects instead of jQuery's own ones |
+|  23 Feb 2018: | fixed javascript api for jquery.wikiword |
+|  11 Dec 2017: | bundle jquery.validate js files into one %BR% \
+                  don't cache a null result in foswiki.getPreference() %BR% \
+                  added "use strict" to farbtastic's init and fix js errors %BR% \
+                  fixed auto-height calculation of tabpane<br/>\
+                  jquery.wikiword changed interpretation of source parameter in a incompatible way. |
+|   8 Dec 2017: | th Foswiki 2.1.5%BR% \
+                  JQueryPlugin should warn configure if an older version of jquery is selected.%BR% \
+                  make build work with latest uglifyjs 3.%BR% \
+                  regression via Item13898 - broken topic selectors.%BR% \
+                  wikiword changes don't trigger a change event on the target element. |
+|   4 May 2017: | JQueryPlugin ui-draggable got dropped from  Config.spec. |
+|   8 Feb 2017: | don't destroy dialogs on close. |
+|  23 Jan 2017: | Cookie related changes. Inconsistent use of the domain and secure flags. |
+|  12 Dec 2016: | Improve javascript api to address individual tabs. %BR% \
+                  jquery.stars width incorrect in modal dialogs. %BR% \
+                  Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). %BR% \
+                  Performance improvements to $.i18n(). %BR% \
+                  Potential use of uninitialized value in a rating formfield. %BR% \
+                  Upgrade JQueryPlugin to blockui 2.70. %BR% \
+                  Upgrade JQueryPlugin to jsrender 0.9.83. %BR% \
+                  jquery.maskedinput initializer does not match documentation. %BR% \
+                  wait for images by default in jquery.masonry. %BR% \
+                  Remove non-functional caching of dialogs loaded via ajax. |
+|  06 Sep 2016: | reimplement jquery.stars using SVGs now; %BR% \
+                  remove outdate compression tools; %BR% \
+                  upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; %BR% \
+                  upgrade to fontawesome 4.6.3; %BR% \
+                  fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; %BR% \
+                  make skin of a jquery.loader backend configurable; %BR% \
+                  fix encoding of error message in jquery.render |
+|  10 Apr 2016: | it's jquery-1.12.3 not jquey-1.12.3 |
+|  06 Apr 2016: | added jQuery-1.12.3 / jQuery-2.2.3 |
+|  04 Apr 2016: | fix issue with JSON::XS 3.02 in some environments |
+|  18 Mar 2016: | added jQery-1.12.2 / jQuery-2.2.2 %BR% \
+                  fixed textboxlist loosing tags with leading or trailing spaces %BR% \
+                  updated imagesLoaded |
+|  23 Feb 2016: | modernized button module again %BR% \
+                  removed outdated jQuery versions %BR% \
+                  deprecated bgiframe and media modules %BR% \
+                  updated jquery.form, localScroll, scrollTo, sericalScroll, masonry, jquery.migrate, queryObject, jsrender, sprintf, fontawesome, jquery.stars, superfish, jquery.tabpane to latest versions %BR% \
+                  externalized imagesLoaded from masonry %BR% \
+                  do a deep merge gathering foswikiPreferences from the header %BR% \
+                  added new jquery.i18n module for client-side translations |
+|  03 Feb 2016: | Item13898: Jumpbox example in JQueryAjaxHelper is not working %BR% \
+                  Item12560: Split !NameFilter into !AttachmentNameFilter %BR% \
+                  Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
+|  06 Nov 2015: | Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
+|  24 Sep 2015: | reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
+|  04 Sep 2015: | improvements to jquery.wikiword, jquery.loader; adding html5-data capabilities to plugin initialization; added jquery-1.11.3 and jquery-2.1.4 |
+|  16 Jun 2015: | Item13460: JQICON fails to render !FontAwesome icons. |
+|  30 Apr 2015: | Item13389: datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field; error in jquery.foswiki api getPubUrlPath |
+|  23 Feb 2015: | Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
+|  12 Jan 2015: | Item13205: added jquery-1.11.2 and jquery-2.1.3 |
+|  29 Nov 2014: | Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
+|  25 Sep 2014: | Item13030: deprecate jquery.tmpl; added jsrender and a template loader |
+|  06 Jun 2014: | Item12933: make filtered characters configurable in JQueryWikiWord |
+|  21 Feb 2014: | Item12734: added jQuery-1.11, jQuery-2.10, jquery-ui-1.10.4 %BR% \
+                  reverted patch to jquery.ui.tooltip %BR% \
+                  reapplied patch to jquery.ui.draggable preventing hopping modal dialogs and such %BR% \
+                  fix hopping position of hepler element in jquery.ui.sortable %BR% \
+                  now defaulting to the latest jQuery version |
+|  11 Dec 2013: | new modules fontawesome, ui::spinner %BR% \
+                  upgraded slimbox and media module %BR% \
+                  improvements to =foswiki= theme for jquery-ui %BR% \
+                  modernize button module %BR% \
+                  fixed dependencies of wikiword module %BR% \
+                  new =tmpl= REST handler to load jquery templates asynchronously |
+|  08 Nov 2013: | Release with Foswiki 1.1.9 \
                   Item12650: Add config error for removed Themeswitcher plugin |
-|  23 Oct 2013: | (4.90) - Item12567: fix checking of version number in configure \
-                  Item12577: deprecate jquery-tooltip in favour of jquery-ui-tooltip \
-                  Item12596: improve documentation of jquery-ui \
-                  Item12583: revert version string to simple float not to break installation on RHEL and SLES \
-                  Item12599: use jQuery-1.9x (not 2.0.x) for IE9 \
-                  Item12600: various minor changes to jquery components |
-|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) |
-|  07 Jun 2013: | (4.82) - Item12528: fixed char mapping in jquery.wikiword |
-|  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
-|  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |
-|  29 May 2013: | (4.70) - Item12345: added jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1; \
-                           removed themeswitcher as it isn't supported and non-functional anymore; \
-                           upgraded to jquery-ui-1.10.3; \
-                           upgraded form, rating, masonry, blockui, scrollto;\
-                           removed warning in configure about chilli |
-|  15 Jan 2013: | (4.60) - Item12345: added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
-|  11 Dec 2012: | (4.50) - Item12229: improved transliteration of unicode characters in jquery.wikiword |
-|  28 Nov 2012: | (4.45) - Release with Foswiki 1.1.6 %BR% \
-                  Item12192: Fix some layout issues%BR% \
-                  Item12214: default jquery-ui theme overrides manual JQTHEME choice.%BR% \
-                  Item12215: Hide JQLoader using CSS. |
-|  26 Oct 2012: | Item12195: Default jquery version is jquery-1.8.2 now |
-|  24 Oct 2012: | Item12190: Chili enabled by default,  warning demoted to a note. |
-|  17 Oct 2012: | (4.44) - Item12048: upgraded to jquery-ui-1.8.23; added jquery-1.8.2 |
-|  11 Jul 2012: | (4.43) - Item11993: upgraded JQueryLiveQuery to 1.3.1 ; reworked documentation and examples; %BR% \
-                  Item11175: upgrade JQueryValidate to 1.9.0; %BR% \
-                  Item11994: upgraded JQueryUI to 1.8.21 |
-|  09 Jul 2012: | (4.42) - Item11742: removed all jquery prior to 1.7.1 |
-|  01 Jun 2012: | (4.42) - Item11917: simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
-|  23 May 2012: | (4.41) - Item11889: \
-                  added means to hide the close button on textboxlist values; \
+|  23 Oct 2013: | fix checking of version number in configure %BR% \
+                  deprecate jquery-tooltip in favour of jquery-ui-tooltip %BR% \
+                  improve documentation of jquery-ui %BR% \
+                  revert version string to simple float not to break installation on RHEL and SLES %BR% \
+                  use jQuery-1.9x (not 2.0.x) for IE9 \
+                  various minor changes to jquery components |
+|  12 Oct 2013: | fix version check in =configure= (not released) |
+|  07 Jun 2013: | fixed char mapping in jquery.wikiword |
+|  31 May 2013: | added jquery-1.10.1 and jquery-2.0.2 |
+|  30 May 2013: | upgraded superfish, supersubs and hoverintent |
+|  29 May 2013: | added jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1 %BR% \
+                  removed themeswitcher as it isn't supported and non-functional anymore %BR% \
+                  upgraded to jquery-ui-1.10.3 %BR% \
+                  upgraded form, rating, masonry, blockui, scrollto;\
+                  removed warning in configure about chilli |
+|  15 Jan 2013: | added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
+|  11 Dec 2012: | improved transliteration of unicode characters in jquery.wikiword |
+|  28 Nov 2012: | Release with Foswiki 1.1.6 %BR% \
+                  Fix some layout issues%BR% \
+                  default jquery-ui theme overrides manual JQTHEME choice.%BR% \
+                  Hide JQLoader using CSS. |
+|  26 Oct 2012: | Default jquery version is jquery-1.8.2 now |
+|  24 Oct 2012: | Chili enabled by default,  warning demoted to a note. |
+|  17 Oct 2012: | upgraded to jquery-ui-1.8.23; added jquery-1.8.2 |
+|  11 Jul 2012: | upgraded <nop>JQueryLiveQuery to 1.3.1 ; reworked documentation and examples; %BR% \
+                  upgrade JQueryValidate to 1.9.0; %BR% \
+                  upgraded JQueryUI to 1.8.21 |
+|  09 Jul 2012: | removed all jquery prior to 1.7.1 |
+|  01 Jun 2012: | simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
+|  23 May 2012: | added means to hide the close button on textboxlist values %BR% \
                   docu improvements to textboxlixst and pnotify |
-|  10 Apr 2012: | (4.40) - Item11397, Item11742: \
-                  use a JSON instead of &lt;meta> to export preferences to javascript; \
-                  added jquery-1.7.2 (new default); \
+|  10 Apr 2012: | use a JSON instead of &lt;meta> to export preferences to javascript %BR% \
+                  added jquery-1.7.2 (new default) %BR% \
                   deprecate all jquery versions prior to 1.7.1 \
-                  improve docu and integration of scrollto and serialscroll; \
+                  improve docu and integration of scrollto and serialscroll %BR% \
                   removed deprecated foswiki.web, foswiki.topic etc properties |
-|  06 Apr 2012: | (4.33) - Item11511, Item11512:  Minor changes to improve JSON output and Javascript validations.%BR% \
-                   Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR% \
-                   Item11654: JQueryTmpl is discontinued upstream.%BR% \
-                   Item11383: Document jqUIDialogSubmit.%BR% \
-                   Item10383: !JQuerySimpleModal sample window isn't displayed properly. |
-|  20 Dec 2011: | (4.32) - re-release Foswiki 1.1.4 - Item11335 revert spinner changes, Item11371 - close suggestions list. |
-|  12 Dec 2011: | (4.31) - Foswiki 1.1.4 Release. Item11335 JQueryAjaxHelper examples don't work reliably. |
-|  22 Nov 2011: | (4.30) added jquery-1.7 and jquery-1.7.1; \
+|  06 Apr 2012: | Minor changes to improve JSON output and Javascript validations.%BR% \
+                  deprecate simmplemodal, replace by jquery.ui.dialog.%BR% \
+                  <nop>JQueryTmpl is discontinued upstream.%BR% \
+                  Document jqUIDialogSubmit.%BR% \
+                  !JQuerySimpleModal sample window isn't displayed properly. |
+|  20 Dec 2011: | re-release Foswiki 1.1.4 %BR% \
+                  revert spinner changes %BR% \
+                  close suggestions list. |
+|  12 Dec 2011: | Foswiki 1.1.4 Release. JQueryAjaxHelper examples don't work reliably. |
+|  22 Nov 2011: | added jquery-1.7 and jquery-1.7.1 %BR% \
                   added jquery.loader to ease loading sections asynchronously |
-|   3 Dec 2011: | (4.22) Incremented version for Foswiki 1.1.4 release. Minor code and documentation cleanup. |
-|  22 Nov 2011: | (4.21) added config warnings for the deprecated JQuery plugins; \
-                  and a warining for Chili highlighter corruption; \
-                  fixed jquery.chili to allow other non-recipe css classes in verbatim sections; \
-                  fixed jquery.cookie to return undefined instead of an empty Object when asking for an unknown cookie; \
+|   3 Dec 2011: | Incremented version for Foswiki 1.1.4 release. Minor code and documentation cleanup. |
+|  22 Nov 2011: | added config warnings for the deprecated JQuery plugins %BR% \
+                  and a warining for Chili highlighter corruption %BR% \
+                  fixed jquery.chili to allow other non-recipe css classes in verbatim sections %BR% \
+                  fixed jquery.cookie to return undefined instead of an empty Object when asking for an unknown cookie %BR% \
                   fixed <nop>JQueryAjaxHelper's =users= backend to return users and groups \
                   improved jquery-ui-dialog integration |
-|  26 Oct 2011: | fixing compatibility of jquery.media with newer jqueries; \
+|  26 Oct 2011: | fixing compatibility of jquery.media with newer jqueries %BR% \
                   fixed placement of jquery.tooltips when viewport at right bottom;\
-                  fixed jquery.superfish's index related to jquery.ui.dialog's; \
-                  improved jquery.button click usability; \
-                  improved and documented integration of jquery.ui.dialog; \
+                  fixed jquery.superfish's index related to jquery.ui.dialog's %BR% \
+                  improved jquery.button click usability %BR% \
+                  improved and documented integration of jquery.ui.dialog %BR% \
                   fixed jquery.ui.resizable to init array objects correctly |
-|  08 Sep 2011: | (4.20) added perl api to make ui themes pluggable; \
+|  08 Sep 2011: | added perl api to make ui themes pluggable %BR% \
                   upgrade to jquery-ui 1.8.16, masked-input 1.3, masonry 2.0, textboxlist 1.0, validate 1.8.1, cycle 2.9995, bgiframe 2.1.2, blockUI 2.39, corner 2.12, gradient 1.0, \
-                  autocomplete 1.2.2, form 2.80; \
-                  upgraded all jquery-ui themes to match the latest version; \
-                  deprecated abandoned jquery.autocomplete in favor of jquery-ui's autocomplete; \
-                  added modules ui::accordion, ui::autocomplete, ui::button, ui::datepicker, ui::dialog, ui::draggable, ui::progressbar, ui::resizable, ui::slider, ui::tabs; \
-                  improved rating formfield to display the actual value as well, not only the stars; \
-                  added initializer for jquery.validate; \
-                  improved initializer for simplemodals to make them draggable and resizable; \
-                  fixed css of treeview, autocomplete, tabpane, button; \
-                  new foswiki jquery-ui theme; \
-                  added jquery-1.6.2 and jquery-1.6.3; \
+                  autocomplete 1.2.2, form 2.80 %BR% \
+                  upgraded all jquery-ui themes to match the latest version %BR% \
+                  deprecated abandoned jquery.autocomplete in favor of jquery-ui's autocomplete %BR% \
+                  added modules ui::accordion, ui::autocomplete, ui::button, ui::datepicker, ui::dialog, ui::draggable, ui::progressbar, ui::resizable, ui::slider, ui::tabs %BR% \
+                  improved rating formfield to display the actual value as well, not only the stars %BR% \
+                  added initializer for jquery.validate %BR% \
+                  improved initializer for simplemodals to make them draggable and resizable %BR% \
+                  fixed css of treeview, autocomplete, tabpane, button %BR% \
+                  new foswiki jquery-ui theme %BR% \
+                  added jquery-1.6.2 and jquery-1.6.3 %BR% \
                   improved docu of jquery.cycle, jquery.masonry, jquery.validate |
-|  20 Jun 2011: | (4.11) Fix "Use of uninitialized" in textboxlist |
-|  25 May 2011: | (4.10) Added JQueryPlaceholder; \
-                  Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields; \
-                  Added jquery.tmpl; \
-                  Updated jquery.metadata to support html5 attributes; \
-                  Updated jquery.validate to 1.8.0; \
-                  Added jquery-1.5.[0-2] and jquery-1.6.1; \
-                  Implemented history support for jquery.tabpane; \
-                  Updated jquery.media and added more skins to the swf player; \
-                  Fixed jquery.shake to work with elements positioned relatively; \
+|  20 Jun 2011: | Fix "Use of uninitialized" in textboxlist |
+|  25 May 2011: | Added <nop>JQueryPlaceholder %BR% \
+                  Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields %BR% \
+                  Added jquery.tmpl %BR% \
+                  Updated jquery.metadata to support html5 attributes %BR% \
+                  Updated jquery.validate to 1.8.0 %BR% \
+                  Added jquery-1.5.[0-2] and jquery-1.6.1 %BR% \
+                  Implemented history support for jquery.tabpane %BR% \
+                  Updated jquery.media and added more skins to the swf player %BR% \
+                  Fixed jquery.shake to work with elements positioned relatively %BR% \
                   Adding context variables for all enabled jQuery modules; |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
@@ -354,88 +354,88 @@ required for Foswiki 1.1 or later.
 |  21 Feb 2011: | (4.02) cleaned up and documented the process for adding new plugins |
 |  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
                   configured ={JQueryVersion}= is sane |
-|  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \
-                  removing jquery-1.2.6, deprecating jquery-1.3.x (incompatible with shipped jquery-ui); \
-                  upgraded to jquery-ui 1.8.5 (needs jquery-1.4+); \
-                  upgraded jquery-cookie; \
-                  added themeswitcher; \
-                  fixed spinner in autocomplete; \
-                  various fixes to jquery.tooltip; \
-                  improved tooltip themes (added blackbox theme); \
-                  fixed rating formfield; \
-                  improved printout of tabpanes; \
-                  added new jquery-ui theme flickr; \
+|  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3) %BR% \
+                  removing jquery-1.2.6, deprecating jquery-1.3.x (incompatible with shipped jquery-ui) %BR% \
+                  upgraded to jquery-ui 1.8.5 (needs jquery-1.4+) %BR% \
+                  upgraded jquery-cookie %BR% \
+                  added themeswitcher %BR% \
+                  fixed spinner in autocomplete %BR% \
+                  various fixes to jquery.tooltip %BR% \
+                  improved tooltip themes (added blackbox theme) %BR% \
+                  fixed rating formfield %BR% \
+                  improved printout of tabpanes %BR% \
+                  added new jquery-ui theme flickr %BR% \
                   updated forms plugin to 2.49 to improve jQuery 1.4 compatibility |
-|  27 Oct 2010: | (3.75) fixed IE error in chili recipe for TML |
-|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |
-|  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
-                  removed JQueryBgiframe and JQueryEasing plugins from default plugins |
-|  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \
-                  improved documentation; \
-                  fixed IE error in treeview; \
-                  added post method to async mode of treeview; \
+|  27 Oct 2010: | fixed IE error in chili recipe for TML |
+|  19 Oct 2010: | Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |
+|  19 Aug 2010: | <nop>JQueryLiveQuery now loads by default %BR% \
+                  removed <nop>JQueryBgiframe and JQueryEasing plugins from default plugins |
+|  02 Jul 2010: | removed outdated spinner and ifixpng plugins %BR% \
+                  improved documentation %BR% \
+                  fixed IE error in treeview %BR% \
+                  added post method to async mode of treeview %BR% \
                   moved %CLEAR to %SYSTEM.%WIKIPREFSTOPIC% |
-|  28 May 2010: | (3.60) removed pointless TOGGLE module; \
-                  reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module; \
-                  fixed IE7 error with floats inside tabpanes; \
+|  28 May 2010: | removed pointless TOGGLE module %BR% \
+                  reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module %BR% \
+                  fixed IE7 error with floats inside tabpanes %BR% \
                   added ajax handler to query foswiki preferences async-ly |
-|  30 Apr 2010: | (3.51) fixed initial classes of click-areas in treeviews |
-|  29 Mar 2010: | (3.42) disable plugin when prerequisites are not met |
-|  28 Mar 2010: | (3.41) fix ZonePlugin listed as optional dependency (not optional for Foswiki 1.0.x installations) |
-|  26 Mar 2010: | (3.40) externalized grid and fullcalendar modules into plugins of their own; upgraded to jquery-ui 1.7.2; only load i18n support matching the current site language |
-|  20 Mar 2010: | (3.31) Minifier CPAN libs removed from plugin. They will be in core CPAN lib in Foswiki 1.1 |
-|  14 Mar 2010: | (3.30) upgraded =validate= to v1.7; added =wikiword= validation method; \
-                  fixed computation of line-height in =fluidfont=; \
+|  30 Apr 2010: | fixed initial classes of click-areas in treeviews |
+|  29 Mar 2010: | disable plugin when prerequisites are not met |
+|  28 Mar 2010: | fix <nop>ZonePlugin listed as optional dependency (not optional for Foswiki 1.0.x installations) |
+|  26 Mar 2010: | externalized grid and fullcalendar modules into plugins of their own; upgraded to jquery-ui 1.7.2; only load i18n support matching the current site language |
+|  20 Mar 2010: | Minifier CPAN libs removed from plugin. They will be in core CPAN lib in Foswiki 1.1 |
+|  14 Mar 2010: | upgraded =validate= to v1.7; added =wikiword= validation method %BR% \
+                  fixed computation of line-height in =fluidfont= %BR% \
                   fixed height issue in =tabpane= |
 |  03 Mar 2010: | made !ZonePlugin an optional dependency |
-|  01 Mar 2010: | improved js and css compression using yuicompressor; \
-                  improved simplemodal integration to foswiki to create modal dialogs with less additional javascript; \
+|  01 Mar 2010: | improved js and css compression using yuicompressor %BR% \
+                  improved simplemodal integration to foswiki to create modal dialogs with less additional javascript %BR% \
                   added custom events to textboxlist: <nop>AddValue, <nop>DeleteValue , Reset and Clear |
-|  12 Feb 2010: | added livequery and rewrote all initializers to use it; \
-                  added =rating= formfield type; \
-                  updated jqGrid to latest version; \
-                  improved foswiki integration and documentation of various plugins; \
-                  upgraded jwplayer coming with media plugin; \
+|  12 Feb 2010: | added livequery and rewrote all initializers to use it %BR% \
+                  added =rating= formfield type %BR% \
+                  updated jqGrid to latest version %BR% \
+                  improved foswiki integration and documentation of various plugins %BR% \
+                  upgraded jwplayer coming with media plugin %BR% \
                   using Foswiki:Extensions/ZonePlugin now to optimize page load time |
 |  08 Feb 2010: | added query-object |
 |  28 Jan 2010: | added jquery-1.4.1, corner, fluidfont, fullcalendar, \
-                  localscroll, masonry, scrollto, serialscroll, slimbox; \
+                  localscroll, masonry, scrollto, serialscroll, slimbox %BR% \
                   deprecated jquery.nifty; disabled JQSCRIPT and JQSTYLE |
 |  11 Nov 2009: | added jqGrid library; reorganized documentation |
 |  07 Nov 2009: | updated Superfish to 1.4.8 and added examples topic, added\
                   supersubs plugin, moved JQuery examples from %SANDBOXWEB% to %SYSTEMWEB% |
 |  29 Oct 2009: | added SCRIPTSUFFIX to foswiki var set (CDot) |
-|  14 Sep 2009: | added perls tubs for jquery.ui, so that you can pull it in via JQREQUIRE now; \
-                  reworked plugin initialization to allow elements to be init'ed when loaded via ajax; \
-                  fixed BUTTON to play nicely with !TwistyPlugin; \
+|  14 Sep 2009: | added perls tubs for jquery.ui, so that you can pull it in via JQREQUIRE now %BR% \
+                  reworked plugin initialization to allow elements to be init'ed when loaded via ajax %BR% \
+                  fixed BUTTON to play nicely with !TwistyPlugin %BR% \
                   only load ui-theme if you jqrequire the ui library |
 |  20 Aug 2009: | made <nop>JQueryPlugin <nop>SafeWikiPlugin compatible |
-|  02 Jul 2009: | improved parsing of foswiki meta tags in html header; \
-                  fixed jqTreeview initialisation for jquery-1.3.x; \
-                  fixed chili initialisation; \
+|  02 Jul 2009: | improved parsing of foswiki meta tags in html header %BR% \
+                  fixed jqTreeview initialisation for jquery-1.3.x %BR% \
+                  fixed chili initialisation %BR% \
                   dropped support for konqueror3 |
-|  23 Jun 2009: | added jquery.focus, jquery.textboxlist, jquery.farbtastic; jquery.gradient; \
-                  added =color= and =textboxlist= formfield types; \
-                  made !JQueryPlugin pluggable itself; \
-                  added animation switching tabs; \
+|  23 Jun 2009: | added jquery.focus, jquery.textboxlist, jquery.farbtastic; jquery.gradient %BR% \
+                  added =color= and =textboxlist= formfield types %BR% \
+                  made !JQueryPlugin pluggable itself %BR% \
+                  added animation switching tabs %BR% \
                   improved automaxexpand feature in tabs |
 |  28 Apr 2009: | added jquery.media, jquery.simplemodal, shell highlightning for chilli |
-|  03 Feb 2009: | fixed tabpane not being rendered using a rest handler; \
-                  added id to tabs that can be used to init the first active one; \
-                  added compressed version of blockUI; \
+|  03 Feb 2009: | fixed tabpane not being rendered using a rest handler %BR% \
+                  added id to tabs that can be used to init the first active one %BR% \
+                  added compressed version of blockUI %BR% \
                   replaced ICONTOPIC preference variable with ICONSEARCHPATH to search for icons \
                   in multiple directories (defaults to all of <nop>FamFamFamContrib) |
 |  15 Jan 2009: | fixed click target for relative urls in %<nop>BUTTON{}%; yet another jquery.wikiword fix |
-|  13 Jan 2009: | fixed jquery.wikiword not to depend on outside string libraries; \
+|  13 Jan 2009: | fixed jquery.wikiword not to depend on outside string libraries %BR% \
                   added foswiki alias to global javascript variables (Eugen Mayer) |
 |  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
 |  12 Dec 2008: | fixed a series of IE6+IE7 issues |
-|  18 Nov 2008: | added jquery.ifixpng; \
-                  improved BUTTON tag to have submit and clear and reset buttons; \
-                  ie6 fixes for BUTTONs; \
+|  18 Nov 2008: | added jquery.ifixpng %BR% \
+                  improved BUTTON tag to have submit and clear and reset buttons %BR% \
+                  ie6 fixes for BUTTONs %BR% \
                   added missing jquery.wikiword plugin |
 |  13 Nov 2008: | added automaxexpand for TABPANES ;\
-                  added jquery.shake plugin; \
+                  added jquery.shake plugin %BR% \
                   reworked BUTTON tag |
 |  15 Oct 2008: | added jquery.autocomplete, jquery.cycle |
 |  20 Jul 2008: | added jquery.form, jquery.maskedinput, jquery.validate |
@@ -444,9 +444,9 @@ required for Foswiki 1.1 or later.
 |  05 Jun 2008: | updated to jquery-1.2.6 and ui-1.5-RC1 |
 |  30 Apr 2008: | repackaged to contain jquery UI |
 |  13 Feb 2008: | upgrade to jquery-1.2.3, as well as most plugins |
-|  17 Jan 2008: | added jquery.metadata plugin; \
-                  implemented a jquery.tabpane plugin; \
-                  updated jquery.dimensions plugin; \
+|  17 Jan 2008: | added jquery.metadata plugin %BR% \
+                  implemented a jquery.tabpane plugin %BR% \
+                  updated jquery.dimensions plugin %BR% \
                   added jquery.empty plugin to ease development of new plugins |
 |  15 Nov 2007: | use skin independent way to add javascript files to header |
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |

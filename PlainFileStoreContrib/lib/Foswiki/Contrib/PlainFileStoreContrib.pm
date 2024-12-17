@@ -15,7 +15,7 @@ use Foswiki::Configure::FileUtil;
 use Foswiki::Configure::Load;
 
 our $VERSION          = '1.47';
-our $RELEASE          = '06 Aug 2023';
+our $RELEASE          = '17 Dec 2024';
 our $SHORTDESCRIPTION = 'Store Foswiki data using plain text files';
 
 1;
