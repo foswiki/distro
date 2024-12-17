@@ -282,7 +282,7 @@ sub checkTopicInfo {
 
     writeDebug("checking topicinfo");
     my $command =
-"grep '%META:TOPICINFO{' $cfg->{checkoutDir}/core/data/*/*.txt | grep -v TestCases |grep -v Trash | grep -v 'author=\"ProjectContributor\".*version=\"1\"' | awk -F: '{print \$1}' | tee $cfg->{logFile}";
+"grep '%META:TOPICINFO{' $cfg->{checkoutDir}/core/data/*/*.txt | grep -v TestCases |grep -v Trash | grep -v data/Temporary | grep -v 'author=\"ProjectContributor\".*version=\"1\"' | awk -F: '{print \$1}' | tee $cfg->{logFile}";
 
     writeDebug("command=$command");
     my $output = `$command`;
