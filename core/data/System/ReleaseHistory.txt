@@ -8,7 +8,7 @@ The complete timeline of Foswiki Releases. Foswiki was forked from TWiki 4.2.4 a
 
 %TOC%
 
----++ Foswiki Release 2.1.9 - 17 Dec 2024
+---++ Foswiki Release 2.1.9 - 18 Dec 2024
 
 Foswiki 2.1.9 contains 57 fixes.
 
