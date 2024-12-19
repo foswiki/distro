@@ -22,11 +22,11 @@ sub REVINFO {
     my $cgiQuery = $this->{request};
     my $cgiRev   = '';
     $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
-    my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} || $cgiRev || '' );
+    my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} // $cgiRev // '' );
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     my $loadedRev = $topicObject->getLoadedRev();
-    $rev ||= $loadedRev;
+    $rev //= $loadedRev;
 
     if (   $web ne $topicObject->web
         || $topic ne $topicObject->topic

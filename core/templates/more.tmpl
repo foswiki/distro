@@ -133,8 +133,10 @@ table.foswikiDiffOptions img {
 </style>"
 id="cssFoswikiDiffOptions"}%%TMPL:END%
 
+%TMPL:DEF{"maxrev"}%%REVINFO{"$rev" rev="0"}%%TMPL:END%
+
 %TMPL:DEF{"revision"}%<h2>%MAKETEXT{"Revisions"}%</h2>
-%IF{"$ maxrev='0'" then="<!--" else="<h3>%MAKETEXT{"View previous topic revision"}% (1 ... <nop>%URLPARAM{"maxrev" type="html"}%)" }%</h3>
+%IF{"'%TMPL:P{"maxrev"}%'='0'" then="<!--" else="<h3>%MAKETEXT{"View previous topic revision"}% (1 ... <nop>%URLPARAM{"maxrev" type="html"}%)" }%</h3>
 <form name='main' action='%SCRIPTURLPATH{"view" topic="%WEB%.%TOPIC%"}%' method='post'>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
@@ -153,7 +155,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p>
-%MAKETEXT{"Older revision:"}% <input class="foswikiInputField" type="text" name="rev2" size="6" value="1" /> &nbsp; %MAKETEXT{"Newer revision:"}% <input class="foswikiInputField" type="text" name="rev1" size="6" value="%URLPARAM{maxrev}%" /></p>
+%MAKETEXT{"Older revision:"}% <input class="foswikiInputField" type="text" name="rev2" size="6" value="1" /> &nbsp; %MAKETEXT{"Newer revision:"}% <input class="foswikiInputField" type="text" name="rev1" size="6" value="%TMPL:P{"maxrev"}%" /></p>
 </div>
 <div class="foswikiFormStep">
 <table class="foswikiTable foswikiDiffOptions"><tr><td><label for="sequential"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sequential.gif" alt="sequential" width="80" height="80" /></label></td><td><label for="sidebyside"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sidebyside.gif" alt="side by side" width="80" height="80" /></label></td><td><label for="debug"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_debug.gif" alt="debug" width="80" height="80" /></label></td></tr><tr><td><input type="radio" name="render" id="sequential" value="sequential"%IF{ "$ DIFFRENDERSTYLE='sequential' or not defined 'DIFFRENDERSTYLE'" then=" checked=\"checked\"" }% /><label for="sequential"> %MAKETEXT{"Sequential"}%</label></td><td><input type="radio" name="render" id="sidebyside" value="sidebyside"%IF{ "$ DIFFRENDERSTYLE='sidebyside'" then=" checked=\"checked\"" }% /><label for="sidebyside"> %MAKETEXT{"Side by side"}%</label></td><td><input type="radio" name="render" id="debug" value="debug"%IF{ "$ DIFFRENDERSTYLE='debug'" then=" checked=\"checked\"" }% /><label for="debug"> %MAKETEXT{"Debug"}%</label></td></tr></table>
@@ -174,10 +176,10 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 </div>
 <div class='foswikiFormStep'>
 %IF{
-"$maxrev='1'"
+"'%TMPL:P{"maxrev"}%'='1'"
 then="%MAKETEXT{"Restoring is disabled because this topic is at revision 1."}%"
 else="<p>
-%MAKETEXT{"Latest revision: [_1]" args="<nop>%URLPARAM{"maxrev" type="html"}%"}%
+%MAKETEXT{"Latest revision: [_1]" args="<nop>%TMPL:P{"maxrev"}%"}%
 </p>
 </div>
 <div class='foswikiFormStep'><p>
@@ -191,12 +193,12 @@ else="<p>
 <input type='hidden' name='action' value='restoreRevision' />
 <input type='hidden' name='nowysiwyg' value='1' />
 </form>%IF{
-"$ maxrev='0'"
+"'%TMPL:P{"maxrev"}%'='0'"
 then="-->" }%%IF{
-"$ maxrev!='0'"
+"'%TMPL:P{"maxrev"}%'!='0'"
 then="<!--"
 }%%MAKETEXT{"No previous revision exists."}%%IF{
-"$ maxrev!='0'"
+"'%TMPL:P{"maxrev"}%'!='0'"
 then="-->"
 }%%TMPL:END%
 
