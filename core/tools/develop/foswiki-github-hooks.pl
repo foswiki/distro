@@ -65,8 +65,7 @@ my %HOOKS = (
         'name'   => 'web',
         'active' => JSON::true,
         'config' => {
-            'url' =>
-              'https://trunk.foswiki.org/bin/rest/FoswikiOrgPlugin/githubpush',
+            'url' => 'https://foswiki.org/bin/rest/FoswikiOrgPlugin/githubpush',
             'content_type' => 'json',
             'secret'       => $secrets->{'webhook_secret'},
         }
