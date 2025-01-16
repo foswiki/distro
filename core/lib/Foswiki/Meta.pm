@@ -465,6 +465,8 @@ sub load {
             if ($meta) {
 
                 #print STDERR "found meta in cache ".$this->getPath()."\n";
+                # restore session obj in case it has been finished
+                $meta->{_session} = $this->{_session};
                 return $meta;
             }
         }
