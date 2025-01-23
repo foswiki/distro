@@ -55,6 +55,30 @@ sub new {
 
 =begin TML
 
+---++ reset() -> $boolean
+
+Start at the begining of the list
+<verbatim>
+$it->reset();
+while ($it->hasNext()) {
+   ...
+</verbatim>
+
+=cut
+
+sub reset {
+    my $this = shift;
+
+    $this->{next}      = undef;
+    $this->{index}     = 0;
+    $this->{Itr_index} = 0;
+    $_->reset() foreach @{ $this->{Itr_list} };
+
+    return 1;
+}
+
+=begin TML
+
 ---++ hasNext() -> $boolean
 
 Returns false when the iterator is exhausted.

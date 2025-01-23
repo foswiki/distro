@@ -124,6 +124,9 @@ sub test_AggregateIterator {
     }
 
     $this->assert_str_equals( '2, 4, 2, 4, ', $b );
+
+    $it->reset();
+    $this->assert_str_equals( '2, 4, 2, 4', join( ", ", $it->all() ) );
 }
 
 sub test_AggregateIteratorUnique {
