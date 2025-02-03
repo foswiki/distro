@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2023 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2025 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -270,7 +270,6 @@ $.NatEditor = function(txtarea, opts) {
       tinyMCE.activeEditor.setContent('');
     }
     self.txtarea.value = ""
-    return false;
   });
 
   /* listen to keystrokes */

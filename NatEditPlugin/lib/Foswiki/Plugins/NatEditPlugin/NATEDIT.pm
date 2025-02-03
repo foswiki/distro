@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2023 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2025 Michael Daum, http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ use warnings;
 
 use Foswiki::Func                          ();
 use Foswiki::Plugins::JQueryPlugin::Plugin ();
+use Foswiki::Plugins::NatEditPlugin        ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -43,7 +44,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name          => 'NatEdit',
-            version       => '4.03',
+            version       => $Foswiki::Plugins::NatEditPlugin::VERSION,
             author        => 'Michael Daum',
             homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',

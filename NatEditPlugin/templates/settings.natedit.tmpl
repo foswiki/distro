@@ -14,7 +14,7 @@
 <input type="hidden" name="originalrev" value="%ORIGINALREV%" />
 %JQREQUIRE{"focus, natedit, blockui"}%%TABPANE%
 %TAB{"%MAKETEXT{"Preferences"}%"}%
-<textarea class="foswikiTextArea natedit" name="text" id="topic" wrap="%NATEDIT_LINEWRAPPING{default="off"}%" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
+<textarea class="foswikiTextArea natedit" name="text" id="topic" wrap="%IF{"'%NATEDIT_LINEWRAPPING{default="on"}%'='off'" then="off" else="virtual"}%" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
 %ENDTAB%
 %TMPL:P{"helptab"}%%ENDTABPANE%
 %TMPL:P{"bottomtopicactions"}%</form></div>%TMPL:END%
