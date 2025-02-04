@@ -129,8 +129,8 @@ Overrides LoginManager. Content of a login link.
 sub loginUrl {
     my $this    = shift;
     my $session = $this->{session};
-    return $session->getScriptUrl( 0, 'login', undef, undef,
-        foswiki_origin => _packRequest($session) );
+    return $session->getScriptUrl( 0, 'login', $session->{webName},
+        $session->{topicName}, foswiki_origin => _packRequest($session) );
 }
 
 =begin TML
