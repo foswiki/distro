@@ -104,9 +104,8 @@ Content of a login link
 sub loginUrl {
     my $this    = shift;
     my $session = $this->{session};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
+    return $session->getScriptUrl( 0, 'logon', $session->{webName},
+        $session->{topicName}, @_ );
 }
 
 =begin TML
