@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655899072" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1738771920" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
@@ -59,6 +59,7 @@ Test if the installation was successful:
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  05 Feb 2025: | 1.21 Foswikitask:Item15453: properly implement HISTORYPLUGIN_NREV |
 |  16 Nov 2020: | 1.20 Foswikitask:Item14992: always display date _and_ times of revisions; clean up templates |
 |  22 Jan 2018: | 1.14 Foswikitask:Item14471: HistoryPlugin not properly rendering date tokens.<br/>\
                        Foswikitask:Item14605: Unescaped brace in Regular Expression,   Perl 5.27.8. |
@@ -88,8 +89,8 @@ Test if the installation was successful:
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value=" 2006, !JChristophFuchs; 2008-2020 Kenneth Lavrsen and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2006, !JChristophFuchs; 2008-2025 Kenneth Lavrsen and Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/HistoryPlugin"}%
 %META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/HistoryPlugin"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1655899072" size="72043" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1738771920" size="72043" user="ProjectContributor" version="1"}%

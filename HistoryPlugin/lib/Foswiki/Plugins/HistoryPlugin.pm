@@ -10,8 +10,8 @@ use Foswiki::AccessControlException ();
 
 # =========================
 #   Simple decimal version,  no leading "v"
-our $VERSION           = "1.20";
-our $RELEASE           = '16 Nov 2020';
+our $VERSION           = "1.21";
+our $RELEASE           = '%$RELEASE%';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
@@ -62,7 +62,8 @@ sub _handleHistory {
     my $maxrev = ( Foswiki::Func::getRevisionInfo( $web, $topic ) )[2];
     my $rev1 = $params->{rev1} ? $params->{rev1} : 1;
     my $rev2 = $params->{rev2} ? $params->{rev2} : $maxrev;
-    my $nrev = $params->{nrev} ? $params->{nrev} : 10;
+    my $nrev = $params->{nrev}
+      // Foswiki::Func::getPreferencesValue("HISTORYPLUGIN_NREV") // 10;
 
     if ($versions) {
         $versions =~ m/([0-9\-]*)(\.\.)*([0-9\-]*)/;
@@ -100,7 +101,6 @@ sub _handleHistory {
         $rev1 =~ s/1\.// if $rev1;
         $rev2 = $params->{rev2};
         $rev2 =~ s/1\.// if $rev2;
-        $nrev = $params->{nrev} || 10;
 
         $rev2 ||= $rev1 ? $rev1 + $nrev - 1 : $maxrev;
         $rev1 ||= $rev2 - $nrev + 1;
@@ -249,7 +249,7 @@ sub _handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2025 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
