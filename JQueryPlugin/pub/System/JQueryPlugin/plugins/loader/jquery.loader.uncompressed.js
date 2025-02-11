@@ -1,7 +1,7 @@
 /*
  * jQuery Loader plugin 4.80
  *
- * Copyright (c) 2011-2023 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2025 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -174,37 +174,33 @@
     // trigger beforeload
     self.elem.trigger("beforeload.jqloader", self, params);
 
-    $.get(
-      url,
-      params,
-      function(data) {
-        if (typeof(self.opts.select) !== 'undefined') {
-          data = $(data).find(self.opts.select);
-        }
+    $.get(url, params, 'html').done(function(data) {
+      if (typeof(self.opts.select) !== 'undefined') {
+        data = $(data).find(self.opts.select);
+      }
 
-        // insert data
-        self.elem.empty();
-        self.setContent(data);
+      // insert data
+      self.setContent(data);
 
-        // trigger onload
-        self.elem.trigger("onload.jqloader", self);
+      // trigger onload
+      self.elem.trigger("onload.jqloader", self);
 
-        // show effect
-        var effect = self.opts.effect || self.opts.showEffect;
-        if (effect && effect !== 'show' && effect !== 'hide') {
-          self.container.animateCSS({
-            effect: effect
-          }).on("stop.animate", function() {
+      // show effect
+      var effect = self.opts.effect || self.opts.showEffect;
+      if (effect && effect !== 'show' && effect !== 'hide') {
+        self.container.animateCSS({
+          effect: effect
+        }).on("stop.animate", function() {
 
-          // trigger finished
-            self.elem.trigger("finished.jqloader", self);
-          });
-        } else {
-          // trigger finished
+        // trigger finished
           self.elem.trigger("finished.jqloader", self);
-        }
+        });
+      } else {
+        // trigger finished
+        self.elem.trigger("finished.jqloader", self);
+      }
 
-      }, 'html');
+    });
   };
 
   // register plugin to jquery core

@@ -29,8 +29,8 @@ icon-animate.uncompressed.css: git-fontawesome-animation/dist/font-awesome-anima
 endif
 
 ifneq (,$(wildcard git-fontawesome))
-fontawesome.uncompressed.css: git-fontawesome/css/font-awesome.css 
-	cat $^ |sed 's/..\/fonts\///g' > $@
+#fontawesome.uncompressed.css: git-fontawesome/css/font-awesome.css 
+#	cat $^ |sed 's/..\/fonts\///g' > $@
 
 %.otf: git-fontawesome/fonts/%.otf
 	cp $< $@

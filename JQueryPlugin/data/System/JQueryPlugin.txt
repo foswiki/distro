@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1734458316" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1739286187" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  11 Feb 2025: | fixed ui-date component fixing editing dates across timezones |
 |  21 Nov 2024: | added =for= parameter to =%BUTTON= macro |
 |  15 Nov 2024: | deprecated module =metadata= |
 |  29 Oct 2024: | removed deprectated modules =rating=, =placeholder=, =supersubs=, =media=, =shake=, =corner=, =simplemodal=, =livequery=, =debug=, =gradient=, =tooltip=, =tmpl=, =bgiframe=, =autocomplete= |
@@ -454,7 +455,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2024 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2025 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%

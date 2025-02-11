@@ -1,7 +1,7 @@
 /*
  * jQuery Observer
  *
- * Copyright (c) 2020 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2020-2025 Michael Daum https://michaeldaumconsulting.com
  *
  * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *

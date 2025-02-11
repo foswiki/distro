@@ -10,6 +10,14 @@ jQuery(function($) {
     doWeekends: true,
   };
 
+  function getDate(val, tzOffset) {
+    if (typeof(tzOffset) !== 'undefined') {
+      val = val - tzOffset*60 + (new Date()).getTimezoneOffset()*60;
+    }
+    return new Date(val * 1000);
+  }
+
+
   $(".jqUIDatepicker").livequery(function() {
     var $this = $(this), 
         lang = $this.data("lang") || '',
@@ -43,10 +51,10 @@ jQuery(function($) {
       try {
         if (typeof(val) === 'number') {
           // init from epoch seconds
-          val = new Date(val*1000);
+          val = getDate(val, opts.tzOffset);
         } else if (typeof(val) === 'string' && val.match(/^[+-]?\d+$/)) {
           // init from epoch seconds string
-          val = new Date(parseInt(val, 10)*1000);
+          val = getDate(parseInt(val, 10), opts.tzOffset);
         } else {
           // init from format
           val = $.datepicker.parseDate(opts.dateFormat, val);
