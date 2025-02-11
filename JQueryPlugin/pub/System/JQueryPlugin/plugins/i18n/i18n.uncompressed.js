@@ -1,7 +1,7 @@
 /*
  * i18n - the simplest possible solution 
  *
- * Copyright (c) 2016-2024 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2016-2025 Michael Daum http://michaeldaumconsulting.com
  *
  * Licensed under the GPL license http://www.gnu.org/licenses/gpl.html
  *
