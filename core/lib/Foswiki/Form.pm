@@ -217,10 +217,10 @@ sub fieldTitle2FieldName {
     $text =~ s/!//g;
     $text =~ s/<nop>//g;    # support <nop> character in title
     if ( $Foswiki::cfg{LegacyFormfieldNames} ) {
-        $text =~ s/[^A-Za-z0-9_\.]//g;
+        $text =~ s/[^A-Za-z0-9_\.\/]//g;
     }
     else {
-        $text =~ s/[^\w\.]//g;
+        $text =~ s/[^\w\.\/]//g;
     }
     return $text;
 }
