@@ -26,17 +26,16 @@ sub WEBLIST {
     $web =~ s#\.#/#g;
 
     # Output format
-    my $format = $params->{_DEFAULT} || $params->{'format'} || '$name';
-    $format ||= '$name';
+    my $format = $params->{_DEFAULT} // $params->{'format'} // '$name';
 
-    my $separator = $params->{separator} || "\n";
+    my $separator = $params->{separator} // "\n";
     $separator = Foswiki::expandStandardEscapes($separator);
 
-    my $selection = $params->{selection} || '';
+    my $selection = $params->{selection} // '';
     $selection =~ s/\,/ /g;
     $selection = " $selection ";
 
-    my $marker = $params->{marker} || 'selected="selected"';
+    my $marker = $params->{marker} // 'selected="selected"';
 
     my @list = ();
     foreach my $aweb (@webslist) {

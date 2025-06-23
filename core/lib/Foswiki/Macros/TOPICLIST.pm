@@ -13,13 +13,13 @@ BEGIN {
 
 sub TOPICLIST {
     my ( $this, $params ) = @_;
-    my $format = $params->{_DEFAULT} || $params->{'format'} || '$topic';
-    my $separator = $params->{separator} || "\n";
+    my $format = $params->{_DEFAULT} // $params->{'format'} // '$topic';
+    my $separator = $params->{separator} // "\n";
     $separator =~ s/\$n/\n/;
-    my $selection = $params->{selection} || '';
+    my $selection = $params->{selection} // '';
     $selection =~ s/\,/ /g;
     $selection = " $selection ";
-    my $marker = $params->{marker} || 'selected="selected"';
+    my $marker = $params->{marker} // 'selected="selected"';
 
     my $web = $params->{web} || $this->{webName};
     $web =~ s#\.#/#g;

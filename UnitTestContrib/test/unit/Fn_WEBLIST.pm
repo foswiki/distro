@@ -115,7 +115,7 @@ sub test_no_format_empty_separator {
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{separator=""}%');
-    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+    $this->assert_str_equals( join( "", @allWebs ), $text );
 }
 
 sub test_with_format_no_separator {
@@ -143,7 +143,7 @@ sub test_with_format_empty_separator {
     my $text =
       $this->{test_topicObject}
       ->expandMacros('%WEBLIST{"$name" separator=""}%');
-    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+    $this->assert_str_equals( join( "", @allWebs ), $text );
 }
 
 sub test_format {

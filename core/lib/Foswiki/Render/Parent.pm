@@ -27,10 +27,10 @@ sub render {
     my $dontRecurse = $ah->{dontrecurse} || 0;
     my $depth       = $ah->{depth}       || 0;
     my $noWebHome   = $ah->{nowebhome}   || 0;
-    my $prefix      = $ah->{prefix}      || '';
-    my $suffix      = $ah->{suffix}      || '';
-    my $usesep      = $ah->{separator}   || ' &gt; ';
-    my $format      = $ah->{format}      || '[[$web.$topic][$topic]]';
+    my $prefix = $ah->{prefix}    // '';
+    my $suffix = $ah->{suffix}    // '';
+    my $usesep = $ah->{separator} // ' &gt; ';
+    my $format = $ah->{format}    // '[[$web.$topic][$topic]]';
 
     my ( $web, $topic ) = ( $topicObject->web, $topicObject->topic );
     return '' unless $web && $topic;
