@@ -1856,8 +1856,8 @@ sub test_Package_loadInstaller {
 
     my $repository = {
         name => 'Foswiki',
-        data => 'http://foswiki.org/Extensions/',
-        pub  => 'http://foswiki.org/pub/Extensions/'
+        data => 'https://foswiki.org/Extensions/',
+        pub  => 'https://foswiki.org/pub/Extensions/'
     };
     my $pkg = Foswiki::Configure::Package->new(
         root       => $root,
@@ -1872,7 +1872,7 @@ sub test_Package_loadInstaller {
     $this->sniff(
         warnings => 'Unable to find EmptyPlugin locally in (.*) ...' );
     $this->sniff( notes =>
-'fetching EmptyPlugin installer from http://foswiki.org/pub/Extensions/...'
+'fetching EmptyPlugin installer from https://foswiki.org/pub/Extensions/...'
     );
 
     my @files = $pkg->_listFiles();
@@ -1912,8 +1912,8 @@ sub test_Package_fetchFile {
 
     my $repository = {
         name => 'Foswiki',
-        data => 'http://foswiki.org/Extensions/',
-        pub  => 'http://foswiki.org/pub/Extensions/'
+        data => 'https://foswiki.org/Extensions/',
+        pub  => 'https://foswiki.org/pub/Extensions/'
     };
 
     my ( $resp, $file );
@@ -1947,8 +1947,8 @@ sub test_Package_errors {
 
     my $repository = {
         name => 'Foswiki',
-        data => 'http://foswiki.org/Extensions/',
-        pub  => 'http://foswiki.org/pub/Extensions/'
+        data => 'https://foswiki.org/Extensions/',
+        pub  => 'https://foswiki.org/pub/Extensions/'
     };
 
     #
@@ -1963,7 +1963,7 @@ sub test_Package_errors {
     );
     $this->assert( !$pkg->loadInstaller($reporter) );
     $this->sniff( errors =>
-qr{Download failed - I can't download http://foswiki.org/pub/Extensions/EmptyPluginx/EmptyPluginx_installer because of the following error:}s
+qr{Download failed - No content.  Extension may not have been packaged correctly.}
     );
 
     #
@@ -2008,8 +2008,8 @@ sub test_Package_errors_zip {
 
     my $repository = {
         name => 'Foswiki',
-        data => 'http://foswiki.org/Extensions/',
-        pub  => 'http://foswiki.org/pub/Extensions/'
+        data => 'https://foswiki.org/Extensions/',
+        pub  => 'https://foswiki.org/pub/Extensions/'
     };
 
     #
