@@ -1,7 +1,7 @@
 /**
  * Support for SubscribePlugin
  * 
- * Copyright (c) 2013-2014 Crawford Currie http://c-dot.co.uk
+ * Copyright (c) 2013-2025 Crawford Currie http://c-dot.co.uk
  * and Foswiki Contributors.
  * All Rights Reserved. Foswiki Contributors are listed in the
  * AUTHORS file in the root of this distribution.
@@ -19,7 +19,8 @@
  * 
  * Do not remove this copyright notice.
  */
-jQuery(function($) {
+"use strict";
+(function($) {
 "use strict";
     $(document).on("click", ".subscribe_link", function() {
         var $this = $(this),
@@ -51,7 +52,7 @@ jQuery(function($) {
             error: function(jqXHR) {
                 alert("Error: " + jqXHR.responseText);
             },
-            complete: function(jqXHR, status) {
+            complete: function(jqXHR) {
                 // Update the strikeone nonce
                 var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
                 // patch in new nonce
@@ -64,4 +65,4 @@ jQuery(function($) {
         $this.blur();
         return false;
     });
-});
+})(jQuery);

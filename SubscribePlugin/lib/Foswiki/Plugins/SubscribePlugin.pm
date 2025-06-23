@@ -25,7 +25,7 @@ use JSON ();
 use URI ();
 
 our $VERSION = '3.7';
-our $RELEASE = '06 Aug 2023';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -113,13 +113,13 @@ sub _SUBSCRIBE {
 }
 
 # subscribe_topic (topic is used if subscribe_topic is missing)
-# subscribe_subscriber (current user is used if missing)
-# unsubscribe (will unsubscribe if true, subscribe otherwise)
+# subscriber (current user is used if missing)
+# remove (will unsubscribe if true, subscribe otherwise)
 sub _rest_subscribe {
     my ( $session, $plugin, $verb, $response ) = @_;
-    my $query = Foswiki::Func::getCgiQuery();
+    my $request = Foswiki::Func::getRequestObject();
 
-    ASSERT($query) if DEBUG;
+    ASSERT($request) if DEBUG;
 
     my $cur_user = Foswiki::Func::getWikiName();
     my $text     = '';
@@ -127,7 +127,7 @@ sub _rest_subscribe {
     my $isSubs   = 0;
 
     # We have been asked to subscribe
-    my $topics = $query->param('topic');
+    my $topics = $request->param('subscribe_topic') || $request->param('topic');
     unless ($topics) {
         $status = 400;
         $text   = _template_text('no_subscribe_topic');
@@ -137,14 +137,14 @@ sub _rest_subscribe {
         $topics = $1;    # Untaint - we will check it later
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( undef, $topics );
-        my $who = $query->param('subscriber');
+        my $who = $request->param('subscriber');
         $who ||= $cur_user;
         if ( $who eq $Foswiki::cfg{DefaultUserWikiName} ) {
             $status = 400;
             $text   = _template_text('cannot_subscribe');
         }
         else {
-            my $unsubscribe = $query->param('remove');
+            my $unsubscribe = $request->param('remove');
             ( $text, $status ) =
               _subscribe( $web, $topic, $who, $cur_user, $unsubscribe );
             $isSubs =
@@ -181,8 +181,8 @@ sub _rest_subscribe {
 sub _getNonce {
     my ($session) = @_;
     require Foswiki::Validation;
-    my $query   = Foswiki::Func::getCgiQuery();
-    my $context = $query->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $request = Foswiki::Func::getRequestObject();
+    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $cgis    = $session->getCGISession();
     return '' unless $cgis;
     if ( Foswiki::Validation->can('generateValidationKey') ) {
@@ -261,7 +261,7 @@ __END__
 
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2007-2023 Crawford Currie http://c-dot.co.uk and Foswiki Contributors.
+Copyright (C) 2007-2025 Crawford Currie http://c-dot.co.uk and Foswiki Contributors.
 
 All Rights Reserved. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
