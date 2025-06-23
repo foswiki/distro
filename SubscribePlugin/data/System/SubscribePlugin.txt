@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1734083408" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1750676968" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Subscribe Plugin
 %FORMFIELD{"Description"}%
@@ -49,8 +49,8 @@ is also available for other clients wishing to use the subscription service.
 
 Parameters:
    * =subscribe_topic= topic to subscribe to/unsubscribe from. Value of =topic= parameter is used if missing. Use Web.Topic format to specify a web.
-   * =subscribe_subscriber= WikiName of user to subscribe/unsubscribe. Current user is used if missing.
-   * =subscribe_remove= true to unsubscribe. Default is to subscribe.
+   * =subscriber= WikiName of user to subscribe/unsubscribe. Current user is used if missing.
+   * =remove= true to unsubscribe. Default is to subscribe.
 Note that the calling user *must* be authenticated, and *must* have write permission for the !WebNotify topic in the relevant web.
 
 ---++ Installation Instructions
@@ -64,22 +64,23 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  3.7 (06 Aug 2023) | Foswikitask:Item15151: add warnings and strictness |
-|  3.6 (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
-|  3.5 (06 Nov 2015) | Foswikitask:Item13519: Add dependency on URI due to MailerContrib dependency. |
-|  3.4 (27 Jul 2015) | Foswikitask:Item13450: Fix support for FamFamFam skin.  |
-|  3.3 (04 May 2015) | Foswikitask:Item13393: simplified implementation |
-|  3.2 (24 Nov 2014) | Foswikitask:Item12926: removed requirement for an HTML form wrapping the button |
-|  3.1 (28 Apr 2014) | Foswikitask:Item12872: Add CSRF validation support |
-|  3.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
-|  2.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
-|  1.0 (03 Dec 2008) | Released for Foswiki |
+|  3.8 | Foswikitask:Item15505: fixed rest api, i.e. don't missuse the standard topic parameter |
+|  3.7 | Foswikitask:Item15151: add warnings and strictness |
+|  3.6 | Foswikitask:Item14554: remove link to unused wikiring.com domain. |
+|  3.5 | Foswikitask:Item13519: Add dependency on URI due to MailerContrib dependency. |
+|  3.4 | Foswikitask:Item13450: Fix support for FamFamFam skin.  |
+|  3.3 | Foswikitask:Item13393: simplified implementation |
+|  3.2 | Foswikitask:Item12926: removed requirement for an HTML form wrapping the button |
+|  3.1 | Foswikitask:Item12872: Add CSRF validation support |
+|  3.0 | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
+|  2.0 | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
+|  1.0 | Released for Foswiki |
 
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie"}%
 %META:FIELD{name="Compatibility" title="Compatibility" value="2.0"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk; &copy; 2008-2023 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2014, Crawford Currie http://c-dot.co.uk; &copy; 2008-2025 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
@@ -87,4 +88,4 @@ A word of warning; if you used !SubscribePlugin before version 3.1, please note 
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1734083408" size="21246" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1750676968" size="21246" user="ProjectContributor" version="1"}%
