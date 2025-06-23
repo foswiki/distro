@@ -744,17 +744,36 @@ sub writeCompletePage {
         $text = $this->zones()->_renderZones($text);
     }
 
-    # Validate format of content-type (defined in rfc2616)
-    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/;
-    if ( $contentType =~ m/($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/i ) {
-        $contentType = $1;
-    }
-    else {
-        # SMELL: can't compute; faking content-type for backwards compatibility;
-        # any other information might become bogus later anyway
+    # whitelisted top-level media types
+    my @validTypes =
+      qw(application audio font image message model multipart text video);
+    my $typesRegex = join '|', @validTypes;
+
+    # Regular expression to match valid content-type
+    unless (
+        $contentType =~ m{
+        ^                              # Start of string
+        (?:$typesRegex)               # One of the allowed top-level types
+        /                              # Literal slash
+        [a-zA-Z0-9.+-]+                # Valid subtype
+        (?:                            # Optional parameters
+            \s*;\s*                    # Parameter separator
+            [a-zA-Z0-9!#$%&'*+.^_`{|}~-]+  # Param name
+            =
+            (?:
+                "[^"]*"               # Quoted value
+                |
+                [a-zA-Z0-9!#$%&'*+.^_`{|}~-]+ # Token
+            )
+        )*                             # Zero or more params
+        $                              # End of string
+    }x
+      )
+    {
         $contentType = "text/plain;contenttype=invalid";
     }
-    my $hdr = "Content-type: " . $1 . "\r\n";
+
+    my $hdr = "Content-type: " . $contentType . "\r\n";
 
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
@@ -2545,7 +2564,7 @@ sub finish {
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
     foreach my $key (
-        qw(plugins users prefs templates renderer zones net
+        qw(plugins users prefs templates renderer zones net db
         store search attach access i18n cache logger metaCache)
       )
     {
