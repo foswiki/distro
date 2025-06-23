@@ -169,9 +169,8 @@ sub preparePath {
         $res->print($html);
         throw Foswiki::EngineException( 500, $reason, $res );
     }
-    my $cgiScriptPath = $ENV{SCRIPT_NAME};
-    $pathInfo =~ s{^$cgiScriptPath(?:/+|$)}{/};
-    my $cgiScriptName = $cgiScriptPath;
+    my $cgiScriptName = $ENV{SCRIPT_NAME};
+    $pathInfo      =~ s{^\Q$cgiScriptName\E(?:/+|$)}{/};
     $cgiScriptName =~ s/.*?(\w+)(\.\w+)?$/$1/;
 
     my $action;
