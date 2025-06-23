@@ -70,11 +70,6 @@ sub init_edit {
     my $notemplateexpansion =
       Foswiki::isTrue( scalar( $query->param('notemplateexpansion') ) );
 
-    # apptype is deprecated undocumented legacy
-    my $cgiAppType =
-         $query->param('contenttype')
-      || $query->param('apptype')
-      || 'text/html';
     my $parentTopic = $query->param('topicparent') || '';
     my $ptext = $query->param('text');
 
@@ -507,14 +502,6 @@ sub finalize_edit {
 
     my ( $session, $topicObject, $tmpl ) = @_;
 
-    my $query = $session->{request};
-
-    # apptype is deprecated undocumented legacy
-    my $cgiAppType =
-         $query->param('contenttype')
-      || $query->param('apptype')
-      || 'text/html';
-
     my $text = $topicObject->text() || '';
     $tmpl =~ s/%UNENCODED_TEXT%/$text/g;
 
@@ -523,7 +510,7 @@ sub finalize_edit {
 
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
 
-    $session->writeCompletePage( $tmpl, 'edit', $cgiAppType );
+    $session->writeCompletePage( $tmpl, 'edit', 'text/html' );
 }
 
 1;
