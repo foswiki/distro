@@ -153,22 +153,17 @@ sub rest {
         throw Foswiki::EngineException( 404, $err, $res );
     }
 
-    # SMELL: The SubscribePlugin abuses the topic= url param, passing
-    # in an asterisk wildcard to requst subscription to all topics.
-    # The plugin should use a subscribe_topic parameter rather than
-    # abusing the system parsed topic parameter.
-
-    #if ( $req->invalidTopic() ) {
-    #    $res->header( -type => 'text/html', -status => '400' );
-    #    $err =
-    #        'ERROR: (400) Invalid REST invocation'
-    #      . " - Invalid topic parameter "
-    #      . $req->invalidTopic() . "\n";
-    #    $res->print($err);
-    #    $session->logger->log( 'warning', "REST rejected: " . $err,
-    #        " - $referer", );
-    #    throw Foswiki::EngineException( 400, $err, $res );
-    #}
+    if ( $req->invalidTopic() ) {
+        $res->header( -type => 'text/html', -status => '400' );
+        $err =
+            'ERROR: (400) Invalid REST invocation'
+          . " - Invalid topic parameter "
+          . $req->invalidTopic() . "\n";
+        $res->print($err);
+        $session->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
+        throw Foswiki::EngineException( 400, $err, $res );
+    }
 
     if ( $req->invalidWeb() ) {
         $res->header( -type => 'text/html', -status => '400' );
