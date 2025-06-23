@@ -16,10 +16,10 @@ sub DISPLAYDEPENDENCIES {
 
     my $web       = $params->{web}    || $this->{webName};
     my $topic     = $params->{topic}  || $this->{topicName};
-    my $header    = $params->{header} || '';
-    my $footer    = $params->{footer} || '';
-    my $format    = $params->{format} || '   1 [[$web.$topic]]';
-    my $separator = $params->{sep}    || $params->{separator} || "\n";
+    my $header    = $params->{header} // '';
+    my $footer    = $params->{footer} // '';
+    my $format    = $params->{format} // '   1 [[$web.$topic]]';
+    my $separator = $params->{sep}    // $params->{separator} // "\n";
     my $exclude = $params->{exclude};
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );

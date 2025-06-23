@@ -13,13 +13,13 @@ BEGIN {
 
 sub LANGUAGES {
     my ( $this, $params ) = @_;
-    my $format    = $params->{format}    || "   * \$langname";
-    my $separator = $params->{separator} || "\n";
+    my $format    = $params->{format}    // "   * \$langname";
+    my $separator = $params->{separator} // "\n";
     $separator =~ s/\\n/\n/g;
-    my $selection = $params->{selection} || '';
+    my $selection = $params->{selection} // '';
     $selection =~ s/\,/ /g;
     $selection = " $selection ";
-    my $marker = $params->{marker} || 'selected="selected"';
+    my $marker = $params->{marker} // 'selected="selected"';
 
     # $languages is a hash reference:
     my $languages = $this->i18n->enabled_languages();

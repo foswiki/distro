@@ -958,7 +958,7 @@ sub formatResults {
 
                 $headerDone = 1;
                 my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
-                  || '\#FF00FF';
+                  // '\#FF00FF';
                 $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/g;
                 $processedheader =~ s/%WEB%/$web/g;
                 $processedheader =~ s/\$ntopics/($ntopics-1)/gse;
