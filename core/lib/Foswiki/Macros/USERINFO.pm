@@ -95,7 +95,7 @@ my $USERINFO_tokenregex = join( '|', keys %USERINFO_tokens );
 
 sub USERINFO {
     my ( $this, $params ) = @_;
-    my $format = $params->{format} || '$username, $wikiusername, $emails';
+    my $format = $params->{format} // '$username, $wikiusername, $emails';
     my $user   = $this->{user};
     my $info   = $format;
 
