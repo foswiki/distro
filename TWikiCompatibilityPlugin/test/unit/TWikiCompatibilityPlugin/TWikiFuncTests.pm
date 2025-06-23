@@ -701,7 +701,7 @@ sub test_getExternalResource {
 
     # First check the LWP impl
     # need a known, simple, robust URL to get
-    my $response = TWiki::Func::getExternalResource('http://foswiki.org');
+    my $response = TWiki::Func::getExternalResource('https://foswiki.org');
     $this->assert_equals( 200, $response->code() );
     $this->assert_str_equals( 'OK', $response->message() );
     $this->assert_matches(
@@ -709,20 +709,20 @@ sub test_getExternalResource {
         lc( $response->header('content-type') )
     );
     $this->assert_matches(
-        qr/Foswiki - The free enterprise collaboration platform/s,
+        qr/Foswiki - The Free Enterprise Collaboration Platform/s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
 
     # Now force the braindead sockets impl
     $TWiki::Net::LWPAvailable = 0;
-    $response = TWiki::Func::getExternalResource('http://foswiki.org');
+    $response = TWiki::Func::getExternalResource('https://foswiki.org');
     $this->assert_equals( 200, $response->code() );
     $this->assert_str_equals( 'OK', $response->message() );
     $this->assert_str_equals( 'text/html; charset=utf-8',
         $response->header('content-type') );
     $this->assert_matches(
-        qr/Foswiki - The free enterprise collaboration platform/s,
+        qr/Foswiki - The Free Enterprise Collaboration Platform/s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
