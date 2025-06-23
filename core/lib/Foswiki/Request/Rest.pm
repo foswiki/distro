@@ -68,6 +68,8 @@ sub _establishAddress {
     unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
         $this->{invalidSubject} = Foswiki::urlEncode($pathInfo);
         $this->{_pathParsed}    = 1;
+        $this->{subject}        = '';
+        $this->{verb}           = '';
         return;
     }
 
