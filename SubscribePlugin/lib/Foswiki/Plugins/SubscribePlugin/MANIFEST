@@ -9,4 +9,5 @@ lib/Foswiki/Plugins/SubscribePlugin/JQuery.pm 0444 JQuery plugin
 pub/System/SubscribePlugin/subscribe_plugin.uncompressed.js 0644
 pub/System/SubscribePlugin/subscribe_plugin.js 0644
 pub/System/SubscribePlugin/logo.gif 644
+pub/System/SubscribePlugin/Makefile 644
 templates/subscribe.tmpl 0444

@@ -10,3 +10,4 @@ igp_*
 /SubscribePlugin_installer
 /SubscribePlugin_installer.pl
 /pub/System/SubscribePlugin/subscribe_plugin.js
+/pub/System/SubscribePlugin/*jslint
