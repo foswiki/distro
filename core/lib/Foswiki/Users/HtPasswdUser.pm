@@ -679,8 +679,8 @@ sub encrypt {
         print STDERR " ARGON2:  Cost:$cost Mem:$mem Threads:$threads \n"
           if (TRACE);
         my $encoded =
-          Crypt::Argon2::argon2i_pass( $passwd, $salt, $cost, $mem, $threads,
-            16 );
+          Crypt::Argon2::argon2i_pass( Foswiki::encode_utf8($passwd),
+            $salt, $cost, $mem, $threads, 16 );
         return $encoded if ($encoded);
     }
     die 'Unsupported password encoding ' . $enc;
@@ -874,7 +874,9 @@ sub checkPassword {
     if ( $entry->{enc} eq 'argon2i' ) {
         if ( $this->{ARGON2} ) {
             $this->{error} = '';
-            $passed = Crypt::Argon2::argon2i_verify( $pw, $password );
+            $passed =
+              Crypt::Argon2::argon2i_verify( $pw,
+                Foswiki::encode_utf8($password) );
         }
         else {
             $this->{error} =
