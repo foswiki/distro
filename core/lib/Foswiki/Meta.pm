@@ -1564,13 +1564,9 @@ sub setRevisionInfo {
         $ti->{$k} = $v if defined $v;
     }
 
-    # compatibility; older versions of the code use
-    # RCS rev numbers. Save with them so old code can
-    # read these topics
-    ASSERT( defined $ti->{version} ) if DEBUG;
+    $ti->{version} //= 1;
     $ti->{version} = 1 if $ti->{version} < 1;
-    $ti->{version} = $ti->{version};
-    $ti->{format}  = EMBEDDING_FORMAT_VERSION;
+    $ti->{format} = EMBEDDING_FORMAT_VERSION;
 
     $this->put( 'TOPICINFO', $ti );
 }
