@@ -21,7 +21,6 @@
  */
 "use strict";
 (function($) {
-"use strict";
     $(document).on("click", ".subscribe_link", function() {
         var $this = $(this),
             params = $this.data(),
