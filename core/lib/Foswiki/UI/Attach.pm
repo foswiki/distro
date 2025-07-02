@@ -96,12 +96,13 @@ sub attach {
         $fileName = Foswiki::entityEncode($fileName);
     }
 
+    my $filePath = $args->{path} || $fileName;
+    my $fileComment = Foswiki::entityEncode( $args->{comment} );
+
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
     $tmpl =~ s/%FILENAME%/$fileName/g;
     $tmpl =~ s/%HIDEFILE%/$isHideChecked/g;
-
-    my $filePath = $args->{path} || $fileName;
     $tmpl =~ s/%FILEPATH%/$filePath/g;
     $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
 
