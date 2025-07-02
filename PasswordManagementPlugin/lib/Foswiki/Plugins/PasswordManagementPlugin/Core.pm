@@ -152,7 +152,7 @@ sub _RESTresetPassword {
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
             params => [
-                $Foswiki::cfg{Login}{TokenLifetime} || 15,
+                $Foswiki::cfg{Login}{TokenLifetime} || 900,
                 ($errors) ? '1' : '0'
             ]
         );
@@ -270,7 +270,7 @@ sub _RESTbulkResetPassword {
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
             params => [
-                $validFor || $Foswiki::cfg{Login}{TokenLifetime} || 15,
+                $validFor || $Foswiki::cfg{Login}{TokenLifetime} || 900,
                 ($errors) ? '1' : '0'
             ]
         );
@@ -335,6 +335,9 @@ sub _generateResetEmail {
     # eg. ssmtp.  So we cannot flatten the list of emails, and need to
     # send them one at a time.
     #my $email = join( ', ', @$emails);
+
+    # only admin may set the introduction
+    $message = '' unless Foswiki::Func::getContext()->{isadmin};
 
     foreach my $email (@$emails) {
         my $err;

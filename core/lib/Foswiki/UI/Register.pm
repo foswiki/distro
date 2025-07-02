@@ -2031,8 +2031,13 @@ sub _sendEmail {
     my ( $session, $template, $data ) = @_;
 
     my $text = $session->templates->readTemplate($template);
+
     $data->{Introduction} ||= '';
     $data->{Name} ||= $data->{WikiName};
+
+    # only admin may set the introduction
+    $data->{Introduction} = '' unless Foswiki::Func::getContext()->{isadmin};
+
     my @unexpanded;
     foreach my $field ( keys %$data ) {
         my $f = uc($field);
