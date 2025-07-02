@@ -216,6 +216,9 @@ sub _resetUsersPassword {
 sub _sendEmail {
     my ( $session, %data ) = @_;
 
+    # only admin can set the introduction
+    $data{Introduction} = '' unless Foswiki::Func::getContext()->{isadmin};
+
     my $text = $session->templates->readTemplate('mailresetpassword');
     foreach my $field ( keys %data ) {
         my $f = uc($field);

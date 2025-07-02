@@ -3091,7 +3091,6 @@ attachment names are uploaded.
 =cut
 
 sub sanitizeAttachmentName {
-    require Foswiki::Sandbox;
     return Foswiki::Sandbox::sanitizeAttachmentName(@_);
 }
 
