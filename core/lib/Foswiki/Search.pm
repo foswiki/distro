@@ -372,6 +372,11 @@ sub searchWeb {
     $params{showpage} = $session->{request}->param($paging_ID)
       || $params{showpage};
 
+    # sanitize integer
+    if ( defined $params{showpage} && $params{showpage} !~ /^\d+$/ ) {
+        $params{showpage} = 1;
+    }
+
     #append a pager to the end of the search result.
     $params{pager} = Foswiki::isTrue( $params{pager} );
 
