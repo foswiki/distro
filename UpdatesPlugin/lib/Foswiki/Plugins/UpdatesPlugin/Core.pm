@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011-2019 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2025 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -232,7 +232,7 @@ sub getAvailable {
             my $reportUrl =
                 $this->{reportUrl}
               . "?list="
-              . join( ',', @unfound )
+              . join( ',', sort @unfound )
               . ";contenttype=text/plain;skin=text";
 
             $this->writeDebug("calling $reportUrl");
@@ -241,6 +241,9 @@ sub getAvailable {
 
             if ( !$resource->is_error() && $resource->isa('HTTP::Response') ) {
                 my $content = $resource->decoded_content();
+
+                $content =~ s/^\s+//;
+                $content =~ s/\s+$//;
 
                 #$this->writeDebug("content=$content");
 
