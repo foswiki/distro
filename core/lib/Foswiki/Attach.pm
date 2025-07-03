@@ -243,14 +243,7 @@ sub _expandAttrs {
         return _formatFileSize( $attrSize, 0, ' ' );
     }
     elsif ( $attr eq 'COMMENT' ) {
-        my $comment = $info->{comment};
-        if ($comment) {
-            $comment = Foswiki::entityEncode($comment);
-        }
-        else {
-            $comment = '';
-        }
-        return $comment;
+        return $info->{comment} // '';
     }
     elsif ( $attr eq 'ATTRS' ) {
         if ( $info->{attr} ) {
