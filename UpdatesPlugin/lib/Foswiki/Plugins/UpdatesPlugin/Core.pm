@@ -232,7 +232,7 @@ sub getAvailable {
             my $reportUrl =
                 $this->{reportUrl}
               . "?list="
-              . join( ',', @unfound )
+              . join( ',', sort @unfound )
               . ";contenttype=text/plain;skin=text";
 
             $this->writeDebug("calling $reportUrl");

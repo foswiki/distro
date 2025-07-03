@@ -20,7 +20,7 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION           = '2.10';
+our $VERSION           = '2.11';
 our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -29,9 +29,8 @@ our $core;
 sub initPlugin {
 
     # only check for admins viewing a page
-    if ( Foswiki::Func::isAnAdmin() && Foswiki::Func::getContext()->{view} ) {
-        getCore()->check();
-    }
+    my $context = Foswiki::Func::getContext();
+    getCore()->check() if $context->{isadmin} && $context->{view};
 
     return 1;
 }

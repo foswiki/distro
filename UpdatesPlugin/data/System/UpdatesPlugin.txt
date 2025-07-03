@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1738349954" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1751544267" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
@@ -52,6 +52,7 @@ This plugin was initially developed during a collaborative design and coding ses
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+| 2.11 (02 Jul 2025) | Foswikitask:Item15510: sort plugin list before requesting report |
 | 2.10 (31 Jan 2025) | Foswikitask:Item15443: cannot parse <nop>UpdatesPluginReport |
 | 2.00 (12 Nov 2019) | Foswikitask:Item14873: rewrite and simplify |
 | 1.04 (22 Jan 2018) | Foswikitask:Item14448: fixed broken outdated plugins report<br/>\
@@ -72,4 +73,4 @@ This plugin was initially developed during a collaborative design and coding ses
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1738349954" size="53676" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.png" attr="h" comment="" date="1751544267" size="53676" user="ProjectContributor" version="1"}%
