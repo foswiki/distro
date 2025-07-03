@@ -1,13 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1751545800" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
----++ Using HTML
+---+ Using HTML
 
 When, and how, to use HTML in topics.
 
 %STARTINCLUDE%
 You can use most HTML tags in topics without a problem. This is useful where you want to
 add some content that is formatted in a way that is not supported using [[wiki syntax]], for example,
-you can write =&lt;strike&gt;deleted text&lt;/strike&gt;= to get <strike>deleted text</strike>.
+you can write =&lt;del&gt;deleted text&lt;/del&gt;= to get <del>deleted text</del>.
 
 There are a few usability and technical considerations to keep in mind:
    * On collaboration pages, it's better *not* to use HTML, but to use [[wiki syntax]] instead -
@@ -29,4 +29,4 @@ be converted to [[wiki syntax]] automatically when you save.
 
 %STOPINCLUDE%
 ---
-*Related Topics:* TopicMarkupLanguage, UsingHTML, WYSIWYG
+*Related Topics:* TopicMarkupLanguage, WYSIWYG
