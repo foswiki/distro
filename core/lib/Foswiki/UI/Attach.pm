@@ -97,7 +97,6 @@ sub attach {
     }
 
     my $filePath = $args->{path} || $fileName;
-    my $fileComment = Foswiki::entityEncode( $args->{comment} );
 
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
