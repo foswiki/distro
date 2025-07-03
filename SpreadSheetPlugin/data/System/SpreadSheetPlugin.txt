@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1684321623" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1751545667" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -100,17 +100,17 @@ Conventions for Syntax:
    * Related: =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
 
 #FuncBITXOR
----+++ <strike>BITXOR( text ) or</strike>  BITXOR( integer, list ) -- bit-wise XOR
+---+++ <s>BITXOR( text ) or</s>  BITXOR( integer, list ) -- bit-wise XOR
 This function has two modes of operation.
    * If passed a list,  performs a bit-wise XOR of the integers in the list.
       * Syntax: ==$BITXOR( integer, list )==
       * Example: ==%<nop>CALC{"$BITXOR(7, 12)")% returns ==3== ( b0111 xor b1100 = b0011 )
 
-   * *Deprecated,  no longer functional* <strike>If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
+   * *Deprecated,  no longer functional* If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
       * Each bit of each character of =text= is flipped, useful to obfuscate text. Bit-XORing text twice will restore the original text.
       * Syntax: ==$BITXOR( text )==
       * Example: ==%<nop>CALC{"$BITXOR(A123)"}%== returns ==&Yuml;&Icirc;&Iacute;&Igrave;==
-      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything== </strike>
+      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything==
    * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
 
 #FuncCEILING
@@ -501,7 +501,7 @@ This function has two modes of operation.
 
 #FuncLISTMAP
 ---+++ LISTMAP( formula, list ) -- evaluate and update each element of a list
-   * Note: LISTMAP has been renamed to LISTEACH.  LISTMAP is retained for compatibility. 
+   * Note: LISTMAP has been renamed to LISTEACH.  LISTMAP is retained for compatibility.
    * Related: =[[#FuncLISTEACH][$LISTEACH()]]=
 
 #FuncLISTNONEMPTY
@@ -926,7 +926,7 @@ Each integer is treated as true/false and then logically xor'd together.  The ac
 
 Specifically, how can I output some conditional text in a %SYSTEMWEB%.FormattedSearch?
 
-You need to escape the CALCULATE macro so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALCULATE{...}%= with =$percnt=. 
+You need to escape the CALCULATE macro so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALCULATE{...}%= with =$percnt=.
 For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)= in the =format=""= parameter, write this:
 
 =%<nop>SEARCH{ .... format="| $topic | $percntCALCULATE{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)}$percnt |" }%=
@@ -963,9 +963,9 @@ To repeat the same formula in all cells of a table row define the formula once i
 The last row is defined as:
 
 <verbatim class="tml">
-| Total: %CALC{"$ROW(-2)"}% \ 
-  | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% | . \ 
-  | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% \ 
+| Total: %CALC{"$ROW(-2)"}% \
+  | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% | . \
+  | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% \
   |  Total: %CALC{"$SUM( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% |
 </verbatim>
 
@@ -988,7 +988,7 @@ the ==$PROPERSPACE(text)== function. | \
 Makes the TIME function assume input is local time \
 and converts the entered time to GMT unless the date has 'GMT' appended. \
 Note that this behavior creates problems for users using servers in time zones \
-to the east of Greenwich. The setting is present for compatibility. | 0 | 
+to the east of Greenwich. The setting is present for compatibility. | 0 |
 | =SPREADSHEETPLUGIN_ALLOWHTML= | \
 Permits =CALC= and =CALCULATE= macros to emit unencoded =&lt;= and =&gt;=. \
 If not enabled, =&lt;= will be encoded as =&amp;lt;= and =&gt;= will be encoded as =&amp;gt;= \
