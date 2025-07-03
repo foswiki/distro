@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1716289088" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1751545319" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
-
 ---+!! Templates for CommentPlugin
 
 See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
