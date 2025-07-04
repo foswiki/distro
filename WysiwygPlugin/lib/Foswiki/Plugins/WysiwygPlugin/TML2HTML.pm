@@ -817,8 +817,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             elsif (@result) {
 
                 # Don't double-up the whitespace.
-                unless ($result[-1] =~ m/$TT1(\d+)$TT2/
-                    and $this->{refs}->[$1]->{params} =~ /encoded:'n'/ )
+                if ( ( $result[-1] && $result[-1] !~ m/$TT1(\d+)$TT2/ )
+                    || $this->{refs}->[$1]->{params} =~ /encoded:'n'/ )
                 {
                     $line = $this->_hideWhitespace("\n") . $line;
                 }
