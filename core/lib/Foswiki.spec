@@ -57,15 +57,8 @@
 # Enable this parameter to force foswiki to ignore the hostname in the
 # URL entered by the user.  Foswiki will generate all links using the
 # {DefaultUrlHost}.
-# 
-# By default, foswiki will use whatever URL that was entered by the
-# user to generate links. The only exception is the special =localhost=
-# name, which will be automatically replaced by the {DefaultUrlHost}.
-# In most installations this is the preferred behavior, however when
-# using SSL Accelerators, Reverse Proxys, and load balancers, the URL
-# entered by the user may have been altered, and foswiki should be forced
-# to return the {DefaultUrlHost}.
-$Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
+#
+$Foswiki::cfg{ForceDefaultUrlHost} = $TRUE;
 
 # **URILIST LABEL="Permitted Redirect Host Urls" EXPERT \
 #       CHECK_ON_CHANGE="{DefaultUrlHost}" \

@@ -10,9 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( defined $Foswiki::cfg{Engine}
-        && substr( $Foswiki::cfg{Engine}, -3 ) eq 'CLI' )
-    {
+    if ( defined $Foswiki::cfg{Engine} ) {
 
         # Probe the connection in bootstrap mode:
         my ( $client, $protocol, $host, $port, $proxy ) =
@@ -31,6 +29,13 @@ sub check_current_value {
             {
                 $reporter->WARN(
 'Both ={PROXY}{UseForwardedHeaders}= and ={ForceDefaultUrlHost}= are enabled. ={ForceDefaultUrlHost}= will override any Forwarded headers'
+                );
+            }
+        }
+        else {
+            if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
+                $reporter->ERROR(
+'Insecure configuration setting detected: it appears you are not running from behind a proxy. If you enable this option, you are vulnerable to a host header attack.'
                 );
             }
         }
