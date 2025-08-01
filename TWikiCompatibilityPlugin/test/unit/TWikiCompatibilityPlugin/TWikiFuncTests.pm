@@ -701,7 +701,9 @@ sub test_getExternalResource {
 
     # First check the LWP impl
     # need a known, simple, robust URL to get
-    my $response = TWiki::Func::getExternalResource('https://foswiki.org');
+    my $t = time();
+    my $response =
+      TWiki::Func::getExternalResource("https://foswiki.org?_t=$t");
     $this->assert_equals( 200, $response->code() );
     $this->assert_str_equals( 'OK', $response->message() );
     $this->assert_matches(
@@ -716,7 +718,7 @@ sub test_getExternalResource {
 
     # Now force the braindead sockets impl
     $TWiki::Net::LWPAvailable = 0;
-    $response = TWiki::Func::getExternalResource('https://foswiki.org');
+    $response = TWiki::Func::getExternalResource("https://foswiki.org?_t=$t");
     $this->assert_equals( 200, $response->code() );
     $this->assert_str_equals( 'OK', $response->message() );
     $this->assert_str_equals( 'text/html; charset=utf-8',
