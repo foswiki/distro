@@ -203,6 +203,10 @@ sub newLevel {
     }
 
     my @finalPrefs = split /[,\s]+/, ( $back->get('FINALPREFERENCES') || '' );
+
+    # immutable for security reasons
+    push @finalPrefs, "WIKINAME", "WIKIUSERNAME", "USERNAME";
+
     foreach (@finalPrefs) {
         $this->{final}{$_} = $level
           unless exists $this->{final}{$_};
