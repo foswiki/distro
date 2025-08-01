@@ -637,7 +637,7 @@ sub html {
         my @keys = keys %$attrs;
         @keys = sort @keys if (DEBUG);
         foreach my $k (@keys) {
-            my $v = $attrs->{$k};
+            my $v = $attrs->{$k} // '';
 
             # This is what CGI encodes, so....
             $v =~ s/([&<>\x8b\x9b'])/'&#'.ord($1).';'/ge;

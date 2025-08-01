@@ -130,10 +130,6 @@ sub _upload {
     $fileComment =~ s/^\s*//;
     $fileComment =~ s/\s*$//;
 
-    # sanitize string to protect against xss
-    $fileComment =~
-      s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&\$'*<=>@\]_\|])/'&#'.ord($1).';'/ge;
-
     my @fileNames = ();
     foreach my $filePath ( $query->multi_param("filepath") ) {
 
