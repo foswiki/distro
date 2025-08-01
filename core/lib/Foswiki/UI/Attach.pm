@@ -97,13 +97,14 @@ sub attach {
     }
 
     my $filePath = $args->{path} || $fileName;
+    my $fileComment = Foswiki::entityEncode( $args->{comment} // '' );
 
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
     $tmpl =~ s/%FILENAME%/$fileName/g;
     $tmpl =~ s/%HIDEFILE%/$isHideChecked/g;
     $tmpl =~ s/%FILEPATH%/$filePath/g;
-    $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
+    $tmpl =~ s/%FILECOMMENT%/$fileComment/g;
 
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
