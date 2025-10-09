@@ -327,7 +327,7 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
 
     # Escape rendering: Change ' !AnyWord' to ' <nop>AnyWord',
     # for final ' AnyWord' output
-    $text =~ s/$STARTWW\!(?=[\w\*\=])/<nop>/gm;
+    $text =~ s/$STARTWW\!(?=\w)/<nop>/gm;
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
