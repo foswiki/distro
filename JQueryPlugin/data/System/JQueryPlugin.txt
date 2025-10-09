@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1739286187" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1759993498" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,12 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  09 Oct 2025: | added fontawesome icons to pnotify; \
+                  fixed removal of duplicate entries in textbox lists; \
+                  upgraded jquery.view to upstream; \
+                  added eslint configs; \
+                  fixed initialization of datepicker when server and client timezones differ; \
+                  entity decode tooltip content |
 |  11 Feb 2025: | fixed ui-date component fixing editing dates across timezones |
 |  21 Nov 2024: | added =for= parameter to =%BUTTON= macro |
 |  15 Nov 2024: | deprecated module =metadata= |
