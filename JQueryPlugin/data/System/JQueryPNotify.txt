@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1574078050" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1759990878" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"pnotify"
@@ -61,9 +61,6 @@ Most common options:
 | =after_open= | called when the message has been displayed | |
 | =before_close= | called before a message is closed | |
 | =after_close= | called when a message has been closed | |
-
-		
-See for examples the [[http://pines.sourceforge.net/pnotify/][plugin example page]].
 
 The plugin uses the jQuery UI CSS library for styling, which means it is fully and easily themeable.
 

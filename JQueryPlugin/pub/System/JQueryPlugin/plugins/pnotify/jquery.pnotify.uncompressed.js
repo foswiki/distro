@@ -16,6 +16,24 @@
 		body,
 		jwindow = $(window),
 		styling = {
+                        fontawesome: {
+				container: "ui-widget ui-widget-content ui-corner-all",
+				notice: "ui-state-highlight",
+				notice_icon: "fa fa-info-circle",
+				info: "",
+				info_icon: "fa fa-info-circle",
+				success: "ui-state-default",
+				success_icon: "fa fa-check-circle",
+				error: "ui-state-error",
+				error_icon: "fa fa-exclamation-circle",
+				closer: "fa fa-times-circle",
+				pin_up: "fa fa-pause",
+				pin_down: "fa fa-play",
+				hi_menu: "ui-state-default ui-corner-bottom",
+				hi_btn: "ui-state-default ui-corner-all",
+				hi_btnhov: "ui-state-hover",
+				hi_hnd: "ui-icon ui-icon-grip-dotted-horizontal"
+                        },
 			jqueryui: {
 				container: "ui-widget ui-widget-content ui-corner-all",
 				notice: "ui-state-highlight",
@@ -27,9 +45,9 @@
 				success_icon: "ui-icon ui-icon-circle-check",
 				error: "ui-state-error",
 				error_icon: "ui-icon ui-icon-alert",
-				closer: "ui-icon ui-icon-close",
-				pin_up: "ui-icon ui-icon-pin-w",
-				pin_down: "ui-icon ui-icon-pin-s",
+				closer: "ui-icon ui-icon-cancel",
+				pin_up: "ui-icon ui-icon-pause",
+				pin_down: "ui-icon ui-icon-play",
 				hi_menu: "ui-state-default ui-corner-bottom",
 				hi_btn: "ui-state-default ui-corner-all",
 				hi_btnhov: "ui-state-hover",
@@ -861,7 +879,7 @@
 		// Whether to escape the content of the text. (Not allow HTML.)
 		text_escape: false,
 		// What styling classes to use. (Can be either jqueryui or bootstrap.)
-		styling: "jqueryui",
+		styling: "fontawesome",
 		// Additional classes to be added to the notice. (For custom styling.)
 		addclass: "",
 		// Class to be added to the notice for corner styling.

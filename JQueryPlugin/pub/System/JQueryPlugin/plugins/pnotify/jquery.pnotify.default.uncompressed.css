@@ -38,7 +38,7 @@ border-radius: 0;
 }
 .ui-pnotify-closer, .ui-pnotify-sticker {
 float: right;
-margin-left: .2em;
+margin-left: 1em;
 }
 .ui-pnotify-title {
 display: block;
@@ -52,7 +52,7 @@ display: block;
 .ui-pnotify-icon, .ui-pnotify-icon span {
 display: block;
 float: left;
-margin-right: .2em;
+margin-right: 1em;
 }
 /* -- History Pulldown */
 .ui-pnotify-history-container {
