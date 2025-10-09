@@ -650,6 +650,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-progressbar .ui-progressbar-value {
 	margin: -1px;
+        padding-right:5px;
 	height: 100%;
 }
 .ui-progressbar .ui-progressbar-overlay {
