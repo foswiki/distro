@@ -154,6 +154,7 @@ pub/System/JQueryPlugin/jquery-3.7.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-3.7.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
+pub/System/JQueryPlugin/eslint.config.js 0644
 pub/System/JQueryPlugin/noconflict.js 0644
 pub/System/JQueryPlugin/noconflict.js.gz 0644
 pub/System/JQueryPlugin/noconflict.uncompressed.js 0644
@@ -1116,14 +1117,10 @@ pub/System/JQueryPlugin/plugins/validate/Makefile 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/view/jquery.observable.js 0644
-pub/System/JQueryPlugin/plugins/view/jquery.observable.js.gz 0644
-pub/System/JQueryPlugin/plugins/view/jquery.observable.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.observable.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/view/jquery.views.js 0644
-pub/System/JQueryPlugin/plugins/view/jquery.views.js.gz 0644
-pub/System/JQueryPlugin/plugins/view/jquery.views.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.views.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/pkg.js 0644
+pub/System/JQueryPlugin/plugins/view/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/view/Makefile 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.small.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.uncompressed.js 0644

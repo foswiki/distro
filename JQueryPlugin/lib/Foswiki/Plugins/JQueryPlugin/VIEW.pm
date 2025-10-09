@@ -16,14 +16,11 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'View',
-            version      => '1.0.14',
+            version      => '1.0.16',
             author       => 'Boris Moore',
             homepage     => 'http://www.jsviews.com',
             dependencies => ['render'],
-            javascript   => [
-                'jquery.observable.uncompressed.js',
-                'jquery.views.uncompressed.js'
-            ],
+            javascript   => ['pkg.js'],
         ),
         $class
     );
