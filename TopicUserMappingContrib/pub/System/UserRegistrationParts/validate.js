@@ -15,7 +15,7 @@ jQuery(function($) {
 	$('#Fwk1WikiName').wikiword('#Fwk1FirstName, #Fwk1LastName');
 	var validator;
 	//console.debug($("#FwkVD").text())
-	var data = $.parseJSON($("#FwkVD").text())
+	var data = JSON.parse($("#FwkVD").text())
 	validator = $(this).validate({
 	    rules: {
 		Fwk1FirstName: 'required',
