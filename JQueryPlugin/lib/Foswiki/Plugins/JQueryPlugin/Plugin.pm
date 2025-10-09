@@ -176,7 +176,7 @@ sub renderCSS {
       if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
     $text .= '?version=' . $this->{version};
     $text =
-"<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
+"<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all'>\n";
 
     return $text;
 }

@@ -127,7 +127,7 @@ HERE
 
     if ($cssUrl) {
         my $code = <<"HERE";
-<link class="head $cls" href="$cssUrl" rel="stylesheet" type="text/css" media="all" />
+<link class="head $cls" href="$cssUrl" rel="stylesheet" type="text/css" media="all">
 HERE
         Foswiki::Func::addToZone( 'head', 'JQUERYPLUGIN', $code );
 
