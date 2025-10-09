@@ -11,9 +11,8 @@ jQuery(function($) {
   };
 
   function getDate(val, tzOffset) {
-    if (typeof(tzOffset) !== 'undefined') {
-      val = val - tzOffset*60 + (new Date()).getTimezoneOffset()*60;
-    }
+    tzOffset = tzOffset || 0;
+    val += tzOffset;
     return new Date(val * 1000);
   }
 
