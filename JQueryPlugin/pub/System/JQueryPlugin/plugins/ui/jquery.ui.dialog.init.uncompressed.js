@@ -50,7 +50,7 @@ jQuery(function($) {
 
       if ($button.is(".jqUIDialogSubmit")) {
         button.click = function() {
-          $this.find("form:first").trigger("submit");
+          $this.find("form:first").submit();
         };
       }
       $.extend(button, $button.data());

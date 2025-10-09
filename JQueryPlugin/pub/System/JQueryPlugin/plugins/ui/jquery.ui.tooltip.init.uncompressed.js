@@ -132,6 +132,10 @@ jQuery(function($) {
       };
 
       opts.items = $this;
+    } else {
+      opts.content = function() {
+        return $(this).attr("title"); // decodes html entities
+      };
     }
 
     $this.tooltip(opts).on("tooltipopen", function(ev, ui) {
