@@ -30,7 +30,7 @@
       if (opts.i18nLanguage === self.currentLanguage) {
         // inline
         if (typeof(url) === 'undefined') {
-          data = $.parseJSON($this.text());
+          data = JSON.parse($this.text());
           self.addResource(data, opts.i18nLanguage, opts.i18nNamespace);
           self.translateAllElements();
         } else {
