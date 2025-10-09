@@ -386,13 +386,16 @@ sub test_GeneralEscaping {
    * (!joe@example.com)
 
    * <code> A != B </code>
+   * <code> A!=B </code>
+   * <code> A !=B </code>
+   * <code> A!= B </code>
 
    * %WEB%.%TOPIC%
    * !%WEB%.!%TOPIC%
 
-   * !*Bold* *Bold*
-   * !=Code= =Code=
-   * !_Italics_ _Italics_
+   * <nop>*Bold* *Bold*
+   * <nop>=Code= =Code=
+   * <nop>_Italics_ _Italics_
 
 Some other text
 TOPIC
@@ -436,8 +439,11 @@ TOPIC
  </li> <li> (<nop>joe\@example.com)
  </li></ul> 
  <p></p> <ul>
- <li> <code> A <nop>= B </code>
- </li></ul> 
+ <li> <code> A != B </code></li>
+ <li> <code> A!=B </code></li>
+ <li> <code> A !=B </code></li>
+ <li> <code> A!= B </code></li>
+ </ul> 
  <p></p> <ul>
  <li> <a href="${scriptUrl}/TestTopicRenderTests">TestTopicRenderTests</a>
  </li> <li> &#37;WEB%.&#37;TOPIC%
