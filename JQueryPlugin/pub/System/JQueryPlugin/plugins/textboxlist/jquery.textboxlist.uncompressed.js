@@ -1,5 +1,5 @@
 /*
- * jQuery textbox list plugin 2.30
+ * jQuery textbox list plugin 2.31
  *
  * Copyright (c) 2009-2025 Foswiki Contributors http://foswiki.org
  *
@@ -15,6 +15,7 @@
  */
 "use strict";
 (function($) {
+
 
   // extending jquery 
   $.fn.extend({
@@ -197,7 +198,6 @@
 
   // add values to the selection ******************************************
   $.TextboxLister.prototype.select = function(values, suppressCallback) {
-    //console.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
     var self = this, i, j, val, title, found, currentVal, input, close, className;
 
     if (typeof(values) === 'string') {
@@ -221,33 +221,9 @@
     }
 
     // only set values not already there
-    if (self.currentValues.length > 0) {
-      for (i = 0; i < values.length; i++) {
-        val = values[i];
-        found = false;
-        if (!val) {
-          continue;
-        }
-        for (j = 0; j < self.currentValues.length; j++) {
-          currentVal = self.currentValues[j];
-          if (currentVal === val) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          self.currentValues.push(val);
-        }
-      }
-    } else {
-      self.currentValues = [];
-      for (i = 0; i < values.length; i++) {
-        val = values[i];
-        if (val) {
-          self.currentValues.push(val);
-        }
-      }
-    }
+    self.currentValues = self.currentValues.concat(values).filter(function(value, index, array) {
+      return array.indexOf(value) === index;
+    });
 
     if (self.opts.sorting === true) {
       self.currentValues = self.currentValues.sort();

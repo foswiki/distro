@@ -167,7 +167,7 @@ sub createTheme {
 
     Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
         <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
-<link rel="stylesheet" href="$url" type="text/css" media="all" />
+<link rel="stylesheet" href="$url" type="text/css" media="all">
 HERE
 
     return 1;
