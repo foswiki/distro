@@ -2208,6 +2208,11 @@ sub i18n {
     my ($this) = @_;
 
     unless ( $this->{i18n} ) {
+
+        # disable internationalisation on the cmdline for performance reasons
+        $Foswiki::cfg{UserInterfaceInternationalisation} = 0
+          if $this->{context}{command_line};
+
         require Foswiki::I18N;
 
         # language information; must be loaded after
