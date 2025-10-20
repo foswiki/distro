@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use Foswiki::Access::TopicACLAccess;
-@ISA = qw(Foswiki::Access::TopicACLAccess);
+our @ISA = qw(Foswiki::Access::TopicACLAccess);
 use constant MONITOR => 0;
 
 use Assert;
