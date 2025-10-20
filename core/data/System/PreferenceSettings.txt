@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1760954492" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
+---+!! Preference Settings
 #SettingPrefs
 #PreferencesMacros
----++!! Preference Settings
 
 A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output. In addition: 
    * preference settings are used by Plugins to control their features,
@@ -170,5 +170,5 @@ Then, when they are editing any other topic, they will get the Wysiwyg editor. H
 
 
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1655468868" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1655468868" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1760954492" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1760954492" size="15256" user="ProjectContributor" version="1"}%

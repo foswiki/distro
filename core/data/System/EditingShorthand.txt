@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1760954492" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -190,9 +190,9 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 %X% Note that while type characters =A=, =a=, =I= and =i= must be entered exactly as specified, numbers can be any single digit 0-9. It is recommended for future compatibility that only the number 1 be used for numbered type lists.
 </td><td>
 <verbatim class="tml">
-   1. Sushi
-   1. Dim Sum
-   1. Fondue
+   1 Sushi
+   1 Dim Sum
+   1 Fondue
 
    A. Sushi
    A. Dim Sum
@@ -204,9 +204,9 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 </verbatim>
 </td><td>
 
-   1. Sushi
-   1. Dim Sum
-   1. Fondue
+   1 Sushi
+   1 Dim Sum
+   1 Fondue
 
    A. Sushi
    A. Dim Sum
