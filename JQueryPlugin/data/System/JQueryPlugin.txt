@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1759993498" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1760945241" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  20 Oct 2025: | fixed z-index of date picker |
 |  09 Oct 2025: | added fontawesome icons to pnotify; \
                   fixed removal of duplicate entries in textbox lists; \
                   upgraded jquery.view to upstream; \
