@@ -1239,7 +1239,8 @@ sub run {
             my $page = 1;
             print "Getting list of Foswiki extensions\n";
             my $list = do_commands(
-                "curl -# http://foswiki.org/Extensions/JsonReport?skin=text");
+"curl --compressed -L -s http://foswiki.org/Extensions/JsonReport?skin=text"
+            );
             $list = JSON::decode_json($list);
             push @modules, map { $_->{name} } @$list;
         }
