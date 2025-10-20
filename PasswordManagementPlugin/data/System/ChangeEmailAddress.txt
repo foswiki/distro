@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1678874977" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1760954356" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Change E-mail Address"}%
 Change registered email address
 %IF{
@@ -69,6 +69,6 @@ Change registered email address
 ---
 *%MAKETEXT{"Related topics:"}%* ChangePassword, ResetPassword, UserToolsCategory, AdminToolsCategory
 
-<!--
-   * Set DENYTOPICVIEW = WikiGuest
--->
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
+%META:PREFERENCE{name="DENYTOPICVIEW" title="DENYTOPICVIEW" type="Set" value="WikiGuest"}%
+%META:PREFERENCE{name="PERMSET_VIEW" title="PERMSET_VIEW" type="Local" value="registeredusers"}%
