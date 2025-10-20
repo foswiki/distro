@@ -13,7 +13,7 @@ use Foswiki::Tables::Cell ();
 our @ISA = ('Foswiki::Tables::Cell');
 
 # Default format if no other format is defined for a cell
-my $defCol ||= { type => 'text', size => 20, values => [] };
+my $defCol = { type => 'text', size => 20, values => [] };
 
 sub new {
     my ( $class, $row, $precruft, $text, $postcruft, $ish ) = @_;
