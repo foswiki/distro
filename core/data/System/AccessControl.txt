@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1760953690" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -381,10 +381,7 @@ To hide access control settings from normal browser viewing, you can put them in
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
-<pre class='tml'>&lt;!-- <br />
- * Set DENYTOPICCHANGE = %USERSWEB%.SomeGroup <br />
---&gt;
-</pre>
+<verbatim class='tml'>   * Set DENYTOPICCHANGE = %USERSWEB%.SomeGroup</verbatim>
 
 ---+++ Controlling access to the %SYSTEMWEB% web.
 
