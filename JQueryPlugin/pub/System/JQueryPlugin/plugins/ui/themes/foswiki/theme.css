@@ -1088,8 +1088,6 @@ body .ui-tooltip {
 /* Datepicker 
 ----------------------------------*/
 input.jqUIDatepicker {
-  position:relative;
-  z-index: 3;
   height:2em;
 }
 .ui-datepicker { 

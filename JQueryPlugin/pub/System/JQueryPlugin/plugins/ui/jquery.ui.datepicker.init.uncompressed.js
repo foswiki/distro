@@ -21,20 +21,9 @@ jQuery(function($) {
     var $this = $(this), 
         lang = $this.data("lang") || '',
         opts = $.extend({}, $.datepicker.regional[lang], datepickerDefaults, $this.data()),
-        maxZIndex = 100, val = $this.val(),
+        val = $this.val(),
         trigger;
 
-    $this.parents().each(function() {
-      var zIndex = parseInt($(this).css("z-index"), 10);
-      if (zIndex > maxZIndex) {
-        maxZIndex = zIndex;
-      }
-    });
-
-    $this.css({
-      "position": "relative",
-      "z-index": maxZIndex + 1
-    });
 
     if (!opts.doWeekends) {
       opts.beforeShowDay = $.datepicker.noWeekends
