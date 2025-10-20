@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 our $VERSION          = '4.61';
-our $RELEASE          = '17 Dec 2024';
+our $RELEASE          = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'User management using data stored in topics';
 
 __END__
