@@ -319,8 +319,8 @@ sub rest {
             $session->redirect($target);
         }
         else {
-            if (   defined $req->param('redirectto')
-                || defined $req->param('endPoint') )
+            if (   $req->param('redirectto')
+                || $req->param('endPoint') )
             {
                 $session->{response}->header(
                     -status  => 403,
