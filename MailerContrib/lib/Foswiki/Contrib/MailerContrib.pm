@@ -30,7 +30,7 @@ use Foswiki::Contrib::MailerContrib::UpData    ();
 
 # Also change Version/Release in Plugins/MailerContrib.pm
 our $VERSION          = '2.92';
-our $RELEASE          = '15 Mar 2023';
+our $RELEASE          = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised

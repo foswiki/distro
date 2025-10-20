@@ -14,7 +14,7 @@ use vars qw(
 );
 
 our $VERSION           = '2.29';
-our $RELEASE           = '06 Aug 2023';
+our $RELEASE           = '%$RELEASE%';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';

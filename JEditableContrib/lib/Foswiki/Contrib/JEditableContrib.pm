@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 our $VERSION = '1.72';
-our $RELEASE = '06 Feb 2017';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   'The JQuery "JEditable" plugin, packaged for use in Foswiki';
 

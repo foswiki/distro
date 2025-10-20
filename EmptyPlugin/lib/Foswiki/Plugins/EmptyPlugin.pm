@@ -100,7 +100,7 @@ our $VERSION = '1.00';
 # It is preferred to keep this compatible with $VERSION. At some future
 # date, Foswiki will deprecate RELEASE and use the VERSION string.
 #
-our $RELEASE = '%$CREATED_DATE%';
+our $RELEASE = '%$RELEASE%';
 
 # One line description of the module
 our $SHORTDESCRIPTION = '%$CREATED_SHORTDESCRIPTION%';

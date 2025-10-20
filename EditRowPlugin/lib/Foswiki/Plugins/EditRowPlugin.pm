@@ -36,7 +36,7 @@ BEGIN {
 }
 
 our $VERSION           = '3.402';
-our $RELEASE           = '17 Dec 2024';
+our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
