@@ -20,8 +20,7 @@ our $VERSION = '4.47';
 
 # Please note that the second is now two digit.
 # Someone increased 4.22 to 4.3 which is not correct.
-our $RELEASE = '06 Aug 2023';
-
+our $RELEASE           = '%$RELEASE%';
 our $pluginName        = 'EditTablePlugin';
 our $ENCODE_START      = '--EditTableEncodeStart--';
 our $ENCODE_END        = '--EditTableEncodeEnd--';

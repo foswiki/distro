@@ -32,7 +32,7 @@ use strict;
 use warnings;
 
 our $VERSION           = '1.12';
-our $RELEASE           = '06 Aug 2023';
+our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = '=configure= interface using json-rpc';
 our $NO_PREFS_IN_TOPIC = 1;
 

@@ -15,7 +15,7 @@ use Foswiki::Plugins::JQueryPlugin ();
 
 # Please use major.minor
 our $VERSION = '2.95';
-our $RELEASE = '06 Aug 2023';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;

@@ -22,10 +22,8 @@ package Foswiki::Contrib::ModPerlEngineContrib;
 use strict;
 use warnings;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
-
-$VERSION          = '1.08';
-$RELEASE          = '06 Aug 2023';
-$SHORTDESCRIPTION = 'Permits Foswiki to be executed under mod_perl';
+our $VERSION          = '1.08';
+our $RELEASE          = '%$RELEASE%';
+our $SHORTDESCRIPTION = 'Permits Foswiki to be executed under mod_perl';
 
 1;

@@ -6,7 +6,7 @@ use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
 our $VERSION           = '1.24';
-our $RELEASE           = '06 Aug 2023';
+our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 

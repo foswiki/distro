@@ -16,7 +16,7 @@ BEGIN {
 }
 
 our $VERSION = '2.40';
-our $RELEASE = '09 Mar 2021';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;

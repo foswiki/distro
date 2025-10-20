@@ -18,6 +18,7 @@ use warnings;
 
 # Simple decimal version, use parse method, no leading "v"
 our $VERSION          = '1.2';
-our $RELEASE          = '25 May 2020';
+our $RELEASE          = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'Foswiki Unit-Test Framework';
 
+1;

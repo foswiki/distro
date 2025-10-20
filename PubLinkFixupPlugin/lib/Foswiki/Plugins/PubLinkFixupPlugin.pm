@@ -30,7 +30,7 @@ use Foswiki::Plugins ();    # For the API version
 use Foswiki::Store   ();
 
 our $VERSION = '1.00';
-our $RELEASE = '14 Sep 2015';
+our $RELEASE = '%$RELEASE%';
 
 # One line description of the module
 our $SHORTDESCRIPTION =

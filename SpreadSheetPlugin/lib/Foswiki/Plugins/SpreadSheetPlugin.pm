@@ -13,7 +13,7 @@ use vars qw(
 );
 
 our $VERSION           = '1.25';
-our $RELEASE           = '17 May 2023';
+our $RELEASE           = '%$RELEASE%';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
