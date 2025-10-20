@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1299545461" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1760953978" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TinyMCEPlugin"}%
----++!! !TinyMCE FAQs
+---+!! !TinyMCE FAQs
 
 Frequently Asked Questions of the TinyMCEPlugin integration.
 
