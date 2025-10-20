@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1760954492" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ManagingWebs"}%
-%TOC%
-
 ---+!! Template Web
+%TOC%
 
 ---++ Purpose
 
