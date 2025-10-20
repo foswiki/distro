@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
-our $RELEASE = '02 Oct 2017';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   '=REST= interface for managing User passwords and Emails.';
 our $NO_PREFS_IN_TOPIC = 1;
