@@ -1687,18 +1687,19 @@ sub _getListOfGroups {
                 list  => $this->{groupsList},
                 users => $users
             },
-            web       => $Foswiki::cfg{UsersWebName},
-            topic     => "*Group",
-            scope     => 'topic',
-            search    => '1',
-            type      => 'query',
-            nosummary => 'on',
-            nosearch  => 'on',
-            noheader  => 'on',
-            nototal   => 'on',
-            noempty   => 'on',
-            format    => '$topic',
-            separator => '',
+            web           => $Foswiki::cfg{UsersWebName},
+            topic         => "*Group",
+            scope         => 'topic',
+            search        => '1',
+            type          => 'query',
+            casesensitive => 'on',
+            nosummary     => 'on',
+            nosearch      => 'on',
+            noheader      => 'on',
+            nototal       => 'on',
+            noempty       => 'on',
+            format        => '$topic',
+            separator     => '',
         );
     }
     return $this->{groupsList};
@@ -1813,7 +1814,7 @@ sub _expandUserList {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2025 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
