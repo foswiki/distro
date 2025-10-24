@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1734458316" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1761306485" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 %FORMFIELD{"Description"}%
@@ -56,6 +56,7 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  4.62 (24 Oct 2025) | groups are groups if their topic ends with an upper case =...Group= suffix |
 |  4.61 (22 Nov 2024) | removed unused <nop>UserList... topics in Main |
 |  4.58 (25 Feb 2018) | Released with Foswiki 2.1.6<br/>\
                         Foswikitask:Item14629: Certain topics can be overridden without permission.<br/>\
