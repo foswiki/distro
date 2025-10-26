@@ -1598,6 +1598,9 @@ $Foswiki::cfg{Cache}{DBI}{TablePrefix} = 'foswiki_cache';
 # PostGreSQL drivers, which all have their own ways of setting the DSN.
 $Foswiki::cfg{Cache}{DBI}{DSN} = '';
 
+# **PERL LABEL="Database Parameters" CHECK="undefok emptyok" **
+$Foswiki::cfg{Cache}{DBI}{Params} = {};
+
 # **STRING 80 LABEL="Database Username" DISPLAY_IF="{Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' " CHECK="iff:'{Cache}{Enabled} && {Cache}{Implementation} =~ /DBI::Generic$/ '"**
 # Database user name. Add a value if your database needs authentication
 $Foswiki::cfg{Cache}{DBI}{Username} = '';

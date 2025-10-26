@@ -37,6 +37,7 @@ sub new {
 
     $this->{filename} ||= $Foswiki::cfg{WorkingDir} . '/sqlite.db';
     $this->{dsn} = 'dbi:SQLite:dbname=' . $this->{filename};
+    $this->{params}{sqlite_unicode} = 1;
 
     return $this->init;
 }

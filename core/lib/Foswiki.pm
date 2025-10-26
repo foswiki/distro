@@ -2124,9 +2124,12 @@ sub new {
     # calling any preload handlers.
     $this->{plugins} = new Foswiki::Plugins($this);
 
-    if ( $Foswiki::cfg{Cache}{Enabled} && $Foswiki::cfg{Cache}{Implementation} )
+    my $impl = $Foswiki::cfg{Cache}{Implementation};
+    if (   $Foswiki::cfg{Cache}{Enabled}
+        && $impl
+        && $impl ne 'Foswiki::PageCache::DBI::Generic' )
     {
-        eval "require $Foswiki::cfg{Cache}{Implementation}";
+        eval "require $impl";
         if ($@) {    # The require failed - Be graceful in failure
             ASSERT( !$@, $@ ) if DEBUG;
             $Foswiki::cfg{Cache}{Enabled} = 0;
