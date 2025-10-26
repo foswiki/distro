@@ -48,6 +48,7 @@ sub new {
         dsn      => $Foswiki::cfg{Cache}{DBI}{DSN},
         username => $Foswiki::cfg{Cache}{DBI}{Username},
         password => $Foswiki::cfg{Cache}{DBI}{Password},
+        params   => $Foswiki::cfg{Cache}{DBI}{Params},
 
         pagesTable     => $tablePrefix . '_pages',
         pagesIndex     => $tablePrefix . '_pages_index',
@@ -57,6 +58,11 @@ sub new {
 
         @_
     };
+
+    $this->{params}{PrintError}         = 0;
+    $this->{params}{RaiseError}         = 1;
+    $this->{params}{AutoCommit}         = 1;
+    $this->{params}{ShowErrorStatement} = 1;
 
     return bless( $this, $class );
 }
@@ -549,15 +555,8 @@ sub connect {
     unless ( defined $this->{dbh} ) {
 
         $this->{dbh} = DBI->connect(
-            $this->{dsn},
-            $this->{username},
-            $this->{password},
-            {
-                PrintError         => 0,
-                RaiseError         => 1,
-                AutoCommit         => 1,
-                ShowErrorStatement => 1,
-            }
+            $this->{dsn},      $this->{username},
+            $this->{password}, $this->{params},
         );
 
         throw Error::Simple(

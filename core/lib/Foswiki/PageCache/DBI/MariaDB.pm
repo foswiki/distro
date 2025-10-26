@@ -43,6 +43,7 @@ sub new {
     $this->{dsn} = 'dbi:MariaDB:database=' . $this->{database};
     $this->{dsn} .= ';host=' . $this->{host};
     $this->{dsn} .= ';port=' . $this->{port} if $this->{port};
+    $this->{params}{mariadb_auto_reconnect} = 1;
 
     return $this->init;
 }
@@ -52,8 +53,8 @@ sub _createPagesTable {
 
     $this->{dbh}->do(<<HERE);
       create table $this->{pagesTable} (
-        topic varchar(255) COLLATE latin1_bin,
-        variation varchar(1024) COLLATE latin1_bin,
+        topic varchar(255) COLLATE utf8mb4_bin,
+        variation varchar(1024) COLLATE utf8mb4_bin,
         md5 char(32),
         contenttype varchar(255),
         lastmodified varchar(255),
@@ -74,9 +75,9 @@ sub _createDepsTable {
 
     $this->{dbh}->do(<<HERE);
         create table $this->{depsTable} (
-          from_topic varchar(255) COLLATE latin1_bin,
-          variation varchar(1024) COLLATE latin1_bin,
-          to_topic varchar(255) COLLATE latin1_bin
+          from_topic varchar(255) COLLATE utf8mb4_bin,
+          variation varchar(1024) COLLATE utf8mb4_bin,
+          to_topic varchar(255) COLLATE utf8mb4_bin
         )
 HERE
 

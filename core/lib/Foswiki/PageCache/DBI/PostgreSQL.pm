@@ -43,6 +43,7 @@ sub new {
     $this->{dsn} = 'dbi:Pg:dbname=' . $this->{database};
     $this->{dsn} .= ';host=' . $this->{host};
     $this->{dsn} .= ';port=' . $this->{port} if $this->{port};
+    $this->{params}{pg_enable_utf8} = 1;
 
     return $this->init;
 }
