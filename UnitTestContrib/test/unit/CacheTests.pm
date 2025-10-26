@@ -26,6 +26,7 @@ sub fixture_groups {
                 next if $alg =~ /^\./;
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
+                next if $alg eq 'Generic';
                 next if ( grep { $_ eq $alg } @page );
 
                 my $dbcheckfn = "dbcheck_$alg";
@@ -106,7 +107,7 @@ sub dbcheckDBI {
 
 sub dbcheck_SQLite {
     $Foswiki::cfg{Cache}{DSN} = "dbi:SQLite:dbname=generic.db";
-    return dbcheckDBI( 'SQLite', 'Generic' );
+    return dbcheckDBI( 'SQLite', 'SQLite' );
 }
 
 sub SQLite {
@@ -147,18 +148,6 @@ sub dbcheck_MariaDB {
 sub MariaDB {
     require Foswiki::PageCache::DBI::MariaDB;
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MariaDB';
-    $Foswiki::cfg{Cache}{Enabled}        = 1;
-}
-
-sub dbcheck_Generic {
-    return dbcheck_SQLite();
-}
-
-sub Generic {
-    $Foswiki::cfg{Cache}{DBI}{DSN} =
-      "dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/${$}_generic.db";
-    require Foswiki::PageCache::DBI::Generic;
-    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
     $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
 
