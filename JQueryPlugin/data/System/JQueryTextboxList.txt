@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1730806362" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1761843410" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -67,7 +67,7 @@ Example:
 <input type="text" class="jqTextboxList" id="mylist" />
 <script>
 jQuery(function($) {
-  $("#mylist").bind("SelectValue", function(value) {
+  $("#mylist").on("SelectValue", function(value) {
     ...
   });
 });
