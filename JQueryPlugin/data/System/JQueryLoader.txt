@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1654084128" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1761842198" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -55,6 +55,23 @@ events can be used to hook your own callbacks to be processed when they are fire
 | afterload.jqloader | is triggered when the content has been successfully been loaded (see =onload= parameter above) |
 | finished.jqloader | is triggered when content has been loaded and finally been displayed on the page (see =finished= parameter above) |
 
+A button to manually trigger a loader can be defined using the =.jqLoaderButton= class:
+
+<verbatim class="html">
+%BUTTON{"Click to load" 
+   icon="fa-refresh" 
+   class="jqLoaderButton" 
+   data_target="..." 
+   data_icon_class="..." 
+   data_spin_class="..."
+}%
+</verbatim>
+
+| *Parameters* | *Description* | *Default* |
+| target | jQuery selector to specify the loader element | next node following the button |
+| icon-class | class of the icon | =fa= |
+| spin-classs | class added to the icon while loading is in progress | =fa-spin= |
+
 ---++ Examples
 
 <verbatim class="tml">
@@ -85,8 +102,9 @@ events can be used to hook your own callbacks to be processed when they are fire
 </div>
 %BUTTON{
   "%MAKETEXT{"Refresh"}%" 
-  icon="arrow_refresh" 
-  id="refreshButton"
+  icon="fa-refresh" 
+  class="jqLoaderButton"
+  data_target="#myLoader"
 }%
 <literal>
 <script>
@@ -99,11 +117,6 @@ jQuery(function($) {
       $.each(effects.sort(), function(i, val) {
          groupElem.append("<option>"+val+"</option>");
       });
-   });
-
-   $("#refreshButton").on("click", function() {
-      $("#myLoader").trigger("refresh", {effect: sel.val()});
-      return false;
    });
 });
 </script>

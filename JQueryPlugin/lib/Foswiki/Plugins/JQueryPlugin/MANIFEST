@@ -142,6 +142,7 @@ pub/System/JQueryInnerFade/tuev.jpg 0644
 pub/System/JQueryInnerFade/whizzkids.gif 0644
 pub/System/JQueryMasonry/jQuery-Masonry.jpg 0644
 pub/System/JQueryPlugin/cache/README 0644
+pub/System/JQueryPlugin/eslint.config.js 0644
 pub/System/JQueryPlugin/images/nobody.gif 0644
 pub/System/JQueryPlugin/images/nobody.png 0644
 pub/System/JQueryPlugin/images/spinner_arrows.gif 0644
@@ -154,7 +155,6 @@ pub/System/JQueryPlugin/jquery-3.7.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-3.7.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
-pub/System/JQueryPlugin/eslint.config.js 0644
 pub/System/JQueryPlugin/noconflict.js 0644
 pub/System/JQueryPlugin/noconflict.js.gz 0644
 pub/System/JQueryPlugin/noconflict.uncompressed.js 0644
@@ -299,10 +299,12 @@ pub/System/JQueryPlugin/plugins/innerfade/Makefile 0644
 pub/System/JQueryPlugin/plugins/innerfade/pkg.js 0644
 pub/System/JQueryPlugin/plugins/innerfade/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/innerfade/pkg.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.js 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.js.gz 0644
-pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/loader/button.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/loader/loader.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/loader/Makefile 0644
+pub/System/JQueryPlugin/plugins/loader/pkg.js 0644
+pub/System/JQueryPlugin/plugins/loader/pkg.js.gz 0644
+pub/System/JQueryPlugin/plugins/loader/pkg.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js.gz 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.uncompressed.js 0644
@@ -1117,11 +1119,13 @@ pub/System/JQueryPlugin/plugins/validate/Makefile 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.observable.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.observable.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/jquery.views.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.views.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/view/Makefile 0644
 pub/System/JQueryPlugin/plugins/view/pkg.js 0644
 pub/System/JQueryPlugin/plugins/view/pkg.js.gz 0644
-pub/System/JQueryPlugin/plugins/view/Makefile 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.small.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/downgradeMap.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/jquery.wikiword.uncompressed.js 0644

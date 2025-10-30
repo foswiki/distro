@@ -1,3 +1,8 @@
-TARGET=jquery.loader.js
+TARGET=pkg.js
 
 -include ../../Makefile.include
+
+PKG_SOURCE=loader.uncompressed.js button.uncompressed.js
+
+pkg.uncompressed.js: $(PKG_SOURCE)
+	@$(CAT) $^ > $@

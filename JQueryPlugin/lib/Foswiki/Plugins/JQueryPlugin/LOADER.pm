@@ -12,11 +12,11 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Loader',
-            version      => '4.80',
+            version      => '5.00',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'LOADER',
-            javascript   => ['jquery.loader.js'],
+            javascript   => ['pkg.js'],
             dependencies => ['animate'],
         ),
         $class
