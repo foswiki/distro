@@ -1,5 +1,5 @@
 /*
- * jQuery textbox list plugin 2.31
+ * jQuery textbox list plugin 2.33
  *
  * Copyright (c) 2009-2025 Foswiki Contributors http://foswiki.org
  *
@@ -264,11 +264,13 @@
     self.input.val('');
 
     // onSelect callback
-    if (!suppressCallback && typeof(self.opts.onSelect) == 'function') {
-      //console.log("TEXTBOXLIST: calling onSelect handler");
-      self.opts.onSelect(self);
+    if (!suppressCallback) {
+      if (typeof(self.opts.onSelect) == 'function') {
+        //console.log("TEXTBOXLIST: calling onSelect handler");
+        self.opts.onSelect(self);
+      }
+      self.input.trigger("SelectValue", values);
     }
-    self.input.trigger("SelectedValue", values);
   };
 
   // remove values from the selection *************************************
