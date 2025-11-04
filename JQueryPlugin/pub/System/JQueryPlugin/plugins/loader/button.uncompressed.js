@@ -30,10 +30,10 @@
 
     self.icon = self.elem.find("." + self.opts.iconClass);
 
-    if (typeof self.opts.target == "string") {
+    if (typeof self.opts.target === "string") {
       self.target = $(self.opts.target);
-    } else if (typeof self.opts.target == "object") {
-      self.target = self.opts.target();
+    } else if (self.opts.target && typeof self.opts.target === "object") {
+      self.target = self.opts.target;
     } else {
       self.target = self.elem.next();
     }
