@@ -123,7 +123,7 @@ sub TOC {
         next if ( $name eq 'text' );
         next if ( $name eq 'refresh' );
         next if ( $name eq 'POSTDATA' );
-        push( @qparams, $name => scalar( $query->param($name) ) );
+        push( @qparams, $name => $_ ) foreach $query->multi_param($name);
     }
 
     # Extract anchor targets. This has to generate *identical* anchor
