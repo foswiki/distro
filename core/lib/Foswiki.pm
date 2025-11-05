@@ -513,7 +513,7 @@ BEGIN {
         $regex{webNameRegex}        = $regex{webNameBaseRegex};
         $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
     }
-    $regex{anchorRegex} = qr/\#[[:alnum:]:._]+/;
+    $regex{anchorRegex} = qr/\#[[:alnum:]:._-]+/;
     my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/o;
 
