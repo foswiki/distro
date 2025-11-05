@@ -265,8 +265,6 @@
       self.target = self.elem.next();
     }
 
-console.log("target=",self.target,"opts.target=",self.opts.target);
-
     self.target.on("beforeload.jqloader", function() {
       self.icon.addClass(self.opts.spinClass);
     }).on("onload.jqloader", function() {
