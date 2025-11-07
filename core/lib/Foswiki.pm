@@ -1652,7 +1652,7 @@ sub make_params {
     }
     if ( scalar(@ps) ) {
         @ps = sort(@ps) if (DEBUG);
-        $url .= '?' . join( ';', @ps );
+        $url .= '?' . join( '&', @ps );
     }
     return $url . $anchor;
 }

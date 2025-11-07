@@ -330,7 +330,7 @@ sub test_endPoint_Query {
     my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
+qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=&q=2&y=3\s*$#m,
         $text
     );
 
@@ -355,7 +355,7 @@ sub test_redirectto_Query {
     my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
+qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=&q=2&y=3\s*$#m,
         $text
     );
 
