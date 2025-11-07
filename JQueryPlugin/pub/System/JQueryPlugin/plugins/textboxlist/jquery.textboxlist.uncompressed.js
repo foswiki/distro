@@ -114,7 +114,7 @@
     }
 
     // keypress event
-    self.input.bind("keydown.textboxlist", function(event) {
+    self.input.on("keydown.textboxlist", function(event) {
       // track last key pressed
       if(event.keyCode === 13) {
         var val = self.input.val();
@@ -131,7 +131,7 @@
     });
 
     // add event
-    self.input.bind("AddValue", function(e, val) {
+    self.input.on("AddValue", function(e, val) {
       //console.log("TEXTBOXLIST: got add event, val="+val);
       if (val) {
         self.select(val);
@@ -139,19 +139,19 @@
     });
 
     // delete event
-    self.input.bind("DeleteValue", function(e, val) {
+    self.input.on("DeleteValue", function(e, val) {
       if (val) {
         self.deselect([val]);
       }
     });
 
     // reset event
-    self.input.bind("Reset", function() {
+    self.input.on("Reset", function() {
       self.reset();
     });
 
     // clear event
-    self.input.bind("Clear", function() {
+    self.input.on("Clear", function() {
       self.clear();
     });
 
