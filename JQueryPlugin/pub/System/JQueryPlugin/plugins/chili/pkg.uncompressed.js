@@ -513,7 +513,7 @@ $.fn.chili = function( options ) {
 		$( el )
 		.parents()
 		.filter( "pre" )
-		.bind( "mousedown", function() {
+		.on( "mousedown", function() {
 			element = this;
 			if( $.browser.msie ) {
 				document.selection.empty();
@@ -522,7 +522,7 @@ $.fn.chili = function( options ) {
 				window.getSelection().removeAllRanges();
 			}
 		} )
-		.bind( "mouseup", function( event ) {
+		.on( "mouseup", function( event ) {
 			if( element && (element == this) ) {
 				element = null;
 				var selected = '';
