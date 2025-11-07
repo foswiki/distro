@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1751545800" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1762532490" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -283,7 +283,7 @@ concept of obfuscating string data by flipping the bits is not compatible.
 ---+++ Installation process has changed significantly!
 You should not visit 'bin/configure' as your first access.  After extracting
 the Foswiki code and preparing your web server:
-   * Visit your desired default URL.  If using Short URLs, use the short form: =http://yoursite.com/Main/WebHome=  or =http://yoursite.com/foswik/Main/WebHome=, ...
+   * Visit your desired default URL.  If using Short URLs, use the short form: =http://yoursite.com/Main/WebHome=  or =http://yoursite.com/foswiki/Main/WebHome=, ...
    * Follow the link in the banner of that initial page to access configure.
    * After saving the configuration, return to your wiki pages, register your initial user and add them to the !AdminGroup.
 
