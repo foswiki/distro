@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1762532665" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <img src="%ATTACHURLPATH%/logo.gif" alt="logo" class="foswikiRight" />
@@ -68,7 +68,7 @@ This directory is called the _root directory_ for the extension.
 <div class="foswikiHelp">%T%Even though your extension root directory is
 within =foswiki/distro=, it is almost _never_ checked into the =foswiki/distro=
 repository.   =foswiki/distro= is reserved for default components that we ship
-with foswik.
+with Foswiki.
 </div>
 
 The standard directory structure under a root directory mirrors a standard
@@ -660,4 +660,4 @@ You are strongly recommended to use this Contrib to help split your code develop
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/BuildContrib"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1655468868" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1762532665" size="14169" user="ProjectContributor" version="1"}%
