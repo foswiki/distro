@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1734456617" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1762532490" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -449,7 +449,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14012][Item14012]] | Prevent page caching under certain conditions. |
 | [[%BUGS%/Item14013][Item14013]] | Make sure zones are stable when reloading a page. |
 | [[%BUGS%/Item14014][Item14014]] | Comment plugin unable to use template files in hierarchical webs in Foswiki 2.1. |
-| [[%BUGS%/Item14022][Item14022]] | All internal links should be changed to https://foswik.org to avoid redirects. |
+| [[%BUGS%/Item14022][Item14022]] | All internal links should be changed to https://foswiki.org to avoid redirects. |
 | [[%BUGS%/Item14024][Item14024]] | JQueryPlugin (v6.32) might not initialise correctly with current JSON (v2.90) / JSON-XS (v3.02) modules w/o allow_nonref. |
 | [[%BUGS%/Item14025][Item14025]] | JsonRpcContrib requires allow_nonref (when using JSON-XS v3.02). |
 | [[%BUGS%/Item14032][Item14032]] | INCLUDE doesn't rewrite other webs' links in 2.1. |
