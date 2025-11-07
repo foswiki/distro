@@ -1,3 +1,7 @@
 JSON,>=0,cpan,Required
+Digest::MD5,>=0,cpan,Required
+Compress::Zlib,>0,cpan,Required
+URI,>0,cpan,Required
+File::Spec,>0,cpan,Required
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
 Foswiki::Plugins::ZonePlugin,>=3.1,perl,Required. required for Foswiki < 1.1
