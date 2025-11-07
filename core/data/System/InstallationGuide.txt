@@ -71,7 +71,7 @@ At some point, you will want to re-visit [[#ConfigureFoswiki][Configuring Foswik
 
 _Note: Installers on shared hosting sites and Windows can [[#ConfigurePerl][skip to next step]]._
 
-The general command in Linux distributions to set file ownership to the Apache system user is: <pre>sudo chown -R {user}:{group} /path/to/foswik</pre>
+The general command in Linux distributions to set file ownership to the Apache system user is: <pre>sudo chown -R {user}:{group} /path/to/foswiki</pre>
 
 The appropriate user/group ownership varies, depending upon the operating system and distribution:
 | RedHat, Fedora, CentOS, Gentoo, Mandriva | =apache:apache= |
