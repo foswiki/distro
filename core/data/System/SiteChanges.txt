@@ -1,11 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655715868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1763020548" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %TOPIC%
 
-%IF{"context isadmin" then='<div class="foswikiHelp">$percntT$percnt This topic can be resource intensive on a large site with a large public web.
-The Foswiki:Extensions.SolrPlugin can be used to replace this search with a high performing indexed search.  Large sites should
-consider installing the Solr serverlet and indexing system to improve
-performance.</div>'}%
+<div class='foswikiHelp'>
+%T% This topic can be resource intensive on a large site with a large public web.
+The [[https://Extensions/SolrPlugin][SolrPlugin]] can be used to replace this search with a high performing indexed search.  Large sites should
+consider installing the Solr serverlet and indexing system to improve performance.
+</div>
 
 %BUTTON{
   "%MAKETEXT{"Load content"}%"
@@ -14,8 +15,10 @@ performance.</div>'}%
 }% 
 
 %MAKETEXT{"Use this button to load the content. *Caution* the search on this topic can be very resource intensive. Only load the content if you really need it. Otherwise review the WebChanges topic from each web."}%
+%STOPINCLUDE%
+   * Set COVER = include
 
-<verbatim class="foswikiHidden">
+<verbatim>
 %STARTSECTION{"content"}%
 ---+ %IF{
 	"defined web AND $web!='all'"

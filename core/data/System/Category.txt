@@ -1,7 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434485265" format="1.1" version="1"}%
-%SEARCH{"parent.name='%BASETOPIC%'" web="%BASEWEB%" type="query"
-nonoise="on" format="   $dollar [[$topic]] : $pattern(.*?---[^\n]+\n+([^\n]*).*)"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1763020548" format="1.1" version="1"}%
+---+!! %TOPIC%
+%STARTINCLUDE%
+%SEARCH{
+   "parent.name='%BASETOPIC%'" 
+   web="%BASEWEB%" 
+   type="query"
+   nonoise="on" 
+   format="   $dollar [[$topic]]: $summary"
+}%
 
 ---++ Related Topics
-%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"
-nonoise="on" format="   $dollar [[$topic]] : $pattern(.*?---[^\n]+\n+([^\n]*).*)"}%
+%SEARCH{
+   "parent.name='Category' AND name!='%BASETOPIC%'" 
+   web="%BASEWEB%" 
+   type="query"
+   nonoise="on" 
+   format="   $dollar [[$topic]]: $summary"
+}%
