@@ -1639,9 +1639,10 @@ a.ui-state-highlight.ui-state-hover,
 }
 .ui-menu .ui-icon {
   top: 50%;
-  margin-top:-0.75em;
+  margin-top:-0.75rem;
   left: 7px;
   font-size:90%;
+  height:auto;
 }
 .ui-menu .ui-menu-icon {
   left:auto;
@@ -2101,161 +2102,7 @@ table.ui-datepicker-inline {
   font-family: "Fontawesome";
   content: "\f073";
 }
-/* jqGrid 
-----------------------------------*/
-.ui-jqgrid.ui-widget-content {
-  font-size:0.923em; /* 12px */
-  border-color:#ddd;
-}
-.ui-jqgrid tr {
-  border:0px;
-}
-.ui-jqgrid.ui-widget-content .ui-jqgrid-bdiv {
-  padding:0px 1px 0px 0px; /* prevent y-scrollbar to show up accidentally */
-}
 
-/* trying to align resizer to vertical lines */
-.ui-jqgrid.ui-widget-content .ui-jqgrid-resize {
-  margin:0px -16px 0px 0px;
-  background-repeat: no-repeat; 
-  width: 16px;
-}
-.ui-jqgrid:hover .ui-jqgrid-resize {
-  /*background-color:#f0f0f0;*/
-  background-position: 0px -224px;
-  background-image: url(images/ui-icons-famfamfam.png); 
-}
-.ui-jqgrid .ui-jqgrid-resize {
-  height:16px !important;
-}
-
-.ui-jqgrid.ui-widget-content .ui-jqgrid-hdiv th.ui-th-column {
-  text-align:left;
-  border-top-width:0px !important;
-}
-.ui-jqgrid .ui-state-default {
-  background: transparent;
-}
-.ui-jqgrid .ui-jqgrid-hdiv {
-  border-color:#ddd;
-}
-.ui-jqgrid.ui-widget-content .ui-jqgrid-hdiv { 
-
-  background: #f0f0f0; 
-  background: linear-gradient(#ffffff 0%,#f0f0f0 100%); 
-}
-
-.ui-jqgrid.ui-widget-content tr th,
-.ui-jqgrid.ui-widget-content tr.jqgrow td {
-  padding:0.5em 0.8em;
-  white-space:normal;
-  border:0px solid #fff;
-}
-.ui-jqgrid .ui-jqgrid-bdiv td {
-  background-color:transparent;
-}
-.ui-jqgrid,
-.ui-jqgrid .ui-priority-secondary,
-.ui-jqgrid .ui-priority-secondary td,
-.ui-jqgrid td.ui-jqgrid-sortcol {
-  background-color:#f8f8f8;
-  opacity:1;
-  filter:Alpha(Opacity=100);
-}
-.ui-jqgrid .ui-priority-secondary td.ui-jqgrid-sortcol {
-  background-color:#eee;
-}
-.ui-jqgrid tr.ui-state-hover td.ui-jqgrid-sortcol,
-.ui-jqgrid .ui-priority-secondary.ui-state-hover td.ui-jqgrid-sortcol {
-  background-color:#EAD4D5;
-  color:#764546;
-}
-
-.ui-jqgrid .ui-state-hover a {
-  color:#0055b5;
-}
-.ui-jqgrid .ui-state-hover a:hover {
-  color:#fff;
-}
-.ui-jqgrid .ui-state-hover td {
-  border:0px;
-  background:#FBE3E4;
-  color:#764546;
-}
-.ui-jqgrid .ui-state-highlight,
-.ui-jqgrid .ui-state-highlight td {
-  border:0px;
-  background: #efffd8;
-  color:#599E00;
-}
-.ui-jqgrid tr.ui-state-highlight.ui-state-hover td.ui-jqgrid-sortcol,
-.ui-jqgrid tr.ui-state-highlight td.ui-jqgrid-sortcol {
-  background-color:#E6F5D0;
-  color:#599E00;
-}
-
-.ui-jqgrid .ui-state-active {
-  border:1px solid #4F8C00;
-  color:#599E00;
-  background: #efffd8;
-
-  background: linear-gradient(#efffd8 0%,#ffffff 11%,#efffd8 100%);
-
-}
-
-.ui-jqgrid .loading.ui-state-active {
-  border-width:1px !important;
-  border-radius: 3px; 
-}
-
-.ui-jqgrid tr.jqgrow .jqgrid-rownum {
-  font-weight:bold;
-}
-
-.ui-jqgrid.ui-widget-content .ui-jqgrid-pager {
-  height:auto !important;
-  border:0px !important;
-  margin-top:-1px !important;
-}
-.ui-jqgrid .ui-pager-control {
-  padding:0.3em 0em;
-  border:0px;
-  background:#f4f4f4;
-  /*text-shadow: 0px 2px #fff;*/
-  border-top:1px solid #ddd;
-}
-.ui-jqgrid .ui-pager-control .ui-pg-table .ui-state-hover,
-.ui-jqgrid .ui-pager-control .ui-pg-table td {
-  padding:1px 3px;
-}
-.ui-jqgrid .ui-pager-control #last {
-  padding-right:5px;
-}
-.ui-jqgrid .ui-pager-control .ui-pg-selbox {
-  padding-left:5px;
-}
-.ui-jqgrid .ui-pager-control .ui-pg-input {
-  padding:1px 3px;
-}
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th {
-  padding-top:0px;
-}
-.ui-jqgrid .ui-search-toolbar input {
-  padding:1px 3px !important;
-}
-.ui-jqgrid .ui-search-toolbar input,
-.ui-jqgrid .ui-pager-control .ui-pg-input,
-.ui-jqgrid .ui-pager-control .ui-pg-selbox {
-  font-size:100%;
-  height:auto;
-}
-
-.ui-jqgrid .ui-icon-triangle-1-n {
-  background-position:1px -16px;
-}
-.ui-jqgrid .ui-pager-control .ui-pg-button .ui-pg-div span.ui-icon {
-  margin:1px 5px 1px 1px;
-}
 /* select2 
 ----------------------------------*/
 .select2-container .select2-choice {
