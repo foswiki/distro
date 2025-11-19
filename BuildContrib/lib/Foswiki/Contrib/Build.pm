@@ -101,10 +101,6 @@ BEGIN {
     $buildpldir = $FindBin::RealBin;
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
-    $VERSION = $Foswiki::Contrib::BuildContrib::VERSION;
-    $RELEASE = $Foswiki::Contrib::BuildContrib::RELEASE;
-    print "Building with BuildContrib $VERSION - $RELEASE \n";
-
     # Let's see if we are sitting in a conventional checkout structure,
     # and it has a defined LocalLib.cfg. If so then that's the basis of
     # our libs.
