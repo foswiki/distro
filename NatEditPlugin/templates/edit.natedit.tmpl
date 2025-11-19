@@ -161,7 +161,7 @@
 %TMPL:P{"permissionstab::impl::viewstep::everybody" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
 %TMPL:P{"permissionstab::impl::viewstep::registeredusers" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
 %TMPL:P{"permissionstab::impl::viewstep::justme" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
-%TMPL:P{"permissionstab::impl::viewstep::nobody" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
+%TMPL:P{context="isadmin" then="permissionstab::impl::viewstep::nobody" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%%{}%
 %TMPL:P{"permissionstab::impl::viewstep::other" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
 %TMPL:P{"permissionstab::impl::viewstep::end" permset_view="%permset_view%" permset_view_details="%permset_view_details%" allowtopic_view="%allowtopic_view%" denytopic_view="%denytopic_view%"}%
 %{}%%TMPL:END%
@@ -171,7 +171,7 @@
 %TMPL:P{"permissionstab::impl::editstep::default" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
 %TMPL:P{"permissionstab::impl::editstep::registeredusers" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
 %TMPL:P{"permissionstab::impl::editstep::justme" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
-%TMPL:P{"permissionstab::impl::editstep::nobody" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
+%TMPL:P{context="isadmin" then="permissionstab::impl::editstep::nobody" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%%{}%
 %TMPL:P{"permissionstab::impl::editstep::other" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
 %TMPL:P{"permissionstab::impl::editstep::end" permset_change="%permset_change%" permset_change_details="%permset_change_details%" allowtopic_change="%allowtopic_change%" denytopic_change="%denytopic_change%"}%
 %{}%%TMPL:END%
