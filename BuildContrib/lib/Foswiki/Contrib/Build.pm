@@ -30,6 +30,7 @@ This is a base class used for making build scripts for Foswiki packages.
 =cut
 
 use strict;
+use warnings;
 use Digest::MD5  ();
 use File::Copy   ();
 use File::Spec   ();
