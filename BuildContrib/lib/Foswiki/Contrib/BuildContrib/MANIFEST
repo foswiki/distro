@@ -24,4 +24,3 @@ lib/Foswiki/Contrib/BuildContrib/Targets/uninstall.pm 0644
 lib/Foswiki/Contrib/BuildContrib/Targets/upload.pm 0644
 lib/Foswiki/Contrib/Build.pm 0644
 lib/Perl/Tidy.pm 0644
-pub/System/BuildContrib/logo.gif 0644
