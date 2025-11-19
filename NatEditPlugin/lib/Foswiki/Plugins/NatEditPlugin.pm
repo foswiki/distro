@@ -30,7 +30,7 @@ BEGIN {
     }
 }
 
-our $VERSION           = '9.71';
+our $VERSION           = '9.80';
 our $RELEASE           = '%$RELEASE%';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
