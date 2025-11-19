@@ -30,7 +30,7 @@ sub handle {
         my @val = $request->multi_param($key);
 
         # hack to prevent redirecting
-        if ( $key eq 'redirectto' && @val && $val[0] eq '' ) {
+        if ( $key eq 'redirectto' && @val && $val[0] =~ /^(none)?$/ ) {
 
             #print STDERR "deleting bogus redirectto\n";
             $request->delete($key);
