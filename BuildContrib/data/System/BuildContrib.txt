@@ -1,7 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1762532665" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763545556" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
-<img src="%ATTACHURLPATH%/logo.gif" alt="logo" class="foswikiRight" />
 %FORMFIELD{"Description"}%
 
 
@@ -164,7 +163,6 @@ The targets you will normally use are:
 | =upload= | =build=, =pod=, =release= and upload |
 | =manifest= | print a guess at the MANIFEST (Caution - omits the primary System/Extension.txt topic |
 | =gitignore= | print a guess at the .gitignore  |
-| <del>=history=</del> | <del>Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic.</del> Not functional on a git repository. |
 | =dependencies= | Find and print a best-guess dependencies list (for DEPENDENCIES) |
 
 The default target is =test=. The !BuildContrib is designed so that most common behaviour is catered for. It is also easy to _override_ any of the default targets in your =build.pl= and add extra behaviours.
@@ -256,15 +254,21 @@ includes the tracking code. This is useful where you want
 to be able to trace the code back to that customer without revealing any
 details about them.
 
-To use this target, you must manually add %$TRACKINGCODE% into your
+To use this target, you must manually add =%$TRACKINGCODE%= into your
 sources and documentation.
 
 ---+++ The =upload= target
-This target builds a release, and then tries to upload it to a target repository. The target uploads all the files in the release, and also tries to upload any attachments to the extension topic (as found by scanning the topic for META:FILEATTACHMENT).
+This target builds a release, and then tries to upload it to a target
+repository. The target uploads all the files in the release, and also tries to
+upload any attachments to the extension topic (as found by scanning the topic
+for META:FILEATTACHMENT).
 
-You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.   Note that the =upload= operation will first attempt to download the topic to recover the !PackageForm so that it can be added to the newly uploaded topic.
-The =upload= also gives you a chance to specify an alternate download location
-to be used for !PackageForm recovery.
+You can control what server the upload is done to. This lets you - for example
+- set up your own corporate extensions server.   Note that the =upload=
+operation will first attempt to download the topic to recover the !PackageForm
+so that it can be added to the newly uploaded topic. The =upload= also gives
+you a chance to specify an alternate download location to be used for
+!PackageForm recovery.
 
 ---+++ The =manifest= and =dependencies= targets
 These are used when you are unsure of the correct contents of MANIFEST and DEPENDENCIES. They make a best-guess at the required contents for these files.
@@ -465,20 +469,43 @@ where
 %X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  
 </div>
 
-The installer script written by the build process uses the dependency type to decide how to install dependant modules. 'cpan' means 'get the module from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES= or =$PLUGINS_URL=).
+The installer script written by the build process uses the dependency type to
+decide how to install dependant modules. 'cpan' means 'get the module from
+CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or
+whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES=
+or =$PLUGINS_URL=).
 
 ---+++ Calculating DEPENDENCIES
-When your module (the _depender_) depends on another module (a _dependee_), it is important to think carefully about what version of the dependee your module requires.
+When your module (the _depender_) depends on another module (a _dependee_), it
+is important to think carefully about what version of the dependee your module
+requires.
 
-When you are working with Foswiki modules (such as contribs and plugins) you should list the version number of the module that you tested with. Normally you will want to use a <code>&gt;</code> condition, so that more recent versions will also work. If a dependency on a Foswiki module fails (because the module isn't installed, for example) then the installer script will pull *the latest version* of the module from Foswiki.org, whether that is the required version or not. This is a limitation of the way plugins are stored on Foswiki.org.
+When you are working with Foswiki modules (such as contribs and plugins) you
+should list the version number of the module that you tested with. Normally you
+will want to use a <code>&gt;</code> condition, so that more recent versions
+will also work. If a dependency on a Foswiki module fails (because the module
+isn't installed, for example) then the installer script will pull *the latest version* 
+of the module from Foswiki.org, whether that is the required version or not.
+This is a limitation of the way plugins are stored on Foswiki.org.
 
-As an alternative to using the Version number, you can also compare to the SVN release number.  Write the version string as =>=r1234=.  Note that the Version number is the preferred method, and is reported to the user during the install.
+As an alternative to using the Version number, you can also compare to the SVN
+release number.  Write the version string as =>=r1234=.  Note that the Version
+number is the preferred method, and is reported to the user during the install.
 
-When you are working with CPAN modules, you need to take account of the fact that there are *two types* of CPAN modules; _built-ins_ and _add-ons_.
+When you are working with CPAN modules, you need to take account of the fact
+that there are *two types* of CPAN modules; _built-ins_ and _add-ons_.
 
-*Built-ins* are perl modules that are pre-installed in the perl distribution. Since these modules are usually very stable, it is generally safe to express the version dependency as ">0" (i.e. "any version of the module will do").
+*Built-ins* are perl modules that are pre-installed in the perl distribution.
+Since these modules are usually very stable, it is generally safe to express
+the version dependency as ">0" (i.e. "any version of the module will do").
 
-Note however that the list of built-in modules is constantly growing with each new release of perl. So your module may be installed with a perl version that doesn't have the required module pre-installed. In this case, CPAN will *automatically try to upgrade the perl version*! There is no way around this, other than for the admin on the target system to *manually* install the module (download frm CPAN and build locally). You can help out the admin by expressing the dependency clearly, thus:
+Note however that the list of built-in modules is constantly growing with each
+new release of perl. So your module may be installed with a perl version that
+doesn't have the required module pre-installed. In this case, CPAN will
+*automatically try to upgrade the perl version*! There is no way around this,
+other than for the admin on the target system to *manually* install the module
+(download frm CPAN and build locally). You can help out the admin by expressing
+the dependency clearly, thus:
 
 <code>
 File::Find,>0,cpan,This module is shipped as part of standard perl from perl 5.8.0 onwards. If your perl installation is older than this, you should either upgrade perl, or *manually* install this module. If you allow this installer to continue, it will *automatically upgrade your perl installation* which is probably not what you want!
@@ -523,7 +550,9 @@ them for your use.
 
 #InstallScripts
 ---++ Preparing the Installer
-The installer script generated by the builder when target =release= is used is based on a template. This template is populated with lists of files and dependencies needed to make the extension-specific installer script.
+The installer script generated by the builder when target =release= is used is
+based on a template. This template is populated with lists of files and
+dependencies needed to make the extension-specific installer script.
 
 ---+++ PRE and POST processing scripts
 
@@ -579,7 +608,9 @@ Unit tests are kept in the =test/unit/&lt;name>= directory for each extension.
 To run the unit tests you will need to set up the test environment as described
 in Foswiki::Development.GettingStarted
 
-The easiest way to generate tests for your extension is to copy the approach taken in another extension. See for example !ActionTrackerPlugin and !CommentPlugin, which both have extensive test suites.
+The easiest way to generate tests for your extension is to copy the approach
+taken in another extension. See for example !ActionTrackerPlugin and
+!CommentPlugin, which both have extensive test suites.
 
 Tests are run using
    * =perl build.pl test=
@@ -605,7 +636,7 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>FOSWIKIAUTHORS%= - contents of =core/AUTHORS=
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
    * =%$<nop>VERSION%= standard perl version string
-   * =%$<nop>RELEASE%= value of the =$RELEASE= perl global variable from your master perl module
+   * =%$<nop>RELEASE%= date of release
    * =%$<nop>DATE%= - local date
    * =%$<nop>POD%= - POD documentation for the package, excluding test modules.
    * =%$<nop>PREINSTALL%= - contents of PREINSTALL
@@ -614,7 +645,16 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>POSTUNINSTALL%= - contents of POSTINSTALL
    * =%$<nop>BUGSURL%= - URL of bugs web
    * =%$<nop>INSTALL_INSTRUCTIONS%= - basic instructions for installing
-*Note* =configure= uses the =| Version: |= row in the table in the extension topic to determine what version of the package is installed. In the sources this is normally set to =| Version: | %$VERSION% |=. When you =perl build.pl release=, %$VERSION% is extracted from the primary Plugin or Contrib module, so it's very reliable and low maintenance. You don't _have_ to use %$VERSION% in the =| Version: |= row of the extension topic - you can use your own version string if you want, or you can use %$RELEASE% which will take whatever value you have assigned to the $RELEASE variable in the extension master perl module. =configure= supports all of  manually generated triples (1.2.3), ISO dates, and =dd Mmmm yyy= format dates as valid RELEASE identifiers.
+
+*Note* =configure= uses the =| Version: |= row in the table in the extension
+topic to determine what version of the package is installed. In the sources
+this is normally set to =| Version: | %$VERSION% |=. When you =perl build.pl release=, 
+%$VERSION% is extracted from the primary Plugin or Contrib module, so
+it's very reliable and low maintenance. You don't _have_ to use %$VERSION% in
+the =| Version: |= row of the extension topic - you can use your own version
+string if you want. =configure= supports all of  manually generated triples
+(1.2.3), ISO dates, and =dd Mmmm yyy= format dates as valid RELEASE
+identifiers.
 
 ---++ Upload
 When you are happy the release package is built correctly, you can
@@ -652,7 +692,7 @@ You are strongly recommended to use this Contrib to help split your code develop
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2022, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2025, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
@@ -660,4 +700,3 @@ You are strongly recommended to use this Contrib to help split your code develop
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/BuildContrib"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1762532665" size="14169" user="ProjectContributor" version="1"}%

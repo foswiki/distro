@@ -17,6 +17,7 @@ package Foswiki::Contrib::Build;
 
 use strict;
 use warnings;
+use Perl::Tidy ();    # Will throw exception if not available
 
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
 my $collector;
@@ -30,7 +31,6 @@ Reformat .pm and .pl files using perltidy default options
 
 sub target_tidy {
     my $this = shift;
-    require Perl::Tidy;    # Will throw exception if not available
 
     # Can't use the MANIFEST list, otherwise we miss tests etc, so apply
     # to all files found under lib.

@@ -18,6 +18,8 @@ package Foswiki::Contrib::Build;
 use strict;
 use warnings;
 
+use POSIX qw(strftime locale_h);
+
 =begin TML
 
 ---++++ target_release
@@ -30,6 +32,16 @@ in the MANIFEST.
 
 sub target_release {
     my $this = shift;
+
+    setlocale( LC_TIME, "en_US.UTF-8" );
+    $this->{RELEASE} = strftime( "%d %b %Y", localtime );
+
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.pm$/, filter => '_date_filter_file' } );
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.txt$/, filter => '_date_filter_file' } );
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.(css|js)$/, filter => '_date_filter_file' } );
 
     print <<GUNK;
 
@@ -45,6 +57,23 @@ GUNK
     $this->build('installer');
     $this->build('stage');
     $this->build('archive');
+}
+
+sub _date_filter_file {
+    my ( $this, $from, $to ) = @_;
+
+    $this->filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+
+            if ( $text =~ s/%(25)?\$RELEASE%(25)?/$this->{RELEASE}/gm ) {
+                print "RELEASE updated to $this->{RELEASE} in $to\n";
+            }
+
+            return $text;
+        }
+    );
 }
 
 1;
