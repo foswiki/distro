@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1696002963" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763755560" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
@@ -57,7 +57,7 @@ You can create your own local FAQ topics specific to your site. If you create yo
 <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.FAQTemplate" />
 <input type="hidden" name="formtemplate" value="%SYSTEMWEB%.FAQForm" />
 <input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
-<input type="hidden" name="topic" class="jqWikiWord {source:'#faqsummary', prefix:'FAQ'}" />
+<input type="hidden" name="topic" class="jqWikiWord" data-source="#faqsummary" data-prefix="FAQ" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
@@ -96,3 +96,5 @@ Other places where you can find answers to your questions:
    * GoodStyle: Things to consider when changing text
    * TopicMarkupLanguage: Guide to Foswiki plain text shorthand
    * If you can't find an answer, ask a question - post it in the Foswiki:Support web, or ask on IRC at irc://irc.freenode.net/foswiki
+
+%META:PREFERENCE{name="NATEDIT_PURIFY" title="NATEDIT_PURIFY" type="Set" value="off"}%
