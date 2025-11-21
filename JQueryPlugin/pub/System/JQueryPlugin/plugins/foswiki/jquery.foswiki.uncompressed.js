@@ -42,6 +42,20 @@
   $.log = function(message) { console.warn("deprecated call to $.log()"); };
   $.fn.debug = function() { console.warn("deprecated call to $.fn.debug()"); };
 
+  /* delayed execution of accumulating calls */
+  foswiki.debounce = function(callback, name, wait) {
+    name = name || "default";
+    wait = wait || 1000;
+
+    return function(...args) {
+      window.clearTimeout(foswiki.debounce.prototype[name]);
+
+      foswiki.debounce.prototype[name] = window.setTimeout(function() {
+        callback(...args);
+      }, wait);
+    };
+  };
+
   /**
    * generates an unique ID.
    */
