@@ -82,7 +82,6 @@
     <a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="fa fa-table"></i></a>
     <a href="#" title="%MAKETEXT{"Insert a link"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="fa fa-link"></i></a>
     <a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="fa fa-paperclip"></i></a>
-    <!-- a href="#" title="Insert image" data-dialog="insertimage"><i class="fa fa-picture-o"></i></a -->
     <a href="#" class="ui-natedit-menu-button ui-natedit-insert" title="%MAKETEXT{"More objects to insert"}%" data-menu=".ui-natedit-more-insert-menu"><i class="fa fa-plus"></i></a>
   </div>
 <!-- -->%TMPL:END%
@@ -90,24 +89,11 @@
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::insertmenu"}%<!-- -->
   <ul class="ui-natedit-menu ui-natedit-more-insert-menu jqUITooltip" data-theme="info" data-position="left" data-arrow="true">
-    <!-- li><a href="#" title="%MAKETEXT{"Insert an icon"}%"><i class="ui-icon fa fa-asterisk"></i> %MAKETEXT{"Icon"}%</a></li -->
-    <!-- li><a href='#' title='%MAKETEXT{"Insert an emoticon"}%'><i class='ui-icon fa fa-smile-o'></i> %MAKETEXT{"Emoticon"}%</a> </li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert a symbol"}%"><i class="ui-icon fa">&#937;</i> %MAKETEXT{"Symbol"}%</a></li -->
     <li class="ui-natedit-colorpicker"><a href='#' title='%MAKETEXT{"Insert a color code"}%' data-dialog='insertcolor' data-open-handler='initColorDialog' data-okay-handler='handleInsertColor' data-opts-handler='parseColorSelection'><i class='ui-icon fa fa-tint'></i> %MAKETEXT{"Color"}%</a></li>
-    <!-- li class="ui-natedit-datepicker"><a href='#' title='%MAKETEXT{"Insert a date"}%' data-handler='openDatePicker'><i class='ui-icon fa fa-calendar'></i> %MAKETEXT{"Date"}%</a></li -->
-%IF{"context OEmbedPluginEnabled"
-  then="<li><a href='#' title='%MAKETEXT{"Embed external object"}%'><i class='ui-icon fa fa-film'></i> %MAKETEXT{"OEmbed"}%</a></li>"
-}%<!-- -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="ui-icon fa fa-table"></i> %MAKETEXT{"Table"}%</a></li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a topic or an external resource"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="ui-icon fa fa-link"></i> %MAKETEXT{"Link"}%</a></li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="ui-icon fa fa-paperclip"></i> %MAKETEXT{"Attachment"}%</a></li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a user-profile"}%"><i class="ui-icon fa">@</i> User mention</a></li -->
     <li><a href="#" title="%MAKETEXT{"Insert your signature"}%" data-markup="signatureMarkup"><i class="ui-icon fa fa-pencil-square-o"></i> %MAKETEXT{"Signature"}%</a></li>
     <li><a href="#" title="%MAKETEXT{"Insert a horizontal ruler"}%" data-markup="horizRulerMarkup"><i class="ui-icon fa fa-minus"></i> %MAKETEXT{"Horizontal ruler"}%</a></li>
     <li class="ui-natedit-formula"><a href="#" title="%MAKETEXT{"Insert a mathematical formula"}%" data-markup="mathMarkup"><i class="ui-icon fa">&#931;</i> %MAKETEXT{"Formula"}%</a></li>
     <li><a href="#" title="%MAKETEXT{"Insert a data form table header"}%" data-markup="dataFormMarkup"><i class="ui-icon fa fa-columns"></i> %MAKETEXT{"Data Form Table Header"}%</a></li>
-    <!-- li>-</li -->
-    <!-- li><a href="#" title="%MAKETEXT{"Insert a macro"}%"><i class="ui-icon fa fa-gears"></i> %MAKETEXT{"Macro"}%</a></li -->
   </ul>
 <!-- -->%TMPL:END%
 
