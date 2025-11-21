@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1727168870" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"blockui"
@@ -28,7 +28,7 @@ blocking user interaction.
 <input type="text" name="username" class="foswikiInputField" size="20" placeholder="username" autocomplete="new-password" />
 <input type="password" name="password" class="foswikiInputField" size="20" placeholder="password" autocomplete="new-password" />
 
-%BUTTON{"Sign in" icon="tick" id="signin" class="center"}%
+%BUTTON{"Sign in" icon="fa-sign-in" id="signin" class="center"}%
 %CLEAR%
 </div> 
 

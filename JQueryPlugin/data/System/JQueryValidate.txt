@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"validate"
@@ -31,7 +31,7 @@ Very powerful client-side form validation framework
     <input type="text" size="10" class="required date foswikiInputField" mask="99/99/9999" name="dateofbirth" value="%URLPARAM{"dateofbirth"}%" />
   </div>
   <div class="foswikiFormStep foswikiFormButtons foswikiFormLast">
-    %BUTTON{"%MAKETEXT{"Submit"}%" type="submit" icon="application"}%
+    %BUTTON{"%MAKETEXT{"Submit"}%" type="submit" icon="fa-check"}%
     %CLEAR%
   </div>
 </div>

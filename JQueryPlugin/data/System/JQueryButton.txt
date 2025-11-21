@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1732554276" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"button"
@@ -23,12 +23,12 @@ theme roller. This is independent.
 
 ---++ Examples
 
-%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert(jQuery(this).text());"}%
-%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="alert(jQuery(this).text());"}%
-%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="alert(jQuery(this).text());"}%
-%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="alert(jQuery(this).text());"}%
-%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="alert(jQuery(this).text());"}%
-%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="alert('foo')"}%
+%BUTTON{"%MAKETEXT{"OK"}%" icon="fa-check" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="fa-times" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"Info"}%" icon="fa-info-circle" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"Add"}%" icon="fa-plus" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"Delete"}%" icon="fa-minus" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"Globe"}%" icon="fa-globe" onclick="alert('foo')"}%
 
 <div class="jqButtonSet">
 %BUTTON{"Android" icon="fa-android"}%

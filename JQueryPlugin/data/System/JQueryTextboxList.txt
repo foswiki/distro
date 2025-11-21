@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1761843410" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -92,7 +92,7 @@ jQuery(function($) {
     </div>
   </div>
   <div class="foswikiFormStep">
-    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="fa-check" type="submit"}%
     %CLEAR%
   </div>
 </div>

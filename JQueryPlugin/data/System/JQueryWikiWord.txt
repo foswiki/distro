@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1512571883" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -58,7 +58,7 @@ to derive the !WikiWord using HTML5 meta data:
     <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord" data-source="#prjTitle, #prjYear" data-prefix="Project" data-initial="Project..." data-suffix="AUTOINC0" data-transliterate="true" />
   </div>
   <div class="foswikiFormStep foswikiFormLast">
-    %BUTTON{"Submit" icon="tick" type="submit"}%
+    %BUTTON{"Submit" icon="fa-check" type="submit"}%
     %CLEAR%
   </div>
 </div>
