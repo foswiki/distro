@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1763755560" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
@@ -78,7 +78,7 @@ You can create your own local FAQ topics specific to your site. If you create yo
     </div>
   </div>
   <div class="foswikiFormStep foswikiFormButtons">
-    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="fa-check" type="submit"}%
     %CLEAR%
   </div>
 </div>

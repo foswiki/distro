@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1488399691" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -417,7 +417,7 @@ Using =%<nop>BUTTON{}%=
   }%
   %BUTTON{
     "%MAKETEXT{"Cancel"}%"
-    icon="cross"
+    icon="fa-times"
     target="%WEB%.%TOPIC%"
   }% %CLEAR%</verbatim>
    * Expands as: <div>%BUTTON{
@@ -426,7 +426,7 @@ Using =%<nop>BUTTON{}%=
   }%
   %BUTTON{
     "%MAKETEXT{"Cancel"}%"
-    icon="cross"
+    icon="fa-times"
     target="%WEB%.%TOPIC%"
   }% %CLEAR%</div>
 
@@ -443,17 +443,17 @@ Using =%<nop>BUTTON{}%=
 %BUTTON{"Green button" class="green"}%
 
 %BUTTON{
-    "%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"
+    "%MAKETEXT{"OK"}%" icon="fa-check" onclick="alert($(this).text());"
 }%%BUTTON{
-    "%MAKETEXT{"Cancel"}%" icon="cross" onclick="alert($(this).text());"
+    "%MAKETEXT{"Cancel"}%" icon="fa-times" onclick="alert($(this).text());"
 }%%BUTTON{
-    "%MAKETEXT{"Info"}%" icon="information" onclick="alert($(this).text());"
+    "%MAKETEXT{"Info"}%" icon="fa-info" onclick="alert($(this).text());"
 }%%BUTTON{
-    "%MAKETEXT{"Add"}%" icon="add" onclick="alert($(this).text());"
+    "%MAKETEXT{"Add"}%" icon="fa-plus" onclick="alert($(this).text());"
 }%%BUTTON{
-    "%MAKETEXT{"Delete"}%" icon="delete" onclick="alert($(this).text());"
+    "%MAKETEXT{"Delete"}%" icon="fa-minus" onclick="alert($(this).text());"
 }%%BUTTON{
-    "%MAKETEXT{"Globe"}%" icon="world_key" onclick="alert('foo')"
+    "%MAKETEXT{"Globe"}%" icon="fa-globe" onclick="alert('foo')"
 }%
 
 ---++ Re-created jQuery buttons
