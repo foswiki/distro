@@ -48,9 +48,13 @@
     wait = wait || 1000;
 
     return function(...args) {
-      window.clearTimeout(foswiki.debounce.prototype[name]);
+      if (foswiki.debounce.prototype[name]) {
+        window.clearTimeout(foswiki.debounce.prototype[name]);
+        delete foswiki.debounce.prototype[name];
+      }
 
       foswiki.debounce.prototype[name] = window.setTimeout(function() {
+        delete foswiki.debounce.prototype[name];
         callback(...args);
       }, wait);
     };
