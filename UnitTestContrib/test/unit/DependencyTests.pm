@@ -80,11 +80,8 @@ sub test_check_foswiki_rev {
     $this->assert_equals( 1, $ok );
 
     # e.g. Foswiki version 17 Jun 2022 installed
-    $this->assert_matches(
-qr/^Foswiki version \d+ \w+ \d\d\d\d ((Alpha|alpha|Beta|beta)\s)?installed$/,
-        $message
-    );
-
+    $this->assert_matches( qr/^Foswiki version %\$RELEASE% installed$/,
+        $message );
 }
 
 sub test_check_dep_carp {
