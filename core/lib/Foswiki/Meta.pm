@@ -454,7 +454,7 @@ sub load {
     my $useMetaCache = 0;
     if (USE_META_CACHE) {
         if (    defined( $this->topic )
-            and ( not defined($rev) )
+            and not $rev
             and $this->existsInStore() )
         {
             $useMetaCache = 1;
