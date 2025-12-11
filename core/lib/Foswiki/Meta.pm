@@ -2100,6 +2100,7 @@ Save the current topic to a store location. Only works on topics.
       * =forcedate= - force the revision date to be this (core only)
       * =author= - cUID of author of change (core only - default current user)
       * =nohandlers= - *do not* call plugins handlers
+      * =nolock= - do not lock the store, warning use with care
 
 Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
 so an extension author can in fact use all these options. However those
@@ -2138,7 +2139,8 @@ sub saveAs {
         }
     }
 
-    $this->_atomicLock($cUID);    # Lock either topic name, or the AUTOINC mask
+    $this->_atomicLock($cUID)
+      unless $opts{nolock};    # Lock either topic name, or the AUTOINC mask
     my $lockedTopic = $this->{_topic};    # Save the name for later unlock
 
     $this->{_topic} =
@@ -2146,7 +2148,8 @@ sub saveAs {
 
     if ( $this->{_topic} ne $lockedTopic ) {    #Topicname changed
         $opts{forceinsert} = 1;
-        $this->_atomicLock($cUID);              # Lock the resolved name
+        $this->_atomicLock($cUID)
+          unless $opts{nolock}                  # Lock the resolved name
     }
 
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
