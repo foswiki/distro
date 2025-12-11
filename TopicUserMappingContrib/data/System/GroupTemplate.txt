@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1716289503" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1765457337" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 %STARTSECTION{type="templateonly"}%
 To modify this template, first copy it to %USERSWEB%.%TOPIC% web, and edit that
@@ -10,5 +10,3 @@ creating new groups.
 
 %META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" value="GroupView"}%
-%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="details"}%
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="%URLPARAM{"topic"}%"}%
