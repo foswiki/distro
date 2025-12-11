@@ -2082,6 +2082,7 @@ Save the current topic to a store location. Only works on topics.
       * =forcedate= - force the revision date to be this (core only)
       * =author= - cUID of author of change (core only - default current user)
       * =nohandlers= - *do not* call plugins handlers
+      * =nolock= - do not lock the store, warning use with care
 
 Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
 so an extension author can in fact use all these options. However those
@@ -2117,7 +2118,7 @@ sub saveAs {
         }
     }
 
-    $this->_atomicLock($cUID);
+    $this->_atomicLock($cUID) unless $opts{nolock};
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
