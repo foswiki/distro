@@ -438,6 +438,14 @@ msgstr ""
 "*Proprietà:* Commento e visibilità (es. allegato nascosto) possono essere "
 "cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"."
 
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:44
+#: core/templates/registermessages.tmpl:482
+msgid ""
+"*This text will be sent to users in their reset e-mail.* The login name and "
+"password will be filled in automatically."
+msgstr ""
+"*Questo testo verrà inviato agli utenti nella loro email di reset.* Il nome utente e la password verranno compilati automaticamente."
+
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr "*neretto* metti la parola/frase tra asterischi: =<nop>*la tua frase*="
@@ -750,7 +758,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr "Inviando questo modulo la tua password verrà modificata."
+msgstr "Dopo l'invio di questo modulo, la tua password verrà modificata."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
 msgid ""
@@ -1043,7 +1051,7 @@ msgstr ""
 #: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:112
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
-msgstr "Annullare"
+msgstr "Annulla"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
@@ -1060,15 +1068,15 @@ msgstr "Non è possibile cambiare la sottoscrizione: %1"
 
 #: core/templates/messages.tmpl:64
 msgid "Cannot create %1 because it already exists."
-msgstr "Non posso creare %1 in quanto esiste già."
+msgstr "Impossibile creare %1 perché esiste già."
 
 #: core/templates/messages.tmpl:138
 msgid "Cannot create web %1 because it already exists"
-msgstr "Non posso creare il web %1 perché già esistente"
+msgstr "Impossibile creare il web %1 perché già esistente"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:78
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Non posso rinominare %1 perché %2 è già esistente."
+msgstr "Impossibile rinominare %1 in %2 perché %2 esiste già."
 
 #: core/data/System/WebSearch.txt:184
 msgid "Case sensitive"
@@ -1308,7 +1316,7 @@ msgstr "Conflitto"
 #: core/templates/registermessages.tmpl:116
 #: core/templates/registermessages.tmpl:139
 msgid "Contact %1 if you have any questions."
-msgstr "Per ogni problema contatta %1."
+msgstr "Contatta %1 se hai domande."
 
 #: core/data/System/UserName.txt:20
 msgid ""
@@ -1373,7 +1381,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:164
 msgid "Could not create the new web %1"
-msgstr "Non posso creare il nuovo web %1"
+msgstr "Impossibile creare il nuovo web %1"
 
 #: core/templates/messages.tmpl:298
 msgid "Could not find template"
@@ -1385,7 +1393,7 @@ msgstr "Ricerca impossibile. Errore: %1"
 
 #: core/templates/messages.tmpl:194
 msgid "Could not save %1."
-msgstr "Non posso salvare %1."
+msgstr "%1 non può essere salvato."
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:217
 msgid "Country:"
@@ -1488,7 +1496,7 @@ msgstr "Data"
 
 #: core/templates/mailresetpassword.tmpl:9
 msgid "Dear %1"
-msgstr "Caro %1"
+msgstr "Gentile %1,"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
@@ -2149,11 +2157,11 @@ msgstr "Righello orizzontale"
 
 #: core/templates/registernotify.tmpl:17
 msgid "How about attaching your photo?"
-msgstr "In che modo puoi allegare foto?"
+msgstr "Perché non alleghi la tua fotografia?"
 
 #: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
-msgstr "Come puoi attivare la tua registrazione %1"
+msgstr "Come attivare la tua registrazione %1"
 
 #: core/templates/registerfailednotremoved.tmpl:13
 msgid ""
@@ -2309,8 +2317,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
-"Se si vuole cercare una parola presente nella lista delle \"stop word"
-"\" (parole comuni), anteporre il segno più alla parola"
+"Se si vuole cercare una parola presente nella lista delle \"stop "
+"word\" (parole comuni), anteporre il segno più alla parola"
 
 #: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
@@ -2525,7 +2533,7 @@ msgstr "Indirizzo e-mail non valido"
 
 #: core/templates/messages.tmpl:96
 msgid "Invalid topic name."
-msgstr "Nome pagina non valida."
+msgstr "Nome pagina non valido."
 
 #: core/templates/messages.tmpl:338
 msgid ""
@@ -3231,7 +3239,7 @@ msgstr "Si prega di confermare la password."
 #: core/templates/registermessages.tmpl:216
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
-msgstr "Per ogni problema contatta %1."
+msgstr "Per favore, contatta %1 se hai domande."
 
 #: core/templates/registermessages.tmpl:105
 #: core/templates/registermessages.tmpl:11
@@ -3289,8 +3297,8 @@ msgstr "Torna indietro nel browser e ricontrolla."
 
 #: core/templates/messages.tmpl:85
 msgid ""
-"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
-"%.WikiWord][WikiWord]] or clear the only-WikiWord box"
+"Please go back in your browser and choose a topic name that is a "
+"[[%SYSTEMWEB%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
 "WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-WikiWord"
@@ -3316,7 +3324,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:319
 #: core/templates/registermessages.tmpl:326
 msgid "Please go back in your browser and try again."
-msgstr "Ritorna indietro nel browser e riprova."
+msgstr "Per favore, torna indietro nel browser e riprova."
 
 #: core/templates/messages.tmpl:253
 msgid "Please go back in your browser and upload using a different filename."
@@ -5358,15 +5366,15 @@ msgstr "Attenzione: la pagina 'include'  non esiste!"
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
-"Attenzione: non posso includere ripetutamente %1; la pagina risulta già "
+"Attenzione: impossibile includere ripetutamente %1; la pagina risulta già "
 "inclusa. %2"
 
 #: core/templates/messages.tmpl:371
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Attenzione: non posso includere '%1', il percorso del file è vuoto o "
-"contiene dei caratteri illegali."
+"Attenzione: impossibile includere '%1', il percorso del file è vuoto o "
+"contiene caratteri non consentiti."
 
 #: core/templates/messages.tmpl:367
 msgid "Warning: Can't find named section %3 in topic %1.%2"
@@ -5597,7 +5605,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
-msgstr "Puoi cambiare la password utilizzando %1"
+msgstr "Puoi cambiare la tua password utilizzando %1"
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
@@ -5637,7 +5645,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:210
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr "Non puoi registrarti due volte, il nome %1 risulta già registrato."
+msgstr "Non è possibile registrarsi due volte, il nome %1 risulta già registrato."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
@@ -5730,7 +5738,7 @@ msgstr "Riceverai una e-mail quando la registrazione verrà approvata."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr "Il tuo [[%1][NomeWiki]] è %2 e il tuo nome utente è =%3%."
+msgstr "Il tuo [[%1][NomeWiki]] è %2 e il tuo nome utente è =%3=."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
@@ -5744,9 +5752,9 @@ msgid ""
 "e-mail or enter the code in the box below to activate your membership. (This "
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
-"Il codice di attivazione a te riservato è stato inviato a %1. Puoi attivare "
-"direttamente il link nella mail ricevuta oppure inserire il codice nel box "
-"qui sotto per attivare l'iscrizione. (Il codice ha il seguente formato "
+"Il codice di attivazione è stato inviato a %1. Puoi attivare direttamente il "
+"link nella mail ricevuta oppure inserire il codice nel box qui sotto per "
+"attivare l'iscrizione. (Il codice ha il seguente formato "
 "\"TuoNome.xxxxxxxxxx\")"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:188
@@ -5768,7 +5776,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
-msgstr "Password modificata in %1."
+msgstr "La tua password è stata modificata in %1."
 
 #: core/templates/registermessages.tmpl:149
 msgid "Your password has not been changed."
