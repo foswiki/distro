@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1760954492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1765530849" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -796,3 +796,5 @@ Comments will be removed from content before the topic is displayed.
 %STOPINCLUDE%
 ---
 *Related Topics:* TopicMarkupLanguage, UsingHTML, WYSIWYG
+
+%META:PREFERENCE{name="NATSKIN_SIDEBAR" title="NATSKIN_SIDEBAR" type="Local" value="off"}%
