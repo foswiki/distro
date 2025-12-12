@@ -10,6 +10,8 @@ igp_*
 /lib/LocalSite.cfg*
 /data/**/*.lease
 /data/**/*.changes
+/data/**/.store
+/pub/**/.store
 /data/.htpasswd
 /data/Main/WikiUsers.txt
 /working/htpasswd.lock
