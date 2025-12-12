@@ -1,5 +1,5 @@
 /*
- * jQuery textbox list plugin 2.33
+ * jQuery textbox list plugin 2.40
  *
  * Copyright (c) 2009-2025 Foswiki Contributors http://foswiki.org
  *
@@ -249,8 +249,9 @@
         close = $("<a href='#' title='remove "+title+"'></a>").
           addClass(self.opts.closeClass).
           on("click", function(e) {
-            e.preventDefault();
-            self.input.trigger("DeleteValue", $(this).parent().find("input").val());
+            var val = $(this).parent().find("input").val();
+            self.deselect([val]);
+            self.input.trigger("DeleteValue");
             return false;
           });
       }
