@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1691320505" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1765530761" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 %FORMFIELD{"Description"}%
@@ -67,6 +67,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|   12 Dec 2025: (1.28) | Foswikitask:Item15584: interwiki shortcuts mostly outdated |
 |   06 Aug 2023: (1.27) | Foswikitask:Item15151: add warnings and strictness |
 |   3 May 2018: (1.26)  | Foswikitask:Item14688: Correct tyops and poor grammar in documentation. |
 |   8 Dec 2017: (1.25)  | Foswikitask:Item14395: Failure to check result from readTopic causes error. |
@@ -111,7 +112,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:%25USERSWEB%25.AndreaSterbini, TWiki:Main.PeterThoeny"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2023 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2025 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

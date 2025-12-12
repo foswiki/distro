@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1696003379" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1765530416" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InterwikiPlugin"}%
 ---+ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
@@ -23,9 +23,7 @@ See %SYSTEMWEB%.InterwikiPlugin for more details on specifiying the INTERLINKFOR
 Rather than adding your own inter-wiki links to this topic, the recommended approach is to create a topic in your %HOMEWEB% Web, for example [[%HOMEWEB%.InterWikis]].
 You can then set the =INTERWIKIPLUGIN_RULESTOPIC= preference setting in [[%LOCALSITEPREFS%]] as follows:
 
-<pre class="tml">
-   * Set INTERWIKIPLUGIN_RULESTOPIC = %SYSTEMWEB%.InterWikis, %HOMEWEB%.InterWikis
-</pre>
+<verbatim>   * Set INTERWIKIPLUGIN_RULESTOPIC = %SYSTEMWEB%.InterWikis, %HOMEWEB%.InterWikis </verbatim>
 
 Any inter-wikis you add to [[%HOMEWEB%.InterWikis]] will then be available in the same way that the inter-wikis from here are. If you create a rule in [[%HOMEWEB%.InterWikis]] which has the same alias as a rule in this topic, the rule from [[%HOMEWEB%.InterWikis]] will take preference.
 
@@ -34,14 +32,13 @@ Any inter-wikis you add to [[%HOMEWEB%.InterWikis]] will then be available in th
 <noautolink>
 
 | *Alias:* | *URL:* | *Tooltip Text:* |
-| Acronym | http://www.acronymfinder.com/af-query.asp?Acronym=$page&String=exact | Look up '$page' on Acronym Finder site |
+| Acronym | https://www.acronymfinder.com/~/search/af.aspx?Acronym=$page&String=exact | Look up '$page' on Acronym Finder site |
 | CPAN | https://metacpan.org/module/ | CPAN perl repository |
-| Dictionary | http://www.dictionary.com/cgi-bin/dict.pl?term= | Look up '$page' at Dictionary.com |
+| Dictionary | https://www.dictionary.com/browse/ | Look up '$page' at Dictionary.com |
 | Google | https://google.com/search?q= | Search for '$page' on Google |
-| Group | https://groups.google.com/forum/#!search/ | News group '$page' at Google.com |
-| ISBN | http://www.bookfinder.com/search/?st=sr;ac=qr;isbn= | Book with ISBN $page |
+| ISBN | https://www.bookfinder.com/search/?st=sr;ac=qr;isbn= | Book with ISBN $page |
 | News | https://news.google.com/news?q= | Search for '$page' on Google news |
-| RFC | http://www.faqs.org/rfcs/rfc$page.html | IETF RFC #$page |
+| RFC | https://www.faqs.org/rfcs/rfc$page.html | IETF RFC #$page |
 
 </noautolink>
 
@@ -50,24 +47,18 @@ Any inter-wikis you add to [[%HOMEWEB%.InterWikis]] will then be available in th
 <noautolink>
 
 | *Alias:* | *URL:* | *Tooltip Text:* | *Format override:* |
-| Advogato | http://www.advogato.org/article/$page.html | '$page' on Advogato community site (with peer review) |
-| C2find | http://c2.com/cgi/wiki?FindPage&value= | Search '$page' on the original 'WikiWikiWeb' site |
-| DokuWiki | http://dokuwiki.org/ | '$page' on Doku Wiki site |
-| Foswiki | https://foswiki.org/ | '$page' on foswiki.org |
-| Foswikitask | https://foswiki.org/Tasks/ | '$page' on the 'Foswiki' issue tracking site |
-| FoxWiki | http://fox.wikis.com/wc.dll?Wiki~ | '$page' on Fox Wiki site |
-| HammondWiki | http://www.dairiki.org/HammondWiki/ | '$page' on 'HammondWiki' site |
-| MeatBall | http://www.usemod.com/cgi-bin/mb.pl? | '$page' on 'MeatBall' site, a 'UseMod' Wiki variant |
-| MoinMoin | https://moinmo.in/ | '$page' on 'MoinMoin' Wiki site |
-| PPR | http://c2.com/cgi/wiki? | '$page' on the original 'PortlandPatternRepository' site |
-| Squeak | http://wiki.squeak.org/squeak/ | '$page' on Squeak Smalltalk Wiki |
-| TWiki | http://twiki.org/cgi-bin/view/ | '$page' on TWiki.org |
-| TWikibug | http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ | '$page' on the TWiki issue tracking site |
-| TWikirev | http://develop.twiki.org/trac/changeset/ | revision $page of TWiki svn |
-| UseMod | http://www.usemod.com/cgi-bin/wiki.pl? | '$page' on 'UseMod' Wiki site |
-| Wiki | http://c2.com/cgi/wiki? | '$page' on the original 'WikiWikiWeb' site |
-| Wikipedia | https://en.wikipedia.org/wiki/ | '$page' on 'Wikipedia' |
-| ZWiki | http://zwiki.org/ | '$page' on Zope's Wiki |
+| C2find | https://wiki.c2.com/?FindPage&value= | Search '$page' on the original 'WikiWikiWeb' site | |
+| DokuWiki | https://dokuwiki.org/ | '$page' on Doku Wiki site | |
+| Foswiki | https://foswiki.org/ | '$page' on foswiki.org | |
+| Foswikitask | https://foswiki.org/Tasks/ | '$page' on the 'Foswiki' issue tracking site | |
+| HammondWiki | https://www.dairiki.org/HammondWiki/ | '$page' on 'HammondWiki' site | |
+| MoinMoin | https://moinmo.in/ | '$page' on 'MoinMoin' Wiki site | |
+| Squeak | https://wiki.squeak.org/squeak/ | '$page' on Squeak Smalltalk Wiki | |
+| TWiki | https://twiki.org/cgi-bin/view/ | '$page' on TWiki.org | |
+| TWikibug | https://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ | '$page' on the TWiki issue tracking site | |
+| TWikirev | https://develop.twiki.org/trac/changeset/ | revision $page of TWiki svn | |
+| Wiki | https://wiki.c2.com/? | '$page' on the original 'WikiWikiWeb' site | |
+| Wikipedia | https://en.wikipedia.org/wiki/ | '$page' on 'Wikipedia' | |
 
 </noautolink>
 
@@ -75,8 +66,3 @@ Any inter-wikis you add to [[%HOMEWEB%.InterWikis]] will then be available in th
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], UserDocumentationCategory, AdminDocumentationCategory
-
-<!--
-%JQREQUIRE{"chili"}%
--->
-%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
