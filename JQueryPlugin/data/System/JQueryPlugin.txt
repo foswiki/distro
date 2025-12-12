@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1763747412" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1765530160" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  12 Dec 2025: | fixed textboxlist =DeleteValue= being mostly useless |
 |  31 Nov 2025: | added =foswiki.debounce()= utility |
 |  30 Oct 2025: | fixed =SelectValue= event in JQueryTextboxList; \
                   added button feature to JQueryLoader |
