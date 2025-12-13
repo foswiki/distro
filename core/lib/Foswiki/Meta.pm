@@ -115,6 +115,7 @@ use Encode ();
 
 use Foswiki::Serialise ();
 use Foswiki::Plugins   ();
+use Foswiki::Time      ();
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -460,7 +461,8 @@ sub load {
             $useMetaCache = 1;
 
             my $meta =
-              $this->{_session}->metaCache->getMeta( $this->web, $this->topic );
+              $this->{_session}
+              ->metaCache->getMeta( $this->{_web}, $this->{_topic} );
 
             if ($meta) {
 
@@ -490,7 +492,8 @@ sub load {
         ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
 
-    $this->{_session}->metaCache->addMeta( $this->web, $this->topic, $this )
+    $this->{_session}
+      ->metaCache->addMeta( $this->{_web}, $this->{_topic}, $this )
       if $useMetaCache;
 
     return $this;
@@ -1684,7 +1687,6 @@ sub getRev1Info {
 
             # Don't pass Foswiki::Time an undef value
             if ( defined $ri->{date} ) {
-                require Foswiki::Time;
                 $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
 
                 #TODO: wow thats disgusting.
@@ -2049,19 +2051,20 @@ sub save {
 
     ASSERT( $newRev, $this->{_loadedRev} ) if DEBUG;
 
-    my @extras = ();
-    push( @extras, 'minor' )   if $opts{minor};      # don't notify
-    push( @extras, 'dontlog' ) if $opts{dontlog};    # don't statisticify
+    unless ( $opts{dontlog} ) {
+        my @extras = ();
+        push( @extras, 'minor' ) if $opts{minor};    # don't notify
 
-    $this->{_session}->logger->log(
-        {
-            level    => 'info',
-            action   => 'save',
-            webTopic => $this->{_web} . '.' . $this->{_topic},
-            extra    => join( ', ', @extras ),
-            user     => $this->{_session}->{user},
-        }
-    );
+        $this->{_session}->logger->log(
+            {
+                level    => 'info',
+                action   => 'save',
+                webTopic => $this->{_web} . '.' . $this->{_topic},
+                extra    => join( ', ', @extras ),
+                user     => $this->{_session}->{user},
+            }
+        ) unless $opts{dontlog};
+    }
 
     return $newRev;
 }
@@ -2076,7 +2079,7 @@ Save the current topic to a store location. Only works on topics.
    * =%options= - Hash of options, may include:
       * =forcenewrevision= - force an increment in the revision number,
         even if content doesn't change.
-      * =dontlog= - don't include this change in statistics
+      * =dontlog= - don't log this change 
       * =minor= - don't notify this change
       * =savecmd= - Save command (core use only)
       * =forcedate= - force the revision date to be this (core only)
@@ -2151,7 +2154,7 @@ sub saveAs {
                         path     => $this->getPath(),
                         minor    => 1,
                         comment  => 'reprev',
-                    );
+                    ) unless $opts{dontlog};
 
                     # invalidate prefs for this object
                     $this->invalidatePrefs();
@@ -2181,7 +2184,7 @@ sub saveAs {
             verb     => $nextRev == 1 ? 'insert' : 'update',
             path     => $this->getPath(),
             minor    => $opts{minor},
-        );
+        ) unless $opts{dontlog};
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2331,9 +2334,7 @@ sub move {
             );
 
             # save the metadata change without logging
-            $this->saveAs(
-                dontlog => 1,    # no statistics
-            );
+            $this->saveAs( dontlog => 1 );
             $from->session->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
@@ -2343,7 +2344,7 @@ sub move {
                 verb     => 'update',
                 oldpath  => $from->getPath(),
                 path     => $to->getPath()
-            );
+            ) unless $opts{dontlog};
 
         }
         finally {
@@ -2377,7 +2378,7 @@ sub move {
             oldpath  => $from->getPath(),
             path     => $to->getPath(),
             comment  => 'moved_web'
-        );
+        ) unless $opts{dontlog};
 
         # No point in unlocking $this - it's moved!
         $to->_atomicUnlock($cUID);
@@ -2394,7 +2395,7 @@ sub move {
             extra    => "moved to $new",
             user     => $this->{_session}->{user}
         }
-    );
+    ) unless $opts{dontlog};
 
     # alert plugins of topic move
     $this->{_session}->{plugins}
@@ -2426,7 +2427,7 @@ sub deleteMostRecentRevision {
             revision => $rev,
             verb     => 'update',
             path     => $this->getPath
-        );
+        ) unless $opts{dontlog};
 
     }
     finally {
@@ -2445,7 +2446,7 @@ sub deleteMostRecentRevision {
             extra    => "delRev $rev",
             user     => $this->{_session}->{user},
         }
-    );
+    ) unless $opts{dontlog};
 }
 
 =begin TML
@@ -2502,22 +2503,23 @@ sub replaceMostRecentRevision {
     };
 
     # write log entry
-    require Foswiki::Time;
-    my @extras = ( $info->{version} );
-    push( @extras,
-        Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' ) );
-    push( @extras, 'minor' )   if $opts{minor};
-    push( @extras, 'dontlog' ) if $opts{dontlog};
-    push( @extras, 'forced' )  if $opts{forcedate};
-    $this->{_session}->logger->log(
-        {
-            level    => 'info',
-            action   => 'reprev',
-            webTopic => $this->getPath(),
-            extra    => join( ', ', @extras ),
-            user     => $cUID,
-        }
-    );
+
+    unless ( $opts{dontlog} ) {
+        my @extras = ( $info->{version} );
+        push( @extras,
+            Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' ) );
+        push( @extras, 'minor' )  if $opts{minor};
+        push( @extras, 'forced' ) if $opts{forcedate};
+        $this->{_session}->logger->log(
+            {
+                level    => 'info',
+                action   => 'reprev',
+                webTopic => $this->getPath(),
+                extra    => join( ', ', @extras ),
+                user     => $cUID,
+            }
+        );
+    }
 }
 
 =begin TML
@@ -2669,7 +2671,8 @@ sub removeFromStore {
         revision => $this->{_loadedRev} || -1,
         path => $this->getPath(),
         attachment => $attachment
-    );
+    );    # SMELL: missing opts{dontlog}
+
 }
 
 =begin TML
@@ -2845,7 +2848,7 @@ sub getAttachmentRevisionInfo {
 
    * =%opts= may include:
       * =name= - Name of the attachment - required
-      * =dontlog= - don't add to statistics
+      * =dontlog= - don't log this change
       * =comment= - comment for save
       * =hide= - if the attachment is to be hidden in normal topic view
       * =stream= - Stream of file to upload. Uses =file= if not set.
@@ -3031,7 +3034,7 @@ sub attach {
                 path => $this->getPath(),
                 attachment => $opts{name},
                 comment    => "add $arev"
-            );
+            ) unless $opts{dontlog};
 
             if (  !$opts{nohandlers}
                 && $plugins->haveHandlerFor('afterAttachmentSaveHandler') )
@@ -3069,17 +3072,18 @@ sub attach {
 
     $this->saveAs() unless $opts{notopicchange};
 
-    my @extras = ( $opts{name} );
-    push( @extras, 'dontlog' ) if $opts{dontlog};    # no statistics
-    $this->{_session}->logger->log(
-        {
-            level    => 'info',
-            action   => $action,
-            webTopic => $this->{_web} . '.' . $this->{_topic},
-            extra    => join( ', ', @extras ),
-            user     => $this->{_session}->{user},
-        }
-    );
+    unless ( $opts{dontlog} ) {
+        my @extras = ( $opts{name} );
+        $this->{_session}->logger->log(
+            {
+                level    => 'info',
+                action   => $action,
+                webTopic => $this->{_web} . '.' . $this->{_topic},
+                extra    => join( ', ', @extras ),
+                user     => $this->{_session}->{user},
+            }
+        );
+    }
 
     if ( !$opts{nohandlers} && $plugins->haveHandlerFor('afterUploadHandler') )
     {
@@ -3223,7 +3227,7 @@ sub moveAttachment {
         my $fileAttachment = $this->get( 'FILEATTACHMENT', $name );
         $this->remove( 'FILEATTACHMENT', $name );
         $this->saveAs(
-            dontlog => 1,                # no statistics
+            dontlog => 1,
             comment => 'lost ' . $name
         );
 
@@ -3242,7 +3246,7 @@ sub moveAttachment {
         }
 
         $to->saveAs(
-            dontlog => 1,                    # no statistics
+            dontlog => 1,
             comment => 'gained' . $newName
         );
 
@@ -3254,7 +3258,7 @@ sub moveAttachment {
             oldattachment => $name,
             path          => $to->getPath(),
             attachment    => $newName
-        );
+        ) unless $opts{dontlog};
 
     }
     finally {
@@ -3277,7 +3281,7 @@ sub moveAttachment {
             extra    => ' moved to ' . $to->getPath() . '.' . $newName,
             user     => $cUID,
         }
-    );
+    ) unless $opts{dontlog};
 }
 
 =begin TML
@@ -3326,7 +3330,7 @@ sub copyAttachment {
 
         $to->saveAs(
             author  => $cUID,
-            dontlog => 1,                    # no statistics
+            dontlog => 1,
             comment => 'gained' . $newName
         );
         $this->{_session}->{store}->recordChange(
@@ -3337,7 +3341,7 @@ sub copyAttachment {
             oldattachment => $name,
             path          => $to->getPath(),
             attachment    => $newName
-        );
+        ) unless $opts{dontlog};
 
     }
     finally {
@@ -3361,7 +3365,7 @@ sub copyAttachment {
             extra    => ' copied to ' . $to->getPath() . '.' . $newName,
             user     => $cUID,
         }
-    );
+    ) unless $opts{dontlog};
 }
 
 =begin TML
