@@ -1005,6 +1005,7 @@ sub verify_eachAttachment {
 
     my ($preDeleteMeta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my $preInfo = $preDeleteMeta->{FILEATTACHMENT};    # secure for later use
 
     sleep(1);    #ensure different timestamp on topic text
     $meta->removeFromStore( $this->{t_datafile} );
@@ -1024,8 +1025,7 @@ sub verify_eachAttachment {
     #Item10124: SvenDowideit thinks that the Meta API should retain consistency,
     #so if you 'remove' an attachment, its META entry should also be removed
     #if we do this, the following line will fail.
-    $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT},
-        $postDeleteMeta->{FILEATTACHMENT} );
+    $this->assert_deep_equals( $preInfo, $postDeleteMeta->{FILEATTACHMENT} );
 
     if ( grep( /xtra/, @expected ) ) {
         $it   = $this->{session}->{store}->eachAttachment($postDeleteMeta);
