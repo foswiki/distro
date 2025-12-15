@@ -227,7 +227,7 @@ sub _writeTypes {
         my %seen;
         @seen{@types} = ();
         @types = ();    # empty "not in list"
-        foreach my $key ( keys %$meta ) {
+        foreach my $key ( sort keys %$meta ) {
             push( @types, $key )
               unless ( exists $seen{$key} || $key =~ m/^_/ );
         }
