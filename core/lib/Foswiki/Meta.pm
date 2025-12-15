@@ -894,7 +894,7 @@ sub populateNewWeb {
         $prefsTopicObject =
           $this->new( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName}, $prefsText );
-        $prefsTopicObject->save();
+        $prefsTopicObject->save( dontlog => $opts->{dontlog} );
     }
 
     if ($templateWeb) {
@@ -963,10 +963,11 @@ sub populateNewWeb {
         foreach my $key ( keys %$opts ) {
 
             #don't create the required params to create web.
-            next if ( $key eq 'BASEWEB' );
-            next if ( $key eq 'NEWWEB' );
-            next if ( $key eq 'NEWTOPIC' );
-            next if ( $key eq 'ACTION' );
+            next if $key eq 'dontlog';
+            next if $key eq 'BASEWEB';
+            next if $key eq 'NEWWEB';
+            next if $key eq 'NEWTOPIC';
+            next if $key eq 'ACTION';
 
             if ( defined( $opts->{$key} ) ) {
                 if ( $text =~
@@ -983,7 +984,7 @@ s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
             }
         }
         $prefsTopicObject->text($text);
-        $prefsTopicObject->save();
+        $prefsTopicObject->save( dontlog => $opts->{dontlog} );
     }
 }
 
