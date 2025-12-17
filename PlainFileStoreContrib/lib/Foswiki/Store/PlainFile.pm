@@ -1157,6 +1157,10 @@ DONE
 sub _latestIsNewer {
     my ( $revs, $meta, $attachment, $latest ) = @_;
 
+    return 0
+      if $Foswiki::cfg{Extensions}{PlainFileStoreContrib}
+      {IngoreOutOfBandChanges};
+
     $latest ||= _latestFile( $meta, $attachment );
 
     my $hd = _historyDir( $meta, $attachment );
@@ -1569,7 +1573,7 @@ sub _split {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2012-2015 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2012-2025 Crawford Currie http://c-dot.co.uk, Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
