@@ -16,7 +16,7 @@
 # is a risk that old RCS data has been mixed in to a PlainFileStore.
 $Foswiki::cfg{Extensions}{PlainFileStoreContrib}{CheckForRCS} = 1;
 
-# **BOOLEAN EXPERT LABEL="Ignore Out-Of-Band Changes"**
+# **BOOLEAN LABEL="Ignore Out-Of-Band Changes"**
 # By activating this flag certain checks of file modifications will be ignored
 # that might have occured without using Foswiki directly. These are attributed
 # to the "unknown user" by default. However this also masks any revision information
