@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1762532490" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1766063098" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -84,6 +84,16 @@ A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will a
 However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+---++ Important changes in Foswiki 2.1.10
+
+Important security fixes:
+
+   * [[https://foswiki.org/Tasks/Item15458][Item15458: Ignore remote "Host" Header by default (OWASP: Host Header Attack)]]
+   * [[https://foswiki.org/Tasks/Item15507][Item15507: cross site scripting vulnerability in a paged search]]
+   * [[https://foswiki.org/Tasks/Item15508][Item15508: content spoofing vulnerability in password reset procedure]]
+   * [[https://foswiki.org/Tasks/Item15509][Item15509: cross site scripting vulnerability in attachment comments]]
+
 
 ---++ Important changes in Foswiki 2.1.8
 
@@ -957,6 +967,73 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | 56 | [[%BUGS%/Item15357][Item15357]] | Enhancement | PatternSkin | add makefiles for PatternSkin assets |
 | 57 | [[%BUGS%/Item15358][Item15358]] | Enhancement | JQueryPlugin, NatEditPlugin | fix css for ui-buttons and ui-menus |
 
+
+---++ Foswiki Release 2.1.10 Details
+
+---+++ Security Fixes
+| *#* | *Task* | *Component* | *Summary* |
+| 1 | [[%BUGS%/Item15458][Item15458]] | Engine | Ignore remote "Host" Header by default (OWASP: Host Header Attack) |
+| 2 | [[%BUGS%/Item15507][Item15507]] | Engine | cross site scripting vulnerability in a paged search |
+| 3 | [[%BUGS%/Item15508][Item15508]] | Engine | content spoofing vulnerability in password reset procedure |
+| 4 | [[%BUGS%/Item15509][Item15509]] | Engine | cross site scripting vulnerability in attachment comments |
+
+---+++ Bug Fixes
+| *#* | *Task* | *Priority* | *Component* | *Summary* |
+| 1  | [[%BUGS%/Item15594][Item15594]] | Urgent | QUERY, IfStatement | QUERY and IF macros cannot process formfields with unicode chars in their name |
+| 2  | [[%BUGS%/Item15576][Item15576]] | Urgent | Engine | MetaCache not used under certain conditions |
+| 3  | [[%BUGS%/Item15552][Item15552]] | Urgent | PageCache | page cache db losing connection after some time |
+| 4  | [[%BUGS%/Item15543][Item15543]] | Urgent | TopicUserMappingContrib | restrict view access to ChangeEmailAddress |
+| 5  | [[%BUGS%/Item15500][Item15500]] | Urgent | Engine | insecure validation of script environment |
+| 6  | [[%BUGS%/Item15499][Item15499]] | Urgent | Engine | broken validation of contenttype parameter |
+| 7  | [[%BUGS%/Item15491][Item15491]] | Urgent | Engine | prevent USERNAME, WIKINAME and WIKIUSERNAME from being overwritten using preference settings |
+| 8  | [[%BUGS%/Item15490][Item15490]] | Urgent | DataForms | renaming dataform attributes can destroy formfield definitions |
+| 9  | [[%BUGS%/Item15469][Item15469]] | Urgent | MoreFormfieldsPlugin, JQueryPlugin | editing dates across timezones is seriously broken |
+| 10 | [[%BUGS%/Item15452][Item15452]] | Urgent | Engine | Login Url always redirects to the home web |
+| 11 | [[%BUGS%/Item15443][Item15443]] | Urgent | UpdatesPlugin | UpdatePlugin cannot parse UpdatesPluginReport |
+| 12 | [[%BUGS%/Item15408][Item15408]] | Urgent | Engine | cached meta objects need to be reassigned to the current session |
+| 13 | [[%BUGS%/Item15362][Item15362]] | Urgent | PatternSkin | PatternSkin makes use of undocumented macros MAXREV and CURRREV |
+| 14 | [[%BUGS%/Item15591][Item15591]] | Normal | PlainFileStoreContrib | cannot read information of latest release in PlainFileStroreContrib |
+| 15 | [[%BUGS%/Item15590][Item15590]] | Normal | Engine | keep meta data records stable by sorting them |
+| 16 | [[%BUGS%/Item15584][Item15584]] | Normal | InterwikiPlugin | interwiki shortcuts mostly outdated |
+| 17 | [[%BUGS%/Item15583][Item15583]] | Normal | JQueryPlugin | textboxlist's =DeleteValue= event is mosly useless |
+| 18 | [[%BUGS%/Item15582][Item15582]] | Normal | FoswikiMeta | add a nolock option to the store api |
+| 19 | [[%BUGS%/Item15580][Item15580]] | Normal | Engine | GroupTemplate has got invalid meta data |
+| 20 | [[%BUGS%/Item15571][Item15571]] | Normal | JQueryPlugin | add debounce utility to foswiki class |
+| 21 | [[%BUGS%/Item15570][Item15570]] | Normal | NatEditPlugin | implement redirectto none |
+| 22 | [[%BUGS%/Item15563][Item15563]] | Normal | Engine | use & instead of ; as an url parm separator |
+| 23 | [[%BUGS%/Item15562][Item15562]] | Normal | JQueryPlugin | JQueryPlugin does not list all required perl dependencies |
+| 24 | [[%BUGS%/Item15561][Item15561]] | Normal | Engine | TOC macro does not respect multiple url parameters |
+| 25 | [[%BUGS%/Item15560][Item15560]] | Normal | Engine | allow dashes (-) in anchor names |
+| 26 | [[%BUGS%/Item15556][Item15556]] | Normal | JQueryPlugin | add button feature to jquery loader |
+| 27 | [[%BUGS%/Item15544][Item15544]] | Normal | Engine | don't redirect to an empty target in REST api |
+| 28 | [[%BUGS%/Item15542][Item15542]] | Normal | Engine | TopicACLReadOnlyAccess does not compile |
+| 29 | [[%BUGS%/Item15538][Item15538]] | Normal | Engine | disable userinterface internationalisation on the command line |
+| 30 | [[%BUGS%/Item15534][Item15534]] | Normal | Engine | problems rendering inequality formulas |
+| 31 | [[%BUGS%/Item15532][Item15532]] | Normal | JQueryPlugin | datepicker fails to initialize when timezones of server and client differ |
+| 32 | [[%BUGS%/Item15505][Item15505]] | Normal | SubscribePlugin | invalid use of topic parameter in SubscribePlugin |
+| 33 | [[%BUGS%/Item15504][Item15504]] | Normal | Engine | remove deprecated apptype and contenttype url parameter to edit |
+| 34 | [[%BUGS%/Item15503][Item15503]] | Normal | Engine | possible use of uninitialized value parsing topic info |
+| 35 | [[%BUGS%/Item15501][Item15501]] | Normal | Engine | cannot use an empty or null format string |
+| 36 | [[%BUGS%/Item15453][Item15453]] | Normal | HistoryPlugin | incomplete implementation of HISTORYPLUGIN_NREV |
+| 37 | [[%BUGS%/Item15450][Item15450]] | Normal | NatEditPlugin | a form with a natedit formfield in it cannot be fully reset |
+| 38 | [[%BUGS%/Item15427][Item15427]] | Normal | Engine | AggregateIterator doesn't implement reset() |
+| 39 | [[%BUGS%/Item14656][Item14656]] | Normal | JQueryPlugin | textboxlist SelectValue event listener not functioning - typo in code or doc. |
+| 40 | [[%BUGS%/Item13951][Item13951]] | Normal | NatEditPlugin | show permission setting option Nobody only to admins |
+| 41 | [[%BUGS%/Item15547][Item15547]] | Low | EditRowPlugin | minor perl error defining global vars |
+| 42 | [[%BUGS%/Item15572][Item15572]] | Enhancement | NatEditPlugin | clean up toolbar markup in natedit |
+| 43 | [[%BUGS%/Item15566][Item15566]] | Enhancement | JQueryPlugin | remove jqgrid support from foswiki theme |
+| 44 | [[%BUGS%/Item15548][Item15548]] | Enhancement | PatternSkin | better defaults for topbar logo geometry |
+| 45 | [[%BUGS%/Item15546][Item15546]] | Enhancement | Engine | use %$RELEASE macro to ease plugin maintenance |
+| 46 | [[%BUGS%/Item15545][Item15545]] | Enhancement | PatternSkin | better colors for anchors in headings |
+| 47 | [[%BUGS%/Item15539][Item15539]] | Enhancement | JQueryPlugin | manipulating the z-index of datepickers considered harmful |
+| 48 | [[%BUGS%/Item15533][Item15533]] | Enhancement | JQueryPlugin | entity decode tooltip content |
+| 49 | [[%BUGS%/Item15531][Item15531]] | Enhancement | JQueryPlugin | remove deprecated $.parseJSON |
+| 50 | [[%BUGS%/Item15530][Item15530]] | Enhancement | JQueryPlugin | update view and observable packages to upstream |
+| 51 | [[%BUGS%/Item15529][Item15529]] | Enhancement | JQueryPlugin | simplify code to filter duplicate entries in textbox lists |
+| 52 | [[%BUGS%/Item15528][Item15528]] | Enhancement | JQueryPlugin | add fontawesome icons to pnotify |
+| 53 | [[%BUGS%/Item15512][Item15512]] | Enhancement | WysiwygPlugin | use of uninitialized value in tml2html |
+| 54 | [[%BUGS%/Item15511][Item15511]] | Enhancement | FamFamFamContrib | duplicate url parameter in famfamfam skin |
+| 55 | [[%BUGS%/Item15510][Item15510]] | Enhancement | UpdatesPlugin | sort plugins before calling updates report |
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = https://foswiki.org/Tasks
