@@ -33,9 +33,9 @@ sub check_current_value {
             }
         }
         else {
-            if ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
+            unless ( $Foswiki::cfg{ForceDefaultUrlHost} ) {
                 $reporter->ERROR(
-'Insecure configuration setting detected: it appears you are not running from behind a proxy. If you enable this option, you are vulnerable to a host header attack.'
+'Insecure configuration setting detected: it appears you are not running from behind a proxy. If you disable this option, you are vulnerable to a host header attack.'
                 );
             }
         }
