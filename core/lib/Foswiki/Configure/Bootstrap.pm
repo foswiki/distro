@@ -469,7 +469,7 @@ sub bootstrapWebSettings {
         return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
     }
 
-    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
+    $Foswiki::cfg{ForceDefaultUrlHost} = 1;
 
     # Probe the connection data in bootstrap mode
     my ( $client, $protocol, $host, $port, $proxy ) =
