@@ -45,9 +45,13 @@ sub viewfile {
 
     my $query = $session->{request};
 
-    my $web      = $query->web();
-    my $topic    = $query->topic();
-    my $fileName = $query->attachment();
+    my $web         = $query->web();
+    my $topic       = $query->topic();
+    my $fileName    = $query->attachment();
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+    # The whole point of viewfile....
+    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
     if ( !$topic ) {
         throw Foswiki::OopsException(
@@ -74,7 +78,6 @@ sub viewfile {
     #print STDERR "VIEWFILE: web($web), topic($topic), file($fileName)\n";
 
     my $rev = Foswiki::Store::cleanUpRevID( scalar( $query->param('rev') ) );
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
     # This check will fail if the attachment has no "presence" in metadata
     unless ( $topicObject->hasAttachment($fileName) ) {
@@ -87,9 +90,6 @@ sub viewfile {
             params => ["$web/$topic/$fileName"]
         );
     }
-
-    # The whole point of viewfile....
-    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
     my $logEntry = $fileName;
     $logEntry .= ", r$rev" if $rev;
