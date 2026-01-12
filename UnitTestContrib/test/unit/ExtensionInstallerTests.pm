@@ -1877,7 +1877,7 @@ sub test_Package_loadInstaller {
 
     my @files = $pkg->_listFiles();
     $this->assert_num_equals(
-        5,
+        6,
         scalar @files,
         "Unexpected number of files in EmptyPlugin manifest"
     );
