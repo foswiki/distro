@@ -64,13 +64,10 @@ sub oops {
     my ( $session, $web, $topic, $query, $keep ) = @_;
 
     # Foswikitask:Item885: web and topic are required to have values
-    $web ||= $session->{webName};
-
-    # If web name is completely missing, it may have contained
-    # illegal characters
-    $web ||= '';
-
+    $web ||= $session->{webName} || $Foswiki::cfg{SystemWebName};
     $topic ||= $session->{topicName};
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
     my $tmplName;
     my $def;
@@ -135,11 +132,6 @@ MESSAGE
             $tmplData =~ s/%INSTANTIATE%/$blah/;
         }
 
-        # Warning: do NOT attempt to instantiate a topic object with
-        # a null or bogus web name!
-        my $topicObject =
-          Foswiki::Meta->new( $session, $web || $Foswiki::cfg{SystemWebName},
-            $topic );
         $tmplData = $topicObject->expandMacros($tmplData);
         $n        = 1;
         foreach my $param (@params) {
