@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1768233502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQICONPATH -- render the url path to an image icon
 This is a shortcut for:

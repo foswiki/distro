@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1760954492" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1768233502" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Preference Settings
 #SettingPrefs
@@ -170,5 +170,5 @@ Then, when they are editing any other topic, they will get the Wysiwyg editor. H
 
 
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1760954492" size="52064" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1760954492" size="15256" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attr="h" comment="" date="1768233502" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.odp" attr="h" comment="" date="1768233502" size="15256" user="ProjectContributor" version="1"}%
