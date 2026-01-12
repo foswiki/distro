@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1727164675" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1768232882" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -104,18 +104,6 @@ Despite the name, this script doesn't actually attach a file to a topic - for th
 
 | *Parameter* | *Description* | *Default* |
 | =filename= | Name of existing attachment (if provided, this is a "manage attachment" action) | _this is a "new attachment" action_ |
-
----+++ =changes=
-Shows all the changes in the given web. 
-
-The =changes= script can receive one parameter:
-
-| *Parameter* | *Description* | *Default* |
-| =minor= | If 0, show only major changes. If 1, show all the changes (both minor and major) | _show major changes_ |
-
-The main difference between invoking this script and using WebChanges is that WebChanges is based on a =%<nop>SEARCH%=, while this script reads the =changes= file in each web, making it much faster.
-
-*NOTE*: The result from =changes= script and the topic WebChanges can be different, if the =changes= file is deleted from a web. In particular, in new installations the =changes= script will return no results while the WebChanges topic will.
 
 ---+++ =configure=
 =configure= is the browser script used for inspection of, and changes to, the site configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
@@ -289,9 +277,6 @@ The =oops= script supports the following parameters:
 | =def= | Can be set to the name of a single definition within =template=. This definition will be instantiated in the =template= wherever =%<nop>INSTANTIATE%= is seen. This lets you use a single template file for many messages. For an example, see =oopsmanagebad.tmpl=. | |
 | =paramN= | Where N is an integer from 1 upwards. These values will be substituted into =template= for =%<nop>PARAM1%= etc. | |
 | =template= | Name of the template file to display | =oops= |
-
----+++ =preview=
-This script is _deprecated_. Its functions are covered by the =save= script.
 
 ---+++ =rdiff=
 Renders the differences between version of a topic
