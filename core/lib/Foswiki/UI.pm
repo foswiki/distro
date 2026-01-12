@@ -112,11 +112,6 @@ BEGIN {
         context  => { save => 1 },
         allow    => { POST => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{search} = {
-        package  => 'Foswiki::UI::Search',
-        function => 'search',
-        context  => { search => 1 },
-    };
     $Foswiki::cfg{SwitchBoard}{statistics} = {
         package  => 'Foswiki::UI::Statistics',
         function => 'statistics',
