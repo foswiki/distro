@@ -28,6 +28,11 @@ sub changes {
 
     Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
 
+    my $topicObject =
+      Foswiki::Meta->load( $session, $session->{webName},
+        $session->{topicName} );
+    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+
     my $text = $session->templates->readTemplate('changes');
     my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
 
