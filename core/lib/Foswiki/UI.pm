@@ -40,11 +40,6 @@ BEGIN {
         function => 'attach',
         context  => { attach => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{changes} = {
-        package  => 'Foswiki::UI::Changes',
-        function => 'changes',
-        context  => { changes => 1 },
-    };
     $Foswiki::cfg{SwitchBoard}{configure} = {
         package  => 'Foswiki::UI::Configure',
         function => 'configure',
@@ -82,13 +77,6 @@ BEGIN {
         function => 'oops_cgi',
         context  => { oops => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{preview} = {
-        package  => 'Foswiki::UI::Preview',
-        function => 'preview',
-        context  => { preview => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{previewauth} =
-      $Foswiki::cfg{SwitchBoard}{preview};
     $Foswiki::cfg{SwitchBoard}{rdiff} = {
         package  => 'Foswiki::UI::RDiff',
         function => 'diff',
