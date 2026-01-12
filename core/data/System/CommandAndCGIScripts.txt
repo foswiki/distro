@@ -535,9 +535,6 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 It is not possible to call =save= from an =&lt;a href ...&gt;= link.
 </div>
 
----+++ =search=
-This cgi script has been deprecated. When called, it will redirect to the WebSearch topic, and the parameters will be passed on.
-
 ---+++ =statistics=
 <!--
    * Set ISSTATISTICSTOPIC = %IF{"istopic '%STATISTICSTOPIC%'" else="!WebStatistics" then="[[$percntSTATISTICSTOPIC$percnt][WebStatistics]]"}%
