@@ -8,14 +8,11 @@ bin-htaccess-basic.txt 0444
 bin-htaccess-advanced.txt 0444
 bin/LocalLib.cfg.txt 0644
 bin/attach 0555
-bin/changes 0555
 bin/edit 0555
 bin/login 0555
 bin/logon 0555
 bin/manage 0555
 bin/oops 0555
-bin/preview 0555
-bin/previewauth 0555
 bin/rdiff 0555
 bin/rdiffauth 0555
 bin/register 0555
