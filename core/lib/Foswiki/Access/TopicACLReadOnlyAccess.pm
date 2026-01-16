@@ -2,7 +2,7 @@
 
 =pod
 
----+ package Foswiki::Access::AdminOnlyAccess
+---+ package Foswiki::Access::TopicACLReadOnlyAccess
 
 DENY any access except VIEW access - Admin permitted anythingeverything
 
