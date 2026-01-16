@@ -605,6 +605,21 @@ Use it like this:
 
 sub html {
     my ( $tag, $attrs, $innerHTML ) = @_;
+
+    $innerHTML //= '';
+    return start_html( $tag, $attrs ) . $innerHTML . end_html($tag);
+}
+
+=begin TML
+
+---++ StaticMethod start_html($tag, $attrs) 
+
+Generates a start tag
+
+=cut
+
+sub start_html {
+    my ( $tag, $attrs ) = @_;
     my $html = "<$tag";
     if ($attrs) {
         my @keys = keys %$attrs;
@@ -617,8 +632,20 @@ sub html {
             $html .= " $k='$v'";
         }
     }
-    $innerHTML = '' unless defined $innerHTML;
-    return "$html>$innerHTML</$tag>";
+    return "$html>";
+}
+
+=begin TML
+
+---++ StaticMethod end_html($tag) 
+
+Generates an end tag
+
+=cut
+
+sub end_html {
+    my $tag = shift;
+    return "</$tag>";
 }
 
 =begin TML
