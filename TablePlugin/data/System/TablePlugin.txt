@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1655899072" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1768554126" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 %FORMFIELD{"Description"}%
@@ -190,6 +190,7 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  16 Jan 2026 | 2.000: Foswikitask:Item15606 - remove dependency on CGI |
 |  22 Jan 2018 | 1.160: Foswikitask:Item14574 - fixed cellspacing, cellpadding and tableborder using css properties instead of html attributes now |
 |  03 Feb 2016 | 1.154: Foswikitask:Item13881 - Unicode column heading are incorrectly encoded,<br/>\
                         Foswikitask:Item13405 - Unicode NFC normalization |
@@ -273,7 +274,7 @@ Foswikitask:Item8991: header-only table violates XHTML DTD. |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2016 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2026 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

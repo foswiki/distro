@@ -5,9 +5,10 @@ use warnings;
 
 package Foswiki::Plugins::TablePlugin::Core;
 
-use Foswiki::Func;
+use Foswiki::Func();
+use Foswiki::Render();
 use Foswiki::Plugins::TablePlugin ();
-use Foswiki::Time;
+use Foswiki::Time();
 use Error qw(:try);
 
 use Unicode::Normalize;
@@ -105,7 +106,9 @@ sub _init {
         Foswiki::Func::getPubUrlPath() . '/'
       . $Foswiki::cfg{SystemWebName}
       . '/DocumentGraphics/';
-    $GIF_TABLE_SORT_ASCENDING = CGI::img(
+
+    $GIF_TABLE_SORT_ASCENDING = Foswiki::Render::html(
+        'img',
         {
             src    => $URL_ICON . 'tablesortup.gif',
             border => 0,
@@ -115,8 +118,8 @@ sub _init {
             title  => 'Sorted ascending'
         }
     );
-
-    $GIF_TABLE_SORT_DESCENDING = CGI::img(
+    $GIF_TABLE_SORT_DESCENDING = Foswiki::Render::html(
+        'img',
         {
             src    => $URL_ICON . 'tablesortdown.gif',
             border => 0,
@@ -126,8 +129,8 @@ sub _init {
             title  => 'Sorted descending'
         }
     );
-
-    $GIF_TABLE_SORT_BOTH = CGI::img(
+    $GIF_TABLE_SORT_BOTH = Foswiki::Render::html(
+        'img',
         {
             src    => $URL_ICON . 'tablesortdiamond.gif',
             border => 0,
@@ -137,12 +140,15 @@ sub _init {
             title  => 'Sort'
         }
     );
-    $CHAR_SORT_ASCENDING = CGI::span( { class => 'tableSortIcon tableSortUp' },
+
+    $CHAR_SORT_ASCENDING =
+      Foswiki::Render::html( 'span', { class => 'tableSortIcon tableSortUp' },
         $GIF_TABLE_SORT_ASCENDING );
     $CHAR_SORT_DESCENDING =
-      CGI::span( { class => 'tableSortIcon tableSortDown' },
+      Foswiki::Render::html( 'span', { class => 'tableSortIcon tableSortDown' },
         $GIF_TABLE_SORT_DESCENDING );
-    $CHAR_SORT_BOTH = CGI::span( { class => 'tableSortIcon tableSortUp' },
+    $CHAR_SORT_BOTH =
+      Foswiki::Render::html( 'span', { class => 'tableSortIcon tableSortUp' },
         $GIF_TABLE_SORT_BOTH );
 
     $SORT_DIRECTION = {
@@ -1428,8 +1434,11 @@ sub emitTable {
         delete $tableTagAttributes->{$key} if !defined $value || $value eq '';
     }
 
-    my $text = $currTablePre . CGI::start_table($tableTagAttributes);
-    $text .= $currTablePre . CGI::caption( $combinedTableAttrs->{tableCaption} )
+    my $text = $currTablePre
+      . Foswiki::Render::start_html( 'table', $tableTagAttributes );
+    $text .=
+      $currTablePre
+      . Foswiki::Render::html( 'caption', $combinedTableAttrs->{tableCaption} )
       if $combinedTableAttrs->{tableCaption};
 
     # count the number of cols to prevent looping over non-existing columns
@@ -1643,7 +1652,8 @@ sub emitTable {
                 {
 
                     $tableAnchor =
-                      CGI::a( { name => 'sorted_table' }, '<!-- -->' )
+                      Foswiki::Render::html( 'a', { name => 'sorted_table' },
+                        '<!-- -->' )
                       . $tableAnchor;
                 }
 
@@ -1653,7 +1663,7 @@ sub emitTable {
                 {
                     my $fontStyle =
                       { color => $combinedTableAttrs->{headerColor} };
-                    $cell = CGI::font( $fontStyle, $cell );
+                    $cell = Foswiki::Render::html( 'font', $fontStyle, $cell );
                 }
 
                 # END html attribute
@@ -1683,11 +1693,15 @@ sub emitTable {
                     };
 
                     if ( $cell =~ /\[\[|href/o ) {
-                        $cell .= CGI::a( $linkAttributes, $CHAR_SORT_BOTH )
+                        $cell .=
+                          Foswiki::Render::html( 'a', $linkAttributes,
+                            $CHAR_SORT_BOTH )
                           . $tableAnchor;
                     }
                     else {
-                        $cell = CGI::a( $linkAttributes, $cell ) . $tableAnchor;
+                        $cell =
+                          Foswiki::Render::html( 'a', $linkAttributes, $cell )
+                          . $tableAnchor;
                     }
                 }
 
@@ -1730,7 +1744,8 @@ sub emitTable {
                       $dataColor[ $dataColorCount % ( $#dataColor + 1 ) ];
                     unless ( $color =~ /^(none)$/i ) {
                         my $cellAttrs = { color => $color };
-                        $cell = CGI::font( $cellAttrs, ' ' . $cell . ' ' );
+                        $cell = Foswiki::Render::html( 'font', $cellAttrs,
+                            ' ' . $cell . ' ' );
                     }
                 }
 
@@ -1765,10 +1780,8 @@ sub emitTable {
 
             $colCount++;
             next if ( $type eq 'Y' );
-            my $fn = 'CGI::' . $type;
-            no strict 'refs';
-            $rowtext .= "$tripleIndent" . &$fn( $attr, " $cell " );
-            use strict 'refs';
+            $rowtext .= "$tripleIndent"
+              . Foswiki::Render::html( $type, $attr, " $cell " );
         }    # foreach my $fcell ( @$row )
 
         # assign css class names to tr
@@ -1802,7 +1815,8 @@ sub emitTable {
         }
         $rowtext .= $doubleIndent;
         my $rowHTML =
-          $doubleIndent . CGI::Tr( { class => $trClassName }, $rowtext );
+          $doubleIndent
+          . Foswiki::Render::html( 'tr', { class => $trClassName }, $rowtext );
 
         my $isHeaderRow =
           $rowCount <
@@ -1874,7 +1888,7 @@ sub emitTable {
     }
 
     $text .= $currTablePre . $tbody;
-    $text .= $currTablePre . CGI::end_table() . "\n";
+    $text .= $currTablePre . Foswiki::Render::end_html("table") . "\n";
 
     return $text;
 }
@@ -2047,7 +2061,7 @@ sub _debugData {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
