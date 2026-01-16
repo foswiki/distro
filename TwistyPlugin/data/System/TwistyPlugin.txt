@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1768555052" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1768565304" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -471,7 +471,7 @@ You can override some default settings in the plugin by setting the following [[
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  16 Jan 2026 | 3.10 removed dependency on CGI |
+|  16 Jan 2026 | 4.00 removed dependency on CGI, modernized core |
 |  29 Jun 2023 | 3.00 added showcompleted and hidecompleted javascript event when the twisty opened/closed |
 |  13 Jun 2022 | 2.00 removed unused assets from package; made twisty modes more meaningfull: was div/span - now is block/inline |
 |  09 Jun 2022 | 1.65 better default labels for show and hide links |
