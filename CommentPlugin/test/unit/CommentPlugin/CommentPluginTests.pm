@@ -15,7 +15,6 @@ use Foswiki();
 use Foswiki::UI::Save();
 use Foswiki::Plugins::CommentPlugin();
 use Foswiki::Plugins::CommentPlugin::Comment();
-use CGI;
 
 # Set up the test fixture
 sub set_up {
@@ -162,7 +161,9 @@ HERE
     $this->assert_str_equals( $url, $1 );
     $dattrs =~ s#application/x-www-form-urlencoded#multipart/form-data#;
     $this->assert( scalar( $dattrs =~ s#class="commentPluginForm"## ) );
-    $this->assert( scalar( $dattrs =~ s#enctype="multipart/form-data"## ) );
+
+#$this->assert( scalar( $dattrs =~ s#enctype="multipart/form-data"## ) ); ... CGI::start_form() does that but not Foswiki::Render::start_html()
+
     $this->assert( scalar( $dattrs =~ s#id="${type}0"## ) );
     $this->assert_str_equals( "", trim($dattrs) );
 
@@ -1053,7 +1054,7 @@ HERE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

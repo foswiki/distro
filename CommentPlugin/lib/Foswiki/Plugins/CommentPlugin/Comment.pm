@@ -2,19 +2,18 @@
 #
 # This version is specific to Foswiki::Plugins::VERSION > 1.026
 
+package Foswiki::Plugins::CommentPlugin::Comment;
+
 use strict;
 use warnings;
-use Assert;
+
+use Assert ();
 use Error ':try';
 
-use Foswiki;
-use Foswiki::Plugins;
-use Foswiki::Store;
+use Foswiki                        ();
+use Foswiki::Plugins               ();
+use Foswiki::Store                 ();
 use Foswiki::Plugins::JQueryPlugin ();
-
-use CGI ();
-
-package Foswiki::Plugins::CommentPlugin::Comment;
 
 sub _hidden {
     my ( $name, $value ) = @_;
@@ -178,19 +177,22 @@ sub prompt {
             }
         }
         else {
-            my $startform = CGI::start_form(
-                -name   => $type . $idx,
-                -class  => 'commentPluginForm',
-                -id     => $type . $idx,
-                -action => $url,
-                -method => 'post'
+            my $startform = Foswiki::Render::start_html(
+                'form',
+                {
+                    name   => $type . $idx,
+                    class  => 'commentPluginForm',
+                    id     => $type . $idx,
+                    action => $url,
+                    method => 'post'
+                }
             );
 
             # Item10050: CGI may add a trailing new line.
             # This prevents using COMMENT inside TML tables
             $startform =~ s/\n$//;
 
-            $input = $startform . $input . CGI::end_form();
+            $input = $startform . $input . Foswiki::Render::end_html("form");
         }
     }
     Foswiki::Plugins::JQueryPlugin::createPlugin("Comment");
@@ -397,7 +399,7 @@ sub _remove_nth {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2020 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
