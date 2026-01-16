@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011-2025 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2026 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

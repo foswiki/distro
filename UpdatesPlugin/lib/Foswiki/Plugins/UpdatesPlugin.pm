@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# UpdatesPlugin is Copyright (C) 2011-2025 Foswiki Contributors
+# UpdatesPlugin is Copyright (C) 2011-2026 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,17 +20,26 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION           = '2.11';
+our $VERSION           = '2.20';
 our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
+our $count = 10;
 
 sub initPlugin {
 
-    # only check for admins viewing a page
     my $context = Foswiki::Func::getContext();
-    getCore()->check() if $context->{isadmin} && $context->{view};
+    if ( $context->{isadmin} && $context->{view} && !$context->{command_line} )
+    {
+        if ($count) {
+            $count--;
+        }
+        else {
+            $count = 10;
+            getCore()->check();
+        }
+    }
 
     return 1;
 }
