@@ -8,13 +8,13 @@
 
 package Foswiki::Plugins::TwistyPlugin;
 
-use Foswiki::Func ();
-use CGI::Cookie   ();
-use CGI           ();
 use strict;
 use warnings;
 
-our $VERSION = '3.00';
+use Foswiki::Func   ();
+use Foswiki::Render ();
+
+our $VERSION = '3.10';
 our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
@@ -43,6 +43,7 @@ sub initPlugin {
         return 0;
     }
 
+    @twistystack  = ();
     $doneDefaults = 0;
     $twistyCount  = 0;
 
@@ -239,13 +240,15 @@ sub _twistyBtn {
     my @linkClasses;
     push( @linkClasses, $params->{'linkclass'} ) if $params->{'linkclass'};
 
-    my $imgLinkTag = CGI::a(
+    my $imgLinkTag = Foswiki::Render::html(
+        'a',
         {
             href  => '#',
             class => join( ' ', @linkClasses )
         },
         $imgLeftTag
-          . CGI::span( { class => 'foswikiLinkLabel foswikiUnvisited' }, $link )
+          . Foswiki::Render::html( 'span',
+            { class => 'foswikiLinkLabel foswikiUnvisited' }, $link )
           . $imgTag
           . $imgRightTag
     );
@@ -375,9 +378,10 @@ sub _readCookie {
     return '' if !$idTag;
 
     # which state do we use?
-    my $cgi    = CGI->new();
-    my $cookie = $cgi->cookie('FOSWIKIPREF');
-    my $tag    = $idTag;
+    my $request = Foswiki::Func::getRequestObject();
+    my $cookie  = $request->cookie('FOSWIKIPREF');
+
+    my $tag = $idTag;
     $tag =~ s/^(.*)(hide|show|toggle)$/$1/g;
     my $key = TWISTYPLUGIN_COOKIE_PREFIX . $tag;
 
@@ -438,7 +442,7 @@ sub _elemOfMode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2022 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
