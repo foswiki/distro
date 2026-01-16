@@ -9,11 +9,11 @@ use warnings;
 use Assert;
 use Error (':try');
 
-use CGI qw( :cgi );
 use JSON ();
 
-use Foswiki::Func                              ();    # The plugins API
-use Foswiki::Plugins                           ();    # For the API version
+use Foswiki::Func                              ();
+use Foswiki::Render                            ();
+use Foswiki::Plugins                           ();
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
 our $html2tml;
@@ -581,17 +581,19 @@ sub TranslateTML2HTML {
       $Foswiki::Plugins::WysiwygPlugin::tml2html->convert( $_[0], \%opts );
 
     if ( $opts{protectall} ) {
-        $html = CGI::div(
+        $html = Foswiki::Render::html(
+            'div',
             { class => 'WYSIWYG_WARNING foswikiBroadcastMessage' },
             Foswiki::Func::renderText(
-                Foswiki::Func::expandCommonVariables( <<"WARNING" ) ) )
+                Foswiki::Func::expandCommonVariables(<<"WARNING") ) )
 *%MAKETEXT{"Conversion to HTML for WYSIWYG editing is disabled because of the topic content."}%*
 
 %MAKETEXT{"This is why the conversion is disabled:"}% $disabled
 
 %MAKETEXT{"(This message will be removed automatically)"}%
 WARNING
-          . CGI::div( { class => 'WYSIWYG_PROTECTED' }, $html );
+          . Foswiki::Render::html( 'div', { class => 'WYSIWYG_PROTECTED' },
+            $html );
     }
 
     return $html;
@@ -765,7 +767,7 @@ sub REST_attachments {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
