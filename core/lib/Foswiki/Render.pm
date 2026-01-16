@@ -656,7 +656,7 @@ sub start_html {
 
             # This is what CGI encodes, so....
             $v =~ s/([&<>\x8b\x9b'])/'&#'.ord($1).';'/ge;
-            $html .= " $k='$v'";
+            $html .= " $k=\"$v\"";
         }
     }
     return "$html>";
