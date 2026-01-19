@@ -67,7 +67,8 @@ sub oops {
     $web ||= $session->{webName} || $Foswiki::cfg{SystemWebName};
     $topic ||= $session->{topicName};
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
-    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject )
+      unless $session->{response}->status eq 403;
 
     my $tmplName;
     my $def;
