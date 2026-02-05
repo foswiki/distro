@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1655468868" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1770310125" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ POPUPWINDOW -- opens a topic or url in a new window
 ---++ Parameters
@@ -21,7 +21,7 @@
      | =menubar= | Show menubar? | ="0"= |
      | =createnew= | Create a new window for each popup? | ="1"= |
 ---++ Examples
-   * Example with topic link: <pre class="tml">%<nop>POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%</pre> Generates: %POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%
+   * Example with topic link: <pre class="tml">%<nop>POPUPWINDOW{"%BASETOPIC%" center="1" label="Open this topic in a new window"}%</pre> Generates: %POPUPWINDOW{"%BASETOPIC%" center="on" label="Open this topic in a new window"}%
    * Example with URL: <pre class="tml">%<nop>POPUPWINDOW{url="https://foswiki.org"}%</pre> Generates: %POPUPWINDOW{url="https://foswiki.org"}%
    * Enable =POPUPWINDOW= by writing =%<nop>JQREQUIRE{"popupwindow"}%= on the page
 %STOPINCLUDE%

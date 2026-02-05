@@ -25,7 +25,7 @@ BEGIN {
     }
 }
 
-our $VERSION           = '11.34';
+our $VERSION           = '12.00';
 our $RELEASE           = '%$RELEASE%';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -49,7 +49,12 @@ sub initPlugin {
         return 0;
     }
 
-    Foswiki::Func::registerTagHandler( 'JQTHEME',    \&handleJQueryTheme );
+    Foswiki::Func::registerTagHandler(
+        'JQTHEME',
+        sub {
+            return "<span class='foswikiAlert'>JQTHEME is deprecated</span>";
+        }
+    );
     Foswiki::Func::registerTagHandler( 'JQREQUIRE',  \&handleJQueryRequire );
     Foswiki::Func::registerTagHandler( 'JQICON',     \&handleJQueryIcon );
     Foswiki::Func::registerTagHandler( 'JQICONPATH', \&handleJQueryIconPath );
@@ -161,19 +166,6 @@ sub createPlugin {
 
 =begin TML
 
----++ createTheme($themeName) -> $boolean
-
-API to load a jQuery UI theme. Returns true if the theme has
-been loaded successfully.
-
-=cut
-
-sub createTheme {
-    return Foswiki::Plugins::JQueryPlugin::Plugins::createTheme(@_);
-}
-
-=begin TML
-
 ---++ registerPlugin($pluginName, $class) -> $plugin
 
 API to register a jQuery plugin. This is of use for other Foswiki plugins
@@ -188,22 +180,6 @@ The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::Plugin c
 
 sub registerPlugin {
     return Foswiki::Plugins::JQueryPlugin::Plugins::registerPlugin(@_);
-}
-
-=begin TML
-
----++ registerTheme($themeName, $url)
-
-API to register a jQuery theme. this is of use for other Foswiki plugins
-to register their theme. Registering a theme 'foobar'
-will make it available via =%<nop>JQTHEME{"foobar"}%=.
-
-The =$url= parameter will default to '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui/$themeName/jquery-ui.css'.
-
-=cut
-
-sub registerTheme {
-    return Foswiki::Plugins::JQueryPlugin::Plugins::registerTheme(@_);
 }
 
 =begin TML
@@ -360,28 +336,6 @@ sub handleJQueryRequire {
 
 =begin TML
 
----++ handleJQueryTheme($session, $params, $topic, $web) -> $result
-
-Handles the =%<nop>JQTHEME% tag. 
-
-=cut
-
-sub handleJQueryTheme {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
-
-    my $themeName = $params->{_DEFAULT}
-      || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
-
-    my $warn = Foswiki::Func::isTrue( $params->{warn}, 1 );
-
-    return _inlineError("No such theme $themeName")
-      if !createTheme($themeName) && $warn;
-
-    return '';
-}
-
-=begin TML
-
 ---++ handleJQueryIconPath($session, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQICONPATH% tag. 
@@ -519,7 +473,7 @@ sub _inlineError {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2025 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

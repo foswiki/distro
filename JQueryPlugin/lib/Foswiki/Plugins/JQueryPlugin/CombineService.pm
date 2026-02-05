@@ -281,26 +281,6 @@ sub getFiles {
             next;
         }
 
-        if ( $module eq 'ui' ) {
-            my $themeName = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
-
-            my $url = $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Url}
-              || $pubDir
-              . '/plugins/ui/themes/'
-              . lc($themeName)
-              . '/jquery-ui.css';
-
-            my $fileName = _url2FileName($url);
-
-            if ( -f $fileName ) {
-                push @cssFiles, $fileName;
-            }
-            else {
-                print STDERR
-"WARNING: failed to read ui theme $themeName from $fileName\n";
-            }
-        }
-
         my $plugin = Foswiki::Plugins::JQueryPlugin::Plugins::load($module);
         next unless $plugin;
         $plugin->{isLoaded} = 1;
@@ -642,7 +622,7 @@ sub _expandCommonVariables {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2023-2025 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2023-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

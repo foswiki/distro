@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1768234053" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1770310125" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -57,7 +57,6 @@ Foswiki %SYSTEMWEB%.JQueryCodingStandards.
 
 %INCLUDE{"VarJQPLUGINS"}%
 %INCLUDE{"VarJQREQUIRE"}%
-%INCLUDE{"VarJQTHEME"}%
 
 %INCLUDE{"VarPOPUPWINDOW"}%
 
@@ -125,7 +124,8 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
-|  12 Jan 2026: | ignore duplicates in textboxlist
+|  05 Feb 2026: | added jquery-4.0.0; removed jquery-ui themes |
+|  12 Jan 2026: | ignore duplicates in textboxlist |
 |  12 Dec 2025: | fixed textboxlist =DeleteValue= being mostly useless |
 |  31 Nov 2025: | added =foswiki.debounce()= utility |
 |  30 Oct 2025: | fixed =SelectValue= event in JQueryTextboxList; \

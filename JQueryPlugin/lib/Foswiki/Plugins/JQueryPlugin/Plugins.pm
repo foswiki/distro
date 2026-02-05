@@ -16,9 +16,7 @@ use Foswiki::Plugins();
 use Foswiki::Plugins::JQueryPlugin ();
 
 my %plugins;
-my %themes;
 my $debug;
-my $currentTheme;
 
 use constant JQUERY_DEFAULT => 'jquery-2.2.4';
 
@@ -76,14 +74,6 @@ sub init {
 
 sub legacyInit {
 
-    # get all themes
-    foreach my $themeName ( sort keys %{ $Foswiki::cfg{JQueryPlugin}{Themes} } )
-    {
-        registerTheme($themeName)
-          if $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Enabled};
-    }
-    $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
-
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
       || JQUERY_DEFAULT;
@@ -137,44 +127,6 @@ sub createPlugin {
 
 =begin TML
 
----++ ObjectMethd createTheme ($themeName, $url) -> $boolean
-
-Helper method to switch on a theme. Returns true
-if =$themeName= has been loaded successfully. Note that a previously
-loaded theme will be replaced with the new one as there can only
-be one theme per html page. The $url parameter optionally specifies
-from where to load the theme. It defaults to the url registered
-in =configure= for the named theme.
-
-=cut
-
-sub createTheme {
-    my ( $themeName, $url ) = @_;
-
-    $themeName ||= $currentTheme;
-    return 0 unless $themeName;
-
-    my $normalizedName = lc($themeName);
-
-    unless ($url) {
-        my $themeDesc = $themes{$normalizedName};
-        return 0 unless defined $themeDesc;
-        $url = $themeDesc->{url};
-    }
-
-    # remember last choice
-    $currentTheme = $themeName;
-
-    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
-        <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
-<link rel="stylesheet" href="$url" type="text/css" media="all">
-HERE
-
-    return 1;
-}
-
-=begin TML
-
 ---++ ObjectMethod registerPlugin( $pluginName, $class ) -> $descriptor
 
 Helper method to register a plugin.
@@ -200,30 +152,6 @@ sub registerPlugin {
 
 =begin TML
 
----++ ObjectMethod registerTheme( $themeName, $url ) -> $descriptor
-
-Helper method to register a theme.
-
-=cut
-
-sub registerTheme {
-    my ( $themeName, $url ) = @_;
-
-    my $normalizedName = lc($themeName);
-
-    $url ||= $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Url}
-      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui/themes/'
-      . $normalizedName
-      . '/jquery-ui.css';
-
-    return $themes{$normalizedName} = {
-        'url'  => $url,
-        'name' => $themeName,
-    };
-}
-
-=begin TML
-
 ---++ ObjectMethod finish
 
 finalizer
@@ -233,8 +161,6 @@ finalizer
 sub finish {
 
     undef %plugins;
-    undef %themes;
-    undef $currentTheme;
 }
 
 =begin TML

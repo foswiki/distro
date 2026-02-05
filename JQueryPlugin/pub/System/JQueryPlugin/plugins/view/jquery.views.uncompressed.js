@@ -2816,7 +2816,7 @@ function addLinkMethods(tagOrView) { // tagOrView is View prototype or tag insta
 								if (val !== undefined && !linkedEl._jsvChg && theTag.linkCtx._val !== val) {
 									if (linkedEl.value !== undefined) {
 										if (linkedEl.type === CHECKBOX) {
-											linkedEl[CHECKED] = $.isArray(val)
+											linkedEl[CHECKED] = Array.isArray(val)
 												? $.inArray(linkedEl.value, val) > -1
 												: val && val !== "false";
 										} else if (linkedEl.type === RADIO) {
