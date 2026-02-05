@@ -1,5 +1,5 @@
 /*!
- * jQuery UI CSS Framework 1.14.1
+ * jQuery UI CSS Framework 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1589,11 +1589,11 @@ a.ui-state-highlight.ui-state-hover,
 .ui-menu .ui-menu {
   margin-top: -3px;
   position: absolute;
+  width:100%;
 }
 .ui-menu .ui-menu-item {
   margin:0;
   padding: 0;
-  width: 100%;
   list-style:none;
 }
 .ui-menu .ui-menu-divider {
@@ -1638,11 +1638,9 @@ a.ui-state-highlight.ui-state-hover,
   padding-left: 30px;
 }
 .ui-menu .ui-icon {
-  top: 50%;
-  margin-top:-0.75rem;
+  top: 0;
   left: 7px;
-  font-size:90%;
-  height:auto;
+  margin:auto 0;
 }
 .ui-menu .ui-menu-icon {
   left:auto;

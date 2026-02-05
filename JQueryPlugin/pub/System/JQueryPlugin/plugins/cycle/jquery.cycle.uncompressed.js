@@ -12,6 +12,10 @@
 
 var ver = '3.0.3';
 
+function isFunction(m) {
+  return typeof m === "function";
+}
+
 function debug(s) {
 	if ($.fn.cycle.debug)
 		log(s);
@@ -226,7 +230,7 @@ function buildOptions($cont, $slides, els, options, o) {
 	var startingSlideSpecified;
 	// support metadata plugin (v1.0 and v2.0)
 	var opts = $.extend({}, $.fn.cycle.defaults, options || {}, $.metadata ? $cont.metadata() : $.meta ? $cont.data() : {});
-	var meta = $.isFunction($cont.data) ? $cont.data(opts.metaAttr) : null;
+	var meta = isFunction($cont.data) ? $cont.data(opts.metaAttr) : null;
 	if (meta)
 		opts = $.extend(opts, meta);
 	if (opts.autostop)
@@ -464,7 +468,7 @@ function buildOptions($cont, $slides, els, options, o) {
 	// run transition init fn
 	if (!opts.multiFx) {
 		var init = $.fn.cycle.transitions[opts.fx];
-		if ($.isFunction(init))
+		if (isFunction(init))
 			init($cont, $slides, opts);
 		else if (opts.fx != 'custom' && !opts.multiFx) {
 			log('unknown transition: ' + opts.fx,'; slideshow terminating');
@@ -513,7 +517,7 @@ function supportMultiTransitions(opts) {
 		for (i=0; i < opts.fxs.length; i++) {
 			var fx = opts.fxs[i];
 			tx = txs[fx];
-			if (!tx || !txs.hasOwnProperty(fx) || !$.isFunction(tx)) {
+			if (!tx || !txs.hasOwnProperty(fx) || !isFunction(tx)) {
 				log('discarding unknown transition: ',fx);
 				opts.fxs.splice(i,1);
 				i--;
@@ -531,7 +535,7 @@ function supportMultiTransitions(opts) {
 		for (var p in txs) {
 			if (txs.hasOwnProperty(p)) {
 				tx = txs[p];
-				if (txs.hasOwnProperty(p) && $.isFunction(tx))
+				if (txs.hasOwnProperty(p) && isFunction(tx))
 					opts.fxs.push(p);
 			}
 		}
@@ -588,7 +592,7 @@ function exposeAddSlide(opts, els) {
 		if (opts.pager || opts.pagerAnchorBuilder)
 			$.fn.cycle.createPagerAnchor(els.length-1, s, $(opts.pager), els, opts);
 
-		if ($.isFunction(opts.onAddSlide))
+		if (isFunction(opts.onAddSlide))
 			opts.onAddSlide($s);
 		else
 			$s.hide(); // default behavior
@@ -609,7 +613,7 @@ $.fn.cycle.resetState = function(opts, fx) {
 
 	// re-init
 	var init = $.fn.cycle.transitions[fx];
-	if ($.isFunction(init))
+	if (isFunction(init))
 		init(opts.$cont, $(opts.elements), opts);
 };
 
@@ -700,7 +704,7 @@ function go(els, opts, manual, fwd) {
 		opts.busy = 1;
 		if (opts.fxFn) // fx function provided?
 			opts.fxFn(curr, next, opts, after, fwd, manual && opts.fastOnEvent);
-		else if ($.isFunction($.fn.cycle[opts.fx])) // fx plugin ?
+		else if (isFunction($.fn.cycle[opts.fx])) // fx plugin ?
 			$.fn.cycle[opts.fx](curr, next, opts, after, fwd, manual && opts.fastOnEvent);
 		else
 			$.fn.cycle.custom(curr, next, opts, after, fwd, manual && opts.fastOnEvent);
@@ -825,7 +829,7 @@ function advance(opts, moveForward) {
 	}
 
 	var cb = opts.onPrevNextEvent || opts.prevNextClick; // prevNextClick is deprecated
-	if ($.isFunction(cb))
+	if (isFunction(cb))
 		cb(val > 0, opts.nextSlide, els[opts.nextSlide]);
 	go(els, opts, 1, moveForward);
 	return false;
@@ -841,7 +845,7 @@ function buildPager(els, opts) {
 
 $.fn.cycle.createPagerAnchor = function(i, el, $p, els, opts) {
 	var a;
-	if ($.isFunction(opts.pagerAnchorBuilder)) {
+	if (isFunction(opts.pagerAnchorBuilder)) {
 		a = opts.pagerAnchorBuilder(i,el);
 		debug('pagerAnchorBuilder('+i+', el) returned: ' + a);
 	}
@@ -879,7 +883,7 @@ $.fn.cycle.createPagerAnchor = function(i, el, $p, els, opts) {
 			p.cycleTimeout = 0;
 		}
 		var cb = opts.onPagerEvent || opts.pagerClick; // pagerClick is deprecated
-		if ($.isFunction(cb))
+		if (isFunction(cb))
 			cb(opts.nextSlide, els[opts.nextSlide]);
 		go(els,opts,1,opts.currSlide < i); // trigger the trans
 //		return false; // <== allow bubble

@@ -5,6 +5,12 @@ git:
 	git clone https://github.com/digitalBush/jquery.maskedinput.git $@
 
 ifneq (,$(wildcard git))
-pkg.uncompressed.js: git/dist/jquery.maskedinput.js jquery.maskedinput.init.uncompressed.js
+jquery.maskedinput.uncompressed.js: git/dist/jquery.maskedinput.js
+	cp $^ $@
+
+pkg.uncompressed.js: jquery.maskedinput.uncompressed.js jquery.maskedinput.init.uncompressed.js
 	cat $^ > $@
 endif
+
+clean:
+	rm -f $(TARGET) *gz

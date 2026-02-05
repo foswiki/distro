@@ -129,7 +129,7 @@ jQuery.cookie = function(name, value, options) {
             var returnValue,
                 cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
+                var cookie = cookies[i].trim();
                 // Does this cookie string begin with the name we want?
                 if (!name) {
                     var nameLength = cookie.indexOf('=');

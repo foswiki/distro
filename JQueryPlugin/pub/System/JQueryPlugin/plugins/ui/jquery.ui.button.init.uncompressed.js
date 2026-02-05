@@ -18,6 +18,6 @@ jQuery(function($) {
     var $this = $(this), 
         opts = $.extend({}, defaults, $this.data());
 
-    $this.removeClass("jqUIButtonset").buttonset(opts);    
+    $this.removeClass("jqUIButtonset").controlgroup(opts);    
   });
 });

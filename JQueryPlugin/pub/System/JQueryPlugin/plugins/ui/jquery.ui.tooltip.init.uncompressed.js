@@ -1,3 +1,4 @@
+"use strict";
 jQuery(function($) {
   var defaults = {
       delay:1000,
@@ -63,7 +64,9 @@ jQuery(function($) {
     });
 
     if (typeof(opts.theme) !== 'undefined') {
-      opts.tooltipClass = opts.theme;
+      opts.classes = {
+        "ui-tooltip": opts.theme
+      };
     }
 
     if (typeof(opts.position) === 'string') {

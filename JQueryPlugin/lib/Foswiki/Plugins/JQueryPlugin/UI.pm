@@ -26,15 +26,18 @@ Constructor
 sub new {
     my $class = shift;
 
+    my $themeName = lc( $Foswiki::cfg{JQueryPlugin}{Theme} // 'foswiki' );
+
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI',
-            version      => '1.14.1',
+            version      => '1.14.2',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://api.jqueryui.com/',
             javascript   => ['jquery-ui.js'],
             dependencies => ['easing'],
+            css          => ["themes/$themeName/jquery-ui.css"],
         ),
         $class
     );
@@ -42,28 +45,12 @@ sub new {
     return $this;
 }
 
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the page 
-
-=cut
-
-sub init {
-    my $this = shift;
-
-    return unless $this->SUPER::init();
-
-    # load default theme
-    Foswiki::Plugins::JQueryPlugin::createTheme();
-}
 1;
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2025 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

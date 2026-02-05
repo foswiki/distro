@@ -43,31 +43,12 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. 
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-2.2.4, jquery-3.7.1 LABEL="jQuery Version"**
-# Note that jquery-3 is not tested on Foswiki. You will most probably encounter problems with other modules.
+# **SELECT jquery-2.2.4, jquery-3.7.1, jquery-4.0.0 LABEL="jQuery Version"**
+# Note that jquery-3 and jquery-4 are still considered experimental on Foswiki. You will most probably encounter problems with other modules.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.4';
 
-# **STRING EXPERT LABEL="jQuery Theme"**
-$Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
-
-# ---+++ Themes
-# **BOOLEAN EXPERT LABEL="Base"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 0;
-
-# **BOOLEAN EXPERT LABEL="Flickr"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Flickr}{Enabled} = 0;
-
-# **BOOLEAN EXPERT LABEL="Foswiki"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
-
-# **BOOLEAN EXPERT LABEL="Lightness"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Lightness}{Enabled} = 0;
-
-# **BOOLEAN EXPERT LABEL="Redmond"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 0;
-
-# **BOOLEAN EXPERT LABEL="Smoothness"**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 0;
+# **STRING EXPERT LABEL="UI Theme"**
+$Foswiki::cfg{JQueryPlugin}{Theme} = 'foswiki';
 
 # ---+++ Modules
 # **BOOLEAN LABEL="Animate"**
