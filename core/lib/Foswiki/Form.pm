@@ -217,10 +217,10 @@ sub fieldTitle2FieldName {
     $text =~ s/!//g;
     $text =~ s/<nop>//g;    # support <nop> character in title
     if ( $Foswiki::cfg{LegacyFormfieldNames} ) {
-        $text =~ s/[^A-Za-z0-9_\.\/]//g;
+        $text =~ s/[^A-Za-z0-9_\.]//g;
     }
     else {
-        $text =~ s/[^\w\.\/]//g;
+        $text =~ s/[^\w\.]//g;
     }
     return $text;
 }
@@ -770,7 +770,7 @@ sub _extractPseudoFieldDefs {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
