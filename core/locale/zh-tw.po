@@ -51,8 +51,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
-msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr "%4 %5 %6 的 %1 %2 頁 %3"
+msgid "Page %1 of %2"
+msgstr "%4 的 頁 %3"
 
 #: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"

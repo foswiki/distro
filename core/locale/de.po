@@ -49,8 +49,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
-msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr "%1 %2 Seite %3 von %4 %5 %6"
+msgid "Page %1 of %2"
+msgstr "Seite %1 von %2"
 
 #: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"
