@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1768568832" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1770917080" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 %FORMFIELD{"Description"}%
@@ -244,6 +244,7 @@ Many thanks to the following sponsors for supporting this work:
 
 ---++ Change History  
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  1.40   (12 Feb 2026) | Foswikitask:Item15618: pink does not match on the percent color PINK |
 |  1.39   (16 Jan 2026) | Foswikitask:ItemItem15606: removed dependency on CGI |
 |  1.38   (13 Jun 2018) | Foswikitask:Item14731: use JSON.pm to create proper json in attachments rest handler |
 |  1.36   (08 Dec 2017) | Foswikitask:Item14554: remove link to unused wikiring.com domain |

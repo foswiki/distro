@@ -169,6 +169,7 @@ our %HTML2TML_COLOURMAP = (
     '#800000'  => 'MAROON',
     PURPLE     => 'PURPLE',
     '#800080'  => 'PURPLE',
+    PINK       => 'PINK',
     FUCHSIA    => 'PINK',
     '#FF00FF'  => 'PINK',
     RED        => 'RED',
@@ -438,7 +439,7 @@ sub encode_specials {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2026 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
