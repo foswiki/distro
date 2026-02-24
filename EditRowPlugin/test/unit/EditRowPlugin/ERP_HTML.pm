@@ -86,7 +86,7 @@ EXPECTED
         erp_row   => 0,
         '#'       => "erp_TABLE_0_0"
     );
-    $this->assert( $in =~ s/(data-erp-tabledata)=(["'])(.*?)\2/$1/, $in );
+    $this->assert( $in =~ s/(data-erp-tabledata)=(["'])(.*?)\2 /$1 /, $in );
     my $a_tabledata = JSON::from_json( HTML::Entities::decode_entities($3) );
     $this->assert( $in =~ s/(data-erp-trdata)=(["'])(.*?)\2/$1/, $in );
     my $a_trdata = JSON::from_json( HTML::Entities::decode_entities($3) );
@@ -110,7 +110,7 @@ EXPECTED
         width   => "20em",
         loadurl => $loadurl,
         submit =>
-"<button class='ui-icon ui-icon-disk erp-button' type='submit'></button>",
+'<button class="ui-icon ui-icon-disk erp-button" type="submit"></button>',
         name => "CELLDATA",
         type => "text",
         col  => 0,
