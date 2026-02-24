@@ -183,6 +183,7 @@ a.ui-state-highlight.ui-state-hover,
   background: transparent;
   font-family:FontAwesome;
   font-weight:normal;
+  line-height:1;
 }
 
 .ui-widget-icon-block {
@@ -726,7 +727,6 @@ a.ui-state-highlight.ui-state-hover,
 .ui-menu .ui-menu {
   margin-top: -3px;
   position: absolute;
-  width:100%;
 }
 .ui-menu .ui-menu-item {
   margin:0;
