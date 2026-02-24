@@ -628,7 +628,7 @@ sub start_html {
             my $v = $attrs->{$k} // '';
 
             # This is what CGI encodes, so....
-            $v =~ s/([&<>\x8b\x9b'])/'&#'.ord($1).';'/ge;
+            $v =~ s/([&<>\x8b\x9b'"])/'&#'.ord($1).';'/ge;
             $html .= " $k=\"$v\"";
         }
     }
