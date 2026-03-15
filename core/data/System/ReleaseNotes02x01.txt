@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1766063098" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1773573919" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Release Notes 2.1.x
 
@@ -60,6 +60,8 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.7 was build on 29 Mar 2022. It contains 119 fixes, including 7 critical security fixes.
    * Foswiki 2.1.8 was build on 06 Aug 2023. It contains 61 fixes, including 9 critical security related fixes
    * Foswiki 2.1.9 was build on 18 Dec 2024. It includes 57 fixes.
+   * Foswiki 2.1.10 was build on 18 Dec 2025. It includes 59 fixes, including 4 critical security related fixes.
+   * Foswiki 2.1.11 was build on 15 Mar 2026. It includes 18 fixes, including 3 critical security related fixes.
 
 
 ---++ Pre-installed Extensions
@@ -1034,6 +1036,33 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | 53 | [[%BUGS%/Item15512][Item15512]] | Enhancement | WysiwygPlugin | use of uninitialized value in tml2html |
 | 54 | [[%BUGS%/Item15511][Item15511]] | Enhancement | FamFamFamContrib | duplicate url parameter in famfamfam skin |
 | 55 | [[%BUGS%/Item15510][Item15510]] | Enhancement | UpdatesPlugin | sort plugins before calling updates report |
+
+---++ Foswiki Release 2.1.11 Details
+
+---+++ Security Fixes
+| *#* | *Task* | *Component* | *Summary* |
+| 1 | [[%BUGS%/Item15600][Item15600]] | FoswikiUIChanges, FoswikiUIPreview | changes and preview scripts do not check view access rights |
+| 2 | [[%BUGS%/Item15601][Item15601]] | FoswikiUIViewfile | viewfile can be used to test for existing files even without view rights on the topic |
+| 3 | [[%BUGS%/Item15602][Item15602]] | FoswikiUIOops | oops script can be used to display data even without view access rights |
+
+---+++ Bug Fixes
+| *#* | *Task* | *Priority* | *Component* | *Summary* |
+| 1 | [[%BUGS%/Item15614][Item15614]] | Urgent | DataForms | regression in fieldTitle2FieldName caused by 2.1.10 |
+| 2 | [[%BUGS%/Item15598][Item15598]] | Urgent | ConfigurePlugin | checker for {ForceDefaultUrlHost} has got its logic the wrong way around |
+| 3 | [[%BUGS%/Item15624][Item15624]] | Normal | NatEditPlugin | don't autocount ordered lists in natedit |
+| 4 | [[%BUGS%/Item15618][Item15618]] | Normal | WysiwygPlugin | pink does not match on the percent color PINK |
+| 5 | [[%BUGS%/Item15617][Item15617]] | Normal | SEARCH | broken pagination in WebSearch |
+| 6 | [[%BUGS%/Item15615][Item15615]] | Normal | JQueryPlugin | remove deprecated jquery-ui themes |
+| 7 | [[%BUGS%/Item15613][Item15613]] | Normal | UpdatesPlugin | some performance improvements to UpdatesPlugin |
+| 8 | [[%BUGS%/Item15606][Item15606]] | Normal | TablePlugin, TwistyPlugin, FoswikiRender, CommentPlugin, WysiwygPlugin | remove dependency of several plugins on CGI |
+| 9 | [[%BUGS%/Item15604][Item15604]] | Normal | JQueryPlugin | ignore duplicates in textboxlist |
+| 10 | [[%BUGS%/Item15623][Item15623]] | Enhancement | Engine | add jpeg-xl to mime types |
+| 11 | [[%BUGS%/Item15622][Item15622]] | Enhancement | JsonRpcContrib | use native json parser |
+| 12 | [[%BUGS%/Item15619][Item15619]] | Enhancement | JQueryPlugin | fix icon alignments in menus |
+| 13 | [[%BUGS%/Item15616][Item15616]] | Enhancement | JQueryPlugin | add jquery-4.0.0 and matching migrate component |
+| 14 | [[%BUGS%/Item15607][Item15607]] | Enhancement | TwistyPlugin | modernize TwistyPlugin |
+| 15 | [[%BUGS%/Item15603][Item15603]] | Enhancement | Engine | failing unit test on emptyplugin's manifest |
+
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = https://foswiki.org/Tasks
