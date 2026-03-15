@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1763756981" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1773565831" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
@@ -97,4 +97,3 @@ Other places where you can find answers to your questions:
    * TopicMarkupLanguage: Guide to Foswiki plain text shorthand
    * If you can't find an answer, ask a question - post it in the Foswiki:Support web, or ask on IRC at irc://irc.freenode.net/foswiki
 
-%META:PREFERENCE{name="NATEDIT_PURIFY" title="NATEDIT_PURIFY" type="Set" value="off"}%

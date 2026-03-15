@@ -2,7 +2,11 @@ User-agent: *
 Crawl-delay: 5
 Disallow: /bin/attach
 Disallow: /bin/changes
+Disallow: /bin/compare
+Disallow: /bin/compareauth
 Disallow: /bin/configure
+Disallow: /bin/diff
+Disallow: /bin/diffauth
 Disallow: /bin/edit
 Disallow: /bin/geturl
 Disallow: /bin/installpasswd
