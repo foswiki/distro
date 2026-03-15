@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2025 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2026 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -360,7 +360,7 @@ $.NatEditor.prototype.handleLineFeed = function(ev) {
     } else if (prevLine.match(/^((?: {3})+([AaIi]\.?|\*) )/)) {
       list = RegExp.$1;
     } else if (prevLine.match(/^(?:((?: {3})+)(\d+) )/)) {
-      list = RegExp.$1 + (parseInt(RegExp.$2, 10)+1) + ' ';
+      list = RegExp.$1 + parseInt(RegExp.$2, 10) + ' ';
     }
   }
 
@@ -571,7 +571,7 @@ $.NatEditor.prototype.initToolbar = function() {
     self.container.prepend(self.toolbar);
 
     // buttonsets
-    self.toolbar.find(".ui-natedit-buttons").buttonset({}).on("click", function(ev) {
+    self.toolbar.find(".ui-natedit-buttons").controlgroup({}).on("click", function(ev) {
       self.handleToolbarAction(ev, $(ev.target).closest("a:not(.ui-natedit-menu-button)"));
       return false;
     });
