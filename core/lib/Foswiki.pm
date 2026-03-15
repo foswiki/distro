@@ -211,7 +211,7 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.10');
+    use version 0.77; $VERSION = version->declare('v2.1.11');
     $RELEASE = '%$RELEASE%';
 
     # Default handlers for different %TAGS%
