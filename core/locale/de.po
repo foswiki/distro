@@ -1,7 +1,4 @@
 # Foswiki translation for Deutsch
-# Translators:
-# Foswiki:Main/AndreUlrich, 2006,2007,2008
-# Foswiki:Main/OliverKrueger, 2006
 msgid ""
 msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
