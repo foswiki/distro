@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2026 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,6 @@ use Assert;
 use JSON ();
 use constant TRACE => 0;    # toggle me
 
-################################################################################
 sub new {
     my $class   = shift;
     my $session = shift;
@@ -37,7 +36,6 @@ sub new {
     return bless( $this, $class );
 }
 
-##############################################################################
 # static constructor
 sub print {
     my $class   = shift;
@@ -78,7 +76,6 @@ sub print {
     }
 }
 
-##############################################################################
 sub id {
     my ( $this, $value ) = @_;
 
@@ -86,7 +83,6 @@ sub id {
     return $this->{id};
 }
 
-##############################################################################
 sub code {
     my ( $this, $value ) = @_;
 
@@ -94,7 +90,6 @@ sub code {
     return ( $this->{code} || 0 );
 }
 
-##############################################################################
 sub message {
     my ( $this, $value ) = @_;
 
@@ -102,14 +97,12 @@ sub message {
     return $this->{message};
 }
 
-################################################################################
 sub isError {
     my $this = shift;
 
     return ( $this->code() == 0 ) ? 0 : 1;
 }
 
-################################################################################
 sub encode {
     my $this = shift;
 
@@ -138,7 +131,6 @@ sub encode {
     return $this->json->encode($message);
 }
 
-################################################################################
 sub json {
     my $this = shift;
 

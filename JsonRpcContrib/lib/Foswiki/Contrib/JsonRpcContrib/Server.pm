@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2026 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,14 +39,12 @@ use constant TRACE => 0;    # toggle me
 # 401: access denied
 # 404: topic not found
 
-################################################################################
 # static
 sub writeDebug {
     print STDERR "JsonRpcContrib::Server - $_[0] \n";
     Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
 }
 
-################################################################################
 # constructor
 sub new {
     my $class = shift;
@@ -56,7 +54,6 @@ sub new {
     return $this;
 }
 
-################################################################################
 sub registerMethod {
     my ( $this, $namespace, $method, $fnref, $options ) = @_;
 
@@ -68,7 +65,6 @@ sub registerMethod {
     };
 }
 
-################################################################################
 sub dispatch {
     my ( $this, $session ) = @_;
 
@@ -219,7 +215,6 @@ sub dispatch {
     return;
 }
 
-################################################################################
 sub getHandler {
     my ( $this, $request ) = @_;
 

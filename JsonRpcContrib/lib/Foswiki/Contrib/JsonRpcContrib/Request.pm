@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2022 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2026 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 use constant TRACE => 0;    # toggle me
 
-###############################################################################
 sub new {
     my ( $class, $session ) = @_;
 
@@ -120,7 +119,6 @@ sub new {
     return $this;
 }
 
-##############################################################################
 sub initFromString {
     my ( $this, $data ) = @_;
 
@@ -139,7 +137,6 @@ sub initFromString {
     return $this->{data};
 }
 
-##############################################################################
 sub version {
     my ( $this, $value ) = @_;
 
@@ -147,28 +144,24 @@ sub version {
     return $this->{data}{jsonrpc};
 }
 
-##############################################################################
 sub uploads {
     my $this = shift;
 
     return $this->{session}{request}->uploads(@_);
 }
 
-##############################################################################
 sub upload {
     my $this = shift;
 
     return $this->{session}{request}->upload(@_);
 }
 
-##############################################################################
 sub uploadInfo {
     my $this = shift;
 
     return $this->{session}{request}->uploadInfo(@_);
 }
 
-##############################################################################
 sub id {
     my ( $this, $value ) = @_;
 
@@ -176,7 +169,6 @@ sub id {
     return $this->{data}{id};
 }
 
-##############################################################################
 sub param {
     my ( $this, $key, $value ) = @_;
 
@@ -186,12 +178,10 @@ sub param {
     return $this->{data}{params}{$key};
 }
 
-##############################################################################
 sub params {
     return $_[0]->{data}{params};
 }
 
-##############################################################################
 sub method {
     my ( $this, $value ) = @_;
 
@@ -199,7 +189,6 @@ sub method {
     return $this->{data}{method};
 }
 
-##############################################################################
 sub namespace {
     my ( $this, $value ) = @_;
 
@@ -207,7 +196,6 @@ sub namespace {
     return $this->{namespace};
 }
 
-##############################################################################
 sub json {
     my $this = shift;
 
@@ -218,7 +206,6 @@ sub json {
     return $this->{json};
 }
 
-################################################################################
 # static
 sub writeDebug {
     print STDERR "JsonRpcContrib::Request - $_[0] \n";
@@ -226,7 +213,6 @@ sub writeDebug {
     #Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
 }
 
-###############################################################################
 sub toSiteCharSet {
     my $string = shift;
 
