@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1727169879" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1773569396" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %FORMFIELD{"Description"}%
 
@@ -62,6 +62,7 @@ is sufficient.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  15 Mar 2026 | Foswikitask:Item15624: don't autocount ordered lists in natedit; added support for newer jQuery-ui |
 |  19 Nov 2025 | Foswikitask:Item15570: implement redirectto none; Foswikitask:Item13951: show permission setting option Nobody only to admins |
 |  03 Jan 2025 | Foswikitask:Item15450: a form with a natedit formfield in it cannot be fully reset |
 |  24 Sep 2024 | Foswikitask:Item15345: listen to reset event clearing all form elements |
@@ -208,4 +209,4 @@ is sufficient.
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1727169879" size="104954" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1773569396" size="104954" user="ProjectContributor" version="1"}%
