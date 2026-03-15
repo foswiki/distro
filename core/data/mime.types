@@ -95,7 +95,7 @@ application/x-gtar              gtar
 application/x-gzip              tar.gz tgz gz taz
 application/x-hdf               hdf
 application/x-iso9660-image     iso 
-application/x-javascript        js
+application/x-javascript        js mjs es
 application/x-java-jnlp-file    jnlp 
 application/x-java-archive-diff jardiff
 application/x-java-serialized-object ser
@@ -140,6 +140,7 @@ image/heic                      heic
 image/heif                      heif
 image/ief                       ief
 image/jpeg                      jpeg jpg jpe
+image/jxl                       jxl
 image/png                       png
 image/svg+xml                   svg svgz
 image/tiff                      tiff tif
