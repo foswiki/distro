@@ -1,7 +1,7 @@
 /*
  * JsonRpc for Foswiki
  *
- * Copyright (c) 2011-2022 Michael Daum
+ * Copyright (c) 2011-2026 Michael Daum
  *
  * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
@@ -22,6 +22,9 @@
     }
     if (typeof(options.id) !== 'undefined') {
       data.id = options.id;
+    }
+    if (typeof(foswiki.eventClient) !== 'undefined' && typeof(data.params.clientId) === 'undefined') {
+      data.params.clientId = foswiki.eventClient.id;
     }
 
     return data;
@@ -65,7 +68,7 @@
           if (xhr.status == 404) {
             json = {jsonrpc: "2.0", error: { code: xhr.status, message: textStatus }};
           } else {
-            json = $.parseJSON(xhr.responseText);
+            json = JSON.parse(xhr.responseText);
           }
           options.error.call(options, json, textStatus, xhr);
         }
@@ -77,5 +80,4 @@
       }
     });
   }
-
 })(jQuery);
