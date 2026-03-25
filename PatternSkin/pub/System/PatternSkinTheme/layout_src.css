@@ -52,11 +52,6 @@ body {
 	float:left;
 	display:inline;
 }
-#patternSideBar {
-	float:left;
-	display:inline;
-	overflow:hidden;
-}
 #patternSideBarContents {
 	position:relative;
 }
