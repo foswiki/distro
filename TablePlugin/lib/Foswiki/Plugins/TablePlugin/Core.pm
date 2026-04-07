@@ -1436,9 +1436,9 @@ sub emitTable {
 
     my $text = $currTablePre
       . Foswiki::Render::start_html( 'table', $tableTagAttributes );
-    $text .=
-      $currTablePre
-      . Foswiki::Render::html( 'caption', $combinedTableAttrs->{tableCaption} )
+    $text .= $currTablePre
+      . Foswiki::Render::html( 'caption', undef,
+        $combinedTableAttrs->{tableCaption} )
       if $combinedTableAttrs->{tableCaption};
 
     # count the number of cols to prevent looping over non-existing columns
