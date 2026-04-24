@@ -31,11 +31,11 @@ configure.js script.
  <body>
   <div class="header clearfix">
     <img class="logo" src="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/foswiki-logo.png" alt="Foswiki configure" height="60" />
-<a id="visitSite" href="%SCRIPTURL{view}%" title="Open configured site in a new window" target="_blank">Back to Foswiki</a>
+    <a id="visitSite" href="%SCRIPTURL{view}%" title="Open configured site in a new window" target="_blank">Back to Foswiki</a>
     <div class="top_level_buttons">
       <input type="text" style="width:30em" id="searchInput" placeholder="search"/>
       <button id="searchButton" title="Search in titles and keys">Search</button>
-      <input id="showExpert" type="checkbox"><label for="showExpert" class="showExpertButton">Show expert options</label>
+      <label for="showExpert" class="showExpertButton"><input id="showExpert" type="checkbox"> Show expert options</label>
       <button id="saveButton">Save</button>
     </div>
     <div id="bootstrap_warning" class="foswikiAlert">
