@@ -14,7 +14,7 @@ sub check_current_value {
         && $Foswiki::cfg{Sessions}{EnableGuestSessions} )
     {
         $reporter->WARN( <<'DONE' );
-Guest sessions are disabled.  This is an experimental feature.  Some feaures of Foswiki will not work for guests unless this is enabled:
+Guest sessions are disabled.  This is an experimental feature.  Some features  of Foswiki will not work for guests unless this is enabled:
    * Commenting by guests
    * Editing by guests
    * Session variables (=%SESSIONVAR%= macro)
