@@ -1,9 +1,9 @@
-/*! JsObservable v1.0.16: http://jsviews.com/#jsobservable */
+/*! JsObservable v1.2.0: http://jsviews.com/#jsobservable */
 /*
  * Subcomponent of JsViews
  * Data change events for data-linking
  *
- * Copyright 2025, Boris Moore
+ * Copyright 2026, Boris Moore
  * Released under the MIT License.
  */
 
@@ -44,7 +44,7 @@ if (!$ || !$.fn) {
 	throw "jquery.observable.js requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v1.0.16",
+var versionNumber = "v1.2.0",
 	_ocp = "_ocp", // Observable contextual parameter
 	$observe, $observable,
 
@@ -72,7 +72,7 @@ var versionNumber = "v1.0.16",
 	$sub = $views.sub,
 	$subSettings = $sub.settings,
 	$subSettingsAdvanced = $subSettings.advanced,
-	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isFunction = function(ob) {return typeof ob === "function";},
 	$isArray = Array.isArray,
 	$expando = $.expando,
 	STRING = "string",
