@@ -690,7 +690,6 @@ pub/System/JQueryPlugin/plugins/validate/pkg.js.gz 0644
 pub/System/JQueryPlugin/plugins/validate/pkg.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/view/jquery.observable.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.observable.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/view/jquery.views.patch 0644
 pub/System/JQueryPlugin/plugins/view/jquery.views.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/view/Makefile 0644
 pub/System/JQueryPlugin/plugins/view/pkg.js 0644

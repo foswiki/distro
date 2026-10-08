@@ -44,21 +44,16 @@ Foswiki %SYSTEMWEB%.JQueryCodingStandards.
 
 ---++ Macros
 
-%INCLUDE{"VarBUTTON"}%
-
-%INCLUDE{"VarTABPANE"}%
-%INCLUDE{"VarENDTABPANE"}%
-
-%INCLUDE{"VarTAB"}%
-%INCLUDE{"VarENDTAB"}%
-
-%INCLUDE{"VarJQICON"}%
-%INCLUDE{"VarJQICONPATH"}%
-
-%INCLUDE{"VarJQPLUGINS"}%
-%INCLUDE{"VarJQREQUIRE"}%
-
-%INCLUDE{"VarPOPUPWINDOW"}%
+%INCLUDE{"VarBUTTON" headingoffset="1"}%
+%INCLUDE{"VarTABPANE" headingoffset="1"}%
+%INCLUDE{"VarENDTABPANE" headingoffset="1"}%
+%INCLUDE{"VarTAB" headingoffset="1"}%
+%INCLUDE{"VarENDTAB" headingoffset="1"}%
+%INCLUDE{"VarJQICON" headingoffset="1"}%
+%INCLUDE{"VarJQICONPATH" headingoffset="1"}%
+%INCLUDE{"VarJQPLUGINS" headingoffset="1"}%
+%INCLUDE{"VarJQREQUIRE" headingoffset="1"}%
+%INCLUDE{"VarPOPUPWINDOW" headingoffset="1"}%
 
 ---++ Available jQuery plugins
 %JQPLUGINS{
@@ -124,6 +119,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  03 Jul 2026: | upgraded jsview, jsrender and scrollto modules to latest upstream version |
 |  05 Feb 2026: | added jquery-4.0.0; removed jquery-ui themes |
 |  12 Jan 2026: | ignore duplicates in textboxlist |
 |  12 Dec 2025: | fixed textboxlist =DeleteValue= being mostly useless |

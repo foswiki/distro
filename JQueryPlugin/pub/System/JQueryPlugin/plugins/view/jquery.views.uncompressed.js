@@ -1,4 +1,4 @@
-/*! jquery.views.js v1.0.16: http://jsviews.com/ */
+/*! jquery.views.js v1.2.0: http://jsviews.com/ */
 /*
  * Interactive data-driven views using JsRender templates.
  * Subcomponent of JsViews
@@ -7,7 +7,7 @@
  * Also requires jquery.observable.js
  *   See JsObservable at http://jsviews.com/#download and http://github.com/BorisMoore/jsviews
  *
- * Copyright 2025, Boris Moore
+ * Copyright 2026, Boris Moore
  * Released under the MIT License.
  */
 
@@ -44,7 +44,7 @@ var setGlobals = $ === false; // Only set globals if script block in browser (no
 jsr = jsr || setGlobals && global.jsrender;
 $ = $ || global.jQuery;
 
-var versionNumber = "v1.0.16",
+var versionNumber = "v1.2.0",
 	requiresStr = "jquery.views.js requires ";
 
 if (!$ || !$.fn) {
@@ -57,7 +57,7 @@ if (jsr && !jsr.fn) {
 }
 
 var $observe, $observable,
-	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isFunction = function(ob) {return typeof ob === "function";},
 	$isArray = Array.isArray,
 	$views = $.views;
 
@@ -1925,7 +1925,7 @@ function markPrevOrNextNode(node, elCnt) {
 }
 
 function normalizeLinkTag(linkMarkup, twoway) {
-	linkMarkup = $.trim(linkMarkup);
+	linkMarkup = linkMarkup.trim();
 	return linkMarkup.slice(-1) !== delimCloseChar0
 	// If simplified syntax is used: data-link="expression", convert to data-link="{:expression}",
 	// or for inputs, data-link="{:expression:}" for (default) two-way binding
@@ -3177,8 +3177,11 @@ $converters.merge = function(val) {
 	// Special converter used in data-linking to space-separated lists, such as className:
 	// Currently only supports toggle semantics - and has no effect if toggle string is not specified
 	// data-link="class{merge:boolExpr toggle=className}"
+	var attr = this.linkCtx.attr;
+	attr = (attr == "" || attr === "text") ? "innerText" : attr === "class" ? "className" : attr;
+
 	var regularExpression,
-		currentValue = this.linkCtx.elem.className,
+		currentValue = this.linkCtx.elem[attr],
 		toggle = this.tagCtx.props.toggle;
 
 	if (toggle) {
@@ -3213,7 +3216,7 @@ $tags({
 			for (; i<l && !$isFunction(args[i]); i++); // Handler is first arg of type function
 			tag._hi = l>i && i+1; // handler index
 			if (tag.inline) {
-				if (!$sub.rTmpl.exec(content = $.trim(tagCtx.tmpl.markup))) {
+				if (!$sub.rTmpl.exec(content = (tagCtx.tmpl.markup || "").trim())) {
 					// Inline {^{on}} tag with no content (or external template content) or with content containing
 					// no HTML or JsRender tags: We will wrap the (text) content, or the operation name in a <button> element
 					// (Otherwise we will attach the handler to the element content after data-linking)
