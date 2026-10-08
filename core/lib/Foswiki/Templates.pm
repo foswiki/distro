@@ -208,7 +208,7 @@ sub tmplP {
 
             # resolve dynamic lookups such as %TMPL:DEF{"LIBJS" name="%id%"}%
             my $pvalue = $this->{VARS}->{$template}->{params}->{$p};
-            $pvalue =~ s/\%(.*?)\%/$params->{$1}/g;
+            $pvalue =~ s/\%$_\%/$params->{$_}/g foreach keys %$params;
             $val    =~ s/%$p%/$pvalue/ge;
         }
 
