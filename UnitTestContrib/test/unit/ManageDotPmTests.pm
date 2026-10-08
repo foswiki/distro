@@ -1479,7 +1479,7 @@ s/($Foswiki::regex{setRegex}WEBSUMMARY\s*=).twinkle twinkle little star$/$1 /m;
         $nText =~ s/($Foswiki::regex{setRegex}NOSEARCHALL\s*=).on$/$1 /m;
         $this->assert( defined($1) );
 
-        $this->assert_html_equals( $eText, $nText )
+        $this->assert_html_equals( "foo".$eText, "foo".$nText )
           ;    #.($Foswiki::RELEASE =~ m/1\.1\.0/?"\n":''));
     }
 

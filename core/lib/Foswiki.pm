@@ -1989,7 +1989,7 @@ script run. Session objects do not persist between mod_perl runs.
      user you want to be logged-in, if none is available from a session
      or browser. Used mainly for unit tests and debugging, it is typically
      undef, in which case the default user is taken from
-     $Foswiki::cfg{DefaultUserName}.
+     $Foswiki::cfg{DefaultUserLogin}.
    * =$query= the Foswiki::Request query (may be undef, in which case an
      empty query is used)
    * =\%initialContext= - reference to a hash containing context

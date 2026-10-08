@@ -19,8 +19,8 @@ use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-our $VERSION = '3.1';
-our $RELEASE = '06 Aug 2023';
+our $VERSION = '3.2';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION =
   'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;

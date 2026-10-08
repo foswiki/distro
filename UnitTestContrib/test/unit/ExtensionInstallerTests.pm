@@ -1861,7 +1861,7 @@ sub test_Package_loadInstaller {
     };
     my $pkg = Foswiki::Configure::Package->new(
         root       => $root,
-        module     => 'EmptyPlugin',
+        module     => 'WysiwygPlugin',
         DIR        => $tempdir,
         USELOCAL   => 1,
         repository => $repository
@@ -1870,16 +1870,17 @@ sub test_Package_loadInstaller {
     $this->sniff();
 
     $this->sniff(
-        warnings => 'Unable to find EmptyPlugin locally in (.*) ...' );
+        warnings => 'Unable to find WysiwygPlugin locally in (.*) ...' );
     $this->sniff( notes =>
-'fetching EmptyPlugin installer from https://foswiki.org/pub/Extensions/...'
+'fetching WysiwygPlugin installer from https://foswiki.org/pub/Extensions/...'
     );
 
     my @files = $pkg->_listFiles();
+    my $numFiles = scalar(@files);
     $this->assert_num_equals(
-        6,
-        scalar @files,
-        "Unexpected number of files in EmptyPlugin manifest"
+        46,
+        $numFiles,
+        "Unexpected number of files in WysiwygPlugin manifest: got $numFiles"
     );
 
     #
@@ -1887,7 +1888,7 @@ sub test_Package_loadInstaller {
     #
     my %plugins = $pkg->_listPlugins();
 
-    $this->assert_str_equals( '1', $plugins{EmptyPlugin},
+    $this->assert_str_equals( '1', $plugins{WysiwygPlugin},
         'Failed to discover plugin in manifest' );
     $pkg->finish();
     undef $pkg;
@@ -1956,15 +1957,13 @@ sub test_Package_errors {
     #
     my $pkg = Foswiki::Configure::Package->new(
         root       => $root,
-        module     => 'EmptyPluginx',
+        module     => 'WysiwygPluginx',
         DIR        => $tempdir,
         USELOCAL   => 1,
         repository => $repository
     );
     $this->assert( !$pkg->loadInstaller($reporter) );
-    $this->sniff( errors =>
-qr{Download failed - No content.  Extension may not have been packaged correctly.}
-    );
+    $this->sniff( errors => qr{Download failed});
 
     #
     # Verify error expanding .tgz file

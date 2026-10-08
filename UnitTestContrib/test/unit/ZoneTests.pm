@@ -326,63 +326,8 @@ HERE
     return;
 }
 
-sub _setMergeZones {
-    my ( $this, $merge ) = @_;
-
-    $Foswiki::cfg{MergeHeadAndScriptZones} = $merge;
-
-    return;
-}
-
-sub test_HEAD_merged_with_SCRIPT {
+sub test_HEAD_SCRIPT {
     my $this = shift;
-    $this->_setMergeZones(1);
-
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
-
-    my $tml = <<'HERE';
-%ADDTOHEAD{               "head1" text="text1" requires="head2"}%
-%ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
-%ADDTOZONE{zone="head" id="head2" text="text2"}%
-%ADDTOZONE{"script"      id="script3" text="text3" requires="script4"}%
-%ADDTOZONE{zone="script" id="script4" text="text4" requires="head2"}%
-%ADDTOHEAD{               "head5" text="text5" requires="script4,script3,script6"}%
-%ADDTOZONE{zone="script" id="script6" text="text6" requires="head2,something-missing"}%
-%ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
-%ADDTOZONE{zone="script" id="misc7" text="script::misc7"}%
-HERE
-
-    Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone( "head", );
-    $result =
-        $result
-      . "\nSCRIPT:"
-      . $this->{session}->zones()->_renderZone( "script", );
-
-    foreach (
-        'HEAD:.*?script::misc7<!--misc7-->.*?SCRIPT:$'
-        ,    # Occurs somewhere, in HEAD zone
-        'HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:$',  # Occurs anywhere in HEAD
-        'HEAD:.*?text2<!--head2-->.*?text1<!--head1-->.*?SCRIPT:'
-        ,                                              # text1 requires head2
-'HEAD:.*?<!--script4-->.*?<!--script3-->.*?<!--script6: requires= missing ids: something-missing-->.*?text5<!--head5-->.*?SCRIPT:'
-        ,    # head5 requires scripts 4, 3 & 6
-        'HEAD:.*?text4<!--script4-->.*?text3<!--script3-->.*?SCRIPT:'
-        ,    # script3 requires script4
-'HEAD:.*?text2<!--head2-->.*?text6<!--script6: requires= missing ids: something-missing-->.*?SCRIPT:'
-        ,    # script6 anywhere in SCRIPT zone
-      )
-    {
-        $this->assert_matches( qr/$_/s, $result );
-    }
-
-    return;
-}
-
-sub test_HEAD_split_from_SCRIPT {
-    my $this = shift;
-    $this->_setMergeZones(0);
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
@@ -429,45 +374,8 @@ HERE
     return;
 }
 
-sub test_explicit_RENDERZONE_merged {
+sub test_explicit_RENDERZONE {
     my $this = shift;
-    $this->_setMergeZones(1);
-
-    my $tml = <<'HERE';
-<head>
-%RENDERZONE{"head"}%
-<!--end of rendered head-->
-%ADDTOZONE{"head" id="head1" text="head_1"}%
-%ADDTOZONE{"script" id="script1" text="script_1" requires="head1"}%
-</head>
-<body>
-%RENDERZONE{"script"}%<!--script-->
-</body>
-HERE
-
-    my $expect = <<'HERE';
-<head>
-head_1<!--head1-->
-script_1<!--script1-->
-<!--end of rendered head-->
-<!--A2Z:head1-->
-<!--A2Z:script1-->
-</head>
-<body>
-<!--script-->
-</body>
-HERE
-    chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->zones()->_renderZones($tml);
-    $this->assert_str_equals( $expect, $result );
-
-    return;
-}
-
-sub test_explicit_RENDERZONE_unmerged {
-    my $this = shift;
-    $this->_setMergeZones(0);
 
     my $tml = <<'HERE';
 <head>
@@ -502,7 +410,6 @@ HERE
 
 sub test_legacy_tag_param_compatibility {
     my $this = shift;
-    $this->_setMergeZones(0);
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $tml       = <<'HERE';

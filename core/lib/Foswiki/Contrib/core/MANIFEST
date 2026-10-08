@@ -410,7 +410,6 @@ lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
 lib/Foswiki/Configure/Checkers/MailProgram.pm 0444
 lib/Foswiki/Configure/Checkers/MaxLSCBackups.pm 0444
-lib/Foswiki/Configure/Checkers/MergeHeadAndScriptZones.pm 0444
 lib/Foswiki/Configure/Checkers/MinPasswordLength.pm 0444
 lib/Foswiki/Configure/Checkers/NFCNormalizeFilenames.pm 0444
 lib/Foswiki/Configure/Checkers/NUMBER.pm 0444

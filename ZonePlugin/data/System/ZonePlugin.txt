@@ -48,19 +48,6 @@ this advanced feature in a backwards-compatible way. As soon as the ADDTOZONE
 macro has been released as part of newer Foswiki versions, this plugin won't be
 of use anymore.
 
-%RED%WARNING:%ENDCOLOR% Using this plugin can potentially break your installation.
-If you experience occasional !JavaScript errors, enable ={MergeHeadAndScriptZones}=
-in [[%SCRIPTURLPATH{"configure}%][configure]]. This mode will render the HTML page
-in a non-optimized way similar to how the standard =ADDTOHEAD= mechanism does. 
-
-In any case is it recommended to use =ADDTOHEAD= or =ADDTOZONE= to properly add
-this code to the page. It is _not_ recommended to add !JavaScript code otherwise.
-
-If you rely on having !JavaScript added to the
-page _without_ using =ADDTOHEAD= or =ADDTOZONE= then you have to enable
-={MergeHeadAndScriptZones}= mode most probably. In this case the HTML page cannot
-be optimized.
-
 ---++ Syntax
 
 %INCLUDE{"VarADDTOZONE"}%
@@ -87,11 +74,12 @@ suboptimal use of these APIs.
 
 
 |  Author(s): | Michael Daum|
-|  Copyright: | &copy; 2010 Michael Daum http://michaelaumconsulting.com |
+|  Copyright: | &copy; 2010-2026 Michael Daum http://michaelaumconsulting.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Oct 2026 | removed =MergeHeadAndScriptZones= |
 |  29 Sep 2010 | Foswikitask:Item9763 revert recent changes and forward port script zone to make it work on old foswiki engines | 
 |  06 Sep 2010 | Foswikitask:Item9588: Update ZonePlugin to match Foswiki 1.1. Removed ={OptimizePageLayout}=, replaced with ={MergeHeadAndScriptZones}=. Removed =body= zone, replaced with =script= zone. Refer to Foswikitask:Item9588 for more info |
 |  28 Mar 2010 | fix problem where Foswiki 1.0.x installations would fail with "Undefined subroutine &Foswiki::Func::addToZone" |
