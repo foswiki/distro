@@ -1,5 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1791472494" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
-<!--
-   * Set VIEW_TEMPLATE = WebCreateNewTopic
--->
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="WebCreateNewTopic"}%

@@ -1,27 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1490657423" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1791472494" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"'Create New Topic' page has moved"}%
 
 *[[%SCRIPTURLPATH{"view" topic="%BASEWEB%.%BASETOPIC%" create="on" newtopic="" topicparent="%URLPARAM{"parent"}%" template="WebCreateNewTopic"}%][%MAKETEXT{"Continue to create the new page"}%]]*
 
-
-<div class="foswikiNotification">
 ---+++ Wiki admins
 
 Please replace all web's !WebTopicCreator topic contents with this text:
 
-<textarea style="width:99%; background:#ffe;" rows="3">
-<!--
-   * Local VIEW_TEMPLATE = <nop>WebCreateNewTopic
--->
-</textarea>
-
-All !WebTopicCreator topics on this site:
-%SEARCH{
-   "WebTopicCreator" 
-   scope="topic" 
-   nonoise="on" 
-   web="all,-%SYSTEMWEB%" 
-   format="   * [[%SCRIPTURLPATH{"edit" topic="$web/$topic" t="%GMTIME{$epoch}%"}%][Edit $web.$topic]]"
- }%
-</div>
+<pre>
+&#x25;META:PREFERENCE{name=&#x22;VIEW_TEMPLATE&#x22; title=&#x22;VIEW_TEMPLATE&#x22; type=&#x22;Set&#x22; value=&#x22;WebCreateNewTopic&#x22;}&#x25;
+</pre>
