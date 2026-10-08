@@ -1757,7 +1757,6 @@ body .ui-tooltip {
   border-width:1px;
 }
 .ui-tooltip {
-  max-width: 300px;
   border-radius: 0.5em;
 }
 .ui-tooltip-content {
