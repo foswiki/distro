@@ -164,7 +164,7 @@ ul.jqTabGroup a {
 .jqTabPaneSimple > .jqTabGroup a:hover,
 .jqTabPaneSimple > .jqTabGroup a {
   background:#eee;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border, #ccc);
   color:inherit;
   padding:5px 10px;
 }
@@ -178,7 +178,7 @@ ul.jqTabGroup a {
   border-left:0;
   border-right:0;
   border-bottom:0;
-  border-top-color:#ccc;
+  border-top-color:var(--color-border, #ccc);
 }
 .jqTabPanePlain .jqTabContents {
   padding:1em 0em 0em 0em;
