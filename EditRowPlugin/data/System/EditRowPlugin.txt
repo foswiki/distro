@@ -271,6 +271,7 @@ Provides the vertical row editing interface like
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  3.41 (08 Oct 2026) | Foswikitask:Item15711: sorting tables is broken in jQuery no-conflict mode |
 |  3.402 (12 Jan 2024) | Foswikitask:Item15236: properly register jQuery module |
 |  3.401 (06 Aug 2023) | Foswikitask:Item15151: add warnings and strictness |
 |  3.400 (16 Jun 2022) | Foswikitask:Item15146: performance fixes |
@@ -352,7 +353,7 @@ Provides the vertical row editing interface like
 %META:FIELD{name="Description" title="Description" value=""}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2024 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2026 Foswiki Contributors"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/EditRowPlugin"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%

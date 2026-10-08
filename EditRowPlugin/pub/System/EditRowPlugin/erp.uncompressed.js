@@ -22,7 +22,7 @@
  * 
  * Do not remove this notice.
  */
-/* global Calendar StrikeOne sortTable */
+/* global Calendar */
 "use strict";
 (function($) {
     var instrument;
@@ -111,7 +111,7 @@
                 return(select);
             },
             content: function(data, settings, original) {
-                console.debug("content");
+                //console.debug("content");
                 /* If it is string assume it is json. */
                 if (typeof(data) === 'string') {
                     eval ('var json = ' + data);
@@ -596,7 +596,7 @@
         // dirty, and if it is, prompt for save
         context.find('a.erpJS_willDiscard').on("click", function() {
             if (erp_dataDirty) {
-                if (!confirm("This action will discard your changes.")) {
+                if (!window.confirm("This action will discard your changes.")) {
                     erp_dirtyVeto = true;
                     return false;
                 }
@@ -626,7 +626,7 @@
 
         $('.interactive_sort', context)
             .on("click", function() {
-                sortTable(this, $(this).data("sort"));
+                $(this).editRowSortTable();
                 return false;
             })
             .each(function() {
