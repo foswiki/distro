@@ -1066,7 +1066,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # files that were already uploaded, or files that were created directly
 # on the server.
 #
-$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?|[sp]?htm[l]?|pl|pm|py|cgi)?)$';
+$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?|[sp]?htm[l]?|pl|py|cgi|xml|exe|phar|phpar|bat|xhtml|xht|swf|mhtml)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for web names, topic names, usernames,
@@ -1775,20 +1775,6 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 #---++ HTML Page Layout
 # Settings controlling the layout of the generated HTML, for experts only.
 
-# **BOOLEAN LABEL="Enable Merge Head and Script Zones" EXPERT**
-# {MergeHeadAndScriptZones} is provided to maintain compatibility with
-# legacy extensions that use =ADDTOHEAD= to add =script= markup and require
-# content that is now in the =script= zone.
-# 
-# Normally, dependencies between individual =ADDTOZONE= statements are
-# resolved within each zone. However, if {MergeHeadAndScriptZones} is
-# enabled, then =head= content which requires an =id= that only exists
-# in =script= (and vice-versa) will be re-ordered to satisfy any dependency.
-#
-# WARNING: {MergeHeadAndScriptZones} will be removed from a future version
-# of Foswiki.
-$Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
-
 # **BOOLEAN LABEL="Obfuscate Zone IDs" EXPERT**
 # Encrypt ids of assets added to the page, such as css and js instead
 # of using plain text.
@@ -2027,9 +2013,7 @@ $Foswiki::cfg{Email}{Servertime} = $FALSE;
 # matching of 3 character and longer TLDs.   2-character country codes and
 # IP Address domains always permitted.  See:
 # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-# Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
-$Foswiki::cfg{Email}{ValidTLD} =
-qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+$Foswiki::cfg{Email}{ValidTLD} = qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|EMAIL|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX|BIO|DIGITAL)i;
 
 #---++ Signed Email (S/MIME)
 # Settings for S/MIME-signed email.

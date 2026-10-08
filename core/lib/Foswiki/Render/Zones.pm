@@ -68,15 +68,7 @@ sub finish {
 Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
 renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within
 the zone that they are added - dependencies between =$ids= in different zones
-will not be resolved, except for the special case of =head= and =script= zones
-when ={MergeHeadAndScriptZones}= is enabled.
-
-In this case, they are treated as separate zones when adding to them, but as
-one merged zone when rendering, i.e. a call to render either =head= or =script=
-zones will actually render both zones in this one call. Both zones are undef'd
-afterward to avoid double rendering of content from either zone, to support
-proper behaviour when =head= and =script= are rendered with separate calls even
-when ={MergeHeadAndScriptZones}= is set. See ZoneTests/explicit_RENDERZONE*.
+will not be resolved.
 
 This behaviour allows an addToZone('head') call to require an id that has been
 added to =script= only.
@@ -215,36 +207,17 @@ sub _renderZone {
     my %visited;
     my @total;
 
-    # When {MergeHeadAndScriptZones} is set, try to treat head and script
-    # zones as merged for compatibility with ADDTOHEAD usage where requirements
-    # have been moved to the script zone. See ZoneTests/Item9317
-    if ( $Foswiki::cfg{MergeHeadAndScriptZones}
-        and ( ( $zone eq 'head' ) or ( $zone eq 'script' ) ) )
-    {
-        my @zoneIDs = (
-            values %{ $this->{_zones}{head} },
-            values %{ $this->{_zones}{script} }
-        );
+    my @zoneIDs =
+      sort { $a->{id} cmp $b->{id} } values %{ $this->{_zones}{$zone} };
 
-        foreach my $zoneID (@zoneIDs) {
-            $this->_visitZoneID( $zoneID, \%visited, \@total );
-        }
-        undef $this->{_zones}{head};
-        undef $this->{_zones}{script};
+    foreach my $zoneID (@zoneIDs) {
+        $this->_visitZoneID( $zoneID, \%visited, \@total );
     }
-    else {
-        my @zoneIDs =
-          sort { $a->{id} cmp $b->{id} } values %{ $this->{_zones}{$zone} };
 
-        foreach my $zoneID (@zoneIDs) {
-            $this->_visitZoneID( $zoneID, \%visited, \@total );
-        }
-
-        # kill a zone once it has been rendered, to prevent it being
-        # added twice (e.g. by duplicate %RENDERZONEs or by automatic
-        # zone expansion in the head or script)
-        undef $this->{_zones}{$zone};
-    }
+    # kill a zone once it has been rendered, to prevent it being
+    # added twice (e.g. by duplicate %RENDERZONEs or by automatic
+    # zone expansion in the head or script)
+    undef $this->{_zones}{$zone};
 
     # nothing rendered for a zone with no ADDTOZONE calls
     return '' unless scalar(@total) > 0;
@@ -315,31 +288,7 @@ sub _visitZoneID {
     foreach my $requiredZoneID ( sort { $a->{id} cmp $b->{id} }
         @{ $zoneID->{requires} } )
     {
-        my $zoneIDToVisit;
-
-        if ( $Foswiki::cfg{MergeHeadAndScriptZones}
-            and not $requiredZoneID->{populated} )
-        {
-
-            # Compatibility mode, where we are trying to treat head and script
-            # zones as merged, and a required ZoneID isn't populated. Try
-            # opposite zone to see if it exists there instead. Item9317
-            if ( $requiredZoneID->{zone} eq 'head' ) {
-                $zoneIDToVisit =
-                  $this->{_zones}{script}{ $requiredZoneID->{id} };
-            }
-            else {
-                $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
-            }
-            if ( not $zoneIDToVisit->{populated} ) {
-
-                # Oops, the required ZoneID doesn't exist there either; reset
-                $zoneIDToVisit = $requiredZoneID;
-            }
-        }
-        else {
-            $zoneIDToVisit = $requiredZoneID;
-        }
+        my $zoneIDToVisit = $requiredZoneID;
         $this->_visitZoneID( $zoneIDToVisit, $visited, $list );
 
         if ( not $zoneIDToVisit->{populated} ) {
@@ -372,8 +321,6 @@ s/${Foswiki::RENDERZONE_MARKER}RENDERZONE\{(.*?)\}${Foswiki::RENDERZONE_MARKER}/
     my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
-  # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
-  # flushed both script and head zones empty when {MergeHeadAndScriptZones} = 1.
     my $scriptZone = _renderZone( $this, 'script', { chomp => "on" } );
     $text =~ s!(</head>)!$scriptZone\n$1!i if $scriptZone;
 

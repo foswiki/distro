@@ -67,29 +67,6 @@ expressed via =requires= are satisfied.  Those =ids= not found in a zone don't
 have any influence on the final ordering. Missing =ids= aren't considered an error
 rather than an over-specified ordering problem.
 
----+++ Working with ={MergeHeadAndScriptZones}= disabled (default)
-In this mode, the =head= and =script= zones are treated separately.
-
-Even when =head= and =script= zones are treated separately, the =head= zone will
-always be rendered before the =script= zone, unless otherwise specified using [[VarRENDERZONE][RENDERZONE]] explicitly.
-So any content in the =script= zone that depends on content placed into
-the =head= zone is satisfied intrinsicly as they are both rendered as specified above.
-
----+++ Working with ={MergeHeadAndScriptZones}= enabled
-In this mode, the =head= and =script= zones are separate when adding to them,
-but may be treated as merged when you call [[VarRENDERZONE][RENDERZONE]] if
-there are any dependencies specified that only exist in the opposite zone. This
-allows an =ADDTOZONE{"head"...}= to to successfully require an =id= that has
-been added to =script=.
-
-<div class="foswikiHelp">
-  %X% ={MergeHeadAndScriptZones}= is provided to
-  maintain compatibility with legacy extensions that use
-  [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;= markup and require content
-  that is now in the =script= zone. ={MergeHeadAndScriptZones}= will be removed
-  from a future version of Foswiki.
-</div>
-
 ---++ Examples
 ---+++ Adding to a zone with missing dependencies
 You must ensure that no =head= content (and no inline Javascript) depends on

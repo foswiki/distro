@@ -32,6 +32,8 @@ our %expect_non_html = (
     upload       => 1,    # TODO: zero size upload
     resetpasswd  => 1,
     statistics   => 1,
+    clearCache   => 1,
+    purgeCache   => 1,
 );
 
 sub new {

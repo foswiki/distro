@@ -16,7 +16,7 @@ You may create as many zones in addition to the standard [[#HeadAndScript][ =hea
    * Create a =sidebar= zone to add widgets,
    * Create a =toolbar= zone to add buttons icons
 
-[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the content of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the specified =zone=, except for the special case of =head= and =script= zones when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is set ([[#HeadAndScript][read more]]).
+[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the content of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the specified =zone=.
 
 *Parameters:*
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
@@ -56,33 +56,10 @@ the HTML body requires [[SkinTemplates][skin template]] customisation with
 Notionally the =head= and =script= zones correspond to a point just before the
 HTML =&lt;/HEAD&gt;= tag. Normally you should add CSS (and other HTML
 =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and
-Javascript =&lt;script&gt;= markup to the =script= zone. The setting
-[[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]]
-in Configure controls what happens when [[VarRENDERZONE][RENDERZONE]] is called.
+Javascript =&lt;script&gt;= markup to the =script= zone. 
 
 Normally, dependencies between the individual [[VarADDTOZONE][ADDTOZONE]]
-statements are resolved *within each zone*. However, if
-[[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is
-enabled, then =head= content which =requires= an =id= that only exists in
-=script= (and vice-versa) will be re-ordered to satisfy any dependency.
-
-<blockquote class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= is provided to
-maintain compatibility with legacy extensions that use
-[[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;= markup and require content
-that is now in the =script= zone. ={MergeHeadAndScriptZones}= will be removed
-from a future version of Foswiki.</blockquote>
-
----+++++ Workign with ={MergeHeadAndScriptZones}= disabled (default)
-In this mode, the =head= and =script= zones are treated separately.
-
----+++++ Working with ={MergeHeadAndScriptZones}= enabled
-In this mode, the =head= and =script= zones are separate when adding to them,
-but may be treated as merged when you call [[VarRENDERZONE][RENDERZONE]] if
-there are any dependencies specified that only exist in the opposite zone. This
-allows an =ADDTOZONE{"head"...}= to to successfully require an =id= that has
-been added to =script=.
-
-Only add content to the =script= zone _that is also legal in the =&lt;HEAD&gt;=._
+statements are resolved *within each zone*. 
 
 ---++++ Example: Adding to a zone with missing dependencies
 You must ensure that no =head= content (and no inline Javascript) depends on =script= content, or vice-versa. Any such dependency will be _ignored_. However, the HTML comment decoration which normally appears after each id's content in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
@@ -100,7 +77,6 @@ You must ensure that no =head= content (and no inline Javascript) depends on =sc
   alert('test');
 </script>
 <!-- MY::TEST: requires= missing ids: some-id-that-exists-in-script --></verbatim>
-   On the other hand, as explained earlier - when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is enabled - Foswiki is able resolve such dependencies successfully.
 
 Note that if you *do* have an explicit call to =%<nop>RENDERZONE{"head"}%= in
 your templates then the content expanded at that point will be the same content
