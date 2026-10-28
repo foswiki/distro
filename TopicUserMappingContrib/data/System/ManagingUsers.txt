@@ -155,7 +155,7 @@ Multiple categories of users can be supported by:
    * Creating an alternate version of the %SYSTEMWEB%.NewUserTemplate and %SYSTEMWEB%.UserForm
    * And configuring the new registration page to use the new user template.
 
----++ Customizing registration Emails.
+---++ Customizing registration Emails
 Foswiki's Registration can send 7 emails whose output is governed by templates:
    | User registration confirmation. (Awaiting email verification). | =templates/registerconfirm.tmpl= |
    | User registration failed notification, cleanup was successful. | =templates/registerfailedremoved.tmpl= |

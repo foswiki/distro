@@ -366,7 +366,7 @@ Use the following setup is used to "lock down" the Wiki to logged in users, whil
       * *Note:* ALLOWTOPICVIEW is evaluated before DENYWEBVIEW. Access is permitted if the authenticated person (or wildcard) is in the ALLOWTOPICVIEW list.
  The list of topics that need to be unlocked in the %SYSTEMWEB% web for login, password reset, registration, and guest access when the %SYSTEMWEB% has been locked down is rather extensive.
 
----+++ Control access to topic History and Raw text.
+---+++ Control access to topic History and Raw text
 
 Foswiki 2.0 now restricts the guest user from access to topic history and raw topic text.  This is configurable.  See:
 [[%SCRIPTURLPATH{"configure"}][configure]] =Security and Authentication > Access Control > {FeatureAccess}{AllowRaw}=  and ={FeatureAccess}{AllowHistory}=  (They are expert level settings, so the "Show expert options" button in the lower left corner must be pressed.)
@@ -402,7 +402,7 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 <verbatim class='tml'>   * Set DENYTOPICCHANGE = %USERSWEB%.SomeGroup</verbatim>
 
----+++ Controlling access to the %SYSTEMWEB% web.
+---+++ Controlling access to the %SYSTEMWEB% web
 
 Some search engines penalize sites for publishing "duplicate information".  The Wiki documentation in the %SYSTEMWEB% web falls into that category. Foswiki now
 has "ALLOWTOPICVIEW = *" settings on critical %SYSTEMWEB% topics that require guest access, such as ResetPassword, UserRegistration, and other template topics.
